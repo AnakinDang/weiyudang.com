@@ -1,0 +1,7 @@
+{
+  "id": "minidora-trading",
+  "name": "Trading MiniDora",
+  "role": "Trading Research",
+  "state": "waiting_user",
+  "summary": "Maintains an evidence-first research queue with owner review."
+}

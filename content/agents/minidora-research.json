@@ -1,0 +1,7 @@
+{
+  "id": "minidora-research",
+  "name": "Research MiniDora",
+  "role": "Research",
+  "state": "researching",
+  "summary": "Finds source-backed context and prepares evidence briefs."
+}

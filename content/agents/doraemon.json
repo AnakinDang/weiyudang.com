@@ -1,0 +1,7 @@
+{
+  "id": "doraemon",
+  "name": "Doraemon",
+  "role": "Orchestrator",
+  "state": "planning",
+  "summary": "Translates ideas into plans, tasks, summaries, and review checkpoints."
+}
