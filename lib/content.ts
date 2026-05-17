@@ -29,8 +29,22 @@ export type Note = {
   body: string;
 };
 
+export type JournalEntry = {
+  title: string;
+  slug: string;
+  date: string;
+  type: string;
+  location: string;
+  summary: string;
+  cover: string;
+  accent: string;
+  order: number;
+  body: string;
+};
+
 type RawProject = Omit<Project, "body">;
 type RawNote = Omit<Note, "body">;
+type RawJournalEntry = Omit<JournalEntry, "body">;
 
 const contentRoot = path.join(process.cwd(), "content");
 
@@ -68,4 +82,17 @@ export function getNotes(): Note[] {
 
 export function getLatestNotes(limit = 3): Note[] {
   return getNotes().slice(0, limit);
+}
+
+export function getJournalEntries(): JournalEntry[] {
+  const folder = path.join(contentRoot, "journal");
+  return fs
+    .readdirSync(folder)
+    .filter((file) => file.endsWith(".mdx"))
+    .map((file) => readMdx<RawJournalEntry>("journal", file))
+    .sort((a, b) => a.order - b.order);
+}
+
+export function getLatestJournalEntries(limit = 3): JournalEntry[] {
+  return getJournalEntries().slice(0, limit);
 }

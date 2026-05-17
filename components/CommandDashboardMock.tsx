@@ -33,7 +33,7 @@ export function CommandDashboardMock() {
 
       <section className="panel p-5">
         <p className="eyebrow">Current Mission</p>
-        <h2 className="mt-3 text-3xl font-semibold text-white">Turn the personal website into a working AI company portal.</h2>
+        <h2 className="mt-3 text-3xl font-semibold text-white">Turn the personal website into a working AI command surface.</h2>
         <div className="mt-6 grid gap-3">
           {["Public pages explain the system clearly.", "Private app stays behind auth.", "Trading dashboard remains read-only.", "Future runtime connects through event streams."].map((item) => (
             <div key={item} className="rounded-[8px] border border-slate-700 bg-white/5 px-4 py-3 text-sm text-slate-300">

@@ -1,40 +1,63 @@
 import Link from "next/link";
-import { ArrowRight, Bot, Brain, Contact, FlaskConical, Network, UserRoundCheck } from "lucide-react";
+import { ArrowRight, Atom, Bot, BrainCircuit, Contact, LineChart, LockKeyhole, Sparkles, Workflow } from "lucide-react";
+import { AiLabPanel } from "@/components/AiLabPanel";
 import { HeroSection } from "@/components/HeroSection";
-import { ProjectCard } from "@/components/ProjectCard";
+import { JournalCard } from "@/components/JournalCard";
+import { LiveNotesFeed } from "@/components/LiveNotesFeed";
+import { ProjectExplorer } from "@/components/ProjectExplorer";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SiteChrome } from "@/components/SiteChrome";
-import { Timeline } from "@/components/Timeline";
-import { getLatestNotes, getProjects } from "@/lib/content";
-import { companyModel } from "@/lib/mock";
+import { getLatestJournalEntries, getLatestNotes, getProjects } from "@/lib/content";
 
-const modelIcons = [UserRoundCheck, Network, Brain];
+const snapshot = [
+  {
+    title: "Physics",
+    summary: "Questions about the physical world, mathematical structure, and how ideas become intuition.",
+    icon: Atom
+  },
+  {
+    title: "Quantum Computing",
+    summary: "Learning the language of quantum systems while tracing what useful computation may become.",
+    icon: BrainCircuit
+  },
+  {
+    title: "AI Systems",
+    summary: "Personal agents, workflow tools, and interfaces that keep human judgment in the loop.",
+    icon: Workflow
+  },
+  {
+    title: "Trading Research",
+    summary: "Evidence-first market notes, paper research, and decision support instead of live execution.",
+    icon: LineChart
+  }
+];
 
 export default function HomePage() {
   const projects = getProjects();
   const notes = getLatestNotes(3);
+  const journalEntries = getLatestJournalEntries(3);
 
   return (
     <SiteChrome>
       <HeroSection />
 
-      <section className="section bg-[#101827]">
+      <section className="section">
         <div className="container">
           <SectionHeading
-            eyebrow="AI one-person company"
-            title="A human-led operating model with agent-scale execution."
-            summary="Weiyu sets direction and taste. Doraemon coordinates the work. MiniDora agents turn plans into research, code, media, and evidence artifacts."
+            eyebrow="Personal snapshot"
+            title="A small research studio around physics, AI, and creative tools."
+            summary="The site starts with Weiyu as the center of gravity. Projects, notes, and AI systems are organized as extensions of that curiosity."
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {companyModel.map((item, index) => {
-              const Icon = modelIcons[index];
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {snapshot.map((item) => {
+              const Icon = item.icon;
               return (
                 <article key={item.title} className="panel p-5">
-                  <span className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/24 bg-sky-300/10 text-sky-100">
+                  <span className="flex size-11 items-center justify-center rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] text-[#2563eb]">
                     <Icon size={22} aria-hidden />
                   </span>
-                  <h3 className="mt-5 text-xl font-semibold text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">{item.summary}</p>
+                  <h3 className="mt-5 text-xl font-semibold text-slate-950">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.summary}</p>
                 </article>
               );
             })}
@@ -42,56 +65,86 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section soft-band">
         <div className="container">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <SectionHeading
-              eyebrow="Project portals"
-              title="Public index for the systems being built."
-              summary="The public pages explain the operating model and project boundaries. Private execution surfaces stay behind the app shell."
+              eyebrow="Selected work"
+              title="Projects as personal artifacts, not a company brochure."
+              summary="A public index for experiments in AI systems, creative workflows, web tools, and research surfaces. Private execution stays behind the app shell."
             />
             <Link
               href="/projects"
-              className="link-focus inline-flex w-fit items-center gap-2 rounded-[8px] border border-sky-200/30 px-4 py-3 text-sm font-bold text-sky-50 transition hover:bg-sky-300/10"
+              className="link-focus inline-flex w-fit items-center gap-2 rounded-[8px] border border-[#bfdbfe] bg-white px-4 py-3 text-sm font-bold text-[#1d4ed8] transition hover:bg-[#f1f7fb]"
             >
               All projects
               <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {projects.slice(0, 5).map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
+          <ProjectExplorer projects={projects.slice(0, 5)} />
         </div>
       </section>
 
-      <section className="section bg-[#101827]">
-        <div className="container grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+      <section id="ai-lab" className="section">
+        <div className="container grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div>
             <SectionHeading
-              eyebrow="Studio preview"
-              title="A command room for plans, artifacts, and review."
-              summary="The first internal surface is event-driven. Visual state should come from real task events, not hand-waved animation."
+              eyebrow="AI Lab"
+              title="Dora, MiniDora, and Weiyu AI stay as one focused entrance."
+              summary="The Dora and MiniDora idea is still here, but as a lab within the personal site. The pure company narrative can move to weiyudang.ai later."
             />
+            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
+              Dora is the public companion for explaining projects. MiniDora is the working metaphor for small specialist
+              agents. Both should support Weiyu's judgment, taste, and review instead of replacing them.
+            </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/app/command"
-                className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-yellow-300 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-yellow-200"
+                href="/dora"
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_30px_rgba(37,99,235,0.2)] transition hover:bg-[#1d4ed8]"
               >
                 <Bot size={17} aria-hidden />
-                Command Center
+                Meet Dora
               </Link>
               <Link
-                href="/dora"
-                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-sky-200/30 px-4 py-3 text-sm font-bold text-sky-50 transition hover:bg-sky-300/10"
+                href="/projects/weiyu-ai"
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#dde7f0] bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-[#bfdbfe] hover:bg-[#f1f7fb]"
               >
-                Public Dora
+                <Sparkles size={17} aria-hidden />
+                Weiyu AI
+              </Link>
+              <Link
+                href="/app"
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#f4b740]/45 bg-[#fff8e5] px-4 py-3 text-sm font-bold text-slate-900 transition hover:bg-[#fff2c7]"
+              >
+                <LockKeyhole size={17} aria-hidden />
+                Private App
               </Link>
             </div>
           </div>
-          <div className="panel p-5">
-            <Timeline compact />
+          <AiLabPanel />
+        </div>
+      </section>
+
+      <section className="section soft-band">
+        <div className="container">
+          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+            <SectionHeading
+              eyebrow="Journal"
+              title="Photography, life notes, and field observations."
+              summary="A softer shelf for the life around the technical work: pictures, places, routines, and personal fragments."
+            />
+            <Link
+              href="/journal"
+              className="link-focus inline-flex w-fit items-center gap-2 rounded-[8px] border border-[#bfdbfe] bg-white px-4 py-3 text-sm font-bold text-[#1d4ed8] transition hover:bg-[#f1f7fb]"
+            >
+              Open journal
+              <ArrowRight size={16} aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {journalEntries.map((entry) => (
+              <JournalCard key={entry.slug} entry={entry} />
+            ))}
           </div>
         </div>
       </section>
@@ -101,30 +154,23 @@ export default function HomePage() {
           <div>
             <SectionHeading
               eyebrow="Latest notes"
-              title="Lab notes from a growing operating system."
-              summary="Short public notes will document the evolution of the website, agent system, trading research desk, and creative workflows."
+              title="Short notes from the personal lab."
+              summary="A light shelf for experiments, architecture decisions, research fragments, and the evolution of the website."
             />
-            <div className="mt-8 grid gap-4">
-              {notes.map((note) => (
-                <Link key={note.slug} href="/lab" className="link-focus panel-quiet block p-5 transition hover:border-sky-300/40">
-                  <p className="mono text-xs text-slate-500">{note.date}</p>
-                  <h3 className="mt-2 text-xl font-semibold text-white">{note.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{note.summary}</p>
-                </Link>
-              ))}
-            </div>
+            <LiveNotesFeed notes={notes} />
           </div>
           <div className="panel flex flex-col justify-between p-6">
             <div>
-              <Contact className="text-yellow-100" size={28} aria-hidden />
-              <h2 className="mt-4 text-3xl font-semibold text-white">Interested in agents, one-person companies, or creative systems?</h2>
-              <p className="mt-4 text-sm leading-6 text-slate-300">
-                The public site is the entry point. The private app is the command center. Collaboration starts with a focused conversation.
+              <Contact className="text-[#f4b740]" size={28} aria-hidden />
+              <h2 className="mt-4 text-3xl font-semibold text-slate-950">Notes, projects, or a focused conversation.</h2>
+              <p className="mt-4 text-sm leading-6 text-slate-600">
+                This site is a personal home base. Collaboration can start small: a research question, an interface idea,
+                or a workflow that deserves a better tool.
               </p>
             </div>
             <Link
               href="/contact"
-              className="link-focus mt-8 inline-flex w-fit items-center gap-2 rounded-[8px] bg-sky-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-sky-300"
+              className="link-focus mt-8 inline-flex w-fit items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#1d4ed8]"
             >
               Contact Weiyu
               <ArrowRight size={16} aria-hidden />

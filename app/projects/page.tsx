@@ -1,12 +1,12 @@
 import { Metadata } from "next";
-import { ProjectCard } from "@/components/ProjectCard";
+import { ProjectExplorer } from "@/components/ProjectExplorer";
 import { SectionHeading } from "@/components/SectionHeading";
 import { SiteChrome } from "@/components/SiteChrome";
 import { getProjects } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Public project index for Weiyu AI, Doraemon Agent System, MiniDora Trading, games, apps, and media work."
+  description: "Public project index for Weiyu Dang's AI systems, creative workflows, apps, and research tools."
 };
 
 export default function ProjectsPage() {
@@ -18,14 +18,10 @@ export default function ProjectsPage() {
         <div className="container">
           <SectionHeading
             eyebrow="Projects"
-            title="The public project index for Weiyu AI."
-            summary="Each project page is generated from structured content, so new systems and notes can be added without rewriting page code."
+            title="Selected work from the personal lab."
+            summary="AI systems, creative workflows, apps, and research tools collected as public project entries."
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {projects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
-            ))}
-          </div>
+          <ProjectExplorer projects={projects} />
         </div>
       </section>
     </SiteChrome>

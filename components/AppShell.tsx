@@ -12,7 +12,7 @@ const appNav = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#08111f] text-slate-100">
+    <div className="app-shell min-h-screen bg-[#08111f] text-slate-100">
       <div className="grid min-h-screen lg:grid-cols-[17rem_1fr]">
         <aside className="border-b border-slate-700/50 bg-[#0b1220] p-4 lg:border-b-0 lg:border-r">
           <Link href="/" className="link-focus flex items-center gap-3 rounded-[8px] p-2">

@@ -10,12 +10,13 @@ The domain was purchased on Cloudflare, and the preferred deployment target is V
 
 ## Product Direction
 
-The website is not meant to be a standard personal resume page. It should feel like the public portal for an AI-augmented one-person company:
+The website is not meant to be a standard personal resume page. After the light-theme revision, it should feel first like Weiyu Dang's personal research studio:
 
 - Personal identity for Weiyu Dang
-- Public explanation of Weiyu AI
+- Public explanation of Weiyu AI as one lab inside the personal site
 - Project index
 - Public Dora guide
+- Journal / Field Notes for photography, life notes, and personal observations
 - Private command center shell
 - Future bridge to internal agent and trading dashboards
 
@@ -33,6 +34,7 @@ The key framing is:
 - Content source: structured files under `content/`
 - Private app protection: lightweight `APP_ACCESS_TOKEN` gate
 - Current dashboards: mock data only
+- Public activity layer: client-side only, no backend calls
 
 ## Routes Built
 
@@ -44,6 +46,7 @@ Public routes:
 - `/projects/[slug]`
 - `/dora`
 - `/lab`
+- `/journal`
 - `/contact`
 
 Private app routes:
@@ -73,10 +76,12 @@ MiniDora Trading:
 - No live submit
 - No phase auto-promotion
 
-Visual/legal:
+Visual:
 
-- Do not use official Doraemon artwork or copyrighted character assets
-- Use original blue AI companion / command-room visual language
+- Public site uses a warm light theme, original bright studio imagery, and scoped `.page-shell` styles
+- Private `/app` keeps the dark dashboard shell
+- Dora/Doraemon imagery can be swapped into the Dora entrance later if Weiyu intentionally provides an asset for personal use
+- Homepage now includes pure front-end live studio signal, project filters, AI Lab tabs, and lab-feed interactions
 
 ## Files To Know
 
@@ -87,8 +92,9 @@ Visual/legal:
 - `app/app/trading/page.tsx` - private trading dashboard route
 - `components/DoraChatMock.tsx` - static Dora guide mock
 - `components/TradingDashboardMock.tsx` - read-only trading dashboard
-- `components/StudioScene.tsx` - original command-room visual
+- `components/StudioScene.tsx` - bright personal research studio visual
 - `content/projects/*.mdx` - project content
+- `content/journal/*.mdx` - photography and personal journal content
 - `content/agents/*.json` - agent registry mock
 - `proxy.ts` - private `/app` route protection
 

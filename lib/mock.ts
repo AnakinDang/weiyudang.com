@@ -133,21 +133,24 @@ export const events: AgentEvent[] = [
 
 export const publicQuestions = [
   "What is Weiyu AI?",
-  "How does Doraemon Agent System work?",
+  "How does Dora work?",
   "Show me Weiyu's projects.",
+  "What does Weiyu share outside the lab?",
   "What is the MiniDora Trading research desk?",
   "How can I collaborate with Weiyu?"
 ];
 
 export const doraAnswers: Record<string, string> = {
   "What is Weiyu AI?":
-    "Weiyu AI is the operating model for an AI-augmented one-person company. Weiyu keeps vision and judgment; AI agents expand execution capacity.",
-  "How does Doraemon Agent System work?":
-    "Doraemon is the orchestration concept. It turns ideas into plans, routes work to MiniDora agents, gathers artifacts, and brings decisions back to Weiyu.",
+    "Weiyu AI is the personal AI lab inside Weiyu's website. It explores how agents, interfaces, and workflows can support research, creative work, and review.",
+  "How does Dora work?":
+    "Dora is the warm public guide and orchestration concept. It explains public projects, points visitors to the right pages, and keeps private systems out of scope.",
   "Show me Weiyu's projects.":
-    "Start with Weiyu AI, Doraemon Agent System, MiniDora Trading, AI Media Lab, and Games & Apps. The Projects page has the public index.",
+    "Start with Weiyu AI, Dora, MiniDora Trading, AI Media Lab, and Games & Apps. The Projects page has the public index.",
+  "What does Weiyu share outside the lab?":
+    "The Journal is the softer side of the site: photography, life notes, places, and field observations that sit beside the technical work.",
   "What is the MiniDora Trading research desk?":
     "MiniDora Trading is an evidence-first research desk. It observes, validates, records, and prepares owner-review artifacts. It does not autonomously trade.",
   "How can I collaborate with Weiyu?":
-    "Use the Contact page for AI agents, one-person company systems, creative workflows, or research collaboration."
+    "Use the Contact page for AI systems, creative workflows, physics and quantum computing notes, or research collaboration."
 };

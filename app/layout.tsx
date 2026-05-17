@@ -3,15 +3,15 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Weiyu Dang | AI One-Person Company",
+    default: "Weiyu Dang | Physics, AI, and Research Tools",
     template: "%s | Weiyu Dang"
   },
   description:
-    "Weiyu Dang is building an AI-augmented one-person company powered by Doraemon Agent System and MiniDora agents.",
+    "Personal website for Weiyu Dang: physics and quantum computing student building AI systems, creative workflows, and trading research tools.",
   metadataBase: new URL("https://weiyudang.com"),
   openGraph: {
     title: "Weiyu Dang",
-    description: "Building an AI-augmented one-person company.",
+    description: "Physics, quantum computing, AI systems, creative workflows, and research tools.",
     url: "https://weiyudang.com",
     siteName: "Weiyu Dang",
     type: "website"

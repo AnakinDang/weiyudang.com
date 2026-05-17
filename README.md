@@ -1,15 +1,18 @@
 # Weiyu Dang Web
 
-Initial Next.js version of `weiyudang.com`: a public personal AI company portal plus a protected private app shell.
+Initial Next.js version of `weiyudang.com`: a light personal website for Weiyu Dang plus a protected private app shell.
 
 ## What Is Included
 
-- Public routes: `/`, `/about`, `/projects`, `/projects/[slug]`, `/dora`, `/lab`, `/contact`
+- Public routes: `/`, `/about`, `/projects`, `/projects/[slug]`, `/dora`, `/lab`, `/journal`, `/contact`
 - Private routes: `/app`, `/app/command`, `/app/trading`, `/app/agents`, `/app/events`, `/app/settings`
 - Structured content under `content/projects`, `content/notes`, and `content/agents`
+- Journal content under `content/journal` for photography, life notes, and field observations
 - Static Dora public chat mock
 - Read-only MiniDora Trading dashboard mock
 - Token-gated private shell using `APP_ACCESS_TOKEN`
+- Original bright studio hero asset under `public/visuals`
+- Pure front-end activity layer: live studio signal, project filters, AI Lab tabs, lab feed, and Dora typing state
 
 ## Project Context
 
@@ -66,8 +69,9 @@ Cloudflare proxy status only applies to A, AAAA, and CNAME records. Domain-verif
 
 ## Safety Boundaries
 
-- No official Doraemon artwork is used.
+- The current build uses original site artwork. Dora/Doraemon imagery can be swapped in later if Weiyu intentionally provides an asset for personal use.
 - `/dora` is a mock public guide and does not access private systems.
+- Public interactive elements are client-side UI only; they do not call agent runtimes, trading feeds, or external APIs.
 - `/app/trading` is read-only mock data.
 - No order buttons are implemented.
 - No broker write, paper submit, live submit, or phase auto-promotion paths exist.

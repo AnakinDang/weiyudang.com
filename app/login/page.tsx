@@ -22,7 +22,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const missingConfig = params.config === "missing";
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-5 py-12">
+    <main className="flex min-h-screen items-center justify-center bg-[#08111f] px-5 py-12 text-slate-100">
       <section className="panel w-full max-w-md p-6">
         <Link href="/" className="link-focus inline-flex items-center gap-2 text-sm font-semibold text-sky-100 hover:text-sky-50">
           <ArrowLeft size={16} aria-hidden />

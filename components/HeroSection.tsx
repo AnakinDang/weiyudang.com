@@ -1,47 +1,51 @@
 import Link from "next/link";
-import { ArrowRight, Compass, LockKeyhole, MessageSquareText } from "lucide-react";
+import { ArrowRight, BookOpenText, Compass, Sparkles } from "lucide-react";
+import { LiveStudioSignal } from "@/components/LiveStudioSignal";
 import { StudioScene } from "@/components/StudioScene";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[calc(100vh-4rem)] overflow-hidden px-5">
-      <StudioScene />
-      <div className="container relative z-10 flex min-h-[calc(100vh-4rem)] items-center py-20">
+    <section className="relative overflow-hidden px-5 py-12 md:py-16">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_18%,rgba(224,242,254,0.95),transparent_28rem),radial-gradient(circle_at_84%_12%,rgba(244,183,64,0.18),transparent_22rem)]" />
+      <div className="container grid items-center gap-12 lg:grid-cols-[0.92fr_1.08fr]">
         <div className="max-w-3xl">
-          <p className="eyebrow">Weiyu Dang</p>
-          <h1 className="mt-5 text-5xl font-semibold leading-tight text-white md:text-7xl">
-            Building an AI-augmented one-person company.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-200 md:text-xl">
-            Powered by Doraemon Agent System. One human sets the vision. A team of AI agents helps execute.
+          <h1 className="text-5xl font-semibold leading-[1.02] text-slate-950 md:text-7xl">Weiyu Dang</h1>
+          <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-700 md:text-2xl">
+            Physics and quantum computing student building AI systems, creative workflows, and trading research tools.
+          </p>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
+            This is my personal studio on the web: a place for experiments, notes, projects, and the small systems that
+            help turn curiosity into working artifacts.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link
               href="/projects"
-              className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-sky-400 px-4 py-3 text-sm font-bold text-slate-950 transition hover:bg-sky-300"
+              className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_30px_rgba(37,99,235,0.22)] transition hover:bg-[#1d4ed8]"
             >
               <Compass size={17} aria-hidden />
-              Explore Projects
+              Explore Work
               <ArrowRight size={16} aria-hidden />
             </Link>
             <Link
-              href="/dora"
-              className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-sky-200/30 bg-sky-200/10 px-4 py-3 text-sm font-bold text-sky-50 transition hover:bg-sky-200/16"
+              href="/lab"
+              className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#dde7f0] bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-[#bfdbfe] hover:bg-[#f1f7fb]"
             >
-              <MessageSquareText size={17} aria-hidden />
-              Enter Dora
+              <BookOpenText size={17} aria-hidden />
+              Read Notes
             </Link>
             <Link
-              href="/app"
-              className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/40 bg-yellow-200/12 px-4 py-3 text-sm font-bold text-yellow-50 transition hover:bg-yellow-200/18"
+              href="#ai-lab"
+              className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#f4b740]/45 bg-[#fff8e5] px-4 py-3 text-sm font-bold text-slate-900 transition hover:bg-[#fff2c7]"
             >
-              <LockKeyhole size={17} aria-hidden />
-              Private Command Center
+              <Sparkles size={17} aria-hidden />
+              AI Lab
             </Link>
           </div>
+          <LiveStudioSignal />
         </div>
+        <StudioScene />
       </div>
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-b from-transparent to-[#101827]" />
+      <div className="container pointer-events-none relative -mt-4 hidden h-px bg-gradient-to-r from-transparent via-[#dde7f0] to-transparent md:block" />
     </section>
   );
 }

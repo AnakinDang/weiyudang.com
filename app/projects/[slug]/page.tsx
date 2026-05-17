@@ -41,15 +41,15 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
     <SiteChrome>
       <section className="section">
         <div className="container">
-          <Link href="/projects" className="link-focus inline-flex items-center gap-2 text-sm font-semibold text-sky-100 hover:text-sky-50">
+          <Link href="/projects" className="link-focus inline-flex items-center gap-2 text-sm font-semibold text-[#1d4ed8] hover:text-[#1e40af]">
             <ArrowLeft size={16} aria-hidden />
             Back to projects
           </Link>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_22rem]">
             <article>
               <p className="eyebrow">{project.category}</p>
-              <h1 className="mt-4 max-w-4xl text-4xl font-semibold text-white md:text-6xl">{project.title}</h1>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">{project.summary}</p>
+              <h1 className="mt-4 max-w-4xl text-4xl font-semibold text-slate-950 md:text-6xl">{project.title}</h1>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">{project.summary}</p>
               <div className="mt-6 flex flex-wrap gap-2">
                 <StatusBadge tone="info">{project.visibility}</StatusBadge>
                 <StatusBadge tone="warning">{project.status}</StatusBadge>
@@ -57,13 +57,13 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               <MarkdownBody body={project.body} />
             </article>
             <aside className="panel h-fit p-5">
-              <h2 className="text-lg font-semibold text-white">Project links</h2>
+              <h2 className="text-lg font-semibold text-slate-950">Project links</h2>
               <div className="mt-4 space-y-3">
                 {project.links.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="link-focus flex items-center justify-between gap-3 rounded-[8px] border border-slate-700 px-3 py-3 text-sm font-semibold text-slate-200 transition hover:border-sky-300/40 hover:bg-sky-300/10"
+                    className="link-focus flex items-center justify-between gap-3 rounded-[8px] border border-[#dde7f0] px-3 py-3 text-sm font-semibold text-slate-700 transition hover:border-[#bfdbfe] hover:bg-[#e0f2fe]"
                   >
                     <span className="inline-flex items-center gap-2">
                       {link.private ? <LockKeyhole size={15} aria-hidden /> : null}
