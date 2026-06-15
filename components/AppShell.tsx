@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { Activity, Bot, CalendarClock, LayoutDashboard, LineChart, LogOut, Settings, Shield } from "lucide-react";
+import { Activity, Bot, CalendarClock, Database, Gauge, LayoutDashboard, LineChart, LogOut, Settings, Shield } from "lucide-react";
 
 const appNav = [
-  { href: "/app", label: "Overview", icon: LayoutDashboard },
+  { href: "/app", label: "Today", icon: LayoutDashboard },
   { href: "/app/command", label: "Command", icon: Bot },
-  { href: "/app/trading", label: "Trading", icon: LineChart },
   { href: "/app/agents", label: "Agents", icon: Shield },
-  { href: "/app/events", label: "Events", icon: Activity },
+  { href: "/app/trading", label: "Trading Team", icon: LineChart },
+  { href: "/app/knowledge", label: "Knowledge Vault", icon: Database },
+  { href: "/app/schedules", label: "Schedules", icon: CalendarClock },
+  { href: "/app/events", label: "Review Queue", icon: Activity },
+  { href: "/app/system", label: "System Health", icon: Gauge },
   { href: "/app/settings", label: "Settings", icon: Settings }
 ];
 
@@ -20,8 +23,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Shield size={20} aria-hidden />
             </span>
             <span>
-              <span className="block font-semibold">Private App</span>
-              <span className="block text-xs text-slate-400">Protected shell</span>
+              <span className="block font-semibold">Owner Cockpit</span>
+              <span className="block text-xs text-slate-400">Protected Personal OS</span>
             </span>
           </Link>
           <nav className="mt-6 grid gap-1" aria-label="Private app navigation">
@@ -50,12 +53,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <header className="border-b border-slate-700/50 bg-[#0b1220]/76 px-5 py-4 backdrop-blur">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="eyebrow">Authenticated</p>
-                <h1 className="text-xl font-semibold text-white">Doraemon Command Surface</h1>
+                <p className="eyebrow">Owner session</p>
+                <h1 className="text-xl font-semibold text-white">Personal OS Cockpit</h1>
               </div>
               <div className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-2 text-sm font-semibold text-yellow-100">
                 <CalendarClock size={16} aria-hidden />
-                Mock data only
+                Private mock mode
               </div>
             </div>
           </header>

@@ -1,4 +1,13 @@
+import { createHash, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+
+function hashValue(value: string) {
+  return createHash("sha256").update(value).digest();
+}
+
+function safeEquals(input: string, expected: string) {
+  return timingSafeEqual(hashValue(input), hashValue(expected));
+}
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -14,7 +23,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(url, 303);
   }
 
-  if (token !== expected) {
+  if (!safeEquals(token, expected)) {
     const url = new URL("/login", request.url);
     url.searchParams.set("next", safeNext);
     url.searchParams.set("error", "1");
@@ -22,11 +31,11 @@ export async function POST(request: NextRequest) {
   }
 
   const response = NextResponse.redirect(new URL(safeNext, request.url), 303);
-  response.cookies.set("weiyu_app_auth", "authenticated", {
+  response.cookies.set("weiyu_owner_session", "authenticated", {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
-    path: "/",
+    path: "/app",
     maxAge: 60 * 60 * 8
   });
   return response;

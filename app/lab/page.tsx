@@ -32,6 +32,7 @@ export default function LabPage() {
                   <div>
                     <p className="mono text-xs text-slate-500">{note.date}</p>
                     <h2 className="text-2xl font-semibold text-slate-950">{note.title}</h2>
+                    <p className="mt-1 text-xs font-semibold uppercase text-[#9a6a08]">{note.categoryLabel}</p>
                   </div>
                 </div>
                 <p className="mt-4 text-sm leading-6 text-slate-600">{note.summary}</p>

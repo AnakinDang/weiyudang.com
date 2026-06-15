@@ -16,6 +16,7 @@ Initial Next.js version of `weiyudang.com`: a light personal website for Weiyu D
 
 ## Project Context
 
+- `docs/personal-os/README.md` is the current product/design source of truth for the Weiyu Personal OS redesign.
 - `web_desgin_v0.1.md` is the original design blueprint.
 - `docs/project-context-2026-05-11.md` captures the initial build conversation, implementation decisions, safety boundaries, validation results, and deployment next steps.
 

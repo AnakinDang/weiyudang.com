@@ -5,7 +5,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const isAuthed = request.cookies.get("weiyu_app_auth")?.value === "authenticated";
+  const isAuthed = request.cookies.get("weiyu_owner_session")?.value === "authenticated";
 
   if (isAuthed) {
     return NextResponse.next();

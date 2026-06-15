@@ -8,12 +8,12 @@ export function ProjectCard({ project }: { project: Project }) {
     <article className="panel group flex h-full flex-col justify-between p-5 transition hover:-translate-y-0.5 hover:border-[#bfdbfe]">
       <div>
         <div className="mb-5 flex flex-wrap items-center gap-2">
-          <StatusBadge tone={project.visibility.includes("public") ? "info" : "private"}>
-            {project.visibility}
+          <StatusBadge tone={project.visibility === "public" || project.visibility === "private-summary" ? "info" : "private"}>
+            {project.visibilityLabel}
           </StatusBadge>
-          <StatusBadge tone="warning">{project.status}</StatusBadge>
+          <StatusBadge tone="warning">{project.statusLabel}</StatusBadge>
         </div>
-        <p className="eyebrow mb-3">{project.category}</p>
+        <p className="eyebrow mb-3">{project.categoryLabel}</p>
         <h3 className="text-xl font-semibold text-slate-950">{project.title}</h3>
         <p className="mt-3 text-sm leading-6 text-slate-600">{project.summary}</p>
       </div>

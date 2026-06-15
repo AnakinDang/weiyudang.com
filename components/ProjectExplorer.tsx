@@ -12,10 +12,10 @@ type ProjectFilter = {
 
 const filters = [
   { label: "All", match: () => true },
-  { label: "AI systems", match: (project: Project) => /ai|agent/i.test(`${project.category} ${project.title}`) },
-  { label: "Creative", match: (project: Project) => /creative|media|games/i.test(`${project.category} ${project.title}`) },
-  { label: "Research", match: (project: Project) => /research|trading|quantum/i.test(`${project.category} ${project.title} ${project.summary}`) },
-  { label: "Public", match: (project: Project) => project.visibility.includes("public") }
+  { label: "AI systems", match: (project: Project) => /ai|agent/i.test(`${project.categoryLabel} ${project.title}`) },
+  { label: "Creative", match: (project: Project) => /creative|media|games/i.test(`${project.categoryLabel} ${project.title}`) },
+  { label: "Research", match: (project: Project) => /research|trading|quantum/i.test(`${project.categoryLabel} ${project.title} ${project.summary}`) },
+  { label: "Public", match: (project: Project) => project.visibility === "public" || project.visibility === "private-summary" }
 ] satisfies ProjectFilter[];
 
 export function ProjectExplorer({ projects }: { projects: Project[] }) {
@@ -28,7 +28,7 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
 
     return projects.filter((project) => {
       const matchesFilter = filter.match(project);
-      const searchable = `${project.title} ${project.category} ${project.summary} ${project.status}`.toLowerCase();
+      const searchable = `${project.title} ${project.categoryLabel} ${project.summary} ${project.statusLabel}`.toLowerCase();
       const matchesQuery = normalizedQuery ? searchable.includes(normalizedQuery) : true;
       return matchesFilter && matchesQuery;
     });
