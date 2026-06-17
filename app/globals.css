@@ -5932,8 +5932,8 @@ textarea {
 .doraemon-doorway {
   position: relative;
   isolation: isolate;
-  min-height: 42.8rem;
-  padding: 4.1rem 1.25rem 0.65rem;
+  min-height: 42.2rem;
+  padding: 3.8rem 1.25rem 0.65rem;
   background:
     linear-gradient(180deg, #ffffff 0%, #ffffff 80%, #f8fbff 100%),
     #ffffff;
@@ -5951,9 +5951,9 @@ textarea {
 
 .doraemon-doorway-grid {
   display: grid;
-  grid-template-columns: minmax(20rem, 0.66fr) minmax(40rem, 1.34fr);
+  grid-template-columns: minmax(20rem, 0.58fr) minmax(42rem, 1.42fr);
   align-items: center;
-  gap: 1.75rem;
+  gap: 0.35rem;
 }
 
 .doraemon-doorway-copy {
@@ -6061,7 +6061,7 @@ textarea {
 .doraemon-command-preview {
   position: relative;
   isolation: isolate;
-  min-height: 35.9rem;
+  min-height: 36.8rem;
 }
 
 .doraemon-command-preview::before,
@@ -6096,8 +6096,8 @@ textarea {
 
 .doraemon-portal-stage {
   position: absolute;
-  /* v2 portal art keeps an empty left safe zone so this bleed can enlarge the doorway without covering copy. */
-  inset: -3.4rem -2rem 5.05rem -4.15rem;
+  /* v3 portal art keeps a quiet left safe zone; this bleed makes the doorway feel integrated with the hero. */
+  inset: -4.2rem -2.8rem 5.45rem -13.6rem;
   z-index: 1;
   overflow: hidden;
 }
@@ -6130,12 +6130,15 @@ textarea {
 }
 
 .doraemon-portal-stage img {
+  --dora-office-portal-scale: 1.04;
+  --dora-office-portal-scale-peak: 1.048;
+  --dora-office-portal-x: -14%;
   position: relative;
   z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  object-position: 58% 50%;
+  object-position: 56% 52%;
   filter:
     saturate(1.12)
     contrast(1.05)
@@ -6143,13 +6146,15 @@ textarea {
   animation: doraemon-portal-breathe 8s ease-in-out infinite;
   mask-image: radial-gradient(ellipse at 58% 52%, #000 0 70%, rgba(0, 0, 0, 0.78) 83%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse at 58% 52%, #000 0 70%, rgba(0, 0, 0, 0.78) 83%, transparent 100%);
+  transform: translateX(var(--dora-office-portal-x)) scale(var(--dora-office-portal-scale));
+  transform-origin: center center;
   will-change: transform;
 }
 
 .doraemon-portal-panel {
   position: absolute;
-  top: 27.5%;
-  right: 8%;
+  top: 26%;
+  right: 5.5%;
   z-index: 4;
   width: min(15.25rem, 30%);
   color: #05070a;
@@ -6189,137 +6194,6 @@ textarea {
   grid-column: 2;
   color: #475569;
   font-size: 0.7rem;
-}
-
-.doraemon-agent-constellation {
-  position: absolute;
-  right: 4%;
-  bottom: 8.55rem;
-  left: 2%;
-  z-index: 3;
-  height: 10.5rem;
-}
-
-.doraemon-agent-constellation::before,
-.doraemon-agent-constellation::after {
-  position: absolute;
-  right: 5%;
-  bottom: 0.65rem;
-  left: 5%;
-  height: 8.6rem;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  content: "";
-  filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.22));
-  transform: perspective(650px) rotateX(68deg);
-  animation: doraemon-orbit-breathe 5.6s ease-in-out infinite;
-}
-
-.doraemon-agent-constellation::after {
-  right: 17%;
-  bottom: 2rem;
-  left: 17%;
-  height: 5.6rem;
-  border-color: rgba(37, 99, 235, 0.18);
-  animation-delay: 0.8s;
-}
-
-.doraemon-agent-node {
-  position: absolute;
-  display: grid;
-  justify-items: center;
-  gap: 0.34rem;
-  width: 6.9rem;
-  color: #0f172a;
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.doraemon-agent-node span {
-  display: grid;
-  place-items: center;
-  width: 2.6rem;
-  height: 2.6rem;
-  border: 1px solid rgba(191, 219, 254, 0.86);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.94);
-  color: #2563eb;
-  box-shadow:
-    0 10px 24px rgba(15, 23, 42, 0.1),
-    0 0 0 0 rgba(37, 99, 235, 0.2);
-  animation:
-    node-breathe 3.2s ease-in-out infinite,
-    doraemon-node-float 4.8s ease-in-out infinite;
-}
-
-.doraemon-agent-node svg {
-  width: 2rem;
-  height: 2rem;
-}
-
-.doraemon-agent-node small {
-  display: block;
-  max-width: 7rem;
-}
-
-.doraemon-agent-node-1 {
-  bottom: 0.75rem;
-  left: 3%;
-}
-
-.doraemon-agent-node-2 {
-  bottom: 3.5rem;
-  left: 15%;
-}
-
-.doraemon-agent-node-3 {
-  bottom: 2.35rem;
-  left: 36%;
-}
-
-.doraemon-agent-node-4 {
-  bottom: 5.55rem;
-  left: 50%;
-}
-
-.doraemon-agent-node-5 {
-  right: 15%;
-  bottom: 3.55rem;
-}
-
-.doraemon-agent-node-6 {
-  right: 3%;
-  bottom: 0.9rem;
-}
-
-.doraemon-agent-node-7 {
-  right: 32%;
-  bottom: 0.88rem;
-}
-
-.doraemon-agent-node-2 span {
-  animation-delay: 0.2s;
-}
-
-.doraemon-agent-node-3 span {
-  animation-delay: 0.4s;
-}
-
-.doraemon-agent-node-4 span {
-  animation-delay: 0.6s;
-}
-
-.doraemon-agent-node-5 span {
-  animation-delay: 0.8s;
-}
-
-.doraemon-agent-node-6 span {
-  animation-delay: 1s;
-}
-
-.doraemon-agent-node-7 span {
-  animation-delay: 1.2s;
 }
 
 .doraemon-activity-preview {
@@ -6803,11 +6677,6 @@ textarea {
     inset: -1.7rem -1.45rem 5.5rem 0;
   }
 
-  .doraemon-agent-node {
-    transform: scale(0.92);
-    transform-origin: center bottom;
-  }
-
   .doraemon-agent-strip {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -6961,7 +6830,7 @@ textarea {
   }
 
   .doraemon-portal-panel strong {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
   }
 
   .doraemon-portal-panel p {
@@ -6973,68 +6842,11 @@ textarea {
   }
 
   .doraemon-boundary-row span {
-    font-size: 0.56rem;
+    font-size: 0.7rem;
   }
 
   .doraemon-boundary-row small {
-    font-size: 0.54rem;
-  }
-
-  .doraemon-agent-constellation {
-    right: 1%;
-    bottom: 7.25rem;
-    left: 1%;
-    height: 9.5rem;
-  }
-
-  .doraemon-agent-node {
-    width: 5.2rem;
-    font-size: 0.54rem;
-  }
-
-  .doraemon-agent-node span {
-    width: 2.05rem;
-    height: 2.05rem;
-  }
-
-  .doraemon-agent-node svg {
-    width: 1.6rem;
-    height: 1.6rem;
-  }
-
-  .doraemon-agent-node small {
-    max-width: 4.6rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .doraemon-agent-node-1 {
-    left: -1%;
-  }
-
-  .doraemon-agent-node-2 {
-    left: 12%;
-  }
-
-  .doraemon-agent-node-3 {
-    left: 34%;
-  }
-
-  .doraemon-agent-node-4 {
-    left: 47%;
-  }
-
-  .doraemon-agent-node-5 {
-    right: 13%;
-  }
-
-  .doraemon-agent-node-6 {
-    right: -2%;
-  }
-
-  .doraemon-agent-node-7 {
-    right: 30%;
+    font-size: 0.66rem;
   }
 
   .doraemon-activity-preview {
@@ -7105,10 +6917,6 @@ textarea {
   .doraemon-portal-stage::before,
   .doraemon-portal-stage::after,
   .doraemon-portal-stage img,
-  .doraemon-agent-constellation::before,
-  .doraemon-agent-constellation::after,
-  .doraemon-agent-node,
-  .doraemon-agent-node span,
   .doraemon-activity-preview::after {
     animation: none !important;
   }

@@ -73,16 +73,6 @@ const contextItems = [
   }
 ] as const;
 
-const heroNodes = [
-  "Research MiniDora",
-  "Dev MiniDora",
-  "Product MiniDora",
-  "Ops MiniDora",
-  "Memory MiniDora",
-  "Trading MiniDora",
-  "Media MiniDora"
-] as const;
-
 const miniDoraRoles = [
   {
     name: "Research MiniDora",
@@ -179,10 +169,10 @@ export default function DoraPage() {
             >
               <div className="doraemon-portal-stage" aria-hidden="true">
                 <Image
-                  src="/visuals/doraemon-office-portal-v2.png"
+                  src="/visuals/doraemon-office-doorway-v3.png"
                   alt=""
-                  width={1535}
-                  height={1024}
+                  width={1586}
+                  height={992}
                   priority
                   quality={95}
                   sizes="(max-width: 1040px) 100vw, 58vw"
@@ -201,17 +191,6 @@ export default function DoraPage() {
                     <small>Sanitized. Real-time. Safe.</small>
                   </div>
                 </div>
-              </div>
-
-              <div className="doraemon-agent-constellation" aria-hidden="true">
-                {heroNodes.map((label, index) => (
-                  <div key={label} className={`doraemon-agent-node doraemon-agent-node-${index + 1}`}>
-                    <span>
-                      <DoraemonMark />
-                    </span>
-                    <small>{label}</small>
-                  </div>
-                ))}
               </div>
 
               <div className="doraemon-activity-preview" aria-label="Recent public-safe Doraemon activity">
