@@ -29,11 +29,13 @@ export function DoraOfficeShell({
   active,
   title,
   summary,
+  showBoundaryStrip = true,
   children
 }: {
   active: DoraOfficeRoute;
   title: string;
   summary: string;
+  showBoundaryStrip?: boolean;
   children: React.ReactNode;
 }) {
   const liveBridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
@@ -97,13 +99,15 @@ export function DoraOfficeShell({
               </div>
             </div>
 
-            <div className="dora-office-boundary-strip">
-              <ShieldCheck size={18} aria-hidden />
-              <p>
-                Public Doraemon Office is read-only and sanitized. It does not expose private tasks, prompts, memory,
-                credentials, trading data, or owner-only controls.
-              </p>
-            </div>
+            {showBoundaryStrip ? (
+              <div className="dora-office-boundary-strip">
+                <ShieldCheck size={18} aria-hidden />
+                <p>
+                  Public Doraemon Office is read-only and sanitized. It does not expose private tasks, prompts, memory,
+                  credentials, trading data, or owner-only controls.
+                </p>
+              </div>
+            ) : null}
 
             <div className="dora-office-subpage-content">{children}</div>
           </div>

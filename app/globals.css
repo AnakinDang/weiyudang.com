@@ -4818,6 +4818,508 @@ textarea {
   color: #64748b;
 }
 
+.dora-team-hero {
+  position: relative;
+  min-height: 24rem;
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.62);
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 52% 64%, rgba(37, 99, 235, 0.12), transparent 44%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.74), rgba(255, 255, 255, 0.96) 62%),
+    #ffffff;
+  box-shadow: 0 24px 72px rgba(15, 23, 42, 0.058);
+}
+
+.dora-team-hero::before {
+  position: absolute;
+  right: 6%;
+  bottom: 1.6rem;
+  left: 6%;
+  height: 14rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.16), rgba(147, 197, 253, 0.05) 48%, transparent 72%);
+  content: "";
+  filter: blur(1rem);
+  animation: doraemon-stage-aura 8s ease-in-out infinite;
+}
+
+.dora-team-hero-copy {
+  position: absolute;
+  top: 1.4rem;
+  left: 1.6rem;
+  z-index: 4;
+}
+
+.dora-team-hero-copy p {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(1.32rem, 2vw, 1.82rem);
+  font-weight: 820;
+  line-height: 1.1;
+}
+
+.dora-team-hero-copy p span {
+  color: #2563eb;
+}
+
+.dora-team-hero-copy span {
+  display: block;
+  margin-top: 0.58rem;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.dora-team-topology {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.dora-team-orbit,
+.dora-team-orbit::before,
+.dora-team-orbit::after {
+  position: absolute;
+  right: 9%;
+  bottom: 2.5rem;
+  left: 12%;
+  height: 17rem;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 50%;
+  content: "";
+  transform: perspective(860px) rotateX(66deg);
+}
+
+.dora-team-orbit {
+  filter: drop-shadow(0 0 18px rgba(37, 99, 235, 0.14));
+  animation: doraemon-orbit-breathe 6.4s ease-in-out infinite;
+}
+
+.dora-team-orbit::before {
+  right: 12%;
+  bottom: 2.2rem;
+  left: 12%;
+  height: 11.8rem;
+  border-color: rgba(37, 99, 235, 0.14);
+}
+
+.dora-team-orbit::after {
+  right: 28%;
+  bottom: 4.8rem;
+  left: 28%;
+  height: 6.4rem;
+  border-color: rgba(244, 183, 64, 0.18);
+}
+
+.dora-team-node {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 8.8rem;
+  color: #0f172a;
+}
+
+.dora-team-node-mark,
+.dora-team-avatar {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(191, 219, 254, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #2563eb;
+  box-shadow:
+    0 14px 30px rgba(15, 23, 42, 0.1),
+    0 0 0 0 rgba(37, 99, 235, 0.2);
+}
+
+.dora-team-node-mark {
+  width: 3.35rem;
+  height: 3.35rem;
+  animation:
+    node-breathe 3.4s ease-in-out infinite,
+    doraemon-node-float 5.4s ease-in-out infinite;
+}
+
+.dora-team-node-mark svg,
+.dora-team-avatar svg {
+  width: 2.42rem;
+  height: 2.42rem;
+}
+
+.dora-team-node strong,
+.dora-team-card h3 {
+  display: block;
+  color: #0f172a;
+  font-size: 0.92rem;
+  font-weight: 820;
+  line-height: 1.1;
+}
+
+.dora-team-node small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #2563eb;
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.dora-team-node em {
+  display: flex;
+  align-items: center;
+  gap: 0.34rem;
+  margin-top: 0.38rem;
+  color: #475569;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 720;
+}
+
+.dora-team-node em span,
+.dora-team-state-dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: #2563eb;
+}
+
+.dora-team-node em.is-normal span,
+.dora-team-state-dot.is-normal {
+  background: #22c55e;
+}
+
+.dora-team-node em.is-warning span,
+.dora-team-state-dot.is-warning {
+  background: #f4b740;
+}
+
+.dora-team-node em.is-danger span,
+.dora-team-state-dot.is-danger {
+  background: #ef4444;
+}
+
+.dora-team-node em.is-private span,
+.dora-team-state-dot.is-private {
+  background: #94a3b8;
+}
+
+.dora-team-node-dora {
+  top: 2.1rem;
+  left: 50%;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  min-width: 9.6rem;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.dora-team-node-dora .dora-team-node-mark {
+  width: 4.65rem;
+  height: 4.65rem;
+}
+
+.dora-team-node-dora .dora-team-node-mark svg {
+  width: 3.35rem;
+  height: 3.35rem;
+}
+
+.dora-team-node-research {
+  top: 7.6rem;
+  left: 8%;
+}
+
+.dora-team-node-dev {
+  bottom: 4.7rem;
+  left: 7%;
+}
+
+.dora-team-node-product {
+  bottom: 2.7rem;
+  left: 26%;
+}
+
+.dora-team-node-ops {
+  right: 45%;
+  bottom: 2rem;
+}
+
+.dora-team-node-memory {
+  right: 24%;
+  bottom: 4.2rem;
+}
+
+.dora-team-node-trading {
+  right: 6%;
+  bottom: 4.7rem;
+}
+
+.dora-team-node-media {
+  top: 7.2rem;
+  right: 5%;
+}
+
+.dora-team-node-fallback {
+  bottom: 1.2rem;
+  left: 1.2rem;
+}
+
+.dora-team-boundary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(191, 219, 254, 0.62);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 0.95rem 1rem;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.042);
+}
+
+.dora-team-boundary div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.28rem 0.72rem;
+  color: #2563eb;
+}
+
+.dora-team-boundary div + div {
+  border-left: 1px dashed rgba(100, 116, 139, 0.34);
+  padding-left: 1rem;
+}
+
+.dora-team-boundary strong {
+  color: #0f172a;
+  font-size: 0.86rem;
+  font-weight: 820;
+}
+
+.dora-team-boundary span {
+  grid-column: 2;
+  color: #475569;
+  font-size: 0.74rem;
+}
+
+.dora-team-boundary a,
+.dora-team-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: #1d4ed8;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.dora-team-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.34fr);
+  align-items: start;
+  gap: 1.4rem;
+  margin-top: 2.1rem;
+}
+
+.dora-team-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dora-team-section-heading h2 {
+  margin: 0;
+  color: #05070a;
+  font-size: 1.14rem;
+  font-weight: 820;
+}
+
+.dora-team-section-heading p {
+  max-width: 40rem;
+  margin: 0.34rem 0 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.dora-team-section-heading > svg {
+  flex: none;
+  color: #2563eb;
+}
+
+.dora-team-roster {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.dora-team-card,
+.dora-team-signal-lane {
+  border: 1px solid rgba(191, 219, 254, 0.58);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.052);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dora-team-card {
+  display: grid;
+  align-content: start;
+  min-height: 14.8rem;
+  padding: 1rem;
+}
+
+.dora-team-card-top,
+.dora-team-card-title {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.dora-team-avatar {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+.dora-team-state-dot {
+  margin-top: 0.2rem;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.28);
+  animation: office-agent-pulse 2.8s ease-out infinite;
+}
+
+.dora-team-card-title {
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.dora-team-card-title h3 {
+  margin: 0;
+}
+
+.dora-team-card-title .status-badge {
+  flex: none;
+}
+
+.dora-team-role {
+  margin: 0.4rem 0 0;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.dora-team-card > p:not(.dora-team-role) {
+  margin: 0.8rem 0 0;
+  color: #475569;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.dora-team-event {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.16rem 0.48rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.82);
+  padding-top: 0.82rem;
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.dora-team-event svg {
+  grid-row: span 3;
+  margin-top: 0.1rem;
+  color: #2563eb;
+}
+
+.dora-team-event strong {
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 780;
+}
+
+.dora-team-event time {
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+}
+
+.dora-team-signal-lane {
+  padding: 1.05rem;
+}
+
+.dora-team-signal-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.dora-team-signal-list article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.72rem;
+}
+
+.dora-team-signal-list article > span {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border: 1px solid rgba(191, 219, 254, 0.82);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #2563eb;
+}
+
+.dora-team-signal-list svg {
+  width: 1.62rem;
+  height: 1.62rem;
+}
+
+.dora-team-signal-list strong {
+  display: block;
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.dora-team-signal-list p {
+  margin: 0.14rem 0 0;
+  color: #475569;
+  font-size: 0.74rem;
+}
+
+.dora-team-signal-list time {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.dora-team-signal-note {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.58rem;
+  margin-top: 1.2rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.82);
+  padding-top: 0.9rem;
+  color: #475569;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.dora-team-signal-note svg {
+  margin-top: 0.1rem;
+  color: #2563eb;
+}
+
+.dora-team-view-all {
+  margin-top: 1rem;
+}
+
 @media (max-width: 1180px) {
   .dora-office-live-shell {
     grid-template-columns: 13rem minmax(0, 1fr);
@@ -4832,6 +5334,43 @@ textarea {
 
   .dora-office-stage-panel {
     min-height: 33rem;
+  }
+
+  .dora-team-hero {
+    min-height: 23rem;
+  }
+
+  .dora-team-node {
+    min-width: 7.8rem;
+    gap: 0.54rem;
+  }
+
+  .dora-team-node-mark {
+    width: 2.95rem;
+    height: 2.95rem;
+  }
+
+  .dora-team-node-mark svg {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+
+  .dora-team-node-dora .dora-team-node-mark {
+    width: 4.1rem;
+    height: 4.1rem;
+  }
+
+  .dora-team-node-dora .dora-team-node-mark svg {
+    width: 2.95rem;
+    height: 2.95rem;
+  }
+
+  .dora-team-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-team-roster {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dora-office-metrics,
@@ -4944,6 +5483,73 @@ textarea {
     transform-origin: center bottom;
   }
 
+  .dora-team-hero {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .dora-team-hero::before,
+  .dora-team-orbit {
+    display: none;
+  }
+
+  .dora-team-hero-copy {
+    position: static;
+  }
+
+  .dora-team-hero-copy p {
+    font-size: 1.18rem;
+  }
+
+  .dora-team-topology {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.72rem;
+    margin-top: 1rem;
+  }
+
+  .dora-team-node,
+  .dora-team-node-dora,
+  .dora-team-node-research,
+  .dora-team-node-dev,
+  .dora-team-node-product,
+  .dora-team-node-ops,
+  .dora-team-node-memory,
+  .dora-team-node-trading,
+  .dora-team-node-media,
+  .dora-team-node-fallback {
+    position: static;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    min-width: 0;
+    border: 1px solid rgba(191, 219, 254, 0.52);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.82);
+    padding: 0.66rem;
+    text-align: left;
+    transform: none;
+  }
+
+  .dora-team-node-dora {
+    grid-column: 1 / -1;
+    background: rgba(224, 242, 254, 0.48);
+  }
+
+  .dora-team-node-mark,
+  .dora-team-node-dora .dora-team-node-mark {
+    width: 2.72rem;
+    height: 2.72rem;
+  }
+
+  .dora-team-node-mark svg,
+  .dora-team-node-dora .dora-team-node-mark svg {
+    width: 2rem;
+    height: 2rem;
+  }
+
   .dora-office-metrics,
   .dora-office-more {
     width: min(100% - 2rem, 760px);
@@ -4963,6 +5569,30 @@ textarea {
 
   .dora-office-subpage-badges {
     justify-content: flex-start;
+  }
+
+  .dora-team-node strong,
+  .dora-team-card h3 {
+    font-size: 0.84rem;
+  }
+
+  .dora-team-node small {
+    font-size: 0.66rem;
+  }
+
+  .dora-team-boundary {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-team-boundary div + div {
+    border-left: 0;
+    border-top: 1px dashed rgba(100, 116, 139, 0.34);
+    padding-top: 0.85rem;
+    padding-left: 0;
+  }
+
+  .dora-team-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -5155,6 +5785,59 @@ textarea {
 
   .dora-office-subpage {
     background: #ffffff;
+  }
+
+  .dora-team-hero-copy p {
+    font-size: 1.14rem;
+  }
+
+  .dora-team-topology {
+    grid-template-columns: 1fr;
+    gap: 0.64rem;
+  }
+
+  .dora-team-node-mark,
+  .dora-team-node-dora .dora-team-node-mark {
+    width: 2.64rem;
+    height: 2.64rem;
+  }
+
+  .dora-team-node-mark svg,
+  .dora-team-node-dora .dora-team-node-mark svg {
+    width: 1.96rem;
+    height: 1.96rem;
+  }
+
+  .dora-team-node em {
+    margin-top: 0.24rem;
+  }
+
+  .dora-team-boundary {
+    padding: 0.86rem;
+  }
+
+  .dora-team-content-grid {
+    margin-top: 1.45rem;
+  }
+
+  .dora-team-section-heading {
+    align-items: flex-start;
+  }
+
+  .dora-team-roster {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-team-card {
+    min-height: auto;
+  }
+
+  .dora-team-signal-list article {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .dora-team-signal-list time {
+    grid-column: 2;
   }
 
   .dora-office-subpage-shell {
@@ -5432,6 +6115,10 @@ textarea {
   .dora-office-stage-agents::after,
   .dora-office-stage-agent,
   .dora-office-stage-agent span,
+  .dora-team-hero::before,
+  .dora-team-orbit,
+  .dora-team-node-mark,
+  .dora-team-state-dot,
   .living-system-visual::before,
   .living-system-visual::after,
   .personal-os-asset img,
