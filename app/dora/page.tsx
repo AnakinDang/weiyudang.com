@@ -156,10 +156,6 @@ export default function DoraPage() {
                 <span>Office</span>
               </h1>
               <p className="doraemon-doorway-lede">The public window into Weiyu&apos;s personal AI command room.</p>
-              <p className="doraemon-doorway-support">
-                Doraemon Office is where a team of MiniDoras coordinate research, writing, data, strategy, and
-                operations while Weiyu keeps the private work under review.
-              </p>
               <div className="doraemon-doorway-actions">
                 <Link href="/dora/office" className="link-focus doraemon-primary-action">
                   Enter Doraemon Office
@@ -183,11 +179,12 @@ export default function DoraPage() {
             >
               <div className="doraemon-portal-stage" aria-hidden="true">
                 <Image
-                  src="/visuals/doraemon-office-portal-v1.png"
+                  src="/visuals/doraemon-office-portal-v2.png"
                   alt=""
-                  width={1619}
-                  height={972}
+                  width={1535}
+                  height={1024}
                   priority
+                  quality={95}
                   sizes="(max-width: 1040px) 100vw, 58vw"
                 />
                 <div className="doraemon-portal-panel">
