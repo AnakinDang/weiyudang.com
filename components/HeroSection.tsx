@@ -90,12 +90,12 @@ export function HeroSection() {
           </div>
         </div>
 
-        <Link href="/dora" className="link-focus dora-entry-dock">
+        <Link href="/dora/office" className="link-focus dora-entry-dock">
           <span className="dora-entry-dock-label">
             <Bot size={19} aria-hidden />
-            Talk to Doraemon
+            Enter Doraemon Office
           </span>
-          <span className="dora-entry-dock-copy">Ask the public guide, enter the office, or follow the agent team.</span>
+          <span className="dora-entry-dock-copy">Open the sanitized command room and follow the public agent team.</span>
           <ArrowRight size={18} aria-hidden />
         </Link>
       </div>
