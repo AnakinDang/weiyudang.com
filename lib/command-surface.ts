@@ -8,7 +8,7 @@ export const commandSurfaceStatus = {
 export const commandDraft = {
   title: "Redesign Weiyu Personal OS in safe implementation slices",
   prompt:
-    "Turn the product blueprint into native website, Dora Office, Owner Cockpit, and research console surfaces. Validate each slice and request Opus review before moving on.",
+    "Turn the product blueprint into native website, Doraemon Office, Owner Cockpit, and research console surfaces. Validate each slice and request Opus review before moving on.",
   boundary:
     "This draft is visible for planning only. No command is sent to a runtime from this page."
 } as const;

@@ -226,7 +226,7 @@ MiniDora Trading
 但对外视觉最好做成原创角色，例如：
 
 ```text
-Dora AI
+Doraemon AI
 DoraCore
 Pocket Agent
 Blue Pocket Studio
@@ -317,7 +317,7 @@ MiniDora Trading 是做什么的？
 ## `/dora` 页面布局
 
 ```text
-左侧：Dora / Blue Pocket AI 角色卡
+左侧：Doraemon / Blue Pocket AI 角色卡
 中间：聊天窗口
 右侧：推荐问题 / 项目卡片
 底部：免责声明 + 联系按钮
@@ -336,7 +336,7 @@ How can I collaborate with Weiyu?
 ## 对外入口的角色设定
 
 ```text
-You are Dora, the public-facing guide for Weiyu Dang's personal AI company website.
+You are Doraemon, the public-facing guide for Weiyu Dang's personal AI company website.
 You can explain public projects, summarize public notes, and route visitors to contact.
 You cannot access private systems, trading data, credentials, internal memory, or command center tools.
 ```
@@ -734,7 +734,7 @@ LabNoteCard
 
 ```text
 Public
-游客可见：主页、公开项目、公开日志、Dora public guide
+游客可见：主页、公开项目、公开日志、Doraemon public guide
 
 Authenticated
 只有你可见：/app、command center、trading dashboard、agent events
@@ -781,12 +781,12 @@ MDX / JSON content
   → public pages
 ```
 
-## Dora public chat 数据流
+## Doraemon public chat 数据流
 
 ```text
 Visitor question
   → public content retriever
-  → constrained Dora assistant
+  → constrained Doraemon assistant
   → answer with project links
 ```
 
@@ -865,7 +865,7 @@ const tradingStatus = {
 4. 接 P0 campaign status
 5. 接 evidence timeline
 6. 接 owner review queue
-7. 接 public Dora assistant
+7. 接 public Doraemon assistant
 ```
 
 不要第一天就把交易系统、Agent runtime、公开聊天全部接上。先把壳和边界做对。
@@ -888,7 +888,7 @@ This is not a generic portfolio. It is the public portal for an AI-augmented one
 Important safety/legal constraints:
 - Do not use official Doraemon artwork or copyrighted character assets.
 - Use an original blue AI companion / pocket-agent visual style.
-- Public Dora page must not access private memory, trading data, internal agent runtime, files, email, calendar, or credentials.
+- Public Doraemon page must not access private memory, trading data, internal agent runtime, files, email, calendar, or credentials.
 - MiniDora Trading public page must be a research/evidence explanation page only.
 - /app/trading must be authenticated and read-only.
 - No order buttons.
@@ -930,7 +930,7 @@ Homepage sections:
 1. Hero
    Title: Weiyu Dang
    Subtitle: Building an AI-augmented one-person company powered by Doraemon Agent System.
-   Buttons: Explore Projects, Enter Dora, Private Command Center
+   Buttons: Explore Projects, Enter Doraemon, Private Command Center
 
 2. Company Model
    Three cards:

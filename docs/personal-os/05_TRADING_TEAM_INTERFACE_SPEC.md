@@ -55,7 +55,7 @@ Disallowed content:
 
 ## Team Model
 
-Dora Office exposes one public roster member:
+Doraemon Office exposes one public roster member:
 
 ```text
 Trading MiniDora
@@ -65,7 +65,7 @@ Trading Team itself can contain multiple private research desks under that
 public agent identity. In other words, `Trading MiniDora` is the public-facing
 agent/team lead, while the private console may show specialized desks.
 
-Do not create seven unrelated public MiniDora roster members unless the Dora
+Do not create seven unrelated public MiniDora roster members unless the Doraemon
 Office roster is deliberately redesigned.
 
 ### Private version
@@ -232,7 +232,7 @@ Recommended sections:
 
 ## Visual Direction
 
-Trading Team should be calmer and denser than the Dora Entry page.
+Trading Team should be calmer and denser than the Doraemon Entry page.
 
 Use:
 

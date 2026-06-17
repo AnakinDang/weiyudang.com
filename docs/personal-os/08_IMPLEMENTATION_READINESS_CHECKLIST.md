@@ -8,7 +8,7 @@ again before merging each related PR.
 
 ## 1. Product Scope
 
-- [ ] The target surface is named: public site, Dora Entry, Dora Office, Owner Cockpit, or Trading Team.
+- [ ] The target surface is named: public site, Doraemon Entry, Doraemon Office, Owner Cockpit, or Trading Team.
 - [ ] The user/audience is clear.
 - [ ] The page has a single primary job.
 - [ ] Public/private boundary is written before implementation begins.
@@ -54,7 +54,7 @@ again before merging each related PR.
 - [ ] Trading-related content includes the research-only disclaimer.
 - [ ] Private Knowledge Vault raw files are not used directly as public page sources.
 
-## 6. Dora and Asset Policy
+## 6. Doraemon and Asset Policy
 
 - [ ] Official Doraemon assets are used only under the current owner decision.
 - [ ] Raw/source asset libraries remain private.
@@ -72,7 +72,7 @@ again before merging each related PR.
 - [ ] Buttons, tabs, filters, menus, and controls work when shown.
 - [ ] Empty states explain what is missing without exposing internals.
 
-## 8. Dora Office Checks
+## 8. Doraemon Office Checks
 
 - [ ] Overview stage renders and can remount after navigation.
 - [ ] Activity timeline sorts by event creation time, newest first.
@@ -97,7 +97,7 @@ again before merging each related PR.
 
 - [ ] Probe strings are tested: `/Users/`, `secret`, `session_key`, raw IDs, `../`.
 - [ ] Public responses contain only allowlisted fields.
-- [ ] Public Dora Office event fields match the closed schema in [Public/Private Data Contract](07_PUBLIC_PRIVATE_DATA_CONTRACT.md).
+- [ ] Public Doraemon Office event fields match the closed schema in [Public/Private Data Contract](07_PUBLIC_PRIVATE_DATA_CONTRACT.md).
 - [ ] Public IDs are opaque and idempotently rehashed at the public boundary.
 - [ ] `visual` is rebuilt from allowlisted fields, not passed through.
 - [ ] `tool_name` follows public shape validation.
@@ -119,7 +119,7 @@ Check at minimum:
 - [ ] Desktop around 1440px.
 - [ ] Public homepage.
 - [ ] `/dora`.
-- [ ] Dora Office overview/activity/team.
+- [ ] Doraemon Office overview/activity/team.
 - [ ] Private `/app` gate.
 - [ ] Trading page or mock when touched.
 
@@ -137,7 +137,7 @@ Check at minimum:
 - [ ] Use `set -o pipefail` when piping build output.
 - [ ] Verify the deployed bundle contains the expected new route/component strings.
 - [ ] Verify the deployed page directly by domain.
-- [ ] Verify live/demo fallback after deployment when Dora Office is touched.
+- [ ] Verify live/demo fallback after deployment when Doraemon Office is touched.
 - [ ] Record which production bundle or deployment ID was verified.
 
 ## 14. Documentation Update

@@ -8,7 +8,7 @@ Date: 2026-06-13
 The site has three navigation systems:
 
 1. Public site navigation for visitors.
-2. Dora Office navigation for the public command room.
+2. Doraemon Office navigation for the public command room.
 3. Owner Cockpit navigation for private daily work.
 
 These systems should feel connected, but they should not collapse into one
@@ -19,7 +19,7 @@ generic menu.
 Primary public nav:
 
 - `Home` -> `/`
-- `Dora` -> `/dora`
+- `Doraemon` -> `/dora`
 - `Projects` -> `/projects`
 - `Lab` -> `/lab`
 - `Journal` -> `/journal`
@@ -34,15 +34,15 @@ Responsibilities:
 
 - identify Weiyu immediately
 - explain the personal AI systems direction
-- show Dora as a first-class entry
+- show Doraemon as a first-class entry
 - highlight selected systems and latest notes
-- provide routes into projects, Dora, and contact
+- provide routes into projects, Doraemon, and contact
 
 Required first-viewport signals:
 
 - Weiyu's name
 - personal AI systems framing
-- Dora/Personal OS entry point
+- Doraemon/Personal OS entry point
 - one visible next step
 
 ### About
@@ -103,9 +103,9 @@ Responsibilities:
 - explain collaboration areas
 - avoid exposing private operational channels
 
-## Dora Navigation
+## Doraemon Navigation
 
-Primary Dora nav:
+Primary Doraemon nav:
 
 - `Overview` -> `/dora`
 - `Office Live` -> `/dora/office`
@@ -119,12 +119,12 @@ Primary Dora nav:
 Route strategy:
 
 - `/dora` remains the entry and guide.
-- Dora Office uses native `weiyudang.com` routes under `/dora/*`.
+- Doraemon Office uses native `weiyudang.com` routes under `/dora/*`.
 - `dora.weiyudang.com` remains the current deployed live visualizer bridge while
   the main-site route integration is built.
 - Do not use an iframe as the long-term product shape.
 
-### Dora Overview
+### Doraemon Overview
 
 Responsibilities:
 
@@ -277,6 +277,6 @@ Mobile must keep navigation available when sidebars collapse.
 Required behavior:
 
 - public nav remains reachable
-- Dora Office exposes compact tabs or a bottom route rail
+- Doraemon Office exposes compact tabs or a bottom route rail
 - Owner Cockpit exposes a private mobile nav pattern only after auth
 - no page should become a dead end when the sidebar is hidden

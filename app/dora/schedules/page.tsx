@@ -5,8 +5,8 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
-  title: "Dora Schedules",
-  description: "Public-safe Dora Office schedule rhythm with no cron strings, local paths, prompts, or controls."
+  title: "Doraemon Schedules",
+  description: "Public-safe Doraemon Office schedule rhythm with no cron strings, local paths, prompts, or controls."
 };
 
 export default function DoraSchedulesPage() {
@@ -14,7 +14,7 @@ export default function DoraSchedulesPage() {
     <DoraOfficeShell
       active="/dora/schedules"
       title="Schedules"
-      summary="A public rhythm of recurring Dora Office workflows with coarse cadence, next window, and safe state labels."
+      summary="A public rhythm of recurring Doraemon Office workflows with coarse cadence, next window, and safe state labels."
     >
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <section className="grid gap-5 md:grid-cols-2">

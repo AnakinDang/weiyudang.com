@@ -9,7 +9,7 @@ This document defines the public content model for the personal site.
 
 The Personal OS redesign has two kinds of surfaces:
 
-- live/system surfaces such as Dora Office and private `/app/*`
+- live/system surfaces such as Doraemon Office and private `/app/*`
 - editorial/content surfaces such as Projects, Lab, Journal, and About
 
 The first kind is governed by data contracts and auth. The second kind needs a

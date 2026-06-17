@@ -93,7 +93,7 @@ Purpose:
 - introduce Weiyu
 - explain the lab and projects
 - publish field notes and research notes
-- route users toward Dora or contact
+- route users toward Doraemon or contact
 
 Design posture:
 
@@ -102,7 +102,7 @@ Design posture:
 - not a startup landing page
 - not a cold enterprise dashboard
 
-### 2. Dora Entry
+### 2. Doraemon Entry
 
 Route:
 
@@ -112,7 +112,7 @@ Purpose:
 
 - introduce Doraemon as the AI partner/orchestrator
 - explain MiniDoras in public language
-- send users to the public Dora Office
+- send users to the public Doraemon Office
 - preserve safety boundaries
 
 Design posture:
@@ -121,7 +121,7 @@ Design posture:
 - precise about limits
 - no fake omniscience or private system access
 
-### 3. Dora Office
+### 3. Doraemon Office
 
 Canonical routes:
 
@@ -230,7 +230,7 @@ viewing, drafting, approval, and execution boundaries explicitly.
 
 - A first-time visitor understands the site is a personal AI systems studio within 10 seconds.
 - `/dora` feels like the front door to Doraemon, not a generic chat mock.
-- Dora Office makes MiniDora teamwork visible through state, timeline, and roles.
+- Doraemon Office makes MiniDora teamwork visible through state, timeline, and roles.
 - Trading Team reads as a research desk, not a broker terminal.
 - The private owner cockpit remains useful for daily work.
 - Public/private data boundaries are visible in the UI and enforced by data contracts.

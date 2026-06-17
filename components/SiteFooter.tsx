@@ -13,7 +13,7 @@ export function SiteFooter() {
             Projects
           </Link>
           <Link className="link-focus hover:text-[#2563eb]" href="/dora">
-            Dora
+            Doraemon
           </Link>
           <Link className="link-focus hover:text-[#2563eb]" href="/journal">
             Journal

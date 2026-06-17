@@ -64,7 +64,7 @@ export const privateSystemServices = [
     detail: "Private routes redirect before owner-only UI renders."
   },
   {
-    label: "Dora public boundary",
+    label: "Doraemon public boundary",
     state: "Sanitized",
     tone: "normal",
     detail: "Public surfaces use safe labels, public schemas, and no owner controls."
@@ -94,5 +94,5 @@ export const privateSystemDiagnostics = [
   "No service path, port, credential, local hostname, or raw log line is rendered.",
   "Bundle boundary checks are a release gate for credential values, paths, token strings, and raw logs.",
   "Repair, restart, deploy, and rollback workflows need separate authenticated APIs.",
-  "Public Dora status and private Owner Cockpit status stay separated."
+  "Public Doraemon status and private Owner Cockpit status stay separated."
 ] as const;

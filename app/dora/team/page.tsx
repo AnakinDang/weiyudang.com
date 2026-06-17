@@ -6,8 +6,8 @@ import { getPublicAgentTone, latestAgentEvent } from "@/lib/dora-office";
 import { getPublicAgents } from "@/lib/public-agents";
 
 export const metadata: Metadata = {
-  title: "Dora Team Agents",
-  description: "Public MiniDora roster for the Dora Office."
+  title: "Doraemon Team Agents",
+  description: "Public MiniDora roster for the Doraemon Office."
 };
 
 export default function DoraTeamPage() {

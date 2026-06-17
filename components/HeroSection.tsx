@@ -21,7 +21,7 @@ export function HeroSection() {
             tools that extend human insight.
           </p>
           <p className="premium-hero-support">
-            Public work stays legible. Private operations stay protected. Dora turns the whole system into a living
+            Public work stays legible. Private operations stay protected. Doraemon turns the whole system into a living
             front door.
           </p>
           <div className="premium-hero-actions">
@@ -31,7 +31,7 @@ export function HeroSection() {
             </Link>
             <Link href="/dora" className="link-focus premium-secondary-link">
               <Bot size={17} aria-hidden />
-              Talk to Dora
+              Talk to Doraemon
             </Link>
           </div>
         </div>
@@ -39,7 +39,7 @@ export function HeroSection() {
         <div
           className="living-system-visual"
           role="img"
-          aria-label="Animated Personal OS signal map with a Dora entry, agent network, living context, and public/private boundary."
+          aria-label="Animated Personal OS signal map with a Doraemon entry, agent network, living context, and public/private boundary."
         >
           <div className="system-plane" aria-hidden>
             <div className="system-plane-grid" aria-hidden />
@@ -52,7 +52,7 @@ export function HeroSection() {
           <div className="dora-core" aria-hidden>
             <span className="dora-core-ring" aria-hidden />
             <span className="dora-core-beam" aria-hidden />
-            <span className="dora-core-label">Dora entry</span>
+            <span className="dora-core-label">Doraemon entry</span>
           </div>
 
           <div className="agent-network" aria-hidden>
@@ -93,7 +93,7 @@ export function HeroSection() {
         <Link href="/dora" className="link-focus dora-entry-dock">
           <span className="dora-entry-dock-label">
             <Bot size={19} aria-hidden />
-            Talk to Dora
+            Talk to Doraemon
           </span>
           <span className="dora-entry-dock-copy">Ask the public guide, enter the office, or follow the agent team.</span>
           <ArrowRight size={18} aria-hidden />

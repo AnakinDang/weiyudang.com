@@ -22,13 +22,13 @@ export function DoraOfficeShell({
           <div className="grid gap-8 lg:grid-cols-[17rem_1fr]">
             <aside className="h-fit rounded-[8px] border border-[#dde7f0] bg-white/78 p-3 shadow-[0_18px_50px_rgba(15,23,42,0.06)]">
               <div className="p-3">
-                <p className="eyebrow">Dora Office</p>
+                <p className="eyebrow">Doraemon Office</p>
                 <h2 className="mt-2 text-lg font-semibold text-slate-950">Public command room</h2>
                 <p className="mt-2 text-xs leading-5 text-slate-500">
                   Native `/dora/*` routes. Display-only, sanitized, and safe for public visitors.
                 </p>
               </div>
-              <nav className="mt-2 grid gap-1" aria-label="Dora Office navigation">
+              <nav className="mt-2 grid gap-1" aria-label="Doraemon Office navigation">
                 {doraOfficeRoutes.map((item) => {
                   const isActive = item.href === active;
                   return (
@@ -72,7 +72,7 @@ export function DoraOfficeShell({
               </div>
 
               <div className="mt-6 rounded-[8px] border border-[#bfdbfe] bg-[#f1f7fb] p-4 text-sm leading-6 text-slate-700">
-                Public Dora Office is read-only and sanitized. It does not expose private tasks, prompts, memory,
+                Public Doraemon Office is read-only and sanitized. It does not expose private tasks, prompts, memory,
                 credentials, trading data, or owner-only controls.
               </div>
 

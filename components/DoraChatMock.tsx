@@ -14,7 +14,7 @@ export function DoraChatMock() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "dora",
-      text: "Hi, I am Dora, the public-facing guide for Weiyu Dang's personal website and AI lab. I can explain public projects and route you to contact."
+      text: "Hi, I am Doraemon, the public-facing guide for Weiyu Dang's personal website and AI lab. I can explain public projects and route you to contact."
     }
   ]);
   const [input, setInput] = useState("");
@@ -39,8 +39,8 @@ export function DoraChatMock() {
     const normalized = publicQuestions.includes(question) ? question : "Show me Weiyu's projects.";
     const response =
       doraAnswers[normalized] ??
-      "I can only answer from public website content in this MVP. Try asking about Weiyu AI, Dora, projects, MiniDora Trading, or collaboration.";
-    setLastRoute(normalized === "How does Dora work?" ? "dora-routing" : normalized.includes("Trading") ? "research-safety" : "public-content");
+      "I can only answer from public website content in this MVP. Try asking about Weiyu AI, Doraemon, projects, MiniDora Trading, or collaboration.";
+    setLastRoute(normalized === "How does Doraemon work?" ? "dora-routing" : normalized.includes("Trading") ? "research-safety" : "public-content");
     setMessages((current) => [...current, { role: "visitor", text: question }]);
     setIsThinking(true);
     setInput("");
@@ -61,7 +61,7 @@ export function DoraChatMock() {
         <div className="flex size-14 items-center justify-center rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] text-[#2563eb]">
           <Bot size={30} aria-hidden />
         </div>
-        <h2 className="mt-5 text-2xl font-semibold text-slate-950">Dora Public Guide</h2>
+        <h2 className="mt-5 text-2xl font-semibold text-slate-950">Doraemon Public Guide</h2>
         <p className="mt-3 text-sm leading-6 text-slate-600">
           A constrained public assistant for project explanation and visitor routing.
         </p>
@@ -109,7 +109,7 @@ export function DoraChatMock() {
             <div className="max-w-[86%] rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe]/80 p-4 text-sm leading-6 text-slate-800">
               <span className="inline-flex items-center gap-2">
                 <span className="size-2 animate-pulse rounded-full bg-[#2563eb]" />
-                Dora is composing a bounded public answer...
+                Doraemon is composing a bounded public answer...
               </span>
             </div>
           ) : null}

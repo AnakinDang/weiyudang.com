@@ -4,7 +4,7 @@ import { ArrowRight, LockKeyhole, Sparkles } from "lucide-react";
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
-  { href: "/dora", label: "Dora" },
+  { href: "/dora", label: "Doraemon" },
   { href: "/lab", label: "Lab Notes" },
   { href: "/journal", label: "Journal" },
   { href: "/contact", label: "Contact" }

@@ -15,7 +15,7 @@ The website is not meant to be a standard personal resume page. After the light-
 - Personal identity for Weiyu Dang
 - Public explanation of Weiyu AI as one lab inside the personal site
 - Project index
-- Public Dora guide
+- Public Doraemon guide
 - Journal / Field Notes for photography, life notes, and personal observations
 - Private command center shell
 - Future bridge to internal agent and trading dashboards
@@ -60,7 +60,7 @@ Private app routes:
 
 ## Important Boundaries
 
-Public Dora page:
+Public Doraemon page:
 
 - Static mock in the MVP
 - Explains public project content only
@@ -80,7 +80,7 @@ Visual:
 
 - Public site uses a warm light theme, original bright studio imagery, and scoped `.page-shell` styles
 - Private `/app` keeps the dark dashboard shell
-- Dora/Doraemon imagery can be swapped into the Dora entrance later if Weiyu intentionally provides an asset for personal use
+- Doraemon imagery can be swapped into the Doraemon entrance later if Weiyu intentionally provides an asset for personal use
 - Homepage now includes pure front-end live studio signal, project filters, AI Lab tabs, and lab-feed interactions
 
 ## Files To Know
@@ -88,9 +88,9 @@ Visual:
 - `README.md` - local dev, validation, Vercel, Cloudflare notes
 - `web_desgin_v0.1.md` - original blueprint
 - `app/page.tsx` - homepage
-- `app/dora/page.tsx` - public Dora page
+- `app/dora/page.tsx` - public Doraemon page
 - `app/app/trading/page.tsx` - private trading dashboard route
-- `components/DoraChatMock.tsx` - static Dora guide mock
+- `components/DoraChatMock.tsx` - static Doraemon guide mock
 - `components/TradingDashboardMock.tsx` - read-only trading dashboard
 - `components/StudioScene.tsx` - bright personal research studio visual
 - `content/projects/*.mdx` - project content
@@ -130,7 +130,7 @@ Production should set a strong `APP_ACCESS_TOKEN` in Vercel.
 
 - `npm run build` passed
 - `npm audit --omit=dev` reported 0 vulnerabilities after PostCSS override/update
-- Browser preview checked homepage, project index, Dora mock interaction, and `/app/trading` login flow
+- Browser preview checked homepage, project index, Doraemon mock interaction, and `/app/trading` login flow
 
 ## Deployment Next Steps
 
@@ -145,7 +145,7 @@ Production should set a strong `APP_ACCESS_TOKEN` in Vercel.
 
 ## Future Work
 
-- Replace Dora static mock with constrained public content retrieval and API rate limiting.
+- Replace Doraemon static mock with constrained public content retrieval and API rate limiting.
 - Add Cloudflare Turnstile or equivalent bot protection for public forms/API.
 - Connect `/app/events` to a real authenticated event stream.
 - Connect `/app/trading` to read-only artifacts from MiniDora Trading.

@@ -4,7 +4,7 @@ export const publicKnowledgeOutputs = [
     href: "/projects",
     state: "Published",
     tone: "normal",
-    summary: "Curated public pages for systems, research tools, and Dora-related work."
+    summary: "Curated public pages for systems, research tools, and Doraemon-related work."
   },
   {
     title: "Lab notes",
@@ -21,7 +21,7 @@ export const publicKnowledgeOutputs = [
     summary: "Personal writing that keeps the site from feeling like a machine dashboard."
   },
   {
-    title: "Dora Office",
+    title: "Doraemon Office",
     href: "/dora/office",
     state: "Public view",
     tone: "normal",
@@ -95,7 +95,7 @@ export const privateKnowledgeQueue = [
     risk: "Needs public/private boundary pass"
   },
   {
-    title: "Dora Office release notes",
+    title: "Doraemon Office release notes",
     owner: "Dev MiniDora",
     state: "Working",
     tone: "info",

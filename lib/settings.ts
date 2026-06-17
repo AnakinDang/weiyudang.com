@@ -33,7 +33,7 @@ export const ownerAccessStatuses = [
 
 export const ownerDisplayModes = [
   { label: "Owner Cockpit", value: "Dense dashboard", tone: "info" },
-  { label: "Dora Office", value: "Warm command room", tone: "info" },
+  { label: "Doraemon Office", value: "Warm command room", tone: "info" },
   { label: "Public site", value: "Research studio", tone: "normal" }
 ] as const;
 

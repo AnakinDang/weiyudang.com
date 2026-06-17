@@ -49,7 +49,7 @@ Disallowed:
 - private runtime state
 - trading account data
 
-### Public Dora Entry
+### Public Doraemon Entry
 
 Example:
 
@@ -71,7 +71,7 @@ Disallowed:
 - tool execution
 - runtime control
 
-### Public Dora Office
+### Public Doraemon Office
 
 Examples:
 
@@ -112,7 +112,7 @@ Disallowed:
 - private registry fields
 - private scene metadata
 
-## Public Dora Office Event Schema
+## Public Doraemon Office Event Schema
 
 The public event schema is closed. A public event may contain only these
 semantic fields, plus timestamps and opaque IDs needed for pairing:

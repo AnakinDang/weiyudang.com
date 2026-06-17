@@ -55,7 +55,7 @@ export default function AboutPage() {
                 quantum computing, AI-assisted workflows, research tooling, and creative interfaces.
               </p>
               <p className="mt-6">
-                The AI lab on this site is one expression of that work. Dora, MiniDora, and Weiyu AI are ways to explore
+                The AI lab on this site is one expression of that work. Doraemon, MiniDora, and Weiyu AI are ways to explore
                 how a personal operating system could help with research, writing, building, and review while keeping
                 responsibility with the human owner.
               </p>
