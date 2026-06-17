@@ -164,10 +164,10 @@ textarea {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: calc(88svh - 4.75rem);
-  padding: 4.25rem 1.25rem 3rem;
+  min-height: calc(91svh - 4.75rem);
+  padding: 3.6rem 1.25rem 1.15rem;
   background:
-    radial-gradient(circle at 83% 22%, rgba(147, 197, 253, 0.22), transparent 35%),
+    linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.94) 34%, rgba(255, 255, 255, 0.22) 62%, transparent 100%),
     linear-gradient(180deg, #ffffff 0%, #ffffff 74%, #f8fbff 100%),
     #ffffff;
 }
@@ -177,23 +177,24 @@ textarea {
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(115deg, transparent 0%, transparent 47%, rgba(37, 99, 235, 0.038) 47.2%, transparent 58%),
-    linear-gradient(180deg, rgba(15, 23, 42, 0.035), transparent 28%);
+    linear-gradient(115deg, transparent 0%, transparent 52%, rgba(37, 99, 235, 0.035) 52.2%, transparent 65%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.026), transparent 26%);
   content: "";
 }
 
 .premium-hero-grid {
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(26rem, 0.82fr) minmax(32rem, 1.18fr);
+  grid-template-columns: minmax(25rem, 0.72fr) minmax(40rem, 1.28fr);
   align-items: center;
-  gap: 2rem;
+  gap: 1rem 1.5rem;
 }
 
 .premium-hero-copy {
   position: relative;
   z-index: 4;
   max-width: 36rem;
-  padding-block: 2rem;
+  padding-block: 2.6rem 4.5rem;
 }
 
 .premium-hero-title {
@@ -281,15 +282,47 @@ textarea {
 
 .living-system-visual {
   position: relative;
-  min-height: 34rem;
-  perspective: 1300px;
+  min-height: 38.5rem;
+  pointer-events: none;
+}
+
+.living-system-visual::before,
+.living-system-visual::after {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  content: "";
+}
+
+.living-system-visual::before {
+  right: 7%;
+  bottom: 8.8rem;
+  width: min(34rem, 74%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.52), rgba(244, 183, 64, 0.42), transparent);
+  opacity: 0.66;
+  transform: translateX(-1.4rem) rotate(-1.5deg) scaleX(0.72);
+  transform-origin: center;
+  animation: personal-os-signal-glide 5.6s ease-in-out infinite;
+}
+
+.living-system-visual::after {
+  right: 3%;
+  bottom: 5.4rem;
+  width: min(42rem, 88%);
+  height: 8.8rem;
+  border-top: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 50%;
+  opacity: 0.48;
+  transform: rotate(-2.4deg);
+  animation: personal-os-field-breathe 7.2s ease-in-out infinite;
 }
 
 .personal-os-asset {
   position: absolute;
-  inset: -3rem -5rem 0 -19rem;
+  inset: -4.8rem -12.5rem -2.5rem -22rem;
   z-index: 1;
-  overflow: hidden;
+  overflow: visible;
   pointer-events: none;
 }
 
@@ -298,298 +331,24 @@ textarea {
   height: 100%;
   object-fit: contain;
   object-position: center right;
-  opacity: 0.98;
-  filter: drop-shadow(0 34px 72px rgba(37, 99, 235, 0.08));
-  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.08) 13%, rgba(0, 0, 0, 0.92) 30%, #000 82%, transparent 100%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.08) 13%, rgba(0, 0, 0, 0.92) 30%, #000 82%, transparent 100%);
-}
-
-.system-plane {
-  position: absolute;
-  inset: 5.2rem 0 3.2rem;
-  z-index: 0;
-  overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.26);
-  border-radius: 28px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(241, 247, 255, 0.62)),
-    linear-gradient(115deg, rgba(37, 99, 235, 0.08), transparent 56%),
-    rgba(255, 255, 255, 0.74);
-  box-shadow:
-    0 34px 80px rgba(15, 23, 42, 0.13),
-    inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  transform: rotateX(58deg) rotateZ(-7deg) translateY(1.6rem);
-  transform-style: preserve-3d;
-}
-
-.system-plane::before,
-.system-plane::after {
-  position: absolute;
-  content: "";
-}
-
-.system-plane::before {
-  inset: 0;
-  border-radius: inherit;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.82), transparent 18%, transparent 82%, rgba(255, 255, 255, 0.88)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.76), transparent 36%);
-  pointer-events: none;
-}
-
-.system-plane::after {
-  right: 3.2rem;
-  bottom: 2.1rem;
-  width: 8.5rem;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(15, 23, 42, 0.18), rgba(15, 23, 42, 0.02));
-}
-
-.system-plane-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
-  background-size: 4rem 4rem;
-  mask-image: linear-gradient(120deg, transparent 0%, #000 18%, #000 78%, transparent 100%);
-  opacity: 0.48;
-}
-
-.system-track {
-  position: absolute;
-  left: 11%;
-  width: 74%;
-  height: 10rem;
-  border-top: 2px solid rgba(37, 99, 235, 0.3);
-  border-radius: 50%;
-  transform-origin: center;
-}
-
-.system-track::after {
-  position: absolute;
-  top: -2px;
-  left: 16%;
-  width: 9rem;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.7), transparent);
-  content: "";
-  animation: signal-flow 5.8s ease-in-out infinite;
-}
-
-.system-track-one {
-  top: 41%;
-  transform: rotate(-16deg);
-}
-
-.system-track-two {
-  top: 47%;
-  transform: rotate(5deg);
-}
-
-.system-track-two::after {
-  animation-delay: 1s;
-}
-
-.system-track-three {
-  top: 54%;
-  border-top-color: rgba(244, 183, 64, 0.34);
-  transform: rotate(18deg);
-}
-
-.system-track-three::after {
-  background: linear-gradient(90deg, transparent, rgba(244, 183, 64, 0.75), transparent);
-  animation-delay: 1.9s;
-}
-
-.system-track-four {
-  top: 32%;
-  width: 58%;
-  border-top-color: rgba(96, 165, 250, 0.25);
-  transform: rotate(28deg);
-}
-
-.system-track-four::after {
-  animation-delay: 2.5s;
-}
-
-.dora-core {
-  position: absolute;
-  top: 49%;
-  left: 62%;
-  z-index: 2;
-  width: 8rem;
-  height: 8rem;
-  transform: translate(-50%, -50%);
-}
-
-.dora-core-ring {
-  position: absolute;
-  inset: 2.25rem;
-  border: 1px solid rgba(37, 99, 235, 0.34);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow:
-    0 0 0 0.55rem rgba(37, 99, 235, 0.08),
-    0 0 34px rgba(37, 99, 235, 0.18);
-  animation: core-breathe 3.8s ease-in-out infinite;
-}
-
-.dora-core-beam {
-  position: absolute;
-  left: 50%;
-  bottom: 52%;
-  width: 3.6rem;
-  height: 10rem;
-  background:
-    linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.18), transparent),
-    repeating-linear-gradient(90deg, transparent 0 0.42rem, rgba(37, 99, 235, 0.16) 0.44rem 0.47rem);
-  clip-path: polygon(47% 100%, 53% 100%, 100% 0, 0 0);
-  transform: translateX(-50%);
-  opacity: 0.72;
-  animation: core-beam 4.6s ease-in-out infinite;
-}
-
-.dora-core-label,
-.context-stack p,
-.agent-network p {
-  color: #1d4ed8;
-  font-size: 0.72rem;
-  font-weight: 750;
-  text-transform: uppercase;
-}
-
-.dora-core-label {
-  position: absolute;
-  left: 50%;
-  bottom: 8.4rem;
-  border: 1px solid rgba(191, 219, 254, 0.7);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
-  padding: 0.42rem 0.62rem;
-  white-space: nowrap;
-  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
-  transform: translateX(-50%);
-}
-
-.agent-network,
-.context-stack,
-.privacy-boundary {
-  position: absolute;
-  z-index: 3;
-  color: #475569;
-  font-size: 0.75rem;
-  line-height: 1.45;
-}
-
-.agent-network {
-  top: 33%;
-  right: 4%;
-  min-width: 8.5rem;
-  border: 1px solid rgba(191, 219, 254, 0.62);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.72);
-  padding: 0.85rem;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
-  backdrop-filter: blur(14px);
-}
-
-.agent-network ul,
-.context-stack ul {
-  display: grid;
-  gap: 0.55rem;
-  margin: 0.75rem 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.agent-network li,
-.context-stack li {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.system-node {
-  width: 0.54rem;
-  height: 0.54rem;
-  border: 2px solid rgba(255, 255, 255, 0.92);
-  border-radius: 999px;
-  background: #2563eb;
-  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.25);
-  animation: node-breathe 2.8s ease-in-out infinite;
-}
-
-.system-node-researcher {
-  animation-delay: 0.25s;
-}
-
-.system-node-builder {
-  animation-delay: 0.5s;
-}
-
-.system-node-analyst {
-  background: #f4b740;
-  animation-delay: 0.75s;
-}
-
-.context-stack {
-  left: 7%;
-  bottom: 22%;
-  display: grid;
-  border: 1px solid rgba(221, 231, 240, 0.72);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.72);
-  padding: 0.85rem;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.07);
-  backdrop-filter: blur(14px);
-}
-
-.privacy-boundary {
-  right: 5%;
-  bottom: 17%;
-  display: grid;
-  gap: 0.75rem;
-  border: 1px solid rgba(221, 231, 240, 0.72);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.74);
-  padding: 0.85rem;
-  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.07);
-  backdrop-filter: blur(14px);
-}
-
-.privacy-boundary div {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  column-gap: 0.5rem;
-}
-
-.privacy-boundary span {
-  color: #0f172a;
-  font-size: 0.76rem;
-  font-weight: 750;
-  text-transform: uppercase;
-}
-
-.privacy-boundary small {
-  grid-column: 2;
-  color: #64748b;
-  font-size: 0.72rem;
+  opacity: 0.99;
+  filter: drop-shadow(0 34px 70px rgba(37, 99, 235, 0.1));
+  animation: personal-os-portal-drift 12s ease-in-out infinite;
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 18%, rgba(0, 0, 0, 0.78) 35%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 18%, rgba(0, 0, 0, 0.78) 35%, #000 88%, transparent 100%);
 }
 
 .dora-entry-dock {
-  position: absolute;
-  right: auto;
-  bottom: 1rem;
-  left: 50%;
+  position: relative;
+  grid-column: 1 / -1;
   z-index: 5;
+  justify-self: center;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 1.15rem;
-  width: min(1180px, calc(100% - 2.5rem));
-  margin: 0 auto;
+  width: min(1080px, 100%);
+  margin: -3.5rem auto 0;
   border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.86);
@@ -601,13 +360,12 @@ textarea {
     border-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
-  transform: translateX(-50%);
 }
 
 .dora-entry-dock:hover {
   border-color: rgba(37, 99, 235, 0.26);
   box-shadow: 0 26px 70px rgba(37, 99, 235, 0.12);
-  transform: translate(-50%, -1px);
+  transform: translateY(-1px);
 }
 
 .dora-entry-dock-label {
@@ -5439,45 +5197,43 @@ textarea {
   }
 }
 
-@keyframes signal-flow {
-  0% {
-    opacity: 0;
-    transform: translateX(-20%) scaleX(0.6);
-  }
-
-  35% {
-    opacity: 0.9;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(330%) scaleX(1);
-  }
-}
-
-@keyframes core-breathe {
+@keyframes personal-os-portal-drift {
   0%,
   100% {
-    transform: scale(1);
-    opacity: 0.86;
+    transform: translateY(0) scale(1);
   }
 
   50% {
-    transform: scale(1.08);
-    opacity: 1;
+    transform: translateY(-0.42rem) scale(1.006);
   }
 }
 
-@keyframes core-beam {
+@keyframes personal-os-signal-glide {
   0%,
   100% {
-    opacity: 0.42;
-    transform: translateX(-50%) scaleY(0.92);
+    opacity: 0.28;
+    transform: translateX(-1.6rem) rotate(-1.5deg) scaleX(0.64);
   }
 
-  50% {
+  45% {
     opacity: 0.82;
-    transform: translateX(-50%) scaleY(1.04);
+  }
+
+  50% {
+    transform: translateX(1.6rem) rotate(-1.5deg) scaleX(1);
+  }
+}
+
+@keyframes personal-os-field-breathe {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: rotate(-2.4deg) scale(0.985);
+  }
+
+  50% {
+    opacity: 0.58;
+    transform: rotate(-2.4deg) scale(1.015);
   }
 }
 
@@ -5656,10 +5412,9 @@ textarea {
   .dora-office-stage-agents::after,
   .dora-office-stage-agent,
   .dora-office-stage-agent span,
-  .system-track::after,
-  .dora-core-ring,
-  .dora-core-beam,
-  .system-node,
+  .living-system-visual::before,
+  .living-system-visual::after,
+  .personal-os-asset img,
   .home-agent-pulse {
     animation: none;
   }
@@ -5667,7 +5422,7 @@ textarea {
 
 @media (max-width: 1180px) and (min-width: 1041px) {
   .premium-hero-grid {
-    grid-template-columns: minmax(24rem, 0.86fr) minmax(29rem, 1.14fr);
+    grid-template-columns: minmax(23rem, 0.78fr) minmax(34rem, 1.22fr);
     gap: 1.2rem;
   }
 
@@ -5676,18 +5431,18 @@ textarea {
   }
 
   .living-system-visual {
-    min-height: 32rem;
+    min-height: 34.5rem;
   }
 
   .personal-os-asset {
-    inset: -2.2rem -4rem 0 -15rem;
+    inset: -3.2rem -8rem -2rem -18rem;
   }
 }
 
 @media (max-width: 1040px) {
   .premium-hero {
     min-height: auto;
-    padding-top: 4rem;
+    padding-top: 3.4rem;
   }
 
   .premium-hero-grid {
@@ -5697,19 +5452,29 @@ textarea {
 
   .premium-hero-copy {
     max-width: 46rem;
-    padding-block: 0;
+    padding-block: 0 0.35rem;
   }
 
   .living-system-visual {
-    min-height: 29rem;
+    min-height: 30rem;
   }
 
   .personal-os-asset {
-    inset: -2rem -2rem 0 -9rem;
+    inset: -2.5rem -8rem -1rem -10rem;
+  }
+
+  .living-system-visual::before {
+    right: 1rem;
+    bottom: 7.5rem;
+  }
+
+  .living-system-visual::after {
+    right: 0;
+    bottom: 4.8rem;
   }
 
   .dora-entry-dock {
-    bottom: 1rem;
+    margin-top: -2.2rem;
   }
 }
 
@@ -5761,46 +5526,32 @@ textarea {
   }
 
   .living-system-visual {
-    min-height: 18.5rem;
-    margin-inline: -0.25rem;
+    min-height: 21.5rem;
+    margin-inline: -1rem;
     overflow: hidden;
   }
 
   .personal-os-asset {
-    inset: -1.25rem -7rem 0 -8rem;
+    inset: -1.3rem -9.25rem -0.25rem -10.25rem;
   }
 
-  .agent-network {
-    top: 18%;
-    right: 3%;
-    transform: scale(0.86);
-    transform-origin: top right;
+  .living-system-visual::before {
+    right: 0.25rem;
+    bottom: 6.25rem;
+    width: 76%;
   }
 
-  .context-stack {
-    display: none;
-  }
-
-  .dora-core {
-    top: 48%;
-    left: 57%;
-    transform: translate(-50%, -50%) scale(0.74);
-  }
-
-  .dora-core-label {
-    display: none;
-  }
-
-  .privacy-boundary {
-    right: 3%;
-    bottom: 11%;
-    transform: scale(0.82);
-    transform-origin: bottom left;
+  .living-system-visual::after {
+    right: -1.25rem;
+    bottom: 4.2rem;
+    width: 92%;
+    height: 6.5rem;
   }
 
   .dora-entry-dock {
     grid-template-columns: 1fr auto;
     gap: 0.8rem 1rem;
+    margin-top: -1.1rem;
     padding: 0.82rem 0.9rem;
   }
 
