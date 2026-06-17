@@ -53,7 +53,7 @@ export default function HomePage() {
     <SiteChrome>
       <HeroSection />
 
-      <section className="section">
+      <section id="os-layers" className="section">
         <div className="container">
           <SectionHeading
             eyebrow="Personal OS layers"
