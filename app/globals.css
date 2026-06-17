@@ -4337,7 +4337,8 @@ textarea {
   text-transform: uppercase;
 }
 
-.dora-office-route-rail nav {
+.dora-office-route-rail nav,
+.dora-office-rail-links {
   display: grid;
   gap: 0.28rem;
 }
@@ -4925,6 +4926,127 @@ textarea {
   font-weight: 780;
 }
 
+.dora-office-subpage {
+  min-height: calc(100vh - 4.5rem);
+  background:
+    radial-gradient(circle at 78% 10%, rgba(37, 99, 235, 0.08), transparent 34rem),
+    radial-gradient(circle at 22% 18%, rgba(244, 183, 64, 0.08), transparent 28rem),
+    #ffffff;
+  color: #05070a;
+}
+
+.dora-office-subpage-shell {
+  display: grid;
+  grid-template-columns: 13.8rem minmax(0, 1fr);
+  align-items: start;
+  gap: 2rem;
+  width: min(100% - 4.5rem, 1328px);
+  padding-block: 1.05rem 3.4rem;
+}
+
+.dora-office-subpage-main {
+  min-width: 0;
+}
+
+.dora-office-subpage-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.4rem;
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  padding-bottom: 1.25rem;
+}
+
+.dora-office-subpage-kicker {
+  margin: 0;
+  color: #2563eb;
+  font-size: 0.76rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.dora-office-subpage-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.55rem;
+}
+
+.dora-office-subpage-title-row h1 {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(2.55rem, 4.5vw, 4.6rem);
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 0.95;
+}
+
+.dora-office-agent-dot {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.3);
+  animation: office-agent-pulse 2.8s ease-out infinite;
+}
+
+.dora-office-subpage-summary {
+  max-width: 48rem;
+  margin: 0.9rem 0 0;
+  color: #475569;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+.dora-office-subpage-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex: none;
+}
+
+.dora-office-boundary-strip {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.72rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(191, 219, 254, 0.66);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  padding: 0.9rem 1rem;
+  color: #475569;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.04);
+}
+
+.dora-office-boundary-strip > svg {
+  margin-top: 0.08rem;
+  color: #2563eb;
+}
+
+.dora-office-boundary-strip p {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 620;
+  line-height: 1.55;
+}
+
+.dora-office-subpage-content {
+  margin-top: 1.4rem;
+}
+
+.dora-office-subpage-content .panel {
+  border-color: rgba(191, 219, 254, 0.58);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.055);
+  backdrop-filter: blur(18px);
+}
+
+.dora-office-subpage-content .mono {
+  color: #64748b;
+}
+
 @media (max-width: 1180px) {
   .dora-office-live-shell {
     grid-template-columns: 13rem minmax(0, 1fr);
@@ -4949,6 +5071,12 @@ textarea {
   .dora-office-metrics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .dora-office-subpage-shell {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    width: min(100% - 3rem, 1080px);
+    padding-top: 1rem;
+  }
 }
 
 @media (max-width: 900px) {
@@ -4965,7 +5093,8 @@ textarea {
     padding: 0.9rem;
   }
 
-  .dora-office-route-rail nav {
+  .dora-office-route-rail nav,
+  .dora-office-rail-links {
     display: flex;
     gap: 0.4rem;
     overflow-x: auto;
@@ -5041,6 +5170,22 @@ textarea {
   .dora-office-metrics,
   .dora-office-more {
     width: min(100% - 2rem, 760px);
+  }
+
+  .dora-office-subpage-shell {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    width: min(100% - 2rem, 760px);
+    padding-top: 1.2rem;
+  }
+
+  .dora-office-subpage-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dora-office-subpage-badges {
+    justify-content: flex-start;
   }
 }
 
@@ -5228,6 +5373,28 @@ textarea {
     gap: 0.82rem;
     width: min(100% - 2rem, 420px);
     padding-bottom: 2.4rem;
+  }
+
+  .dora-office-subpage {
+    background: #ffffff;
+  }
+
+  .dora-office-subpage-shell {
+    width: min(100% - 2rem, 420px);
+    padding-top: 1.2rem;
+    padding-bottom: 2.4rem;
+  }
+
+  .dora-office-subpage-title-row h1 {
+    font-size: 2.45rem;
+  }
+
+  .dora-office-subpage-summary {
+    font-size: 0.94rem;
+  }
+
+  .dora-office-boundary-strip {
+    padding: 0.82rem 0.9rem;
   }
 }
 
@@ -5481,6 +5648,7 @@ textarea {
   .office-agent-card,
   .office-agent-pulse,
   .dora-office-live-mode span,
+  .dora-office-agent-dot,
   .dora-office-stage-panel::before,
   .dora-office-portal-art::after,
   .dora-office-portal-art img,
