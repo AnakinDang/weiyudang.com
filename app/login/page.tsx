@@ -3,8 +3,8 @@ import Link from "next/link";
 import { ArrowLeft, LockKeyhole, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Private Access",
-  description: "Private access for Weiyu Dang's command center."
+  title: "Private Owner Area",
+  description: "Owner-only access for Weiyu Dang."
 };
 
 type LoginPageProps = {
@@ -20,6 +20,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const next = params.next?.startsWith("/app") ? params.next : "/app";
   const error = params.error === "1";
   const missingConfig = params.config === "missing";
+  const showDevTokenHint = process.env.NODE_ENV === "development";
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#08111f] px-5 py-12 text-slate-100">
@@ -31,9 +32,9 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <div className="mt-8 flex size-14 items-center justify-center rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 text-yellow-100">
           <LockKeyhole size={28} aria-hidden />
         </div>
-        <h1 className="mt-5 text-3xl font-semibold text-white">Private Command Center</h1>
+        <h1 className="mt-5 text-3xl font-semibold text-white">Private owner area</h1>
         <p className="mt-3 text-sm leading-6 text-slate-300">
-          This shell is for Weiyu's internal dashboards. Use APP_ACCESS_TOKEN in Vercel before production deployment.
+          This gate protects owner-only routes. Private app content is not rendered until the owner session is valid.
         </p>
         {error ? (
           <div className="mt-5 rounded-[8px] border border-red-300/30 bg-red-300/10 p-3 text-sm text-red-100">
@@ -63,7 +64,10 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           </button>
         </form>
         <p className="mt-5 text-xs leading-5 text-slate-500">
-          Local development accepts demo-access when APP_ACCESS_TOKEN is not set. Production should use a strong secret.
+          {showDevTokenHint
+            ? "Local development accepts demo-access when APP_ACCESS_TOKEN is not set."
+            : "Production access requires a configured owner token."}{" "}
+          The session cookie is HttpOnly and scoped to `/app`.
         </p>
       </section>
     </main>

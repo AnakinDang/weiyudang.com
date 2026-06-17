@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getOwnerAccessSecret, OWNER_SESSION_COOKIE, verifyOwnerSession } from "@/lib/auth-session";
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   if (!request.nextUrl.pathname.startsWith("/app")) {
     return NextResponse.next();
   }
 
-  const isAuthed = request.cookies.get("weiyu_app_auth")?.value === "authenticated";
+  const isAuthed = await verifyOwnerSession(
+    request.cookies.get(OWNER_SESSION_COOKIE)?.value,
+    getOwnerAccessSecret()
+  );
 
   if (isAuthed) {
     return NextResponse.next();

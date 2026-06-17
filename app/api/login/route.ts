@@ -1,11 +1,44 @@
+import { createHash, timingSafeEqual } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
+import {
+  createOwnerSession,
+  getOwnerAccessSecret,
+  OWNER_SESSION_COOKIE,
+  OWNER_SESSION_TTL_SECONDS
+} from "@/lib/auth-session";
+
+function hashValue(value: string) {
+  return createHash("sha256").update(value).digest();
+}
+
+function safeEquals(input: string, expected: string) {
+  return timingSafeEqual(hashValue(input), hashValue(expected));
+}
+
+function safeOwnerNextPath(value: string) {
+  const fallback = "/app";
+  if (!value.startsWith("/")) {
+    return fallback;
+  }
+
+  try {
+    const base = "https://owner.local";
+    const parsed = new URL(value, base);
+    if (parsed.origin !== base || !/^\/app(?:\/|$)/.test(parsed.pathname)) {
+      return fallback;
+    }
+    return `${parsed.pathname}${parsed.search}`;
+  } catch {
+    return fallback;
+  }
+}
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const token = String(formData.get("token") ?? "");
   const nextValue = String(formData.get("next") ?? "/app");
-  const safeNext = nextValue.startsWith("/app") ? nextValue : "/app";
-  const expected = process.env.APP_ACCESS_TOKEN || (process.env.NODE_ENV === "development" ? "demo-access" : "");
+  const safeNext = safeOwnerNextPath(nextValue);
+  const expected = getOwnerAccessSecret();
 
   if (!expected) {
     const url = new URL("/login", request.url);
@@ -14,7 +47,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.redirect(url, 303);
   }
 
-  if (token !== expected) {
+  if (!safeEquals(token, expected)) {
     const url = new URL("/login", request.url);
     url.searchParams.set("next", safeNext);
     url.searchParams.set("error", "1");
@@ -22,12 +55,12 @@ export async function POST(request: NextRequest) {
   }
 
   const response = NextResponse.redirect(new URL(safeNext, request.url), 303);
-  response.cookies.set("weiyu_app_auth", "authenticated", {
+  response.cookies.set(OWNER_SESSION_COOKIE, await createOwnerSession(expected), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
-    path: "/",
-    maxAge: 60 * 60 * 8
+    path: "/app",
+    maxAge: OWNER_SESSION_TTL_SECONDS
   });
   return response;
 }

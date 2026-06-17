@@ -47,12 +47,12 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
           </Link>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_22rem]">
             <article>
-              <p className="eyebrow">{project.category}</p>
+              <p className="eyebrow">{project.categoryLabel}</p>
               <h1 className="mt-4 max-w-4xl text-4xl font-semibold text-slate-950 md:text-6xl">{project.title}</h1>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">{project.summary}</p>
               <div className="mt-6 flex flex-wrap gap-2">
-                <StatusBadge tone="info">{project.visibility}</StatusBadge>
-                <StatusBadge tone="warning">{project.status}</StatusBadge>
+                <StatusBadge tone="info">{project.visibilityLabel}</StatusBadge>
+                <StatusBadge tone="warning">{project.statusLabel}</StatusBadge>
               </div>
               <MarkdownBody body={project.body} />
             </article>

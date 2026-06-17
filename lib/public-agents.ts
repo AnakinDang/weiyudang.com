@@ -1,0 +1,117 @@
+import fs from "node:fs";
+import path from "node:path";
+
+export const publicAgentStates = {
+  idle: "Idle",
+  planning: "Planning",
+  researching: "Working",
+  coding: "Working",
+  writing: "Working",
+  tool_call: "Tool call",
+  handoff: "Handoff",
+  waiting_user: "Owner review",
+  error: "Attention",
+  done: "Completed",
+  offline: "Offline",
+  demo: "Demo"
+} as const;
+
+export type PublicAgentState = keyof typeof publicAgentStates;
+
+export type PublicAgent = {
+  publicId: string;
+  displayName: string;
+  role: string;
+  state: PublicAgentState;
+  stateLabel: string;
+  summary: string;
+  colorToken: string;
+};
+
+type RawAgent = {
+  id: string;
+  state?: unknown;
+};
+
+const publicAgentRegistry = {
+  doraemon: {
+    publicId: "agent_dora",
+    displayName: "Doraemon",
+    role: "Orchestrator",
+    summary: "Translates ideas into plans, handoffs, summaries, and review checkpoints.",
+    colorToken: "dora-blue"
+  },
+  "minidora-research": {
+    publicId: "agent_research",
+    displayName: "Research MiniDora",
+    role: "Research",
+    summary: "Finds source-backed context and prepares evidence briefs.",
+    colorToken: "dora-blue"
+  },
+  "minidora-dev": {
+    publicId: "agent_dev",
+    displayName: "Dev MiniDora",
+    role: "Engineering",
+    summary: "Turns product slices into working software artifacts.",
+    colorToken: "success"
+  },
+  "minidora-media": {
+    publicId: "agent_media",
+    displayName: "Media MiniDora",
+    role: "Creative Production",
+    summary: "Builds repeatable workflows for images, video, and story assets.",
+    colorToken: "bell-yellow"
+  },
+  "minidora-trading": {
+    publicId: "agent_trading",
+    displayName: "Trading MiniDora",
+    role: "Trading Research",
+    summary: "Maintains an evidence-first research queue with owner review.",
+    colorToken: "warning"
+  }
+} as const;
+
+const publicAgentOrder = [
+  "doraemon",
+  "minidora-research",
+  "minidora-dev",
+  "minidora-media",
+  "minidora-trading"
+] as const;
+
+type KnownAgentId = (typeof publicAgentOrder)[number];
+
+function isKnownAgentId(id: string): id is KnownAgentId {
+  return id in publicAgentRegistry;
+}
+
+export function getPublicAgents(): PublicAgent[] {
+  const folder = path.join(process.cwd(), "content", "agents");
+  const stateById = new Map<KnownAgentId, PublicAgentState>();
+
+  fs
+    .readdirSync(folder)
+    .filter((file) => file.endsWith(".json"))
+    .map((file) => JSON.parse(fs.readFileSync(path.join(folder, file), "utf8")) as RawAgent)
+    .forEach((agent) => {
+      if (!isKnownAgentId(agent.id)) {
+        return;
+      }
+
+      stateById.set(
+        agent.id,
+        typeof agent.state === "string" && agent.state in publicAgentStates ? (agent.state as PublicAgentState) : "idle"
+      );
+    });
+
+  return publicAgentOrder.map((agentId) => {
+    const registryEntry = publicAgentRegistry[agentId];
+    const state = stateById.get(agentId) ?? "idle";
+
+    return {
+      ...registryEntry,
+      state,
+      stateLabel: publicAgentStates[state]
+    };
+  });
+}

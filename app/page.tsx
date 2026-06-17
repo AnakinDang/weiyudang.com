@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Atom, Bot, BrainCircuit, Contact, LineChart, LockKeyhole, Sparkles, Workflow } from "lucide-react";
+import { ArrowRight, Bot, Contact, LineChart, LockKeyhole, MonitorPlay, Sparkles } from "lucide-react";
 import { AiLabPanel } from "@/components/AiLabPanel";
 import { HeroSection } from "@/components/HeroSection";
 import { JournalCard } from "@/components/JournalCard";
@@ -9,25 +9,37 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { SiteChrome } from "@/components/SiteChrome";
 import { getLatestJournalEntries, getLatestNotes, getProjects } from "@/lib/content";
 
-const snapshot = [
+const operatingLayers = [
   {
-    title: "Physics",
-    summary: "Questions about the physical world, mathematical structure, and how ideas become intuition.",
-    icon: Atom
+    title: "Public studio",
+    summary: "Projects, lab notes, journal entries, and contact paths that explain the work without private internals.",
+    boundary: "public",
+    actionLabel: "Visit studio",
+    href: "/projects",
+    icon: Sparkles
   },
   {
-    title: "Quantum Computing",
-    summary: "Learning the language of quantum systems while tracing what useful computation may become.",
-    icon: BrainCircuit
+    title: "Dora Office",
+    summary: "A public command-room view for Doraemon, MiniDoras, activity, schedules, and system heartbeat.",
+    boundary: "public-safe",
+    actionLabel: "Open Dora",
+    href: "/dora",
+    icon: MonitorPlay
   },
   {
-    title: "AI Systems",
-    summary: "Personal agents, workflow tools, and interfaces that keep human judgment in the loop.",
-    icon: Workflow
+    title: "Owner cockpit",
+    summary: "The private daily surface for priorities, commands, review queues, schedules, and knowledge work.",
+    boundary: "owner-only",
+    actionLabel: "Open cockpit",
+    href: "/app",
+    icon: LockKeyhole
   },
   {
-    title: "Trading Research",
-    summary: "Evidence-first market notes, paper research, and decision support instead of live execution.",
+    title: "Trading team",
+    summary: "MiniDora research desks for signals, instruments, evidence, gates, and replay without execution.",
+    boundary: "research-only",
+    actionLabel: "View research",
+    href: "/projects/minidora-trading",
     icon: LineChart
   }
 ];
@@ -44,21 +56,26 @@ export default function HomePage() {
       <section className="section">
         <div className="container">
           <SectionHeading
-            eyebrow="Personal snapshot"
-            title="A small research studio around physics, AI, and creative tools."
-            summary="The site starts with Weiyu as the center of gravity. Projects, notes, and AI systems are organized as extensions of that curiosity."
+            eyebrow="Personal OS layers"
+            title="One site, four connected surfaces."
+            summary="The public site explains the work; Dora makes the agent office legible; the private cockpit carries daily operations; trading stays research-only."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {snapshot.map((item) => {
+            {operatingLayers.map((item) => {
               const Icon = item.icon;
               return (
-                <article key={item.title} className="panel p-5">
+                <Link key={item.title} href={item.href} className="link-focus panel p-5 transition hover:-translate-y-0.5 hover:border-[#bfdbfe]">
                   <span className="flex size-11 items-center justify-center rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] text-[#2563eb]">
                     <Icon size={22} aria-hidden />
                   </span>
+                  <p className="mt-5 text-xs font-bold uppercase text-[#9a6a08]">{item.boundary}</p>
                   <h3 className="mt-5 text-xl font-semibold text-slate-950">{item.title}</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{item.summary}</p>
-                </article>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#1d4ed8]">
+                    {item.actionLabel}
+                    <ArrowRight size={15} aria-hidden />
+                  </span>
+                </Link>
               );
             })}
           </div>
