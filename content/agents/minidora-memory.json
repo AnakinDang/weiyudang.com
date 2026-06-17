@@ -1,0 +1,7 @@
+{
+  "id": "minidora-memory",
+  "name": "Memory MiniDora",
+  "role": "Knowledge",
+  "state": "idle",
+  "summary": "Maintains durable context, summaries, and knowledge hygiene."
+}

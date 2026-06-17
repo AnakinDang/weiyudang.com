@@ -75,12 +75,12 @@ const contextItems = [
 
 const heroNodes = [
   "Research MiniDora",
-  "Strategy MiniDora",
-  "Data MiniDora",
-  "Market MiniDora",
-  "Operations MiniDora",
-  "Writing MiniDora",
-  "Memory MiniDora"
+  "Dev MiniDora",
+  "Product MiniDora",
+  "Ops MiniDora",
+  "Memory MiniDora",
+  "Trading MiniDora",
+  "Media MiniDora"
 ] as const;
 
 const miniDoraRoles = [
@@ -89,28 +89,28 @@ const miniDoraRoles = [
     summary: "Finds signals, reads deeply, and prepares evidence."
   },
   {
-    name: "Strategy MiniDora",
-    summary: "Turns inputs into clear plans and scenarios."
+    name: "Dev MiniDora",
+    summary: "Turns product slices into working software."
   },
   {
-    name: "Writing MiniDora",
-    summary: "Drafts, edits, and communicates with clarity."
+    name: "Product MiniDora",
+    summary: "Shapes scope, quality, and release rhythm."
   },
   {
-    name: "Data MiniDora",
-    summary: "Structures data, builds views, and keeps things clean."
-  },
-  {
-    name: "Market MiniDora",
-    summary: "Scans market context as research only."
-  },
-  {
-    name: "Operations MiniDora",
-    summary: "Runs routines and keeps systems healthy."
+    name: "Ops MiniDora",
+    summary: "Keeps schedules, health, and routines clear."
   },
   {
     name: "Memory MiniDora",
     summary: "Maintains long-term context and knowledge."
+  },
+  {
+    name: "Trading MiniDora",
+    summary: "Organizes market research with no execution."
+  },
+  {
+    name: "Media MiniDora",
+    summary: "Creates public-safe visuals and story assets."
   }
 ] as const;
 
@@ -220,11 +220,14 @@ export default function DoraPage() {
                     <Radio size={14} aria-hidden />
                     Live activity (public-safe)
                   </span>
-                  <small>Updated just now</small>
+                  <small>Public demo window</small>
                 </div>
                 <div className="doraemon-activity-ticks">
                   {recentEvents.map((event) => (
-                    <div key={event.event_id}>
+                    <div
+                      key={event.event_id}
+                      className={`doraemon-activity-tick doraemon-activity-tick-${event.severity}`}
+                    >
                       <time>{formatPublicEventTime(event.created_at)}</time>
                       <strong>{event.agent}</strong>
                       <span>{event.title}</span>

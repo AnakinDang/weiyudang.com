@@ -1,0 +1,7 @@
+{
+  "id": "minidora-ops",
+  "name": "Ops MiniDora",
+  "role": "Operations",
+  "state": "tool_call",
+  "summary": "Watches routines, schedules, and public-safe system health."
+}

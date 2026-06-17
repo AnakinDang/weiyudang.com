@@ -100,14 +100,42 @@ export const publicDoraEvents: PublicDoraEvent[] = [
     event_id: "evt_105e5a2c",
     created_at: "2026-06-13T11:01:00+08:00",
     event_type: "agent_work",
-    agent: "Trading MiniDora",
+    agent: "Product MiniDora",
+    state: "Planning",
+    severity: "normal",
+    title: "Planning"
+  },
+  {
+    event_id: "evt_5c12d9aa",
+    created_at: "2026-06-13T11:00:00+08:00",
+    event_type: "system",
+    agent: "Ops MiniDora",
+    state: "Tool call",
+    severity: "info",
+    title: "System check",
+    tool_name: "browser_check"
+  },
+  {
+    event_id: "evt_6aa103df",
+    created_at: "2026-06-13T10:59:00+08:00",
+    event_type: "agent_work",
+    agent: "Memory MiniDora",
     state: "Working",
     severity: "normal",
     title: "Working"
   },
   {
-    event_id: "evt_5c12d9aa",
-    created_at: "2026-06-13T11:00:00+08:00",
+    event_id: "evt_7b24cb90",
+    created_at: "2026-06-13T10:58:00+08:00",
+    event_type: "owner_review",
+    agent: "Trading MiniDora",
+    state: "Owner review",
+    severity: "warning",
+    title: "Owner review"
+  },
+  {
+    event_id: "evt_8d19fe43",
+    created_at: "2026-06-13T10:57:00+08:00",
     event_type: "agent_work",
     agent: "Media MiniDora",
     state: "Working",
