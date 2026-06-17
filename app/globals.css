@@ -5848,7 +5848,7 @@ textarea {
 .doraemon-portal-stage {
   position: absolute;
   /* v3 portal art keeps a quiet left safe zone; this bleed makes the doorway feel integrated with the hero. */
-  inset: -4.2rem -2.8rem 5.45rem -13.6rem;
+  inset: -2.6rem -2.8rem 5.45rem -13.6rem;
   z-index: 1;
   overflow: hidden;
 }
@@ -6425,7 +6425,7 @@ textarea {
   }
 
   .doraemon-portal-stage {
-    inset: -1.7rem -1.45rem 5.5rem 0;
+    inset: -0.75rem -1.2rem 5.5rem -0.35rem;
   }
 
   .doraemon-agent-strip {
