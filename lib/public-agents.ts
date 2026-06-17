@@ -21,6 +21,7 @@ export type PublicAgentState = keyof typeof publicAgentStates;
 export type PublicAgent = {
   publicId: string;
   displayName: string;
+  stageName: string;
   role: string;
   state: PublicAgentState;
   stateLabel: string;
@@ -37,6 +38,7 @@ const publicAgentRegistry = {
   doraemon: {
     publicId: "agent_dora",
     displayName: "Doraemon",
+    stageName: "Doraemon",
     role: "Orchestrator",
     summary: "Translates ideas into plans, handoffs, summaries, and review checkpoints.",
     colorToken: "dora-blue"
@@ -44,6 +46,7 @@ const publicAgentRegistry = {
   "minidora-research": {
     publicId: "agent_research",
     displayName: "Research MiniDora",
+    stageName: "Research",
     role: "Research",
     summary: "Finds source-backed context and prepares evidence briefs.",
     colorToken: "dora-blue"
@@ -51,6 +54,7 @@ const publicAgentRegistry = {
   "minidora-dev": {
     publicId: "agent_dev",
     displayName: "Dev MiniDora",
+    stageName: "Dev",
     role: "Engineering",
     summary: "Turns product slices into working software artifacts.",
     colorToken: "success"
@@ -58,6 +62,7 @@ const publicAgentRegistry = {
   "minidora-product": {
     publicId: "agent_product",
     displayName: "Product MiniDora",
+    stageName: "Product",
     role: "Product Quality",
     summary: "Keeps scope, review standards, and release rhythm clear.",
     colorToken: "dora-blue"
@@ -65,6 +70,7 @@ const publicAgentRegistry = {
   "minidora-ops": {
     publicId: "agent_ops",
     displayName: "Ops MiniDora",
+    stageName: "Ops",
     role: "Operations",
     summary: "Watches routines, schedules, and public-safe system health.",
     colorToken: "success"
@@ -72,6 +78,7 @@ const publicAgentRegistry = {
   "minidora-memory": {
     publicId: "agent_memory",
     displayName: "Memory MiniDora",
+    stageName: "Memory",
     role: "Knowledge",
     summary: "Maintains durable context, summaries, and knowledge hygiene.",
     colorToken: "dora-blue"
@@ -79,6 +86,7 @@ const publicAgentRegistry = {
   "minidora-trading": {
     publicId: "agent_trading",
     displayName: "Trading MiniDora",
+    stageName: "Trading",
     role: "Trading Research",
     summary: "Maintains an evidence-first research queue with owner review.",
     colorToken: "warning"
@@ -86,6 +94,7 @@ const publicAgentRegistry = {
   "minidora-media": {
     publicId: "agent_media",
     displayName: "Media MiniDora",
+    stageName: "Media",
     role: "Creative Production",
     summary: "Builds repeatable workflows for images, video, and story assets.",
     colorToken: "bell-yellow"

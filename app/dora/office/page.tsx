@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -6,199 +7,330 @@ import {
   Bot,
   CalendarClock,
   ClipboardList,
+  Eye,
+  Home,
+  Info,
+  LockKeyhole,
   MonitorPlay,
   Radio,
-  ShieldCheck
+  ShieldCheck,
+  Sparkles
 } from "lucide-react";
-import { DoraOfficeShell } from "@/components/DoraOfficeShell";
+import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   DORA_LIVE_BRIDGE_URL,
+  doraOfficeRoutes,
   formatPublicEventTime,
-  getPublicAgentTone,
   getRecentPublicDoraEvents,
-  publicDoraTasks,
   publicSchedules
 } from "@/lib/dora-office";
 import { getPublicAgents } from "@/lib/public-agents";
+
+// Keep this in sync with the seven .dora-office-stage-agent-N visual slots.
+const MAX_STAGE_AGENTS = 7;
 
 export const metadata: Metadata = {
   title: "Doraemon Office",
   description: "The public live/demo Doraemon Office view without private task names, prompts, accounts, or controls."
 };
 
+const routeIcons = {
+  "/dora": Home,
+  "/dora/office": Radio,
+  "/dora/activity": CalendarClock,
+  "/dora/team": Bot,
+  "/dora/tasks": ClipboardList,
+  "/dora/schedules": CalendarClock,
+  "/dora/knowledge": Sparkles,
+  "/dora/system": ShieldCheck
+} as const;
+
+const focusItems = [
+  {
+    title: "Research sprint",
+    summary: "Exploring long-term public problems.",
+    icon: Sparkles
+  },
+  {
+    title: "Knowledge build",
+    summary: "Structuring public knowledge.",
+    icon: ClipboardList
+  },
+  {
+    title: "Public schema",
+    summary: "Keeping visibility sanitized.",
+    icon: ShieldCheck
+  }
+] as const;
+
+const quickLinks = [
+  {
+    title: "Public relay",
+    summary: "A read-only broadcast of sanitized Doraemon Office activity.",
+    href: "/dora/activity",
+    icon: Radio,
+    external: false,
+    tags: ["display-only", "public schema"]
+  },
+  {
+    title: "Live bridge",
+    summary: "Open the visualizer bridge when a larger stage is useful.",
+    href: DORA_LIVE_BRIDGE_URL,
+    icon: MonitorPlay,
+    external: true,
+    tags: ["linked", "read-only"]
+  },
+  {
+    title: "Next rhythm",
+    summary: "Coarse operating cadence, never cron strings or private prompts.",
+    href: "/dora/schedules",
+    icon: CalendarClock,
+    external: false,
+    tags: ["daily rhythm", "safe cadence"]
+  },
+  {
+    title: "Boundary",
+    summary: "Owner-only spaces, tasks, prompts, and accounts stay private.",
+    href: "/dora/system",
+    icon: ShieldCheck,
+    external: false,
+    tags: ["sanitized", "display-only"]
+  }
+] as const;
+
+function DoraemonMark({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+      <circle cx="36" cy="34" r="25" fill="currentColor" opacity="0.12" />
+      <circle cx="36" cy="32" r="20" fill="#ffffff" stroke="currentColor" strokeWidth="2.2" />
+      <ellipse cx="30" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
+      <ellipse cx="42" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="31.4" cy="25.5" r="1.45" fill="currentColor" />
+      <circle cx="40.6" cy="25.5" r="1.45" fill="currentColor" />
+      <circle cx="36" cy="32" r="3.4" fill="currentColor" />
+      <path d="M36 35.6v14.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M25.5 41.2c5.4 6.2 15.6 6.2 21 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M21 32.8h10M21.4 38.2l9.2-2.1M51 32.8H41M50.6 38.2l-9.2-2.1"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path d="M25.5 53h21" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <circle cx="36" cy="56" r="5.2" fill="#f4b740" stroke="#ffffff" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function officeAgentClass(index: number) {
+  return `dora-office-stage-agent dora-office-stage-agent-${index + 1}`;
+}
+
 export default function DoraOfficePage() {
   const liveBridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
   const agents = getPublicAgents();
-  const recentEvents = getRecentPublicDoraEvents(3);
-  const ownerReviewTask = publicDoraTasks.find((task) => task.state === "Owner review") ?? publicDoraTasks[0];
+  const stageAgents = agents.filter((agent) => agent.publicId !== "agent_dora").slice(0, MAX_STAGE_AGENTS);
+  const recentEvents = getRecentPublicDoraEvents(5);
   const nextSchedule = publicSchedules[0];
 
   return (
-    <DoraOfficeShell
-      active="/dora/office"
-      title="Office Live"
-      summary="A native public command room: visual stage first, dashboard context second, external live bridge linked when needed."
-    >
-      <div className="grid gap-5">
-        <section className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_24rem]">
-          <div className="panel overflow-hidden p-4 md:p-6">
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <p className="eyebrow">Public stage</p>
-                <h2 className="mt-2 text-3xl font-semibold text-slate-950">Doraemon coordinates. MiniDoras work.</h2>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-                  This native stage is a public-safe office map. It shows roles, state, and rhythm without exposing
-                  private task titles, prompts, files, accounts, or runtime controls.
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <StatusBadge tone="info">demo fallback</StatusBadge>
-                <StatusBadge tone="normal">display-only</StatusBadge>
-              </div>
-            </div>
+    <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
+      <section className="dora-office-live-page">
+        <div className="container dora-office-live-shell">
+          <div className="dora-office-route-rail">
+            <Link href="/dora" className="link-focus dora-office-rail-brand">
+              Doraemon Office
+            </Link>
+            <nav aria-label="Doraemon Office navigation">
+              {doraOfficeRoutes.map((route) => {
+                const Icon = routeIcons[route.href];
+                const isActive = route.href === "/dora/office";
 
-            <div className="office-stage-surface mt-6 rounded-[8px] border border-[#bfdbfe] bg-[linear-gradient(135deg,#f8fbff_0%,#eef7ff_46%,#fff8e5_100%)] p-4 md:p-6">
-              <div className="grid gap-3 md:grid-cols-2">
-                {agents.map((agent, index) => (
-                  <article
-                    key={agent.publicId}
-                    className={`office-agent-card rounded-[8px] border border-white/80 bg-white/82 p-4 shadow-[0_14px_38px_rgba(15,23,42,0.08)] backdrop-blur ${
-                      index === 0 ? "md:col-span-2 md:border-[#bfdbfe]" : ""
-                    }`}
+                return (
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`link-focus dora-office-rail-link${isActive ? " is-active" : ""}`}
                   >
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="relative flex size-10 items-center justify-center rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] text-[#2563eb]">
-                        <Bot size={20} aria-hidden />
-                        <span className={`office-agent-pulse office-agent-pulse-${getPublicAgentTone(agent)}`} aria-hidden />
-                      </span>
-                      <StatusBadge tone={getPublicAgentTone(agent)}>{agent.stateLabel}</StatusBadge>
-                    </div>
-                    <h3 className="mt-4 text-lg font-semibold text-slate-950">{agent.displayName}</h3>
-                    <p className="mt-1 text-xs font-bold uppercase text-[#9a6a08]">{agent.role}</p>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{agent.summary}</p>
-                  </article>
-                ))}
-              </div>
+                    <Icon size={18} aria-hidden />
+                    <span>{route.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+            <div className="dora-office-rail-boundary">
+              <ShieldCheck size={20} aria-hidden />
+              <strong>Public & sanitized</strong>
+              <p>This office is display-only and built on a public schema.</p>
+              <Link href="/dora/system" className="link-focus">
+                Learn more
+                <ArrowUpRight size={13} aria-hidden />
+              </Link>
             </div>
           </div>
 
-          <aside className="grid content-start gap-4">
-            <section className="panel p-5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h2 className="eyebrow">Current focus</h2>
-                  <p className="mt-2 text-2xl font-semibold text-slate-950">{ownerReviewTask.title}</p>
-                </div>
-                <StatusBadge tone={ownerReviewTask.tone}>{ownerReviewTask.state}</StatusBadge>
+          <div className="dora-office-live-main">
+            <div className="dora-office-live-heading">
+              <div>
+                <h1>Office Live</h1>
+                <p>
+                  <span>Doraemon coordinates.</span> MiniDoras work.
+                </p>
+                <small>A public window into Weiyu&apos;s personal AI command room.</small>
               </div>
-              <p className="mt-4 text-sm leading-6 text-slate-600">
-                {ownerReviewTask.agentRole} is holding a public-safe checkpoint. The private task name, prompt,
-                artifacts, and owner notes stay out of the public view.
-              </p>
+              <div className="dora-office-live-mode">
+                <span aria-hidden />
+                Public stage
+              </div>
+            </div>
+
+            <section
+              className="dora-office-stage-panel"
+              aria-label="Public Doraemon Office stage with sanitized MiniDora state"
+            >
+              <div className="dora-office-portal-art" aria-hidden="true">
+                <Image
+                  src="/visuals/doraemon-office-portal-v2.png"
+                  alt=""
+                  width={1535}
+                  height={1024}
+                  priority
+                  quality={95}
+                  sizes="(max-width: 1100px) 100vw, 48vw"
+                />
+                <div className="dora-office-stage-boundary">
+                  <div>
+                    <LockKeyhole size={18} aria-hidden />
+                    <strong>Private area</strong>
+                    <span>Owner-only</span>
+                  </div>
+                  <div>
+                    <Eye size={18} aria-hidden />
+                    <strong>Public window</strong>
+                    <span>Sanitized. Real-time. Safe.</span>
+                  </div>
+                  <small>display-only</small>
+                </div>
+              </div>
+
+              <div className="dora-office-stage-agents">
+                {stageAgents.map((agent, index) => (
+                  <div key={agent.publicId} className={officeAgentClass(index)}>
+                    <span>
+                      <DoraemonMark />
+                    </span>
+                    <strong>{agent.stageName}</strong>
+                    <small>{agent.role}</small>
+                  </div>
+                ))}
+              </div>
             </section>
 
-            <section className="panel p-5">
-              <p className="eyebrow">Recent activity</p>
-              <div className="mt-4 grid gap-3">
+            <div className="dora-office-owner-note">
+              <Info size={16} aria-hidden />
+              <span>Weiyu stays owner-in-the-loop. Direction, reviews, and decisions remain human-bounded.</span>
+            </div>
+          </div>
+
+          <div className="dora-office-live-side">
+            <section className="dora-office-side-card">
+              <div className="dora-office-card-title">
+                <Sparkles size={21} aria-hidden />
+                <h2>Current focus</h2>
+              </div>
+              <div className="dora-office-focus-list">
+                {focusItems.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <article key={item.title}>
+                      <span>
+                        <Icon size={17} aria-hidden />
+                      </span>
+                      <div>
+                        <strong>{item.title}</strong>
+                        <p>{item.summary}</p>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+              <StatusBadge tone="warning">Research-only</StatusBadge>
+            </section>
+
+            <section className="dora-office-side-card">
+              <div className="dora-office-card-title">
+                <Radio size={21} aria-hidden />
+                <h2>Recent activity</h2>
+                <Link href="/dora/activity" className="link-focus">
+                  View all
+                </Link>
+              </div>
+              <div className="dora-office-activity-list">
                 {recentEvents.map((event) => (
-                  <article key={event.event_id} className="rounded-[8px] border border-[#dde7f0] bg-[#f8fafc] p-3">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h3 className="text-sm font-semibold text-slate-950">{event.title}</h3>
-                      <StatusBadge tone={event.severity}>{event.state}</StatusBadge>
+                  <article key={event.event_id}>
+                    <time>{formatPublicEventTime(event.created_at)}</time>
+                    <DoraemonMark />
+                    <div>
+                      <strong>{event.agent}</strong>
+                      <p>{event.title}</p>
                     </div>
-                    <p className="mt-2 text-xs leading-5 text-slate-500">
-                      {formatPublicEventTime(event.created_at)} · {event.agent} · {event.event_type.replaceAll("_", " ")}
-                    </p>
+                    <span className={`dora-office-activity-dot dora-office-activity-dot-${event.severity}`} aria-hidden />
                   </article>
                 ))}
               </div>
-              <Link
-                href="/dora/activity"
-                className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#1d4ed8]"
-              >
-                View full timeline
-                <ArrowRight size={15} aria-hidden />
-              </Link>
             </section>
-          </aside>
-        </section>
+          </div>
+        </div>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <article className="panel-quiet p-5">
-            <Radio className="text-[#2563eb]" size={24} aria-hidden />
-            <p className="mt-4 text-sm font-semibold text-slate-500">Public relay</p>
-            <h3 className="mt-1 text-2xl font-semibold text-slate-950">read-only</h3>
-          </article>
-          <article className="panel-quiet p-5">
-            <MonitorPlay className="text-[#2563eb]" size={24} aria-hidden />
-            <p className="mt-4 text-sm font-semibold text-slate-500">Live bridge</p>
-            <h3 className="mt-1 text-2xl font-semibold text-slate-950">linked</h3>
-            <a
-              href={DORA_LIVE_BRIDGE_URL}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`Open ${liveBridgeHost} in a new tab`}
-              className="link-focus mt-3 inline-flex items-center gap-2 break-all text-sm font-bold text-[#1d4ed8]"
-            >
-              {liveBridgeHost}
-              <ArrowUpRight size={15} aria-hidden />
-            </a>
-          </article>
-          <article className="panel-quiet p-5">
-            <CalendarClock className="text-[#2563eb]" size={24} aria-hidden />
-            <p className="mt-4 text-sm font-semibold text-slate-500">Next rhythm</p>
-            <h3 className="mt-1 text-2xl font-semibold text-slate-950">{nextSchedule.name}</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-600">{nextSchedule.next}</p>
-          </article>
-          <article className="panel-quiet p-5">
-            <ShieldCheck className="text-[#2563eb]" size={24} aria-hidden />
-            <p className="mt-4 text-sm font-semibold text-slate-500">Boundary</p>
-            <h3 className="mt-1 text-2xl font-semibold text-slate-950">public schema</h3>
-          </article>
-        </section>
-
-        <section className="grid gap-4 lg:grid-cols-3">
-          {[
-            {
-              title: "Tasks",
-              summary: "Fixed public titles, safe states, and no prompt bodies.",
-              href: "/dora/tasks",
-              icon: ClipboardList
-            },
-            {
-              title: "Team Agents",
-              summary: "Doraemon and MiniDoras with public roles and current state.",
-              href: "/dora/team",
-              icon: Bot
-            },
-            {
-              title: "System",
-              summary: "Safe health summary without local paths, ports, or tokens.",
-              href: "/dora/system",
-              icon: ShieldCheck
-            }
-          ].map((item) => {
+        <div className="container dora-office-metrics">
+          {quickLinks.map((item) => {
             const Icon = item.icon;
+            const content = (
+              <>
+                <Icon size={28} aria-hidden />
+                <h2>{item.title}</h2>
+                <p>{item.title === "Next rhythm" ? `${nextSchedule.name}: ${item.summary}` : item.summary}</p>
+                <div>
+                  {item.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </>
+            );
 
-            return (
-              <Link
+            return item.external ? (
+              <a
                 key={item.title}
                 href={item.href}
-                className="link-focus panel p-5 transition hover:-translate-y-0.5 hover:border-[#bfdbfe]"
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open ${liveBridgeHost} in a new tab`}
+                className="link-focus dora-office-metric-card"
               >
-                <Icon className="text-[#2563eb]" size={24} aria-hidden />
-                <h3 className="mt-4 text-xl font-semibold text-slate-950">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{item.summary}</p>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#1d4ed8]">
-                  Open {item.title}
-                  <ArrowRight size={15} aria-hidden />
-                </span>
+                {content}
+              </a>
+            ) : (
+              <Link key={item.title} href={item.href} className="link-focus dora-office-metric-card">
+                {content}
               </Link>
             );
           })}
-        </section>
-      </div>
-    </DoraOfficeShell>
+        </div>
+
+        <div className="container dora-office-more">
+          <Link href="/dora/tasks" className="link-focus">
+            Open sanitized tasks
+            <ArrowRight size={15} aria-hidden />
+          </Link>
+          <Link href="/dora/team" className="link-focus">
+            Explore Team Agents
+            <ArrowRight size={15} aria-hidden />
+          </Link>
+        </div>
+      </section>
+    </SiteChrome>
   );
 }
