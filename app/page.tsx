@@ -50,7 +50,7 @@ export default function HomePage() {
   const journalEntries = getLatestJournalEntries(3);
 
   return (
-    <SiteChrome>
+    <SiteChrome headerVariant="doraemon" headerActiveHref="/">
       <HeroSection />
 
       <section id="os-layers" className="section">

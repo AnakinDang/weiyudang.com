@@ -1,37 +1,41 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Bot, LockKeyhole, Radio } from "lucide-react";
+import { ArrowRight, Bot, LockKeyhole, Radio, Sparkles } from "lucide-react";
 
 const agentNodes = [
-  { label: "Planner", className: "system-node" },
-  { label: "Researcher", className: "system-node system-node-researcher" },
-  { label: "Builder", className: "system-node system-node-builder" },
-  { label: "Analyst", className: "system-node system-node-analyst" }
+  { label: "Research", className: "system-node" },
+  { label: "Strategy", className: "system-node system-node-researcher" },
+  { label: "Data", className: "system-node system-node-builder" },
+  { label: "Writing", className: "system-node system-node-analyst" }
 ];
 
-const contextItems = ["Papers", "Notes", "Code", "Data"];
+const publicSignals = ["Projects", "Doraemon", "Notes", "Contact"];
 
 export function HeroSection() {
   return (
     <section className="premium-hero">
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
-          <h1 className="premium-hero-title">Weiyu Dang</h1>
+          <h1 className="premium-hero-title" aria-label="Weiyu Dang Personal OS">
+            Weiyu Dang
+            <span>Personal OS</span>
+          </h1>
           <p className="premium-hero-lede">
-            I work at the intersection of physics and AI systems. I build Doraemon, a personal assistant, and research
-            tools that extend human insight.
+            A living personal website for physics, AI systems, and research tools. Doraemon is Weiyu&apos;s personal
+            AI command room.
           </p>
           <p className="premium-hero-support">
-            Public work stays legible. Private operations stay protected. Doraemon turns the whole system into a living
-            front door.
+            The public site explains the work. Doraemon makes the agent office legible. The private cockpit stays
+            owner-only.
           </p>
           <div className="premium-hero-actions">
-            <Link href="#os-layers" className="link-focus premium-text-link">
-              Explore the OS
+            <Link href="/dora" className="link-focus premium-primary-link">
+              Meet Doraemon
               <ArrowRight size={16} aria-hidden />
             </Link>
-            <Link href="/dora" className="link-focus premium-secondary-link">
-              <Bot size={17} aria-hidden />
-              Talk to Doraemon
+            <Link href="#os-layers" className="link-focus premium-text-link">
+              Explore the system
+              <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
         </div>
@@ -39,24 +43,27 @@ export function HeroSection() {
         <div
           className="living-system-visual"
           role="img"
-          aria-label="Animated Personal OS signal map with a Doraemon entry, agent network, living context, and public/private boundary."
+          aria-label="Bright Personal OS studio with a Doraemon command-room portal, public signal layer, and agent constellation."
         >
-          <div className="system-plane" aria-hidden>
-            <div className="system-plane-grid" aria-hidden />
-            <div className="system-track system-track-one" aria-hidden />
-            <div className="system-track system-track-two" aria-hidden />
-            <div className="system-track system-track-three" aria-hidden />
-            <div className="system-track system-track-four" aria-hidden />
+          <div className="personal-os-asset" aria-hidden="true">
+            <Image
+              src="/visuals/personal-os-portal-v1.png"
+              alt=""
+              width={1672}
+              height={941}
+              priority
+              sizes="(max-width: 1040px) 100vw, 62vw"
+            />
           </div>
 
           <div className="dora-core" aria-hidden>
             <span className="dora-core-ring" aria-hidden />
             <span className="dora-core-beam" aria-hidden />
-            <span className="dora-core-label">Doraemon entry</span>
+            <span className="dora-core-label">Doraemon</span>
           </div>
 
           <div className="agent-network" aria-hidden>
-            <p>Agent network</p>
+            <p>MiniDora team</p>
             <ul>
               {agentNodes.map((node) => (
                 <li key={node.label}>
@@ -68,9 +75,9 @@ export function HeroSection() {
           </div>
 
           <div className="context-stack" aria-hidden>
-            <p>Living context</p>
+            <p>Public layer</p>
             <ul>
-              {contextItems.map((item) => (
+              {publicSignals.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
@@ -93,9 +100,15 @@ export function HeroSection() {
         <Link href="/dora/office" className="link-focus dora-entry-dock">
           <span className="dora-entry-dock-label">
             <Bot size={19} aria-hidden />
-            Enter Doraemon Office
+            Open the live office
           </span>
-          <span className="dora-entry-dock-copy">Open the sanitized command room and follow the public agent team.</span>
+          <span className="dora-entry-dock-copy">
+            Open the sanitized public command room. Private tasks, prompts, and accounts stay out.
+          </span>
+          <span className="dora-entry-dock-state">
+            <Sparkles size={15} aria-hidden />
+            public-safe
+          </span>
           <ArrowRight size={18} aria-hidden />
         </Link>
       </div>
