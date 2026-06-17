@@ -555,6 +555,646 @@ textarea {
   font-weight: 500;
 }
 
+.doraemon-entry-page {
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #ffffff 58%, #f8fbff 100%),
+    #ffffff;
+  color: #0f172a;
+}
+
+.doraemon-doorway {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(94svh - 4rem);
+  padding: 5.25rem 1.25rem 1rem;
+  background:
+    linear-gradient(116deg, transparent 0%, transparent 47%, rgba(37, 99, 235, 0.045) 47.2%, transparent 58%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.035), transparent 28%),
+    #ffffff;
+}
+
+.doraemon-doorway-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(34rem, 1.22fr);
+  align-items: center;
+  gap: 4.25rem;
+}
+
+.doraemon-doorway-copy {
+  max-width: 38rem;
+  padding-block: 1.5rem;
+}
+
+.doraemon-doorway-copy h1 {
+  margin: 0;
+  max-width: 7.5ch;
+  color: #05070a;
+  font-family: "New York", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 5.35rem;
+  font-weight: 600;
+  line-height: 0.94;
+}
+
+.doraemon-doorway-copy h1 span {
+  display: block;
+}
+
+.doraemon-doorway-copy h1 span:first-child {
+  color: #2563eb;
+}
+
+.doraemon-doorway-lede {
+  margin: 2rem 0 0;
+  max-width: 31rem;
+  color: #171a20;
+  font-size: 1.32rem;
+  line-height: 1.5;
+}
+
+.doraemon-doorway-support {
+  margin: 1.15rem 0 0;
+  max-width: 33rem;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.doraemon-doorway-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.15rem;
+  margin-top: 2.35rem;
+}
+
+.doraemon-primary-action,
+.doraemon-quiet-action,
+.doraemon-inline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.doraemon-primary-action {
+  background: #2563eb;
+  padding: 0.92rem 1.15rem;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.2);
+}
+
+.doraemon-quiet-action,
+.doraemon-inline-link {
+  border-bottom: 1px solid rgba(37, 99, 235, 0.28);
+  padding: 0.72rem 0;
+  color: #1d4ed8;
+}
+
+.doraemon-primary-action:hover,
+.doraemon-quiet-action:hover,
+.doraemon-inline-link:hover {
+  transform: translateY(-1px);
+}
+
+.doraemon-command-preview {
+  position: relative;
+  min-height: 42rem;
+}
+
+.doraemon-portal {
+  position: absolute;
+  inset: 1.4rem 0 8.25rem;
+  border: 1px solid rgba(191, 219, 254, 0.66);
+  border-radius: 30px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(224, 242, 254, 0.48)),
+    rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 34px 90px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  overflow: hidden;
+}
+
+.doraemon-portal::before {
+  position: absolute;
+  inset: 8% 14% auto;
+  height: 68%;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  content: "";
+}
+
+.doraemon-portal::after {
+  position: absolute;
+  right: 12%;
+  bottom: 14%;
+  left: 12%;
+  height: 8.5rem;
+  border: 1px solid rgba(37, 99, 235, 0.14);
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(ellipse at center, rgba(37, 99, 235, 0.13) 0 1px, transparent 1px 2.6rem),
+    linear-gradient(90deg, transparent, rgba(244, 183, 64, 0.1), transparent);
+  content: "";
+  transform: perspective(620px) rotateX(66deg);
+}
+
+.doraemon-portal-door {
+  position: absolute;
+  top: 18%;
+  left: 11%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 12.5rem;
+  height: 15.5rem;
+  border: 1px solid rgba(37, 99, 235, 0.48);
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(255, 255, 255, 0.74)),
+    rgba(224, 242, 254, 0.72);
+  color: #1d4ed8;
+  box-shadow: 0 22px 70px rgba(37, 99, 235, 0.12);
+}
+
+.doraemon-portal-door span {
+  margin-top: 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.doraemon-portal-panel {
+  position: absolute;
+  top: 21%;
+  right: 10%;
+  z-index: 2;
+  max-width: 16.5rem;
+  color: #0f172a;
+}
+
+.doraemon-portal-panel strong {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.doraemon-portal-panel p {
+  margin: 0.85rem 0 1.45rem;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.doraemon-boundary-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 0.65rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.22);
+  padding: 0.9rem 0;
+  color: #1d4ed8;
+}
+
+.doraemon-boundary-row span {
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.doraemon-boundary-row small {
+  grid-column: 2;
+  color: #64748b;
+  font-size: 0.74rem;
+}
+
+.doraemon-agent-constellation {
+  position: absolute;
+  right: 9%;
+  bottom: 8.4rem;
+  left: 7%;
+  z-index: 3;
+  height: 10rem;
+}
+
+.doraemon-agent-constellation::before {
+  position: absolute;
+  inset: 18% 5% 0;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 50%;
+  content: "";
+  transform: perspective(580px) rotateX(62deg);
+}
+
+.doraemon-agent-node {
+  position: absolute;
+  display: grid;
+  justify-items: center;
+  gap: 0.42rem;
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+
+.doraemon-agent-node span {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border: 1px solid rgba(191, 219, 254, 0.82);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #2563eb;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.2);
+  animation: node-breathe 3.2s ease-in-out infinite;
+}
+
+.doraemon-agent-node-1 {
+  top: 4.8rem;
+  left: 6%;
+}
+
+.doraemon-agent-node-2 {
+  top: 2.3rem;
+  left: 25%;
+}
+
+.doraemon-agent-node-3 {
+  top: 5.1rem;
+  left: 46%;
+}
+
+.doraemon-agent-node-4 {
+  top: 2.1rem;
+  right: 24%;
+}
+
+.doraemon-agent-node-5 {
+  top: 4.9rem;
+  right: 4%;
+}
+
+.doraemon-agent-node-2 span {
+  animation-delay: 0.2s;
+}
+
+.doraemon-agent-node-3 span {
+  animation-delay: 0.4s;
+}
+
+.doraemon-agent-node-4 span {
+  animation-delay: 0.6s;
+}
+
+.doraemon-agent-node-5 span {
+  animation-delay: 0.8s;
+}
+
+.doraemon-activity-preview {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 0;
+  left: 1.25rem;
+  z-index: 4;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+.doraemon-activity-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  padding: 0.9rem 1rem 0.75rem;
+  color: #64748b;
+  font-size: 0.74rem;
+}
+
+.doraemon-activity-preview-head span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #1d4ed8;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.doraemon-activity-ticks {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.doraemon-activity-ticks div {
+  min-width: 0;
+  border-left: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 0.85rem 0.85rem 1rem;
+}
+
+.doraemon-activity-ticks div:first-child {
+  border-left: 0;
+}
+
+.doraemon-activity-ticks time,
+.doraemon-activity-ticks span {
+  display: block;
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.doraemon-activity-ticks strong {
+  display: block;
+  overflow: hidden;
+  margin: 0.28rem 0;
+  color: #0f172a;
+  font-size: 0.76rem;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.doraemon-entry-section {
+  border-top: 1px solid rgba(221, 231, 240, 0.76);
+  padding: 4.5rem 1.25rem;
+  background: #ffffff;
+}
+
+#what-doraemon-does {
+  padding-top: 2rem;
+}
+
+.doraemon-entry-section h2 {
+  margin: 0;
+  color: #05070a;
+  font-size: 2.35rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.doraemon-entry-section p {
+  color: #64748b;
+  line-height: 1.68;
+}
+
+.doraemon-capability-grid {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  align-items: center;
+  gap: 4rem;
+}
+
+.doraemon-radar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(37, 99, 235, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.06) 1px, transparent 1px),
+    #ffffff;
+  background-size: 2rem 2rem;
+}
+
+.doraemon-radar-ring {
+  position: absolute;
+  border: 2px solid rgba(37, 99, 235, 0.72);
+  border-radius: 999px;
+}
+
+.doraemon-radar-ring-one {
+  inset: 24%;
+}
+
+.doraemon-radar-ring-two {
+  inset: 35%;
+  border-color: rgba(37, 99, 235, 0.34);
+}
+
+.doraemon-radar-bell {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 999px;
+  background: #f4b740;
+  color: #ffffff;
+  box-shadow: 0 18px 44px rgba(244, 183, 64, 0.25);
+}
+
+.doraemon-capability-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+  margin-top: 2.4rem;
+}
+
+.doraemon-capability-list article {
+  min-width: 0;
+}
+
+.doraemon-capability-list svg,
+.doraemon-context-links svg {
+  color: #2563eb;
+}
+
+.doraemon-capability-list h3,
+.doraemon-agent-strip h3,
+.doraemon-context-links strong {
+  margin: 0.85rem 0 0;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 750;
+}
+
+.doraemon-capability-list p,
+.doraemon-agent-strip p,
+.doraemon-context-links span {
+  margin: 0.45rem 0 0;
+  color: #64748b;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.doraemon-minidora-section {
+  background: #fbfdff;
+}
+
+.doraemon-minidora-grid {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.36fr) minmax(0, 1fr);
+  gap: 3rem;
+}
+
+.doraemon-agent-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.doraemon-agent-strip article {
+  position: relative;
+  min-width: 0;
+  border: 1px solid rgba(221, 231, 240, 0.86);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 1.05rem;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.04);
+}
+
+.doraemon-agent-strip article > svg {
+  color: #2563eb;
+}
+
+.doraemon-agent-strip small {
+  display: inline-flex;
+  margin-top: 0.8rem;
+  color: #1d4ed8;
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
+.doraemon-safety-grid {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.38fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 3rem;
+}
+
+.doraemon-safety-list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  color: #0f172a;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  list-style: none;
+}
+
+.doraemon-safety-list li {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.doraemon-safety-list svg {
+  flex: none;
+  margin-top: 0.15rem;
+  color: #2563eb;
+}
+
+.doraemon-boundary-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 2rem;
+  border: 1px solid rgba(191, 219, 254, 0.58);
+  border-radius: 18px;
+  background:
+    linear-gradient(90deg, rgba(224, 242, 254, 0.62), rgba(255, 255, 255, 0.92), rgba(241, 245, 249, 0.8)),
+    #ffffff;
+  padding: 2rem;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.06);
+}
+
+.doraemon-boundary-panel h3 {
+  margin: 0 0 1rem;
+  color: #0f172a;
+  font-size: 0.9rem;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.doraemon-boundary-panel ul {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  color: #475569;
+  font-size: 0.88rem;
+  list-style: none;
+}
+
+.doraemon-boundary-panel li::before {
+  color: #2563eb;
+  content: "✓ ";
+}
+
+.doraemon-boundary-divider {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  width: 3.4rem;
+  border-inline: 1px dashed rgba(37, 99, 235, 0.38);
+  color: #f4b740;
+}
+
+.doraemon-context-section {
+  padding-bottom: 5rem;
+}
+
+.doraemon-context-head {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.36fr) minmax(0, 1fr);
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.doraemon-context-links {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid rgba(221, 231, 240, 0.82);
+}
+
+.doraemon-context-links a {
+  min-width: 0;
+  border-right: 1px solid rgba(221, 231, 240, 0.82);
+  padding: 1.35rem 1.4rem 1rem 0;
+}
+
+.doraemon-context-links a:last-child {
+  border-right: 0;
+}
+
+.doraemon-context-links strong,
+.doraemon-context-links span {
+  display: block;
+}
+
+.doraemon-live-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+.doraemon-live-note a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #1d4ed8;
+  font-weight: 700;
+}
+
 .public-pill {
   border: 1px solid rgba(37, 99, 235, 0.16);
   background: rgba(224, 242, 254, 0.62);
@@ -825,6 +1465,27 @@ textarea {
   .system-plane {
     inset: 4.4rem 0 2.5rem;
   }
+
+  .doraemon-doorway-grid {
+    grid-template-columns: minmax(0, 0.86fr) minmax(29rem, 1fr);
+    gap: 2.5rem;
+  }
+
+  .doraemon-doorway-copy h1 {
+    font-size: 4.85rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 38rem;
+  }
+
+  .doraemon-portal {
+    inset: 1rem 0 7.6rem;
+  }
+
+  .doraemon-agent-constellation {
+    bottom: 7.7rem;
+  }
 }
 
 @media (max-width: 1040px) {
@@ -852,6 +1513,36 @@ textarea {
 
   .dora-entry-dock {
     margin-top: 0;
+  }
+
+  .doraemon-doorway {
+    padding-top: 4rem;
+  }
+
+  .doraemon-doorway-grid,
+  .doraemon-capability-grid,
+  .doraemon-minidora-grid,
+  .doraemon-safety-grid,
+  .doraemon-context-head {
+    grid-template-columns: 1fr;
+  }
+
+  .doraemon-doorway-grid {
+    gap: 2rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 38rem;
+  }
+
+  .doraemon-capability-list,
+  .doraemon-agent-strip,
+  .doraemon-context-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .doraemon-context-links a:nth-child(2n) {
+    border-right: 0;
   }
 }
 
@@ -936,5 +1627,176 @@ textarea {
 
   .dora-entry-dock-copy {
     display: none;
+  }
+
+  .doraemon-doorway {
+    min-height: auto;
+    padding: 3rem 1rem 0.5rem;
+  }
+
+  .doraemon-doorway-copy h1 {
+    font-size: 3.2rem;
+  }
+
+  .doraemon-doorway-lede {
+    margin-top: 1.2rem;
+    font-size: 1.05rem;
+    line-height: 1.48;
+  }
+
+  .doraemon-doorway-support {
+    font-size: 0.94rem;
+  }
+
+  .doraemon-doorway-actions {
+    align-items: center;
+    gap: 0.75rem 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .doraemon-primary-action {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .doraemon-quiet-action {
+    flex: 1 1 8rem;
+    justify-content: center;
+    min-width: 0;
+    padding-block: 0.5rem;
+    font-size: 0.86rem;
+  }
+
+  .doraemon-doorway-support {
+    display: none;
+  }
+
+  .doraemon-command-preview {
+    min-height: 21.5rem;
+  }
+
+  .doraemon-portal {
+    inset: 0 0 5.8rem;
+    border-radius: 22px;
+  }
+
+  .doraemon-portal-door {
+    top: 12%;
+    left: 7%;
+    width: 6.8rem;
+    height: 8.6rem;
+  }
+
+  .doraemon-portal-panel {
+    top: 14%;
+    right: 6%;
+    max-width: 10.8rem;
+  }
+
+  .doraemon-portal-panel p {
+    display: none;
+  }
+
+  .doraemon-boundary-row {
+    padding: 0.65rem 0;
+  }
+
+  .doraemon-agent-constellation {
+    right: 4%;
+    bottom: 5.35rem;
+    left: 4%;
+    height: 7.2rem;
+  }
+
+  .doraemon-agent-node {
+    font-size: 0.62rem;
+  }
+
+  .doraemon-agent-node small {
+    max-width: 4.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .doraemon-agent-node span {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+
+  .doraemon-agent-node-1 {
+    left: 2%;
+  }
+
+  .doraemon-agent-node-5 {
+    right: 1%;
+  }
+
+  .doraemon-activity-preview {
+    right: 0;
+    left: 0;
+  }
+
+  .doraemon-activity-ticks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .doraemon-activity-ticks div:nth-child(n + 3) {
+    display: none;
+  }
+
+  .doraemon-activity-ticks div {
+    border-top: 0;
+    border-left: 1px solid rgba(148, 163, 184, 0.14);
+    padding: 0.72rem 0.8rem 0.78rem;
+  }
+
+  .doraemon-activity-ticks div:first-child {
+    border-left: 0;
+  }
+
+  .doraemon-entry-section {
+    padding: 3.75rem 1rem;
+  }
+
+  #what-doraemon-does {
+    padding-top: 1.25rem;
+  }
+
+  .doraemon-entry-section h2 {
+    font-size: 2rem;
+  }
+
+  .doraemon-capability-list,
+  .doraemon-agent-strip,
+  .doraemon-context-links {
+    grid-template-columns: 1fr;
+  }
+
+  .doraemon-radar {
+    max-width: 16rem;
+  }
+
+  .doraemon-boundary-panel {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .doraemon-boundary-divider {
+    width: auto;
+    height: 3rem;
+    border-block: 1px dashed rgba(37, 99, 235, 0.38);
+    border-inline: 0;
+  }
+
+  .doraemon-context-links {
+    border-top: 0;
+  }
+
+  .doraemon-context-links a {
+    border-top: 1px solid rgba(221, 231, 240, 0.82);
+    border-right: 0;
+    padding: 1.15rem 0;
   }
 }
