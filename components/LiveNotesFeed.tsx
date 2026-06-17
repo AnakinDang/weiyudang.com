@@ -50,7 +50,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
         })}
       </div>
 
-      <aside className="panel flex min-h-72 flex-col justify-between p-5">
+      <div className="panel flex min-h-72 flex-col justify-between p-5">
         <div>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] px-3 py-2 text-xs font-bold text-[#1d4ed8]">
@@ -72,7 +72,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
           Open notes
           <ArrowRight size={16} aria-hidden />
         </Link>
-      </aside>
+      </div>
     </div>
   );
 }
