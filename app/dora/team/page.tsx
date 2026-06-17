@@ -34,7 +34,7 @@ export default function DoraTeamPage() {
               <p className="mt-2 text-sm font-semibold text-[#9a6a08]">{agent.role}</p>
               <p className="mt-3 text-sm leading-6 text-slate-600">{agent.summary}</p>
               <div className="mt-5 rounded-[8px] border border-[#dde7f0] bg-[#f8fafc] p-3 text-xs leading-5 text-slate-500">
-                Recent public event: {event ? `${event.title} · ${event.event_id}` : "No public event yet"}
+                Recent public event: {event ? event.title : "No public event yet"}
               </div>
             </article>
           );

@@ -25,8 +25,7 @@ export default function DoraActivityPage() {
             <article key={event.event_id} className="panel p-5">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="mono text-xs text-slate-500">{event.event_id}</p>
-                  <h2 className="mt-1 text-xl font-semibold text-slate-950">{event.title}</h2>
+                  <h2 className="text-xl font-semibold text-slate-950">{event.title}</h2>
                   <p className="mt-2 text-sm leading-6 text-slate-600">
                     {event.agent} · {event.event_type.replaceAll("_", " ")}
                   </p>
