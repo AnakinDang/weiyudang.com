@@ -1,5 +1,16 @@
 import Link from "next/link";
-import { ArrowRight, Bot, Contact, LineChart, LockKeyhole, MonitorPlay, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  Bot,
+  Contact,
+  Globe2,
+  LineChart,
+  LockKeyhole,
+  MonitorPlay,
+  ShieldCheck,
+  Sparkles,
+  UserRound
+} from "lucide-react";
 import { AiLabPanel } from "@/components/AiLabPanel";
 import { HeroSection } from "@/components/HeroSection";
 import { JournalCard } from "@/components/JournalCard";
@@ -14,14 +25,18 @@ const operatingLayers = [
     title: "Public studio",
     summary: "Projects, lab notes, journal entries, and contact paths that explain the work without private internals.",
     boundary: "public",
+    boundaryLabel: "Public",
+    safety: "Safe to share",
     actionLabel: "Visit studio",
     href: "/projects",
-    icon: Sparkles
+    icon: UserRound
   },
   {
     title: "Doraemon Office",
     summary: "A public command-room view for Doraemon, MiniDoras, activity, schedules, and system heartbeat.",
     boundary: "public-safe",
+    boundaryLabel: "Public safe",
+    safety: "Sanitized read-only",
     actionLabel: "Open Doraemon",
     href: "/dora",
     icon: MonitorPlay
@@ -30,6 +45,8 @@ const operatingLayers = [
     title: "Owner cockpit",
     summary: "The private daily surface for priorities, commands, review queues, schedules, and knowledge work.",
     boundary: "owner-only",
+    boundaryLabel: "Owner only",
+    safety: "Authenticated",
     actionLabel: "Open cockpit",
     href: "/app",
     icon: LockKeyhole
@@ -38,9 +55,34 @@ const operatingLayers = [
     title: "Trading team",
     summary: "MiniDora research desks for signals, instruments, evidence, gates, and replay without execution.",
     boundary: "research-only",
+    boundaryLabel: "Research only",
+    safety: "Not execution",
     actionLabel: "View research",
     href: "/projects/minidora-trading",
     icon: LineChart
+  }
+];
+
+const operatingPrinciples = [
+  {
+    title: "Weiyu stays in the loop",
+    summary: "Final authority.",
+    icon: ShieldCheck
+  },
+  {
+    title: "Agents are teammates",
+    summary: "Not replacements.",
+    icon: Bot
+  },
+  {
+    title: "Evidence over claims",
+    summary: "Always show sources.",
+    icon: Sparkles
+  },
+  {
+    title: "Boundaries by design",
+    summary: "Public, private, and research-only.",
+    icon: Globe2
   }
 ];
 
@@ -53,46 +95,77 @@ export default function HomePage() {
     <SiteChrome headerVariant="doraemon" headerActiveHref="/">
       <HeroSection />
 
-      <section id="os-layers" className="section">
-        <div className="container">
-          <SectionHeading
-            eyebrow="Personal OS layers"
-            title="One site, four connected surfaces."
-            summary="The public site explains the work; Doraemon makes the agent office legible; the private cockpit carries daily operations; trading stays research-only."
-          />
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {operatingLayers.map((item) => {
+      <section id="os-layers" className="home-section home-os-section">
+        <div className="container home-section-frame">
+          <div className="home-section-heading home-section-heading-split">
+            <div>
+              <p className="eyebrow">Personal OS layers</p>
+              <h2 className="section-title">One OS. Four connected surfaces.</h2>
+            </div>
+            <p className="section-summary">
+              The public site explains the work. Doraemon makes the office visible. The private cockpit drives execution.
+              Trading stays research-only.
+            </p>
+          </div>
+
+          <div className="home-layer-system" aria-label="Weiyu Personal OS connected surfaces">
+            <div className="home-layer-rail" aria-hidden="true" />
+            {operatingLayers.map((item, index) => {
               const Icon = item.icon;
               return (
-                <Link key={item.title} href={item.href} className="link-focus panel p-5 transition hover:-translate-y-0.5 hover:border-[#bfdbfe]">
-                  <span className="flex size-11 items-center justify-center rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] text-[#2563eb]">
-                    <Icon size={22} aria-hidden />
+                <Link key={item.title} href={item.href} className="link-focus home-layer-row">
+                  <span className={`home-layer-marker home-layer-marker-${index + 1}`} aria-hidden="true" />
+                  <span className="home-layer-icon">
+                    <Icon size={24} aria-hidden />
                   </span>
-                  <p className="mt-5 text-xs font-bold uppercase text-[#9a6a08]">{item.boundary}</p>
-                  <h3 className="mt-5 text-xl font-semibold text-slate-950">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.summary}</p>
-                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-[#1d4ed8]">
+                  <span className="home-layer-copy">
+                    <strong>{item.title}</strong>
+                    <span>{item.summary}</span>
+                  </span>
+                  <span className="home-layer-action">
                     {item.actionLabel}
-                    <ArrowRight size={15} aria-hidden />
+                    <ArrowRight size={16} aria-hidden />
+                  </span>
+                  <span className={`home-boundary-badge home-boundary-${item.boundary.replace(" ", "-")}`}>
+                    <strong>{item.boundaryLabel}</strong>
+                    <small>{item.safety}</small>
                   </span>
                 </Link>
+              );
+            })}
+          </div>
+
+          <div className="home-principle-strip">
+            {operatingPrinciples.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="home-principle-item">
+                  <Icon size={17} aria-hidden />
+                  <div>
+                    <strong>{item.title}</strong>
+                    <span>{item.summary}</span>
+                  </div>
+                </div>
               );
             })}
           </div>
         </div>
       </section>
 
-      <section className="section soft-band">
-        <div className="container">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
-            <SectionHeading
-              eyebrow="Selected work"
-              title="Projects as personal artifacts, not a company brochure."
-              summary="A public index for experiments in AI systems, creative workflows, web tools, and research surfaces. Private execution stays behind the app shell."
-            />
+      <section className="home-section home-project-section">
+        <div className="container home-section-frame">
+          <div className="home-section-heading home-section-heading-split">
+            <div>
+              <p className="eyebrow">Selected work</p>
+              <h2 className="section-title">Projects as personal artifacts.</h2>
+            </div>
+            <p className="section-summary">
+              A living index of systems, tools, experiments, and research. Public pages explain the work; private execution
+              stays behind the app shell.
+            </p>
             <Link
               href="/projects"
-              className="link-focus inline-flex w-fit items-center gap-2 rounded-[8px] border border-[#bfdbfe] bg-white px-4 py-3 text-sm font-bold text-[#1d4ed8] transition hover:bg-[#f1f7fb]"
+              className="link-focus home-outline-action"
             >
               All projects
               <ArrowRight size={16} aria-hidden />
@@ -102,36 +175,33 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="ai-lab" className="section">
-        <div className="container grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <SectionHeading
-              eyebrow="AI Lab"
-              title="Doraemon, MiniDora, and Weiyu AI stay as one focused entrance."
-              summary="The Doraemon and MiniDora idea is still here, but as a lab within the personal site. The pure company narrative can move to weiyudang.ai later."
-            />
-            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-              Doraemon is the public companion for explaining projects. MiniDora is the working metaphor for small specialist
-              agents. Both should support Weiyu's judgment, taste, and review instead of replacing them.
+      <section id="ai-lab" className="home-section home-ai-section">
+        <div className="container home-ai-grid">
+          <div className="home-ai-copy">
+            <p className="eyebrow">AI Lab</p>
+            <h2 className="section-title">Doraemon, MiniDoras, and Weiyu AI.</h2>
+            <p className="section-summary">
+              One lab. Multiple agents. Clear public/private boundaries. The system should support Weiyu&apos;s judgment,
+              taste, and review instead of replacing them.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="home-ai-actions">
               <Link
                 href="/dora"
-                className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_30px_rgba(37,99,235,0.2)] transition hover:bg-[#1d4ed8]"
+                className="link-focus home-primary-action"
               >
                 <Bot size={17} aria-hidden />
                 Meet Doraemon
               </Link>
               <Link
                 href="/projects/weiyu-ai"
-                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#dde7f0] bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-[#bfdbfe] hover:bg-[#f1f7fb]"
+                className="link-focus home-text-action"
               >
                 <Sparkles size={17} aria-hidden />
                 Weiyu AI
               </Link>
               <Link
                 href="/app"
-                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#f4b740]/45 bg-[#fff8e5] px-4 py-3 text-sm font-bold text-slate-900 transition hover:bg-[#fff2c7]"
+                className="link-focus home-text-action home-private-action"
               >
                 <LockKeyhole size={17} aria-hidden />
                 Private App
@@ -142,8 +212,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section soft-band">
-        <div className="container">
+      <section className="home-section home-journal-section">
+        <div className="container home-section-frame home-section-frame-quiet">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <SectionHeading
               eyebrow="Journal"
@@ -166,7 +236,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="home-section home-notes-section">
         <div className="container grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <SectionHeading

@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Filter, Search } from "lucide-react";
-import { ProjectCard } from "@/components/ProjectCard";
+import Link from "next/link";
+import { ArrowRight, Circle, Filter, Search } from "lucide-react";
 import type { Project } from "@/lib/content";
 
 type ProjectFilter = {
@@ -15,8 +15,15 @@ const filters = [
   { label: "AI systems", match: (project: Project) => /ai|agent/i.test(`${project.categoryLabel} ${project.title}`) },
   { label: "Creative", match: (project: Project) => /creative|media|games/i.test(`${project.categoryLabel} ${project.title}`) },
   { label: "Research", match: (project: Project) => /research|trading|quantum/i.test(`${project.categoryLabel} ${project.title} ${project.summary}`) },
-  { label: "Public", match: (project: Project) => project.visibility === "public" || project.visibility === "private-summary" }
+  { label: "Public", match: (project: Project) => project.visibility === "public" }
 ] satisfies ProjectFilter[];
+
+const projectVisuals = ["radar", "network", "notes", "market", "field"] as const;
+
+function visualForProject(slug: string) {
+  const sum = Array.from(slug).reduce((total, char) => total + char.charCodeAt(0), 0);
+  return projectVisuals[sum % projectVisuals.length];
+}
 
 export function ProjectExplorer({ projects }: { projects: Project[] }) {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -35,9 +42,9 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
   }, [activeFilter, projects, query]);
 
   return (
-    <div className="mt-10">
-      <div className="flex flex-col gap-4 rounded-[8px] border border-[#dde7f0] bg-white/74 p-3 shadow-[0_18px_50px_rgba(15,23,42,0.06)] backdrop-blur md:flex-row md:items-center md:justify-between">
-        <div className="flex flex-wrap gap-2">
+    <div className="home-project-browser">
+      <div className="home-project-toolbar">
+        <div className="home-project-filters" aria-label="Project filters">
           {filters.map((filter) => {
             const isActive = filter.label === activeFilter;
             return (
@@ -45,11 +52,8 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
                 key={filter.label}
                 type="button"
                 onClick={() => setActiveFilter(filter.label)}
-                className={`inline-flex items-center gap-2 rounded-[8px] px-3 py-2 text-sm font-semibold transition ${
-                  isActive
-                    ? "bg-[#2563eb] text-white shadow-[0_10px_24px_rgba(37,99,235,0.2)]"
-                    : "border border-[#dde7f0] bg-[#f8fafc] text-slate-700 hover:border-[#bfdbfe] hover:bg-[#e0f2fe]"
-                }`}
+                aria-pressed={isActive}
+                className={`home-filter-button${isActive ? " is-active" : ""}`}
               >
                 <Filter size={14} aria-hidden />
                 {filter.label}
@@ -57,33 +61,61 @@ export function ProjectExplorer({ projects }: { projects: Project[] }) {
             );
           })}
         </div>
-        <label className="flex min-w-0 items-center gap-2 rounded-[8px] border border-[#dde7f0] bg-[#f8fafc] px-3 py-2 text-sm text-slate-600 md:w-72">
+        <label className="home-project-search">
           <Search size={15} aria-hidden />
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
+            aria-label="Search projects"
             className="min-w-0 flex-1 bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
             placeholder="Search work"
           />
         </label>
       </div>
 
-      <div className="mt-4 flex items-center justify-between gap-4 text-sm text-slate-500">
+      <div className="home-project-count">
         <span>
           Showing <strong className="text-slate-900">{visibleProjects.length}</strong> of {projects.length}
         </span>
-        <span className="hidden text-xs font-semibold uppercase text-[#9a6a08] sm:inline">client-side filter</span>
+        <span>public content model</span>
       </div>
 
-      <div className="mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <div className="home-project-list">
         {visibleProjects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+          <Link key={project.slug} href={`/projects/${project.slug}`} className="link-focus home-project-row">
+            <span className={`home-project-visual home-project-visual-${visualForProject(project.slug)}`} aria-hidden="true">
+              <span />
+            </span>
+            <span className="home-project-main">
+              <strong>
+                {project.title}
+                <Circle size={7} aria-hidden />
+              </strong>
+              <span>{project.summary}</span>
+            </span>
+            <span className="home-project-category">{project.categoryLabel}</span>
+            <span className={`home-project-state home-project-state-${project.visibility}`}>
+              {project.visibilityLabel}
+            </span>
+            <span className="home-project-arrow">
+              <ArrowRight size={17} aria-hidden />
+            </span>
+          </Link>
         ))}
       </div>
 
       {visibleProjects.length === 0 ? (
-        <div className="mt-5 rounded-[8px] border border-[#dde7f0] bg-white p-6 text-sm leading-6 text-slate-600">
-          No matching project yet. Try clearing the search or switching filters.
+        <div className="home-project-empty">
+          <span>
+            {query.trim()
+              ? `No ${activeFilter} projects matching "${query.trim()}".`
+              : `No ${activeFilter} projects yet.`}
+          </span>
+          {query.trim() ? (
+            <button type="button" onClick={() => setQuery("")}>
+              Clear search
+            </button>
+          ) : null}
         </div>
       ) : null}
     </div>

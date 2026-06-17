@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, Bot, Network, ShieldCheck, Sparkles, Workflow } from "lucide-react";
+import { ArrowRight, Bot, LockKeyhole, Network, ShieldCheck, Sparkles, Workflow } from "lucide-react";
 
 const labModes = [
   {
@@ -43,24 +43,44 @@ const labModes = [
 export function AiLabPanel() {
   const [activeId, setActiveId] = useState(labModes[0].id);
   const active = useMemo(() => labModes.find((mode) => mode.id === activeId) ?? labModes[0], [activeId]);
+  const activeIndex = labModes.findIndex((mode) => mode.id === active.id);
   const Icon = active.icon;
 
+  function selectAdjacentMode(offset: number) {
+    const nextIndex = (activeIndex + offset + labModes.length) % labModes.length;
+    const nextId = labModes[nextIndex].id;
+    document.getElementById(`home-ai-tab-${nextId}`)?.focus();
+    setActiveId(nextId);
+  }
+
   return (
-    <div className="panel p-5">
-      <div className="flex flex-wrap gap-2">
+    <div className="home-ai-panel">
+      <div className="home-ai-tabs" role="tablist" aria-label="AI Lab layers">
         {labModes.map((mode) => {
           const ModeIcon = mode.icon;
           const isActive = mode.id === activeId;
           return (
             <button
               key={mode.id}
+              id={`home-ai-tab-${mode.id}`}
               type="button"
               onClick={() => setActiveId(mode.id)}
-              className={`inline-flex items-center gap-2 rounded-[8px] px-3 py-2 text-sm font-bold transition ${
-                isActive
-                  ? "bg-[#2563eb] text-white shadow-[0_10px_24px_rgba(37,99,235,0.2)]"
-                  : "border border-[#dde7f0] bg-[#f8fafc] text-slate-700 hover:border-[#bfdbfe] hover:bg-[#e0f2fe]"
-              }`}
+              onKeyDown={(event) => {
+                if (event.key === "ArrowRight") {
+                  event.preventDefault();
+                  selectAdjacentMode(1);
+                }
+
+                if (event.key === "ArrowLeft") {
+                  event.preventDefault();
+                  selectAdjacentMode(-1);
+                }
+              }}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls="home-ai-detail-panel"
+              tabIndex={isActive ? 0 : -1}
+              className={`home-ai-tab${isActive ? " is-active" : ""}`}
             >
               <ModeIcon size={15} aria-hidden />
               {mode.label}
@@ -69,47 +89,84 @@ export function AiLabPanel() {
         })}
       </div>
 
-      <div className="mt-5 rounded-[8px] border border-[#dde7f0] bg-[#f8fafc] p-5">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="flex items-start gap-3">
-            <span className="flex size-11 items-center justify-center rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] text-[#2563eb]">
-              <Icon size={22} aria-hidden />
-            </span>
-            <div>
-              <p className="text-xs font-bold uppercase text-[#9a6a08]">active layer</p>
-              <h3 className="mt-1 text-2xl font-semibold text-slate-950">{active.title}</h3>
-            </div>
-          </div>
-          <div className="rounded-[8px] border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-800">
-            frontend simulation
-          </div>
+      <div className="home-agent-map" aria-label="AI Lab relationship map">
+        <div className="home-agent-orbit" aria-hidden="true">
+          <span className="home-agent-orbit-ring home-agent-orbit-ring-one" />
+          <span className="home-agent-orbit-ring home-agent-orbit-ring-two" />
+          <span className="home-agent-pulse home-agent-pulse-one" />
+          <span className="home-agent-pulse home-agent-pulse-two" />
+          <span className="home-agent-pulse home-agent-pulse-three" />
         </div>
 
-        <p className="mt-5 text-sm leading-6 text-slate-600">{active.summary}</p>
-        <div className="mt-5 rounded-[8px] border border-[#f4b740]/35 bg-[#fff8e5] p-4 text-sm leading-6 text-slate-700">
-          <ShieldCheck className="mb-2 text-[#9a6a08]" size={18} aria-hidden />
+        <div className="home-agent-node home-agent-node-left">
+          <Network size={25} aria-hidden />
+          <strong>MiniDoras</strong>
+          <span>Specialists</span>
+        </div>
+        <div className="home-agent-node home-agent-node-center">
+          <Bot size={31} aria-hidden />
+          <strong>Doraemon</strong>
+          <span>Orchestrator</span>
+        </div>
+        <div className="home-agent-node home-agent-node-right">
+          <Sparkles size={25} aria-hidden />
+          <strong>Weiyu AI</strong>
+          <span>Lab umbrella</span>
+        </div>
+      </div>
+
+      <div
+        id="home-ai-detail-panel"
+        className="home-ai-detail"
+        role="tabpanel"
+        aria-labelledby={`home-ai-tab-${active.id}`}
+      >
+        <div className="home-ai-detail-head">
+          <span>
+            <Icon size={19} aria-hidden />
+            active layer
+          </span>
+          <strong>{active.title}</strong>
+        </div>
+        <p>{active.summary}</p>
+        <div className="home-ai-intent">
+          <ShieldCheck size={18} aria-hidden />
           {active.intent}
         </div>
 
-        <div className="mt-5 space-y-3">
+        <div className="home-ai-events">
           {active.events.map((event, index) => (
-            <div key={event} className="flex items-center gap-3 rounded-[8px] border border-[#dde7f0] bg-white px-3 py-3">
-              <span className="mono flex size-7 items-center justify-center rounded-[8px] bg-[#e0f2fe] text-xs font-bold text-[#1d4ed8]">
-                {index + 1}
-              </span>
-              <span className="text-sm font-semibold text-slate-700">{event}</span>
+            <div key={event}>
+              <span className="mono">{index + 1}</span>
+              <span>{event}</span>
             </div>
           ))}
         </div>
 
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase text-slate-500">
+        <div className="home-ai-boundary-strip">
+          <span>
+            <ShieldCheck size={15} aria-hidden />
+            Owner review
+          </span>
+          <span>
+            <Workflow size={15} aria-hidden />
+            Audit trails
+          </span>
+          <span>
+            <LockKeyhole size={15} aria-hidden />
+            Public / Private
+          </span>
+          <span>
             <Workflow size={14} aria-hidden />
-            no backend calls
-          </div>
+            No execution
+          </span>
+        </div>
+
+        <div className="home-ai-footer">
+          <span>No fake metrics. State, evidence, and boundaries first.</span>
           <Link
             href={active.link}
-            className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#1d4ed8]"
+            className="link-focus home-text-action"
           >
             {active.linkLabel}
             <ArrowRight size={16} aria-hidden />
