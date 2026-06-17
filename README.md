@@ -10,7 +10,7 @@ Initial Next.js version of `weiyudang.com`: a light personal website for Weiyu D
 - Journal content under `content/journal` for photography, life notes, and field observations
 - Static Dora public chat mock
 - Read-only MiniDora Trading dashboard mock
-- Token-gated private shell using `APP_ACCESS_TOKEN`
+- Token-gated private shell using `APP_ACCESS_TOKEN` and a signed owner session cookie
 - Original bright studio hero asset under `public/visuals`
 - Pure front-end activity layer: live studio signal, project filters, AI Lab tabs, lab feed, and Dora typing state
 
@@ -29,7 +29,7 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-For local private app access, use `demo-access` if `APP_ACCESS_TOKEN` is not set. For production, set a strong `APP_ACCESS_TOKEN` in Vercel.
+For local private app access, use `demo-access` if `APP_ACCESS_TOKEN` is not set. For production, set a strong `APP_ACCESS_TOKEN` in Vercel. Login exchanges the token for an HttpOnly, signed, finite-lived owner session cookie.
 
 ## Validation
 

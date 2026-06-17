@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { OWNER_SESSION_COOKIE } from "@/lib/auth-session";
 
 function isSameOrigin(request: Request) {
   const requestOrigin = new URL(request.url).origin;
@@ -26,7 +27,7 @@ export async function POST(request: Request) {
   }
 
   const response = NextResponse.redirect(new URL("/", request.url), 303);
-  response.cookies.set("weiyu_owner_session", "", {
+  response.cookies.set(OWNER_SESSION_COOKIE, "", {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

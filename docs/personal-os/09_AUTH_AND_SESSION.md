@@ -70,6 +70,9 @@ Behavior:
 ## Current Baseline
 
 The current site uses a lightweight `APP_ACCESS_TOKEN` gate for `/app/*`.
+The access token is exchanged for a short-lived signed owner session cookie.
+The proxy must verify the cookie signature and expiration before rendering
+private routes; a fixed cookie value is not sufficient.
 
 This is acceptable as a v0/private-owner baseline, but any redesign should make
 the behavior explicit:
@@ -77,6 +80,7 @@ the behavior explicit:
 - token value lives in server environment only
 - token is not rendered into public bundles
 - middleware/proxy protects `/app/*`
+- session cookies are signed, finite-lived, and verified server-side
 - unauthenticated requests do not receive private route data
 - local fallback token is allowed only for development
 
@@ -90,7 +94,8 @@ Recommended v1 model:
 4. If missing/invalid, user sees an owner gate that does not reveal private data.
 5. Owner submits the access token or future auth credential.
 6. Server validates credential and sets an HttpOnly, Secure, SameSite session cookie.
-7. Session expires automatically and can be cleared manually.
+7. Middleware/proxy verifies the session signature and expiration on every `/app/*` request.
+8. Session expires automatically and can be cleared manually.
 
 Recommended cookie properties:
 
@@ -220,4 +225,3 @@ Any upgrade must preserve:
 - Private APIs reject unauthenticated requests server-side.
 - The auth model is strong enough for owner-only dashboards, but does not claim
   to authorize trading or other execution systems.
-
