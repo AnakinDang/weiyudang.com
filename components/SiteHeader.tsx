@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, LockKeyhole, Sparkles } from "lucide-react";
 
-const navItems = [
+const defaultNavItems = [
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/dora", label: "Doraemon" },
@@ -10,9 +10,48 @@ const navItems = [
   { href: "/contact", label: "Contact" }
 ];
 
-export function SiteHeader() {
+const doraemonNavItems = [
+  { href: "/", label: "Home" },
+  { href: "/dora", label: "Doraemon", active: true },
+  { href: "/journal", label: "Writing" },
+  { href: "/projects", label: "Projects" },
+  { href: "/lab", label: "Research" }
+];
+
+export function SiteHeader({ variant = "default" }: { variant?: "default" | "doraemon" }) {
+  if (variant === "doraemon") {
+    return (
+      <header className="site-header site-header-doraemon">
+        <div className="container site-header-doraemon-inner">
+          <Link href="/" className="link-focus site-signature-brand" aria-label="Weiyu Dang home">
+            <span className="site-signature-mark" aria-hidden>
+              Wy
+            </span>
+            <span>WEIYU DANG</span>
+          </Link>
+          <nav className="site-doraemon-nav" aria-label="Primary navigation">
+            {doraemonNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={item.active ? "page" : undefined}
+                className={`link-focus${item.active ? " is-active" : ""}`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <Link href="/app" className="link-focus site-owner-signin">
+            Owner Sign in
+            <ArrowRight size={15} aria-hidden />
+          </Link>
+        </div>
+      </header>
+    );
+  }
+
   return (
-    <header className="sticky top-0 z-40 border-b border-[#dde7f0]/80 bg-white/86 backdrop-blur-xl">
+    <header className="site-header sticky top-0 z-40 border-b border-[#dde7f0]/80 bg-white/86 backdrop-blur-xl">
       <div className="container flex min-h-16 items-center justify-between gap-4">
         <Link href="/" className="link-focus flex items-center gap-3" aria-label="Weiyu Dang home">
           <span className="flex size-9 items-center justify-center rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] text-[#2563eb]">
@@ -24,7 +63,7 @@ export function SiteHeader() {
           </span>
         </Link>
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
-          {navItems.map((item) => (
+          {defaultNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}

@@ -1,23 +1,22 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Bell,
-  Bot,
-  Brain,
   CheckCircle2,
   Eye,
   FileText,
+  Globe2,
   LockKeyhole,
-  MonitorPlay,
   Radio,
+  RefreshCw,
   ShieldCheck,
   Sparkles,
   Users
 } from "lucide-react";
 import { SiteChrome } from "@/components/SiteChrome";
 import { DORA_LIVE_BRIDGE_URL, formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
-import { getPublicAgents } from "@/lib/public-agents";
 
 export const metadata: Metadata = {
   title: "Doraemon",
@@ -26,65 +25,128 @@ export const metadata: Metadata = {
 
 const capabilities = [
   {
-    title: "Coordinate agents",
-    summary: "Doraemon turns goals into plans, handoffs, checkpoints, and owner review moments.",
+    title: "Multi-Agent Team",
+    summary: "Specialized MiniDoras collaborate in real time across research, writing, data, strategy, and operations.",
     icon: Users
   },
   {
-    title: "Track work",
-    summary: "The public office shows sanitized state, activity, tasks, schedules, and system heartbeat.",
-    icon: MonitorPlay
+    title: "Always On, Always Learning",
+    summary: "Doraemon continuously monitors, analyzes, summarizes, and improves the work loop.",
+    icon: RefreshCw
   },
   {
-    title: "Summarize signals",
-    summary: "Public context is compressed into readable updates without exposing private source material.",
-    icon: Brain
-  },
-  {
-    title: "Guard boundaries",
-    summary: "Private prompts, memory, accounts, trading data, and controls stay out of public routes.",
+    title: "Owner in the Loop",
+    summary: "Weiyu sets direction, reviews decisions, and keeps execution bounded by human judgment.",
     icon: ShieldCheck
+  },
+  {
+    title: "Public Window",
+    summary: "Selected visibility is sanitized, real-time safe, and designed with privacy first.",
+    icon: Globe2
   }
 ] as const;
 
-const projectLinks = [
+const contextItems = [
   {
-    title: "Doraemon Visualizer",
-    summary: "The live command-room language behind the public office.",
+    title: "Personal OS",
+    summary: "Doraemon Office is the operating layer of Weiyu's work and thinking.",
     href: "/projects/doraemon-agent-system",
-    icon: MonitorPlay
+    icon: Users
   },
   {
-    title: "MiniDora Trading Team",
-    summary: "Research-only market work with no order or execution path.",
-    href: "/projects/minidora-trading",
-    icon: Radio
+    title: "Built with Discipline",
+    summary: "Strong privacy boundary, clean architecture, and clear principles.",
+    href: "/dora/system",
+    icon: ShieldCheck
   },
   {
-    title: "Knowledge Vault",
-    summary: "Curated public outputs, private notes, and evidence boundaries.",
-    href: "/dora/knowledge",
+    title: "Open in the Right Way",
+    summary: "The public window exists to inspire and build trust, not to expose internals.",
+    href: "/dora/office",
     icon: FileText
   },
   {
-    title: "Weiyu Personal OS",
-    summary: "One site connecting public work, Doraemon, owner workflows, and research.",
+    title: "Long-Term Vision",
+    summary: "Better thinking, better work, and more impact over time.",
     href: "/projects/weiyu-ai",
     icon: Sparkles
   }
 ] as const;
 
+const heroNodes = [
+  "Research MiniDora",
+  "Strategy MiniDora",
+  "Data MiniDora",
+  "Market MiniDora",
+  "Operations MiniDora",
+  "Writing MiniDora",
+  "Memory MiniDora"
+] as const;
+
+const miniDoraRoles = [
+  {
+    name: "Research MiniDora",
+    summary: "Finds signals, reads deeply, and prepares evidence."
+  },
+  {
+    name: "Strategy MiniDora",
+    summary: "Turns inputs into clear plans and scenarios."
+  },
+  {
+    name: "Writing MiniDora",
+    summary: "Drafts, edits, and communicates with clarity."
+  },
+  {
+    name: "Data MiniDora",
+    summary: "Structures data, builds views, and keeps things clean."
+  },
+  {
+    name: "Market MiniDora",
+    summary: "Scans market context as research only."
+  },
+  {
+    name: "Operations MiniDora",
+    summary: "Runs routines and keeps systems healthy."
+  },
+  {
+    name: "Memory MiniDora",
+    summary: "Maintains long-term context and knowledge."
+  }
+] as const;
+
 const publicItems = ["Sanitized activity", "High-level state", "Agent presence", "System health"];
-const privateItems = ["Raw prompts and memory", "Private task titles", "Accounts and credentials", "Trading data and controls"];
+const privateItems = ["Owner tasks and notes", "Strategies and playbooks", "Knowledge and data", "Accounts and integrations"];
+
+function DoraemonMark({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+      <circle cx="36" cy="34" r="25" fill="currentColor" opacity="0.12" />
+      <circle cx="36" cy="32" r="20" fill="#ffffff" stroke="currentColor" strokeWidth="2.2" />
+      <ellipse cx="30" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
+      <ellipse cx="42" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="31.4" cy="25.5" r="1.45" fill="currentColor" />
+      <circle cx="40.6" cy="25.5" r="1.45" fill="currentColor" />
+      <circle cx="36" cy="32" r="3.4" fill="currentColor" />
+      <path d="M36 35.6v14.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M25.5 41.2c5.4 6.2 15.6 6.2 21 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M21 32.8h10M21.4 38.2l9.2-2.1M51 32.8H41M50.6 38.2l-9.2-2.1"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+      <path d="M25.5 53h21" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <circle cx="36" cy="56" r="5.2" fill="#f4b740" stroke="#ffffff" strokeWidth="2" />
+    </svg>
+  );
+}
 
 export default function DoraPage() {
-  const agents = getPublicAgents();
-  const miniDoras = agents.filter((agent) => agent.displayName.includes("MiniDora"));
   const recentEvents = getRecentPublicDoraEvents(5);
   const liveBridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
 
   return (
-    <SiteChrome>
+    <SiteChrome headerVariant="doraemon">
       <div className="doraemon-entry-page">
         <section className="doraemon-doorway">
           <div className="container doraemon-doorway-grid">
@@ -95,8 +157,8 @@ export default function DoraPage() {
               </h1>
               <p className="doraemon-doorway-lede">The public window into Weiyu&apos;s personal AI command room.</p>
               <p className="doraemon-doorway-support">
-                Doraemon coordinates. MiniDoras work. Weiyu decides. This entrance stays warm, readable, and strictly
-                public-safe.
+                Doraemon Office is where a team of MiniDoras coordinate research, writing, data, strategy, and
+                operations while Weiyu keeps the private work under review.
               </p>
               <div className="doraemon-doorway-actions">
                 <Link href="/dora/office" className="link-focus doraemon-primary-action">
@@ -119,45 +181,49 @@ export default function DoraPage() {
               role="img"
               aria-label="Public Doraemon Office preview with MiniDora agents, a sanitized activity strip, and a public/private boundary."
             >
-              <div className="doraemon-portal" aria-hidden>
-                <div className="doraemon-portal-door">
-                  <Bot size={42} aria-hidden />
-                  <span>Doraemon</span>
-                </div>
+              <div className="doraemon-portal-stage" aria-hidden="true">
+                <Image
+                  src="/visuals/doraemon-office-portal-v1.png"
+                  alt=""
+                  width={1619}
+                  height={972}
+                  priority
+                  sizes="(max-width: 1040px) 100vw, 58vw"
+                />
                 <div className="doraemon-portal-panel">
                   <strong>Doraemon Office</strong>
-                  <p>A personal AI command room built for thinking, creating, and review.</p>
+                  <p>A personal AI command room built for thinking, creating, and long-term impact.</p>
                   <div className="doraemon-boundary-row">
                     <LockKeyhole size={16} aria-hidden />
-                    <span>Private area</span>
+                    <span>Private Area</span>
                     <small>Owner-only</small>
                   </div>
                   <div className="doraemon-boundary-row">
                     <Eye size={16} aria-hidden />
-                    <span>Public window</span>
-                    <small>Sanitized and read-only</small>
+                    <span>Public Window</span>
+                    <small>Sanitized. Real-time. Safe.</small>
                   </div>
                 </div>
               </div>
 
-              <div className="doraemon-agent-constellation" aria-hidden>
-                {agents.slice(0, 5).map((agent, index) => (
-                  <div key={agent.publicId} className={`doraemon-agent-node doraemon-agent-node-${index + 1}`}>
+              <div className="doraemon-agent-constellation" aria-hidden="true">
+                {heroNodes.map((label, index) => (
+                  <div key={label} className={`doraemon-agent-node doraemon-agent-node-${index + 1}`}>
                     <span>
-                      <Bot size={14} aria-hidden />
+                      <DoraemonMark />
                     </span>
-                    <small>{agent.displayName.replace(" MiniDora", "")}</small>
+                    <small>{label}</small>
                   </div>
                 ))}
               </div>
 
-              <div className="doraemon-activity-preview">
+              <div className="doraemon-activity-preview" aria-label="Recent public-safe Doraemon activity">
                 <div className="doraemon-activity-preview-head">
                   <span>
                     <Radio size={14} aria-hidden />
-                    Live activity
+                    Live activity (public-safe)
                   </span>
-                  <small>public-safe</small>
+                  <small>Updated just now</small>
                 </div>
                 <div className="doraemon-activity-ticks">
                   {recentEvents.map((event) => (
@@ -175,7 +241,8 @@ export default function DoraPage() {
 
         <section id="what-doraemon-does" className="doraemon-entry-section">
           <div className="container doraemon-capability-grid">
-            <div className="doraemon-radar" aria-hidden>
+            <div className="doraemon-radar" aria-hidden="true">
+              <DoraemonMark className="doraemon-radar-mark" />
               <span className="doraemon-radar-ring doraemon-radar-ring-one" />
               <span className="doraemon-radar-ring doraemon-radar-ring-two" />
               <span className="doraemon-radar-bell">
@@ -185,15 +252,17 @@ export default function DoraPage() {
             <div>
               <h2>What Doraemon Does</h2>
               <p>
-                Doraemon is the operating layer for Weiyu&apos;s agent team: calm coordination, public-readable state,
-                and owner-centered review.
+                Doraemon Office is Weiyu&apos;s personal AI command room. A team of MiniDoras work across research,
+                writing, data, strategy, and operations, coordinated to turn ideas into impact.
               </p>
               <div className="doraemon-capability-list">
                 {capabilities.map((item) => {
                   const Icon = item.icon;
                   return (
                     <article key={item.title}>
-                      <Icon size={21} aria-hidden />
+                      <span className="doraemon-capability-icon">
+                        <Icon size={20} aria-hidden />
+                      </span>
                       <h3>{item.title}</h3>
                       <p>{item.summary}</p>
                     </article>
@@ -209,8 +278,8 @@ export default function DoraPage() {
             <div>
               <h2>Meet the MiniDoras</h2>
               <p>
-                From research to engineering to trading research, each MiniDora has a clear public-safe role. The full
-                roster lives in Team Agents.
+                From research to writing, from data to operations, each MiniDora has a clear role in the public-safe
+                story of the office.
               </p>
               <Link href="/dora/team" className="link-focus doraemon-inline-link">
                 Explore the team
@@ -218,13 +287,11 @@ export default function DoraPage() {
               </Link>
             </div>
             <div className="doraemon-agent-strip">
-              {miniDoras.map((agent) => (
-                <article key={agent.publicId}>
-                  <span className={`office-agent-pulse office-agent-pulse-${agent.state === "done" ? "normal" : "info"}`} />
-                  <Bot size={26} aria-hidden />
-                  <h3>{agent.displayName}</h3>
+              {miniDoraRoles.map((agent) => (
+                <article key={agent.name}>
+                  <DoraemonMark className="doraemon-card-mark" />
+                  <h3>{agent.name}</h3>
                   <p>{agent.summary}</p>
-                  <small>{agent.stateLabel}</small>
                 </article>
               ))}
             </div>
@@ -235,24 +302,33 @@ export default function DoraPage() {
           <div className="container doraemon-safety-grid">
             <div>
               <h2>Public Safety Boundary</h2>
-              <p>
-                Public Doraemon Office is read-only and sanitized. It does not expose private tasks, prompts, memory,
-                credentials, trading data, or owner-only controls.
-              </p>
+              <p>Your trust matters. The public window is designed with a strict boundary.</p>
               <ul className="doraemon-safety-list">
                 <li>
                   <CheckCircle2 size={16} aria-hidden />
-                  Research-only. Not an order, recommendation, or execution system.
+                  No private tasks or notes.
                 </li>
                 <li>
                   <CheckCircle2 size={16} aria-hidden />
-                  Curated public guide only; no public RAG, tools, or runtime actions in this slice.
+                  No prompts or workflows.
+                </li>
+                <li>
+                  <CheckCircle2 size={16} aria-hidden />
+                  No accounts or credentials.
+                </li>
+                <li>
+                  <CheckCircle2 size={16} aria-hidden />
+                  No trading or execution.
+                </li>
+                <li>
+                  <CheckCircle2 size={16} aria-hidden />
+                  Research-only. Not an order, recommendation, or execution system.
                 </li>
               </ul>
             </div>
             <div className="doraemon-boundary-panel">
               <div>
-                <h3>Public window</h3>
+                <h3>Public Window</h3>
                 <ul>
                   {publicItems.map((item) => (
                     <li key={item}>{item}</li>
@@ -263,7 +339,7 @@ export default function DoraPage() {
                 <Bell size={20} aria-hidden />
               </span>
               <div>
-                <h3>Private area</h3>
+                <h3>Private Area</h3>
                 <ul>
                   {privateItems.map((item) => (
                     <li key={item}>{item}</li>
@@ -271,6 +347,7 @@ export default function DoraPage() {
                 </ul>
               </div>
             </div>
+            <DoraemonMark className="doraemon-safety-mark" />
           </div>
         </section>
 
@@ -278,13 +355,10 @@ export default function DoraPage() {
           <div className="container">
             <div className="doraemon-context-head">
               <h2>Project Context</h2>
-              <p>
-                Doraemon is one part of the broader Personal OS: public work, private operations, research surfaces,
-                and human review stay connected without collapsing into one unsafe interface.
-              </p>
+              <p>This is a long-term Personal OS experiment. Built in public. Designed to compound.</p>
             </div>
             <div className="doraemon-context-links">
-              {projectLinks.map((item) => {
+              {contextItems.map((item) => {
                 const Icon = item.icon;
                 return (
                   <Link key={item.title} href={item.href} className="link-focus">
