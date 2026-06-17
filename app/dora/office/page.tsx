@@ -174,7 +174,7 @@ export default function DoraOfficePage() {
           <div className="dora-office-live-main">
             <div className="dora-office-live-heading">
               <div>
-                <h1>Office Live</h1>
+                <h1>Doraemon Office Live</h1>
                 <p>
                   <span>Doraemon coordinates.</span> MiniDoras work.
                 </p>
@@ -192,13 +192,13 @@ export default function DoraOfficePage() {
             >
               <div className="dora-office-portal-art" aria-hidden="true">
                 <Image
-                  src="/visuals/doraemon-office-portal-v2.png"
+                  src="/visuals/doraemon-office-command-room-v2.png"
                   alt=""
-                  width={1535}
+                  width={1536}
                   height={1024}
                   priority
                   quality={95}
-                  sizes="(max-width: 1100px) 100vw, 48vw"
+                  sizes="(max-width: 900px) 100vw, 76vw"
                 />
                 <div className="dora-office-stage-boundary">
                   <div>

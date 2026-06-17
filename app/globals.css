@@ -4054,6 +4054,8 @@ textarea {
 .dora-office-live-page {
   overflow: hidden;
   background:
+    radial-gradient(circle at 74% 5%, rgba(37, 99, 235, 0.1), transparent 30rem),
+    radial-gradient(circle at 22% 16%, rgba(147, 197, 253, 0.14), transparent 34rem),
     linear-gradient(180deg, #ffffff 0%, #ffffff 72%, #f8fbff 100%),
     #ffffff;
   color: #05070a;
@@ -4061,11 +4063,11 @@ textarea {
 
 .dora-office-live-shell {
   display: grid;
-  grid-template-columns: 13.8rem minmax(0, 1fr) 17rem;
+  grid-template-columns: minmax(10.75rem, 12rem) minmax(0, 1fr);
   align-items: start;
-  gap: 2rem;
+  gap: 1.7rem;
   width: min(100% - 4.5rem, 1328px);
-  padding-block: 0.88rem 1.55rem;
+  padding-block: 1rem 1.55rem;
 }
 
 .dora-office-route-rail,
@@ -4083,7 +4085,9 @@ textarea {
   top: 5rem;
   display: grid;
   gap: 1.25rem;
-  padding: 1.2rem 0.72rem 1rem;
+  padding: 1.05rem 0.68rem 0.9rem;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.04);
 }
 
 .dora-office-rail-brand {
@@ -4190,6 +4194,7 @@ textarea {
 }
 
 .dora-office-live-main {
+  grid-column: 2;
   min-width: 0;
 }
 
@@ -4204,16 +4209,16 @@ textarea {
 .dora-office-live-heading h1 {
   margin: 0;
   color: #05070a;
-  font-size: 2.65rem;
+  font-size: clamp(3.2rem, 5.7vw, 5.05rem);
   font-weight: 820;
   letter-spacing: 0;
-  line-height: 1;
+  line-height: 0.93;
 }
 
 .dora-office-live-heading p {
-  margin: 0.82rem 0 0;
+  margin: 1rem 0 0;
   color: #05070a;
-  font-size: 1.58rem;
+  font-size: clamp(1.46rem, 2.35vw, 2.05rem);
   font-weight: 800;
   line-height: 1.1;
 }
@@ -4226,7 +4231,8 @@ textarea {
   display: block;
   margin-top: 0.7rem;
   color: #475569;
-  font-size: 0.98rem;
+  max-width: 34rem;
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -4252,23 +4258,25 @@ textarea {
 
 .dora-office-stage-panel {
   position: relative;
-  min-height: 31.4rem;
+  min-height: 36.6rem;
   overflow: hidden;
   border: 1px solid rgba(191, 219, 254, 0.78);
   border-radius: 8px;
   background:
-    radial-gradient(ellipse at 50% 86%, rgba(37, 99, 235, 0.16), transparent 44%),
-    linear-gradient(180deg, rgba(248, 251, 255, 0.86), #ffffff 58%),
+    radial-gradient(ellipse at 53% 88%, rgba(37, 99, 235, 0.2), transparent 46%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.6), #ffffff 62%),
     #ffffff;
-  box-shadow: 0 24px 68px rgba(15, 23, 42, 0.07);
+  box-shadow:
+    0 30px 80px rgba(15, 23, 42, 0.075),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .dora-office-stage-panel::before {
   position: absolute;
-  right: 8%;
-  bottom: 2.2rem;
-  left: 8%;
-  height: 12.5rem;
+  right: 4%;
+  bottom: 2rem;
+  left: 4%;
+  height: 15rem;
   border-radius: 999px;
   background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.22), rgba(147, 197, 253, 0.08) 45%, transparent 72%);
   content: "";
@@ -4278,16 +4286,16 @@ textarea {
 
 .dora-office-portal-art {
   position: absolute;
-  inset: -1.9rem -1.2rem 4.8rem -1.2rem;
+  inset: -1.6rem -4.25rem 2.7rem -3.2rem;
 }
 
 .dora-office-portal-art::after {
   position: absolute;
-  top: 8%;
-  bottom: 12%;
-  left: 41%;
+  top: 5%;
+  bottom: 10%;
+  left: 47%;
   z-index: 3;
-  width: 15%;
+  width: 17%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
   content: "";
   mix-blend-mode: screen;
@@ -4296,31 +4304,31 @@ textarea {
 }
 
 .dora-office-portal-art img {
-  --dora-office-portal-scale: 1.13;
-  --dora-office-portal-scale-peak: 1.138;
-  --dora-office-portal-x: -8%;
+  --dora-office-portal-scale: 1.025;
+  --dora-office-portal-scale-peak: 1.032;
+  --dora-office-portal-x: -1%;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: 52% 48%;
+  object-fit: cover;
+  object-position: 56% 53%;
   filter:
     saturate(1.12)
     contrast(1.05)
     drop-shadow(0 34px 76px rgba(37, 99, 235, 0.12));
-  mask-image: radial-gradient(ellipse at 50% 50%, #000 0 72%, rgba(0, 0, 0, 0.7) 84%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 0 72%, rgba(0, 0, 0, 0.7) 84%, transparent 100%);
+  mask-image: radial-gradient(ellipse at 56% 52%, #000 0 76%, rgba(0, 0, 0, 0.78) 87%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse at 56% 52%, #000 0 76%, rgba(0, 0, 0, 0.78) 87%, transparent 100%);
   animation: doraemon-portal-breathe 8s ease-in-out infinite;
   will-change: transform;
 }
 
 .dora-office-stage-boundary {
   position: absolute;
-  top: 27%;
-  right: 13.5%;
+  top: 23%;
+  right: 7.2%;
   z-index: 4;
   display: grid;
   gap: 0.9rem;
-  width: min(14rem, 31%);
+  width: min(15.25rem, 27%);
 }
 
 .dora-office-stage-boundary div {
@@ -4358,11 +4366,11 @@ textarea {
 
 .dora-office-stage-agents {
   position: absolute;
-  right: 6%;
-  bottom: 1.55rem;
-  left: 6%;
+  right: 3.5%;
+  bottom: 1.65rem;
+  left: 3.5%;
   z-index: 5;
-  height: 10.2rem;
+  height: 10rem;
 }
 
 .dora-office-stage-agents::before,
@@ -4393,7 +4401,7 @@ textarea {
   display: grid;
   justify-items: center;
   gap: 0.25rem;
-  width: 6.25rem;
+  width: 5.8rem;
   color: #0f172a;
   text-align: center;
 }
@@ -4410,6 +4418,8 @@ textarea {
   box-shadow:
     0 12px 28px rgba(15, 23, 42, 0.1),
     0 0 0 0 rgba(37, 99, 235, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   animation:
     node-breathe 3.25s ease-in-out infinite,
     doraemon-node-float 4.8s ease-in-out infinite;
@@ -4489,8 +4499,11 @@ textarea {
 }
 
 .dora-office-live-side {
+  grid-column: 2;
   display: grid;
-  gap: 1.25rem;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: 1rem;
+  margin-top: -0.3rem;
 }
 
 .dora-office-side-card {
@@ -4818,7 +4831,7 @@ textarea {
   }
 
   .dora-office-stage-panel {
-    min-height: 29.5rem;
+    min-height: 33rem;
   }
 
   .dora-office-metrics,
@@ -4849,6 +4862,10 @@ textarea {
     position: static;
     gap: 0.85rem;
     padding: 0.9rem;
+  }
+
+  .dora-office-live-main {
+    grid-column: auto;
   }
 
   .dora-office-route-rail nav,
@@ -4885,6 +4902,8 @@ textarea {
 
   .dora-office-live-side {
     grid-column: auto;
+    grid-template-columns: 1fr;
+    margin-top: 0;
   }
 
   .dora-office-live-heading {
@@ -4901,16 +4920,16 @@ textarea {
   }
 
   .dora-office-stage-panel {
-    min-height: 30rem;
+    min-height: 31rem;
   }
 
   .dora-office-portal-art {
-    inset: -0.8rem -1rem 6rem -1rem;
+    inset: -0.9rem -5.2rem 6.2rem -5.2rem;
   }
 
   .dora-office-stage-boundary {
     top: 22%;
-    right: 8%;
+    right: 10%;
     width: min(13rem, 38%);
   }
 
@@ -4996,19 +5015,20 @@ textarea {
   }
 
   .dora-office-portal-art {
-    inset: -0.35rem -1.45rem 7.5rem -1.45rem;
+    inset: -0.15rem -8.6rem 7.2rem -8.6rem;
   }
 
   .dora-office-portal-art img {
-    --dora-office-portal-scale: 1;
-    --dora-office-portal-scale-peak: 1.006;
+    --dora-office-portal-scale: 1.01;
+    --dora-office-portal-scale-peak: 1.016;
     --dora-office-portal-x: 0;
+    object-position: 56% 50%;
   }
 
   .dora-office-stage-boundary {
-    top: 17%;
-    right: 8%;
-    width: 38%;
+    top: 14%;
+    right: clamp(7.3rem, 35vw, 8.6rem);
+    width: min(9.6rem, 38vw);
     gap: 0.45rem;
   }
 
