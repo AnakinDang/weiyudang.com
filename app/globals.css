@@ -4387,6 +4387,86 @@ textarea {
   }
 }
 
+@keyframes doraemon-portal-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-0.35rem) scale(1.006);
+  }
+}
+
+@keyframes doraemon-stage-aura {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scale(0.98);
+  }
+
+  50% {
+    opacity: 0.72;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes doraemon-light-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-34%) skewX(-12deg);
+  }
+
+  32% {
+    opacity: 0.42;
+  }
+
+  72%,
+  100% {
+    opacity: 0;
+    transform: translateX(120%) skewX(-12deg);
+  }
+}
+
+@keyframes doraemon-orbit-breathe {
+  0%,
+  100% {
+    opacity: 0.78;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes doraemon-node-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-0.28rem);
+  }
+}
+
+@keyframes doraemon-feed-sheen {
+  0% {
+    opacity: 0;
+    transform: translateX(-40%);
+  }
+
+  36% {
+    opacity: 0.7;
+  }
+
+  78%,
+  100% {
+    opacity: 0;
+    transform: translateX(115%);
+  }
+}
+
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -4841,6 +4921,12 @@ textarea {
   box-shadow: 0 18px 42px rgba(37, 99, 235, 0.22);
 }
 
+.doraemon-primary-action svg,
+.doraemon-quiet-action svg,
+.doraemon-inline-link svg {
+  transition: transform 180ms ease;
+}
+
 .doraemon-quiet-action,
 .doraemon-inline-link {
   color: #1d4ed8;
@@ -4852,10 +4938,46 @@ textarea {
   transform: translateY(-1px);
 }
 
+.doraemon-primary-action:hover svg,
+.doraemon-quiet-action:hover svg,
+.doraemon-inline-link:hover svg {
+  transform: translateX(0.2rem);
+}
+
 .doraemon-command-preview {
   position: relative;
   isolation: isolate;
   min-height: 35.9rem;
+}
+
+.doraemon-command-preview::before,
+.doraemon-command-preview::after {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  content: "";
+}
+
+.doraemon-command-preview::before {
+  right: 3%;
+  bottom: 2.6rem;
+  left: 9%;
+  height: 14.5rem;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.18), rgba(147, 197, 253, 0.08) 42%, transparent 72%);
+  filter: blur(1.35rem);
+  animation: doraemon-stage-aura 8.5s ease-in-out infinite;
+}
+
+.doraemon-command-preview::after {
+  top: 3.8rem;
+  right: 8%;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.85), rgba(147, 197, 253, 0.16) 42%, transparent 72%);
+  filter: blur(1.2rem);
+  opacity: 0.5;
 }
 
 .doraemon-portal-stage {
@@ -4866,24 +4988,55 @@ textarea {
   overflow: hidden;
 }
 
+.doraemon-portal-stage::before,
+.doraemon-portal-stage::after {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+}
+
+.doraemon-portal-stage::before {
+  inset: 7% 4% 10% 30%;
+  z-index: 0;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(191, 219, 254, 0.72), rgba(37, 99, 235, 0.12) 42%, transparent 72%);
+  filter: blur(1.3rem);
+  animation: doraemon-stage-aura 7.4s ease-in-out infinite;
+}
+
+.doraemon-portal-stage::after {
+  top: 6%;
+  bottom: 14%;
+  left: 35%;
+  z-index: 3;
+  width: 18%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+  mix-blend-mode: screen;
+  animation: doraemon-light-sweep 9s ease-in-out infinite;
+}
+
 .doraemon-portal-stage img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: contain;
   object-position: 58% 50%;
   filter:
-    saturate(1.08)
-    contrast(1.04)
-    drop-shadow(0 34px 70px rgba(37, 99, 235, 0.09));
+    saturate(1.12)
+    contrast(1.05)
+    drop-shadow(0 36px 78px rgba(37, 99, 235, 0.12));
+  animation: doraemon-portal-breathe 8s ease-in-out infinite;
   mask-image: radial-gradient(ellipse at 58% 52%, #000 0 70%, rgba(0, 0, 0, 0.78) 83%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse at 58% 52%, #000 0 70%, rgba(0, 0, 0, 0.78) 83%, transparent 100%);
+  will-change: transform;
 }
 
 .doraemon-portal-panel {
   position: absolute;
   top: 27.5%;
   right: 8%;
-  z-index: 2;
+  z-index: 4;
   width: min(15.25rem, 30%);
   color: #05070a;
 }
@@ -4945,6 +5098,7 @@ textarea {
   content: "";
   filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.22));
   transform: perspective(650px) rotateX(68deg);
+  animation: doraemon-orbit-breathe 5.6s ease-in-out infinite;
 }
 
 .doraemon-agent-constellation::after {
@@ -4953,6 +5107,7 @@ textarea {
   left: 17%;
   height: 5.6rem;
   border-color: rgba(37, 99, 235, 0.18);
+  animation-delay: 0.8s;
 }
 
 .doraemon-agent-node {
@@ -4979,7 +5134,9 @@ textarea {
   box-shadow:
     0 10px 24px rgba(15, 23, 42, 0.1),
     0 0 0 0 rgba(37, 99, 235, 0.2);
-  animation: node-breathe 3.2s ease-in-out infinite;
+  animation:
+    node-breathe 3.2s ease-in-out infinite,
+    doraemon-node-float 4.8s ease-in-out infinite;
 }
 
 .doraemon-agent-node svg {
@@ -5062,6 +5219,19 @@ textarea {
   background: rgba(255, 255, 255, 0.88);
   box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+.doraemon-activity-preview::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.08), transparent);
+  content: "";
+  pointer-events: none;
+  animation: doraemon-feed-sheen 10s ease-in-out infinite;
 }
 
 .doraemon-activity-preview-head {
@@ -5102,7 +5272,7 @@ textarea {
   width: 0.36rem;
   height: 0.36rem;
   border-radius: 999px;
-  background: #22c55e;
+  background: #2563eb;
   content: "";
   transform: translateY(-50%);
 }
@@ -5129,6 +5299,21 @@ textarea {
   border-radius: 999px;
   background: #ffffff;
   content: "";
+}
+
+.doraemon-activity-ticks .doraemon-activity-tick-info::before {
+  border-color: rgba(59, 130, 246, 0.34);
+  background: #eff6ff;
+}
+
+.doraemon-activity-ticks .doraemon-activity-tick-normal::before {
+  border-color: rgba(37, 99, 235, 0.42);
+  background: #ffffff;
+}
+
+.doraemon-activity-ticks .doraemon-activity-tick-warning::before {
+  border-color: rgba(244, 183, 64, 0.72);
+  background: #fffbeb;
 }
 
 .doraemon-activity-ticks div:first-child {
@@ -5683,7 +5868,7 @@ textarea {
 
   .doraemon-agent-constellation {
     right: 1%;
-    bottom: 6.35rem;
+    bottom: 7.25rem;
     left: 1%;
     height: 9.5rem;
   }
@@ -5802,7 +5987,15 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .doraemon-agent-node span {
+  .doraemon-command-preview::before,
+  .doraemon-portal-stage::before,
+  .doraemon-portal-stage::after,
+  .doraemon-portal-stage img,
+  .doraemon-agent-constellation::before,
+  .doraemon-agent-constellation::after,
+  .doraemon-agent-node,
+  .doraemon-agent-node span,
+  .doraemon-activity-preview::after {
     animation: none !important;
   }
 }

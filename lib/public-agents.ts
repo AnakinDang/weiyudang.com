@@ -55,12 +55,26 @@ const publicAgentRegistry = {
     summary: "Turns product slices into working software artifacts.",
     colorToken: "success"
   },
-  "minidora-media": {
-    publicId: "agent_media",
-    displayName: "Media MiniDora",
-    role: "Creative Production",
-    summary: "Builds repeatable workflows for images, video, and story assets.",
-    colorToken: "bell-yellow"
+  "minidora-product": {
+    publicId: "agent_product",
+    displayName: "Product MiniDora",
+    role: "Product Quality",
+    summary: "Keeps scope, review standards, and release rhythm clear.",
+    colorToken: "dora-blue"
+  },
+  "minidora-ops": {
+    publicId: "agent_ops",
+    displayName: "Ops MiniDora",
+    role: "Operations",
+    summary: "Watches routines, schedules, and public-safe system health.",
+    colorToken: "success"
+  },
+  "minidora-memory": {
+    publicId: "agent_memory",
+    displayName: "Memory MiniDora",
+    role: "Knowledge",
+    summary: "Maintains durable context, summaries, and knowledge hygiene.",
+    colorToken: "dora-blue"
   },
   "minidora-trading": {
     publicId: "agent_trading",
@@ -68,6 +82,13 @@ const publicAgentRegistry = {
     role: "Trading Research",
     summary: "Maintains an evidence-first research queue with owner review.",
     colorToken: "warning"
+  },
+  "minidora-media": {
+    publicId: "agent_media",
+    displayName: "Media MiniDora",
+    role: "Creative Production",
+    summary: "Builds repeatable workflows for images, video, and story assets.",
+    colorToken: "bell-yellow"
   }
 } as const;
 
@@ -75,8 +96,11 @@ const publicAgentOrder = [
   "doraemon",
   "minidora-research",
   "minidora-dev",
-  "minidora-media",
-  "minidora-trading"
+  "minidora-product",
+  "minidora-ops",
+  "minidora-memory",
+  "minidora-trading",
+  "minidora-media"
 ] as const;
 
 type KnownAgentId = (typeof publicAgentOrder)[number];
