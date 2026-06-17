@@ -42,7 +42,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
                 isActive ? "panel p-5" : "panel-quiet p-5 hover:border-[#bfdbfe] hover:bg-white/80"
               }`}
             >
-              <p className="mono text-xs text-slate-500">{note.date}</p>
+              <p className="mono text-xs text-slate-500">{note.dateLabel}</p>
               <h3 className="mt-2 text-xl font-semibold text-slate-950">{note.title}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">{note.summary}</p>
             </button>

@@ -5,7 +5,7 @@ const defaultNavItems = [
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/dora", label: "Doraemon" },
-  { href: "/lab", label: "Lab Notes" },
+  { href: "/lab", label: "Lab" },
   { href: "/journal", label: "Journal" },
   { href: "/contact", label: "Contact" }
 ];
@@ -15,7 +15,7 @@ const doraemonNavItems = [
   { href: "/dora", label: "Doraemon" },
   { href: "/journal", label: "Writing" },
   { href: "/projects", label: "Projects" },
-  { href: "/lab", label: "Research" }
+  { href: "/lab", label: "Lab" }
 ];
 
 export function SiteHeader({

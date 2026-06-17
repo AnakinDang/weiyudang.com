@@ -38,12 +38,18 @@ export type Project = {
 export type Note = {
   title: string;
   slug: string;
+  publishedAt: string;
+  updatedAt?: string;
   date: string;
+  dateLabel: string;
   category: LabCategory;
   categoryLabel: string;
   visibility: ContentVisibility;
   visibilityLabel: string;
   summary: string;
+  relatedProject?: string;
+  artifactLinks: ContentLink[];
+  featured: boolean;
   body: string;
 };
 
@@ -77,10 +83,15 @@ type RawProject = {
 type RawNote = {
   title: string;
   slug: string;
-  date: string;
+  publishedAt?: string;
+  updatedAt?: string;
+  date?: string;
   category: unknown;
   visibility: unknown;
   summary: string;
+  relatedProject?: unknown;
+  artifactLinks?: unknown;
+  featured?: unknown;
 };
 
 type RawJournalEntry = {
@@ -112,6 +123,70 @@ function readMdx<T>(folder: string, fileName: string): T & { body: string } {
   };
 }
 
+function readPublishedAt(raw: RawNote): string {
+  if (typeof raw.publishedAt === "string" && raw.publishedAt.trim()) {
+    return raw.publishedAt;
+  }
+
+  if (typeof raw.date === "string" && raw.date.trim()) {
+    return raw.date;
+  }
+
+  throw new Error("[content-model] note.publishedAt is required");
+}
+
+function readRelatedProject(value: unknown, projectSlugs: Set<string>): string | undefined {
+  if (typeof value !== "string" || !/^[a-z0-9-]+$/.test(value)) {
+    return undefined;
+  }
+
+  return projectSlugs.has(value) ? value : undefined;
+}
+
+function readContentLinks(value: unknown): ContentLink[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter((item): item is ContentLink => {
+      if (!item || typeof item !== "object") {
+        return false;
+      }
+
+      const candidate = item as Partial<ContentLink>;
+      return (
+        typeof candidate.label === "string" &&
+        typeof candidate.href === "string" &&
+        (/^\//.test(candidate.href) || /^https:\/\//.test(candidate.href))
+      );
+    })
+    .map((item) => ({
+      label: item.label,
+      href: item.href,
+      private: item.private === true
+    }));
+}
+
+export function formatContentDate(value: string): string {
+  const [year, month, day] = value.split("-").map(Number);
+  const date =
+    Number.isInteger(year) && Number.isInteger(month) && Number.isInteger(day)
+      ? new Date(Date.UTC(year, month - 1, day))
+      : new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC"
+  }).format(date);
+}
+
 function normalizeProject(raw: RawProject & { body: string }): Project {
   const status = readEnum("project.status", raw.status, projectStatuses) as ProjectStatus;
   const visibility = readEnum("project.visibility", raw.visibility, visibilityLabels) as ContentVisibility;
@@ -129,16 +204,25 @@ function normalizeProject(raw: RawProject & { body: string }): Project {
   };
 }
 
-function normalizeNote(raw: RawNote & { body: string }): Note {
+function normalizeNote(raw: RawNote & { body: string }, projectSlugs: Set<string>): Note {
   const category = readEnum("note.category", raw.category, labCategories) as LabCategory;
   const visibility = readEnum("note.visibility", raw.visibility, visibilityLabels) as ContentVisibility;
+  const publishedAt = readPublishedAt(raw);
+  const updatedAt = typeof raw.updatedAt === "string" && raw.updatedAt.trim() ? raw.updatedAt : undefined;
 
   return {
     ...raw,
+    publishedAt,
+    updatedAt,
+    date: publishedAt,
+    dateLabel: formatContentDate(publishedAt),
     category,
     categoryLabel: labCategories[category],
     visibility,
-    visibilityLabel: visibilityLabels[visibility]
+    visibilityLabel: visibilityLabels[visibility],
+    relatedProject: readRelatedProject(raw.relatedProject, projectSlugs),
+    artifactLinks: readContentLinks(raw.artifactLinks),
+    featured: raw.featured === true
   };
 }
 
@@ -169,13 +253,18 @@ export function getProjectBySlug(slug: string): Project | undefined {
 
 export function getNotes(): Note[] {
   const folder = path.join(contentRoot, "notes");
+  const projectSlugs = new Set(getProjects().map((project) => project.slug));
   return fs
     .readdirSync(folder)
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => readMdx<RawNote>("notes", file))
-    .map(normalizeNote)
+    .map((note) => normalizeNote(note, projectSlugs))
     .filter((note) => isPublicVisibility(note.visibility))
     .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export function getNoteBySlug(slug: string): Note | undefined {
+  return getNotes().find((note) => note.slug === slug);
 }
 
 export function getLatestNotes(limit = 3): Note[] {
