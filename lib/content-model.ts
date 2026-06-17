@@ -31,7 +31,7 @@ export type ContentVisibility = keyof typeof visibilityLabels;
 
 export const labCategories = {
   "agent-systems": "Agent Systems",
-  "dora-office": "Dora Office",
+  "dora-office": "Doraemon Office",
   "trading-research": "Trading Research",
   design: "Design",
   engineering: "Engineering",

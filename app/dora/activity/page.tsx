@@ -4,8 +4,8 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { formatPublicEventTime, getPublicToolLabel, getRecentPublicDoraEvents } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
-  title: "Dora Activity",
-  description: "Public sanitized Dora Office activity timeline."
+  title: "Doraemon Activity",
+  description: "Public sanitized Doraemon Office activity timeline."
 };
 
 export default function DoraActivityPage() {

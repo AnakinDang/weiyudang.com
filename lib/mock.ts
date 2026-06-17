@@ -133,7 +133,7 @@ export const events: AgentEvent[] = [
 
 export const publicQuestions = [
   "What is Weiyu AI?",
-  "How does Dora work?",
+  "How does Doraemon work?",
   "Show me Weiyu's projects.",
   "What does Weiyu share outside the lab?",
   "What is the MiniDora Trading research desk?",
@@ -143,10 +143,10 @@ export const publicQuestions = [
 export const doraAnswers: Record<string, string> = {
   "What is Weiyu AI?":
     "Weiyu AI is the personal AI lab inside Weiyu's website. It explores how agents, interfaces, and workflows can support research, creative work, and review.",
-  "How does Dora work?":
-    "Dora is the warm public guide and orchestration concept. It explains public projects, points visitors to the right pages, and keeps private systems out of scope.",
+  "How does Doraemon work?":
+    "Doraemon is the warm public guide and orchestration concept. It explains public projects, points visitors to the right pages, and keeps private systems out of scope.",
   "Show me Weiyu's projects.":
-    "Start with Weiyu AI, Dora, MiniDora Trading, AI Media Lab, and Games & Apps. The Projects page has the public index.",
+    "Start with Weiyu AI, Doraemon, MiniDora Trading, AI Media Lab, and Games & Apps. The Projects page has the public index.",
   "What does Weiyu share outside the lab?":
     "The Journal is the softer side of the site: photography, life notes, places, and field observations that sit beside the technical work.",
   "What is the MiniDora Trading research desk?":

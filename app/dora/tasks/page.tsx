@@ -5,8 +5,8 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { publicDoraTasks, publicDoraTaskStats } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
-  title: "Dora Tasks",
-  description: "Public-safe Dora Office task aggregation with opaque IDs, fixed titles, and no execution controls."
+  title: "Doraemon Tasks",
+  description: "Public-safe Doraemon Office task aggregation with opaque IDs, fixed titles, and no execution controls."
 };
 
 const severityLabels = {

@@ -5,8 +5,8 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { publicSystemBoundaries, publicSystemStatus } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
-  title: "Dora System",
-  description: "Public-safe Dora Office system status without internal hostnames, ports, paths, tokens, or repair controls."
+  title: "Doraemon System",
+  description: "Public-safe Doraemon Office system status without internal hostnames, ports, paths, tokens, or repair controls."
 };
 
 const systemIcons = {
@@ -21,7 +21,7 @@ export default function DoraSystemPage() {
     <DoraOfficeShell
       active="/dora/system"
       title="System"
-      summary="Public Dora Office health at a safe abstraction level: mode, schema posture, freshness, and sanitized replay."
+      summary="Public Doraemon Office health at a safe abstraction level: mode, schema posture, freshness, and sanitized replay."
     >
       <div className="grid gap-5">
         <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">

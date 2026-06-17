@@ -7,7 +7,7 @@ export const ownerTodayPriorities = [
     summary: "Close the public Office screen, then move into the private cockpit and trading research surfaces."
   },
   {
-    title: "Keep public Dora routes sanitized",
+    title: "Keep public Doraemon routes sanitized",
     owner: "Dev MiniDora",
     state: "Working",
     tone: "info",
@@ -24,7 +24,7 @@ export const ownerTodayPriorities = [
 
 export const ownerReviewQueue = [
   {
-    title: "Review Step 3 Dora Office fix packet",
+    title: "Review Step 3 Doraemon Office fix packet",
     agent: "Codex + Opus",
     urgency: "Now",
     state: "Ready",
@@ -73,7 +73,7 @@ export const ownerSchedulePressure = [
 
 export const ownerSystemHealth = [
   { label: "Private auth gate", value: "Enabled", tone: "normal" },
-  { label: "Public Dora boundary", value: "Sanitized", tone: "normal" },
+  { label: "Public Doraemon boundary", value: "Sanitized", tone: "normal" },
   { label: "Trading execution", value: "Disabled", tone: "private" },
   { label: "Runtime source", value: "Mock scaffold", tone: "warning" }
 ] as const;

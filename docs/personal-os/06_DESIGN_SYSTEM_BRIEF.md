@@ -62,11 +62,11 @@ Use this for:
 - Projects
 - Lab
 - Journal
-- Dora Entry base
+- Doraemon Entry base
 
-### Dora layer
+### Doraemon layer
 
-- Dora blue
+- Doraemon blue
 - bell yellow
 - soft red
 - warm white
@@ -82,8 +82,8 @@ Initial tokens:
 
 Use this for:
 
-- Dora Entry
-- Dora Office accents
+- Doraemon Entry
+- Doraemon Office accents
 - agent identity
 - live/demo state
 
@@ -137,7 +137,7 @@ Typography rules:
 - clear next section visible below hero
 - content-led, not decoration-led
 
-### Dora Office
+### Doraemon Office
 
 - animated stage has priority
 - panels explain the stage
@@ -188,7 +188,7 @@ Required fields:
 ### Status badge
 
 Allowed public states are defined canonically in
-[Dora Office Dashboard Spec](04_DORA_OFFICE_DASHBOARD_SPEC.md). Do not create a
+[Doraemon Office Dashboard Spec](04_DORA_OFFICE_DASHBOARD_SPEC.md). Do not create a
 parallel state vocabulary in component code.
 
 Badge examples:
@@ -274,7 +274,7 @@ Requirements:
 ## Visual Acceptance Criteria
 
 - The homepage feels personal before it feels corporate.
-- Dora pages feel warm and alive without losing product clarity.
-- Dora Office reads as a command room, not a generic admin dashboard.
+- Doraemon pages feel warm and alive without losing product clarity.
+- Doraemon Office reads as a command room, not a generic admin dashboard.
 - Trading Team reads as a research cockpit, not a trading terminal.
 - Mobile pages preserve navigation and do not overlap topbar, tabs, or content.

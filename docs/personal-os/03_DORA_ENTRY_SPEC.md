@@ -1,4 +1,4 @@
-# Dora Entry Spec
+# Doraemon Entry Spec
 
 Status: v0.1
 Date: 2026-06-13
@@ -16,14 +16,14 @@ The page should answer:
 - What are MiniDoras?
 - What can the public see?
 - What remains private?
-- How do I enter the public Dora Office?
+- How do I enter the public Doraemon Office?
 
 ## Positioning
 
 Recommended headline direction:
 
 ```text
-Dora Office
+Doraemon Office
 ```
 
 Supporting line:
@@ -55,7 +55,7 @@ Responsibilities:
 Primary CTA:
 
 ```text
-Enter Dora Office
+Enter Doraemon Office
 ```
 
 Canonical destination:
@@ -76,7 +76,7 @@ Secondary CTAs:
 - `Read the project`
 - `Contact Weiyu`
 
-### 2. What Dora Does
+### 2. What Doraemon Does
 
 Explain Doraemon through behavior, not lore.
 
@@ -107,7 +107,7 @@ Each preview should include:
 - role
 - public-safe responsibility
 - current public/demo status if available
-- route to `Team Agents` in Dora Office
+- route to `Team Agents` in Doraemon Office
 
 ### 4. Office Preview
 
@@ -131,7 +131,7 @@ This should be visible but not alarmist.
 Required message:
 
 ```text
-Public Dora Office is read-only and sanitized. It does not expose private tasks,
+Public Doraemon Office is read-only and sanitized. It does not expose private tasks,
 prompts, memory, credentials, trading data, or owner-only controls.
 ```
 
@@ -173,7 +173,7 @@ The page should feel like a warm threshold into a command room.
 
 Use:
 
-- Dora blue accents
+- Doraemon blue accents
 - warm white base
 - bell yellow highlights
 - soft red for small emphasis
@@ -217,6 +217,6 @@ Doraemon visuals on the public site.
 
 - The first viewport immediately communicates Doraemon + public office.
 - A visitor understands the public/private boundary before entering office views.
-- The page routes to Dora Office without iframe dependency.
+- The page routes to Doraemon Office without iframe dependency.
 - No public interaction implies private memory, trading data, or execution access.
 - Doraemon feels structurally important, not pasted on as a mascot.

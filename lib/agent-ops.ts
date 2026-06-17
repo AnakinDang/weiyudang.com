@@ -17,7 +17,7 @@ export const privateAgentRoster = [
     tone: "info",
     lease: "Frontend slice work",
     capabilities: ["Next.js surfaces", "route wiring", "browser QA"],
-    lastOutput: "Built native Dora Office, Owner Today, Trading Team, and Command surfaces.",
+    lastOutput: "Built native Doraemon Office, Owner Today, Trading Team, and Command surfaces.",
     sourceHealth: "Good",
     sourceDetail: "Code and verification artifacts are local to the protected worktree."
   },
@@ -63,7 +63,7 @@ export const privateAgentHandoffs = [
     to: "Opus",
     state: "Complete",
     tone: "normal",
-    summary: "Dora Office first screen passed review after P2 fixes."
+    summary: "Doraemon Office first screen passed review after P2 fixes."
   },
   {
     time: "Step 4",

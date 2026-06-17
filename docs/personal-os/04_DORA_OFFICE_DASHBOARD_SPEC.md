@@ -1,11 +1,11 @@
-# Dora Office Dashboard Spec
+# Doraemon Office Dashboard Spec
 
 Status: v0.1
 Date: 2026-06-13
 
 ## Purpose
 
-Dora Office is the public, read-only command room for the Doraemon Agent System.
+Doraemon Office is the public, read-only command room for the Doraemon Agent System.
 
 It should make the AI one-person company visible:
 
@@ -18,7 +18,7 @@ The public sees only sanitized state.
 
 ## Product Shape
 
-Dora Office should be integrated into the personal site experience. The long-term
+Doraemon Office should be integrated into the personal site experience. The long-term
 product shape is native `weiyudang.com` routes under `/dora/*`, not an iframe
 portal and not a permanent separate visualizer portal.
 
@@ -221,7 +221,7 @@ updated first.
 
 ## Data Contract Dependency
 
-Dora Office must follow [Public/Private Data Contract](07_PUBLIC_PRIVATE_DATA_CONTRACT.md).
+Doraemon Office must follow [Public/Private Data Contract](07_PUBLIC_PRIVATE_DATA_CONTRACT.md).
 
 The public dashboard should treat the relay/worker public schema as the only
 trusted input. Frontend code should still render defensively if an unknown state

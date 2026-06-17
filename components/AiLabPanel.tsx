@@ -7,13 +7,13 @@ import { ArrowRight, Bot, Network, ShieldCheck, Sparkles, Workflow } from "lucid
 const labModes = [
   {
     id: "dora",
-    label: "Dora",
+    label: "Doraemon",
     icon: Bot,
     title: "Public companion",
     summary: "A warm guide for explaining public projects, answering safe questions, and routing visitors.",
     intent: "Make the personal site feel alive without exposing private systems.",
     link: "/dora",
-    linkLabel: "Meet Dora",
+    linkLabel: "Meet Doraemon",
     events: ["Read public project index", "Match visitor intent", "Return bounded answer"]
   },
   {

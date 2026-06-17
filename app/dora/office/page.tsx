@@ -23,8 +23,8 @@ import {
 import { getPublicAgents } from "@/lib/public-agents";
 
 export const metadata: Metadata = {
-  title: "Dora Office",
-  description: "The public live/demo Dora Office view without private task names, prompts, accounts, or controls."
+  title: "Doraemon Office",
+  description: "The public live/demo Doraemon Office view without private task names, prompts, accounts, or controls."
 };
 
 export default function DoraOfficePage() {

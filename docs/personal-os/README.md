@@ -13,7 +13,7 @@ homepage. It is the public front door to Weiyu's personal AI operating system:
 ```text
 public personal site
 + Doraemon entry
-+ public Dora Office
++ public Doraemon Office
 + private owner cockpit
 + MiniDora agent team surfaces
 + research-only trading team interface
@@ -23,8 +23,8 @@ public personal site
 
 1. [Product Blueprint](01_PRODUCT_BLUEPRINT.md)
 2. [Information Architecture](02_INFORMATION_ARCHITECTURE.md)
-3. [Dora Entry Spec](03_DORA_ENTRY_SPEC.md)
-4. [Dora Office Dashboard Spec](04_DORA_OFFICE_DASHBOARD_SPEC.md)
+3. [Doraemon Entry Spec](03_DORA_ENTRY_SPEC.md)
+4. [Doraemon Office Dashboard Spec](04_DORA_OFFICE_DASHBOARD_SPEC.md)
 5. [Trading Team Interface Spec](05_TRADING_TEAM_INTERFACE_SPEC.md)
 6. [Design System Brief](06_DESIGN_SYSTEM_BRIEF.md)
 7. [Public/Private Data Contract](07_PUBLIC_PRIVATE_DATA_CONTRACT.md)
@@ -37,8 +37,8 @@ public personal site
 | Layer | Primary routes | Purpose |
 | --- | --- | --- |
 | Public identity | `/`, `/about`, `/projects`, `/lab`, `/journal`, `/contact` | Explain Weiyu, the work, the lab, and the public research trail. |
-| Dora entry | `/dora` | Warm front door to Doraemon and the agent system. |
-| Dora Office | `/dora/office`, `/dora/activity`, `/dora/team`, `/dora/tasks`, `/dora/schedules`, `/dora/knowledge`, `/dora/system` | Public, read-only, sanitized command room and dashboard. |
+| Doraemon entry | `/dora` | Warm front door to Doraemon and the agent system. |
+| Doraemon Office | `/dora/office`, `/dora/activity`, `/dora/team`, `/dora/tasks`, `/dora/schedules`, `/dora/knowledge`, `/dora/system` | Public, read-only, sanitized command room and dashboard. |
 | Owner cockpit | `/app/*` | Private working surface for Weiyu. |
 | Trading team | public project page + private `/app/trading` | Research-only agent team showcase and private evidence console. |
 

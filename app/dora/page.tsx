@@ -7,8 +7,8 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { DORA_LIVE_BRIDGE_URL } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
-  title: "Dora",
-  description: "The public Dora entry for Weiyu Dang's personal AI operating system."
+  title: "Doraemon",
+  description: "The public Doraemon entry for Weiyu Dang's personal AI operating system."
 };
 
 export default function DoraPage() {
@@ -17,7 +17,7 @@ export default function DoraPage() {
   return (
     <DoraOfficeShell
       active="/dora"
-      title="Dora is the front door to the personal AI office."
+      title="Doraemon is the front door to the personal AI office."
       summary="Doraemon coordinates, MiniDoras work, and Weiyu decides. This public entrance explains the system and routes into a sanitized command-room view."
     >
       <div className="grid gap-8">
@@ -25,7 +25,7 @@ export default function DoraPage() {
           {[
             {
               title: "Coordinate agents",
-              summary: "Dora turns intent into plans, handoffs, summaries, and review checkpoints.",
+              summary: "Doraemon turns intent into plans, handoffs, summaries, and review checkpoints.",
               icon: Bot
             },
             {
@@ -56,7 +56,7 @@ export default function DoraPage() {
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-center">
             <div>
               <p className="eyebrow">Office live</p>
-              <h2 className="mt-2 text-xl font-semibold text-slate-900">Enter the native Dora Office route</h2>
+              <h2 className="mt-2 text-xl font-semibold text-slate-900">Enter the native Doraemon Office route</h2>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
                 The current production bridge is still available at {liveBridgeHost}, but the main product shape now
                 starts here under `/dora/*`.
@@ -68,7 +68,7 @@ export default function DoraPage() {
                 className="link-focus inline-flex w-fit items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_30px_rgba(37,99,235,0.2)] transition hover:bg-[#1d4ed8]"
               >
                 <Sparkles size={17} aria-hidden />
-                Enter Dora Office
+                Enter Doraemon Office
               </Link>
               <a
                 href={DORA_LIVE_BRIDGE_URL}

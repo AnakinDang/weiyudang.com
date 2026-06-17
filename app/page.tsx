@@ -19,10 +19,10 @@ const operatingLayers = [
     icon: Sparkles
   },
   {
-    title: "Dora Office",
+    title: "Doraemon Office",
     summary: "A public command-room view for Doraemon, MiniDoras, activity, schedules, and system heartbeat.",
     boundary: "public-safe",
-    actionLabel: "Open Dora",
+    actionLabel: "Open Doraemon",
     href: "/dora",
     icon: MonitorPlay
   },
@@ -58,7 +58,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Personal OS layers"
             title="One site, four connected surfaces."
-            summary="The public site explains the work; Dora makes the agent office legible; the private cockpit carries daily operations; trading stays research-only."
+            summary="The public site explains the work; Doraemon makes the agent office legible; the private cockpit carries daily operations; trading stays research-only."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {operatingLayers.map((item) => {
@@ -107,11 +107,11 @@ export default function HomePage() {
           <div>
             <SectionHeading
               eyebrow="AI Lab"
-              title="Dora, MiniDora, and Weiyu AI stay as one focused entrance."
-              summary="The Dora and MiniDora idea is still here, but as a lab within the personal site. The pure company narrative can move to weiyudang.ai later."
+              title="Doraemon, MiniDora, and Weiyu AI stay as one focused entrance."
+              summary="The Doraemon and MiniDora idea is still here, but as a lab within the personal site. The pure company narrative can move to weiyudang.ai later."
             />
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-              Dora is the public companion for explaining projects. MiniDora is the working metaphor for small specialist
+              Doraemon is the public companion for explaining projects. MiniDora is the working metaphor for small specialist
               agents. Both should support Weiyu's judgment, taste, and review instead of replacing them.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -120,7 +120,7 @@ export default function HomePage() {
                 className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white shadow-[0_12px_30px_rgba(37,99,235,0.2)] transition hover:bg-[#1d4ed8]"
               >
                 <Bot size={17} aria-hidden />
-                Meet Dora
+                Meet Doraemon
               </Link>
               <Link
                 href="/projects/weiyu-ai"

@@ -57,7 +57,7 @@ export default function ContactPage() {
               className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#1d4ed8] hover:text-[#1e40af]"
             >
               <MessageCircle size={16} aria-hidden />
-              Ask Dora about public projects
+              Ask Doraemon about public projects
             </Link>
           </aside>
         </div>

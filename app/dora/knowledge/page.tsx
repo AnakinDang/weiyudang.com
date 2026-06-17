@@ -6,7 +6,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { publicKnowledgeBoundaries, publicKnowledgeFlow, publicKnowledgeOutputs } from "@/lib/knowledge-vault";
 
 export const metadata: Metadata = {
-  title: "Dora Knowledge",
+  title: "Doraemon Knowledge",
   description: "Public Knowledge Vault explanation with curated outputs and no raw private source material."
 };
 
@@ -23,7 +23,7 @@ export default function DoraKnowledgePage() {
             <BookOpen className="text-[#2563eb]" size={28} aria-hidden />
             <h2 className="mt-4 text-2xl font-semibold text-slate-950">Public synthesis, private sources</h2>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
-              Knowledge can appear publicly as project pages, lab notes, journal entries, and safe Dora Office copy. The
+              Knowledge can appear publicly as project pages, lab notes, journal entries, and safe Doraemon Office copy. The
               private vault remains the source layer for raw notes, evidence, and personal memory.
             </p>
             <div className="mt-6 grid gap-4 md:grid-cols-2">
