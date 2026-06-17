@@ -12,13 +12,19 @@ const defaultNavItems = [
 
 const doraemonNavItems = [
   { href: "/", label: "Home" },
-  { href: "/dora", label: "Doraemon", active: true },
+  { href: "/dora", label: "Doraemon" },
   { href: "/journal", label: "Writing" },
   { href: "/projects", label: "Projects" },
   { href: "/lab", label: "Research" }
 ];
 
-export function SiteHeader({ variant = "default" }: { variant?: "default" | "doraemon" }) {
+export function SiteHeader({
+  variant = "default",
+  activeHref = "/dora"
+}: {
+  variant?: "default" | "doraemon";
+  activeHref?: string;
+}) {
   if (variant === "doraemon") {
     return (
       <header className="site-header site-header-doraemon">
@@ -34,8 +40,8 @@ export function SiteHeader({ variant = "default" }: { variant?: "default" | "dor
               <Link
                 key={item.href}
                 href={item.href}
-                aria-current={item.active ? "page" : undefined}
-                className={`link-focus${item.active ? " is-active" : ""}`}
+                aria-current={item.href === activeHref ? "page" : undefined}
+                className={`link-focus${item.href === activeHref ? " is-active" : ""}`}
               >
                 {item.label}
               </Link>

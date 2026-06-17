@@ -68,6 +68,10 @@ textarea {
   padding: 5rem 1.25rem;
 }
 
+#os-layers {
+  padding-top: 1.5rem;
+}
+
 .page-shell .section {
   background: transparent;
 }
@@ -160,10 +164,11 @@ textarea {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  min-height: calc(94svh - 4rem);
-  padding: 5.5rem 1.25rem 1rem;
+  min-height: calc(88svh - 4.75rem);
+  padding: 4.25rem 1.25rem 3rem;
   background:
-    linear-gradient(180deg, #ffffff 0%, #ffffff 72%, #f8fbff 100%),
+    radial-gradient(circle at 83% 22%, rgba(147, 197, 253, 0.22), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 74%, #f8fbff 100%),
     #ffffff;
 }
 
@@ -172,42 +177,49 @@ textarea {
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(115deg, transparent 0%, transparent 47%, rgba(37, 99, 235, 0.045) 47.2%, transparent 58%),
-    linear-gradient(180deg, rgba(15, 23, 42, 0.045), transparent 34%);
+    linear-gradient(115deg, transparent 0%, transparent 47%, rgba(37, 99, 235, 0.038) 47.2%, transparent 58%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.035), transparent 28%);
   content: "";
 }
 
 .premium-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(32rem, 1.18fr);
+  grid-template-columns: minmax(26rem, 0.82fr) minmax(32rem, 1.18fr);
   align-items: center;
-  gap: 4.5rem;
+  gap: 2rem;
 }
 
 .premium-hero-copy {
-  max-width: 39rem;
+  position: relative;
+  z-index: 4;
+  max-width: 36rem;
   padding-block: 2rem;
 }
 
 .premium-hero-title {
   margin: 0;
   color: #05070a;
-  font-family: "New York", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  font-size: 7.25rem;
-  font-weight: 600;
+  font-size: 5.75rem;
+  font-weight: 840;
   line-height: 0.94;
 }
 
+.premium-hero-title span {
+  display: block;
+  color: #2563eb;
+}
+
 .premium-hero-lede {
-  margin: 2.25rem 0 0;
-  max-width: 35rem;
-  color: #171a20;
-  font-size: 1.35rem;
+  margin: 1.45rem 0 0;
+  max-width: 35.5rem;
+  color: #232a36;
+  font-size: 1.22rem;
+  font-weight: 470;
   line-height: 1.48;
 }
 
 .premium-hero-support {
-  margin: 1.1rem 0 0;
+  margin: 0.95rem 0 0;
   max-width: 33rem;
   color: #687284;
   font-size: 1rem;
@@ -218,10 +230,11 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1rem;
-  margin-top: 2.25rem;
+  gap: 0.9rem 1rem;
+  margin-top: 1.65rem;
 }
 
+.premium-primary-link,
 .premium-text-link,
 .premium-secondary-link {
   display: inline-flex;
@@ -235,6 +248,15 @@ textarea {
     border-color 180ms ease,
     background 180ms ease,
     transform 180ms ease;
+}
+
+.premium-primary-link {
+  justify-content: space-between;
+  min-width: 13.8rem;
+  background: #2563eb;
+  padding: 0.9rem 1rem 0.9rem 1.08rem;
+  color: #ffffff;
+  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.22);
 }
 
 .premium-text-link {
@@ -251,6 +273,7 @@ textarea {
   box-shadow: 0 12px 34px rgba(37, 99, 235, 0.08);
 }
 
+.premium-primary-link:hover,
 .premium-text-link:hover,
 .premium-secondary-link:hover {
   transform: translateY(-1px);
@@ -258,8 +281,27 @@ textarea {
 
 .living-system-visual {
   position: relative;
-  min-height: 37rem;
+  min-height: 34rem;
   perspective: 1300px;
+}
+
+.personal-os-asset {
+  position: absolute;
+  inset: -3rem -5rem 0 -19rem;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.personal-os-asset img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center right;
+  opacity: 0.98;
+  filter: drop-shadow(0 34px 72px rgba(37, 99, 235, 0.08));
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.08) 13%, rgba(0, 0, 0, 0.92) 30%, #000 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.08) 13%, rgba(0, 0, 0, 0.92) 30%, #000 82%, transparent 100%);
 }
 
 .system-plane {
@@ -373,8 +415,8 @@ textarea {
 
 .dora-core {
   position: absolute;
-  top: 48%;
-  left: 52%;
+  top: 49%;
+  left: 62%;
   z-index: 2;
   width: 8rem;
   height: 8rem;
@@ -421,7 +463,12 @@ textarea {
   position: absolute;
   left: 50%;
   bottom: 8.4rem;
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.42rem 0.62rem;
   white-space: nowrap;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
   transform: translateX(-50%);
 }
 
@@ -437,8 +484,14 @@ textarea {
 
 .agent-network {
   top: 33%;
-  right: 7%;
+  right: 4%;
   min-width: 8.5rem;
+  border: 1px solid rgba(191, 219, 254, 0.62);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.85rem;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(14px);
 }
 
 .agent-network ul,
@@ -481,16 +534,28 @@ textarea {
 }
 
 .context-stack {
-  left: 8%;
-  bottom: 19%;
+  left: 7%;
+  bottom: 22%;
   display: grid;
+  border: 1px solid rgba(221, 231, 240, 0.72);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.85rem;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.07);
+  backdrop-filter: blur(14px);
 }
 
 .privacy-boundary {
-  right: 7%;
+  right: 5%;
   bottom: 17%;
   display: grid;
   gap: 0.75rem;
+  border: 1px solid rgba(221, 231, 240, 0.72);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.74);
+  padding: 0.85rem;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.07);
+  backdrop-filter: blur(14px);
 }
 
 .privacy-boundary div {
@@ -514,12 +579,17 @@ textarea {
 }
 
 .dora-entry-dock {
-  grid-column: 1 / -1;
+  position: absolute;
+  right: auto;
+  bottom: 1rem;
+  left: 50%;
+  z-index: 5;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 1.5rem;
-  margin-top: -1.5rem;
+  gap: 1.15rem;
+  width: min(1180px, calc(100% - 2.5rem));
+  margin: 0 auto;
   border: 1px solid rgba(148, 163, 184, 0.24);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.86);
@@ -531,12 +601,13 @@ textarea {
     border-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
+  transform: translateX(-50%);
 }
 
 .dora-entry-dock:hover {
   border-color: rgba(37, 99, 235, 0.26);
   box-shadow: 0 26px 70px rgba(37, 99, 235, 0.12);
-  transform: translateY(-1px);
+  transform: translate(-50%, -1px);
 }
 
 .dora-entry-dock-label {
@@ -553,6 +624,20 @@ textarea {
   color: #64748b;
   font-size: 1rem;
   font-weight: 500;
+}
+
+.dora-entry-dock-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 999px;
+  background: rgba(220, 252, 231, 0.74);
+  padding: 0.4rem 0.7rem;
+  color: #047857;
+  font-size: 0.78rem;
+  font-weight: 780;
+  text-transform: uppercase;
 }
 
 .public-pill {
@@ -809,30 +894,31 @@ textarea {
 
 @media (max-width: 1180px) and (min-width: 1041px) {
   .premium-hero-grid {
-    grid-template-columns: minmax(0, 0.9fr) minmax(28rem, 1fr);
-    gap: 2.5rem;
+    grid-template-columns: minmax(24rem, 0.86fr) minmax(29rem, 1.14fr);
+    gap: 1.2rem;
   }
 
   .premium-hero-title {
-    font-size: 6.15rem;
+    font-size: 5.25rem;
   }
 
   .living-system-visual {
-    min-height: 34rem;
+    min-height: 32rem;
   }
 
-  .system-plane {
-    inset: 4.4rem 0 2.5rem;
+  .personal-os-asset {
+    inset: -2.2rem -4rem 0 -15rem;
   }}
 
 @media (max-width: 1040px) {
   .premium-hero {
-    padding-top: 5rem;
+    min-height: auto;
+    padding-top: 4rem;
   }
 
   .premium-hero-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   .premium-hero-copy {
@@ -841,15 +927,15 @@ textarea {
   }
 
   .living-system-visual {
-    min-height: 30rem;
+    min-height: 29rem;
   }
 
-  .system-plane {
-    inset: 2.5rem 0 1.5rem;
+  .personal-os-asset {
+    inset: -2rem -2rem 0 -9rem;
   }
 
   .dora-entry-dock {
-    margin-top: 0;
+    bottom: 1rem;
   }}
 
 @media (max-width: 720px) {
@@ -859,11 +945,12 @@ textarea {
 
   .premium-hero {
     min-height: auto;
-    padding: 3rem 1rem 0.75rem;
+    padding: 2.6rem 1rem 0.75rem;
   }
 
   .premium-hero-title {
-    font-size: 3.65rem;
+    font-size: 3.08rem;
+    line-height: 0.94;
   }
 
   .premium-hero-lede {
@@ -883,9 +970,15 @@ textarea {
   }
 
   .premium-text-link,
+  .premium-primary-link,
   .premium-secondary-link {
     justify-content: center;
     font-size: 0.88rem;
+  }
+
+  .premium-primary-link {
+    width: 100%;
+    min-width: 0;
   }
 
   .premium-secondary-link {
@@ -893,36 +986,41 @@ textarea {
   }
 
   .living-system-visual {
-    min-height: 14rem;
+    min-height: 18.5rem;
     margin-inline: -0.25rem;
     overflow: hidden;
   }
 
-  .system-plane {
-    inset: 0.5rem 0 0.65rem;
-    border-radius: 20px;
-    transform: rotateX(52deg) rotateZ(-8deg) translateY(1.4rem) scale(0.9);
+  .personal-os-asset {
+    inset: -1.25rem -7rem 0 -8rem;
   }
 
   .agent-network {
-    top: 26%;
-    right: 4%;
+    top: 18%;
+    right: 3%;
     transform: scale(0.86);
     transform-origin: top right;
   }
 
   .context-stack {
-    left: 6%;
-    bottom: 18%;
-    transform: scale(0.86);
-    transform-origin: bottom left;
+    display: none;
+  }
+
+  .dora-core {
+    top: 48%;
+    left: 57%;
+    transform: translate(-50%, -50%) scale(0.74);
+  }
+
+  .dora-core-label {
+    display: none;
   }
 
   .privacy-boundary {
-    right: 4%;
-    bottom: 15%;
-    transform: scale(0.86);
-    transform-origin: bottom right;
+    right: 3%;
+    bottom: 11%;
+    transform: scale(0.82);
+    transform-origin: bottom left;
   }
 
   .dora-entry-dock {
@@ -932,6 +1030,10 @@ textarea {
   }
 
   .dora-entry-dock-copy {
+    display: none;
+  }
+
+  .dora-entry-dock-state {
     display: none;
   }}
 
@@ -1090,7 +1192,7 @@ textarea {
   max-width: 7.6ch;
   color: #05070a;
   font-family: Inter, "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: clamp(4.6rem, 7vw, 6.45rem);
+  font-size: 6.45rem;
   font-weight: 840;
   letter-spacing: 0;
   line-height: 0.92;
@@ -1486,7 +1588,7 @@ textarea {
 .doraemon-entry-section h2 {
   margin: 0;
   color: #05070a;
-  font-size: clamp(2rem, 3vw, 2.65rem);
+  font-size: 2.65rem;
   font-weight: 800;
   letter-spacing: 0;
   line-height: 1.08;
@@ -1940,7 +2042,7 @@ textarea {
   }
 
   .doraemon-doorway-copy h1 {
-    font-size: clamp(3.4rem, 16vw, 4.45rem);
+    font-size: 4.45rem;
   }
 
   .doraemon-doorway-lede {
