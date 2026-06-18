@@ -149,7 +149,7 @@ export const publicDoraTasks = [
     agentRole: "Trading research",
     updated: "Recent",
     severity: "normal",
-    summary: "Research-only context is being prepared with no broker execution, account data, or order path."
+    summary: "Research-only context is being prepared without account data or execution paths."
   },
   {
     publicKey: "t_9adc74a6",

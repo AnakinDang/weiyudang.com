@@ -121,6 +121,7 @@ Allowed public fields:
 
 - opaque task ID
 - fixed public title
+- fixed public summary or description
 - state
 - agent role
 - created/updated time
