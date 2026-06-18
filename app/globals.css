@@ -6092,7 +6092,7 @@ textarea {
 
 .dora-tasks-hero {
   position: relative;
-  min-height: 23rem;
+  min-height: 31.5rem;
   overflow: hidden;
   border: 1px solid rgba(191, 219, 254, 0.62);
   border-radius: 8px;
@@ -6103,12 +6103,26 @@ textarea {
   box-shadow: 0 24px 72px rgba(15, 23, 42, 0.056);
 }
 
+.dora-tasks-hero-art,
+.dora-schedules-hero-art {
+  position: absolute;
+  top: -10%;
+  left: -6%;
+  width: 114%;
+  height: 98%;
+  object-fit: cover;
+  object-position: center 36%;
+  opacity: 0.27;
+  filter: saturate(0.95) contrast(1.04);
+  pointer-events: none;
+}
+
 .dora-tasks-hero::before {
   position: absolute;
   right: 8%;
-  bottom: 1.4rem;
+  bottom: 6.7rem;
   left: 8%;
-  height: 13.5rem;
+  height: 16.4rem;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.16), rgba(147, 197, 253, 0.05) 48%, transparent 72%);
   content: "";
@@ -6121,7 +6135,7 @@ textarea {
   top: 1.35rem;
   left: 1.45rem;
   z-index: 4;
-  max-width: min(28rem, 48%);
+  max-width: min(31rem, 52%);
 }
 
 .dora-tasks-hero-copy p {
@@ -6133,7 +6147,15 @@ textarea {
 }
 
 .dora-tasks-hero-copy p span {
+  display: block;
+}
+
+.dora-tasks-hero-copy p span:first-child {
   color: #2563eb;
+}
+
+.dora-tasks-hero-copy p span + span {
+  color: #05070a;
 }
 
 .dora-tasks-hero-copy small {
@@ -6145,6 +6167,53 @@ textarea {
   line-height: 1.45;
 }
 
+.dora-tasks-hero-boundary-card,
+.dora-schedules-hero-boundary-card {
+  position: absolute;
+  top: 1.35rem;
+  right: 1.35rem;
+  z-index: 5;
+  display: grid;
+  gap: 0.72rem;
+  width: min(17.5rem, 38%);
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 0.9rem;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.078);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.dora-tasks-hero-boundary-card div,
+.dora-schedules-hero-boundary-card div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.18rem 0.62rem;
+  color: #2563eb;
+}
+
+.dora-tasks-hero-boundary-card div + div,
+.dora-schedules-hero-boundary-card div + div {
+  border-top: 1px dashed rgba(100, 116, 139, 0.32);
+  padding-top: 0.72rem;
+}
+
+.dora-tasks-hero-boundary-card strong,
+.dora-schedules-hero-boundary-card strong {
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.dora-tasks-hero-boundary-card span,
+.dora-schedules-hero-boundary-card span {
+  grid-column: 2;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
 .dora-tasks-orbit {
   position: absolute;
   inset: 0;
@@ -6154,7 +6223,7 @@ textarea {
 .dora-tasks-orbit-ring {
   position: absolute;
   right: 8%;
-  bottom: 3rem;
+  bottom: 7rem;
   left: 18%;
   border: 1px solid rgba(37, 99, 235, 0.18);
   border-radius: 50%;
@@ -6169,7 +6238,7 @@ textarea {
 
 .dora-tasks-orbit-ring-middle {
   right: 18%;
-  bottom: 5rem;
+  bottom: 9.1rem;
   left: 29%;
   height: 10rem;
   border-color: rgba(37, 99, 235, 0.14);
@@ -6178,7 +6247,7 @@ textarea {
 
 .dora-tasks-orbit-ring-inner {
   right: 35%;
-  bottom: 7.1rem;
+  bottom: 11.2rem;
   left: 44%;
   height: 5.3rem;
   border-color: rgba(244, 183, 64, 0.18);
@@ -6187,7 +6256,7 @@ textarea {
 
 .dora-tasks-hub {
   position: absolute;
-  bottom: 8.2rem;
+  bottom: 12.3rem;
   left: 53%;
   z-index: 4;
   display: grid;
@@ -6277,23 +6346,23 @@ textarea {
 
 .dora-tasks-orbit-node-1 {
   right: 12%;
-  bottom: 12.2rem;
+  bottom: 16.4rem;
 }
 
 .dora-tasks-orbit-node-2 {
   right: 26%;
-  bottom: 4.5rem;
+  bottom: 8.6rem;
 }
 
 .dora-tasks-orbit-node-3 {
   left: 24%;
-  bottom: 5.4rem;
+  bottom: 9.5rem;
 }
 
 .dora-tasks-hero-boundary {
   position: absolute;
   right: 1rem;
-  bottom: 1rem;
+  bottom: 6.35rem;
   left: 1rem;
   z-index: 6;
   display: flex;
@@ -6323,6 +6392,113 @@ textarea {
 .dora-tasks-hero-boundary svg {
   flex: none;
   color: #2563eb;
+}
+
+.dora-tasks-hero-signal-strip,
+.dora-schedules-hero-signal-strip {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 7;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.9rem;
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.72rem 0.82rem;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.dora-tasks-hero-signal-strip > div,
+.dora-schedules-hero-signal-strip > div {
+  display: grid;
+  align-content: center;
+  gap: 0.18rem;
+  min-width: 9.2rem;
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 820;
+}
+
+.dora-tasks-hero-signal-strip > div span,
+.dora-schedules-hero-signal-strip > div span {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.22);
+  animation: office-agent-pulse 2.8s ease-out infinite;
+}
+
+.dora-tasks-hero-signal-strip ol,
+.dora-schedules-hero-signal-strip ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-tasks-hero-signal-strip li,
+.dora-schedules-hero-signal-strip li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.12rem;
+  min-width: 0;
+  border-left: 1px solid rgba(37, 99, 235, 0.2);
+  padding-left: 0.6rem;
+}
+
+.dora-tasks-hero-signal-strip li::before,
+.dora-schedules-hero-signal-strip li::before {
+  position: absolute;
+  top: 0.15rem;
+  left: -0.26rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.22);
+  content: "";
+}
+
+.dora-tasks-hero-signal-strip li > span,
+.dora-schedules-hero-signal-strip li > span {
+  overflow: hidden;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-tasks-hero-signal-strip strong,
+.dora-schedules-hero-signal-strip strong {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 820;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-tasks-hero-signal-strip small,
+.dora-schedules-hero-signal-strip small {
+  overflow: hidden;
+  color: #475569;
+  font-size: 0.68rem;
+  font-weight: 690;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dora-tasks-stats {
@@ -6703,7 +6879,7 @@ textarea {
 
 .dora-schedules-hero {
   position: relative;
-  min-height: 23rem;
+  min-height: 31.5rem;
   overflow: hidden;
   border: 1px solid rgba(191, 219, 254, 0.62);
   border-radius: 8px;
@@ -6717,9 +6893,9 @@ textarea {
 .dora-schedules-hero::before {
   position: absolute;
   right: 8%;
-  bottom: 1.2rem;
+  bottom: 6.7rem;
   left: 8%;
-  height: 13.8rem;
+  height: 16.4rem;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.16), rgba(147, 197, 253, 0.05) 48%, transparent 72%);
   content: "";
@@ -6732,7 +6908,7 @@ textarea {
   top: 1.35rem;
   left: 1.45rem;
   z-index: 4;
-  max-width: min(28rem, 48%);
+  max-width: min(31rem, 52%);
 }
 
 .dora-schedules-hero-copy p {
@@ -6744,7 +6920,15 @@ textarea {
 }
 
 .dora-schedules-hero-copy p span {
+  display: block;
+}
+
+.dora-schedules-hero-copy p span:first-child {
   color: #2563eb;
+}
+
+.dora-schedules-hero-copy p span + span {
+  color: #05070a;
 }
 
 .dora-schedules-hero-copy small {
@@ -6765,7 +6949,7 @@ textarea {
 .dora-schedules-clock-ring {
   position: absolute;
   right: 8%;
-  bottom: 3rem;
+  bottom: 7rem;
   left: 16%;
   border: 1px solid rgba(37, 99, 235, 0.18);
   border-radius: 50%;
@@ -6780,7 +6964,7 @@ textarea {
 
 .dora-schedules-clock-ring-middle {
   right: 20%;
-  bottom: 5.1rem;
+  bottom: 9.2rem;
   left: 29%;
   height: 10rem;
   border-color: rgba(37, 99, 235, 0.14);
@@ -6789,7 +6973,7 @@ textarea {
 
 .dora-schedules-clock-ring-inner {
   right: 37%;
-  bottom: 7.2rem;
+  bottom: 11.3rem;
   left: 44%;
   height: 5.2rem;
   border-color: rgba(244, 183, 64, 0.18);
@@ -6798,7 +6982,7 @@ textarea {
 
 .dora-schedules-hub {
   position: absolute;
-  bottom: 8.3rem;
+  bottom: 12.4rem;
   left: 54%;
   z-index: 4;
   display: grid;
@@ -6886,28 +7070,28 @@ textarea {
 
 .dora-schedules-clock-node-1 {
   left: 26%;
-  bottom: 4.8rem;
+  bottom: 8.9rem;
 }
 
 .dora-schedules-clock-node-2 {
   right: 13%;
-  bottom: 12.4rem;
+  bottom: 16.5rem;
 }
 
 .dora-schedules-clock-node-3 {
   right: 26%;
-  bottom: 4.4rem;
+  bottom: 8.5rem;
 }
 
 .dora-schedules-clock-node-4 {
   left: 42%;
-  bottom: 14.8rem;
+  bottom: 18.9rem;
 }
 
 .dora-schedules-hero-boundary {
   position: absolute;
   right: 1rem;
-  bottom: 1rem;
+  bottom: 6.35rem;
   left: 1rem;
   z-index: 6;
   display: flex;
@@ -8492,7 +8676,7 @@ textarea {
     flex: 0 0 auto;
     min-height: 2.5rem;
     padding-inline: 0.78rem;
-    scroll-snap-align: center;
+    scroll-snap-align: start;
     white-space: nowrap;
   }
 
@@ -8744,6 +8928,11 @@ textarea {
     padding: 1rem;
   }
 
+  .dora-tasks-hero-art,
+  .dora-schedules-hero-art {
+    display: none;
+  }
+
   .dora-tasks-hero::before,
   .dora-tasks-orbit-ring {
     display: none;
@@ -8756,6 +8945,44 @@ textarea {
 
   .dora-tasks-hero-copy p {
     font-size: 1.18rem;
+  }
+
+  .dora-tasks-hero-copy p span,
+  .dora-schedules-hero-copy p span {
+    display: block;
+  }
+
+  .dora-tasks-hero-boundary-card,
+  .dora-tasks-hero-signal-strip,
+  .dora-schedules-hero-boundary-card,
+  .dora-schedules-hero-signal-strip {
+    position: relative;
+    inset: auto;
+    width: auto;
+    margin-top: 1rem;
+  }
+
+  .dora-tasks-hero-boundary-card,
+  .dora-schedules-hero-boundary-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-tasks-hero-boundary-card div + div,
+  .dora-schedules-hero-boundary-card div + div {
+    border-top: 0;
+    border-left: 1px dashed rgba(100, 116, 139, 0.32);
+    padding-top: 0;
+    padding-left: 0.72rem;
+  }
+
+  .dora-tasks-hero-signal-strip,
+  .dora-schedules-hero-signal-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-tasks-hero-signal-strip ol,
+  .dora-schedules-hero-signal-strip ol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dora-tasks-orbit {
@@ -9434,6 +9661,34 @@ textarea {
     gap: 0.64rem;
   }
 
+  .dora-tasks-hero-boundary-card,
+  .dora-schedules-hero-boundary-card {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-tasks-hero-boundary-card div + div,
+  .dora-schedules-hero-boundary-card div + div {
+    border-top: 1px dashed rgba(100, 116, 139, 0.32);
+    border-left: 0;
+    padding-top: 0.72rem;
+    padding-left: 0;
+  }
+
+  .dora-tasks-hero-signal-strip ol,
+  .dora-schedules-hero-signal-strip ol {
+    display: flex;
+    gap: 0.62rem;
+    overflow-x: auto;
+    padding-bottom: 0.12rem;
+    scroll-snap-type: x proximity;
+  }
+
+  .dora-tasks-hero-signal-strip li,
+  .dora-schedules-hero-signal-strip li {
+    flex: 0 0 8.4rem;
+    scroll-snap-align: start;
+  }
+
   .dora-tasks-hub svg {
     width: 2.64rem;
     height: 2.64rem;
@@ -9952,10 +10207,12 @@ textarea {
   .dora-tasks-hero::before,
   .dora-tasks-orbit-ring,
   .dora-tasks-orbit-node > span,
+  .dora-tasks-hero-signal-strip > div span,
   .dora-tasks-owner-list article > span,
   .dora-schedules-hero::before,
   .dora-schedules-clock-ring,
   .dora-schedules-clock-node > span,
+  .dora-schedules-hero-signal-strip > div span,
   .dora-system-hero::before,
   .dora-system-lens-ring,
   .dora-system-lens-node > span,
@@ -12209,7 +12466,8 @@ textarea {
   .dora-office-rail-links {
     max-width: 100%;
     overflow-x: auto;
-    padding: 0 0.35rem 0 0;
+    padding: 0 0.35rem;
+    scroll-padding-inline: 0.35rem;
     scrollbar-width: none;
   }
 

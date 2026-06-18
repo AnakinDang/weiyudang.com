@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -78,6 +79,7 @@ function taskToneClass(task: Pick<PublicTask, "severity" | "state">) {
 export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stats: readonly PublicTaskStat[] }) {
   const [filter, setFilter] = useState<TaskFilter>("all");
 
+  const previewTasks = tasks.slice(0, 6);
   const filteredTasks = useMemo(
     () => (filter === "all" ? tasks : tasks.filter((task) => task.state === filter)),
     [filter, tasks]
@@ -87,11 +89,33 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
   return (
     <div className="dora-tasks">
       <section className="dora-tasks-hero" aria-label="Public Doraemon task orbit">
+        <Image
+          className="dora-tasks-hero-art"
+          src="/visuals/doraemon-office-command-room-v2.png"
+          alt=""
+          width={1536}
+          height={1024}
+          sizes="72vw"
+        />
         <div className="dora-tasks-hero-copy">
           <p>
-            <span>Public task queue.</span> Owner stays in the loop.
+            <span>Public task queue.</span>
+            <span>Owner stays in the loop.</span>
           </p>
           <small>Aggregated states only. No execution controls.</small>
+        </div>
+
+        <div className="dora-tasks-hero-boundary-card">
+          <div>
+            <Eye size={17} aria-hidden />
+            <strong>Public aggregation</strong>
+            <span>Opaque keys only</span>
+          </div>
+          <div>
+            <LockKeyhole size={17} aria-hidden />
+            <strong>Private details</strong>
+            <span>Prompts hidden</span>
+          </div>
         </div>
 
         <div className="dora-tasks-orbit" aria-hidden="true">
@@ -125,6 +149,22 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
             <ShieldCheck size={15} aria-hidden />
             Display-only
           </span>
+        </div>
+
+        <div className="dora-tasks-hero-signal-strip" aria-label="Public task state preview">
+          <div>
+            <span aria-hidden />
+            <strong>Task state rail</strong>
+          </div>
+          <ol>
+            {previewTasks.map((task) => (
+              <li key={task.publicKey} aria-label={`${task.publicKey} ${task.title}: ${task.state}`}>
+                <span>{task.publicKey}</span>
+                <strong>{task.title}</strong>
+                <small>{task.agentRole}</small>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
