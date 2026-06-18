@@ -173,13 +173,8 @@ export default function DoraPage() {
                   <div className="doraemon-boundary-row">
                     <Eye size={16} aria-hidden />
                     <span>Public Window</span>
-                    <small>Sanitized. Real-time. Safe.</small>
+                    <small>Sanitized. Continuous. Safe.</small>
                   </div>
-                </div>
-                <div className="doraemon-orbit-labels" aria-hidden="true">
-                  {heroAgentLabels.map((label) => (
-                    <span key={label}>{label}</span>
-                  ))}
                 </div>
               </div>
 
@@ -203,6 +198,11 @@ export default function DoraPage() {
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="doraemon-hero-agent-labels" aria-hidden="true">
+                {heroAgentLabels.map((label) => (
+                  <span key={label}>{label}</span>
+                ))}
               </div>
             </div>
           </div>
