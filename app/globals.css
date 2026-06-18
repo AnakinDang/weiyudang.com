@@ -6104,7 +6104,9 @@ textarea {
 }
 
 .dora-tasks-hero-art,
-.dora-schedules-hero-art {
+.dora-schedules-hero-art,
+.dora-system-hero-art,
+.dora-knowledge-hero-art {
   position: absolute;
   top: -10%;
   left: -6%;
@@ -6168,7 +6170,9 @@ textarea {
 }
 
 .dora-tasks-hero-boundary-card,
-.dora-schedules-hero-boundary-card {
+.dora-schedules-hero-boundary-card,
+.dora-system-hero-boundary-card,
+.dora-knowledge-hero-boundary-card {
   position: absolute;
   top: 1.35rem;
   right: 1.35rem;
@@ -6186,7 +6190,9 @@ textarea {
 }
 
 .dora-tasks-hero-boundary-card div,
-.dora-schedules-hero-boundary-card div {
+.dora-schedules-hero-boundary-card div,
+.dora-system-hero-boundary-card div,
+.dora-knowledge-hero-boundary-card div {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 0.18rem 0.62rem;
@@ -6194,20 +6200,26 @@ textarea {
 }
 
 .dora-tasks-hero-boundary-card div + div,
-.dora-schedules-hero-boundary-card div + div {
+.dora-schedules-hero-boundary-card div + div,
+.dora-system-hero-boundary-card div + div,
+.dora-knowledge-hero-boundary-card div + div {
   border-top: 1px dashed rgba(100, 116, 139, 0.32);
   padding-top: 0.72rem;
 }
 
 .dora-tasks-hero-boundary-card strong,
-.dora-schedules-hero-boundary-card strong {
+.dora-schedules-hero-boundary-card strong,
+.dora-system-hero-boundary-card strong,
+.dora-knowledge-hero-boundary-card strong {
   color: #0f172a;
   font-size: 0.8rem;
   font-weight: 820;
 }
 
 .dora-tasks-hero-boundary-card span,
-.dora-schedules-hero-boundary-card span {
+.dora-schedules-hero-boundary-card span,
+.dora-system-hero-boundary-card span,
+.dora-knowledge-hero-boundary-card span {
   grid-column: 2;
   color: #64748b;
   font-size: 0.7rem;
@@ -6395,7 +6407,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip,
-.dora-schedules-hero-signal-strip {
+.dora-schedules-hero-signal-strip,
+.dora-system-hero-signal-strip,
+.dora-knowledge-hero-signal-strip {
   position: absolute;
   right: 1rem;
   bottom: 1rem;
@@ -6415,7 +6429,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip > div,
-.dora-schedules-hero-signal-strip > div {
+.dora-schedules-hero-signal-strip > div,
+.dora-system-hero-signal-strip > div,
+.dora-knowledge-hero-signal-strip > div {
   display: grid;
   align-content: center;
   gap: 0.18rem;
@@ -6426,7 +6442,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip > div span,
-.dora-schedules-hero-signal-strip > div span {
+.dora-schedules-hero-signal-strip > div span,
+.dora-system-hero-signal-strip > div span,
+.dora-knowledge-hero-signal-strip > div span {
   width: 0.4rem;
   height: 0.4rem;
   border-radius: 999px;
@@ -6436,7 +6454,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip ol,
-.dora-schedules-hero-signal-strip ol {
+.dora-schedules-hero-signal-strip ol,
+.dora-system-hero-signal-strip ol,
+.dora-knowledge-hero-signal-strip ol {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
   gap: 0.5rem;
@@ -6446,7 +6466,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip li,
-.dora-schedules-hero-signal-strip li {
+.dora-schedules-hero-signal-strip li,
+.dora-system-hero-signal-strip li,
+.dora-knowledge-hero-signal-strip li {
   position: relative;
   display: grid;
   align-content: start;
@@ -6457,7 +6479,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip li::before,
-.dora-schedules-hero-signal-strip li::before {
+.dora-schedules-hero-signal-strip li::before,
+.dora-system-hero-signal-strip li::before,
+.dora-knowledge-hero-signal-strip li::before {
   position: absolute;
   top: 0.15rem;
   left: -0.26rem;
@@ -6471,7 +6495,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip li > span,
-.dora-schedules-hero-signal-strip li > span {
+.dora-schedules-hero-signal-strip li > span,
+.dora-system-hero-signal-strip li > span,
+.dora-knowledge-hero-signal-strip li > span {
   overflow: hidden;
   color: #64748b;
   font-size: 0.68rem;
@@ -6482,7 +6508,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip strong,
-.dora-schedules-hero-signal-strip strong {
+.dora-schedules-hero-signal-strip strong,
+.dora-system-hero-signal-strip strong,
+.dora-knowledge-hero-signal-strip strong {
   overflow: hidden;
   color: #0f172a;
   font-size: 0.72rem;
@@ -6492,7 +6520,9 @@ textarea {
 }
 
 .dora-tasks-hero-signal-strip small,
-.dora-schedules-hero-signal-strip small {
+.dora-schedules-hero-signal-strip small,
+.dora-system-hero-signal-strip small,
+.dora-knowledge-hero-signal-strip small {
   overflow: hidden;
   color: #475569;
   font-size: 0.68rem;
@@ -7528,22 +7558,23 @@ textarea {
 
 .dora-system-hero {
   position: relative;
-  min-height: 23rem;
+  min-height: 31.5rem;
   overflow: hidden;
   border: 1px solid rgba(191, 219, 254, 0.62);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(248, 251, 255, 0.72), rgba(255, 255, 255, 0.98) 68%),
+    radial-gradient(ellipse at 62% 76%, rgba(37, 99, 235, 0.13), transparent 48%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.68), rgba(255, 255, 255, 0.96) 66%),
     #ffffff;
   box-shadow: 0 24px 72px rgba(15, 23, 42, 0.056);
 }
 
 .dora-system-hero::before {
   position: absolute;
-  right: 9%;
-  bottom: 1.3rem;
-  left: 9%;
-  height: 13.2rem;
+  right: 8%;
+  bottom: 6.7rem;
+  left: 8%;
+  height: 16.4rem;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.15), rgba(147, 197, 253, 0.06) 46%, transparent 72%);
   content: "";
@@ -7556,7 +7587,7 @@ textarea {
   top: 1.35rem;
   left: 1.45rem;
   z-index: 4;
-  max-width: min(29rem, 50%);
+  max-width: min(31rem, 52%);
 }
 
 .dora-system-hero-copy p {
@@ -7568,7 +7599,15 @@ textarea {
 }
 
 .dora-system-hero-copy p span {
+  display: block;
+}
+
+.dora-system-hero-copy p span:first-child {
   color: #2563eb;
+}
+
+.dora-system-hero-copy p span + span {
+  color: #05070a;
 }
 
 .dora-system-hero-copy small {
@@ -7588,9 +7627,9 @@ textarea {
 
 .dora-system-lens-ring {
   position: absolute;
-  right: 9%;
-  bottom: 3.2rem;
-  left: 17%;
+  right: 8%;
+  bottom: 7rem;
+  left: 18%;
   border: 1px solid rgba(37, 99, 235, 0.18);
   border-radius: 50%;
   transform: perspective(880px) rotateX(66deg);
@@ -7603,18 +7642,18 @@ textarea {
 }
 
 .dora-system-lens-ring-middle {
-  right: 22%;
-  bottom: 5.2rem;
-  left: 31%;
+  right: 18%;
+  bottom: 9.1rem;
+  left: 29%;
   height: 10rem;
   border-color: rgba(37, 99, 235, 0.14);
   animation-delay: 280ms;
 }
 
 .dora-system-lens-ring-inner {
-  right: 40%;
-  bottom: 7.4rem;
-  left: 47%;
+  right: 35%;
+  bottom: 11.2rem;
+  left: 44%;
   height: 5rem;
   border-color: rgba(34, 197, 94, 0.18);
   animation-delay: 620ms;
@@ -7622,8 +7661,8 @@ textarea {
 
 .dora-system-lens-core {
   position: absolute;
-  bottom: 8.4rem;
-  left: 55%;
+  bottom: 12.3rem;
+  left: 53%;
   z-index: 4;
   display: grid;
   justify-items: center;
@@ -7708,38 +7747,40 @@ textarea {
 }
 
 .dora-system-lens-node-1 {
-  right: 6%;
-  bottom: 12.2rem;
+  right: 8%;
+  bottom: 16.4rem;
 }
 
 .dora-system-lens-node-2 {
-  right: 25%;
-  bottom: 5.05rem;
+  right: 22%;
+  bottom: 8.65rem;
 }
 
 .dora-system-lens-node-3 {
-  left: 22%;
-  bottom: 6rem;
+  left: 24%;
+  bottom: 9.5rem;
 }
 
 .dora-system-lens-node-4 {
-  left: 38%;
-  bottom: 12.55rem;
+  left: 37%;
+  bottom: 16.2rem;
 }
 
 .dora-system-hero-boundary {
   position: absolute;
-  right: 1.1rem;
-  bottom: 1.1rem;
-  left: 1.1rem;
-  z-index: 5;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.5rem;
-  border: 1px solid rgba(191, 219, 254, 0.72);
+  right: 1rem;
+  bottom: 6.35rem;
+  left: 1rem;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.72rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  padding: 0.62rem;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.66rem 0.78rem;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.066);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
@@ -7747,13 +7788,16 @@ textarea {
 .dora-system-hero-boundary span {
   display: inline-flex;
   align-items: center;
-  gap: 0.42rem;
+  gap: 0.36rem;
+  min-width: 0;
   color: #475569;
-  font-size: 0.76rem;
-  font-weight: 790;
+  font-size: 0.74rem;
+  font-weight: 780;
+  white-space: nowrap;
 }
 
 .dora-system-hero-boundary svg {
+  flex: none;
   color: #2563eb;
 }
 
@@ -8011,22 +8055,23 @@ textarea {
 
 .dora-knowledge-hero {
   position: relative;
-  min-height: 23rem;
+  min-height: 31.5rem;
   overflow: hidden;
   border: 1px solid rgba(191, 219, 254, 0.62);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(248, 251, 255, 0.74), rgba(255, 255, 255, 0.98) 68%),
+    radial-gradient(ellipse at 62% 76%, rgba(37, 99, 235, 0.13), transparent 48%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.68), rgba(255, 255, 255, 0.96) 66%),
     #ffffff;
   box-shadow: 0 24px 72px rgba(15, 23, 42, 0.056);
 }
 
 .dora-knowledge-hero::before {
   position: absolute;
-  right: 11%;
-  bottom: 1.4rem;
-  left: 11%;
-  height: 13rem;
+  right: 8%;
+  bottom: 6.7rem;
+  left: 8%;
+  height: 16.4rem;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.14), rgba(147, 197, 253, 0.05) 48%, transparent 72%);
   content: "";
@@ -8039,7 +8084,7 @@ textarea {
   top: 1.35rem;
   left: 1.45rem;
   z-index: 4;
-  max-width: min(29rem, 50%);
+  max-width: min(31rem, 52%);
 }
 
 .dora-knowledge-hero-copy p {
@@ -8051,7 +8096,15 @@ textarea {
 }
 
 .dora-knowledge-hero-copy p span {
+  display: block;
+}
+
+.dora-knowledge-hero-copy p span:first-child {
   color: #2563eb;
+}
+
+.dora-knowledge-hero-copy p span + span {
+  color: #05070a;
 }
 
 .dora-knowledge-hero-copy small {
@@ -8071,8 +8124,8 @@ textarea {
 
 .dora-knowledge-prism-plane {
   position: absolute;
-  right: 11%;
-  bottom: 3.4rem;
+  right: 8%;
+  bottom: 7rem;
   left: 18%;
   border: 1px solid rgba(37, 99, 235, 0.16);
   border-radius: 50%;
@@ -8086,18 +8139,18 @@ textarea {
 }
 
 .dora-knowledge-prism-plane-2 {
-  right: 23%;
-  bottom: 5.5rem;
-  left: 32%;
+  right: 18%;
+  bottom: 9.1rem;
+  left: 29%;
   height: 9.5rem;
   border-color: rgba(37, 99, 235, 0.13);
   animation-delay: 280ms;
 }
 
 .dora-knowledge-prism-plane-3 {
-  right: 41%;
-  bottom: 7.55rem;
-  left: 48%;
+  right: 35%;
+  bottom: 11.2rem;
+  left: 44%;
   height: 4.8rem;
   border-color: rgba(244, 183, 64, 0.2);
   animation-delay: 680ms;
@@ -8105,8 +8158,8 @@ textarea {
 
 .dora-knowledge-prism-core {
   position: absolute;
-  bottom: 8.15rem;
-  left: 55%;
+  bottom: 12.3rem;
+  left: 53%;
   z-index: 4;
   display: grid;
   justify-items: center;
@@ -8184,38 +8237,40 @@ textarea {
 }
 
 .dora-knowledge-prism-node-1 {
-  left: 19%;
-  bottom: 6rem;
+  left: 18%;
+  bottom: 9.5rem;
 }
 
 .dora-knowledge-prism-node-2 {
-  left: 35%;
-  bottom: 12.3rem;
+  left: 36%;
+  bottom: 16.2rem;
 }
 
 .dora-knowledge-prism-node-3 {
-  right: 23%;
-  bottom: 5.3rem;
+  right: 22%;
+  bottom: 8.65rem;
 }
 
 .dora-knowledge-prism-node-4 {
-  right: 6%;
-  bottom: 12.2rem;
+  right: 8%;
+  bottom: 16.4rem;
 }
 
 .dora-knowledge-hero-boundary {
   position: absolute;
-  right: 1.1rem;
-  bottom: 1.1rem;
-  left: 1.1rem;
-  z-index: 5;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.5rem;
-  border: 1px solid rgba(191, 219, 254, 0.72);
+  right: 1rem;
+  bottom: 6.35rem;
+  left: 1rem;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.72rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  padding: 0.62rem;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.66rem 0.78rem;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.066);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
@@ -8223,13 +8278,16 @@ textarea {
 .dora-knowledge-hero-boundary span {
   display: inline-flex;
   align-items: center;
-  gap: 0.42rem;
+  gap: 0.36rem;
+  min-width: 0;
   color: #475569;
-  font-size: 0.76rem;
-  font-weight: 790;
+  font-size: 0.74rem;
+  font-weight: 780;
+  white-space: nowrap;
 }
 
 .dora-knowledge-hero-boundary svg {
+  flex: none;
   color: #2563eb;
 }
 
@@ -8929,7 +8987,9 @@ textarea {
   }
 
   .dora-tasks-hero-art,
-  .dora-schedules-hero-art {
+  .dora-schedules-hero-art,
+  .dora-system-hero-art,
+  .dora-knowledge-hero-art {
     display: none;
   }
 
@@ -8955,7 +9015,11 @@ textarea {
   .dora-tasks-hero-boundary-card,
   .dora-tasks-hero-signal-strip,
   .dora-schedules-hero-boundary-card,
-  .dora-schedules-hero-signal-strip {
+  .dora-schedules-hero-signal-strip,
+  .dora-system-hero-boundary-card,
+  .dora-system-hero-signal-strip,
+  .dora-knowledge-hero-boundary-card,
+  .dora-knowledge-hero-signal-strip {
     position: relative;
     inset: auto;
     width: auto;
@@ -8963,12 +9027,16 @@ textarea {
   }
 
   .dora-tasks-hero-boundary-card,
-  .dora-schedules-hero-boundary-card {
+  .dora-schedules-hero-boundary-card,
+  .dora-system-hero-boundary-card,
+  .dora-knowledge-hero-boundary-card {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dora-tasks-hero-boundary-card div + div,
-  .dora-schedules-hero-boundary-card div + div {
+  .dora-schedules-hero-boundary-card div + div,
+  .dora-system-hero-boundary-card div + div,
+  .dora-knowledge-hero-boundary-card div + div {
     border-top: 0;
     border-left: 1px dashed rgba(100, 116, 139, 0.32);
     padding-top: 0;
@@ -8976,12 +9044,16 @@ textarea {
   }
 
   .dora-tasks-hero-signal-strip,
-  .dora-schedules-hero-signal-strip {
+  .dora-schedules-hero-signal-strip,
+  .dora-system-hero-signal-strip,
+  .dora-knowledge-hero-signal-strip {
     grid-template-columns: 1fr;
   }
 
   .dora-tasks-hero-signal-strip ol,
-  .dora-schedules-hero-signal-strip ol {
+  .dora-schedules-hero-signal-strip ol,
+  .dora-system-hero-signal-strip ol,
+  .dora-knowledge-hero-signal-strip ol {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -9662,12 +9734,16 @@ textarea {
   }
 
   .dora-tasks-hero-boundary-card,
-  .dora-schedules-hero-boundary-card {
+  .dora-schedules-hero-boundary-card,
+  .dora-system-hero-boundary-card,
+  .dora-knowledge-hero-boundary-card {
     grid-template-columns: 1fr;
   }
 
   .dora-tasks-hero-boundary-card div + div,
-  .dora-schedules-hero-boundary-card div + div {
+  .dora-schedules-hero-boundary-card div + div,
+  .dora-system-hero-boundary-card div + div,
+  .dora-knowledge-hero-boundary-card div + div {
     border-top: 1px dashed rgba(100, 116, 139, 0.32);
     border-left: 0;
     padding-top: 0.72rem;
@@ -9675,7 +9751,9 @@ textarea {
   }
 
   .dora-tasks-hero-signal-strip ol,
-  .dora-schedules-hero-signal-strip ol {
+  .dora-schedules-hero-signal-strip ol,
+  .dora-system-hero-signal-strip ol,
+  .dora-knowledge-hero-signal-strip ol {
     display: flex;
     gap: 0.62rem;
     overflow-x: auto;
@@ -9684,7 +9762,9 @@ textarea {
   }
 
   .dora-tasks-hero-signal-strip li,
-  .dora-schedules-hero-signal-strip li {
+  .dora-schedules-hero-signal-strip li,
+  .dora-system-hero-signal-strip li,
+  .dora-knowledge-hero-signal-strip li {
     flex: 0 0 8.4rem;
     scroll-snap-align: start;
   }
@@ -10216,10 +10296,12 @@ textarea {
   .dora-system-hero::before,
   .dora-system-lens-ring,
   .dora-system-lens-node > span,
+  .dora-system-hero-signal-strip > div span,
   .dora-system-event > span,
   .dora-knowledge-hero::before,
   .dora-knowledge-prism-plane,
   .dora-knowledge-prism-node > span,
+  .dora-knowledge-hero-signal-strip > div span,
   .living-system-visual::before,
   .living-system-visual::after,
   .personal-os-asset img,

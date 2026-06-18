@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -83,15 +84,38 @@ export function SystemHealthPanel({
   boundaries: readonly PublicSystemBoundary[];
 }) {
   const primaryStatus = statuses[0];
+  const previewStatuses = statuses.slice(0, 6);
 
   return (
     <div className="dora-system">
       <section className="dora-system-hero" aria-label="Public Doraemon Office health lens">
+        <Image
+          className="dora-system-hero-art"
+          src="/visuals/doraemon-office-command-room-v2.png"
+          alt=""
+          width={1536}
+          height={1024}
+          sizes="72vw"
+        />
         <div className="dora-system-hero-copy">
           <p>
-            <span>System health.</span> Safe signal only.
+            <span>System health.</span>
+            <span>Safe signal only.</span>
           </p>
           <small>Mode, schema posture, freshness, and replay health without private infrastructure detail.</small>
+        </div>
+
+        <div className="dora-system-hero-boundary-card">
+          <div>
+            <Eye size={17} aria-hidden />
+            <strong>Public posture</strong>
+            <span>Safe health labels</span>
+          </div>
+          <div>
+            <LockKeyhole size={17} aria-hidden />
+            <strong>Private internals</strong>
+            <span>Diagnostics hidden</span>
+          </div>
         </div>
 
         <div className="dora-system-lens" aria-hidden="true">
@@ -133,6 +157,22 @@ export function SystemHealthPanel({
             Read-only
           </span>
         </div>
+
+        <div className="dora-system-hero-signal-strip" aria-label="Public system health preview">
+          <div>
+            <span aria-hidden />
+            <strong>Health rail</strong>
+          </div>
+          <ol role="list">
+            {previewStatuses.map((status) => (
+              <li key={status.label} aria-label={`${status.label}: ${status.value}`}>
+                <span>{status.label}</span>
+                <strong>{status.value}</strong>
+                <small>public-safe</small>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <section className="dora-system-status-grid" aria-label="Public system status">
@@ -160,7 +200,7 @@ export function SystemHealthPanel({
           <div className="dora-system-section-heading">
             <div>
               <h2 id="dora-system-events-title">Public health stream</h2>
-              <p>Fixed labels for the latest safe system posture, not raw diagnostics.</p>
+              <p>Fixed labels for the latest safe system posture, not operational detail.</p>
             </div>
             <Signal size={22} aria-hidden />
           </div>
