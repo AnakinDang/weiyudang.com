@@ -6195,6 +6195,11 @@ textarea {
   background: #f4b740;
 }
 
+.dora-tasks-orbit-node > span.is-danger {
+  --office-pulse-color: rgba(239, 68, 68, 0.18);
+  background: #ef4444;
+}
+
 .dora-tasks-orbit-node > span.is-normal {
   --office-pulse-color: rgba(34, 197, 94, 0.18);
   background: #22c55e;
@@ -6226,6 +6231,11 @@ textarea {
 .dora-tasks-orbit-node-3 {
   left: 24%;
   bottom: 9.5rem;
+}
+
+.dora-tasks-orbit-node-4 {
+  left: 13%;
+  bottom: 16.1rem;
 }
 
 .dora-tasks-hero-boundary {
@@ -6539,6 +6549,11 @@ textarea {
   border-color: rgba(191, 219, 254, 0.78);
   background: rgba(255, 255, 255, 0.92);
   transform: translateY(-1px);
+}
+
+.dora-tasks-row.is-danger {
+  border-color: rgba(239, 68, 68, 0.18);
+  background: linear-gradient(90deg, rgba(254, 242, 242, 0.64), rgba(248, 251, 255, 0.72));
 }
 
 .dora-tasks-row-icon {
@@ -8853,7 +8868,8 @@ textarea {
   .dora-tasks-orbit-node,
   .dora-tasks-orbit-node-1,
   .dora-tasks-orbit-node-2,
-  .dora-tasks-orbit-node-3 {
+  .dora-tasks-orbit-node-3,
+  .dora-tasks-orbit-node-4 {
     position: static;
     min-width: 0;
     text-align: left;

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   Bell,
@@ -10,6 +11,7 @@ import {
   Eye,
   LockKeyhole,
   Radio,
+  ShieldAlert,
   ShieldCheck,
   Sparkles,
   TimerReset
@@ -29,18 +31,26 @@ type PublicTask = (typeof publicDoraTasks)[number];
 type PublicTaskStat = (typeof publicDoraTaskStats)[number];
 type TaskFilter = "all" | PublicTask["state"];
 
+const taskFilterLabels = {
+  "Owner review": "Owner review",
+  Working: "Working",
+  Attention: "Attention",
+  Completed: "Completed"
+} as const satisfies Record<PublicTask["state"], string>;
+
+const taskFilterOrder = ["Owner review", "Working", "Attention", "Completed"] as const satisfies readonly PublicTask["state"][];
+
 const taskFilters = [
-  { value: "all", label: "All" },
-  { value: "Owner review", label: "Owner review" },
-  { value: "Working", label: "Working" },
-  { value: "Completed", label: "Completed" }
-] as const satisfies readonly { value: TaskFilter; label: string }[];
+  { value: "all" as const, label: "All" },
+  ...taskFilterOrder.map((value) => ({ value, label: taskFilterLabels[value] }))
+] as const;
 
 const statIcons = {
   Working: TimerReset,
   "Owner review": Bell,
+  Attention: ShieldAlert,
   Completed: CheckCircle2
-} as const;
+} as const satisfies Record<PublicTaskStat["label"], LucideIcon>;
 
 const severityLabels = {
   normal: "Normal",
@@ -48,6 +58,10 @@ const severityLabels = {
 } as const satisfies Record<PublicTask["severity"], string>;
 
 function taskToneClass(task: Pick<PublicTask, "severity" | "state">) {
+  if (task.state === "Attention") {
+    return "is-danger";
+  }
+
   if (task.severity === "warning") {
     return "is-warning";
   }
