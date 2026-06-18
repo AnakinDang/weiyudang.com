@@ -4820,23 +4820,36 @@ textarea {
 
 .dora-team-hero {
   position: relative;
-  min-height: 24rem;
+  min-height: 31.5rem;
   overflow: hidden;
   border: 1px solid rgba(191, 219, 254, 0.62);
   border-radius: 8px;
   background:
-    radial-gradient(ellipse at 52% 64%, rgba(37, 99, 235, 0.12), transparent 44%),
-    linear-gradient(180deg, rgba(248, 251, 255, 0.74), rgba(255, 255, 255, 0.96) 62%),
+    radial-gradient(ellipse at 52% 68%, rgba(37, 99, 235, 0.14), transparent 45%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.72), rgba(255, 255, 255, 0.98) 70%),
     #ffffff;
   box-shadow: 0 24px 72px rgba(15, 23, 42, 0.058);
+}
+
+.dora-team-hero-art {
+  position: absolute;
+  top: -10%;
+  left: -6%;
+  width: 114%;
+  height: 98%;
+  object-fit: cover;
+  object-position: center 36%;
+  opacity: 0.34;
+  filter: saturate(0.95) contrast(1.04);
+  pointer-events: none;
 }
 
 .dora-team-hero::before {
   position: absolute;
   right: 6%;
-  bottom: 1.6rem;
+  bottom: 6.7rem;
   left: 6%;
-  height: 14rem;
+  height: 16.4rem;
   border-radius: 50%;
   background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.16), rgba(147, 197, 253, 0.05) 48%, transparent 72%);
   content: "";
@@ -4849,6 +4862,7 @@ textarea {
   top: 1.4rem;
   left: 1.6rem;
   z-index: 4;
+  max-width: min(31rem, 52%);
 }
 
 .dora-team-hero-copy p {
@@ -4871,6 +4885,48 @@ textarea {
   font-weight: 650;
 }
 
+.dora-team-hero-boundary-card {
+  position: absolute;
+  top: 1.35rem;
+  right: 1.35rem;
+  z-index: 5;
+  display: grid;
+  gap: 0.72rem;
+  width: min(17.5rem, 38%);
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 0.9rem;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.078);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.dora-team-hero-boundary-card div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.18rem 0.62rem;
+  color: #2563eb;
+}
+
+.dora-team-hero-boundary-card div + div {
+  border-top: 1px dashed rgba(100, 116, 139, 0.32);
+  padding-top: 0.72rem;
+}
+
+.dora-team-hero-boundary-card strong {
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.dora-team-hero-boundary-card span {
+  grid-column: 2;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
 .dora-team-topology {
   position: absolute;
   inset: 0;
@@ -4882,9 +4938,9 @@ textarea {
 .dora-team-orbit::after {
   position: absolute;
   right: 9%;
-  bottom: 2.5rem;
+  bottom: 7rem;
   left: 12%;
-  height: 17rem;
+  height: 17.5rem;
   border: 1px solid rgba(37, 99, 235, 0.18);
   border-radius: 50%;
   content: "";
@@ -4898,7 +4954,7 @@ textarea {
 
 .dora-team-orbit::before {
   right: 12%;
-  bottom: 2.2rem;
+  bottom: 2.35rem;
   left: 12%;
   height: 11.8rem;
   border-color: rgba(37, 99, 235, 0.14);
@@ -4906,7 +4962,7 @@ textarea {
 
 .dora-team-orbit::after {
   right: 28%;
-  bottom: 4.8rem;
+  bottom: 4.95rem;
   left: 28%;
   height: 6.4rem;
   border-color: rgba(244, 183, 64, 0.18);
@@ -5007,7 +5063,7 @@ textarea {
 }
 
 .dora-team-node-dora {
-  top: 2.1rem;
+  top: 3.15rem;
   left: 50%;
   grid-template-columns: 1fr;
   justify-items: center;
@@ -5027,43 +5083,138 @@ textarea {
 }
 
 .dora-team-node-research {
-  top: 7.6rem;
+  top: 10.4rem;
   left: 8%;
 }
 
 .dora-team-node-dev {
-  bottom: 4.7rem;
+  bottom: 9.4rem;
   left: 7%;
 }
 
 .dora-team-node-product {
-  bottom: 2.7rem;
+  bottom: 7.1rem;
   left: 26%;
 }
 
 .dora-team-node-ops {
   right: 45%;
-  bottom: 2rem;
+  bottom: 6.5rem;
 }
 
 .dora-team-node-memory {
   right: 24%;
-  bottom: 4.2rem;
+  bottom: 8.2rem;
 }
 
 .dora-team-node-trading {
   right: 6%;
-  bottom: 4.7rem;
+  bottom: 9.4rem;
 }
 
 .dora-team-node-media {
-  top: 7.2rem;
+  top: 10.2rem;
   right: 5%;
 }
 
 .dora-team-node-fallback {
-  bottom: 1.2rem;
+  bottom: 6.2rem;
   left: 1.2rem;
+}
+
+.dora-team-hero-signal-strip {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.9rem;
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 0.72rem 0.82rem;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.dora-team-hero-signal-strip > div {
+  display: grid;
+  align-content: center;
+  gap: 0.18rem;
+  min-width: 9.2rem;
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 820;
+}
+
+.dora-team-hero-signal-strip > div span {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.22);
+  animation: office-agent-pulse 2.8s ease-out infinite;
+}
+
+.dora-team-hero-signal-strip ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-team-hero-signal-strip li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.12rem;
+  border-left: 1px solid rgba(37, 99, 235, 0.2);
+  padding-left: 0.6rem;
+  min-width: 0;
+}
+
+.dora-team-hero-signal-strip li::before {
+  position: absolute;
+  top: 0.15rem;
+  left: -0.26rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.22);
+  content: "";
+}
+
+.dora-team-hero-signal-strip time {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+}
+
+.dora-team-hero-signal-strip strong {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 820;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-team-hero-signal-strip li span {
+  overflow: hidden;
+  color: #475569;
+  font-size: 0.68rem;
+  font-weight: 690;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dora-team-boundary {
@@ -5327,7 +5478,7 @@ textarea {
 
 .dora-activity-lens {
   position: relative;
-  min-height: 22rem;
+  min-height: 29rem;
   overflow: hidden;
   border: 1px solid rgba(191, 219, 254, 0.62);
   border-radius: 8px;
@@ -5348,7 +5499,7 @@ textarea {
 .dora-activity-lens img {
   display: block;
   width: 100%;
-  height: 22rem;
+  height: 29rem;
   object-fit: cover;
   object-position: center;
   transform: scale(1.01);
@@ -5405,7 +5556,7 @@ textarea {
 .dora-activity-lens-strip {
   position: absolute;
   right: 1rem;
-  bottom: 1rem;
+  bottom: 6.75rem;
   left: 1rem;
   z-index: 2;
   display: flex;
@@ -5435,6 +5586,110 @@ textarea {
 .dora-activity-lens-strip svg {
   flex: none;
   color: #2563eb;
+}
+
+.dora-activity-hero-rail {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0.9rem;
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.72rem 0.82rem;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.074);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.dora-activity-hero-rail > div {
+  display: grid;
+  align-content: center;
+  gap: 0.16rem;
+  min-width: 8.6rem;
+}
+
+.dora-activity-hero-rail > div strong {
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 840;
+}
+
+.dora-activity-hero-rail > div small {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 720;
+}
+
+.dora-activity-rail-live-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.22);
+  animation: office-agent-pulse 2.8s ease-out infinite;
+}
+
+.dora-activity-hero-rail ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-activity-hero-rail li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.12rem;
+  min-width: 0;
+  border-left: 1px solid rgba(37, 99, 235, 0.2);
+  padding-left: 0.6rem;
+}
+
+.dora-activity-hero-rail li::before {
+  position: absolute;
+  top: 0.15rem;
+  left: -0.26rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.22);
+  content: "";
+}
+
+.dora-activity-hero-rail time {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+}
+
+.dora-activity-hero-rail strong {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 820;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-activity-hero-rail li span {
+  overflow: hidden;
+  color: #475569;
+  font-size: 0.68rem;
+  font-weight: 690;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dora-activity-summary {
@@ -8100,7 +8355,7 @@ textarea {
   }
 
   .dora-team-hero {
-    min-height: 23rem;
+    min-height: 30rem;
   }
 
   .dora-team-node {
@@ -8307,6 +8562,10 @@ textarea {
     padding: 1rem;
   }
 
+  .dora-team-hero-art {
+    display: none;
+  }
+
   .dora-team-hero::before,
   .dora-team-orbit {
     display: none;
@@ -8314,6 +8573,7 @@ textarea {
 
   .dora-team-hero-copy {
     position: static;
+    max-width: none;
   }
 
   .dora-team-hero-copy p {
@@ -8327,6 +8587,33 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.72rem;
     margin-top: 1rem;
+  }
+
+  .dora-team-hero-boundary-card,
+  .dora-team-hero-signal-strip {
+    position: relative;
+    inset: auto;
+    width: auto;
+    margin-top: 1rem;
+  }
+
+  .dora-team-hero-boundary-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-team-hero-boundary-card div + div {
+    border-top: 0;
+    border-left: 1px dashed rgba(100, 116, 139, 0.32);
+    padding-top: 0;
+    padding-left: 0.72rem;
+  }
+
+  .dora-team-hero-signal-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-team-hero-signal-strip ol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dora-team-node,
@@ -8416,16 +8703,32 @@ textarea {
 
   .dora-activity-lens,
   .dora-activity-lens img {
-    min-height: 19.5rem;
-    height: 19.5rem;
+    min-height: 24.5rem;
+    height: 24.5rem;
   }
 
   .dora-activity-lens-strip {
+    display: none;
     align-items: flex-start;
     flex-direction: column;
     right: 0.8rem;
     bottom: 0.8rem;
     left: 0.8rem;
+  }
+
+  .dora-activity-hero-rail {
+    grid-template-columns: 1fr;
+    right: 0.8rem;
+    bottom: 0.8rem;
+    left: 0.8rem;
+  }
+
+  .dora-activity-hero-rail > div {
+    min-width: 0;
+  }
+
+  .dora-activity-hero-rail ol {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .dora-activity-summary {
@@ -8948,7 +9251,7 @@ textarea {
   }
 
   .dora-team-topology {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.64rem;
   }
 
@@ -8966,6 +9269,30 @@ textarea {
 
   .dora-team-node em {
     margin-top: 0.24rem;
+  }
+
+  .dora-team-hero-boundary-card {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-team-hero-boundary-card div + div {
+    border-top: 1px dashed rgba(100, 116, 139, 0.32);
+    border-left: 0;
+    padding-top: 0.72rem;
+    padding-left: 0;
+  }
+
+  .dora-team-hero-signal-strip ol {
+    display: flex;
+    gap: 0.62rem;
+    overflow-x: auto;
+    padding-bottom: 0.12rem;
+    scroll-snap-type: x proximity;
+  }
+
+  .dora-team-hero-signal-strip li {
+    flex: 0 0 8.4rem;
+    scroll-snap-align: start;
   }
 
   .dora-team-boundary {
@@ -8986,8 +9313,8 @@ textarea {
 
   .dora-activity-lens,
   .dora-activity-lens img {
-    min-height: 17.5rem;
-    height: 17.5rem;
+    min-height: 23.5rem;
+    height: 23.5rem;
   }
 
   .dora-activity-lens img {
@@ -9018,12 +9345,17 @@ textarea {
     font-size: 0.66rem;
   }
 
-  .dora-activity-lens-strip {
-    padding: 0.58rem 0.64rem;
+  .dora-activity-hero-rail ol {
+    display: flex;
+    gap: 0.62rem;
+    overflow-x: auto;
+    padding-bottom: 0.12rem;
+    scroll-snap-type: x proximity;
   }
 
-  .dora-activity-lens-strip span {
-    white-space: normal;
+  .dora-activity-hero-rail li {
+    flex: 0 0 8.4rem;
+    scroll-snap-align: start;
   }
 
   .dora-activity-summary {
@@ -9612,8 +9944,10 @@ textarea {
   .dora-team-orbit,
   .dora-team-node-mark,
   .dora-team-state-dot,
+  .dora-team-hero-signal-strip > div span,
   .dora-activity-lens::after,
   .dora-activity-lens img,
+  .dora-activity-rail-live-dot,
   .dora-activity-event-dot,
   .dora-tasks-hero::before,
   .dora-tasks-orbit-ring,
@@ -11968,5 +12302,15 @@ textarea {
 @media (max-width: 520px) {
   .dora-office-stage-boundary {
     display: none;
+  }
+
+  .dora-activity-lens-strip {
+    display: none;
+  }
+
+  .dora-activity-lens,
+  .dora-activity-lens img {
+    min-height: 21rem;
+    height: 21rem;
   }
 }

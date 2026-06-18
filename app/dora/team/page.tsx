@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Activity, ArrowRight, Bot, Eye, LockKeyhole, Radio, ShieldCheck } from "lucide-react";
 import { DoraOfficeShell } from "@/components/DoraOfficeShell";
@@ -86,11 +87,32 @@ export default function DoraTeamPage() {
       showBoundaryStrip={false}
     >
       <section className="dora-team-hero" aria-label="MiniDora team topology">
+        <Image
+          className="dora-team-hero-art"
+          src="/visuals/doraemon-office-command-room-v2.png"
+          alt=""
+          width={1536}
+          height={1024}
+          sizes="(max-width: 900px) 100vw, 72vw"
+        />
         <div className="dora-team-hero-copy">
           <p>
             <span>Doraemon coordinates.</span> MiniDoras specialize.
           </p>
           <span>Public-safe roster</span>
+        </div>
+
+        <div className="dora-team-hero-boundary-card">
+          <div>
+            <Eye size={17} aria-hidden />
+            <strong>Public window</strong>
+            <span>Sanitized states</span>
+          </div>
+          <div>
+            <LockKeyhole size={17} aria-hidden />
+            <strong>Private area</strong>
+            <span>Owner-only work</span>
+          </div>
         </div>
 
         <div className="dora-team-topology">
@@ -110,6 +132,25 @@ export default function DoraTeamPage() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className="dora-team-hero-signal-strip" aria-label="Recent public team signals">
+          <div>
+            <span aria-hidden />
+            <strong>Recent public signals</strong>
+          </div>
+          <ol>
+            {recentSignals.map((event) => (
+              <li
+                key={event.event_id}
+                aria-label={`${formatPublicEventTime(event.created_at)} ${event.agent}: ${event.title}`}
+              >
+                <time>{formatPublicEventTime(event.created_at)}</time>
+                <strong>{event.agent}</strong>
+                <span>{event.title}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
