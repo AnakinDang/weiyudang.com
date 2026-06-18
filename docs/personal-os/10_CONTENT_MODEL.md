@@ -10,7 +10,7 @@ This document defines the public content model for the personal site.
 The Personal OS redesign has two kinds of surfaces:
 
 - live/system surfaces such as Doraemon Office and private `/app/*`
-- editorial/content surfaces such as Projects, Lab, Journal, and About
+- editorial/content surfaces such as Projects, Research, Journal, and About
 
 The first kind is governed by data contracts and auth. The second kind needs a
 content model so public pages can be implemented consistently.
@@ -88,7 +88,7 @@ Allowed visibility:
 - `unlisted`
 - `draft`
 
-### Lab Note
+### Research Note
 
 Route:
 
@@ -153,7 +153,7 @@ Recommended fields:
 - `tags`
 - `mood`
 
-Journal should be more human and less operational than Lab.
+Journal should be more human and less operational than Research.
 
 ### Static Page
 
@@ -287,4 +287,3 @@ Do not expose private project names or internal labels in metadata.
 - Private systems can be summarized publicly without leaking implementation
   details.
 - Content PRs have a checklist comparable to dashboard/data PRs.
-

@@ -43,7 +43,7 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
         <div className="container">
           <Link href="/lab" className="link-focus lab-back-link">
             <ArrowLeft size={16} aria-hidden />
-            Back to Lab
+            Back to Research
           </Link>
 
           <div className="lab-note-dossier-grid">
@@ -79,7 +79,7 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
               </div>
             </article>
 
-            <aside className="lab-note-dossier-rail" aria-label="Lab note metadata">
+            <aside className="lab-note-dossier-rail" aria-label="Research note metadata">
               <section className="lab-note-rail-panel">
                 <p className="lab-rail-kicker">Note dossier</p>
                 <dl className="lab-note-meta-list">
@@ -103,7 +103,7 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
                   </div>
                   <div>
                     <dt>Content model</dt>
-                    <dd>Public lab note</dd>
+                    <dd>Public research note</dd>
                   </div>
                 </dl>
               </section>

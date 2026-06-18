@@ -6,8 +6,9 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { getNotes } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Lab",
-  description: "Public experiments, system sketches, design decisions, and research fragments from Weiyu Dang's personal AI lab."
+  title: "Research",
+  description:
+    "Public research notes, system sketches, design decisions, and experiments from Weiyu Dang's personal research studio."
 };
 
 const labSignals = [
@@ -32,10 +33,10 @@ export default function LabPage() {
       <section className="lab-hero">
         <div className="container lab-hero-grid">
           <div className="lab-hero-copy">
-            <h1>Public lab notes.</h1>
+            <h1>Research notes.</h1>
             <p>
-              Experiments, system sketches, design decisions, and research fragments from Weiyu&apos;s personal AI lab.
-              Public by design.
+              Public experiments, system sketches, design decisions, and research fragments from Weiyu&apos;s personal
+              research studio. Public by design.
             </p>
             <div className="lab-hero-actions">
               <Link href={latestNote ? `/lab/${latestNote.slug}` : "#lab-notes"} className="link-focus lab-hero-primary">
@@ -47,7 +48,7 @@ export default function LabPage() {
                 <ArrowRight size={16} aria-hidden />
               </Link>
             </div>
-            <div className="lab-signal-row" aria-label="Lab principles">
+            <div className="lab-signal-row" aria-label="Research principles">
               {labSignals.map(([title, summary]) => (
                 <div key={title} className="lab-signal-card">
                   <ShieldCheck size={18} aria-hidden />
@@ -58,9 +59,9 @@ export default function LabPage() {
             </div>
           </div>
 
-          <div className="lab-surface-visual" aria-label="Public lab surface sketch">
+          <div className="lab-surface-visual" aria-label="Public research surface sketch">
             <div className="lab-surface-sheet">
-              <p>LAB SURFACE</p>
+              <p>RESEARCH SURFACE</p>
               {[
                 ["01", "Observe", "Watch, collect, and question."],
                 ["02", "Build", "Prototype, test, and document."],
@@ -100,7 +101,7 @@ export default function LabPage() {
         <div className="container">
           <div className="lab-protocol-grid">
             <div>
-              <h2>Lab protocol</h2>
+              <h2>Research protocol</h2>
               <div className="lab-protocol-steps" aria-label="Public publishing protocol">
                 {protocolSteps.map(([title, summary], index) => (
                   <div key={title} className="lab-protocol-step">
@@ -117,7 +118,7 @@ export default function LabPage() {
               <div className="lab-boundary-column">
                 <h3>
                   <Globe2 size={22} aria-hidden />
-                  Public Lab
+                  Public Research
                   <span>Public</span>
                 </h3>
                 {["Curated summaries", "Design sketches", "Concepts and methods", "Project links"].map((item) => (
@@ -156,7 +157,7 @@ export default function LabPage() {
               <span />
             </div>
             <div>
-              <h2>This is a living lab.</h2>
+              <h2>This is living research.</h2>
               <p>New notes land when experiments evolve. Follow along, learn from the process, and build with care.</p>
             </div>
             <Link href={latestNote ? `/lab/${latestNote.slug}` : "#lab-notes"} className="link-focus">
