@@ -71,7 +71,7 @@ product-facing contract when needed.
 - MiniDora Trading is research-only. It is not an order, recommendation, or
   execution system.
 - Private `/app/*` behavior is defined in [Auth and Session Spec](09_AUTH_AND_SESSION.md).
-- Public Projects, Lab, Journal, About, and agent profiles follow [Content Model](10_CONTENT_MODEL.md).
+- Public Projects, Research, Journal, About, and agent profiles follow [Content Model](10_CONTENT_MODEL.md).
 - Current owner decision allows non-commercial public Doraemon display on
   `weiyudang.com`, while source repositories and raw assets stay private,
   minimal, replaceable, and takedown-friendly.

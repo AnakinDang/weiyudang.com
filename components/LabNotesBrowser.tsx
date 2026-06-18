@@ -54,10 +54,10 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
 
   return (
     <div className="lab-browser-grid">
-      <aside className="lab-model-rail" aria-label="Lab model">
+      <aside className="lab-model-rail" aria-label="Research model">
         <div className="lab-model-panel">
           <p className="lab-model-kicker">How we organize notes</p>
-          <h2>Lab model</h2>
+          <h2>Research model</h2>
           {[
             ["Build logs", "Ship, test, learn."],
             ["Design notes", "Decisions and tradeoffs."],
@@ -75,9 +75,9 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
         </div>
       </aside>
 
-      <section className="lab-notes-panel" aria-label="Public lab notes">
+      <section className="lab-notes-panel" aria-label="Public research notes">
         <div className="lab-notes-toolbar">
-          <div className="lab-filter-group" aria-label="Lab note filters">
+          <div className="lab-filter-group" aria-label="Research note filters">
             {filters.map((filter) => {
               const isActive = activeFilter === filter.key;
               return (
@@ -100,7 +100,7 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              aria-label="Search lab notes"
+              aria-label="Search research notes"
               placeholder="Search notes"
             />
           </label>
@@ -118,7 +118,7 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
                     <span />
                   </span>
                   <span className="lab-note-main">
-                    <small>{note.featured ? "Featured note" : "Lab note"}</small>
+                    <small>{note.featured ? "Featured note" : "Research note"}</small>
                     <strong>{note.title}</strong>
                     <span>{note.summary}</span>
                   </span>
@@ -140,7 +140,7 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
               {query.trim()
                 ? `No ${activeFilterLabel} notes matching "${query.trim()}".`
                 : activeFilter === "all"
-                  ? "No public lab notes yet."
+                  ? "No public research notes yet."
                   : `No ${activeFilterLabel} notes yet.`}
             </span>
             {query.trim() ? (
@@ -152,7 +152,7 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
         ) : null}
 
         {selectedNote ? (
-          <div className="lab-selected-note" aria-label="Selected lab note">
+          <div className="lab-selected-note" aria-label="Selected research note">
             <div>
               <p>Selected note</p>
               <h2>{selectedNote.title}</h2>

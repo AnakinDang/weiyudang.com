@@ -15,7 +15,7 @@ const doraemonNavItems = [
   { href: "/dora", label: "Doraemon" },
   { href: "/journal", label: "Writing" },
   { href: "/projects", label: "Projects" },
-  { href: "/lab", label: "Lab" }
+  { href: "/lab", label: "Research" }
 ];
 
 export function SiteHeader({

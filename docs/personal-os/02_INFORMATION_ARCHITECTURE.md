@@ -21,7 +21,7 @@ Primary public nav:
 - `Home` -> `/`
 - `Doraemon` -> `/dora`
 - `Projects` -> `/projects`
-- `Lab` -> `/lab`
+- `Research` -> `/lab`
 - `Journal` -> `/journal`
 - `About` -> `/about`
 - `Contact` -> `/contact`
@@ -72,7 +72,7 @@ Responsibilities:
 Canonical project taxonomy is defined in [Content Model](10_CONTENT_MODEL.md).
 
 
-### Lab
+### Research
 
 Route: `/lab`
 

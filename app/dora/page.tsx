@@ -5,11 +5,11 @@ import {
   ArrowRight,
   Bell,
   CheckCircle2,
+  Clock3,
   Eye,
   FileText,
   Globe2,
   LockKeyhole,
-  Radio,
   RefreshCw,
   ShieldCheck,
   Sparkles,
@@ -104,6 +104,14 @@ const miniDoraRoles = [
   }
 ] as const;
 
+const heroAgentLabels = [
+  "Strategy MiniDora",
+  "Research MiniDora",
+  "Data MiniDora",
+  "Market MiniDora",
+  "Operations MiniDora"
+] as const;
+
 const publicItems = ["Sanitized activity", "High-level state", "Agent presence", "System health"];
 const privateItems = ["Owner tasks and notes", "Strategies and playbooks", "Knowledge and data", "Accounts and integrations"];
 
@@ -191,15 +199,20 @@ export default function DoraPage() {
                     <small>Sanitized. Real-time. Safe.</small>
                   </div>
                 </div>
+                <div className="doraemon-orbit-labels" aria-hidden="true">
+                  {heroAgentLabels.map((label) => (
+                    <span key={label}>{label}</span>
+                  ))}
+                </div>
               </div>
 
               <div className="doraemon-activity-preview" aria-label="Recent public-safe Doraemon activity">
                 <div className="doraemon-activity-preview-head">
                   <span>
-                    <Radio size={14} aria-hidden />
-                    Live activity (public-safe)
+                    <Clock3 size={14} aria-hidden />
+                    Recent activity (public-safe)
                   </span>
-                  <small>Public demo window</small>
+                  <small>Demo replay</small>
                 </div>
                 <div className="doraemon-activity-ticks">
                   {recentEvents.map((event) => (
