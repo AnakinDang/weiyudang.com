@@ -19,7 +19,7 @@ export type DoraOfficeRoute = (typeof doraOfficeRoutes)[number]["href"];
 export type PublicDoraEvent = {
   event_id: string;
   created_at: string;
-  event_type: "agent_work" | "handoff" | "tool_call" | "owner_review" | "system";
+  event_type: "agent_work" | "handoff" | "tool_call" | "owner_review" | "alert" | "system";
   agent: string;
   state: "Planning" | "Working" | "Tool call" | "Handoff" | "Owner review" | "Completed" | "Attention" | "Demo";
   severity: "normal" | "info" | "warning";
@@ -48,6 +48,15 @@ export function getPublicAgentTone(agent: Pick<PublicAgent, "state">) {
 }
 
 export const publicDoraEvents: PublicDoraEvent[] = [
+  {
+    event_id: "evt_9f2a0c71",
+    created_at: "2026-06-13T11:05:00+08:00",
+    event_type: "alert",
+    agent: "Ops MiniDora",
+    state: "Attention",
+    severity: "warning",
+    title: "Attention needed"
+  },
   {
     event_id: "evt_68815d67",
     created_at: "2026-06-13T11:04:00+08:00",

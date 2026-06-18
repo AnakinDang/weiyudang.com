@@ -24,16 +24,13 @@ const kindLabels = {
   handoff: "Handoffs",
   tool_call: "Tools",
   owner_review: "Owner review",
+  alert: "Alerts",
   system: "System"
 } as const satisfies Record<PublicDoraEvent["event_type"], string>;
 
 const kindFilters = [
-  { value: "all", label: "All" },
-  { value: "agent_work", label: kindLabels.agent_work },
-  { value: "handoff", label: kindLabels.handoff },
-  { value: "tool_call", label: kindLabels.tool_call },
-  { value: "owner_review", label: kindLabels.owner_review },
-  { value: "system", label: kindLabels.system }
+  { value: "all" as const, label: "All" },
+  ...Object.entries(kindLabels).map(([value, label]) => ({ value: value as PublicDoraEvent["event_type"], label }))
 ] as const;
 
 const severityLabels = {
