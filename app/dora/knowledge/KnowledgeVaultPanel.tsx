@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -15,6 +14,14 @@ import {
   ShieldCheck,
   Sparkles
 } from "lucide-react";
+import { DoraemonMark } from "@/components/DoraemonMark";
+import {
+  DoraOfficeHeroArt,
+  DoraOfficeHeroBoundaryCard,
+  DoraOfficeHeroBoundaryStrip,
+  DoraOfficeHeroCopy,
+  DoraOfficeHeroSignalRail
+} from "@/components/DoraOfficeHero";
 import { StatusBadge } from "@/components/StatusBadge";
 import type {
   publicKnowledgeBoundaries,
@@ -48,30 +55,6 @@ const statIcons = {
   "Private sources": LockKeyhole
 } as const satisfies Record<PublicKnowledgeStat["label"], LucideIcon>;
 
-function DoraemonMark({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 72 72" aria-hidden="true" focusable="false">
-      <circle cx="36" cy="34" r="25" fill="currentColor" opacity="0.12" />
-      <circle cx="36" cy="32" r="20" fill="#ffffff" stroke="currentColor" strokeWidth="2.2" />
-      <ellipse cx="30" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
-      <ellipse cx="42" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="31.4" cy="25.5" r="1.45" fill="currentColor" />
-      <circle cx="40.6" cy="25.5" r="1.45" fill="currentColor" />
-      <circle cx="36" cy="32" r="3.4" fill="currentColor" />
-      <path d="M36 35.6v14.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M25.5 41.2c5.4 6.2 15.6 6.2 21 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M21 32.8h10M21.4 38.2l9.2-2.1M51 32.8H41M50.6 38.2l-9.2-2.1"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path d="M25.5 53h21" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <circle cx="36" cy="56" r="5.2" fill="#f4b740" stroke="#ffffff" strokeWidth="2" />
-    </svg>
-  );
-}
-
 function outputToneClass(output: Pick<PublicKnowledgeOutput, "tone">) {
   return output.tone === "normal" ? "is-normal" : "is-info";
 }
@@ -92,34 +75,20 @@ export function KnowledgeVaultPanel({
   return (
     <div className="dora-knowledge">
       <section className="dora-knowledge-hero" aria-label="Public Knowledge Vault synthesis map">
-        <Image
-          className="dora-knowledge-hero-art"
-          src="/visuals/doraemon-office-command-room-v2.png"
-          alt=""
-          width={1536}
-          height={1024}
-          sizes="72vw"
+        <DoraOfficeHeroArt className="dora-knowledge-hero-art" />
+        <DoraOfficeHeroCopy
+          className="dora-knowledge-hero-copy"
+          lines={["Knowledge vault.", "Public synthesis only."]}
+          summary="Private sources become public pages only through synthesis, owner review, and safe rewriting."
         />
-        <div className="dora-knowledge-hero-copy">
-          <p>
-            <span>Knowledge vault.</span>
-            <span>Public synthesis only.</span>
-          </p>
-          <small>Private sources become public pages only through synthesis, owner review, and safe rewriting.</small>
-        </div>
 
-        <div className="dora-knowledge-hero-boundary-card">
-          <div>
-            <Eye size={17} aria-hidden />
-            <strong>Public synthesis</strong>
-            <span>Curated outputs</span>
-          </div>
-          <div>
-            <LockKeyhole size={17} aria-hidden />
-            <strong>Private sources</strong>
-            <span>Source text hidden</span>
-          </div>
-        </div>
+        <DoraOfficeHeroBoundaryCard
+          className="dora-knowledge-hero-boundary-card"
+          items={[
+            { icon: Eye, title: "Public synthesis", detail: "Curated outputs" },
+            { icon: LockKeyhole, title: "Private sources", detail: "Source text hidden" }
+          ]}
+        />
 
         <div className="dora-knowledge-prism" aria-hidden="true">
           <div className="dora-knowledge-prism-plane dora-knowledge-prism-plane-1" />
@@ -145,36 +114,27 @@ export function KnowledgeVaultPanel({
           })}
         </div>
 
-        <div className="dora-knowledge-hero-boundary">
-          <span>
-            <Eye size={15} aria-hidden />
-            Public summaries
-          </span>
-          <span>
-            <LockKeyhole size={15} aria-hidden />
-            Sources private
-          </span>
-          <span>
-            <ShieldCheck size={15} aria-hidden />
-            Owner reviewed
-          </span>
-        </div>
+        <DoraOfficeHeroBoundaryStrip
+          className="dora-knowledge-hero-boundary"
+          items={[
+            { icon: Eye, label: "Public summaries" },
+            { icon: LockKeyhole, label: "Sources private" },
+            { icon: ShieldCheck, label: "Owner reviewed" }
+          ]}
+        />
 
-        <div className="dora-knowledge-hero-signal-strip" aria-label="Public knowledge publishing preview">
-          <div>
-            <span aria-hidden />
-            <strong>Publish rail</strong>
-          </div>
-          <ol role="list">
-            {previewFlow.map((item) => (
-              <li key={item.step} aria-label={`${item.step}: ${item.shortLabel}`}>
-                <span>{item.shortLabel}</span>
-                <strong>{item.step}</strong>
-                <small>public-safe</small>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <DoraOfficeHeroSignalRail
+          className="dora-knowledge-hero-signal-strip"
+          ariaLabel="Public knowledge publishing preview"
+          label="Publish rail"
+          items={previewFlow.map((item) => ({
+            key: item.step,
+            ariaLabel: `${item.step}: ${item.shortLabel}`,
+            meta: item.shortLabel,
+            title: item.step,
+            detail: "public-safe"
+          }))}
+        />
       </section>
 
       <section className="dora-knowledge-stats" aria-label="Public Knowledge Vault summary">

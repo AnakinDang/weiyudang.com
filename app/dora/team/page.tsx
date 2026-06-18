@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Activity, ArrowRight, Bot, Eye, LockKeyhole, Radio, ShieldCheck } from "lucide-react";
+import { DoraemonMark } from "@/components/DoraemonMark";
+import {
+  DoraOfficeHeroArt,
+  DoraOfficeHeroBoundaryCard,
+  DoraOfficeHeroCopy,
+  DoraOfficeHeroSignalRail
+} from "@/components/DoraOfficeHero";
 import { DoraOfficeShell } from "@/components/DoraOfficeShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
@@ -43,30 +49,6 @@ const stateToneClass = {
   demo: "is-info"
 } as const satisfies Record<PublicAgent["state"], string>;
 
-function DoraemonMark({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 72 72" aria-hidden="true" focusable="false">
-      <circle cx="36" cy="34" r="25" fill="currentColor" opacity="0.12" />
-      <circle cx="36" cy="32" r="20" fill="#ffffff" stroke="currentColor" strokeWidth="2.2" />
-      <ellipse cx="30" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
-      <ellipse cx="42" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="31.4" cy="25.5" r="1.45" fill="currentColor" />
-      <circle cx="40.6" cy="25.5" r="1.45" fill="currentColor" />
-      <circle cx="36" cy="32" r="3.4" fill="currentColor" />
-      <path d="M36 35.6v14.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M25.5 41.2c5.4 6.2 15.6 6.2 21 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M21 32.8h10M21.4 38.2l9.2-2.1M51 32.8H41M50.6 38.2l-9.2-2.1"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path d="M25.5 53h21" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <circle cx="36" cy="56" r="5.2" fill="#f4b740" stroke="#ffffff" strokeWidth="2" />
-    </svg>
-  );
-}
-
 function topologyClass(agent: PublicAgent, index: number) {
   const slot = topologySlots.includes(agent.publicId as (typeof topologySlots)[number])
     ? agent.publicId.replace("agent_", "")
@@ -87,33 +69,20 @@ export default function DoraTeamPage() {
       showBoundaryStrip={false}
     >
       <section className="dora-team-hero" aria-label="MiniDora team topology">
-        <Image
-          className="dora-team-hero-art"
-          src="/visuals/doraemon-office-command-room-v2.png"
-          alt=""
-          width={1536}
-          height={1024}
-          sizes="(max-width: 900px) 100vw, 72vw"
+        <DoraOfficeHeroArt className="dora-team-hero-art" sizes="(max-width: 900px) 100vw, 72vw" />
+        <DoraOfficeHeroCopy
+          className="dora-team-hero-copy"
+          lines={["Doraemon coordinates.", "MiniDoras specialize."]}
+          summary="Public-safe roster"
         />
-        <div className="dora-team-hero-copy">
-          <p>
-            <span>Doraemon coordinates.</span> MiniDoras specialize.
-          </p>
-          <span>Public-safe roster</span>
-        </div>
 
-        <div className="dora-team-hero-boundary-card">
-          <div>
-            <Eye size={17} aria-hidden />
-            <strong>Public window</strong>
-            <span>Sanitized states</span>
-          </div>
-          <div>
-            <LockKeyhole size={17} aria-hidden />
-            <strong>Private area</strong>
-            <span>Owner-only work</span>
-          </div>
-        </div>
+        <DoraOfficeHeroBoundaryCard
+          className="dora-team-hero-boundary-card"
+          items={[
+            { icon: Eye, title: "Public window", detail: "Sanitized states" },
+            { icon: LockKeyhole, title: "Private area", detail: "Owner-only work" }
+          ]}
+        />
 
         <div className="dora-team-topology">
           <div className="dora-team-orbit" aria-hidden="true" />
@@ -134,24 +103,20 @@ export default function DoraTeamPage() {
           ))}
         </div>
 
-        <div className="dora-team-hero-signal-strip" aria-label="Recent public team signals">
-          <div>
-            <span aria-hidden />
-            <strong>Recent public signals</strong>
-          </div>
-          <ol>
-            {recentSignals.map((event) => (
-              <li
-                key={event.event_id}
-                aria-label={`${formatPublicEventTime(event.created_at)} ${event.agent}: ${event.title}`}
-              >
-                <time>{formatPublicEventTime(event.created_at)}</time>
-                <strong>{event.agent}</strong>
-                <span>{event.title}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <DoraOfficeHeroSignalRail
+          className="dora-team-hero-signal-strip"
+          ariaLabel="Recent public team signals"
+          label="Recent public signals"
+          items={recentSignals.map((event) => ({
+            key: event.event_id,
+            ariaLabel: `${formatPublicEventTime(event.created_at)} ${event.agent}: ${event.title}`,
+            meta: formatPublicEventTime(event.created_at),
+            metaElement: "time",
+            metaDateTime: event.created_at,
+            title: event.agent,
+            detail: event.title
+          }))}
+        />
       </section>
 
       <section className="dora-team-boundary" aria-label="Public and private boundary">
