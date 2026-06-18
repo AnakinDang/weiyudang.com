@@ -11,6 +11,7 @@ import {
   Sparkles
 } from "lucide-react";
 import { DORA_LIVE_BRIDGE_URL, doraOfficeRoutes, type DoraOfficeRoute } from "@/lib/dora-office";
+import { DoraOfficeRouteScroller } from "@/components/DoraOfficeRouteScroller";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 
@@ -48,7 +49,7 @@ export function DoraOfficeShell({
             <Link href="/dora" className="link-focus dora-office-rail-brand">
               Doraemon Office
             </Link>
-            <div className="dora-office-rail-links">
+            <div className="dora-office-rail-links" data-dora-office-route-list>
               {doraOfficeRoutes.map((item) => {
                 const Icon = routeIcons[item.href];
                 const isActive = item.href === active;
@@ -65,6 +66,7 @@ export function DoraOfficeShell({
                   </Link>
                 );
               })}
+              <DoraOfficeRouteScroller active={active} />
             </div>
             <div className="dora-office-rail-boundary">
               <Radio size={20} aria-hidden />

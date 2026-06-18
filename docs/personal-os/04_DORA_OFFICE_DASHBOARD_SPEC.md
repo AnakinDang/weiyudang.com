@@ -145,7 +145,7 @@ Responsibilities:
 
 Do not expose:
 
-- cron command strings
+- scheduler command strings
 - local paths
 - tokens
 - private prompt text
