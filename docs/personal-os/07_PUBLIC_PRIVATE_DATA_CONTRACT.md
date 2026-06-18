@@ -275,7 +275,7 @@ Allowed:
 
 Disallowed:
 
-- cron command
+- scheduler command
 - private prompt
 - local script path
 - secret env var

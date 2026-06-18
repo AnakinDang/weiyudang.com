@@ -186,7 +186,7 @@ export const publicSchedules = [
     tone: "info",
     last: "Recent session",
     next: "Next session",
-    summary: "Research-only market context. Not an order, recommendation, or execution system."
+    summary: "Research-only market context with coarse public status and no private execution path."
   },
   {
     name: "System health",
@@ -210,8 +210,8 @@ export const publicSchedules = [
 
 export const publicScheduleBoundaries = [
   "Only coarse cadence and next-window labels are public.",
-  "No cron command strings, local paths, private prompts, or scheduler controls are rendered.",
-  "Research schedules remain research-only and cannot mutate accounts."
+  "No scheduler command strings, local paths, private prompts, or controls are rendered.",
+  "Research schedules remain read-only and cannot change private systems."
 ] as const;
 
 export const publicSystemStatus = [
