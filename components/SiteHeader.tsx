@@ -48,7 +48,10 @@ export function SiteHeader({
             ))}
           </nav>
           <Link href="/app" className="link-focus site-owner-signin" aria-label="Owner sign in">
-            Owner Sign in
+            <span className="site-owner-signin-full">Owner Sign in</span>
+            <span className="site-owner-signin-short" aria-hidden="true">
+              Owner
+            </span>
             <ArrowRight size={15} aria-hidden />
           </Link>
         </div>
