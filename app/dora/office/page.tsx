@@ -174,15 +174,17 @@ export default function DoraOfficePage() {
           <div className="dora-office-live-main">
             <div className="dora-office-live-heading">
               <div>
-                <h1>Doraemon Office Live</h1>
+                <h1>
+                  <span>Doraemon</span> <span>Office</span>
+                </h1>
                 <p>
-                  <span>Doraemon coordinates.</span> MiniDoras work.
+                  <span>Doraemon coordinates.</span> MiniDoras work. Weiyu decides.
                 </p>
-                <small>A public window into Weiyu&apos;s personal AI command room.</small>
+                <small>A public-safe window into Weiyu&apos;s personal AI command room.</small>
               </div>
               <div className="dora-office-live-mode">
                 <span aria-hidden />
-                Public stage
+                Public-safe stage
               </div>
             </div>
 
