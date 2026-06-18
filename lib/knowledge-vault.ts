@@ -31,25 +31,44 @@ export const publicKnowledgeOutputs = [
 
 export const publicKnowledgeFlow = [
   {
-    step: "Private capture",
-    summary: "Raw notes, memory, and source material stay in owner-only systems."
+    step: "Capture",
+    shortLabel: "owner-only source",
+    summary: "Source material is collected in owner-only systems and is never mounted directly into public routes."
   },
   {
     step: "Synthesis",
+    shortLabel: "curated draft",
     summary: "Doraemon and MiniDoras turn source material into summaries, decisions, and candidate outputs."
   },
   {
     step: "Owner review",
+    shortLabel: "explicit gate",
     summary: "Weiyu explicitly decides what can become public and what stays private."
   },
   {
     step: "Public output",
+    shortLabel: "safe page",
     summary: "Only curated pages, lab notes, journal entries, and safe dashboard text reach visitors."
   }
 ] as const;
 
+export const publicKnowledgeStats = [
+  {
+    label: "Public outputs",
+    value: "4"
+  },
+  {
+    label: "Publish gates",
+    value: "3"
+  },
+  {
+    label: "Private sources",
+    value: "hidden"
+  }
+] as const;
+
 export const publicKnowledgeBoundaries = [
-  "No raw vault pages, private memory records, prompt text, or unpublished reports are rendered.",
+  "No raw vault pages, owner context records, private instruction text, or unpublished reports are rendered.",
   "Public links point only to curated site pages.",
   "Private source quality can shape public writing, but private source text does not cross the boundary."
 ] as const;

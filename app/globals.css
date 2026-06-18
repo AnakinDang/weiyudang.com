@@ -7565,6 +7565,524 @@ textarea {
   font-weight: 820;
 }
 
+.dora-knowledge {
+  display: grid;
+  gap: 1rem;
+}
+
+.dora-knowledge-hero {
+  position: relative;
+  min-height: 23rem;
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.62);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(248, 251, 255, 0.74), rgba(255, 255, 255, 0.98) 68%),
+    #ffffff;
+  box-shadow: 0 24px 72px rgba(15, 23, 42, 0.056);
+}
+
+.dora-knowledge-hero::before {
+  position: absolute;
+  right: 11%;
+  bottom: 1.4rem;
+  left: 11%;
+  height: 13rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.14), rgba(147, 197, 253, 0.05) 48%, transparent 72%);
+  content: "";
+  filter: blur(1rem);
+  animation: doraemon-stage-aura 8.4s ease-in-out infinite;
+}
+
+.dora-knowledge-hero-copy {
+  position: absolute;
+  top: 1.35rem;
+  left: 1.45rem;
+  z-index: 4;
+  max-width: min(29rem, 50%);
+}
+
+.dora-knowledge-hero-copy p {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(1.32rem, 2vw, 1.86rem);
+  font-weight: 840;
+  line-height: 1.08;
+}
+
+.dora-knowledge-hero-copy p span {
+  color: #2563eb;
+}
+
+.dora-knowledge-hero-copy small {
+  display: block;
+  margin-top: 0.58rem;
+  color: #475569;
+  font-size: 0.86rem;
+  font-weight: 690;
+  line-height: 1.45;
+}
+
+.dora-knowledge-prism {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.dora-knowledge-prism-plane {
+  position: absolute;
+  right: 11%;
+  bottom: 3.4rem;
+  left: 18%;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 50%;
+  transform: perspective(840px) rotateX(66deg) rotateZ(-4deg);
+  filter: drop-shadow(0 0 18px rgba(37, 99, 235, 0.12));
+  animation: doraemon-orbit-breathe 6.8s ease-in-out infinite;
+}
+
+.dora-knowledge-prism-plane-1 {
+  height: 15.8rem;
+}
+
+.dora-knowledge-prism-plane-2 {
+  right: 23%;
+  bottom: 5.5rem;
+  left: 32%;
+  height: 9.5rem;
+  border-color: rgba(37, 99, 235, 0.13);
+  animation-delay: 280ms;
+}
+
+.dora-knowledge-prism-plane-3 {
+  right: 41%;
+  bottom: 7.55rem;
+  left: 48%;
+  height: 4.8rem;
+  border-color: rgba(244, 183, 64, 0.2);
+  animation-delay: 680ms;
+}
+
+.dora-knowledge-prism-core {
+  position: absolute;
+  bottom: 8.15rem;
+  left: 55%;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  color: #2563eb;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.dora-knowledge-prism-core svg {
+  width: 4.3rem;
+  height: 4.3rem;
+  border: 1px solid rgba(191, 219, 254, 0.8);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 0.58rem;
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.1);
+}
+
+.dora-knowledge-prism-core strong {
+  margin-top: 0.48rem;
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 820;
+}
+
+.dora-knowledge-prism-core span {
+  margin-top: 0.12rem;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 740;
+}
+
+.dora-knowledge-prism-node {
+  position: absolute;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.15rem 0.52rem;
+  min-width: 10rem;
+  border: 1px solid rgba(191, 219, 254, 0.68);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  padding: 0.58rem 0.68rem;
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dora-knowledge-prism-node > span {
+  grid-row: span 2;
+  --office-pulse-color: rgba(37, 99, 235, 0.18);
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid rgba(191, 219, 254, 0.88);
+  border-radius: 999px;
+  background: rgba(224, 242, 254, 0.72);
+  color: #2563eb;
+  box-shadow: 0 0 0 0 var(--office-pulse-color);
+  animation: office-agent-pulse 3s ease-out infinite;
+}
+
+.dora-knowledge-prism-node strong {
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.dora-knowledge-prism-node small {
+  color: #64748b;
+  font-size: 0.67rem;
+  font-weight: 720;
+}
+
+.dora-knowledge-prism-node-1 {
+  left: 19%;
+  bottom: 6rem;
+}
+
+.dora-knowledge-prism-node-2 {
+  left: 35%;
+  bottom: 12.3rem;
+}
+
+.dora-knowledge-prism-node-3 {
+  right: 23%;
+  bottom: 5.3rem;
+}
+
+.dora-knowledge-prism-node-4 {
+  right: 6%;
+  bottom: 12.2rem;
+}
+
+.dora-knowledge-hero-boundary {
+  position: absolute;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  left: 1.1rem;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.62rem;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dora-knowledge-hero-boundary span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  color: #475569;
+  font-size: 0.76rem;
+  font-weight: 790;
+}
+
+.dora-knowledge-hero-boundary svg {
+  color: #2563eb;
+}
+
+.dora-knowledge-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.dora-knowledge-stats article,
+.dora-knowledge-outputs,
+.dora-knowledge-boundary-card,
+.dora-knowledge-review-card,
+.dora-knowledge-link-card,
+.dora-knowledge-flow {
+  border: 1px solid rgba(191, 219, 254, 0.58);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.045);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dora-knowledge-stats article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.74rem;
+  min-height: 5.4rem;
+  padding: 0.92rem 1rem;
+}
+
+.dora-knowledge-stats svg {
+  color: #2563eb;
+}
+
+.dora-knowledge-stats strong {
+  display: block;
+  color: #0f172a;
+  font-size: 1.5rem;
+  font-weight: 860;
+  line-height: 1;
+}
+
+.dora-knowledge-stats span {
+  display: block;
+  margin-top: 0.18rem;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 720;
+}
+
+.dora-knowledge-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.35fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.dora-knowledge-outputs,
+.dora-knowledge-flow {
+  padding: 1rem;
+}
+
+.dora-knowledge-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dora-knowledge-section-heading h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.12rem;
+  font-weight: 850;
+  line-height: 1.1;
+}
+
+.dora-knowledge-section-heading p {
+  margin: 0.36rem 0 0;
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.dora-knowledge-section-heading > svg {
+  flex: none;
+  color: #2563eb;
+}
+
+.dora-knowledge-output-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.82rem;
+  margin-top: 1rem;
+}
+
+.dora-knowledge-output-card {
+  display: grid;
+  align-content: start;
+  min-height: 13.8rem;
+  border: 1px solid rgba(221, 231, 240, 0.88);
+  border-radius: 8px;
+  background: rgba(248, 251, 255, 0.74);
+  padding: 0.9rem;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.dora-knowledge-output-card:hover {
+  border-color: rgba(191, 219, 254, 0.8);
+  background: rgba(255, 255, 255, 0.94);
+  transform: translateY(-1px);
+}
+
+.dora-knowledge-output-card > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.dora-knowledge-output-icon {
+  display: grid;
+  place-items: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  border: 1px solid rgba(191, 219, 254, 0.76);
+  border-radius: 999px;
+  background: rgba(224, 242, 254, 0.58);
+  color: #2563eb;
+}
+
+.dora-knowledge-output-card.is-normal .dora-knowledge-output-icon {
+  border-color: rgba(34, 197, 94, 0.28);
+  background: rgba(220, 252, 231, 0.68);
+  color: #16a34a;
+}
+
+.dora-knowledge-output-card h3 {
+  margin: 1.05rem 0 0;
+  color: #0f172a;
+  font-size: 1.04rem;
+  font-weight: 850;
+}
+
+.dora-knowledge-output-card p {
+  margin: 0.42rem 0 0;
+  color: #475569;
+  font-size: 0.8rem;
+  line-height: 1.48;
+}
+
+.dora-knowledge-output-card > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  margin-top: 0.88rem;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.dora-knowledge-side {
+  position: sticky;
+  top: 6.4rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.dora-knowledge-side section {
+  padding: 1rem;
+}
+
+.dora-knowledge-boundary-card ul {
+  display: grid;
+  gap: 0.58rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-knowledge-boundary-card li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.5rem;
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 760;
+  line-height: 1.45;
+}
+
+.dora-knowledge-boundary-card li svg,
+.dora-knowledge-link-card > svg,
+.dora-knowledge-review-card > svg {
+  flex: none;
+  margin-top: 0.1rem;
+  color: #2563eb;
+}
+
+.dora-knowledge-review-card,
+.dora-knowledge-link-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.16rem 0.58rem;
+}
+
+.dora-knowledge-review-card > svg,
+.dora-knowledge-link-card > svg {
+  grid-row: span 2;
+}
+
+.dora-knowledge-review-card strong,
+.dora-knowledge-link-card strong {
+  color: #0f172a;
+  font-size: 0.84rem;
+  font-weight: 830;
+}
+
+.dora-knowledge-review-card p,
+.dora-knowledge-link-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.dora-knowledge-link-card a {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  margin-top: 0.64rem;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.dora-knowledge-flow-track {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.72rem;
+  margin-top: 1rem;
+}
+
+.dora-knowledge-flow-track article {
+  display: grid;
+  align-content: start;
+  border: 1px solid rgba(221, 231, 240, 0.88);
+  border-radius: 8px;
+  background: rgba(248, 251, 255, 0.74);
+  padding: 0.82rem;
+}
+
+.dora-knowledge-flow-track article > span {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 999px;
+  background: rgba(224, 242, 254, 0.58);
+  color: #2563eb;
+}
+
+.dora-knowledge-flow-track small {
+  margin-top: 0.72rem;
+  color: #64748b;
+  font-size: 0.66rem;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.dora-knowledge-flow-track h3 {
+  margin: 0.22rem 0 0;
+  color: #0f172a;
+  font-size: 0.98rem;
+  font-weight: 840;
+}
+
+.dora-knowledge-flow-track p {
+  margin: 0.44rem 0 0;
+  color: #475569;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 @media (max-width: 1180px) {
   .dora-office-live-shell {
     grid-template-columns: 13rem minmax(0, 1fr);
@@ -7656,6 +8174,19 @@ textarea {
   .dora-system-side {
     position: static;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dora-knowledge-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-side {
+    position: static;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dora-knowledge-flow-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dora-office-metrics,
@@ -8138,6 +8669,85 @@ textarea {
   }
 
   .dora-system-side {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-hero {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .dora-knowledge-hero::before,
+  .dora-knowledge-prism-plane {
+    display: none;
+  }
+
+  .dora-knowledge-hero-copy {
+    position: static;
+    max-width: none;
+  }
+
+  .dora-knowledge-hero-copy p {
+    font-size: 1.18rem;
+  }
+
+  .dora-knowledge-prism {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.72rem;
+    margin-top: 1rem;
+  }
+
+  .dora-knowledge-prism-core,
+  .dora-knowledge-prism-node,
+  .dora-knowledge-prism-node-1,
+  .dora-knowledge-prism-node-2,
+  .dora-knowledge-prism-node-3,
+  .dora-knowledge-prism-node-4 {
+    position: static;
+    min-width: 0;
+    text-align: left;
+    transform: none;
+  }
+
+  .dora-knowledge-prism-core {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    align-items: center;
+    gap: 0.1rem 0.68rem;
+    border: 1px solid rgba(191, 219, 254, 0.52);
+    border-radius: 8px;
+    background: rgba(224, 242, 254, 0.48);
+    padding: 0.66rem;
+  }
+
+  .dora-knowledge-prism-core svg {
+    grid-row: span 2;
+    width: 2.72rem;
+    height: 2.72rem;
+    padding: 0.34rem;
+  }
+
+  .dora-knowledge-prism-core strong {
+    margin-top: 0;
+  }
+
+  .dora-knowledge-prism-node {
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.052);
+  }
+
+  .dora-knowledge-hero-boundary {
+    position: static;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: 0.8rem;
+  }
+
+  .dora-knowledge-side {
     grid-template-columns: 1fr;
   }
 }
@@ -8668,6 +9278,49 @@ textarea {
     width: fit-content;
   }
 
+  .dora-knowledge-hero-copy p {
+    font-size: 1.14rem;
+  }
+
+  .dora-knowledge-prism {
+    grid-template-columns: 1fr;
+    gap: 0.64rem;
+  }
+
+  .dora-knowledge-prism-core svg {
+    width: 2.64rem;
+    height: 2.64rem;
+  }
+
+  .dora-knowledge-hero-boundary span {
+    white-space: normal;
+  }
+
+  .dora-knowledge-stats,
+  .dora-knowledge-output-grid,
+  .dora-knowledge-flow-track {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-stats article {
+    min-height: auto;
+    padding: 0.86rem;
+  }
+
+  .dora-knowledge-outputs,
+  .dora-knowledge-flow {
+    padding: 0.82rem;
+  }
+
+  .dora-knowledge-section-heading {
+    gap: 0.56rem;
+  }
+
+  .dora-knowledge-output-card {
+    min-height: auto;
+    padding: 0.82rem;
+  }
+
   .dora-team-card {
     min-height: auto;
   }
@@ -8973,6 +9626,9 @@ textarea {
   .dora-system-lens-ring,
   .dora-system-lens-node > span,
   .dora-system-event > span,
+  .dora-knowledge-hero::before,
+  .dora-knowledge-prism-plane,
+  .dora-knowledge-prism-node > span,
   .living-system-visual::before,
   .living-system-visual::after,
   .personal-os-asset img,
