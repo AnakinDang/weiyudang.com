@@ -1,5 +1,5 @@
-import { TradingDashboardMock } from "@/components/TradingDashboardMock";
+import { TradingResearchCockpit } from "@/components/TradingResearchCockpit";
 
 export default function TradingPage() {
-  return <TradingDashboardMock />;
+  return <TradingResearchCockpit />;
 }
