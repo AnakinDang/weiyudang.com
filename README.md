@@ -12,7 +12,7 @@ Initial Next.js version of `weiyudang.com`: a light personal website for Weiyu D
 - Read-only MiniDora Trading dashboard mock
 - Token-gated private shell using `APP_ACCESS_TOKEN` and a signed owner session cookie
 - Original bright studio hero asset under `public/visuals`
-- Pure front-end activity layer: live studio signal, project filters, AI Lab tabs, lab feed, and Doraemon typing state
+- Pure front-end activity layer: live studio signal, project filters, Doraemon system tabs, research feed, and Doraemon typing state
 
 ## Project Context
 

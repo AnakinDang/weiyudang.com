@@ -81,7 +81,7 @@ Visual:
 - Public site uses a warm light theme, original bright studio imagery, and scoped `.page-shell` styles
 - Private `/app` keeps the dark dashboard shell
 - Doraemon imagery can be swapped into the Doraemon entrance later if Weiyu intentionally provides an asset for personal use
-- Homepage now includes pure front-end live studio signal, project filters, AI Lab tabs, and lab-feed interactions
+- Homepage now includes pure front-end live studio signal, project filters, Doraemon system tabs, and research-feed interactions
 
 ## Files To Know
 

@@ -23,7 +23,7 @@ import { getLatestJournalEntries, getLatestNotes, getProjects } from "@/lib/cont
 const operatingLayers = [
   {
     title: "Public studio",
-    summary: "Projects, lab notes, journal entries, and contact paths that explain the work without private internals.",
+    summary: "Projects, research notes, journal entries, and contact paths that explain the work without private internals.",
     boundary: "public",
     boundaryLabel: "Public",
     safety: "Safe to share",
@@ -175,13 +175,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="ai-lab" className="home-section home-ai-section">
+      <section id="doraemon-system" className="home-section home-ai-section">
         <div className="container home-ai-grid">
           <div className="home-ai-copy">
-            <p className="eyebrow">AI Lab</p>
+            <p className="eyebrow">Doraemon system</p>
             <h2 className="section-title">Doraemon, MiniDoras, and Weiyu AI.</h2>
             <p className="section-summary">
-              One lab. Multiple agents. Clear public/private boundaries. The system should support Weiyu&apos;s judgment,
+              One system. Multiple agents. Clear public/private boundaries. The system should support Weiyu&apos;s judgment,
               taste, and review instead of replacing them.
             </p>
             <div className="home-ai-actions">
@@ -204,7 +204,7 @@ export default function HomePage() {
                 className="link-focus home-text-action home-private-action"
               >
                 <LockKeyhole size={17} aria-hidden />
-                Private App
+                Owner area
               </Link>
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function HomePage() {
           <div>
             <SectionHeading
               eyebrow="Latest notes"
-              title="Short notes from the personal lab."
+              title="Short notes from the research studio."
               summary="A light shelf for experiments, architecture decisions, research fragments, and the evolution of the website."
             />
             <LiveNotesFeed notes={notes} />

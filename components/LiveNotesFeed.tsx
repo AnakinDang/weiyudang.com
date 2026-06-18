@@ -55,7 +55,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] px-3 py-2 text-xs font-bold text-[#1d4ed8]">
               <Radio size={14} aria-hidden />
-              lab feed
+              research feed
             </span>
             <span className="rounded-[8px] border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-800">
               {pulses[active % pulses.length]}

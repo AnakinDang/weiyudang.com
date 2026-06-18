@@ -5,7 +5,7 @@ const defaultNavItems = [
   { href: "/about", label: "About" },
   { href: "/projects", label: "Projects" },
   { href: "/dora", label: "Doraemon" },
-  { href: "/lab", label: "Lab" },
+  { href: "/lab", label: "Research" },
   { href: "/journal", label: "Journal" },
   { href: "/contact", label: "Contact" }
 ];
@@ -84,7 +84,7 @@ export function SiteHeader({
           className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#f4b740]/40 bg-[#fff8e5] px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-[#fff2c7]"
         >
           <LockKeyhole size={16} aria-hidden />
-          <span className="hidden sm:inline">Private App</span>
+          <span className="hidden sm:inline">Owner area</span>
           <ArrowRight size={15} aria-hidden />
         </Link>
       </div>
