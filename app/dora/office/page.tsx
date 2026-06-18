@@ -3,12 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  ArrowUpRight,
-  Bot,
   CalendarClock,
   ClipboardList,
   Eye,
-  Home,
   Info,
   LockKeyhole,
   MonitorPlay,
@@ -17,11 +14,10 @@ import {
   Sparkles
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
-import { SiteChrome } from "@/components/SiteChrome";
+import { DoraOfficeShell } from "@/components/DoraOfficeShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   DORA_LIVE_BRIDGE_URL,
-  doraOfficeRoutes,
   formatPublicEventTime,
   getRecentPublicDoraEvents,
   publicSchedules
@@ -35,17 +31,6 @@ export const metadata: Metadata = {
   title: "Doraemon Office",
   description: "The public live/demo Doraemon Office view without private task names, prompts, accounts, or controls."
 };
-
-const routeIcons = {
-  "/dora": Home,
-  "/dora/office": Radio,
-  "/dora/activity": CalendarClock,
-  "/dora/team": Bot,
-  "/dora/tasks": ClipboardList,
-  "/dora/schedules": CalendarClock,
-  "/dora/knowledge": Sparkles,
-  "/dora/system": ShieldCheck
-} as const;
 
 const focusItems = [
   {
@@ -112,57 +97,24 @@ export default function DoraOfficePage() {
   const nextSchedule = publicSchedules[0];
 
   return (
-    <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
-      <section className="dora-office-live-page">
-        <div className="container dora-office-live-shell">
-          <div className="dora-office-route-rail">
-            <Link href="/dora" className="link-focus dora-office-rail-brand">
-              Doraemon Office
-            </Link>
-            <nav aria-label="Doraemon Office navigation">
-              {doraOfficeRoutes.map((route) => {
-                const Icon = routeIcons[route.href];
-                const isActive = route.href === "/dora/office";
-
-                return (
-                  <Link
-                    key={route.href}
-                    href={route.href}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`link-focus dora-office-rail-link${isActive ? " is-active" : ""}`}
-                  >
-                    <Icon size={18} aria-hidden />
-                    <span>{route.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-            <div className="dora-office-rail-boundary">
-              <ShieldCheck size={20} aria-hidden />
-              <strong>Public & sanitized</strong>
-              <p>This office is display-only and built on a public schema.</p>
-              <Link href="/dora/system" className="link-focus">
-                Learn more
-                <ArrowUpRight size={13} aria-hidden />
-              </Link>
-            </div>
-          </div>
-
+    <DoraOfficeShell
+      active="/dora/office"
+      title="Office Live"
+      summary="A public-safe command room where Doraemon coordinates, MiniDoras work, and Weiyu stays owner-in-the-loop."
+      showBoundaryStrip
+    >
+      <div className="dora-office-live-page">
+        <div className="dora-office-live-dashboard">
           <div className="dora-office-live-main">
-            <div className="dora-office-live-heading">
-              <div>
-                <h1>
-                  <span>Doraemon</span> <span>Office</span>
-                </h1>
-                <p>
-                  <span>Doraemon coordinates.</span> MiniDoras work. Weiyu decides.
-                </p>
-                <small>A public-safe window into Weiyu&apos;s personal AI command room.</small>
-              </div>
-              <div className="dora-office-live-mode">
+            <div className="dora-office-live-mode-row" aria-label="Office Live mode">
+              <span className="dora-office-live-mode">
                 <span aria-hidden />
-                Public-safe stage
-              </div>
+                Live bridge linked
+              </span>
+              <span className="dora-office-live-mode dora-office-live-mode-secondary">
+                <span aria-hidden />
+                Demo fallback ready
+              </span>
             </div>
 
             <section
@@ -264,7 +216,7 @@ export default function DoraOfficePage() {
           </div>
         </div>
 
-        <div className="container dora-office-metrics">
+        <div className="dora-office-metrics">
           {quickLinks.map((item) => {
             const Icon = item.icon;
             const content = (
@@ -299,7 +251,7 @@ export default function DoraOfficePage() {
           })}
         </div>
 
-        <div className="container dora-office-more">
+        <div className="dora-office-more">
           <Link href="/dora/tasks" className="link-focus">
             Open sanitized tasks
             <ArrowRight size={15} aria-hidden />
@@ -309,7 +261,7 @@ export default function DoraOfficePage() {
             <ArrowRight size={15} aria-hidden />
           </Link>
         </div>
-      </section>
-    </SiteChrome>
+      </div>
+    </DoraOfficeShell>
   );
 }
