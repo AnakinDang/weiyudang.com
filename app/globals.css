@@ -7657,6 +7657,7 @@ textarea {
 .dora-system-events,
 .dora-system-boundary-card,
 .dora-system-owner-card,
+.dora-system-probe-card,
 .dora-system-link-card {
   border: 1px solid rgba(191, 219, 254, 0.58);
   border-radius: 8px;
@@ -7785,7 +7786,7 @@ textarea {
   text-transform: uppercase;
 }
 
-.dora-system-event > span {
+.dora-system-event-dot {
   width: 0.62rem;
   height: 0.62rem;
   border-radius: 999px;
@@ -7794,12 +7795,12 @@ textarea {
   animation: office-agent-pulse 3s ease-out infinite;
 }
 
-.dora-system-event.is-normal > span {
+.dora-system-event.is-normal .dora-system-event-dot {
   background: #16a34a;
   box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.22);
 }
 
-.dora-system-event.is-private > span {
+.dora-system-event.is-private .dora-system-event-dot {
   background: #64748b;
   box-shadow: 0 0 0 0 rgba(100, 116, 139, 0.2);
 }
@@ -7850,7 +7851,8 @@ textarea {
 
 .dora-system-boundary-card li svg,
 .dora-system-link-card > svg,
-.dora-system-owner-card > svg {
+.dora-system-owner-card > svg,
+.dora-system-probe-heading > svg {
   flex: none;
   margin-top: 0.1rem;
   color: #2563eb;
@@ -7892,6 +7894,62 @@ textarea {
   color: #1d4ed8;
   font-size: 0.8rem;
   font-weight: 820;
+}
+
+.dora-system-probe-card {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.dora-system-probe-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.58rem;
+}
+
+.dora-system-probe-heading strong {
+  color: #0f172a;
+  font-size: 0.84rem;
+  font-weight: 830;
+}
+
+.dora-system-probe-heading p,
+.dora-system-probe-copy {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.dora-system-probe-card dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.58rem;
+  margin: 0;
+}
+
+.dora-system-probe-card dl > div {
+  border: 1px solid rgba(221, 231, 240, 0.86);
+  border-radius: 8px;
+  background: rgba(248, 251, 255, 0.82);
+  padding: 0.58rem;
+}
+
+.dora-system-probe-card dt {
+  color: #64748b;
+  font-size: 0.62rem;
+  font-weight: 860;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.dora-system-probe-card dd {
+  margin: 0.22rem 0 0;
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 840;
+  line-height: 1.2;
 }
 
 .dora-knowledge {
@@ -10057,7 +10115,7 @@ textarea {
   .dora-system-hero::before,
   .dora-system-lens-ring,
   .dora-system-lens-node > span,
-  .dora-system-event > span,
+  .dora-system-event-dot,
   .dora-knowledge-hero::before,
   .dora-knowledge-prism-plane,
   .dora-knowledge-prism-node > span,
