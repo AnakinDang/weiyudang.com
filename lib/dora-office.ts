@@ -169,12 +169,23 @@ export const publicDoraTasks = [
     updated: "Earlier today",
     severity: "normal",
     summary: "A sanitized operating item completed and is safe to display as an aggregate public state."
+  },
+  {
+    publicKey: "t_4e6b8d21",
+    title: "Attention needed",
+    state: "Attention",
+    tone: "danger",
+    agentRole: "System health",
+    updated: "Recent",
+    severity: "warning",
+    summary: "A public-safe attention state is visible while private diagnostics, paths, and repair actions stay hidden."
   }
 ] as const;
 
 export const publicDoraTaskStats = [
   { label: "Working", value: "1", tone: "info" },
   { label: "Owner review", value: "1", tone: "warning" },
+  { label: "Attention", value: "1", tone: "danger" },
   { label: "Completed", value: "1", tone: "normal" }
 ] as const;
 
