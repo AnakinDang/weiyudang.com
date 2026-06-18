@@ -1,5 +1,5 @@
-import { CommandDashboardMock } from "@/components/CommandDashboardMock";
+import { OwnerCommandSurface } from "@/components/OwnerCommandSurface";
 
 export default function CommandPage() {
-  return <CommandDashboardMock />;
+  return <OwnerCommandSurface />;
 }
