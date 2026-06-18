@@ -89,6 +89,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
   const agents = useMemo(() => Array.from(new Set(events.map((event) => event.agent))).sort(), [events]);
   const groupCount = useMemo(() => new Set(events.map((event) => event.event_type)).size, [events]);
   const currentWindowDate = maxEventDate(events);
+  const heroEvents = events.slice(0, 5);
 
   const filteredEvents = useMemo(() => {
     const base = events.filter((event) => {
@@ -153,6 +154,25 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
             <LockKeyhole size={14} aria-hidden />
             Owner data hidden
           </span>
+        </div>
+        <div className="dora-activity-hero-rail" aria-label="Recent public activity preview">
+          <div>
+            <span className="dora-activity-rail-live-dot" aria-hidden />
+            <strong>Live activity</strong>
+            <small>public-safe</small>
+          </div>
+          <ol>
+            {heroEvents.map((event) => (
+              <li
+                key={`${event.created_at}-${event.agent}-${event.title}`}
+                aria-label={`${formatPublicEventTime(event.created_at)} ${event.agent}: ${event.title}`}
+              >
+                <time>{formatPublicEventTime(event.created_at)}</time>
+                <strong>{event.agent}</strong>
+                <span>{event.title}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
