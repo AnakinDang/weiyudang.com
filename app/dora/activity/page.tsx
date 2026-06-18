@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DoraOfficeShell } from "@/components/DoraOfficeShell";
-import { StatusBadge } from "@/components/StatusBadge";
-import { formatPublicEventTime, getPublicToolLabel, getRecentPublicDoraEvents } from "@/lib/dora-office";
+import { ActivityFeed } from "@/app/dora/activity/ActivityFeed";
+import { getRecentPublicDoraEvents } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
   title: "Doraemon Activity",
@@ -9,37 +9,16 @@ export const metadata: Metadata = {
 };
 
 export default function DoraActivityPage() {
-  const events = getRecentPublicDoraEvents();
+  const events = getRecentPublicDoraEvents().map(({ event_id: _eventId, ...event }) => event);
 
   return (
     <DoraOfficeShell
       active="/dora/activity"
       title="Activity"
-      summary="A newest-first public event timeline using opaque IDs, fixed titles, and safe state labels."
+      summary="Newest-first public activity with filters by event kind, agent, severity, and safe time window."
+      showBoundaryStrip={false}
     >
-      <div className="grid gap-3">
-        {events.map((event) => {
-          const toolLabel = getPublicToolLabel(event.tool_name);
-
-          return (
-            <article key={event.event_id} className="panel p-5">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div>
-                  <h2 className="text-xl font-semibold text-slate-950">{event.title}</h2>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    {event.agent} · {event.event_type.replaceAll("_", " ")}
-                  </p>
-                </div>
-                <StatusBadge tone={event.severity}>{event.state}</StatusBadge>
-              </div>
-              <div className="mt-4 flex flex-wrap gap-3 text-xs text-slate-500">
-                <span>{formatPublicEventTime(event.created_at)}</span>
-                {toolLabel ? <span>tool: {toolLabel}</span> : null}
-              </div>
-            </article>
-          );
-        })}
-      </div>
+      <ActivityFeed events={events} />
     </DoraOfficeShell>
   );
 }
