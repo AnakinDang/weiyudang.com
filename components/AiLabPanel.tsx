@@ -31,9 +31,9 @@ const labModes = [
     id: "weiyu-ai",
     label: "Weiyu AI",
     icon: Sparkles,
-    title: "Personal AI lab",
+    title: "Personal AI studio",
     summary: "The umbrella for experiments in AI workflows, creative systems, and research tools.",
-    intent: "Keep the company idea as one lab inside a personal website until weiyudang.ai exists.",
+    intent: "Keep the company idea as one studio inside a personal website until weiyudang.ai exists.",
     link: "/projects/weiyu-ai",
     linkLabel: "Weiyu AI",
     events: ["Map project boundary", "Publish public note", "Keep private app separate"]
@@ -55,7 +55,7 @@ export function AiLabPanel() {
 
   return (
     <div className="home-ai-panel">
-      <div className="home-ai-tabs" role="tablist" aria-label="AI Lab layers">
+      <div className="home-ai-tabs" role="tablist" aria-label="Doraemon system layers">
         {labModes.map((mode) => {
           const ModeIcon = mode.icon;
           const isActive = mode.id === activeId;
@@ -89,7 +89,7 @@ export function AiLabPanel() {
         })}
       </div>
 
-      <div className="home-agent-map" aria-label="AI Lab relationship map">
+      <div className="home-agent-map" aria-label="Doraemon system relationship map">
         <div className="home-agent-orbit" aria-hidden="true">
           <span className="home-agent-orbit-ring home-agent-orbit-ring-one" />
           <span className="home-agent-orbit-ring home-agent-orbit-ring-two" />
@@ -111,7 +111,7 @@ export function AiLabPanel() {
         <div className="home-agent-node home-agent-node-right">
           <Sparkles size={25} aria-hidden />
           <strong>Weiyu AI</strong>
-          <span>Lab umbrella</span>
+          <span>Studio umbrella</span>
         </div>
       </div>
 
