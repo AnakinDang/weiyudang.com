@@ -2,6 +2,7 @@ import type { PublicAgent } from "@/lib/public-agents";
 export { formatPublicEventTime, getPublicToolLabel } from "@/lib/dora-public-format";
 
 export const DORA_LIVE_BRIDGE_URL = "https://dora.weiyudang.com";
+export const DORA_RELAY_HEALTH_URL = "https://relay.weiyudang.com/health";
 
 export const doraOfficeRoutes = [
   { href: "/dora", label: "Overview" },
