@@ -1,4 +1,5 @@
 import type { PublicAgent } from "@/lib/public-agents";
+export { formatPublicEventTime, getPublicToolLabel } from "@/lib/dora-public-format";
 
 export const DORA_LIVE_BRIDGE_URL = "https://dora.weiyudang.com";
 
@@ -26,18 +27,6 @@ export type PublicDoraEvent = {
   tool_name?: string;
 };
 
-const publicToolLabels = {
-  browser_check: "Browser check"
-} as const;
-
-export function getPublicToolLabel(toolName?: string) {
-  if (!toolName || !(toolName in publicToolLabels)) {
-    return undefined;
-  }
-
-  return publicToolLabels[toolName as keyof typeof publicToolLabels];
-}
-
 export function getPublicAgentTone(agent: Pick<PublicAgent, "state">) {
   if (agent.state === "waiting_user") {
     return "warning";
@@ -56,15 +45,6 @@ export function getPublicAgentTone(agent: Pick<PublicAgent, "state">) {
   }
 
   return "info";
-}
-
-export function formatPublicEventTime(value: string) {
-  return new Intl.DateTimeFormat("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Shanghai"
-  }).format(new Date(value));
 }
 
 export const publicDoraEvents: PublicDoraEvent[] = [
