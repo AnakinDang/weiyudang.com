@@ -9892,6 +9892,10 @@ textarea {
   transform: translateY(-1px);
 }
 
+.site-owner-signin-short {
+  display: none;
+}
+
 .doraemon-entry-page {
   overflow: hidden;
   background: #ffffff;
@@ -11815,10 +11819,27 @@ textarea {
 
   .site-owner-signin {
     justify-content: center;
-    width: 2.55rem;
+    width: auto;
+    min-width: 4.9rem;
     height: 2.35rem;
-    padding: 0;
-    font-size: 0;
+    border-color: rgba(37, 99, 235, 0.32);
+    background: rgba(239, 246, 255, 0.94);
+    gap: 0.32rem;
+    padding: 0 0.62rem;
+    color: #1d4ed8;
+    font-size: 0.72rem;
+    white-space: nowrap;
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.1);
+  }
+
+  .site-owner-signin-full {
+    display: none;
+  }
+
+  .site-owner-signin-short {
+    display: inline;
+    font-size: 0.72rem;
+    font-weight: 800;
   }
 
   .site-owner-signin svg {
