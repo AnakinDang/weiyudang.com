@@ -23,14 +23,14 @@ export function HeroSection() {
             <span>Personal OS</span>
           </h1>
           <p className="premium-hero-lede">
-            A public personal studio and private AI command room for research, building, writing, and Doraemon.
+            A public personal studio and private AI command layer for research, building, writing, and Doraemon.
           </p>
           <p className="premium-hero-support">
-            Public pages explain the work. Owner surfaces stay private. MiniDoras turn context into reviewed output.
+            The public site explains the work. Doraemon is the warm entry. Owner surfaces stay private and reviewed.
           </p>
           <div className="premium-hero-actions">
-            <Link href="/dora/office" className="link-focus premium-primary-link">
-              Enter Doraemon Office
+            <Link href="/dora" className="link-focus premium-primary-link">
+              Meet Doraemon
               <ArrowRight size={16} aria-hidden />
             </Link>
             <Link href="#os-layers" className="link-focus premium-text-link">
@@ -41,40 +41,40 @@ export function HeroSection() {
         </div>
 
         <div className="premium-hero-status" aria-label="Personal OS public and private boundaries">
-          <Link href="/dora/office" className="link-focus premium-status-item premium-status-primary">
+          <Link href="/dora" className="link-focus premium-status-item premium-status-primary">
             <span>
               <Bot size={18} aria-hidden />
-              Doraemon Office
+              Doraemon entry
             </span>
-            <small>Public-safe command room</small>
+            <small>Public guide to the office</small>
           </Link>
           <Link href="/lab" className="link-focus premium-status-item">
             <span>
               <FlaskConical size={18} aria-hidden />
-              Research
+              Research studio
             </span>
-            <small>Notes and system sketches</small>
+            <small>Public notes and systems</small>
           </Link>
           <Link href="/app" className="link-focus premium-status-item premium-status-private">
             <span>
               <LockKeyhole size={18} aria-hidden />
-              Owner area
+              Owner cockpit
             </span>
-            <small>Authenticated surfaces only</small>
+            <small>Authenticated and private</small>
           </Link>
         </div>
 
-        <Link href="/dora/office" className="link-focus dora-entry-dock">
+        <Link href="/dora" className="link-focus dora-entry-dock">
           <span className="dora-entry-dock-label">
             <Bot size={19} aria-hidden />
-            Enter Doraemon Office
+            Start with Doraemon
           </span>
           <span className="dora-entry-dock-copy">
-            Open a sanitized public window into MiniDora presence, activity, and system heartbeat.
+            Meet the entry personality, MiniDora team, public office window, and safety boundary.
           </span>
           <span className="dora-entry-dock-state">
             <Sparkles size={15} aria-hidden />
-            public-safe
+            public guide
           </span>
           <ArrowRight size={18} aria-hidden />
         </Link>
