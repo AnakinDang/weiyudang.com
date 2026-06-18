@@ -216,7 +216,7 @@ export const publicScheduleBoundaries = [
 
 export const publicSystemStatus = [
   {
-    label: "Mode",
+    label: "Relay mode",
     value: "Live bridge + demo fallback",
     tone: "info",
     detail: "The public dashboard can fall back to a demo snapshot when live relay state is unavailable."
@@ -231,19 +231,50 @@ export const publicSystemStatus = [
     label: "Event freshness",
     value: "Last event: demo snapshot",
     tone: "info",
-    detail: "Freshness is shown at a safe abstraction level, not as raw service telemetry."
+    detail: "This public slice uses a fixed demo-safe snapshot until a sanitized age is available."
   },
   {
-    label: "Buffer and dedupe",
+    label: "Replay buffer",
     value: "Sanitized only",
     tone: "normal",
     detail: "Replay buffers contain public events and dedupe by opaque public event ID."
   }
 ] as const;
 
+export const publicSystemEvents = [
+  {
+    time: "Latest",
+    label: "Public schema check",
+    state: "OK",
+    tone: "normal",
+    detail: "Only explicit public fields are rendered."
+  },
+  {
+    time: "Recent",
+    label: "Freshness posture",
+    state: "Demo",
+    tone: "info",
+    detail: "The page reports a coarse demo-safe snapshot instead of private telemetry."
+  },
+  {
+    time: "Replay",
+    label: "Dedupe posture",
+    state: "OK",
+    tone: "normal",
+    detail: "Replay entries stay sanitized and keyed by opaque public event labels."
+  },
+  {
+    time: "Owner",
+    label: "Operations boundary",
+    state: "Private",
+    tone: "private",
+    detail: "Diagnostics and repair actions stay in authenticated owner surfaces."
+  }
+] as const;
+
 export const publicSystemBoundaries = [
   "Public visitors can see live/demo posture and public schema health.",
-  "Raw hostnames, ports, filesystem paths, tokens, and raw logs stay private.",
+  "Private infrastructure details, credentials, and diagnostic logs stay behind owner access.",
   "This page is display-only and has no repair, restart, deploy, or purge controls."
 ] as const;
 
