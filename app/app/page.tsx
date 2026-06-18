@@ -6,6 +6,7 @@ import {
   CheckCircle2,
   ClipboardCheck,
   Compass,
+  GitBranch,
   LineChart,
   LockKeyhole,
   MonitorCheck,
@@ -16,6 +17,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import {
   ownerCommandShortcuts,
   ownerMarketAlerts,
+  ownerOperatingMap,
   ownerReviewQueue,
   ownerSchedulePressure,
   ownerSystemHealth,
@@ -31,6 +33,8 @@ const toneMap = {
   private: "private"
 } as const;
 
+type OperatingSurface = (typeof ownerOperatingMap)[number];
+
 function shanghaiToday() {
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
@@ -43,7 +47,7 @@ function shanghaiToday() {
 const safetyRails = [
   "Authenticated owner route only.",
   "Read-only UI until command APIs have audit gates.",
-  "Trading remains research-only.",
+  "Research-only. Not an order, recommendation, or execution system.",
   "Public publishing requires explicit review."
 ] as const;
 
@@ -68,12 +72,51 @@ const ownerLoop = [
   }
 ] as const;
 
+function OperatingSurfaceCard({ surface }: { surface: OperatingSurface }) {
+  const cardClass =
+    "grid min-h-[15rem] content-between gap-6 bg-[#0b1627] p-5 transition md:p-6";
+  const cardBody = (
+    <>
+      <div>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <h3 className="max-w-xs text-xl font-semibold text-white">{surface.title}</h3>
+          <StatusBadge tone={toneMap[surface.tone]}>{surface.state}</StatusBadge>
+        </div>
+        <p className="mt-4 text-sm leading-6 text-slate-300">{surface.summary}</p>
+      </div>
+      <div>
+        <p className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3 text-xs leading-5 text-slate-300">
+          {surface.evidence}
+        </p>
+        <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100 transition group-hover:text-white">
+          {surface.current ? "Current surface" : "Open surface"}
+          {!surface.current ? <ArrowRight size={15} aria-hidden /> : null}
+        </span>
+      </div>
+    </>
+  );
+
+  if (surface.current) {
+    return (
+      <article aria-current="page" className={cardClass}>
+        {cardBody}
+      </article>
+    );
+  }
+
+  return (
+    <Link href={surface.href} className={`link-focus group ${cardClass} hover:bg-[#10213a]`}>
+      {cardBody}
+    </Link>
+  );
+}
+
 export default function PrivateAppPage() {
   const today = shanghaiToday();
   const cockpitMetrics = [
     { label: "Active lanes", value: ownerTodayPriorities.length.toString(), detail: "Priority streams" },
     { label: "Approvals", value: ownerReviewQueue.length.toString(), detail: "Waiting owner review" },
-    { label: "Safety rails", value: safetyRails.length.toString(), detail: "Always visible" },
+    { label: "Surfaces", value: ownerOperatingMap.length.toString(), detail: "Mapped and bounded" },
     { label: "Executions", value: "0", detail: "Disabled in this build" }
   ] as const;
 
@@ -101,9 +144,9 @@ export default function PrivateAppPage() {
               Personal OS cockpit for what needs your attention now.
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
-              This private surface is authenticated and read-only in the current build. It can summarize priorities,
-              approvals, research posture, and system health, but it does not execute commands, place trades, expose
-              credentials, or publish private knowledge.
+              This private surface is the owner-readable map of the system: priorities, approvals, public relay posture,
+              trading research, schedules, and health. It is authenticated and read-only in the current build, with no
+              command execution, broker writes, credential exposure, or private publishing.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
@@ -147,6 +190,27 @@ export default function PrivateAppPage() {
               ))}
             </div>
           </aside>
+        </div>
+      </section>
+
+      <section className="panel overflow-hidden p-0">
+        <div className="grid gap-0 xl:grid-cols-[22rem_minmax(0,1fr)]">
+          <div className="border-b border-slate-700 bg-white/[0.035] p-5 md:p-6 xl:border-b-0 xl:border-r">
+            <div className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
+              <GitBranch size={22} aria-hidden />
+            </div>
+            <p className="eyebrow mt-5">Operating map</p>
+            <h2 className="mt-2 text-2xl font-semibold text-white">Four surfaces, one boundary model.</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              Today should make the Personal OS legible at a glance: what is public, what is private, what is research
+              only, and where owner review interrupts automation.
+            </p>
+          </div>
+          <div className="grid gap-px bg-slate-700/70 md:grid-cols-2">
+            {ownerOperatingMap.map((surface) => (
+              <OperatingSurfaceCard key={surface.title} surface={surface} />
+            ))}
+          </div>
         </div>
       </section>
 

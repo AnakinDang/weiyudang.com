@@ -1,17 +1,17 @@
 export const ownerTodayPriorities = [
   {
-    title: "Ship the native Personal OS shell",
+    title: "Turn Today into the owner command surface",
     owner: "Doraemon",
-    state: "Owner review",
+    state: "Active slice",
     tone: "warning",
-    summary: "Close the public Office screen, then move into the private cockpit and trading research surfaces."
+    summary: "Keep the private home focused on priorities, approvals, research posture, schedule pressure, and system health."
   },
   {
-    title: "Keep public Doraemon routes sanitized",
+    title: "Keep the public Doraemon window verifiable",
     owner: "Dev MiniDora",
-    state: "Working",
+    state: "Live probe",
     tone: "info",
-    summary: "Preserve fixed public titles, safe state labels, and the no-execution public contract."
+    summary: "Use the public-safe system page as the owner-visible bridge to relay health without exposing internals."
   },
   {
     title: "Prepare trading research evidence lanes",
@@ -22,23 +22,62 @@ export const ownerTodayPriorities = [
   }
 ] as const;
 
-export const ownerReviewQueue = [
+export const ownerOperatingMap = [
   {
-    title: "Review Step 3 Doraemon Office fix packet",
-    agent: "Codex + Opus",
-    urgency: "Now",
-    state: "Ready",
-    tone: "normal"
+    title: "Public Doraemon Office",
+    href: "/dora/system",
+    state: "Public-safe live probe",
+    tone: "normal",
+    current: false,
+    summary: "Sanitized Office pages show public relay posture, agent presence, tasks, schedules, knowledge, and system health.",
+    evidence: "No private task titles, raw IDs, prompts, credentials, or repair controls."
   },
   {
-    title: "Approve next private cockpit slice",
+    title: "Owner Cockpit",
+    href: "/app",
+    state: "Authenticated read-only",
+    tone: "private",
+    current: true,
+    summary: "The private shell organizes Today, Command, Agents, Review Queue, Schedules, Settings, and System Health.",
+    evidence: "Owner session required before private app chrome or data renders."
+  },
+  {
+    title: "Trading Research",
+    href: "/app/trading",
+    state: "Research-only",
+    tone: "warning",
+    current: false,
+    summary: "MiniDora Trading collects signals, desks, gates, evidence, replay, and source degradation for owner review.",
+    evidence: "Research-only. Not an order, recommendation, or execution system."
+  },
+  {
+    title: "Review Queue",
+    href: "/app/events",
+    state: "Owner-gated",
+    tone: "info",
+    current: false,
+    summary: "Decisions stay visible as checkpoints, not hidden execution paths or one-click approvals.",
+    evidence: "Future mutations require authentication, audit logging, explicit owner action, and rollback behavior."
+  }
+] as const;
+
+export const ownerReviewQueue = [
+  {
+    title: "Review Owner Cockpit Today operating map",
+    agent: "Codex + Opus",
+    urgency: "Now",
+    state: "In review",
+    tone: "warning"
+  },
+  {
+    title: "Decide next private cockpit slice",
     agent: "Doraemon",
     urgency: "Next",
     state: "Waiting",
     tone: "warning"
   },
   {
-    title: "Decide public trading story boundary",
+    title: "Define Trading Team evidence bridge",
     agent: "Trading MiniDora",
     urgency: "Later",
     state: "Draft",
@@ -73,9 +112,11 @@ export const ownerSchedulePressure = [
 
 export const ownerSystemHealth = [
   { label: "Private auth gate", value: "Enabled", tone: "normal" },
+  { label: "Public relay probe", value: "Live-safe", tone: "normal" },
   { label: "Public Doraemon boundary", value: "Sanitized", tone: "normal" },
+  { label: "Data source", value: "Seeded scaffold", tone: "warning" },
   { label: "Trading execution", value: "Disabled", tone: "private" },
-  { label: "Runtime source", value: "Mock scaffold", tone: "warning" }
+  { label: "Private writes", value: "Unavailable", tone: "private" }
 ] as const;
 
 export const ownerCommandShortcuts = [
