@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -80,6 +81,7 @@ export function ScheduleBoard({
 }) {
   const [stateFilter, setStateFilter] = useState<StateFilter>("all");
   const [cadenceFilter, setCadenceFilter] = useState<CadenceFilter>("all");
+  const previewSchedules = schedules.slice(0, 6);
 
   const cadenceFilters = useMemo(
     () => [
@@ -114,11 +116,33 @@ export function ScheduleBoard({
   return (
     <div className="dora-schedules">
       <section className="dora-schedules-hero" aria-label="Doraemon operating rhythm">
+        <Image
+          className="dora-schedules-hero-art"
+          src="/visuals/doraemon-office-command-room-v2.png"
+          alt=""
+          width={1536}
+          height={1024}
+          sizes="72vw"
+        />
         <div className="dora-schedules-hero-copy">
           <p>
-            <span>Operating rhythm.</span> Public windows only.
+            <span>Operating rhythm.</span>
+            <span>Public windows only.</span>
           </p>
           <small>Coarse cadence, safe labels, no scheduler controls.</small>
+        </div>
+
+        <div className="dora-schedules-hero-boundary-card">
+          <div>
+            <Eye size={17} aria-hidden />
+            <strong>Public cadence</strong>
+            <span>Coarse windows</span>
+          </div>
+          <div>
+            <LockKeyhole size={17} aria-hidden />
+            <strong>Private scheduler</strong>
+            <span>Commands hidden</span>
+          </div>
         </div>
 
         <div className="dora-schedules-clock" aria-hidden="true">
@@ -158,6 +182,22 @@ export function ScheduleBoard({
             <ShieldCheck size={15} aria-hidden />
             Read-only
           </span>
+        </div>
+
+        <div className="dora-schedules-hero-signal-strip" aria-label="Public schedule window preview">
+          <div>
+            <span aria-hidden />
+            <strong>Rhythm rail</strong>
+          </div>
+          <ol>
+            {previewSchedules.map((schedule) => (
+              <li key={schedule.name} aria-label={`${schedule.name}: ${schedule.cadence}, next ${schedule.next}`}>
+                <span>{schedule.cadence}</span>
+                <strong>{schedule.name}</strong>
+                <small>{schedule.next}</small>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
