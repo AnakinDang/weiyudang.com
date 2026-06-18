@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
@@ -86,14 +87,38 @@ export function KnowledgeVaultPanel({
   boundaries: readonly PublicKnowledgeBoundary[];
   stats: readonly PublicKnowledgeStat[];
 }) {
+  const previewFlow = flow.slice(0, 6);
+
   return (
     <div className="dora-knowledge">
       <section className="dora-knowledge-hero" aria-label="Public Knowledge Vault synthesis map">
+        <Image
+          className="dora-knowledge-hero-art"
+          src="/visuals/doraemon-office-command-room-v2.png"
+          alt=""
+          width={1536}
+          height={1024}
+          sizes="72vw"
+        />
         <div className="dora-knowledge-hero-copy">
           <p>
-            <span>Knowledge vault.</span> Public synthesis only.
+            <span>Knowledge vault.</span>
+            <span>Public synthesis only.</span>
           </p>
           <small>Private sources become public pages only through synthesis, owner review, and safe rewriting.</small>
+        </div>
+
+        <div className="dora-knowledge-hero-boundary-card">
+          <div>
+            <Eye size={17} aria-hidden />
+            <strong>Public synthesis</strong>
+            <span>Curated outputs</span>
+          </div>
+          <div>
+            <LockKeyhole size={17} aria-hidden />
+            <strong>Private sources</strong>
+            <span>Source text hidden</span>
+          </div>
         </div>
 
         <div className="dora-knowledge-prism" aria-hidden="true">
@@ -133,6 +158,22 @@ export function KnowledgeVaultPanel({
             <ShieldCheck size={15} aria-hidden />
             Owner reviewed
           </span>
+        </div>
+
+        <div className="dora-knowledge-hero-signal-strip" aria-label="Public knowledge publishing preview">
+          <div>
+            <span aria-hidden />
+            <strong>Publish rail</strong>
+          </div>
+          <ol role="list">
+            {previewFlow.map((item) => (
+              <li key={item.step} aria-label={`${item.step}: ${item.shortLabel}`}>
+                <span>{item.shortLabel}</span>
+                <strong>{item.step}</strong>
+                <small>public-safe</small>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
