@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -16,6 +15,14 @@ import {
   Sparkles,
   TimerReset
 } from "lucide-react";
+import { DoraemonMark } from "@/components/DoraemonMark";
+import {
+  DoraOfficeHeroArt,
+  DoraOfficeHeroBoundaryCard,
+  DoraOfficeHeroBoundaryStrip,
+  DoraOfficeHeroCopy,
+  DoraOfficeHeroSignalRail
+} from "@/components/DoraOfficeHero";
 import { StatusBadge } from "@/components/StatusBadge";
 import type { publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
 
@@ -43,30 +50,6 @@ const rhythmIcons = {
   "System health": ShieldCheck,
   "Weekly review": Repeat2
 } as const satisfies Record<PublicSchedule["name"], LucideIcon>;
-
-function DoraemonMark({ className = "" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 72 72" aria-hidden="true" focusable="false">
-      <circle cx="36" cy="34" r="25" fill="currentColor" opacity="0.12" />
-      <circle cx="36" cy="32" r="20" fill="#ffffff" stroke="currentColor" strokeWidth="2.2" />
-      <ellipse cx="30" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
-      <ellipse cx="42" cy="24" rx="4.2" ry="6.8" fill="#ffffff" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="31.4" cy="25.5" r="1.45" fill="currentColor" />
-      <circle cx="40.6" cy="25.5" r="1.45" fill="currentColor" />
-      <circle cx="36" cy="32" r="3.4" fill="currentColor" />
-      <path d="M36 35.6v14.2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M25.5 41.2c5.4 6.2 15.6 6.2 21 0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path
-        d="M21 32.8h10M21.4 38.2l9.2-2.1M51 32.8H41M50.6 38.2l-9.2-2.1"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinecap="round"
-      />
-      <path d="M25.5 53h21" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-      <circle cx="36" cy="56" r="5.2" fill="#f4b740" stroke="#ffffff" strokeWidth="2" />
-    </svg>
-  );
-}
 
 function scheduleToneClass(schedule: Pick<PublicSchedule, "state">) {
   return schedule.state === "Owner review" ? "is-warning" : "is-info";
@@ -116,34 +99,20 @@ export function ScheduleBoard({
   return (
     <div className="dora-schedules">
       <section className="dora-schedules-hero" aria-label="Doraemon operating rhythm">
-        <Image
-          className="dora-schedules-hero-art"
-          src="/visuals/doraemon-office-command-room-v2.png"
-          alt=""
-          width={1536}
-          height={1024}
-          sizes="72vw"
+        <DoraOfficeHeroArt className="dora-schedules-hero-art" />
+        <DoraOfficeHeroCopy
+          className="dora-schedules-hero-copy"
+          lines={["Operating rhythm.", "Public windows only."]}
+          summary="Coarse cadence, safe labels, no scheduler controls."
         />
-        <div className="dora-schedules-hero-copy">
-          <p>
-            <span>Operating rhythm.</span>
-            <span>Public windows only.</span>
-          </p>
-          <small>Coarse cadence, safe labels, no scheduler controls.</small>
-        </div>
 
-        <div className="dora-schedules-hero-boundary-card">
-          <div>
-            <Eye size={17} aria-hidden />
-            <strong>Public cadence</strong>
-            <span>Coarse windows</span>
-          </div>
-          <div>
-            <LockKeyhole size={17} aria-hidden />
-            <strong>Private scheduler</strong>
-            <span>Commands hidden</span>
-          </div>
-        </div>
+        <DoraOfficeHeroBoundaryCard
+          className="dora-schedules-hero-boundary-card"
+          items={[
+            { icon: Eye, title: "Public cadence", detail: "Coarse windows" },
+            { icon: LockKeyhole, title: "Private scheduler", detail: "Commands hidden" }
+          ]}
+        />
 
         <div className="dora-schedules-clock" aria-hidden="true">
           <div className="dora-schedules-clock-ring dora-schedules-clock-ring-outer" />
@@ -169,36 +138,27 @@ export function ScheduleBoard({
           })}
         </div>
 
-        <div className="dora-schedules-hero-boundary">
-          <span>
-            <Eye size={15} aria-hidden />
-            Coarse windows
-          </span>
-          <span>
-            <LockKeyhole size={15} aria-hidden />
-            Commands hidden
-          </span>
-          <span>
-            <ShieldCheck size={15} aria-hidden />
-            Read-only
-          </span>
-        </div>
+        <DoraOfficeHeroBoundaryStrip
+          className="dora-schedules-hero-boundary"
+          items={[
+            { icon: Eye, label: "Coarse windows" },
+            { icon: LockKeyhole, label: "Commands hidden" },
+            { icon: ShieldCheck, label: "Read-only" }
+          ]}
+        />
 
-        <div className="dora-schedules-hero-signal-strip" aria-label="Public schedule window preview">
-          <div>
-            <span aria-hidden />
-            <strong>Rhythm rail</strong>
-          </div>
-          <ol>
-            {previewSchedules.map((schedule) => (
-              <li key={schedule.name} aria-label={`${schedule.name}: ${schedule.cadence}, next ${schedule.next}`}>
-                <span>{schedule.cadence}</span>
-                <strong>{schedule.name}</strong>
-                <small>{schedule.next}</small>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <DoraOfficeHeroSignalRail
+          className="dora-schedules-hero-signal-strip"
+          ariaLabel="Public schedule window preview"
+          label="Rhythm rail"
+          items={previewSchedules.map((schedule) => ({
+            key: schedule.name,
+            ariaLabel: `${schedule.name}: ${schedule.cadence}, next ${schedule.next}`,
+            meta: schedule.cadence,
+            title: schedule.name,
+            detail: schedule.next
+          }))}
+        />
       </section>
 
       <section className="dora-schedules-stats" aria-label="Public schedule summary">
