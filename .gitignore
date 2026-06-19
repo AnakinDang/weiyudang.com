@@ -7,5 +7,6 @@ out/
 dist/
 coverage/
 output/
+.playwright-cli/
 *.log
 .vercel

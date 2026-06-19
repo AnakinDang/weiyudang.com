@@ -593,8 +593,43 @@ function ReplayView({
   openQuestions: readonly string[];
   disclaimer: string;
 }) {
+  const [deskFilter, setDeskFilter] = useState("All desks");
+  const [instrumentFilter, setInstrumentFilter] = useState("All instruments");
+  const [evidenceFilter, setEvidenceFilter] = useState("All evidence");
+
+  const deskOptions = useMemo(() => ["All desks", ...new Set(replay.map((event) => event.desk))], [replay]);
+  const instrumentOptions = useMemo(() => ["All instruments", ...new Set(replay.map((event) => event.instrument))], [replay]);
+  const evidenceOptions = useMemo(() => ["All evidence", ...new Set(replay.map((event) => event.evidenceState))], [replay]);
+  const filteredReplay = useMemo(
+    () =>
+      replay.filter((event) => {
+        if (deskFilter !== "All desks" && event.desk !== deskFilter) {
+          return false;
+        }
+
+        if (instrumentFilter !== "All instruments" && event.instrument !== instrumentFilter) {
+          return false;
+        }
+
+        if (evidenceFilter !== "All evidence" && event.evidenceState !== evidenceFilter) {
+          return false;
+        }
+
+        return true;
+      }),
+    [deskFilter, evidenceFilter, instrumentFilter, replay]
+  );
+  const hasFilters =
+    deskFilter !== "All desks" || instrumentFilter !== "All instruments" || evidenceFilter !== "All evidence";
+
+  function clearReplayFilters() {
+    setDeskFilter("All desks");
+    setInstrumentFilter("All instruments");
+    setEvidenceFilter("All evidence");
+  }
+
   return (
-    <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+    <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <article className="panel p-5">
         <div className="flex items-center gap-2">
           <Clock3 className="text-sky-100" size={22} aria-hidden />
@@ -603,36 +638,151 @@ function ReplayView({
             <h2 className="mt-1 text-2xl font-semibold text-white">How the research day formed</h2>
           </div>
         </div>
-        <div className="mt-5 grid gap-3">
-          {replay.map((event) => (
-            <article key={`${event.time}-${event.desk}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-              <p className="mono text-xs text-yellow-100">{event.time}</p>
-              <h3 className="mt-2 font-semibold text-white">{event.desk}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{event.note}</p>
-            </article>
-          ))}
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+          Reconstruct how desks formed or revised a research view. Filters are local-only and never create execution,
+          recommendation, or account actions.
+        </p>
+
+        <div className="mt-5 grid gap-3 rounded-[8px] border border-slate-700 bg-black/15 p-3 lg:grid-cols-[1fr_1fr_1fr_auto]">
+          <label className="grid gap-1.5 text-sm">
+            <span className="text-xs font-bold uppercase text-slate-400">Desk</span>
+            <select
+              value={deskFilter}
+              onChange={(event) => setDeskFilter(event.target.value)}
+              className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
+            >
+              {deskOptions.map((desk) => (
+                <option key={desk} value={desk}>
+                  {desk}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-sm">
+            <span className="text-xs font-bold uppercase text-slate-400">Instrument</span>
+            <select
+              value={instrumentFilter}
+              onChange={(event) => setInstrumentFilter(event.target.value)}
+              className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
+            >
+              {instrumentOptions.map((instrument) => (
+                <option key={instrument} value={instrument}>
+                  {instrument}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-sm">
+            <span className="text-xs font-bold uppercase text-slate-400">Evidence</span>
+            <select
+              value={evidenceFilter}
+              onChange={(event) => setEvidenceFilter(event.target.value)}
+              className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
+            >
+              {evidenceOptions.map((evidence) => (
+                <option key={evidence} value={evidence}>
+                  {evidence}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button
+            type="button"
+            onClick={clearReplayFilters}
+            disabled={!hasFilters}
+            className="link-focus self-end rounded-[8px] border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 transition enabled:hover:border-sky-200/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
+          >
+            Clear
+          </button>
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs font-bold uppercase text-slate-400">
+            {filteredReplay.length} of {replay.length} events shown
+          </p>
+          <StatusBadge tone={hasFilters ? "info" : "private"}>{hasFilters ? "Filtered replay" : "Full replay"}</StatusBadge>
+        </div>
+
+        <div className="mt-4 grid gap-3">
+          {filteredReplay.length > 0 ? (
+            filteredReplay.map((event, index) => (
+              <article
+                key={`${event.time}-${event.desk}-${event.instrument}-${index}`}
+                className="grid gap-4 rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 md:grid-cols-[5rem_minmax(0,1fr)_12rem]"
+              >
+                <div>
+                  <p className="mono text-xs text-yellow-100">{event.time}</p>
+                  <p className="mt-2 text-xs font-bold uppercase text-slate-500">{event.instrument}</p>
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="font-semibold text-white">{event.desk}</h3>
+                    <StatusBadge tone={sourceTone(event.evidenceState)}>{event.evidenceState}</StatusBadge>
+                  </div>
+                  <p className="mt-2 text-xs font-bold uppercase text-sky-100">{event.change}</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-300">{event.note}</p>
+                </div>
+                <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+                  <p className="text-xs font-bold uppercase text-slate-500">State change</p>
+                  <p className="mt-2 text-sm font-semibold leading-5 text-white">{event.state}</p>
+                </div>
+              </article>
+            ))
+          ) : (
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-5 text-sm leading-6 text-slate-300">
+              No replay events match this filter set. Clear filters to return to the full research day.
+            </div>
+          )}
         </div>
       </article>
 
-      <article className="panel p-5">
-        <div className="flex items-center gap-2">
-          <SlidersHorizontal className="text-sky-100" size={22} aria-hidden />
-          <div>
-            <p className="eyebrow">Open questions</p>
-            <h2 className="mt-1 text-2xl font-semibold text-white">What must be answered before confidence rises</h2>
-          </div>
-        </div>
-        <div className="mt-5 grid gap-3">
-          {openQuestions.map((question) => (
-            <div key={question} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm leading-6 text-slate-300">
-              {question}
+      <aside className="grid content-start gap-4">
+        <article className="panel p-5">
+          <div className="flex items-center gap-2">
+            <SlidersHorizontal className="text-sky-100" size={22} aria-hidden />
+            <div>
+              <p className="eyebrow">State changes</p>
+              <h2 className="mt-1 text-2xl font-semibold text-white">What changed in view</h2>
             </div>
-          ))}
-        </div>
-        <p className="mt-5 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4 text-sm font-semibold leading-6 text-yellow-50">
-          {disclaimer}
-        </p>
-      </article>
+          </div>
+          <div className="mt-5 grid gap-3">
+            {filteredReplay.map((event, index) => (
+              <div key={`${event.time}-${event.change}-${index}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
+                <p className="mono text-xs text-yellow-100">{event.time}</p>
+                <p className="mt-2 text-sm font-semibold text-white">{event.change}</p>
+                <p className="mt-1 text-xs leading-5 text-slate-400">
+                  {event.desk} · {event.instrument}
+                </p>
+              </div>
+            ))}
+            {filteredReplay.length === 0 ? (
+              <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3 text-sm text-slate-300">
+                No matching state changes.
+              </div>
+            ) : null}
+          </div>
+        </article>
+
+        <article className="panel p-5">
+          <div className="flex items-center gap-2">
+            <FileSearch className="text-sky-100" size={22} aria-hidden />
+            <div>
+              <p className="eyebrow">Open questions</p>
+              <h2 className="mt-1 text-2xl font-semibold text-white">What must be answered</h2>
+            </div>
+          </div>
+          <div className="mt-5 grid gap-3">
+            {openQuestions.map((question) => (
+              <div key={question} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm leading-6 text-slate-300">
+                {question}
+              </div>
+            ))}
+          </div>
+          <p className="mt-5 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4 text-sm font-semibold leading-6 text-yellow-50">
+            {disclaimer}
+          </p>
+        </article>
+      </aside>
     </section>
   );
 }
