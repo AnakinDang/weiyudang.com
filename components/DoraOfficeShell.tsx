@@ -30,12 +30,14 @@ export function DoraOfficeShell({
   active,
   title,
   summary,
+  pageClassName,
   showBoundaryStrip = true,
   children
 }: {
   active: DoraOfficeRoute;
   title: string;
   summary: string;
+  pageClassName?: string;
   showBoundaryStrip?: boolean;
   children: React.ReactNode;
 }) {
@@ -43,7 +45,7 @@ export function DoraOfficeShell({
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
-      <section className="dora-office-subpage">
+      <section className={`dora-office-subpage${pageClassName ? ` ${pageClassName}` : ""}`}>
         <div className="container dora-office-subpage-shell">
           <nav className="dora-office-route-rail" aria-label="Doraemon Office navigation">
             <Link href="/dora" className="link-focus dora-office-rail-brand">
@@ -106,7 +108,7 @@ export function DoraOfficeShell({
                 <ShieldCheck size={18} aria-hidden />
                 <p>
                   Public Doraemon Office is read-only and sanitized. It does not expose private tasks, prompts, memory,
-                  credentials, trading data, or owner-only controls.
+                  credentials, trading data, or private control actions.
                 </p>
               </div>
             ) : null}
