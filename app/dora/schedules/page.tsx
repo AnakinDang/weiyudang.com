@@ -12,8 +12,8 @@ export default function DoraSchedulesPage() {
   return (
     <DoraOfficeShell
       active="/dora/schedules"
-      title="Schedules"
-      summary="A public rhythm of recurring Doraemon Office workflows with coarse cadence, next window, and safe state labels."
+      title="Operating Rhythm"
+      summary="A public-safe cadence map for recurring Doraemon Office workflows: coarse windows, review posture, and no scheduler controls."
       showBoundaryStrip={false}
     >
       <ScheduleBoard schedules={publicSchedules} boundaries={publicScheduleBoundaries} />

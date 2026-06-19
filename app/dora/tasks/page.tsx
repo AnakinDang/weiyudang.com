@@ -12,8 +12,8 @@ export default function DoraTasksPage() {
   return (
     <DoraOfficeShell
       active="/dora/tasks"
-      title="Tasks"
-      summary="A public aggregation view with opaque public keys, fixed titles, safe state counts, and no execution controls."
+      title="Task Operations"
+      summary="A public queue of sanitized task posture: opaque keys, fixed labels, owner-review signals, and no execution controls."
       showBoundaryStrip={false}
     >
       <TaskBoard tasks={publicDoraTasks} stats={publicDoraTaskStats} />

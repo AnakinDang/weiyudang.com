@@ -9538,7 +9538,7 @@ textarea {
   }
 
   .dora-tasks-stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .dora-tasks-stats article {
@@ -13590,5 +13590,104 @@ textarea {
   .dora-office-live-strip::after,
   .dora-office-live-strip > div span {
     animation: none !important;
+  }
+}
+
+/* Step 5: Doraemon public operations surfaces */
+.dora-tasks-hero,
+.dora-schedules-hero {
+  border-radius: 18px;
+  box-shadow:
+    0 26px 78px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.dora-tasks-stats {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10.5rem), 1fr));
+  gap: 1rem;
+}
+
+.dora-tasks-stats article,
+.dora-schedules-stats article,
+.dora-tasks-controls,
+.dora-schedules-controls,
+.dora-tasks-queue,
+.dora-tasks-side section,
+.dora-schedules-board,
+.dora-schedules-side section {
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.82)),
+    #ffffff;
+  box-shadow: 0 18px 54px rgba(15, 23, 42, 0.046);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.dora-tasks-row,
+.dora-schedules-lane {
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(248, 251, 255, 0.72)),
+    #ffffff;
+}
+
+.dora-tasks-row.is-danger {
+  background:
+    linear-gradient(90deg, rgba(254, 242, 242, 0.7), rgba(255, 255, 255, 0.86)),
+    #ffffff;
+}
+
+.dora-tasks-row-meta,
+.dora-schedules-lane-main dl {
+  gap: 0.7rem;
+}
+
+@media (max-width: 1180px) {
+  .dora-tasks-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .dora-tasks-stats article {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .dora-tasks-stats article .status-badge {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 0.18rem;
+  }
+
+  .dora-tasks-row-meta,
+  .dora-schedules-lane-main dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.38rem;
+  }
+
+  .dora-tasks-row-meta div,
+  .dora-schedules-lane-main dl div {
+    border-top: 1px solid rgba(191, 219, 254, 0.62);
+    padding-top: 0.48rem;
+  }
+
+  .dora-tasks-row-meta dt,
+  .dora-schedules-lane-main dt {
+    font-size: 0.62rem;
+  }
+
+  .dora-tasks-row-meta dd,
+  .dora-schedules-lane-main dd {
+    overflow: hidden;
+    font-size: 0.72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .dora-tasks-stats {
+    grid-template-columns: 1fr;
   }
 }
