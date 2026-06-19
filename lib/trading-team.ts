@@ -1,6 +1,6 @@
 export const tradingResearchDisclaimer = "Research-only. Not an order, recommendation, or execution system.";
 
-export type TradingView = "Today" | "Signals" | "Desks" | "Options Lab" | "Evidence" | "Replay" | "System";
+export type TradingView = "Today" | "Signals" | "Desks" | "Instruments" | "Options Lab" | "Evidence" | "Replay" | "System";
 
 export type TradingSignal = {
   instrument: string;
@@ -15,6 +15,34 @@ export type TradingSignal = {
   sourceHealth: string;
   state: string;
   blocker: string;
+};
+
+export type TradingInstrument = {
+  symbol: string;
+  label: string;
+  desk: string;
+  posture: string;
+  confidence: string;
+  sourceHealth: string;
+  lastUpdated: string;
+  summary: string;
+  signalHistory: readonly {
+    time: string;
+    state: string;
+    note: string;
+  }[];
+  evidenceTimeline: readonly {
+    time: string;
+    label: string;
+    state: string;
+    detail: string;
+  }[];
+  sourceQuality: readonly {
+    source: string;
+    state: string;
+    detail: string;
+  }[];
+  riskFlags: readonly string[];
 };
 
 export type TradingResearchCockpitData = {
@@ -40,6 +68,7 @@ export type TradingResearchCockpitData = {
     disagreement: string;
     needs: string;
   }[];
+  instruments: readonly TradingInstrument[];
   sourceHealth: readonly {
     source: string;
     state: string;

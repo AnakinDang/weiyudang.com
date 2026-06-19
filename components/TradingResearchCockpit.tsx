@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
-import type { TradingResearchCockpitData, TradingSignal, TradingView } from "@/lib/trading-team";
+import type { TradingInstrument, TradingResearchCockpitData, TradingSignal, TradingView } from "@/lib/trading-team";
 
 type TradingTodayFocus = TradingResearchCockpitData["todayFocus"][number];
 type TradingDesk = TradingResearchCockpitData["desks"][number];
@@ -31,6 +31,7 @@ const viewIcons = {
   Today: Gauge,
   Signals: LineChart,
   Desks: GitCompareArrows,
+  Instruments: SlidersHorizontal,
   "Options Lab": BarChart3,
   Evidence: FileSearch,
   Replay: Clock3,
@@ -46,7 +47,7 @@ function sourceTone(state: string) {
     return "danger";
   }
 
-  if (state === "Degraded" || state === "Pending" || state === "Incomplete" || state === "Partial") {
+  if (state === "Degraded" || state === "Pending" || state === "Incomplete" || state === "Partial" || state === "Required") {
     return "warning";
   }
 
@@ -334,6 +335,182 @@ function SourceDegradation({ sources }: { sources: readonly TradingSource[] }) {
   );
 }
 
+function InstrumentsView({
+  instruments,
+  activeInstrument,
+  onSelectInstrument,
+  unavailableActions
+}: {
+  instruments: readonly TradingInstrument[];
+  activeInstrument: TradingInstrument;
+  onSelectInstrument: (symbol: string) => void;
+  unavailableActions: readonly string[];
+}) {
+  return (
+    <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
+      <div className="grid gap-5">
+        <section className="panel overflow-hidden p-0" aria-labelledby="trading-instruments-title">
+          <div className="border-b border-slate-700/70 p-5 md:p-6">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2 text-sky-100">
+                  <FileSearch size={22} aria-hidden />
+                  <h2 id="trading-instruments-title" className="text-2xl font-semibold text-white">
+                    Instruments
+                  </h2>
+                </div>
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+                  Instrument-level research pages show signal history, evidence state, source quality, and risk flags.
+                  They never expose accounts, positions, order tickets, or execution controls.
+                </p>
+              </div>
+              <StatusBadge tone="private">Owner-only research</StatusBadge>
+            </div>
+          </div>
+
+          <div className="grid gap-0 lg:grid-cols-[18rem_minmax(0,1fr)]">
+            <nav
+              className="grid content-start gap-2 border-b border-slate-700/70 bg-black/10 p-4 lg:border-b-0 lg:border-r"
+              aria-label="Instrument research pages"
+            >
+              {instruments.map((instrument) => {
+                const selected = instrument.symbol === activeInstrument.symbol;
+
+                return (
+                  <button
+                    key={instrument.symbol}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => onSelectInstrument(instrument.symbol)}
+                    className={`link-focus rounded-[8px] border p-3 text-left transition ${
+                      selected
+                        ? "border-sky-200/45 bg-sky-300/15 text-white"
+                        : "border-slate-700 bg-white/[0.035] text-slate-300 hover:border-sky-200/30 hover:text-white"
+                    }`}
+                  >
+                    <span className="mono block text-xs text-yellow-100">{instrument.symbol}</span>
+                    <strong className="mt-2 block text-sm">{instrument.label}</strong>
+                    <span className="mt-2 block text-xs text-slate-400">{instrument.desk}</span>
+                  </button>
+                );
+              })}
+            </nav>
+
+            <article className="p-5 md:p-6">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <p className="mono text-xs text-yellow-100">{activeInstrument.symbol}</p>
+                  <h3 className="mt-2 text-3xl font-semibold text-white">{activeInstrument.label}</h3>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">{activeInstrument.summary}</p>
+                </div>
+                <div className="grid min-w-[12rem] gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-xs font-bold uppercase text-slate-400">Posture</span>
+                    <span className="text-sm font-semibold text-white">{activeInstrument.posture}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-xs font-bold uppercase text-slate-400">Confidence</span>
+                    <span className="text-sm font-semibold text-white">{activeInstrument.confidence}</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="text-xs font-bold uppercase text-slate-400">Freshness</span>
+                    <span className="text-sm font-semibold text-white">{activeInstrument.lastUpdated}</span>
+                  </div>
+                  <StatusBadge tone={sourceTone(activeInstrument.sourceHealth)}>{activeInstrument.sourceHealth}</StatusBadge>
+                </div>
+              </div>
+
+              <div className="mt-6 grid gap-4 lg:grid-cols-2">
+                <section aria-labelledby="instrument-history-title">
+                  <h4 id="instrument-history-title" className="text-sm font-bold uppercase text-slate-400">
+                    Signal history
+                  </h4>
+                  <div className="mt-3 grid gap-3">
+                    {activeInstrument.signalHistory.map((item, index) => (
+                      <article key={`${item.time}-${item.state}-${index}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <p className="mono text-xs text-yellow-100">{item.time}</p>
+                          <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
+                        </div>
+                        <p className="mt-3 text-sm leading-6 text-slate-300">{item.note}</p>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+                <section aria-labelledby="instrument-evidence-title">
+                  <h4 id="instrument-evidence-title" className="text-sm font-bold uppercase text-slate-400">
+                    Evidence timeline
+                  </h4>
+                  <div className="mt-3 grid gap-3">
+                    {activeInstrument.evidenceTimeline.map((item, index) => (
+                      <article key={`${item.time}-${item.label}-${index}`} className="rounded-[8px] border border-slate-700 bg-black/15 p-4">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div>
+                            <p className="mono text-xs text-yellow-100">{item.time}</p>
+                            <h5 className="mt-2 font-semibold text-white">{item.label}</h5>
+                          </div>
+                          <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
+                        </div>
+                        <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[1fr_0.82fr]">
+          <article className="panel p-5" aria-labelledby="instrument-source-title">
+            <div className="flex items-center gap-2 text-sky-100">
+              <Radio size={22} aria-hidden />
+              <h2 id="instrument-source-title" className="text-2xl font-semibold text-white">
+                Source quality
+              </h2>
+            </div>
+            <div className="mt-5 grid gap-3">
+              {activeInstrument.sourceQuality.map((source) => (
+                <div key={source.source} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <strong className="text-white">{source.source}</strong>
+                    <StatusBadge tone={sourceTone(source.state)}>{source.state}</StatusBadge>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{source.detail}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="panel p-5" aria-labelledby="instrument-risk-title">
+            <div className="flex items-center gap-2 text-yellow-100">
+              <AlertTriangle size={22} aria-hidden />
+              <h2 id="instrument-risk-title" className="text-2xl font-semibold text-white">
+                Risk flags
+              </h2>
+            </div>
+            <div className="mt-5 grid gap-3">
+              {activeInstrument.riskFlags.map((flag) => (
+                <div key={flag} className="flex gap-3 rounded-[8px] border border-yellow-200/20 bg-yellow-300/10 p-3 text-sm leading-6 text-yellow-50">
+                  <AlertTriangle className="mt-0.5 shrink-0" size={16} aria-hidden />
+                  {flag}
+                </div>
+              ))}
+            </div>
+            <p className="mt-5 rounded-[8px] border border-slate-700 bg-black/15 p-3 text-xs leading-5 text-slate-400">
+              Instrument pages can organize research and blockers only. They do not create orders, recommendations,
+              account actions, or execution states.
+            </p>
+          </article>
+        </section>
+      </div>
+
+      <SafetyRail unavailableActions={unavailableActions} />
+    </section>
+  );
+}
+
 function OptionsLab({ scenarios }: { scenarios: readonly TradingOptionsScenario[] }) {
   return (
     <section className="panel p-5" aria-labelledby="trading-options-title">
@@ -480,11 +657,16 @@ function SystemView({ systemStatus }: { systemStatus: readonly TradingSystemStat
 export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitData }) {
   const [activeView, setActiveView] = useState<TradingView>("Today");
   const [activeDesk, setActiveDesk] = useState("All desks");
+  const [activeInstrumentSymbol, setActiveInstrumentSymbol] = useState(data.instruments[0]?.symbol ?? "");
 
   const deskFilters = useMemo(() => ["All desks", ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
   const filteredSignals = useMemo(
     () => (activeDesk === "All desks" ? data.signals : data.signals.filter((signal) => signal.desk === activeDesk)),
     [activeDesk, data.signals]
+  );
+  const activeInstrument = useMemo(
+    () => data.instruments.find((instrument) => instrument.symbol === activeInstrumentSymbol) ?? data.instruments[0],
+    [activeInstrumentSymbol, data.instruments]
   );
 
   return (
@@ -598,6 +780,29 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
         </section>
       ) : null}
       {activeView === "Desks" ? <DeskDisagreement desks={data.desks} /> : null}
+      {activeView === "Instruments" ? (
+        activeInstrument ? (
+          <InstrumentsView
+            instruments={data.instruments}
+            activeInstrument={activeInstrument}
+            onSelectInstrument={setActiveInstrumentSymbol}
+            unavailableActions={data.unavailableActions}
+          />
+        ) : (
+          <section className="panel p-5" aria-labelledby="trading-instruments-empty-title">
+            <div className="flex items-center gap-2 text-sky-100">
+              <SlidersHorizontal size={22} aria-hidden />
+              <h2 id="trading-instruments-empty-title" className="text-2xl font-semibold text-white">
+                Instruments
+              </h2>
+            </div>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
+              No instrument research packets are available in this owner-only mock session. Research boundaries and
+              blocked actions remain unchanged.
+            </p>
+          </section>
+        )
+      ) : null}
       {activeView === "Options Lab" ? <OptionsLab scenarios={data.optionsLab} /> : null}
       {activeView === "Evidence" ? <EvidenceView gates={data.gates} unavailableActions={data.unavailableActions} /> : null}
       {activeView === "Replay" ? <ReplayView replay={data.replay} openQuestions={data.openQuestions} disclaimer={data.disclaimer} /> : null}
