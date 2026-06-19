@@ -182,7 +182,7 @@ export default function DoraPage() {
                 <div className="doraemon-activity-preview-head">
                   <span>
                     <Clock3 size={14} aria-hidden />
-                    Recent activity (public-safe)
+                    Demo activity (public-safe)
                   </span>
                   <small>Demo replay</small>
                 </div>
