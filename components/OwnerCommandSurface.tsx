@@ -19,24 +19,106 @@ import {
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
-import {
-  commandAgents,
-  commandApprovals,
-  commandAuditRules,
-  commandDraft,
-  commandEvidenceRequirements,
-  commandModePanels,
-  commandModeTabs,
-  commandOutputShelf,
-  commandPlanStages,
-  commandReadinessChecks,
-  commandReviewPacket,
-  commandSurfaceStatus,
-  commandUnavailableActions
-} from "@/lib/command-surface";
 
-type CommandMode = (typeof commandModeTabs)[number];
 type Tone = "normal" | "info" | "warning" | "private";
+type CommandMode = string;
+type CommandAgentRole = "Orchestrator" | "Product" | "Implementation" | "Evidence" | "Research-only";
+type CommandModeIcon = "radio" | "waypoints" | "clipboard" | "file_search" | "shield";
+type CommandStatusItem = {
+  title?: string;
+  label?: string;
+  state: string;
+  tone: string;
+  detail: string;
+};
+
+export type OwnerCommandSurfaceData = {
+  surfaceStatus: {
+    mode: string;
+    runtime: string;
+    posture: string;
+    dispatch: string;
+  };
+  copy: {
+    badges: readonly string[];
+    heroTitle: string;
+    heroDetail: string;
+    draftLabel: string;
+    draftAriaLabel: string;
+    draftPlaceholder: string;
+    preparePacketAction: string;
+    resetAction: string;
+    dispatchUnavailable: string;
+    lensGroupLabel: string;
+    activeLensLabel: string;
+    reviewPacketLabel: string;
+    planEyebrow: string;
+    planTitle: string;
+    planDetail: string;
+    approvalTitle: string;
+    approvalDetail: string;
+    approvalStatus: string;
+    blockedActionsEyebrow: string;
+    blockedActionsTitle: string;
+    blockedActionsNote: string;
+    agentTitle: string;
+    agentDetail: string;
+    agentStatus: string;
+    agentNextLabel: string;
+    evidenceTitle: string;
+    evidenceDetail: string;
+    outputTitle: string;
+    auditTitle: string;
+    auditDetail: string;
+    auditBadge: string;
+  };
+  draft: {
+    title: string;
+    prompt: string;
+    boundary: string;
+  };
+  reviewPacket: {
+    title: string;
+    summary: string;
+    sections: readonly {
+      label: string;
+      value: string;
+    }[];
+  };
+  readinessChecks: readonly CommandStatusItem[];
+  modeTabs: readonly {
+    key: CommandMode;
+    label: string;
+    icon: CommandModeIcon;
+  }[];
+  modePanels: Record<string, CommandStatusItem & { title: string }>;
+  reviewPacketModeKey: CommandMode;
+  planStages: readonly (CommandStatusItem & {
+    label: string;
+    owner: string;
+    proof: string;
+  })[];
+  approvals: readonly (CommandStatusItem & {
+    title: string;
+    decision: string;
+  })[];
+  agents: readonly {
+    name: string;
+    role: CommandAgentRole;
+    state: string;
+    tone: string;
+    focus: string;
+    next: string;
+  }[];
+  evidenceRequirements: readonly CommandStatusItem[];
+  outputShelf: readonly {
+    title: string;
+    state: string;
+    detail: string;
+  }[];
+  unavailableActions: readonly string[];
+  auditRules: readonly string[];
+};
 
 const agentIcons = {
   Orchestrator: Bot,
@@ -47,12 +129,12 @@ const agentIcons = {
 } as const;
 
 const modeIcons = {
-  Draft: Radio,
-  "Plan preview": Waypoints,
-  "Review packet": ClipboardCheck,
-  Evidence: FileSearch,
-  Audit: ShieldCheck
-} as const;
+  radio: Radio,
+  waypoints: Waypoints,
+  clipboard: ClipboardCheck,
+  file_search: FileSearch,
+  shield: ShieldCheck
+} as const satisfies Record<CommandModeIcon, typeof Radio>;
 
 function safeTone(tone: string): Tone {
   if (tone === "normal" || tone === "warning" || tone === "private") {
@@ -79,13 +161,16 @@ function LightStatusBadge({ children, tone }: { children: React.ReactNode; tone:
 
 function CommandWorkspace({
   activeMode,
-  setActiveMode
+  setActiveMode,
+  data
 }: {
   activeMode: CommandMode;
   setActiveMode: (mode: CommandMode) => void;
+  data: OwnerCommandSurfaceData;
 }) {
-  const [draft, setDraft] = useState<string>(commandDraft.prompt);
-  const activePanel = commandModePanels[activeMode];
+  const [draft, setDraft] = useState<string>(data.draft.prompt);
+  const fallbackMode = data.modeTabs[0]?.key ?? data.reviewPacketModeKey;
+  const activePanel = data.modePanels[activeMode] ?? data.modePanels[fallbackMode];
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
   const draftLines = useMemo(() => draft.split(/\n/).filter((line) => line.trim().length > 0).length, [draft]);
 
@@ -108,43 +193,42 @@ function CommandWorkspace({
           <div className="relative flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold uppercase text-blue-800">
               <LockKeyhole size={14} aria-hidden />
-              Owner-only
+              {data.copy.badges[0]}
             </span>
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase text-emerald-800">
               <Radio size={14} aria-hidden />
-              Draft-only
+              {data.copy.badges[1]}
             </span>
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs font-bold uppercase text-amber-800">
               <ShieldCheck size={14} aria-hidden />
-              No dispatch
+              {data.copy.badges[2]}
             </span>
           </div>
 
           <div className="relative mt-10 max-w-4xl">
-            <p className="text-sm font-semibold text-blue-700">{commandSurfaceStatus.posture}</p>
+            <p className="text-sm font-semibold text-blue-700">{data.surfaceStatus.posture}</p>
             <h2 id="owner-command-title" className="mt-3 max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
-              Draft a mission before anything moves.
+              {data.copy.heroTitle}
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
-              Command is the owner-level surface for shaping intent, previewing a plan, and preparing the exact review
-              packet that must pass before implementation, publishing, or runtime work happens.
+              {data.copy.heroDetail}
             </p>
           </div>
 
           <div className="relative mt-7 rounded-[8px] border border-slate-200 bg-white/82 p-4 shadow-[0_18px_70px_rgba(37,99,235,0.1)] backdrop-blur">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">Draft pad</p>
-                <h3 className="mt-1 text-xl font-semibold text-slate-950">{commandDraft.title}</h3>
+                <p className="text-xs font-bold uppercase text-slate-500">{data.copy.draftLabel}</p>
+                <h3 className="mt-1 text-xl font-semibold text-slate-950">{data.draft.title}</h3>
               </div>
-              <LightStatusBadge tone="private">{commandSurfaceStatus.mode}</LightStatusBadge>
+              <LightStatusBadge tone="private">{data.surfaceStatus.mode}</LightStatusBadge>
             </div>
             <textarea
-              aria-label="Owner command draft"
+              aria-label={data.copy.draftAriaLabel}
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               className="mt-4 min-h-40 w-full resize-y rounded-[8px] border border-slate-200 bg-slate-50/80 p-4 text-sm leading-7 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-300 focus:bg-white"
-              placeholder="Describe intent, constraints, evidence needed, and review gates."
+              placeholder={data.copy.draftPlaceholder}
             />
             <div className="mt-3 grid gap-3 text-sm text-slate-600 sm:grid-cols-[1fr_auto] sm:items-center">
               <div className="flex flex-wrap gap-3">
@@ -154,47 +238,44 @@ function CommandWorkspace({
                 <span>
                   <strong className="text-slate-950">{draftLines}</strong> active lines
                 </span>
-                <span>{commandSurfaceStatus.runtime}</span>
+                <span>{data.surfaceStatus.runtime}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => setActiveMode("Review packet")}
+                  onClick={() => setActiveMode(data.reviewPacketModeKey)}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(37,99,235,0.2)] transition hover:bg-blue-700"
                 >
-                  Prepare packet
+                  {data.copy.preparePacketAction}
                   <ArrowRight size={15} aria-hidden />
                 </button>
                 <button
                   type="button"
-                  onClick={() => setDraft(commandDraft.prompt)}
+                  onClick={() => setDraft(data.draft.prompt)}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-700"
                 >
                   <RotateCcw size={15} aria-hidden />
-                  Reset
+                  {data.copy.resetAction}
                 </button>
-                <button
-                  type="button"
-                  disabled
-                  className="inline-flex cursor-not-allowed items-center gap-2 rounded-[8px] border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-400"
-                >
-                  Dispatch unavailable
-                </button>
+                <span className="inline-flex items-center gap-2 rounded-[8px] border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-400">
+                  <LockKeyhole size={15} aria-hidden />
+                  {data.copy.dispatchUnavailable}
+                </span>
               </div>
             </div>
           </div>
 
-          <div className="relative mt-5 flex flex-wrap gap-2" role="group" aria-label="Command context lens selector">
-            {commandModeTabs.map((mode) => {
-              const Icon = modeIcons[mode];
-              const active = activeMode === mode;
+          <div className="relative mt-5 flex flex-wrap gap-2" role="group" aria-label={data.copy.lensGroupLabel}>
+            {data.modeTabs.map((mode) => {
+              const Icon = modeIcons[mode.icon] ?? Radio;
+              const active = activeMode === mode.key;
 
               return (
                 <button
-                  key={mode}
+                  key={mode.key}
                   type="button"
                   aria-pressed={active}
-                  onClick={() => setActiveMode(mode)}
+                  onClick={() => setActiveMode(mode.key)}
                   className={`link-focus inline-flex items-center gap-2 rounded-[8px] border px-3 py-2 text-sm font-semibold transition ${
                     active
                       ? "border-blue-200 bg-blue-50 text-blue-800"
@@ -202,7 +283,7 @@ function CommandWorkspace({
                   }`}
                 >
                   <Icon size={16} aria-hidden />
-                  {mode}
+                  {mode.label}
                 </button>
               );
             })}
@@ -220,7 +301,7 @@ function CommandWorkspace({
           <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">Active lens</p>
+                <p className="text-xs font-bold uppercase text-slate-500">{data.copy.activeLensLabel}</p>
                 <h3 id="command-mode-title" className="mt-1 text-xl font-semibold text-slate-950">
                   {activePanel.title}
                 </h3>
@@ -232,7 +313,7 @@ function CommandWorkspace({
             <p className="mt-4 text-sm leading-6 text-slate-600">{activePanel.detail}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               <LightStatusBadge tone={safeTone(activePanel.tone)}>{activePanel.state}</LightStatusBadge>
-              <LightStatusBadge tone="private">{commandSurfaceStatus.dispatch}</LightStatusBadge>
+              <LightStatusBadge tone="private">{data.surfaceStatus.dispatch}</LightStatusBadge>
             </div>
           </div>
 
@@ -240,13 +321,13 @@ function CommandWorkspace({
             className="relative mt-4 rounded-[8px] border border-blue-100 bg-white/78 p-5"
             aria-labelledby="command-review-packet-title"
           >
-            <p className="text-xs font-bold uppercase text-slate-500">Review packet</p>
+            <p className="text-xs font-bold uppercase text-slate-500">{data.copy.reviewPacketLabel}</p>
             <h3 id="command-review-packet-title" className="mt-1 text-xl font-semibold text-slate-950">
-              {commandReviewPacket.title}
+              {data.reviewPacket.title}
             </h3>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{commandReviewPacket.summary}</p>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{data.reviewPacket.summary}</p>
             <div className="mt-4 grid gap-3">
-              {commandReviewPacket.sections.map((section) => (
+              {data.reviewPacket.sections.map((section) => (
                 <div key={section.label} className="grid grid-cols-[5.5rem_1fr] gap-3 rounded-[8px] border border-blue-100 bg-white/72 p-3">
                   <span className="text-xs font-bold uppercase text-slate-500">{section.label}</span>
                   <span className="text-sm font-semibold text-slate-950">{section.value}</span>
@@ -256,7 +337,7 @@ function CommandWorkspace({
           </section>
 
           <div className="relative mt-4 grid gap-3">
-            {commandReadinessChecks.map((check) => (
+            {data.readinessChecks.map((check) => (
               <article key={check.label} className="rounded-[8px] border border-blue-100 bg-white/72 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <h4 className="text-sm font-semibold text-slate-950">{check.label}</h4>
@@ -272,7 +353,7 @@ function CommandWorkspace({
   );
 }
 
-function PlanPreview() {
+function PlanPreview({ data }: { data: OwnerCommandSurfaceData }) {
   return (
     <section className="panel overflow-hidden p-0" aria-labelledby="command-plan-title">
       <div className="grid gap-0 xl:grid-cols-[20rem_minmax(0,1fr)]">
@@ -280,17 +361,16 @@ function PlanPreview() {
           <div className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
             <Waypoints size={22} aria-hidden />
           </div>
-          <p className="eyebrow mt-5">Plan preview</p>
+          <p className="eyebrow mt-5">{data.copy.planEyebrow}</p>
           <h2 id="command-plan-title" className="mt-2 text-2xl font-semibold text-white">
-            Five gates before work moves.
+            {data.copy.planTitle}
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-300">
-            A command becomes a staged plan before it becomes implementation. Interpretation, design, implementation,
-            verification, and review stay separate.
+            {data.copy.planDetail}
           </p>
         </div>
         <div className="grid gap-3 p-4 md:p-5 xl:grid-cols-5">
-          {commandPlanStages.map((stage, index) => (
+          {data.planStages.map((stage, index) => (
             <article key={stage.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <div className="flex items-start justify-between gap-3">
                 <span
@@ -315,7 +395,7 @@ function PlanPreview() {
   );
 }
 
-function ApprovalGate() {
+function ApprovalGate({ data }: { data: OwnerCommandSurfaceData }) {
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <section className="panel p-5" aria-labelledby="command-approval-title">
@@ -324,17 +404,17 @@ function ApprovalGate() {
             <div className="flex items-center gap-2 text-yellow-100">
               <ClipboardCheck size={22} aria-hidden />
               <h2 id="command-approval-title" className="text-2xl font-semibold text-white">
-                Owner checkpoints
+                {data.copy.approvalTitle}
               </h2>
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-              The command surface separates allowed review from blocked execution so the next decision is obvious.
+              {data.copy.approvalDetail}
             </p>
           </div>
-          <StatusBadge tone="warning">Owner review required</StatusBadge>
+          <StatusBadge tone="warning">{data.copy.approvalStatus}</StatusBadge>
         </div>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {commandApprovals.map((approval) => (
+          {data.approvals.map((approval) => (
             <article key={approval.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-sm font-semibold text-white">{approval.title}</h3>
@@ -350,16 +430,16 @@ function ApprovalGate() {
       </section>
 
       <UnavailableControlsPanel
-        eyebrow="Blocked actions"
-        title="No command execution"
-        items={commandUnavailableActions}
-        note="This cockpit can prepare a command packet only. It cannot dispatch tools, mutate files, publish, or approve itself."
+        eyebrow={data.copy.blockedActionsEyebrow}
+        title={data.copy.blockedActionsTitle}
+        items={data.unavailableActions}
+        note={data.copy.blockedActionsNote}
       />
     </section>
   );
 }
 
-function AgentRouting() {
+function AgentRouting({ data }: { data: OwnerCommandSurfaceData }) {
   return (
     <section className="panel p-5" aria-labelledby="command-agent-title">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -367,19 +447,18 @@ function AgentRouting() {
           <div className="flex items-center gap-2 text-sky-100">
             <Bot size={22} aria-hidden />
             <h2 id="command-agent-title" className="text-2xl font-semibold text-white">
-              Agent routing
+              {data.copy.agentTitle}
             </h2>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-            The command surface shows who owns the next decision instead of hiding responsibility behind a single
-            assistant response.
+            {data.copy.agentDetail}
           </p>
         </div>
-        <StatusBadge tone="info">Visible responsibility</StatusBadge>
+        <StatusBadge tone="info">{data.copy.agentStatus}</StatusBadge>
       </div>
       <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-        {commandAgents.map((agent) => {
-          const Icon = agentIcons[agent.role];
+        {data.agents.map((agent) => {
+          const Icon = agentIcons[agent.role] ?? Bot;
 
           return (
             <article key={agent.name} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
@@ -393,7 +472,7 @@ function AgentRouting() {
               <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{agent.role}</p>
               <p className="mt-3 text-sm leading-6 text-slate-300">{agent.focus}</p>
               <p className="mt-3 rounded-[8px] border border-slate-700 bg-black/15 p-3 text-xs leading-5 text-slate-400">
-                Next: {agent.next}
+                {data.copy.agentNextLabel}: {agent.next}
               </p>
             </article>
           );
@@ -403,21 +482,21 @@ function AgentRouting() {
   );
 }
 
-function EvidenceShelf() {
+function EvidenceShelf({ data }: { data: OwnerCommandSurfaceData }) {
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <section className="panel p-5" aria-labelledby="command-evidence-title">
         <div className="flex items-center gap-2 text-yellow-100">
           <FileSearch size={22} aria-hidden />
           <h2 id="command-evidence-title" className="text-2xl font-semibold text-white">
-            Evidence required
+            {data.copy.evidenceTitle}
           </h2>
         </div>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-          A command cannot move to PR/deploy without evidence that matches the scope of the requested slice.
+          {data.copy.evidenceDetail}
         </p>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {commandEvidenceRequirements.map((item) => (
+          {data.evidenceRequirements.map((item) => (
             <article key={item.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="font-semibold text-white">{item.title}</h3>
@@ -433,11 +512,11 @@ function EvidenceShelf() {
         <div className="flex items-center gap-2 text-sky-100">
           <ClipboardCheck size={20} aria-hidden />
           <h2 id="command-output-title" className="text-xl font-semibold text-white">
-            Output shelf
+            {data.copy.outputTitle}
           </h2>
         </div>
         <div className="mt-4 grid gap-3">
-          {commandOutputShelf.map((item) => (
+          {data.outputShelf.map((item) => (
             <article key={item.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <h3 className="text-sm font-semibold text-white">{item.title}</h3>
@@ -452,7 +531,7 @@ function EvidenceShelf() {
   );
 }
 
-function AuditBoundary() {
+function AuditBoundary({ data }: { data: OwnerCommandSurfaceData }) {
   return (
     <section className="panel p-5" aria-labelledby="command-audit-title">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -460,22 +539,22 @@ function AuditBoundary() {
           <div className="flex items-center gap-2 text-emerald-200">
             <CheckCircle2 size={22} aria-hidden />
             <h2 id="command-audit-title" className="text-2xl font-semibold text-white">
-              Audit boundary
+              {data.copy.auditTitle}
             </h2>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-            These rules keep the command surface useful now while leaving future execution APIs explicit and auditable.
+            {data.copy.auditDetail}
           </p>
         </div>
         <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-4 py-3">
           <div className="flex items-center gap-2 text-yellow-50">
             <LockKeyhole size={17} aria-hidden />
-            <span className="text-sm font-semibold">No hidden execution</span>
+            <span className="text-sm font-semibold">{data.copy.auditBadge}</span>
           </div>
         </div>
       </div>
       <div className="mt-5 grid gap-3 md:grid-cols-2">
-        {commandAuditRules.map((rule) => (
+        {data.auditRules.map((rule) => (
           <div key={rule} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm leading-6 text-slate-300">
             {rule}
           </div>
@@ -485,22 +564,22 @@ function AuditBoundary() {
   );
 }
 
-export function OwnerCommandSurface() {
-  const [activeMode, setActiveMode] = useState<CommandMode>("Draft");
+export function OwnerCommandSurface({ data }: { data: OwnerCommandSurfaceData }) {
+  const [activeMode, setActiveMode] = useState<CommandMode>(data.modeTabs[0]?.key ?? data.reviewPacketModeKey);
 
   return (
     <div className="grid gap-5">
-      <CommandWorkspace activeMode={activeMode} setActiveMode={setActiveMode} />
-      <PlanPreview />
-      <ApprovalGate />
-      <AgentRouting />
-      <EvidenceShelf />
-      <AuditBoundary />
+      <CommandWorkspace activeMode={activeMode} setActiveMode={setActiveMode} data={data} />
+      <PlanPreview data={data} />
+      <ApprovalGate data={data} />
+      <AgentRouting data={data} />
+      <EvidenceShelf data={data} />
+      <AuditBoundary data={data} />
 
       <section className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4 text-sm font-semibold leading-6 text-yellow-50">
         <div className="flex gap-3">
           <AlertTriangle className="mt-0.5 shrink-0" size={18} aria-hidden />
-          <p>{commandDraft.boundary}</p>
+          <p>{data.draft.boundary}</p>
         </div>
       </section>
     </div>
