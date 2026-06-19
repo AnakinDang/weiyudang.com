@@ -10202,15 +10202,15 @@ textarea {
   top: 0;
   z-index: 40;
   border-bottom: 1px solid rgba(221, 231, 240, 0.86);
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(22px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px);
 }
 
 .site-header-doraemon-inner {
   display: grid;
   grid-template-columns: minmax(10rem, 1fr) auto minmax(10rem, 1fr);
   align-items: center;
-  min-height: 4.75rem;
+  min-height: 4.55rem;
   gap: 2rem;
 }
 
@@ -10226,10 +10226,10 @@ textarea {
 .site-signature-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.9rem;
+  gap: 0.82rem;
   width: fit-content;
   color: #05070a;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 800;
   letter-spacing: 0;
 }
@@ -10237,7 +10237,7 @@ textarea {
 .site-signature-mark {
   color: #2563eb;
   font-family: "Bradley Hand", "Snell Roundhand", "Segoe Script", cursive;
-  font-size: 2.05rem;
+  font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -10279,17 +10279,32 @@ textarea {
   content: "";
 }
 
-.site-owner-signin {
+.site-doraemon-actions {
   display: inline-flex;
   align-items: center;
   justify-self: end;
+  gap: 1.15rem;
+}
+
+.site-light-indicator {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 999px;
+  color: #0f172a;
+}
+
+.site-owner-signin {
+  display: inline-flex;
+  align-items: center;
   gap: 0.55rem;
   border: 1px solid rgba(148, 163, 184, 0.34);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.78);
-  padding: 0.68rem 0.95rem;
+  padding: 0.62rem 0.92rem;
   color: #0f172a;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   font-weight: 720;
   transition:
     border-color 180ms ease,
@@ -10316,8 +10331,8 @@ textarea {
 .doraemon-doorway {
   position: relative;
   isolation: isolate;
-  min-height: min(45rem, calc(100svh - 4.75rem));
-  padding: 3.05rem 1.25rem 0.72rem;
+  min-height: min(40.7rem, calc(100svh - 4.55rem));
+  padding: 2.6rem 1.25rem 0.55rem;
   background:
     linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.99) 33%, rgba(255, 255, 255, 0.62) 53%, rgba(255, 255, 255, 0) 72%),
     linear-gradient(180deg, #ffffff 0%, #ffffff 76%, #f8fbff 100%),
@@ -10337,7 +10352,7 @@ textarea {
 
 .doraemon-doorway-grid {
   display: grid;
-  grid-template-columns: minmax(22rem, 0.55fr) minmax(43rem, 1.45fr);
+  grid-template-columns: minmax(22rem, 0.53fr) minmax(43rem, 1.47fr);
   align-items: center;
   gap: 0;
 }
@@ -10346,7 +10361,7 @@ textarea {
   position: relative;
   z-index: 2;
   max-width: 33rem;
-  padding-block: 1.1rem 4rem;
+  padding-block: 0.7rem 2.25rem;
 }
 
 .doraemon-doorway-copy h1 {
@@ -10447,7 +10462,7 @@ textarea {
 .doraemon-command-preview {
   position: relative;
   isolation: isolate;
-  min-height: 38.4rem;
+  min-height: 34.8rem;
 }
 
 .doraemon-command-preview::before,
@@ -10483,7 +10498,7 @@ textarea {
 .doraemon-portal-stage {
   position: absolute;
   /* The portal art keeps a quiet left safe zone; this bleed integrates the doorway with the hero. */
-  inset: -3.6rem -6.1rem 4.2rem -13.2rem;
+  inset: -3.15rem -4.6rem 3.3rem -11.4rem;
   z-index: 1;
   overflow: hidden;
 }
@@ -10518,7 +10533,7 @@ textarea {
 .doraemon-portal-stage img {
   --dora-office-portal-scale: 1.035;
   --dora-office-portal-scale-peak: 1.043;
-  --dora-office-portal-x: -7.8%;
+  --dora-office-portal-x: -6.4%;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -10539,10 +10554,10 @@ textarea {
 
 .doraemon-portal-panel {
   position: absolute;
-  top: 26.5%;
-  right: 2.7%;
+  top: 25.8%;
+  right: 5.4%;
   z-index: 4;
-  width: min(15.5rem, 29%);
+  width: min(14.8rem, 27%);
   color: #05070a;
 }
 
@@ -10572,9 +10587,9 @@ textarea {
 
 .doraemon-hero-agent-labels {
   position: absolute;
-  right: 10.5%;
-  bottom: 9rem;
-  left: 35.5%;
+  right: 11.5%;
+  bottom: 8.15rem;
+  left: 34.8%;
   z-index: 5;
   height: 4.35rem;
   pointer-events: none;
@@ -10586,16 +10601,21 @@ textarea {
   align-items: center;
   justify-content: center;
   min-width: 5rem;
-  border: 1px solid rgba(191, 219, 254, 0.62);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  padding: 0.24rem 0.45rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
   color: #0f172a;
   font-size: 0.64rem;
   font-weight: 700;
   line-height: 1;
-  box-shadow: 0 10px 26px rgba(37, 99, 235, 0.1);
-  backdrop-filter: blur(14px);
+  text-shadow:
+    0 0 6px #ffffff,
+    -1px 0 0 #ffffff,
+    1px 0 0 #ffffff,
+    0 -1px 0 #ffffff,
+    0 1px 0 #ffffff,
+    0 8px 18px rgba(37, 99, 235, 0.18);
 }
 
 .doraemon-hero-agent-labels span:nth-child(1) {
@@ -10637,9 +10657,9 @@ textarea {
 
 .doraemon-activity-preview {
   position: absolute;
-  right: 1.6rem;
+  right: 3.5rem;
   bottom: 0.15rem;
-  left: 1.6rem;
+  left: 4.2rem;
   z-index: 4;
   border: 1px solid rgba(148, 163, 184, 0.26);
   border-radius: 8px;
@@ -11118,8 +11138,8 @@ textarea {
 
 @media (min-width: 1181px) and (max-height: 820px) {
   .doraemon-doorway {
-    min-height: calc(100svh - 7.35rem);
-    padding-top: 2.35rem;
+    min-height: calc(100svh - 6.85rem);
+    padding-top: 2.05rem;
   }
 
   .doraemon-doorway-copy {
@@ -11127,11 +11147,11 @@ textarea {
   }
 
   .doraemon-command-preview {
-    min-height: 35.6rem;
+    min-height: 33.4rem;
   }
 
   .doraemon-portal-stage {
-    inset: -3.05rem -6.1rem 3.35rem -13.2rem;
+    inset: -2.65rem -4.6rem 2.95rem -10.8rem;
   }
 
   .doraemon-portal-panel {
@@ -11139,7 +11159,7 @@ textarea {
   }
 
   .doraemon-hero-agent-labels {
-    bottom: 8.65rem;
+    bottom: 7.65rem;
   }
 }
 
@@ -11199,11 +11219,11 @@ textarea {
   }
 
   .doraemon-command-preview {
-    min-height: 36rem;
+    min-height: 33.2rem;
   }
 
   .doraemon-portal-stage {
-    inset: -1.9rem -2.4rem 5.2rem -8.4rem;
+    inset: -1.6rem -2rem 4.45rem -7.2rem;
   }
 
   .doraemon-portal-panel {
@@ -11223,6 +11243,10 @@ textarea {
 @media (max-width: 900px) {
   .site-header-doraemon-inner {
     grid-template-columns: 1fr auto;
+  }
+
+  .site-doraemon-actions {
+    gap: 0.55rem;
   }
 
   .site-doraemon-nav {
@@ -11259,7 +11283,7 @@ textarea {
   }
 
   .doraemon-command-preview {
-    min-height: 39rem;
+    min-height: 34rem;
   }
 
   .doraemon-hero-agent-labels {
@@ -11316,6 +11340,10 @@ textarea {
     font-size: 0.78rem;
   }
 
+  .site-light-indicator {
+    display: none;
+  }
+
   .site-doraemon-nav {
     gap: 1rem;
   }
@@ -11357,18 +11385,16 @@ textarea {
   }
 
   .doraemon-command-preview {
-    min-height: 24.75rem;
+    min-height: 22.9rem;
     margin-inline: -0.45rem;
   }
 
   .doraemon-portal-stage {
-    inset: -0.4rem -1.4rem 6.25rem -1.4rem;
+    inset: -0.35rem -1.2rem 6.35rem -1.2rem;
   }
 
   .doraemon-portal-panel {
-    top: 21%;
-    right: 8%;
-    width: 38%;
+    display: none;
   }
 
   .doraemon-portal-panel strong {
@@ -11584,10 +11610,7 @@ textarea {
 }
 
 .premium-hero-map {
-  position: relative;
-  align-self: center;
-  min-height: min(31rem, 52vw);
-  pointer-events: none;
+  display: none;
 }
 
 .premium-map-node {
