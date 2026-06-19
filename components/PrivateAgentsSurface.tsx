@@ -27,11 +27,18 @@ import type {
   PrivateAgentHandoff,
   PrivateAgentMetric,
   PrivateAgentRole,
-  PrivateAgentSourceHealth,
-  PrivateReviewQueueItem
+  PrivateAgentSourceHealth
 } from "@/lib/agent-ops";
 
 type Tone = PrivateAgent["tone"];
+type ReviewQueuePreviewItem = {
+  title: string;
+  tone: Tone;
+  decision: string;
+  urgency: string;
+  agent: string;
+  note: string;
+};
 
 type PrivateAgentsSurfaceProps = {
   agents: readonly PrivateAgent[];
@@ -39,7 +46,7 @@ type PrivateAgentsSurfaceProps = {
   coverage: readonly PrivateAgentCoverageLane[];
   boundary: readonly string[];
   handoffs: readonly PrivateAgentHandoff[];
-  reviewQueue: readonly PrivateReviewQueueItem[];
+  reviewQueue: readonly ReviewQueuePreviewItem[];
 };
 
 const roleIcons = {
@@ -369,7 +376,7 @@ function HandoffsAndQueue({
 }: {
   activeAgent: PrivateAgent;
   handoffs: readonly PrivateAgentHandoff[];
-  reviewQueue: readonly PrivateReviewQueueItem[];
+  reviewQueue: readonly ReviewQueuePreviewItem[];
 }) {
   const relatedHandoffs = handoffs.filter(
     (handoff) => handoff.fromAgentId === activeAgent.id || handoff.toAgentId === activeAgent.id
