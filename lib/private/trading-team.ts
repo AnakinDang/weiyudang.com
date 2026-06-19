@@ -284,6 +284,79 @@ const tradingSourceHealth = [
   { source: "Social/news feed", state: "Degraded", detail: "Treat as unavailable until provenance is verified." }
 ] as const;
 
+const tradingEvidencePackets = [
+  {
+    id: "ev_index_breadth",
+    title: "Breadth and calendar cross-check",
+    instrument: "INDEX-BASKET",
+    source: "Market context",
+    provenance: "Breadth sample plus second-source macro calendar",
+    state: "Partial",
+    quality: "Medium",
+    linkedSignal: "Index basket",
+    appliesToSignals: ["Index basket"],
+    blocker: "Calendar confirmation is still pending before confidence can rise.",
+    updated: "10:14",
+    checks: ["Breadth attached", "Counter-evidence visible", "Second-source calendar pending"]
+  },
+  {
+    id: "ev_ai_company_packet",
+    title: "Company evidence packet",
+    instrument: "AI-LARGE-CAP",
+    source: "Fundamental evidence",
+    provenance: "Company filings, sector context, and valuation counter-evidence",
+    state: "Incomplete",
+    quality: "Low",
+    linkedSignal: "Large-cap AI basket",
+    appliesToSignals: ["Large-cap AI basket"],
+    blocker: "Company-level source coverage is missing, so the signal remains blocked.",
+    updated: "10:21",
+    checks: ["Momentum context attached", "Company packet missing", "Counter-evidence required"]
+  },
+  {
+    id: "ev_vol_liquidity",
+    title: "Volatility liquidity and skew packet",
+    instrument: "VOL-SURFACE",
+    source: "Options evidence",
+    provenance: "Options chain sample, skew note, and liquidity packet",
+    state: "Pending",
+    quality: "Medium-low",
+    linkedSignal: "Volatility surface sample",
+    appliesToSignals: ["Volatility surface sample"],
+    blocker: "Liquidity evidence is not attached, so scenarios stay research-only.",
+    updated: "10:25",
+    checks: ["Term structure partial", "Skew incomplete", "Liquidity packet pending"]
+  },
+  {
+    id: "ev_digital_asset_provenance",
+    title: "Digital asset provenance audit",
+    instrument: "DIGITAL-ASSET",
+    source: "Social/news feed",
+    provenance: "News freshness, venue-quality notes, and source-origin check",
+    state: "Degraded",
+    quality: "Low",
+    linkedSignal: "Digital asset sample",
+    appliesToSignals: ["Digital asset sample"],
+    blocker: "Provenance is weak; treat the packet as context only.",
+    updated: "Today",
+    checks: ["Source origin pending", "Venue-quality note missing", "No confidence promotion"]
+  },
+  {
+    id: "ev_cross_desk_counter",
+    title: "Counter-evidence reconciliation",
+    instrument: "ALL",
+    source: "Risk Desk",
+    provenance: "Cross-desk contradiction log and owner review queue",
+    state: "Required",
+    quality: "Required",
+    linkedSignal: "Cross-desk evidence",
+    appliesToSignals: ["Index basket", "Large-cap AI basket", "Volatility surface sample", "Digital asset sample"],
+    blocker: "Every promoted conclusion needs explicit counter-evidence before leaving review.",
+    updated: "Today",
+    checks: ["Owner review required", "Counter-evidence visible", "No public summary yet"]
+  }
+] as const;
+
 const tradingGates = [
   { label: "Broker write", value: "Disabled", detail: "No broker write path exists in this web surface." },
   { label: "Paper submit", value: "Disabled", detail: "Paper submit is not modeled, linked, or available." },
@@ -425,6 +498,7 @@ export const privateTradingResearchData = {
   desks: tradingDesks,
   instruments: tradingInstruments,
   sourceHealth: tradingSourceHealth,
+  evidencePackets: tradingEvidencePackets,
   gates: tradingGates,
   optionsLab: tradingOptionsLab,
   replay: tradingReplay,
