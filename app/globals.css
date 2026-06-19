@@ -14014,3 +14014,145 @@ textarea {
     border-radius: 12px;
   }
 }
+
+/* Step 9: Doraemon Office command-room stage clarity */
+.dora-office-live-mode-row .dora-office-live-mode {
+  border-color: rgba(37, 99, 235, 0.2);
+  background: rgba(239, 246, 255, 0.84);
+  color: #1d4ed8;
+}
+
+.dora-office-live-mode-row .dora-office-live-mode span,
+.dora-office-live-strip > div span {
+  animation: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.dora-office-live-mode-row .dora-office-live-mode:first-child span,
+.dora-office-live-strip > div span {
+  background: #2563eb;
+}
+
+.dora-office-live-mode-row .dora-office-live-mode-secondary span {
+  background: #60a5fa;
+}
+
+.dora-office-live-dashboard .dora-office-stage-panel {
+  min-height: min(34.5rem, calc(100svh - 14.2rem));
+  border-color: rgba(147, 197, 253, 0.72);
+  background:
+    radial-gradient(ellipse at 56% 90%, rgba(250, 204, 21, 0.18), transparent 28%),
+    radial-gradient(ellipse at 58% 78%, rgba(37, 99, 235, 0.22), transparent 47%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(241, 247, 255, 0.82) 68%, #ffffff 100%),
+    #ffffff;
+  box-shadow:
+    0 30px 92px rgba(37, 99, 235, 0.1),
+    0 18px 62px rgba(15, 23, 42, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+.dora-office-live-dashboard .dora-office-stage-panel::before {
+  bottom: 0.95rem;
+  height: 13rem;
+  opacity: 0.9;
+}
+
+.dora-office-live-dashboard .dora-office-portal-art {
+  inset: -3.55rem -5.5rem 1.35rem -5.5rem;
+}
+
+.dora-office-live-dashboard .dora-office-portal-art::after {
+  top: 3%;
+  bottom: 18%;
+  left: 48%;
+  width: 12%;
+  opacity: 0.58;
+}
+
+.dora-office-live-dashboard .dora-office-portal-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center 47%;
+  filter:
+    saturate(1.16)
+    contrast(1.04)
+    drop-shadow(0 30px 80px rgba(37, 99, 235, 0.18));
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.dora-office-live-dashboard .dora-office-stage-boundary {
+  top: 23%;
+  right: 7.5%;
+  width: min(15rem, 27%);
+  border: 1px solid rgba(147, 197, 253, 0.54);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+  padding: 0.95rem;
+  box-shadow: 0 20px 60px rgba(37, 99, 235, 0.1);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dora-office-live-dashboard .dora-office-stage-agents {
+  right: 5.2%;
+  bottom: 0.95rem;
+  left: 5.2%;
+}
+
+.dora-office-live-dashboard .dora-office-live-strip {
+  border-color: rgba(147, 197, 253, 0.7);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.97), rgba(241, 247, 255, 0.9)),
+    #ffffff;
+}
+
+.dora-office-live-dashboard .dora-office-live-strip time,
+.dora-office-live-dashboard .dora-office-activity-list time {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1180px) {
+  .dora-office-live-dashboard .dora-office-stage-panel {
+    min-height: clamp(28rem, 56vw, 34rem);
+  }
+
+  .dora-office-live-dashboard .dora-office-portal-art {
+    inset: -2.8rem -4.2rem 1.1rem -4.2rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .dora-office-live-dashboard .dora-office-stage-panel {
+    min-height: 28.5rem;
+  }
+
+  .dora-office-live-dashboard .dora-office-portal-art {
+    inset: -1.3rem -2.1rem 5.7rem -2.1rem;
+  }
+
+  .dora-office-live-dashboard .dora-office-portal-art img {
+    object-position: center 44%;
+  }
+
+  .dora-office-live-dashboard .dora-office-stage-boundary {
+    top: auto;
+    right: 1rem;
+    bottom: 8.2rem;
+    left: 1rem;
+    width: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+    padding: 0.78rem;
+  }
+
+  .dora-office-live-dashboard .dora-office-stage-boundary div {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .dora-office-live-dashboard .dora-office-stage-boundary small {
+    display: none;
+  }
+}

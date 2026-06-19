@@ -21,7 +21,7 @@ import { DoraOfficeShell } from "@/components/DoraOfficeShell";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   DORA_LIVE_BRIDGE_URL,
-  formatPublicEventTime,
+  formatPublicEventDateTime,
   getRecentPublicDoraEvents,
   publicDoraTaskStats,
   publicSchedules
@@ -69,7 +69,7 @@ const quickLinks = [
     href: DORA_LIVE_BRIDGE_URL,
     icon: MonitorPlay,
     external: true,
-    tags: ["linked", "read-only"]
+    tags: ["public", "read-only"]
   },
   {
     title: "Next rhythm",
@@ -120,11 +120,11 @@ export default function DoraOfficePage() {
             <div className="dora-office-live-mode-row" aria-label="Office Live mode">
               <span className="dora-office-live-mode">
                 <span aria-hidden />
-                Live bridge linked
+                Public bridge available
               </span>
               <span className="dora-office-live-mode dora-office-live-mode-secondary">
                 <span aria-hidden />
-                Demo fallback ready
+                Demo fallback shown
               </span>
             </div>
 
@@ -173,12 +173,12 @@ export default function DoraOfficePage() {
             <section className="dora-office-live-strip" aria-label="Recent public-safe Doraemon Office activity">
               <div>
                 <span aria-hidden />
-                <strong>Live activity (public-safe)</strong>
+                <strong>Demo activity (public-safe)</strong>
               </div>
               <ol>
                 {stripEvents.map((event) => (
                   <li key={event.event_id}>
-                    <time>{formatPublicEventTime(event.created_at)}</time>
+                    <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
                     <strong>{event.agent}</strong>
                     <span>{event.title}</span>
                   </li>
@@ -221,7 +221,7 @@ export default function DoraOfficePage() {
             <section className="dora-office-side-card">
               <div className="dora-office-card-title">
                 <Radio size={21} aria-hidden />
-                <h2>Recent activity</h2>
+                <h2>Demo activity</h2>
                 <Link href="/dora/activity" className="link-focus">
                   View all
                 </Link>
@@ -229,7 +229,7 @@ export default function DoraOfficePage() {
               <div className="dora-office-activity-list">
                 {recentEvents.map((event) => (
                   <article key={event.event_id}>
-                    <time>{formatPublicEventTime(event.created_at)}</time>
+                    <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
                     <DoraemonMark />
                     <div>
                       <strong>{event.agent}</strong>

@@ -192,7 +192,7 @@ export default function DoraPage() {
                       key={event.event_id}
                       className={`doraemon-activity-tick doraemon-activity-tick-${event.severity}`}
                     >
-                      <time>{formatPublicEventTime(event.created_at)}</time>
+                      <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
                       <strong>{event.agent}</strong>
                       <span>{event.title}</span>
                     </div>
