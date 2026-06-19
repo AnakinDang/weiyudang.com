@@ -17745,3 +17745,864 @@ textarea {
     margin-top: 0.55rem;
   }
 }
+
+/* Step 22: Doraemon Office landing-first command room */
+.dora-office-landing {
+  overflow: hidden;
+  background: #ffffff;
+  color: #05070a;
+}
+
+.dora-office-landing-hero {
+  position: relative;
+  min-height: min(50rem, calc(100svh - 4.55rem));
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(191, 219, 254, 0.34), transparent 24rem),
+    linear-gradient(90deg, #ffffff 0%, #ffffff 37%, rgba(255, 255, 255, 0.72) 56%, rgba(255, 255, 255, 0) 76%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 78%, #f8fbff 100%),
+    #ffffff;
+  padding: clamp(2.4rem, 4vw, 4.2rem) 0 1.05rem;
+}
+
+.dora-office-landing-hero-grid,
+.dora-office-landing-section > .container {
+  width: min(1320px, calc(100% - 6rem));
+}
+
+.dora-office-landing-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(30rem, 0.42fr) minmax(38rem, 0.58fr);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.dora-office-landing-copy {
+  position: relative;
+  z-index: 2;
+  padding-bottom: clamp(1rem, 4vw, 4.8rem);
+}
+
+.dora-office-landing-copy h1 {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(4.6rem, 7vw, 7rem);
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 0.92;
+}
+
+.dora-office-landing-copy h1 span {
+  display: block;
+  background: linear-gradient(180deg, #2f7cff 0%, #1157da 100%);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dora-office-landing-copy > p {
+  max-width: 26rem;
+  margin: 1.65rem 0 0;
+  color: #334155;
+  font-size: clamp(1.2rem, 1.65vw, 1.55rem);
+  line-height: 1.42;
+}
+
+.dora-office-landing-rule {
+  width: 3.4rem;
+  height: 1px;
+  margin-top: 2rem;
+  background: rgba(148, 163, 184, 0.62);
+}
+
+.dora-office-landing-actions {
+  display: grid;
+  justify-items: start;
+  gap: 1.55rem;
+  margin-top: 2.05rem;
+}
+
+.dora-office-secondary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.65rem;
+}
+
+.dora-office-primary-cta,
+.dora-office-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.62rem;
+  text-decoration: none;
+}
+
+.dora-office-primary-cta {
+  width: max-content;
+  min-height: 3.35rem;
+  border-radius: 8px;
+  background: #0f67f4;
+  padding: 0 1.45rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 760;
+  box-shadow:
+    0 18px 42px rgba(37, 99, 235, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.dora-office-primary-cta:hover {
+  background: #0a58d8;
+  box-shadow:
+    0 22px 54px rgba(37, 99, 235, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.dora-office-text-link {
+  color: #1559d3;
+  font-size: 0.9rem;
+  font-weight: 760;
+}
+
+.dora-office-text-link:hover {
+  color: #0f49b5;
+}
+
+.dora-office-landing-visual {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.dora-office-landing-stage-panel {
+  min-height: clamp(35rem, 48vw, 43rem);
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.dora-office-landing-stage-panel::before {
+  right: 0;
+  bottom: 1.4rem;
+  left: 0;
+  height: 16rem;
+  opacity: 0.72;
+  filter: blur(1.4rem);
+}
+
+.dora-office-landing-stage-panel .dora-office-portal-art {
+  inset: -4.7rem -3.9rem 5.5rem -8.8rem;
+}
+
+.dora-office-landing-stage-panel .dora-office-portal-art::after {
+  top: 10%;
+  bottom: 18%;
+  left: 48%;
+  width: 13%;
+  opacity: 0.45;
+}
+
+.dora-office-landing-stage-panel .dora-office-portal-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center 49%;
+  filter:
+    saturate(1.12)
+    contrast(1.035)
+    drop-shadow(0 38px 86px rgba(37, 99, 235, 0.18));
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.dora-office-landing-stage-note {
+  position: absolute;
+  top: 22.5%;
+  right: 4.6%;
+  z-index: 6;
+  width: min(18.4rem, 31%);
+  color: #05070a;
+}
+
+.dora-office-landing-stage-note > strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.dora-office-landing-stage-note > p {
+  margin: 0.9rem 0 1.15rem;
+  color: #111827;
+  font-size: 0.9rem;
+  line-height: 1.52;
+}
+
+.dora-office-landing-stage-note .dora-office-stage-boundary {
+  position: static;
+  display: grid;
+  gap: 0.92rem;
+  width: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.dora-office-landing-stage-note .dora-office-stage-boundary div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.42rem 0.68rem;
+  border-bottom: 1px dashed rgba(100, 116, 139, 0.42);
+  padding: 0 0 0.84rem;
+}
+
+.dora-office-landing-stage-note .dora-office-stage-boundary strong {
+  color: #0f172a;
+  font-size: 0.75rem;
+  font-weight: 820;
+}
+
+.dora-office-landing-stage-note .dora-office-stage-boundary span {
+  grid-column: 2;
+  color: #334155;
+  font-size: 0.68rem;
+}
+
+.dora-office-landing-stage-panel .dora-office-stage-agents {
+  right: 1.4%;
+  bottom: 3.85rem;
+  left: 5%;
+  height: 9.8rem;
+}
+
+.dora-office-landing-live-strip {
+  z-index: 8;
+  width: min(86%, 46rem);
+  margin: -5.15rem auto 0;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.91)),
+    #ffffff;
+  box-shadow:
+    0 22px 62px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dora-office-landing-live-strip > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-content: center;
+  gap: 0.18rem 0.52rem;
+  min-width: 10.5rem;
+}
+
+.dora-office-landing-live-strip > div small {
+  grid-column: 2;
+  color: #64748b;
+  font-size: 0.62rem;
+  font-weight: 650;
+}
+
+.dora-office-landing-section {
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  padding: clamp(2.4rem, 4.5vw, 4.4rem) 0;
+  background: #ffffff;
+}
+
+#office-command-surface {
+  scroll-margin-top: 5.2rem;
+}
+
+.dora-office-landing-section h2 {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(1.8rem, 2.8vw, 2.55rem);
+  font-weight: 830;
+  letter-spacing: 0;
+  line-height: 1.04;
+}
+
+.dora-office-landing-section p {
+  color: #334155;
+  line-height: 1.55;
+}
+
+.dora-office-does-grid {
+  display: grid;
+  grid-template-columns: minmax(16rem, 19rem) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.dora-office-orbit-card {
+  min-height: 17rem;
+  border: 1px solid rgba(191, 219, 254, 0.8);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at center, rgba(246, 201, 69, 0.18), transparent 11%),
+    radial-gradient(circle at center, rgba(37, 99, 235, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.82)),
+    #ffffff;
+  padding: 1.2rem;
+}
+
+.dora-office-orbit-radar {
+  position: relative;
+  height: 100%;
+  min-height: 14.5rem;
+  border: 1px dashed rgba(147, 197, 253, 0.62);
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+}
+
+.dora-office-orbit-radar::before,
+.dora-office-orbit-radar::after {
+  position: absolute;
+  inset: 17%;
+  border: 0.72rem solid rgba(37, 99, 235, 0.82);
+  border-right-color: transparent;
+  border-radius: 50%;
+  content: "";
+}
+
+.dora-office-orbit-radar::after {
+  inset: 30%;
+  border-width: 0.52rem;
+  border-left-color: transparent;
+  transform: rotate(35deg);
+}
+
+.dora-office-orbit-radar span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 999px;
+  background: #f6c945;
+  box-shadow:
+    0 0 0 0.62rem rgba(246, 201, 69, 0.18),
+    0 12px 32px rgba(37, 99, 235, 0.16);
+  transform: translate(-50%, -50%);
+}
+
+.dora-office-principle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.55rem;
+  margin-top: 2.1rem;
+}
+
+.dora-office-principle-grid article {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.dora-office-principle-grid article > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 999px;
+  color: #1d4ed8;
+}
+
+.dora-office-principle-grid h3,
+.dora-office-agent-card-row h3,
+.dora-office-project-context-row h3 {
+  margin: 0;
+  color: #05070a;
+  font-size: 0.92rem;
+  font-weight: 830;
+}
+
+.dora-office-principle-grid p,
+.dora-office-agent-card-row p,
+.dora-office-project-context-row p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.8rem;
+  line-height: 1.42;
+}
+
+.dora-office-minidoras-grid {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.22fr) minmax(0, 0.78fr);
+  align-items: start;
+  gap: 2rem;
+}
+
+.dora-office-section-copy {
+  display: grid;
+  align-content: start;
+  gap: 0.95rem;
+}
+
+.dora-office-section-copy p {
+  margin: 0;
+  max-width: 22rem;
+}
+
+.dora-office-agent-card-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.78rem;
+}
+
+.dora-office-agent-card-row article {
+  display: grid;
+  justify-items: center;
+  gap: 0.55rem;
+  min-height: 10rem;
+  border: 1px solid rgba(221, 231, 240, 0.86);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.76));
+  padding: 0.92rem 0.72rem;
+  text-align: center;
+}
+
+.dora-office-agent-card-row svg {
+  width: 3.2rem;
+  height: 3.2rem;
+  color: #1d6ef2;
+}
+
+.dora-office-safety-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.28fr) minmax(0, 0.72fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.dora-office-safety-grid::after {
+  position: absolute;
+  right: -7rem;
+  bottom: -5rem;
+  width: 15rem;
+  height: 15rem;
+  border: 2px solid rgba(37, 99, 235, 0.88);
+  border-radius: 50%;
+  content: "";
+  opacity: 0.9;
+}
+
+.dora-office-safety-grid::before {
+  position: absolute;
+  right: -3.8rem;
+  bottom: -5.7rem;
+  width: 7rem;
+  height: 2.8rem;
+  border: 2px solid rgba(37, 99, 235, 0.88);
+  border-top: 0;
+  border-radius: 0 0 999px 999px;
+  content: "";
+  opacity: 0.85;
+}
+
+.dora-office-safety-section .dora-office-boundary-list {
+  gap: 0.72rem;
+  margin-top: 0.35rem;
+}
+
+.dora-office-safety-section .dora-office-boundary-list li {
+  color: #0f172a;
+  font-size: 0.86rem;
+}
+
+.dora-office-boundary-diagram {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(221, 231, 240, 0.84);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(239, 246, 255, 0.82), #ffffff 48%, rgba(239, 246, 255, 0.84)),
+    #ffffff;
+}
+
+.dora-office-boundary-diagram::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: repeating-linear-gradient(180deg, #1d6ef2 0 12px, transparent 12px 24px);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.dora-office-boundary-diagram > div {
+  display: grid;
+  align-content: center;
+  gap: 0.8rem;
+  min-height: 14.4rem;
+  padding: 1.65rem 2rem;
+}
+
+.dora-office-boundary-diagram > div > svg {
+  color: #1d6ef2;
+}
+
+.dora-office-boundary-diagram strong {
+  color: #05070a;
+  font-size: 0.9rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.dora-office-boundary-diagram ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-office-boundary-diagram li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #334155;
+  font-size: 0.82rem;
+}
+
+.dora-office-boundary-diagram li svg {
+  color: #1d6ef2;
+}
+
+.dora-office-boundary-bell {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid rgba(37, 99, 235, 0.34);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.12);
+  transform: translate(-50%, -50%);
+}
+
+.dora-office-boundary-bell svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #1d6ef2;
+}
+
+.dora-office-command-grid,
+.dora-office-project-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.1rem;
+}
+
+.dora-office-command-shell {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.dora-office-command-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.dora-office-command-heading p {
+  max-width: 25rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.dora-office-command-card,
+.dora-office-project-context-row article {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  min-height: 11.2rem;
+  border-left: 1px solid rgba(221, 231, 240, 0.9);
+  padding: 0.2rem 1rem 0.2rem 1.2rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dora-office-command-card {
+  transition:
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.dora-office-command-card:hover {
+  border-left-color: rgba(37, 99, 235, 0.72);
+  transform: translateY(-1px);
+}
+
+.dora-office-command-card > svg,
+.dora-office-project-context-row article > svg {
+  color: #1d6ef2;
+}
+
+.dora-office-command-grid h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 830;
+}
+
+.dora-office-command-grid p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.dora-office-command-grid .status-badge {
+  justify-self: start;
+}
+
+.dora-office-command-grid .dora-office-task-posture {
+  margin-top: 0;
+}
+
+.dora-office-project-grid {
+  grid-template-columns: minmax(14rem, 0.24fr) minmax(0, 0.76fr);
+}
+
+.dora-office-project-context-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 1180px) {
+  .dora-office-landing-hero-grid,
+  .dora-office-landing-section > .container {
+    width: min(100% - 3rem, 1020px);
+  }
+
+  .dora-office-landing-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .dora-office-landing-copy {
+    max-width: 42rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .dora-office-landing-copy h1 {
+    font-size: clamp(4rem, 10vw, 6.2rem);
+  }
+
+  .dora-office-landing-stage-panel {
+    min-height: clamp(31rem, 62vw, 41rem);
+  }
+
+  .dora-office-landing-stage-panel .dora-office-portal-art {
+    inset: -4rem -3.5rem 5.1rem -4.2rem;
+  }
+
+  .dora-office-agent-card-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .dora-office-principle-grid,
+  .dora-office-command-grid,
+  .dora-office-project-context-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .dora-office-landing-hero {
+    padding-top: 1.85rem;
+  }
+
+  .dora-office-landing-hero-grid,
+  .dora-office-landing-section > .container {
+    width: min(100% - 1.5rem, 620px);
+  }
+
+  .dora-office-landing-copy h1 {
+    font-size: clamp(3.1rem, 14vw, 4.6rem);
+  }
+
+  .dora-office-landing-copy > p {
+    max-width: 20rem;
+    font-size: 1rem;
+  }
+
+  .dora-office-landing-actions {
+    gap: 0.9rem;
+  }
+
+  .dora-office-primary-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .dora-office-secondary-actions {
+    gap: 0.9rem 1.1rem;
+  }
+
+  .dora-office-landing-stage-panel {
+    min-height: 28rem;
+  }
+
+  .dora-office-landing-stage-panel .dora-office-portal-art {
+    inset: -1.6rem -1.8rem 6.9rem -1.8rem;
+  }
+
+  .dora-office-landing-stage-note {
+    top: auto;
+    right: 1rem;
+    bottom: 7.3rem;
+    left: 1rem;
+    width: auto;
+    border: 1px solid rgba(191, 219, 254, 0.62);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.72);
+    padding: 0.85rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .dora-office-landing-stage-note > p {
+    display: none;
+  }
+
+  .dora-office-landing-stage-note .dora-office-stage-boundary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 0.72rem;
+  }
+
+  .dora-office-landing-stage-note .dora-office-stage-boundary div {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .dora-office-landing-stage-panel .dora-office-stage-agents {
+    right: 2%;
+    bottom: 1.1rem;
+    left: 2%;
+  }
+
+  .dora-office-landing-live-strip {
+    width: 100%;
+    margin-top: 0.78rem;
+  }
+
+  .dora-office-landing-live-strip ol {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .dora-office-landing-live-strip li {
+    flex: 0 0 9.8rem;
+  }
+
+  .dora-office-does-grid,
+  .dora-office-minidoras-grid,
+  .dora-office-safety-grid,
+  .dora-office-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-office-command-heading {
+    display: grid;
+    justify-content: stretch;
+    gap: 0.55rem;
+  }
+
+  .dora-office-agent-card-row,
+  .dora-office-principle-grid,
+  .dora-office-command-grid,
+  .dora-office-project-context-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-office-safety-grid::before,
+  .dora-office-safety-grid::after {
+    display: none;
+  }
+
+  .dora-office-boundary-diagram {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-office-boundary-diagram::before,
+  .dora-office-boundary-bell {
+    display: none;
+  }
+
+  .dora-office-command-card,
+  .dora-office-project-context-row article {
+    min-height: auto;
+    border-left: 0;
+    border-top: 1px solid rgba(221, 231, 240, 0.9);
+    padding: 1rem 0 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .dora-office-landing-copy h1 {
+    font-size: clamp(2.95rem, 15vw, 3.85rem);
+  }
+
+  .dora-office-landing-stage-panel {
+    min-height: 24.5rem;
+  }
+
+  .dora-office-landing-stage-note {
+    bottom: 6.65rem;
+    padding: 0.7rem;
+  }
+
+  .dora-office-landing-stage-note > strong {
+    font-size: 0.82rem;
+  }
+
+  .dora-office-landing-stage-note .dora-office-stage-boundary strong {
+    font-size: 0.68rem;
+  }
+
+  .dora-office-landing-stage-note .dora-office-stage-boundary span {
+    font-size: 0.62rem;
+  }
+
+  .dora-office-landing-section {
+    padding-block: 2.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dora-office-landing-stage-panel .dora-office-portal-art img,
+  .dora-office-landing-stage-panel::before {
+    animation: none !important;
+  }
+}
