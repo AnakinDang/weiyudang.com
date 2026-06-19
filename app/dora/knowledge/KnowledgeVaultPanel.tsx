@@ -52,8 +52,53 @@ const flowIcons = {
 const statIcons = {
   "Public outputs": FileText,
   "Publish gates": ShieldCheck,
-  "Private sources": LockKeyhole
+  "Private sources": LockKeyhole,
+  "Raw vault pages": LockKeyhole
 } as const satisfies Record<PublicKnowledgeStat["label"], LucideIcon>;
+
+// The hero prism has four positioned nodes; the full publish path still renders below.
+const HERO_PREVIEW_MAX = 4;
+
+const knowledgePrinciples = [
+  {
+    title: "Curated outputs",
+    detail: "Public pages are rewritten summaries, not raw vault mirrors.",
+    icon: Sparkles
+  },
+  {
+    title: "Source privacy",
+    detail: "Notes, memory, and private files stay out of public routes.",
+    icon: LockKeyhole
+  },
+  {
+    title: "Owner review",
+    detail: "Weiyu explicitly approves what becomes visible.",
+    icon: ShieldCheck
+  },
+  {
+    title: "No public RAG",
+    detail: "Visitors never query the private vault or hidden memory.",
+    icon: Eye
+  }
+] as const;
+
+const vaultLanes = [
+  {
+    title: "Curated crossings",
+    detail: "Only rewritten summaries and public labels cross the boundary.",
+    icon: FileText
+  },
+  {
+    title: "Review gates",
+    detail: "Synthesis, rewrite, owner approval, then publish.",
+    icon: CheckCircle2
+  },
+  {
+    title: "Private source layer",
+    detail: "Raw text, memory, prompts, and drafts remain hidden.",
+    icon: LockKeyhole
+  }
+] as const;
 
 function outputToneClass(output: Pick<PublicKnowledgeOutput, "tone">) {
   return output.tone === "normal" ? "is-normal" : "is-info";
@@ -70,7 +115,7 @@ export function KnowledgeVaultPanel({
   boundaries: readonly PublicKnowledgeBoundary[];
   stats: readonly PublicKnowledgeStat[];
 }) {
-  const previewFlow = flow.slice(0, 6);
+  const previewFlow = flow.slice(0, HERO_PREVIEW_MAX);
 
   return (
     <div className="dora-knowledge">
@@ -78,15 +123,15 @@ export function KnowledgeVaultPanel({
         <DoraOfficeHeroArt className="dora-knowledge-hero-art" />
         <DoraOfficeHeroCopy
           className="dora-knowledge-hero-copy"
-          lines={["Knowledge vault.", "Public synthesis only."]}
-          summary="Private sources become public pages only through synthesis, owner review, and safe rewriting."
+          lines={["Knowledge becomes public.", "Sources stay private."]}
+          summary="Curated synthesis only. No raw vault pages, private memory, or public RAG."
         />
 
         <DoraOfficeHeroBoundaryCard
           className="dora-knowledge-hero-boundary-card"
           items={[
-            { icon: Eye, title: "Public synthesis", detail: "Curated outputs" },
-            { icon: LockKeyhole, title: "Private sources", detail: "Source text hidden" }
+            { icon: Eye, title: "Public synthesis", detail: "Rewritten outputs" },
+            { icon: LockKeyhole, title: "Private sources", detail: "Raw text hidden" }
           ]}
         />
 
@@ -99,7 +144,7 @@ export function KnowledgeVaultPanel({
             <strong>Curated output</strong>
             <span>owner reviewed</span>
           </div>
-          {flow.map((item, index) => {
+          {previewFlow.map((item, index) => {
             const Icon = flowIcons[item.step];
 
             return (
@@ -126,7 +171,7 @@ export function KnowledgeVaultPanel({
         <DoraOfficeHeroSignalRail
           className="dora-knowledge-hero-signal-strip"
           ariaLabel="Public knowledge publishing preview"
-          label="Publish rail"
+          label="Public publish path"
           items={previewFlow.map((item) => ({
             key: item.step,
             ariaLabel: `${item.step}: ${item.shortLabel}`,
@@ -135,6 +180,24 @@ export function KnowledgeVaultPanel({
             detail: "public-safe"
           }))}
         />
+      </section>
+
+      <section className="dora-knowledge-principle-strip" aria-label="Public Knowledge Vault principles">
+        {knowledgePrinciples.map((principle) => {
+          const Icon = principle.icon;
+
+          return (
+            <article key={principle.title}>
+              <span>
+                <Icon size={18} aria-hidden />
+              </span>
+              <div>
+                <h3>{principle.title}</h3>
+                <p>{principle.detail}</p>
+              </div>
+            </article>
+          );
+        })}
       </section>
 
       <section className="dora-knowledge-stats" aria-label="Public Knowledge Vault summary">
@@ -204,6 +267,33 @@ export function KnowledgeVaultPanel({
                 </li>
               ))}
             </ul>
+          </section>
+
+          <section className="dora-knowledge-vault-card">
+            <div className="dora-knowledge-section-heading">
+              <div>
+                <h2>Vault lanes</h2>
+                <p>What may move forward, and what stays sealed.</p>
+              </div>
+              <Layers3 size={21} aria-hidden />
+            </div>
+            <div className="dora-knowledge-vault-list">
+              {vaultLanes.map((lane) => {
+                const Icon = lane.icon;
+
+                return (
+                  <article key={lane.title}>
+                    <span>
+                      <Icon size={16} aria-hidden />
+                    </span>
+                    <div>
+                      <h3>{lane.title}</h3>
+                      <p>{lane.detail}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </section>
 
           <section className="dora-knowledge-review-card">
