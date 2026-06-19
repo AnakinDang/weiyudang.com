@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Activity, ArrowRight, Bot, Eye, LockKeyhole, Radio, ShieldCheck } from "lucide-react";
+import { Activity, ArrowRight, Bot, CheckCircle2, Eye, GitBranch, Layers3, LockKeyhole, Radio, ShieldCheck } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import {
   DoraOfficeHeroArt,
@@ -32,6 +32,52 @@ const topologySlots = [
   "agent_memory",
   "agent_trading",
   "agent_media"
+] as const;
+
+const teamPrinciples = [
+  {
+    title: "8 public profiles",
+    summary: "Doraemon and seven MiniDoras, each with a clear public-safe role.",
+    icon: Bot
+  },
+  {
+    title: "Fixed public states",
+    summary: "Stable labels such as planning, working, handoff, owner review, and attention.",
+    icon: Activity
+  },
+  {
+    title: "Owner boundary",
+    summary: "No prompts, accounts, private task names, paths, or owner-only controls.",
+    icon: ShieldCheck
+  },
+  {
+    title: "Research-only markets",
+    summary: "Trading MiniDora organizes market research; it never executes orders.",
+    icon: LockKeyhole
+  }
+] as const;
+
+const teamLanes = [
+  {
+    title: "Coordinate",
+    agents: "Doraemon",
+    summary: "Turns intent into plans, handoffs, and review checkpoints."
+  },
+  {
+    title: "Research",
+    agents: "Research + Memory + Trading",
+    summary: "Reads, compares, preserves context, and keeps market work research-only."
+  },
+  {
+    title: "Build",
+    agents: "Dev + Product",
+    summary: "Moves product slices from scope into tested, reviewed software."
+  },
+  {
+    title: "Operate",
+    agents: "Ops + Media",
+    summary: "Keeps routines, health, public visuals, and publishing rhythm clear."
+  }
 ] as const;
 
 const stateToneClass = {
@@ -72,8 +118,8 @@ export default function DoraTeamPage() {
         <DoraOfficeHeroArt className="dora-team-hero-art" sizes="(max-width: 900px) 100vw, 72vw" />
         <DoraOfficeHeroCopy
           className="dora-team-hero-copy"
-          lines={["Doraemon coordinates.", "MiniDoras specialize."]}
-          summary="Public-safe roster"
+          lines={["Doraemon leads.", "MiniDoras specialize."]}
+          summary="Eight public profiles. One read-only office."
         />
 
         <DoraOfficeHeroBoundaryCard
@@ -105,8 +151,8 @@ export default function DoraTeamPage() {
 
         <DoraOfficeHeroSignalRail
           className="dora-team-hero-signal-strip"
-          ariaLabel="Recent public team signals"
-          label="Recent public signals"
+          ariaLabel="Demo public team signals"
+          label="Demo team signals"
           items={recentSignals.map((event) => ({
             key: event.event_id,
             ariaLabel: `${formatPublicEventTime(event.created_at)} ${event.agent}: ${event.title}`,
@@ -117,6 +163,24 @@ export default function DoraTeamPage() {
             detail: event.title
           }))}
         />
+      </section>
+
+      <section className="dora-team-principle-strip" aria-label="Public-safe MiniDora team principles">
+        {teamPrinciples.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <article key={item.title}>
+              <span>
+                <Icon size={18} aria-hidden />
+              </span>
+              <div>
+                <strong>{item.title}</strong>
+                <p>{item.summary}</p>
+              </div>
+            </article>
+          );
+        })}
       </section>
 
       <section className="dora-team-boundary" aria-label="Public and private boundary">
@@ -136,6 +200,28 @@ export default function DoraTeamPage() {
         </Link>
       </section>
 
+      <section className="dora-team-lanes" aria-labelledby="dora-team-lanes-title">
+        <div className="dora-team-section-heading">
+          <div>
+            <h2 id="dora-team-lanes-title">Team operating lanes</h2>
+            <p>Doraemon stays central; MiniDoras specialize around research, building, operations, and public-safe output.</p>
+          </div>
+          <GitBranch size={21} aria-hidden />
+        </div>
+        <div className="dora-team-lane-grid">
+          {teamLanes.map((lane) => (
+            <article key={lane.title}>
+              <span>
+                <Layers3 size={18} aria-hidden />
+              </span>
+              <strong>{lane.title}</strong>
+              <small>{lane.agents}</small>
+              <p>{lane.summary}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <div className="dora-team-content-grid">
         <section aria-labelledby="dora-team-roster-title">
           <div className="dora-team-section-heading">
@@ -151,7 +237,7 @@ export default function DoraTeamPage() {
               const event = latestAgentEvent(agent);
 
               return (
-                <article key={agent.publicId} className="dora-team-card">
+                <article key={agent.publicId} className={`dora-team-card dora-team-card-${agent.colorToken}`}>
                   <div className="dora-team-card-top">
                     <span className="dora-team-avatar">
                       <DoraemonMark />
@@ -166,9 +252,13 @@ export default function DoraTeamPage() {
                   <p>{agent.summary}</p>
                   <div className="dora-team-event">
                     <Activity size={15} aria-hidden />
-                    <span>Recent public event</span>
+                    <span>Latest public label</span>
                     <strong>{event ? event.title : "No public event yet"}</strong>
-                    <time dateTime={event?.created_at}>{event ? formatPublicEventTime(event.created_at) : "Demo state"}</time>
+                    {event ? (
+                      <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
+                    ) : (
+                      <span className="dora-team-event-time">Demo state</span>
+                    )}
                   </div>
                 </article>
               );
@@ -179,8 +269,8 @@ export default function DoraTeamPage() {
         <aside className="dora-team-signal-lane" aria-labelledby="dora-team-signals-title">
           <div className="dora-team-section-heading">
             <div>
-              <h2 id="dora-team-signals-title">Recent public signals</h2>
-              <p>Fixed labels only. No private titles, prompts, paths, or payloads.</p>
+              <h2 id="dora-team-signals-title">Demo public signals</h2>
+              <p>Demo-safe fixed labels only. No private titles, prompts, paths, or payloads.</p>
             </div>
             <Radio size={21} aria-hidden />
           </div>
@@ -201,7 +291,7 @@ export default function DoraTeamPage() {
           </div>
 
           <div className="dora-team-signal-note">
-            <ShieldCheck size={17} aria-hidden />
+            <CheckCircle2 size={17} aria-hidden />
             <span>Public relay content is allowlisted before it reaches this page.</span>
           </div>
 

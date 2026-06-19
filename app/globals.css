@@ -14379,3 +14379,284 @@ textarea {
     left: 0.15rem;
   }
 }
+
+/* Step 12: MiniDora Team Agents polish */
+.dora-team-hero {
+  min-height: 34.8rem;
+  border-color: rgba(147, 197, 253, 0.68);
+  background:
+    radial-gradient(ellipse at 52% 77%, rgba(246, 201, 69, 0.14), transparent 28%),
+    radial-gradient(ellipse at 57% 65%, rgba(37, 99, 235, 0.18), transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(248, 251, 255, 0.86) 70%, #ffffff 100%),
+    #ffffff;
+  box-shadow:
+    0 30px 92px rgba(37, 99, 235, 0.09),
+    0 20px 70px rgba(15, 23, 42, 0.055);
+}
+
+.dora-team-hero-art {
+  top: -13%;
+  left: -4%;
+  width: 108%;
+  height: 106%;
+  object-position: center 45%;
+  opacity: 0.5;
+  filter:
+    saturate(1.1)
+    contrast(1.04)
+    drop-shadow(0 30px 78px rgba(37, 99, 235, 0.12));
+}
+
+.dora-team-hero-copy {
+  top: 1.55rem;
+  left: 1.7rem;
+  max-width: min(34rem, 54%);
+}
+
+.dora-team-hero-copy p {
+  font-size: clamp(1.55rem, 2.3vw, 2.12rem);
+  line-height: 1.04;
+}
+
+.dora-team-hero-copy small {
+  margin-top: 0.76rem;
+  color: #334155;
+  font-size: 0.94rem;
+}
+
+.dora-team-topology {
+  filter: drop-shadow(0 10px 22px rgba(37, 99, 235, 0.08));
+}
+
+.dora-team-node {
+  min-width: 9.25rem;
+}
+
+.dora-team-node-mark,
+.dora-team-avatar {
+  border-color: rgba(147, 197, 253, 0.86);
+  box-shadow:
+    0 16px 36px rgba(37, 99, 235, 0.1),
+    0 0 0 5px rgba(239, 246, 255, 0.8);
+}
+
+.dora-team-node-dora .dora-team-node-mark {
+  box-shadow:
+    0 18px 44px rgba(37, 99, 235, 0.14),
+    0 0 0 7px rgba(255, 255, 255, 0.78),
+    0 0 0 12px rgba(37, 99, 235, 0.08);
+}
+
+.dora-team-hero-signal-strip {
+  right: 1.2rem;
+  bottom: 1.05rem;
+  left: 1.2rem;
+  border-color: rgba(147, 197, 253, 0.62);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 20px 62px rgba(15, 23, 42, 0.075);
+}
+
+.dora-team-principle-strip,
+.dora-team-lane-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.dora-team-principle-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 1rem;
+}
+
+.dora-team-principle-strip article,
+.dora-team-lane-grid article {
+  border: 1px solid rgba(191, 219, 254, 0.58);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.82)),
+    #ffffff;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.044);
+}
+
+.dora-team-principle-strip article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.78rem;
+  min-height: 7.45rem;
+  padding: 1rem;
+}
+
+.dora-team-principle-strip article > span,
+.dora-team-lane-grid article > span {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(191, 219, 254, 0.82);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #2563eb;
+}
+
+.dora-team-principle-strip strong,
+.dora-team-lane-grid strong {
+  display: block;
+  color: #0f172a;
+  font-size: 0.88rem;
+  font-weight: 840;
+  line-height: 1.18;
+}
+
+.dora-team-principle-strip p,
+.dora-team-lane-grid p {
+  margin: 0.42rem 0 0;
+  color: #64748b;
+  font-size: 0.76rem;
+  line-height: 1.42;
+}
+
+.dora-team-lanes {
+  margin-top: 1.55rem;
+}
+
+.dora-team-lane-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dora-team-lane-grid article {
+  position: relative;
+  min-height: 9.8rem;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.dora-team-lane-grid article::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.68), transparent);
+  content: "";
+}
+
+.dora-team-lane-grid small {
+  display: block;
+  margin-top: 0.58rem;
+  color: #2563eb;
+  font-size: 0.72rem;
+  font-weight: 820;
+  line-height: 1.32;
+}
+
+.dora-team-content-grid {
+  margin-top: 1.65rem;
+}
+
+.dora-team-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 20rem;
+}
+
+.dora-team-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.72), transparent);
+  content: "";
+}
+
+.dora-team-card-success::before {
+  background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.72), transparent);
+}
+
+.dora-team-card-warning::before,
+.dora-team-card-bell-yellow::before {
+  background: linear-gradient(90deg, transparent, rgba(244, 183, 64, 0.78), transparent);
+}
+
+.dora-team-card-title {
+  min-height: 3.05rem;
+}
+
+.dora-team-event span:not(.dora-team-event-time) {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.dora-team-event time,
+.dora-team-event-time {
+  display: block;
+  margin-top: 0.22rem;
+  color: #64748b;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.dora-team-event-time {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.dora-team-signal-lane {
+  position: sticky;
+  top: 5.35rem;
+}
+
+@media (max-width: 1180px) {
+  .dora-team-principle-strip,
+  .dora-team-lane-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-team-signal-lane {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .dora-team-hero {
+    min-height: 36rem;
+  }
+
+  .dora-team-hero-art {
+    top: -5%;
+    left: -18%;
+    width: 136%;
+    height: 64%;
+    object-position: center 44%;
+    opacity: 0.44;
+  }
+
+  .dora-team-hero-copy {
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+
+  .dora-team-hero-copy p {
+    font-size: 1.52rem;
+  }
+
+  .dora-team-hero-signal-strip {
+    right: 0.72rem;
+    bottom: 0.72rem;
+    left: 0.72rem;
+  }
+
+  .dora-team-principle-strip,
+  .dora-team-lane-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-team-principle-strip article {
+    min-height: auto;
+  }
+
+  .dora-team-lane-grid article {
+    min-height: auto;
+  }
+}
