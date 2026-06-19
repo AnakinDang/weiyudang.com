@@ -88,30 +88,6 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="premium-hero-map" aria-hidden="true">
-          {/* Visual-only: accessible Doraemon context is in the hero copy and surface rail. */}
-          <div className="premium-map-core">
-            <Bot size={16} aria-hidden />
-            <strong>Doraemon</strong>
-            <span>coordinates the office</span>
-          </div>
-          {heroSurfaces.map((surface) => {
-            const Icon = surface.icon;
-            return (
-              <Link
-                key={surface.title}
-                href={surface.href}
-                className={`link-focus premium-map-node premium-map-node-${surface.state}`}
-                tabIndex={-1}
-              >
-                <Icon size={15} aria-hidden />
-                <span>{surface.title}</span>
-                <small>{surface.summary}</small>
-              </Link>
-            );
-          })}
-        </div>
-
         <div className="premium-surface-rail" aria-label="Personal OS connected surfaces">
           {heroSurfaces.map((surface) => {
             const Icon = surface.icon;
