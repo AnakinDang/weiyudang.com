@@ -88,6 +88,10 @@ export type TradingResearchCockpitData = {
   replay: readonly {
     time: string;
     desk: string;
+    instrument: string;
+    evidenceState: string;
+    state: string;
+    change: string;
     note: string;
   }[];
   openQuestions: readonly string[];

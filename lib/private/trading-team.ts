@@ -318,27 +318,65 @@ const tradingReplay = [
   {
     time: "09:10",
     desk: "Macro Desk",
+    instrument: "INDEX-BASKET",
+    evidenceState: "Partial",
+    state: "Opened",
+    change: "Started research packet",
     note: "Opened market context with mixed breadth and event risk."
   },
   {
     time: "09:22",
     desk: "Equity Desk",
+    instrument: "AI-LARGE-CAP",
+    evidenceState: "Incomplete",
+    state: "Blocked",
+    change: "Lowered confidence",
     note: "Flagged missing company evidence and counter-evidence imbalance."
   },
   {
     time: "09:35",
     desk: "Risk Desk",
+    instrument: "ALL",
+    evidenceState: "Required",
+    state: "Owner gated",
+    change: "Kept execution disabled",
     note: "Kept all gates owner-reviewed and execution-disabled."
   },
   {
     time: "09:44",
     desk: "Evidence Desk",
+    instrument: "AI-LARGE-CAP",
+    evidenceState: "Required",
+    state: "Needs counter-evidence",
+    change: "Added blocker",
     note: "Marked missing source packets as blockers instead of hiding them behind confidence labels."
   },
   {
     time: "10:02",
     desk: "Options Desk",
+    instrument: "VOL-SURFACE",
+    evidenceState: "Partial",
+    state: "Scenario research",
+    change: "Moved to options scenario",
     note: "Moved volatility notes into scenario research without creating any execution workflow."
+  },
+  {
+    time: "10:14",
+    desk: "Macro Desk",
+    instrument: "INDEX-BASKET",
+    evidenceState: "Pending",
+    state: "Owner review",
+    change: "Queued review question",
+    note: "Prepared a review question because the calendar packet still needed second-source confirmation."
+  },
+  {
+    time: "10:25",
+    desk: "Options Desk",
+    instrument: "VOL-SURFACE",
+    evidenceState: "Pending",
+    state: "Owner review",
+    change: "Held confidence level",
+    note: "Kept volatility scenario confidence capped while liquidity evidence remained pending."
   }
 ] as const;
 
