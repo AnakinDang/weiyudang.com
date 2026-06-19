@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, LockKeyhole, Sparkles } from "lucide-react";
+import { ArrowRight, LockKeyhole, Sparkles, Sun } from "lucide-react";
 
 const defaultNavItems = [
   { href: "/about", label: "About" },
@@ -47,13 +47,18 @@ export function SiteHeader({
               </Link>
             ))}
           </nav>
-          <Link href="/app" className="link-focus site-owner-signin" aria-label="Owner sign in">
-            <span className="site-owner-signin-full">Owner Sign in</span>
-            <span className="site-owner-signin-short" aria-hidden="true">
-              Owner
+          <div className="site-doraemon-actions">
+            <span className="site-light-indicator" aria-hidden="true">
+              <Sun size={16} />
             </span>
-            <ArrowRight size={15} aria-hidden />
-          </Link>
+            <Link href="/app" className="link-focus site-owner-signin" aria-label="Owner sign in">
+              <span className="site-owner-signin-full">Owner Sign in</span>
+              <span className="site-owner-signin-short" aria-hidden="true">
+                Owner
+              </span>
+              <ArrowRight size={15} aria-hidden />
+            </Link>
+          </div>
         </div>
       </header>
     );
