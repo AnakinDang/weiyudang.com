@@ -41,16 +41,17 @@ const heroSurfaces = [
 const heroSignals = ["Public window", "Doraemon entry", "Owner gated"] as const;
 
 export function HeroSection() {
-  const recentEvents = getRecentPublicDoraEvents(3);
+  const recentEvents = getRecentPublicDoraEvents(5);
 
   return (
     <section className="premium-hero">
       <div className="premium-hero-backdrop" aria-hidden="true">
         <Image
-          src="/visuals/personal-os-portal-v2.png"
+          src="/visuals/doraemon-office-doorway-v3.png"
           alt=""
           fill
           priority
+          quality={95}
           sizes="100vw"
         />
       </div>
@@ -103,35 +104,49 @@ export function HeroSection() {
             </span>
           </div>
 
-          <div className="premium-office-boundary">
-            <ShieldCheck size={17} aria-hidden />
-            <p>
-              Sanitized activity only. Owner tasks, prompts, accounts, and private memory stay behind the cockpit.
-            </p>
-          </div>
+          <p className="premium-office-capsule-copy">
+            A personal AI command room for thinking, building, and long-term learning.
+          </p>
 
-          <div className="premium-office-events" aria-label="Recent public-safe Doraemon activity">
-            <div className="premium-office-events-head">
+          <div className="premium-office-boundary">
+            <div className="premium-office-boundary-row">
+              <LockKeyhole size={17} aria-hidden />
               <span>
-                <Clock3 size={14} aria-hidden />
-                Demo public activity
+                <strong>Private Area</strong>
+                <small>Owner-only cockpit</small>
               </span>
-              <Link href="/dora/activity" className="link-focus">
-                View all
-                <ArrowRight size={13} aria-hidden />
-              </Link>
             </div>
-            <ol>
-              {recentEvents.map((event) => (
-                <li key={event.event_id}>
-                  <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
-                  <strong>{event.agent}</strong>
-                  <span>{event.title}</span>
-                </li>
-              ))}
-            </ol>
+            <div className="premium-office-boundary-row">
+              <ShieldCheck size={17} aria-hidden />
+              <span>
+                <strong>Public Window</strong>
+                <small>Sanitized. Read-only. Safe.</small>
+              </span>
+            </div>
           </div>
         </aside>
+
+        <section className="premium-office-events premium-hero-live-strip" aria-label="Live activity (public-safe)">
+          <div className="premium-office-events-head">
+            <span>
+              <Clock3 size={14} aria-hidden />
+              Live activity (public-safe)
+            </span>
+            <Link href="/dora/activity" className="link-focus">
+              View all
+              <ArrowRight size={13} aria-hidden />
+            </Link>
+          </div>
+          <ol>
+            {recentEvents.map((event) => (
+              <li key={event.event_id}>
+                <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
+                <strong>{event.agent}</strong>
+                <span>{event.title}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
 
         <div className="premium-surface-rail" aria-label="Personal OS connected surfaces">
           {heroSurfaces.map((surface) => {
