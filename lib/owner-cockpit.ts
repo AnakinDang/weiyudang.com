@@ -1,24 +1,40 @@
+export const ownerTodayBrief = {
+  focus: "Ship the next Personal OS slice without weakening the public/private boundary.",
+  posture: "Authenticated, read-only, owner-reviewed",
+  nextReview: "Owner Cockpit Today",
+  freshness: "Seeded private scaffold"
+} as const;
+
 export const ownerTodayPriorities = [
   {
+    lane: "Product",
     title: "Turn Today into the owner command surface",
     owner: "Doraemon",
     state: "Active slice",
     tone: "warning",
-    summary: "Keep the private home focused on priorities, approvals, research posture, schedule pressure, and system health."
+    summary: "Keep the private home focused on priorities, approvals, research posture, schedule pressure, and system health.",
+    nextStep: "Review the refreshed cockpit layout before the next route expands.",
+    freshness: "Now"
   },
   {
+    lane: "Systems",
     title: "Keep the public Doraemon window verifiable",
     owner: "Dev MiniDora",
     state: "Live probe",
     tone: "info",
-    summary: "Use the public-safe system page as the owner-visible bridge to relay health without exposing internals."
+    summary: "Use the public-safe system page as the owner-visible bridge to relay health without exposing internals.",
+    nextStep: "Preserve route smokes, leak probes, and production bundle checks.",
+    freshness: "Today"
   },
   {
+    lane: "Research",
     title: "Prepare trading research evidence lanes",
     owner: "Trading MiniDora",
     state: "Research-only",
     tone: "private",
-    summary: "Make source quality, gate status, and owner review visible without broker actions."
+    summary: "Make source quality, gate status, and owner review visible without broker actions.",
+    nextStep: "Separate signals, gates, and evidence from any execution concept.",
+    freshness: "Queued"
   }
 ] as const;
 
@@ -67,21 +83,27 @@ export const ownerReviewQueue = [
     agent: "Codex + Opus",
     urgency: "Now",
     state: "In review",
-    tone: "warning"
+    tone: "warning",
+    decision: "Accept, revise, or narrow the next private route slice.",
+    evidence: "Build, auth redirect, screenshot, leak probe, and Opus review."
   },
   {
     title: "Decide next private cockpit slice",
     agent: "Doraemon",
     urgency: "Next",
     state: "Waiting",
-    tone: "warning"
+    tone: "warning",
+    decision: "Pick Command, Agents, or Trading evidence depth.",
+    evidence: "Docs define the route map; implementation should stay read-only."
   },
   {
     title: "Define Trading Team evidence bridge",
     agent: "Trading MiniDora",
     urgency: "Later",
     state: "Draft",
-    tone: "info"
+    tone: "info",
+    decision: "Choose what private research evidence becomes owner-scannable.",
+    evidence: "Research-only boundary remains fixed; no broker writes."
   }
 ] as const;
 
@@ -104,10 +126,10 @@ export const ownerMarketAlerts = [
 ] as const;
 
 export const ownerSchedulePressure = [
-  { label: "Daily brief", time: "Morning", state: "Ready" },
-  { label: "Market scan", time: "Market session", state: "Research-only" },
-  { label: "System health", time: "Tonight", state: "Watching" },
-  { label: "Weekly review", time: "This week", state: "Queued" }
+  { label: "Daily brief", time: "Morning", state: "Ready", tone: "normal" },
+  { label: "Market scan", time: "Market session", state: "Research-only", tone: "private" },
+  { label: "System health", time: "Tonight", state: "Watching", tone: "info" },
+  { label: "Weekly review", time: "This week", state: "Queued", tone: "warning" }
 ] as const;
 
 export const ownerSystemHealth = [
