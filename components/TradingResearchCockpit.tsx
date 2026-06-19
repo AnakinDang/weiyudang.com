@@ -17,24 +17,15 @@ import {
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
-import {
-  tradingDesks,
-  tradingGates,
-  tradingOpenQuestions,
-  tradingOptionsLab,
-  tradingReplay,
-  tradingResearchDisclaimer,
-  tradingSignals,
-  tradingSourceHealth,
-  tradingSystemStatus,
-  tradingTeamStatus,
-  tradingTodayFocus,
-  tradingUnavailableActions,
-  tradingViews
-} from "@/lib/trading-team";
+import type { TradingResearchCockpitData, TradingSignal, TradingView } from "@/lib/trading-team";
 
-type TradingView = (typeof tradingViews)[number];
-type TradingSignal = (typeof tradingSignals)[number];
+type TradingTodayFocus = TradingResearchCockpitData["todayFocus"][number];
+type TradingDesk = TradingResearchCockpitData["desks"][number];
+type TradingSource = TradingResearchCockpitData["sourceHealth"][number];
+type TradingGate = TradingResearchCockpitData["gates"][number];
+type TradingOptionsScenario = TradingResearchCockpitData["optionsLab"][number];
+type TradingReplayEvent = TradingResearchCockpitData["replay"][number];
+type TradingSystemStatusItem = TradingResearchCockpitData["systemStatus"][number];
 
 const viewIcons = {
   Today: Gauge,
@@ -197,7 +188,7 @@ function SignalTable({ signals }: { signals: readonly TradingSignal[] }) {
   );
 }
 
-function SafetyRail() {
+function SafetyRail({ unavailableActions }: { unavailableActions: readonly string[] }) {
   return (
     <aside className="grid content-start gap-4">
       <section className="panel p-5">
@@ -226,7 +217,7 @@ function SafetyRail() {
           <h2 className="font-semibold text-white">Blocked actions</h2>
         </div>
         <div className="mt-4 grid gap-2">
-          {tradingUnavailableActions.slice(0, 5).map((action) => (
+          {unavailableActions.slice(0, 5).map((action) => (
             <div key={action} className="rounded-[8px] border border-red-300/20 bg-red-300/10 px-3 py-2 text-sm text-red-100">
               {action}: unavailable
             </div>
@@ -237,11 +228,23 @@ function SafetyRail() {
   );
 }
 
-function TodayView({ signals }: { signals: readonly TradingSignal[] }) {
+function TodayView({
+  signals,
+  todayFocus,
+  desks,
+  sourceHealth,
+  unavailableActions
+}: {
+  signals: readonly TradingSignal[];
+  todayFocus: readonly TradingTodayFocus[];
+  desks: readonly TradingDesk[];
+  sourceHealth: readonly TradingSource[];
+  unavailableActions: readonly string[];
+}) {
   return (
     <div className="grid gap-5">
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4" aria-label="What matters today">
-        {tradingTodayFocus.map((item) => {
+        {todayFocus.map((item) => {
           const Icon =
             item.icon === "alert" ? AlertTriangle : item.icon === "shield" ? ShieldCheck : item.icon === "compare" ? GitCompareArrows : FileSearch;
 
@@ -262,18 +265,18 @@ function TodayView({ signals }: { signals: readonly TradingSignal[] }) {
 
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_24rem]">
         <SignalTable signals={signals} />
-        <SafetyRail />
+        <SafetyRail unavailableActions={unavailableActions} />
       </section>
 
       <section className="grid gap-5 lg:grid-cols-2">
-        <DeskDisagreement />
-        <SourceDegradation />
+        <DeskDisagreement desks={desks} />
+        <SourceDegradation sources={sourceHealth} />
       </section>
     </div>
   );
 }
 
-function DeskDisagreement() {
+function DeskDisagreement({ desks }: { desks: readonly TradingDesk[] }) {
   return (
     <section className="panel p-5" aria-labelledby="trading-desk-title">
       <div className="flex items-center gap-2">
@@ -286,7 +289,7 @@ function DeskDisagreement() {
         </div>
       </div>
       <div className="mt-5 grid gap-3">
-        {tradingDesks.map((desk) => (
+        {desks.map((desk) => (
           <article key={desk.name} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="font-semibold text-white">{desk.name}</h3>
@@ -304,7 +307,7 @@ function DeskDisagreement() {
   );
 }
 
-function SourceDegradation() {
+function SourceDegradation({ sources }: { sources: readonly TradingSource[] }) {
   return (
     <section className="panel p-5" aria-labelledby="trading-source-title">
       <div className="flex items-center gap-2">
@@ -317,7 +320,7 @@ function SourceDegradation() {
         </div>
       </div>
       <div className="mt-5 grid gap-3">
-        {tradingSourceHealth.map((source) => (
+        {sources.map((source) => (
           <article key={source.source} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h3 className="font-semibold text-white">{source.source}</h3>
@@ -331,7 +334,7 @@ function SourceDegradation() {
   );
 }
 
-function OptionsLab() {
+function OptionsLab({ scenarios }: { scenarios: readonly TradingOptionsScenario[] }) {
   return (
     <section className="panel p-5" aria-labelledby="trading-options-title">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -349,7 +352,7 @@ function OptionsLab() {
         <StatusBadge tone="private">Research artifact</StatusBadge>
       </div>
       <div className="mt-5 grid gap-4 lg:grid-cols-3">
-        {tradingOptionsLab.map((scenario) => (
+        {scenarios.map((scenario) => (
           <article key={scenario.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex items-start justify-between gap-3">
               <h3 className="font-semibold text-white">{scenario.title}</h3>
@@ -370,7 +373,7 @@ function OptionsLab() {
   );
 }
 
-function EvidenceView() {
+function EvidenceView({ gates, unavailableActions }: { gates: readonly TradingGate[]; unavailableActions: readonly string[] }) {
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <div className="panel p-5">
@@ -383,7 +386,7 @@ function EvidenceView() {
           rise.
         </p>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {tradingGates.map((gate) => (
+          {gates.map((gate) => (
             <article key={gate.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="font-semibold text-white">{gate.label}</h3>
@@ -397,14 +400,22 @@ function EvidenceView() {
       <UnavailableControlsPanel
         eyebrow="Blocked actions"
         title="No trading controls"
-        items={tradingUnavailableActions}
+        items={unavailableActions}
         note="This cockpit can prepare evidence and questions only. It cannot place, submit, replace, cancel, or produce trading recommendations."
       />
     </section>
   );
 }
 
-function ReplayView() {
+function ReplayView({
+  replay,
+  openQuestions,
+  disclaimer
+}: {
+  replay: readonly TradingReplayEvent[];
+  openQuestions: readonly string[];
+  disclaimer: string;
+}) {
   return (
     <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
       <article className="panel p-5">
@@ -416,7 +427,7 @@ function ReplayView() {
           </div>
         </div>
         <div className="mt-5 grid gap-3">
-          {tradingReplay.map((event) => (
+          {replay.map((event) => (
             <article key={`${event.time}-${event.desk}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <p className="mono text-xs text-yellow-100">{event.time}</p>
               <h3 className="mt-2 font-semibold text-white">{event.desk}</h3>
@@ -435,24 +446,24 @@ function ReplayView() {
           </div>
         </div>
         <div className="mt-5 grid gap-3">
-          {tradingOpenQuestions.map((question) => (
+          {openQuestions.map((question) => (
             <div key={question} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm leading-6 text-slate-300">
               {question}
             </div>
           ))}
         </div>
         <p className="mt-5 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4 text-sm font-semibold leading-6 text-yellow-50">
-          {tradingResearchDisclaimer}
+          {disclaimer}
         </p>
       </article>
     </section>
   );
 }
 
-function SystemView() {
+function SystemView({ systemStatus }: { systemStatus: readonly TradingSystemStatusItem[] }) {
   return (
     <section className="grid gap-5 lg:grid-cols-3">
-      {tradingSystemStatus.map((item) => (
+      {systemStatus.map((item) => (
         <article key={item.label} className="panel p-5">
           <div className="flex items-start justify-between gap-3">
             <Gauge className="text-sky-100" size={22} aria-hidden />
@@ -466,14 +477,14 @@ function SystemView() {
   );
 }
 
-export function TradingResearchCockpit() {
+export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitData }) {
   const [activeView, setActiveView] = useState<TradingView>("Today");
   const [activeDesk, setActiveDesk] = useState("All desks");
 
-  const deskFilters = useMemo(() => ["All desks", ...new Set(tradingSignals.map((signal) => signal.desk))], []);
+  const deskFilters = useMemo(() => ["All desks", ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
   const filteredSignals = useMemo(
-    () => (activeDesk === "All desks" ? tradingSignals : tradingSignals.filter((signal) => signal.desk === activeDesk)),
-    [activeDesk]
+    () => (activeDesk === "All desks" ? data.signals : data.signals.filter((signal) => signal.desk === activeDesk)),
+    [activeDesk, data.signals]
   );
 
   return (
@@ -500,13 +511,13 @@ export function TradingResearchCockpit() {
               <ShieldCheck size={19} aria-hidden />
               <h3 className="font-semibold text-white">Persistent boundary</h3>
             </div>
-            <p className="mt-3 text-sm font-semibold leading-6 text-yellow-50">{tradingResearchDisclaimer}</p>
+            <p className="mt-3 text-sm font-semibold leading-6 text-yellow-50">{data.disclaimer}</p>
             <div className="mt-4 grid gap-2">
               {[
-                ["Mode", tradingTeamStatus.mode],
-                ["Phase", tradingTeamStatus.phase],
-                ["Posture", tradingTeamStatus.posture],
-                ["Freshness", tradingTeamStatus.lastUpdated]
+                ["Mode", data.status.mode],
+                ["Phase", data.status.phase],
+                ["Posture", data.status.posture],
+                ["Freshness", data.status.lastUpdated]
               ].map(([label, value]) => (
                 <div key={label} className="grid grid-cols-[1fr_auto] gap-3 border-t border-yellow-100/15 pt-3">
                   <span className="text-xs font-bold uppercase text-yellow-50/70">{label}</span>
@@ -520,7 +531,7 @@ export function TradingResearchCockpit() {
 
       <section className="panel-quiet p-3" aria-label="Trading research views">
         <div className="flex flex-wrap gap-2">
-          {tradingViews.map((view) => {
+          {data.views.map((view) => {
             const Icon = viewIcons[view];
             const isActive = activeView === view;
 
@@ -571,18 +582,26 @@ export function TradingResearchCockpit() {
         </section>
       )}
 
-      {activeView === "Today" ? <TodayView signals={filteredSignals} /> : null}
+      {activeView === "Today" ? (
+        <TodayView
+          signals={filteredSignals}
+          todayFocus={data.todayFocus}
+          desks={data.desks}
+          sourceHealth={data.sourceHealth}
+          unavailableActions={data.unavailableActions}
+        />
+      ) : null}
       {activeView === "Signals" ? (
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_24rem]">
           <SignalTable signals={filteredSignals} />
-          <SafetyRail />
+          <SafetyRail unavailableActions={data.unavailableActions} />
         </section>
       ) : null}
-      {activeView === "Desks" ? <DeskDisagreement /> : null}
-      {activeView === "Options Lab" ? <OptionsLab /> : null}
-      {activeView === "Evidence" ? <EvidenceView /> : null}
-      {activeView === "Replay" ? <ReplayView /> : null}
-      {activeView === "System" ? <SystemView /> : null}
+      {activeView === "Desks" ? <DeskDisagreement desks={data.desks} /> : null}
+      {activeView === "Options Lab" ? <OptionsLab scenarios={data.optionsLab} /> : null}
+      {activeView === "Evidence" ? <EvidenceView gates={data.gates} unavailableActions={data.unavailableActions} /> : null}
+      {activeView === "Replay" ? <ReplayView replay={data.replay} openQuestions={data.openQuestions} disclaimer={data.disclaimer} /> : null}
+      {activeView === "System" ? <SystemView systemStatus={data.systemStatus} /> : null}
     </div>
   );
 }
