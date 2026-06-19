@@ -4,14 +4,17 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarClock,
+  CheckCircle2,
   ClipboardList,
+  Clock3,
   Eye,
   Info,
   LockKeyhole,
   MonitorPlay,
   Radio,
   ShieldCheck,
-  Sparkles
+  Sparkles,
+  Users
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { DoraOfficeShell } from "@/components/DoraOfficeShell";
@@ -20,6 +23,7 @@ import {
   DORA_LIVE_BRIDGE_URL,
   formatPublicEventTime,
   getRecentPublicDoraEvents,
+  publicDoraTaskStats,
   publicSchedules
 } from "@/lib/dora-office";
 import { getPublicAgents } from "@/lib/public-agents";
@@ -85,6 +89,12 @@ const quickLinks = [
   }
 ] as const;
 
+const publicBoundaryItems = [
+  "No private tasks or owner notes",
+  "No prompts, paths, credentials, or accounts",
+  "No order, recommendation, or execution system"
+] as const;
+
 function officeAgentClass(index: number) {
   return `dora-office-stage-agent dora-office-stage-agent-${index + 1}`;
 }
@@ -94,13 +104,14 @@ export default function DoraOfficePage() {
   const agents = getPublicAgents();
   const stageAgents = agents.filter((agent) => agent.publicId !== "agent_dora").slice(0, MAX_STAGE_AGENTS);
   const recentEvents = getRecentPublicDoraEvents(5);
+  const stripEvents = recentEvents.slice(0, 3);
   const nextSchedule = publicSchedules[0];
 
   return (
     <DoraOfficeShell
       active="/dora/office"
-      title="Office Live"
-      summary="A public-safe command room where Doraemon coordinates, MiniDoras work, and Weiyu stays owner-in-the-loop."
+      title="Doraemon Office"
+      summary="The native public window into Weiyu's personal AI command room: live when available, demo-safe when not, and always display-only."
       showBoundaryStrip
     >
       <div className="dora-office-live-page">
@@ -157,6 +168,22 @@ export default function DoraOfficePage() {
                   </div>
                 ))}
               </div>
+            </section>
+
+            <section className="dora-office-live-strip" aria-label="Recent public-safe Doraemon Office activity">
+              <div>
+                <span aria-hidden />
+                <strong>Live activity (public-safe)</strong>
+              </div>
+              <ol>
+                {stripEvents.map((event) => (
+                  <li key={event.event_id}>
+                    <time>{formatPublicEventTime(event.created_at)}</time>
+                    <strong>{event.agent}</strong>
+                    <span>{event.title}</span>
+                  </li>
+                ))}
+              </ol>
             </section>
 
             <div className="dora-office-owner-note">
@@ -250,6 +277,73 @@ export default function DoraOfficePage() {
             );
           })}
         </div>
+
+        <section className="dora-office-operating-grid" aria-label="Doraemon Office operating model">
+          <article className="dora-office-operating-panel dora-office-operating-panel-wide">
+            <div className="dora-office-operating-title">
+              <CalendarClock size={22} aria-hidden />
+              <h2>Operating rhythm</h2>
+            </div>
+            <div className="dora-office-rhythm-list">
+              {publicSchedules.slice(0, 3).map((schedule) => (
+                <div key={schedule.name}>
+                  <time>{schedule.cadence}</time>
+                  <strong>{schedule.name}</strong>
+                  <span>{schedule.next}</span>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="dora-office-operating-panel">
+            <div className="dora-office-operating-title">
+              <Users size={22} aria-hidden />
+              <h2>MiniDora team</h2>
+            </div>
+            <div className="dora-office-team-peek">
+              {agents.slice(1, 5).map((agent) => (
+                <div key={agent.publicId}>
+                  <DoraemonMark />
+                  <span>{agent.stageName}</span>
+                </div>
+              ))}
+            </div>
+            <Link href="/dora/team" className="link-focus dora-office-operating-link">
+              Explore Team Agents
+              <ArrowRight size={14} aria-hidden />
+            </Link>
+          </article>
+
+          <article className="dora-office-operating-panel">
+            <div className="dora-office-operating-title">
+              <ShieldCheck size={22} aria-hidden />
+              <h2>Public boundary</h2>
+            </div>
+            <ul className="dora-office-boundary-list">
+              {publicBoundaryItems.map((item) => (
+                <li key={item}>
+                  <CheckCircle2 size={14} aria-hidden />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <article className="dora-office-operating-panel">
+            <div className="dora-office-operating-title">
+              <Clock3 size={22} aria-hidden />
+              <h2>Task posture</h2>
+            </div>
+            <div className="dora-office-task-posture">
+              {publicDoraTaskStats.map((stat) => (
+                <div key={stat.label}>
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </article>
+        </section>
 
         <div className="dora-office-more">
           <Link href="/dora/tasks" className="link-focus">
