@@ -23,7 +23,8 @@ import {
   ownerSystemHealth,
   ownerTodayBrief,
   ownerTodayPriorities
-} from "@/lib/owner-cockpit";
+} from "@/lib/private/owner-cockpit";
+import { requireOwnerSession } from "@/lib/private/owner-session";
 
 export const dynamic = "force-dynamic";
 
@@ -147,7 +148,8 @@ function PriorityLane({ priority, index }: { priority: OwnerPriority; index: num
   );
 }
 
-export default function PrivateAppPage() {
+export default async function PrivateAppPage() {
+  await requireOwnerSession("/app");
   const today = shanghaiToday();
   const cockpitMetrics = [
     { label: "Priority lanes", value: ownerTodayPriorities.length.toString(), detail: "Active owner focus" },

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import {
   BellRing,
@@ -13,25 +12,21 @@ import {
   XCircle
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
+import { requireOwnerSession } from "@/lib/private/owner-session";
 import {
   privateSchedules,
   scheduleControlPolicy,
   scheduleMetrics,
   scheduleRhythmLanes,
-  type OperationsTone,
+  type ScheduleTone,
   type PrivateSchedule
-} from "@/lib/operations";
-
-export const metadata: Metadata = {
-  title: "Private Schedules",
-  description: "Owner-only recurring schedules and reminder rhythm for Weiyu Personal OS."
-};
+} from "@/lib/private/schedules";
 
 export const dynamic = "force-dynamic";
 
 const unavailableControls = ["Create job", "Pause job", "Resume job", "Delete job", "Edit command"] as const;
 
-function LightStatusBadge({ children, tone }: { children: ReactNode; tone: OperationsTone }) {
+function LightStatusBadge({ children, tone }: { children: ReactNode; tone: ScheduleTone }) {
   const className = {
     normal: "border-emerald-200 bg-emerald-50 text-emerald-800",
     info: "border-blue-200 bg-blue-50 text-blue-800",
@@ -348,7 +343,8 @@ function EmptyScheduleRegister() {
   );
 }
 
-export default function SchedulesPage() {
+export default async function SchedulesPage() {
+  await requireOwnerSession("/app/schedules");
   const nextSchedule = privateSchedules[0];
 
   if (!nextSchedule) {

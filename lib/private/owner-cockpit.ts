@@ -1,3 +1,7 @@
+import "server-only";
+
+// Today owns a compact cockpit snapshot. Detailed system diagnostics stay in "@/lib/private/system".
+
 export const ownerTodayBrief = {
   focus: "Ship the next Personal OS slice without weakening the public/private boundary.",
   posture: "Authenticated, read-only, owner-reviewed",

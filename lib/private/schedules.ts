@@ -1,9 +1,11 @@
-export type OperationsTone = "normal" | "info" | "warning" | "private" | "danger";
+import "server-only";
+
+export type ScheduleTone = "normal" | "info" | "warning" | "private" | "danger";
 
 export type PrivateScheduleEvidence = {
   label: string;
   state: string;
-  tone: OperationsTone;
+  tone: ScheduleTone;
   detail: string;
 };
 
@@ -21,9 +23,9 @@ export type PrivateSchedule = {
   nextWindow: string;
   owner: string;
   state: string;
-  tone: OperationsTone;
+  tone: ScheduleTone;
   access: string;
-  accessTone: OperationsTone;
+  accessTone: ScheduleTone;
   summary: string;
   safety: string;
   purpose: string;
@@ -41,7 +43,7 @@ export type ScheduleRhythmLane = {
   time: string;
   owner: string;
   state: string;
-  tone: OperationsTone;
+  tone: ScheduleTone;
   detail: string;
 };
 

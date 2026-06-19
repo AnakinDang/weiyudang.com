@@ -13,6 +13,7 @@ import {
   XCircle
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
+import { requireOwnerSession } from "@/lib/private/owner-session";
 import {
   ownerNotificationPreferences,
   ownerProfileSettings,
@@ -397,7 +398,8 @@ function EmptySettingsRegister() {
   );
 }
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  await requireOwnerSession("/app/settings");
   const primaryPacket = ownerSettingsPackets[0];
 
   if (!primaryPacket) {
