@@ -112,6 +112,7 @@ export default function DoraOfficePage() {
       active="/dora/office"
       title="Doraemon Office"
       summary="The native public window into Weiyu's personal AI command room: live when available, demo-safe when not, and always display-only."
+      pageClassName="dora-office-subpage-office-live"
       showBoundaryStrip
     >
       <div className="dora-office-live-page">
