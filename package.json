@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "check:private-boundaries": "node scripts/check-private-boundaries.mjs",
+    "build": "npm run check:private-boundaries && next build",
     "start": "next start"
   },
   "dependencies": {
