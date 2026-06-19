@@ -4,7 +4,7 @@ import "server-only";
 
 import { tradingResearchDisclaimer, type TradingResearchCockpitData } from "@/lib/trading-team";
 
-const tradingViews = ["Today", "Signals", "Desks", "Options Lab", "Evidence", "Replay", "System"] as const;
+const tradingViews = ["Today", "Signals", "Desks", "Instruments", "Options Lab", "Evidence", "Replay", "System"] as const;
 
 const tradingTeamStatus = {
   mode: "Private research console",
@@ -151,6 +151,132 @@ const tradingDesks = [
   }
 ] as const;
 
+const tradingInstruments = [
+  {
+    symbol: "INDEX-BASKET",
+    label: "Index basket",
+    desk: "Macro Desk",
+    posture: "Watch",
+    confidence: "Low",
+    sourceHealth: "Partial",
+    lastUpdated: "Today",
+    summary: "Macro and breadth packets disagree. Keep this as context until a second-source calendar check lands.",
+    signalHistory: [
+      { time: "09:10", state: "Opened", note: "Initial context showed mixed breadth and event risk." },
+      { time: "09:28", state: "Needs evidence", note: "Macro calendar packet did not match breadth timing strongly enough." },
+      { time: "10:14", state: "Owner review", note: "Research packet can be reviewed, but confidence cannot rise yet." }
+    ],
+    evidenceTimeline: [
+      {
+        time: "09:12",
+        label: "Breadth packet",
+        state: "Partial",
+        detail: "Enough for context, not enough for signal promotion."
+      },
+      {
+        time: "09:31",
+        label: "Calendar cross-check",
+        state: "Pending",
+        detail: "Needs second-source confirmation before thesis language can tighten."
+      },
+      {
+        time: "10:02",
+        label: "Counter-evidence",
+        state: "Attached",
+        detail: "Conflicting market breadth remains visible in the packet."
+      }
+    ],
+    sourceQuality: [
+      { source: "Macro calendar", state: "Pending", detail: "Second-source check required." },
+      { source: "Breadth sample", state: "Partial", detail: "Useful but incomplete." },
+      { source: "News provenance", state: "Degraded", detail: "Treat as unavailable for confidence scoring." }
+    ],
+    riskFlags: ["Event-window ambiguity", "Breadth conflict", "No confidence promotion"]
+  },
+  {
+    symbol: "AI-LARGE-CAP",
+    label: "Large-cap AI basket",
+    desk: "Equity Desk",
+    posture: "No view",
+    confidence: "Low",
+    sourceHealth: "Degraded",
+    lastUpdated: "Today",
+    summary: "Momentum context is visible, but company packets and valuation counter-evidence are incomplete.",
+    signalHistory: [
+      { time: "09:22", state: "Blocked", note: "Company evidence packet missing." },
+      { time: "09:46", state: "Counter-evidence", note: "Valuation and news checks weakened the packet." },
+      { time: "10:21", state: "Hold", note: "Remain in research-only review until source coverage improves." }
+    ],
+    evidenceTimeline: [
+      {
+        time: "09:24",
+        label: "Momentum context",
+        state: "Attached",
+        detail: "Visible but not sufficient on its own."
+      },
+      {
+        time: "09:50",
+        label: "Company packet",
+        state: "Incomplete",
+        detail: "Company-level source coverage is missing."
+      },
+      {
+        time: "10:08",
+        label: "Counter-evidence",
+        state: "Required",
+        detail: "Risk Desk requires a clearer contradiction note."
+      }
+    ],
+    sourceQuality: [
+      { source: "Company filings", state: "Pending", detail: "Not attached in this mock session." },
+      { source: "News feed", state: "Degraded", detail: "Provenance is not strong enough." },
+      { source: "Sector context", state: "Partial", detail: "Context only." }
+    ],
+    riskFlags: ["Source degradation", "Counter-evidence imbalance", "No public summary yet"]
+  },
+  {
+    symbol: "VOL-SURFACE",
+    label: "Volatility surface sample",
+    desk: "Options Desk",
+    posture: "Research",
+    confidence: "Medium-low",
+    sourceHealth: "Partial",
+    lastUpdated: "Today",
+    summary: "Options scenarios are useful for discussion, but skew, term-structure, and liquidity checks are not complete.",
+    signalHistory: [
+      { time: "09:35", state: "Scenario", note: "Volatility notes moved into scenario research." },
+      { time: "09:57", state: "Incomplete", note: "Skew and liquidity evidence are still missing." },
+      { time: "10:25", state: "Owner review", note: "Research packet is reviewable without any strategy execution path." }
+    ],
+    evidenceTimeline: [
+      {
+        time: "09:37",
+        label: "Term structure",
+        state: "Partial",
+        detail: "Enough to discuss shape, not enough for conclusion."
+      },
+      {
+        time: "09:59",
+        label: "Skew check",
+        state: "Incomplete",
+        detail: "Counter-evidence and source quality note required."
+      },
+      {
+        time: "10:15",
+        label: "Liquidity check",
+        state: "Pending",
+        detail: "Treat liquidity as unavailable until provenance improves."
+      }
+    ],
+    sourceQuality: [
+      { source: "Options chain sample", state: "Partial", detail: "Scenario-only context." },
+      { source: "Liquidity packet", state: "Pending", detail: "Not attached yet." },
+      { source: "Event notes", state: "Partial", detail: "Needs owner review." }
+    ],
+    riskFlags: ["No strategy execution", "Liquidity pending", "Scenario-only"]
+  }
+] as const;
+
 const tradingSourceHealth = [
   { source: "Market context", state: "Partial", detail: "Enough for summary, not enough for promotion." },
   { source: "Fundamental evidence", state: "Pending", detail: "Company-level source packet is not attached." },
@@ -259,6 +385,7 @@ export const privateTradingResearchData = {
   todayFocus: tradingTodayFocus,
   signals: tradingSignals,
   desks: tradingDesks,
+  instruments: tradingInstruments,
   sourceHealth: tradingSourceHealth,
   gates: tradingGates,
   optionsLab: tradingOptionsLab,
