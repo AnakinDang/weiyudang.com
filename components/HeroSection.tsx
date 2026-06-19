@@ -37,6 +37,8 @@ const heroSurfaces = [
   }
 ];
 
+const heroSignals = ["Public window", "Doraemon entry", "Owner gated"] as const;
+
 export function HeroSection() {
   return (
     <section className="premium-hero">
@@ -58,14 +60,25 @@ export function HeroSection() {
             <span>Personal OS</span>
           </h1>
           <p className="premium-hero-lede">
-            A public personal studio and private AI command layer for research, building, writing, and Doraemon.
+            A living personal site for AI systems, research, writing, and Doraemon.
           </p>
           <p className="premium-hero-support">
-            The public site explains the work. Doraemon is the warm entry. Owner surfaces stay private and reviewed.
+            Public studio in front. Doraemon Office in view. Owner work behind a private boundary.
           </p>
+          <div className="premium-hero-statusline" aria-label="Public and private boundary">
+            {heroSignals.map((signal, index) => (
+              <span key={signal} className="premium-hero-signal">
+                <span className="premium-hero-signal-dot" aria-hidden={true} />
+                {signal}
+                {index < heroSignals.length - 1 ? (
+                  <span className="premium-hero-signal-divider" aria-hidden={true} />
+                ) : null}
+              </span>
+            ))}
+          </div>
           <div className="premium-hero-actions">
             <Link href="/dora" className="link-focus premium-primary-link">
-              Meet Doraemon
+              Enter Doraemon
               <ArrowRight size={16} aria-hidden />
             </Link>
             <Link href="#os-layers" className="link-focus premium-text-link">
@@ -76,6 +89,12 @@ export function HeroSection() {
         </div>
 
         <div className="premium-hero-map" aria-hidden="true">
+          {/* Visual-only: accessible Doraemon context is in the hero copy and surface rail. */}
+          <div className="premium-map-core">
+            <Bot size={16} aria-hidden />
+            <strong>Doraemon</strong>
+            <span>coordinates the office</span>
+          </div>
           {heroSurfaces.map((surface) => {
             const Icon = surface.icon;
             return (
@@ -108,7 +127,7 @@ export function HeroSection() {
           })}
           <span className="premium-surface-rail-note">
             <Sparkles size={14} aria-hidden />
-            Research stays public notes. Private work stays gated.
+            Public surfaces stay visible. Owner work stays private.
           </span>
         </div>
       </div>
