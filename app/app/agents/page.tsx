@@ -1,20 +1,27 @@
-import type { Metadata } from "next";
 import { PrivateAgentsSurface } from "@/components/PrivateAgentsSurface";
 import {
   privateAgentBoundary,
   privateAgentCoverage,
   privateAgentHandoffs,
   privateAgentMetrics,
-  privateAgentRoster,
-  privateReviewQueue
+  privateAgentRoster
 } from "@/lib/agent-ops";
+import { requireOwnerSession } from "@/lib/private/owner-session";
+import { ownerReviewQueueData } from "@/lib/private/review-queue";
 
-export const metadata: Metadata = {
-  title: "Private Agents",
-  description: "Owner-only MiniDora roster, leases, source health, review queue, and handoffs."
-};
+export const dynamic = "force-dynamic";
 
-export default function AgentsPage() {
+export default async function AgentsPage() {
+  await requireOwnerSession("/app/agents");
+  const reviewQueuePreview = ownerReviewQueueData.queue.map((item) => ({
+    title: item.title,
+    tone: item.tone,
+    decision: item.decision,
+    urgency: item.urgency,
+    agent: item.agent,
+    note: item.note
+  }));
+
   return (
     <PrivateAgentsSurface
       agents={privateAgentRoster}
@@ -22,7 +29,7 @@ export default function AgentsPage() {
       coverage={privateAgentCoverage}
       boundary={privateAgentBoundary}
       handoffs={privateAgentHandoffs}
-      reviewQueue={privateReviewQueue}
+      reviewQueue={reviewQueuePreview}
     />
   );
 }

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import {
   AlertTriangle,
@@ -13,25 +12,14 @@ import {
   XCircle
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
-import {
-  privateReviewQueue,
-  reviewQueueLanes,
-  reviewQueueMetrics,
-  reviewQueuePolicy,
-  type PrivateAgentTone,
-  type PrivateReviewQueueItem
-} from "@/lib/agent-ops";
-
-export const metadata: Metadata = {
-  title: "Review Queue",
-  description: "Owner-only review queue for decisions, evidence, notes, and deferrals."
-};
+import { requireOwnerSession } from "@/lib/private/owner-session";
+import { ownerReviewQueueData, type PrivateReviewQueueItem, type ReviewQueueTone } from "@/lib/private/review-queue";
 
 export const dynamic = "force-dynamic";
 
 const unavailableActions = ["Approve and execute", "Reject and run", "Public publish", "Runtime dispatch"] as const;
 
-function LightStatusBadge({ children, tone }: { children: ReactNode; tone: PrivateAgentTone }) {
+function LightStatusBadge({ children, tone }: { children: ReactNode; tone: ReviewQueueTone }) {
   const className = {
     normal: "border-emerald-200 bg-emerald-50 text-emerald-800",
     info: "border-blue-200 bg-blue-50 text-blue-800",
@@ -46,7 +34,7 @@ function LightStatusBadge({ children, tone }: { children: ReactNode; tone: Priva
   );
 }
 
-function urgencyTone(urgency: string): PrivateAgentTone {
+function urgencyTone(urgency: string): ReviewQueueTone {
   if (urgency === "Now") {
     return "warning";
   }
@@ -106,7 +94,7 @@ function ReviewHero({ currentItem }: { currentItem: PrivateReviewQueueItem }) {
           </div>
 
           <div className="relative mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {reviewQueueMetrics.map((metric) => (
+            {ownerReviewQueueData.metrics.map((metric) => (
               <div key={metric.label} className="rounded-[8px] border border-slate-200 bg-white/82 p-4 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur">
                 <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
                 <strong className="mt-2 block text-3xl font-semibold text-slate-950">{metric.value}</strong>
@@ -180,7 +168,7 @@ function DecisionLanes() {
       </div>
 
       <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-        {reviewQueueLanes.map((lane, index) => (
+        {ownerReviewQueueData.lanes.map((lane, index) => (
           <article key={lane.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex items-start justify-between gap-3">
               <span
@@ -311,7 +299,7 @@ function PolicyRail() {
           <StatusBadge tone="private">Read-only</StatusBadge>
         </div>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {reviewQueuePolicy.map((rule) => (
+          {ownerReviewQueueData.policy.map((rule) => (
             <div key={rule} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm leading-6 text-slate-300">
               {rule}
             </div>
@@ -339,8 +327,9 @@ function PolicyRail() {
   );
 }
 
-export default function EventsPage() {
-  const currentItem = privateReviewQueue[0];
+export default async function EventsPage() {
+  await requireOwnerSession("/app/events");
+  const currentItem = ownerReviewQueueData.queue[0];
 
   if (!currentItem) {
     return null;
@@ -369,7 +358,7 @@ export default function EventsPage() {
         </div>
 
         <div className="mt-5 grid gap-4">
-          {privateReviewQueue.map((item, index) => (
+          {ownerReviewQueueData.queue.map((item, index) => (
             <ReviewPacket key={item.id} item={item} index={index} />
           ))}
         </div>
