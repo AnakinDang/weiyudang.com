@@ -8748,19 +8748,6 @@ textarea {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .dora-knowledge-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .dora-knowledge-side {
-    position: static;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .dora-knowledge-flow-track {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .dora-office-metrics,
   .dora-office-more {
     width: min(100% - 3rem, 1080px);
@@ -15712,5 +15699,327 @@ textarea {
 
   .dora-schedules-lane {
     grid-template-columns: 2.55rem minmax(0, 1fr);
+  }
+}
+
+/* Step 16: Doraemon Knowledge Vault synthesis polish */
+.dora-knowledge {
+  gap: 1.08rem;
+}
+
+.dora-knowledge-hero {
+  min-height: 34.2rem;
+  border-color: rgba(147, 197, 253, 0.7);
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 50% 78%, rgba(246, 201, 69, 0.13), transparent 25%),
+    radial-gradient(ellipse at 58% 66%, rgba(37, 99, 235, 0.18), transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(248, 251, 255, 0.88) 72%, #ffffff 100%),
+    #ffffff;
+  box-shadow:
+    0 32px 98px rgba(37, 99, 235, 0.09),
+    0 20px 70px rgba(15, 23, 42, 0.055);
+}
+
+.dora-knowledge-hero-art {
+  top: -12%;
+  left: -4%;
+  width: 108%;
+  height: 106%;
+  object-position: center 44%;
+  opacity: 0.46;
+  filter:
+    saturate(1.08)
+    contrast(1.03)
+    drop-shadow(0 26px 70px rgba(37, 99, 235, 0.12));
+}
+
+.dora-knowledge-hero::before {
+  background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.17), rgba(147, 197, 253, 0.052) 48%, transparent 72%);
+}
+
+.dora-knowledge-hero-copy {
+  top: 1.65rem;
+  left: 1.62rem;
+  max-width: min(34rem, 55%);
+}
+
+.dora-knowledge-hero-copy p {
+  font-size: clamp(1.55rem, 2.45vw, 2.28rem);
+  line-height: 1.03;
+}
+
+.dora-knowledge-hero-copy small {
+  margin-top: 0.76rem;
+  max-width: 29rem;
+  color: #334155;
+  font-size: 0.94rem;
+}
+
+.dora-knowledge-hero-boundary-card {
+  border-color: rgba(147, 197, 253, 0.78);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.dora-knowledge-prism-plane {
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.dora-knowledge-prism-core svg {
+  border-color: rgba(147, 197, 253, 0.88);
+  box-shadow:
+    0 18px 44px rgba(37, 99, 235, 0.14),
+    0 0 0 7px rgba(255, 255, 255, 0.78),
+    0 0 0 12px rgba(37, 99, 235, 0.08);
+}
+
+.dora-knowledge-prism-node {
+  border-color: rgba(147, 197, 253, 0.76);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.dora-knowledge-hero-boundary,
+.dora-knowledge-hero-signal-strip {
+  border-color: rgba(147, 197, 253, 0.76);
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.dora-knowledge-principle-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.82rem;
+}
+
+.dora-knowledge-principle-strip article,
+.dora-knowledge-vault-list article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.68rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.82)),
+    #ffffff;
+  box-shadow: 0 16px 46px rgba(15, 23, 42, 0.045);
+}
+
+.dora-knowledge-principle-strip article {
+  min-height: 6.2rem;
+  padding: 0.95rem;
+}
+
+.dora-knowledge-principle-strip article > span,
+.dora-knowledge-vault-list article > span {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2563eb;
+}
+
+.dora-knowledge-principle-strip h3,
+.dora-knowledge-vault-list h3 {
+  display: block;
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.84rem;
+  font-weight: 840;
+  line-height: 1.2;
+}
+
+.dora-knowledge-principle-strip p,
+.dora-knowledge-vault-list p {
+  margin: 0.32rem 0 0;
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: 1.42;
+}
+
+.dora-knowledge-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.dora-knowledge-stats article,
+.dora-knowledge-outputs,
+.dora-knowledge-boundary-card,
+.dora-knowledge-vault-card,
+.dora-knowledge-review-card,
+.dora-knowledge-link-card,
+.dora-knowledge-flow {
+  border-color: rgba(191, 219, 254, 0.64);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.84)),
+    #ffffff;
+}
+
+.dora-knowledge-stats article {
+  min-height: 5.8rem;
+  padding: 1rem;
+}
+
+.dora-knowledge-stats strong {
+  font-size: 1.38rem;
+}
+
+.dora-knowledge-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(18.6rem, 0.34fr);
+}
+
+.dora-knowledge-outputs,
+.dora-knowledge-flow {
+  padding: 1.12rem;
+}
+
+.dora-knowledge-section-heading {
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  padding-bottom: 0.92rem;
+}
+
+.dora-knowledge-section-heading h2 {
+  font-size: 1rem;
+  font-weight: 840;
+}
+
+.dora-knowledge-section-heading p {
+  margin-top: 0.22rem;
+  font-weight: 680;
+}
+
+.dora-knowledge-output-card,
+.dora-knowledge-flow-track article {
+  border-color: rgba(191, 219, 254, 0.54);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.dora-knowledge-output-card:hover,
+.dora-knowledge-flow-track article:hover {
+  border-color: rgba(147, 197, 253, 0.78);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.055);
+}
+
+.dora-knowledge-output-card.is-normal {
+  background:
+    linear-gradient(135deg, rgba(240, 253, 244, 0.46), rgba(255, 255, 255, 0.72)),
+    #ffffff;
+}
+
+.dora-knowledge-output-card.is-info {
+  background:
+    linear-gradient(135deg, rgba(239, 246, 255, 0.5), rgba(255, 255, 255, 0.72)),
+    #ffffff;
+}
+
+.dora-knowledge-side {
+  top: 5.35rem;
+}
+
+.dora-knowledge-vault-list {
+  display: grid;
+  gap: 0.62rem;
+  margin-top: 0.92rem;
+}
+
+.dora-knowledge-vault-list article {
+  padding: 0.74rem;
+}
+
+.dora-knowledge-review-card,
+.dora-knowledge-link-card {
+  border-color: rgba(191, 219, 254, 0.6);
+}
+
+.dora-knowledge-flow-track {
+  gap: 0.78rem;
+}
+
+.dora-knowledge-flow-track article {
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.dora-knowledge-flow-track article:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1180px) {
+  .dora-knowledge-principle-strip,
+  .dora-knowledge-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-knowledge-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-side {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-knowledge-flow-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .dora-knowledge-hero {
+    min-height: 39rem;
+  }
+
+  .dora-knowledge-hero-art {
+    top: -5%;
+    left: -18%;
+    width: 136%;
+    height: 64%;
+    object-position: center 44%;
+    opacity: 0.44;
+  }
+
+  .dora-knowledge-hero-copy {
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+
+  .dora-knowledge-hero-copy p {
+    font-size: 1.52rem;
+  }
+
+  .dora-knowledge-principle-strip,
+  .dora-knowledge-stats,
+  .dora-knowledge-side {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-principle-strip article {
+    min-height: auto;
+  }
+
+  .dora-knowledge-stats article {
+    min-height: auto;
+    padding: 0.86rem;
+  }
+
+  .dora-knowledge-outputs,
+  .dora-knowledge-flow {
+    padding: 0.82rem;
+  }
+
+  .dora-knowledge-flow-track {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

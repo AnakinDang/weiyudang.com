@@ -64,6 +64,10 @@ export const publicKnowledgeStats = [
   {
     label: "Private sources",
     value: "hidden"
+  },
+  {
+    label: "Raw vault pages",
+    value: "0"
   }
 ] as const;
 
