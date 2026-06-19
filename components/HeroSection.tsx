@@ -1,6 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Bot, FlaskConical, LockKeyhole, Sparkles } from "lucide-react";
+import { ArrowRight, Bot, FlaskConical, LineChart, LockKeyhole, Sparkles } from "lucide-react";
+
+const heroSurfaces = [
+  {
+    title: "Public Studio",
+    summary: "Projects & notes",
+    href: "/projects",
+    state: "public",
+    stateLabel: "Public",
+    icon: FlaskConical
+  },
+  {
+    title: "Doraemon Office",
+    summary: "Public-safe office",
+    href: "/dora",
+    state: "public-safe",
+    stateLabel: "Public-safe",
+    icon: Bot
+  },
+  {
+    title: "Owner Cockpit",
+    summary: "Private daily surface",
+    href: "/app",
+    state: "private",
+    stateLabel: "Private",
+    icon: LockKeyhole
+  },
+  {
+    title: "Research Desk",
+    summary: "Research-only",
+    href: "/lab",
+    state: "research",
+    stateLabel: "Research",
+    icon: LineChart
+  }
+];
 
 export function HeroSection() {
   return (
@@ -19,7 +54,7 @@ export function HeroSection() {
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
           <h1 className="premium-hero-title" aria-label="Weiyu Dang Personal OS">
-            Weiyu Dang
+            <span className="premium-hero-name">Weiyu Dang</span>
             <span>Personal OS</span>
           </h1>
           <p className="premium-hero-lede">
@@ -40,44 +75,42 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="premium-hero-status" aria-label="Personal OS public and private boundaries">
-          <Link href="/dora" className="link-focus premium-status-item premium-status-primary">
-            <span>
-              <Bot size={18} aria-hidden />
-              Doraemon entry
-            </span>
-            <small>Public guide to the office</small>
-          </Link>
-          <Link href="/lab" className="link-focus premium-status-item">
-            <span>
-              <FlaskConical size={18} aria-hidden />
-              Research studio
-            </span>
-            <small>Public notes and systems</small>
-          </Link>
-          <Link href="/app" className="link-focus premium-status-item premium-status-private">
-            <span>
-              <LockKeyhole size={18} aria-hidden />
-              Owner cockpit
-            </span>
-            <small>Authenticated and private</small>
-          </Link>
+        <div className="premium-hero-map" aria-hidden="true">
+          {heroSurfaces.map((surface) => {
+            const Icon = surface.icon;
+            return (
+              <Link
+                key={surface.title}
+                href={surface.href}
+                className={`link-focus premium-map-node premium-map-node-${surface.state}`}
+                tabIndex={-1}
+              >
+                <Icon size={15} aria-hidden />
+                <span>{surface.title}</span>
+                <small>{surface.summary}</small>
+              </Link>
+            );
+          })}
         </div>
 
-        <Link href="/dora" className="link-focus dora-entry-dock">
-          <span className="dora-entry-dock-label">
-            <Bot size={19} aria-hidden />
-            Start with Doraemon
+        <div className="premium-surface-rail" aria-label="Personal OS connected surfaces">
+          {heroSurfaces.map((surface) => {
+            const Icon = surface.icon;
+            return (
+              <Link key={surface.title} href={surface.href} className="link-focus premium-surface-link">
+                <Icon size={15} aria-hidden />
+                <span>
+                  <strong>{surface.title}</strong>
+                </span>
+                <span className="premium-surface-state">{surface.stateLabel}</span>
+              </Link>
+            );
+          })}
+          <span className="premium-surface-rail-note">
+            <Sparkles size={14} aria-hidden />
+            Research stays public notes. Private work stays gated.
           </span>
-          <span className="dora-entry-dock-copy">
-            Meet the entry personality, MiniDora team, public office window, and safety boundary.
-          </span>
-          <span className="dora-entry-dock-state">
-            <Sparkles size={15} aria-hidden />
-            public guide
-          </span>
-          <ArrowRight size={18} aria-hidden />
-        </Link>
+        </div>
       </div>
     </section>
   );
