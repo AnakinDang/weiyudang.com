@@ -19,7 +19,7 @@ import {
   privateKnowledgeQueue,
   privateKnowledgeSources,
   privateKnowledgeUnavailableControls
-} from "@/lib/knowledge-vault";
+} from "@/lib/private/knowledge-vault";
 
 const sourceIcons = {
   "Source inbox": BookOpen,

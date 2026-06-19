@@ -1,3 +1,5 @@
+import "server-only";
+
 // Server-only owner session guard for private route defense in depth.
 
 import { cookies } from "next/headers";

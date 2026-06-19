@@ -1,3 +1,5 @@
+import "server-only";
+
 // Owner-only review queue data. Do not import this module from public routes or shared client components.
 
 export type ReviewQueueTone = "normal" | "info" | "warning" | "private";

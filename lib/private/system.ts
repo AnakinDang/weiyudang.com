@@ -1,3 +1,5 @@
+import "server-only";
+
 // Owner-only diagnostics data. Do not import this module from public routes or public components.
 
 export type SystemTone = "normal" | "info" | "warning" | "private" | "danger";

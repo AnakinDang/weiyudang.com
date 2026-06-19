@@ -1,3 +1,5 @@
+import "server-only";
+
 // Owner-only command cockpit data. Do not import this module from public routes or shared client components.
 
 export const commandSurfaceStatus = {
