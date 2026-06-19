@@ -1,3 +1,5 @@
+// Owner-only command cockpit data. Do not import this module from public routes or shared client components.
+
 export const commandSurfaceStatus = {
   mode: "Draft-only",
   runtime: "Not connected",
@@ -12,6 +14,59 @@ export const commandDraft = {
   prompt:
     "Turn the product blueprint into native website, Doraemon Office, Owner Cockpit, and research console surfaces. Validate each slice and request Opus review before moving on.",
   boundary: "No command is sent. This page prepares intent, plan, evidence, and review packets only."
+} as const;
+
+export const commandModeTabs = [
+  { key: "draft", label: "Draft", icon: "radio" },
+  { key: "plan_preview", label: "Plan preview", icon: "waypoints" },
+  { key: "review_packet", label: "Review packet", icon: "clipboard" },
+  { key: "evidence", label: "Evidence", icon: "file_search" },
+  { key: "audit", label: "Audit", icon: "shield" }
+] as const;
+
+const REVIEW_PACKET_MODE_KEY = "review_packet";
+const commandReviewPacketMode =
+  commandModeTabs.find((tab) => tab.key === REVIEW_PACKET_MODE_KEY) ?? commandModeTabs[2];
+
+export const commandSurfaceCopy = {
+  badges: ["Owner-only", "Draft-only", "No dispatch"],
+  heroTitle: "Draft a mission before anything moves.",
+  heroDetail:
+    "Command is the owner-level surface for shaping intent, previewing a plan, and preparing the exact review packet that must pass before implementation, publishing, or runtime work happens.",
+  draftLabel: "Draft pad",
+  draftAriaLabel: "Owner command draft",
+  draftPlaceholder: "Describe intent, constraints, evidence needed, and review gates.",
+  preparePacketAction: "Prepare packet",
+  resetAction: "Reset",
+  dispatchUnavailable: "Dispatch unavailable",
+  lensGroupLabel: "Command context lens selector",
+  activeLensLabel: "Active lens",
+  reviewPacketLabel: commandReviewPacketMode.label,
+  planEyebrow: "Plan preview",
+  planTitle: "Five gates before work moves.",
+  planDetail:
+    "A command becomes a staged plan before it becomes implementation. Interpretation, design, implementation, verification, and review stay separate.",
+  approvalTitle: "Owner checkpoints",
+  approvalDetail:
+    "The command surface separates allowed review from blocked execution so the next decision is obvious.",
+  approvalStatus: "Owner review required",
+  blockedActionsEyebrow: "Blocked actions",
+  blockedActionsTitle: "No command execution",
+  blockedActionsNote:
+    "This cockpit can prepare a command packet only. It cannot dispatch tools, mutate files, publish, or approve itself.",
+  agentTitle: "Agent routing",
+  agentDetail:
+    "The command surface shows who owns the next decision instead of hiding responsibility behind a single assistant response.",
+  agentStatus: "Visible responsibility",
+  agentNextLabel: "Next",
+  evidenceTitle: "Evidence required",
+  evidenceDetail:
+    "A command cannot move to PR/deploy without evidence that matches the scope of the requested slice.",
+  outputTitle: "Output shelf",
+  auditTitle: "Audit boundary",
+  auditDetail:
+    "These rules keep the command surface useful now while leaving future execution APIs explicit and auditable.",
+  auditBadge: "No hidden execution"
 } as const;
 
 export const commandReviewPacket = {
@@ -46,38 +101,36 @@ export const commandReadinessChecks = [
   }
 ] as const;
 
-export const commandModeTabs = ["Draft", "Plan preview", "Review packet", "Evidence", "Audit"] as const;
-
 export const commandModePanels = {
-  Draft: {
+  draft: {
     title: "Capture owner intent without dispatch",
     detail:
-      "The draft pad can hold direction, constraints, and taste notes. It stays browser-local in this static slice and never calls a runtime API.",
+      "The draft pad can hold direction, constraints, and taste notes. It stays browser-local in this draft slice and never calls a runtime API.",
     state: "Local only",
     tone: "private"
   },
-  "Plan preview": {
+  plan_preview: {
     title: "Separate thinking from execution",
     detail:
       "Doraemon turns intent into a staged plan with owners, gates, and verification. Every step is visible before implementation begins.",
     state: "Planning",
     tone: "info"
   },
-  "Review packet": {
+  review_packet: {
     title: "Claude review before the next slice",
     detail:
       "The review packet captures changed files, local checks, browser evidence, and explicit safety boundaries for Opus review.",
     state: "Required",
     tone: "warning"
   },
-  Evidence: {
+  evidence: {
     title: "Proof first, confidence second",
     detail:
       "Build, browser, auth, screenshot, data-boundary, and production-smoke evidence must exist before work moves forward.",
     state: "Required",
     tone: "warning"
   },
-  Audit: {
+  audit: {
     title: "Execution APIs remain out of scope",
     detail:
       "Future command APIs need authentication, audit logs, rollback posture, error handling, and explicit owner action.",
@@ -253,3 +306,21 @@ export const commandAuditRules = [
   "Failed auth should not render command content.",
   "Every implementation slice gets local evidence and Claude Opus review before PR/deploy."
 ] as const;
+
+export const ownerCommandSurfaceData = {
+  surfaceStatus: commandSurfaceStatus,
+  copy: commandSurfaceCopy,
+  draft: commandDraft,
+  reviewPacketModeKey: commandReviewPacketMode.key,
+  reviewPacket: commandReviewPacket,
+  readinessChecks: commandReadinessChecks,
+  modeTabs: commandModeTabs,
+  modePanels: commandModePanels,
+  planStages: commandPlanStages,
+  approvals: commandApprovals,
+  agents: commandAgents,
+  evidenceRequirements: commandEvidenceRequirements,
+  outputShelf: commandOutputShelf,
+  unavailableActions: commandUnavailableActions,
+  auditRules: commandAuditRules
+} as const;
