@@ -2,7 +2,9 @@ export const commandSurfaceStatus = {
   mode: "Draft-only",
   runtime: "Not connected",
   approval: "Owner-gated",
-  audit: "Required before execution APIs"
+  audit: "Required before execution APIs",
+  posture: "Authenticated private surface",
+  dispatch: "Unavailable"
 } as const;
 
 export const commandDraft = {
@@ -11,6 +13,38 @@ export const commandDraft = {
     "Turn the product blueprint into native website, Doraemon Office, Owner Cockpit, and research console surfaces. Validate each slice and request Opus review before moving on.",
   boundary: "No command is sent. This page prepares intent, plan, evidence, and review packets only."
 } as const;
+
+export const commandReviewPacket = {
+  title: "Implementation slice packet",
+  summary: "A useful command becomes a bounded slice, a verification checklist, and an Opus review brief before PR/deploy.",
+  sections: [
+    { label: "Intent", value: "What owner wants changed" },
+    { label: "Boundary", value: "What must not happen" },
+    { label: "Evidence", value: "Build, auth, browser, leak probes" },
+    { label: "Review", value: "Claude Opus GO before merge" }
+  ]
+} as const;
+
+export const commandReadinessChecks = [
+  {
+    label: "Owner intent",
+    state: "Captured",
+    tone: "normal",
+    detail: "The draft pad has explicit outcome, constraints, and taste notes."
+  },
+  {
+    label: "Execution path",
+    state: "Unavailable",
+    tone: "private",
+    detail: "No runtime dispatch, file mutation, publish, or workflow trigger exists here."
+  },
+  {
+    label: "Review gate",
+    state: "Required",
+    tone: "warning",
+    detail: "A slice cannot move forward without local evidence and Opus review."
+  }
+] as const;
 
 export const commandModeTabs = ["Draft", "Plan preview", "Review packet", "Evidence", "Audit"] as const;
 
@@ -58,35 +92,40 @@ export const commandPlanStages = [
     owner: "Doraemon",
     state: "Complete",
     tone: "normal",
-    detail: "Restate the requested outcome, source docs, public/private boundary, and active slice."
+    detail: "Restate the requested outcome, source docs, public/private boundary, and active slice.",
+    proof: "Owner intent and source docs identified."
   },
   {
     label: "Design",
     owner: "Product MiniDora",
     state: "Working",
     tone: "info",
-    detail: "Translate the product blueprint into an implementation-ready surface and interaction model."
+    detail: "Translate the product blueprint into an implementation-ready surface and interaction model.",
+    proof: "Surface responsibility and non-goals are visible."
   },
   {
     label: "Implement",
     owner: "Dev MiniDora",
     state: "Working",
     tone: "info",
-    detail: "Ship a narrow, native UI slice with local state, route wiring, and no hidden write path."
+    detail: "Ship a narrow, native UI slice with local state, route wiring, and no hidden write path.",
+    proof: "Changed files remain scoped to the slice."
   },
   {
     label: "Verify",
     owner: "Codex",
     state: "Required",
     tone: "warning",
-    detail: "Run build, diff check, route protection, browser QA, responsive checks, and safety scans."
+    detail: "Run build, diff check, route protection, browser QA, responsive checks, and safety scans.",
+    proof: "Evidence packet exists before review."
   },
   {
     label: "Review",
     owner: "Opus",
     state: "Required",
     tone: "warning",
-    detail: "Claude Opus reviews product, safety, privacy, a11y, and regression risk before PR/deploy."
+    detail: "Claude Opus reviews product, safety, privacy, a11y, and regression risk before PR/deploy.",
+    proof: "P1/P2 findings are fixed before merge."
   }
 ] as const;
 
@@ -95,25 +134,29 @@ export const commandApprovals = [
     title: "Proceed to next slice",
     state: "Owner review",
     tone: "warning",
-    detail: "Advance only after local checks and Opus review are clean."
+    detail: "Advance only after local checks and Opus review are clean.",
+    decision: "Allowed only after evidence is attached."
   },
   {
     title: "Expose a new private API",
     state: "Blocked",
     tone: "private",
-    detail: "Needs auth, audit, error, permission, and rollback design before any write path exists."
+    detail: "Needs auth, audit, error, permission, and rollback design before any write path exists.",
+    decision: "No API work in this slice."
   },
   {
     title: "Publish private knowledge",
     state: "Blocked",
     tone: "private",
-    detail: "Requires explicit curation and public/private contract review."
+    detail: "Requires explicit curation and public/private contract review.",
+    decision: "No publishing controls are rendered."
   },
   {
     title: "Run autonomous workflow",
     state: "Unavailable",
     tone: "private",
-    detail: "This surface can describe a workflow, but cannot dispatch tools or mutate systems."
+    detail: "This surface can describe a workflow, but cannot dispatch tools or mutate systems.",
+    decision: "No dispatch affordance exists."
   }
 ] as const;
 
