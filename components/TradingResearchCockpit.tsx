@@ -17,7 +17,13 @@ import {
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
-import type { TradingInstrument, TradingResearchCockpitData, TradingSignal, TradingView } from "@/lib/trading-team";
+import type {
+  TradingEvidencePacket,
+  TradingInstrument,
+  TradingResearchCockpitData,
+  TradingSignal,
+  TradingView
+} from "@/lib/trading-team";
 
 type TradingTodayFocus = TradingResearchCockpitData["todayFocus"][number];
 type TradingDesk = TradingResearchCockpitData["desks"][number];
@@ -37,6 +43,8 @@ const viewIcons = {
   Replay: Clock3,
   System: Radio
 } as const satisfies Record<TradingView, typeof Gauge>;
+
+const ALL_SIGNAL_FILTER = "__all_signals__";
 
 function sourceTone(state: string) {
   if (state === "Disabled") {
@@ -64,6 +72,14 @@ function gateTone(value: string) {
   }
 
   return "normal";
+}
+
+function qualityTone(quality: string) {
+  if (quality === "Low" || quality === "Medium-low" || quality === "Required") {
+    return "warning";
+  }
+
+  return "info";
 }
 
 function SignalCard({ signal }: { signal: TradingSignal }) {
@@ -550,36 +566,287 @@ function OptionsLab({ scenarios }: { scenarios: readonly TradingOptionsScenario[
   );
 }
 
-function EvidenceView({ gates, unavailableActions }: { gates: readonly TradingGate[]; unavailableActions: readonly string[] }) {
+function EvidenceView({
+  gates,
+  evidencePackets,
+  sourceHealth,
+  signals,
+  unavailableActions
+}: {
+  gates: readonly TradingGate[];
+  evidencePackets: readonly TradingEvidencePacket[];
+  sourceHealth: readonly TradingSource[];
+  signals: readonly TradingSignal[];
+  unavailableActions: readonly string[];
+}) {
+  const [signalFilter, setSignalFilter] = useState(ALL_SIGNAL_FILTER);
+  const [stateFilter, setStateFilter] = useState("All states");
+
+  const signalOptions = useMemo(
+    () => [
+      { label: "All signals", value: ALL_SIGNAL_FILTER },
+      ...signals.map((signal) => ({ label: signal.instrument, value: signal.instrument }))
+    ],
+    [signals]
+  );
+  const stateOptions = useMemo(
+    () => ["All states", ...new Set(evidencePackets.map((packet) => packet.state))],
+    [evidencePackets]
+  );
+  const filteredEvidence = useMemo(
+    () =>
+      evidencePackets.filter((packet) => {
+        if (signalFilter !== ALL_SIGNAL_FILTER && !packet.appliesToSignals.includes(signalFilter)) {
+          return false;
+        }
+
+        if (stateFilter !== "All states" && packet.state !== stateFilter) {
+          return false;
+        }
+
+        return true;
+      }),
+    [evidencePackets, signalFilter, stateFilter]
+  );
+  const degradedSources = sourceHealth.filter((source) => source.state !== "Working" && source.state !== "Healthy");
+  const missingEvidence = evidencePackets.filter((packet) =>
+    ["Degraded", "Incomplete", "Partial", "Pending", "Required"].includes(packet.state)
+  );
+  const openGateBlockers = gates.filter((gate) => ["Blocked", "Incomplete", "Required"].includes(gate.value));
+  const hasFilters = signalFilter !== ALL_SIGNAL_FILTER || stateFilter !== "All states";
+
+  function clearEvidenceFilters() {
+    setSignalFilter(ALL_SIGNAL_FILTER);
+    setStateFilter("All states");
+  }
+
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
-      <div className="panel p-5">
-        <div className="flex items-center gap-2 text-yellow-100">
-          <FileSearch size={22} aria-hidden />
-          <h2 className="text-2xl font-semibold text-white">Gates & Evidence</h2>
-        </div>
-        <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-          Every important signal needs evidence, counter-evidence, source health, and owner review before confidence can
-          rise.
-        </p>
-        <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {gates.map((gate) => (
-            <article key={gate.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="font-semibold text-white">{gate.label}</h3>
-                <StatusBadge tone={gateTone(gate.value)}>{gate.value}</StatusBadge>
+      <div className="grid gap-5">
+        <article className="panel p-5">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-yellow-100">
+                <FileSearch size={22} aria-hidden />
+                <h2 className="text-2xl font-semibold text-white">Gates & Evidence</h2>
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-300">{gate.detail}</p>
-            </article>
-          ))}
-        </div>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+                Every important signal needs evidence, counter-evidence, source health, and owner review before
+                confidence can rise. Missing packets stay visible as blockers.
+              </p>
+            </div>
+            <StatusBadge tone="warning">Traceable research only</StatusBadge>
+          </div>
+
+          <dl className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+              <dt className="text-xs font-bold uppercase text-slate-400">Evidence packets</dt>
+              <dd className="mt-2 text-2xl font-semibold text-white">{evidencePackets.length}</dd>
+            </div>
+            <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+              <dt className="text-xs font-bold uppercase text-slate-400">Open blockers</dt>
+              <dd className="mt-2 text-2xl font-semibold text-white">{missingEvidence.length + openGateBlockers.length}</dd>
+            </div>
+            <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+              <dt className="text-xs font-bold uppercase text-slate-400">Degraded sources</dt>
+              <dd className="mt-2 text-2xl font-semibold text-white">{degradedSources.length}</dd>
+            </div>
+          </dl>
+
+          <div className="mt-5 grid gap-3 rounded-[8px] border border-slate-700 bg-black/15 p-3 md:grid-cols-[1fr_1fr_auto]">
+            <label className="grid gap-1.5 text-sm">
+              <span className="text-xs font-bold uppercase text-slate-400">Linked signal</span>
+              <select
+                value={signalFilter}
+                onChange={(event) => setSignalFilter(event.target.value)}
+                className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
+              >
+                {signalOptions.map((signal) => (
+                  <option key={signal.value} value={signal.value}>
+                    {signal.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-1.5 text-sm">
+              <span className="text-xs font-bold uppercase text-slate-400">Evidence state</span>
+              <select
+                value={stateFilter}
+                onChange={(event) => setStateFilter(event.target.value)}
+                className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
+              >
+                {stateOptions.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              onClick={clearEvidenceFilters}
+              disabled={!hasFilters}
+              className="link-focus self-end rounded-[8px] border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 transition enabled:hover:border-sky-200/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              Clear
+            </button>
+          </div>
+
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs font-bold uppercase text-slate-400" aria-live="polite">
+              {filteredEvidence.length} of {evidencePackets.length} evidence packets shown
+            </p>
+            <StatusBadge tone={hasFilters ? "info" : "private"}>{hasFilters ? "Filtered evidence" : "Full trace"}</StatusBadge>
+          </div>
+        </article>
+
+        <section className="grid gap-3" aria-label="Evidence trace">
+          {filteredEvidence.length > 0 ? (
+            filteredEvidence.map((packet) => (
+              <article key={packet.id} className="panel p-5">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p className="mono text-xs text-yellow-100">{packet.id}</p>
+                    <h3 className="mt-2 text-xl font-semibold text-white">{packet.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-300">{packet.provenance}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <StatusBadge tone={sourceTone(packet.state)}>{packet.state}</StatusBadge>
+                    <StatusBadge tone={qualityTone(packet.quality)}>{packet.quality}</StatusBadge>
+                  </div>
+                </div>
+
+                <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+                    <dt className="text-xs font-bold uppercase text-slate-400">Linked signal</dt>
+                    <dd className="mt-2 text-sm font-semibold text-white">{packet.linkedSignal}</dd>
+                  </div>
+                  <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+                    <dt className="text-xs font-bold uppercase text-slate-400">Instrument</dt>
+                    <dd className="mt-2 text-sm font-semibold text-white">{packet.instrument}</dd>
+                  </div>
+                  <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+                    <dt className="text-xs font-bold uppercase text-slate-400">Source</dt>
+                    <dd className="mt-2 text-sm font-semibold text-white">{packet.source}</dd>
+                  </div>
+                  <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
+                    <dt className="text-xs font-bold uppercase text-slate-400">Updated</dt>
+                    <dd className="mt-2 text-sm font-semibold text-white">{packet.updated}</dd>
+                  </div>
+                </dl>
+
+                <div className="mt-4 grid gap-3 lg:grid-cols-[minmax(0,1fr)_18rem]">
+                  <div className="rounded-[8px] border border-yellow-200/20 bg-yellow-300/10 p-3">
+                    <p className="text-xs font-bold uppercase text-yellow-100">Blocker</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-200">{packet.blocker}</p>
+                  </div>
+                  <div className="grid gap-2">
+                    {packet.checks.map((check) => (
+                      <div key={check} className="rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-xs text-slate-300">
+                        {check}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))
+          ) : (
+            <div className="panel p-5 text-sm leading-6 text-slate-300">
+              No evidence packets match this filter set. Clear filters to return to the full evidence trace.
+            </div>
+          )}
+        </section>
+
+        <section className="panel p-5" aria-labelledby="trading-signal-trace-title">
+          <div className="flex items-center gap-2">
+            <GitCompareArrows className="text-sky-100" size={22} aria-hidden />
+            <div>
+              <p className="eyebrow">Signal trace coverage</p>
+              <h2 id="trading-signal-trace-title" className="mt-1 text-2xl font-semibold text-white">
+                Signals mapped to evidence
+              </h2>
+            </div>
+          </div>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+            Packet counts are grouped evidence packets. They complement the raw evidence and counter-evidence counts on
+            each signal row.
+          </p>
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {signals.map((signal) => {
+              const signalSpecificPackets = evidencePackets.filter((packet) => packet.linkedSignal === signal.instrument);
+              const sharedPackets = evidencePackets.filter(
+                (packet) => packet.linkedSignal !== signal.instrument && packet.appliesToSignals.includes(signal.instrument)
+              );
+
+              return (
+                <article key={signal.instrument} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <h3 className="font-semibold text-white">{signal.instrument}</h3>
+                    <StatusBadge tone={signalSpecificPackets.length > 0 ? "info" : "warning"}>
+                      {signalSpecificPackets.length} specific
+                    </StatusBadge>
+                  </div>
+                  <p className="mt-2 text-xs font-bold uppercase text-slate-400">
+                    {signalSpecificPackets.length} signal-specific · {sharedPackets.length} shared
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{signal.blocker}</p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
       </div>
-      <UnavailableControlsPanel
-        eyebrow="Blocked actions"
-        title="No trading controls"
-        items={unavailableActions}
-        note="This cockpit can prepare evidence and questions only. It cannot place, submit, replace, cancel, or produce trading recommendations."
-      />
+
+      <aside className="grid content-start gap-4">
+        <section className="panel p-5" aria-labelledby="trading-evidence-gates-title">
+          <div className="flex items-center gap-2 text-yellow-100">
+            <ShieldCheck size={22} aria-hidden />
+            <h2 id="trading-evidence-gates-title" className="text-2xl font-semibold text-white">
+              Gate status
+            </h2>
+          </div>
+          <div className="mt-5 grid gap-3">
+            {gates.map((gate) => (
+              <article key={gate.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <h3 className="font-semibold text-white">{gate.label}</h3>
+                  <StatusBadge tone={gateTone(gate.value)}>{gate.value}</StatusBadge>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-300">{gate.detail}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel p-5" aria-labelledby="trading-open-blockers-title">
+          <div className="flex items-center gap-2">
+            <AlertTriangle className="text-yellow-100" size={22} aria-hidden />
+            <div>
+              <p className="eyebrow">Open blockers</p>
+              <h2 id="trading-open-blockers-title" className="mt-1 text-2xl font-semibold text-white">
+                Missing evidence
+              </h2>
+            </div>
+          </div>
+          <div className="mt-5 grid gap-3">
+            {missingEvidence.map((packet) => (
+              <div key={packet.id} className="rounded-[8px] border border-yellow-200/20 bg-yellow-300/10 p-3">
+                <p className="text-sm font-semibold text-white">{packet.linkedSignal}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-300">{packet.blocker}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <SourceDegradation sources={sourceHealth} />
+
+        <UnavailableControlsPanel
+          eyebrow="Blocked actions"
+          title="No trading controls"
+          items={unavailableActions}
+          note="This cockpit can prepare evidence and questions only. It cannot place, submit, replace, cancel, or produce trading recommendations."
+        />
+      </aside>
     </section>
   );
 }
@@ -954,7 +1221,15 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
         )
       ) : null}
       {activeView === "Options Lab" ? <OptionsLab scenarios={data.optionsLab} /> : null}
-      {activeView === "Evidence" ? <EvidenceView gates={data.gates} unavailableActions={data.unavailableActions} /> : null}
+      {activeView === "Evidence" ? (
+        <EvidenceView
+          gates={data.gates}
+          evidencePackets={data.evidencePackets}
+          sourceHealth={data.sourceHealth}
+          signals={data.signals}
+          unavailableActions={data.unavailableActions}
+        />
+      ) : null}
       {activeView === "Replay" ? <ReplayView replay={data.replay} openQuestions={data.openQuestions} disclaimer={data.disclaimer} /> : null}
       {activeView === "System" ? <SystemView systemStatus={data.systemStatus} /> : null}
     </div>

@@ -45,6 +45,21 @@ export type TradingInstrument = {
   riskFlags: readonly string[];
 };
 
+export type TradingEvidencePacket = {
+  id: string;
+  title: string;
+  instrument: string;
+  source: string;
+  provenance: string;
+  state: string;
+  quality: string;
+  linkedSignal: string;
+  appliesToSignals: readonly string[];
+  blocker: string;
+  updated: string;
+  checks: readonly string[];
+};
+
 export type TradingResearchCockpitData = {
   disclaimer: string;
   views: readonly TradingView[];
@@ -74,6 +89,7 @@ export type TradingResearchCockpitData = {
     state: string;
     detail: string;
   }[];
+  evidencePackets: readonly TradingEvidencePacket[];
   gates: readonly {
     label: string;
     value: string;
