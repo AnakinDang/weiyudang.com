@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 };
 
 export default function DoraActivityPage() {
-  const events = getRecentPublicDoraEvents().map(({ event_id: _eventId, ...event }) => event);
+  const events = getRecentPublicDoraEvents()
+    .map(({ event_id: _eventId, ...event }) => event)
+    .sort((left, right) => Date.parse(right.created_at) - Date.parse(left.created_at));
 
   return (
     <DoraOfficeShell
