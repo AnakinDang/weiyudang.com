@@ -23,6 +23,239 @@
   --public-warm: #f4b740;
 }
 
+/* Step 8: Homepage living Doraemon Office capsule */
+.premium-office-capsule {
+  position: relative;
+  z-index: 4;
+  align-self: center;
+  justify-self: end;
+  width: min(25.5rem, 100%);
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(248, 251, 255, 0.7)),
+    rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 28px 74px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.premium-office-capsule::before {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.24), transparent 32%),
+    linear-gradient(315deg, rgba(246, 201, 69, 0.24), transparent 26%);
+  content: "";
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.premium-office-capsule-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+  padding: 1.05rem 1.05rem 0.9rem;
+}
+
+.premium-office-capsule-head div {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.premium-office-capsule-head span {
+  color: #2563eb;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.premium-office-capsule-head strong {
+  color: #08111f;
+  font-size: 1.05rem;
+  font-weight: 820;
+}
+
+.premium-office-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.72);
+  padding: 0.38rem 0.55rem;
+  color: #1d4ed8;
+  font-size: 0.68rem;
+  font-weight: 820;
+  white-space: nowrap;
+}
+
+.premium-office-live-pill span {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.11);
+}
+
+.premium-office-boundary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  margin: 0.95rem 1.05rem 0;
+  border: 1px solid rgba(221, 231, 240, 0.78);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.62);
+  padding: 0.78rem;
+}
+
+.premium-office-boundary svg {
+  color: #2563eb;
+}
+
+.premium-office-boundary p {
+  margin: 0;
+  color: #3d4a60;
+  font-size: 0.82rem;
+  font-weight: 610;
+  line-height: 1.52;
+}
+
+.premium-office-events {
+  padding: 1rem 1.05rem 1.05rem;
+}
+
+.premium-office-events-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  color: #42516a;
+  font-size: 0.74rem;
+  font-weight: 780;
+}
+
+.premium-office-events-head span,
+.premium-office-events-head a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.premium-office-events-head a {
+  color: #1d4ed8;
+  white-space: nowrap;
+}
+
+.premium-office-events ol {
+  display: grid;
+  gap: 0.56rem;
+  margin: 0.78rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.premium-office-events li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.55rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.72rem;
+  min-height: 2.5rem;
+  border: 1px solid rgba(221, 231, 240, 0.78);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.66);
+  overflow: hidden;
+  padding: 0.55rem 0.62rem 0.55rem 0.82rem;
+}
+
+.premium-office-events li::before {
+  position: absolute;
+  top: 0.65rem;
+  bottom: 0.65rem;
+  left: 0.42rem;
+  width: 2px;
+  border-radius: 999px;
+  background: #2563eb;
+  content: "";
+  opacity: 0.7;
+}
+
+.premium-office-events time {
+  color: #475569;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.premium-office-events strong {
+  overflow: hidden;
+  color: #08111f;
+  font-size: 0.78rem;
+  font-weight: 820;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.premium-office-events li span {
+  color: #2563eb;
+  font-size: 0.72rem;
+  font-weight: 780;
+  white-space: nowrap;
+}
+
+@media (min-width: 1181px) {
+  .premium-office-capsule {
+    margin-right: clamp(0rem, 4vw, 3.4rem);
+    transform: translateY(-0.85rem);
+  }
+}
+
+@media (max-width: 1080px) {
+  .premium-office-capsule {
+    align-self: start;
+    justify-self: start;
+    width: min(28rem, 100%);
+    margin-top: clamp(-9.8rem, -17vw, -5.6rem);
+  }
+}
+
+@media (max-width: 720px) {
+  .premium-office-capsule {
+    width: 100%;
+    margin-top: -6.95rem;
+  }
+
+  .premium-office-capsule-head {
+    align-items: start;
+    padding: 0.9rem 0.9rem 0.75rem;
+  }
+
+  .premium-office-boundary {
+    margin-inline: 0.9rem;
+  }
+
+  .premium-office-events {
+    padding: 0.88rem 0.9rem 0.9rem;
+  }
+
+  .premium-office-events li {
+    grid-template-columns: 4.25rem minmax(0, 1fr);
+  }
+
+  .premium-office-events li span {
+    grid-column: 2;
+    white-space: normal;
+  }
+}
+
+
 * {
   box-sizing: border-box;
 }

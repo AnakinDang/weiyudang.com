@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Bot, FlaskConical, LineChart, LockKeyhole, Sparkles } from "lucide-react";
+import { ArrowRight, Bot, Clock3, FlaskConical, LineChart, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
+import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
 
 const heroSurfaces = [
   {
@@ -39,7 +40,16 @@ const heroSurfaces = [
 
 const heroSignals = ["Public window", "Doraemon entry", "Owner gated"] as const;
 
+function formatHeroEventTime(createdAt: string) {
+  const month = createdAt.slice(5, 7);
+  const day = createdAt.slice(8, 10);
+
+  return `${month}/${day} ${formatPublicEventTime(createdAt)}`;
+}
+
 export function HeroSection() {
+  const recentEvents = getRecentPublicDoraEvents(3);
+
   return (
     <section className="premium-hero">
       <div className="premium-hero-backdrop" aria-hidden="true">
@@ -87,6 +97,48 @@ export function HeroSection() {
             </Link>
           </div>
         </div>
+
+        <aside className="premium-office-capsule" aria-label="Public-safe Doraemon Office status">
+          <div className="premium-office-capsule-head">
+            <div>
+              <span>Doraemon Office</span>
+              <strong>Public window</strong>
+            </div>
+            <span className="premium-office-live-pill">
+              <span aria-hidden="true" />
+              Demo replay
+            </span>
+          </div>
+
+          <div className="premium-office-boundary">
+            <ShieldCheck size={17} aria-hidden />
+            <p>
+              Sanitized activity only. Owner tasks, prompts, accounts, and private memory stay behind the cockpit.
+            </p>
+          </div>
+
+          <div className="premium-office-events" aria-label="Recent public-safe Doraemon activity">
+            <div className="premium-office-events-head">
+              <span>
+                <Clock3 size={14} aria-hidden />
+                Demo public activity
+              </span>
+              <Link href="/dora/activity" className="link-focus">
+                View all
+                <ArrowRight size={13} aria-hidden />
+              </Link>
+            </div>
+            <ol>
+              {recentEvents.map((event) => (
+                <li key={event.event_id}>
+                  <time dateTime={event.created_at}>{formatHeroEventTime(event.created_at)}</time>
+                  <strong>{event.agent}</strong>
+                  <span>{event.title}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </aside>
 
         <div className="premium-surface-rail" aria-label="Personal OS connected surfaces">
           {heroSurfaces.map((surface) => {
