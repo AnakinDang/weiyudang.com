@@ -52,13 +52,13 @@ const operatingLayers = [
     icon: LockKeyhole
   },
   {
-    title: "Trading team",
-    summary: "MiniDora research desks for signals, instruments, evidence, gates, and replay without execution.",
+    title: "Research desk",
+    summary: "Public lab notes and evidence-first research context, including MiniDora trading work without execution.",
     boundary: "research-only",
-    boundaryLabel: "Research only",
-    safety: "Not execution",
-    actionLabel: "View research",
-    href: "/projects/minidora-trading",
+    boundaryLabel: "Research",
+    safety: "Public notes",
+    actionLabel: "Open research",
+    href: "/lab",
     icon: LineChart
   }
 ];
@@ -104,7 +104,7 @@ export default function HomePage() {
             </div>
             <p className="section-summary">
               The public site explains the work. Doraemon makes the office visible. The private cockpit drives execution.
-              Trading stays research-only.
+              Research stays public-safe and execution-free.
             </p>
           </div>
 
@@ -214,7 +214,7 @@ export default function HomePage() {
 
       <section className="home-section home-journal-section">
         <div className="container home-section-frame home-section-frame-quiet">
-          <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div className="home-journal-head">
             <SectionHeading
               eyebrow="Journal"
               title="Photography, life notes, and field observations."
@@ -222,13 +222,13 @@ export default function HomePage() {
             />
             <Link
               href="/journal"
-              className="link-focus inline-flex w-fit items-center gap-2 rounded-[8px] border border-[#bfdbfe] bg-white px-4 py-3 text-sm font-bold text-[#1d4ed8] transition hover:bg-[#f1f7fb]"
+              className="link-focus home-journal-action"
             >
               Open journal
               <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="home-journal-grid">
             {journalEntries.map((entry) => (
               <JournalCard key={entry.slug} entry={entry} />
             ))}
@@ -237,7 +237,7 @@ export default function HomePage() {
       </section>
 
       <section className="home-section home-notes-section">
-        <div className="container grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="container home-notes-grid">
           <div>
             <SectionHeading
               eyebrow="Latest notes"
@@ -246,7 +246,7 @@ export default function HomePage() {
             />
             <LiveNotesFeed notes={notes} />
           </div>
-          <div className="panel flex flex-col justify-between p-6">
+          <div className="panel home-contact-panel">
             <div>
               <Contact className="text-[#f4b740]" size={28} aria-hidden />
               <h2 className="mt-4 text-3xl font-semibold text-slate-950">Notes, projects, or a focused conversation.</h2>
@@ -257,7 +257,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/contact"
-              className="link-focus mt-8 inline-flex w-fit items-center gap-2 rounded-[8px] bg-[#2563eb] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#1d4ed8]"
+              className="link-focus home-contact-action"
             >
               Contact Weiyu
               <ArrowRight size={16} aria-hidden />

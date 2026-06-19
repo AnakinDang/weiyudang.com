@@ -15,6 +15,10 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
       return;
     }
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const timer = window.setInterval(() => {
       setActive((current) => (current + 1) % notes.length);
     }, 3600);
@@ -29,8 +33,8 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
   }
 
   return (
-    <div className="mt-8 grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
-      <div className="grid gap-3">
+    <div className="home-notes-feed">
+      <div className="home-notes-list">
         {notes.map((note, index) => {
           const isActive = index === active;
           return (
@@ -38,9 +42,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
               key={note.slug}
               type="button"
               onClick={() => setActive(index)}
-              className={`text-left transition ${
-                isActive ? "panel p-5" : "panel-quiet p-5 hover:border-[#bfdbfe] hover:bg-white/80"
-              }`}
+              className={`home-note-button${isActive ? " is-active" : ""}`}
             >
               <p className="mono text-xs text-slate-500">{note.dateLabel}</p>
               <h3 className="mt-2 text-xl font-semibold text-slate-950">{note.title}</h3>
@@ -50,14 +52,14 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
         })}
       </div>
 
-      <div className="panel flex min-h-72 flex-col justify-between p-5">
+      <div className="panel home-note-preview">
         <div>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-[#bfdbfe] bg-[#e0f2fe] px-3 py-2 text-xs font-bold text-[#1d4ed8]">
+          <div className="home-note-preview-head">
+            <span className="home-note-feed-label">
               <Radio size={14} aria-hidden />
               research feed
             </span>
-            <span className="rounded-[8px] border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-bold text-emerald-800">
+            <span className="home-note-pulse">
               {pulses[active % pulses.length]}
             </span>
           </div>
@@ -67,7 +69,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
         </div>
         <Link
           href="/lab"
-          className="link-focus mt-8 inline-flex w-fit items-center gap-2 rounded-[8px] border border-[#dde7f0] bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:border-[#bfdbfe] hover:bg-[#f1f7fb]"
+          className="link-focus home-note-action"
         >
           Open notes
           <ArrowRight size={16} aria-hidden />
