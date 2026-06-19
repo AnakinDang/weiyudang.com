@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Bot, Clock3, FlaskConical, LineChart, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
-import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
+import { formatPublicEventDateTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
 
 const heroSurfaces = [
   {
@@ -39,13 +39,6 @@ const heroSurfaces = [
 ];
 
 const heroSignals = ["Public window", "Doraemon entry", "Owner gated"] as const;
-
-function formatHeroEventTime(createdAt: string) {
-  const month = createdAt.slice(5, 7);
-  const day = createdAt.slice(8, 10);
-
-  return `${month}/${day} ${formatPublicEventTime(createdAt)}`;
-}
 
 export function HeroSection() {
   const recentEvents = getRecentPublicDoraEvents(3);
@@ -131,7 +124,7 @@ export function HeroSection() {
             <ol>
               {recentEvents.map((event) => (
                 <li key={event.event_id}>
-                  <time dateTime={event.created_at}>{formatHeroEventTime(event.created_at)}</time>
+                  <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
                   <strong>{event.agent}</strong>
                   <span>{event.title}</span>
                 </li>

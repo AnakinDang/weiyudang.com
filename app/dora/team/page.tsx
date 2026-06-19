@@ -168,7 +168,7 @@ export default function DoraTeamPage() {
                     <Activity size={15} aria-hidden />
                     <span>Recent public event</span>
                     <strong>{event ? event.title : "No public event yet"}</strong>
-                    <time>{event ? formatPublicEventTime(event.created_at) : "Demo state"}</time>
+                    <time dateTime={event?.created_at}>{event ? formatPublicEventTime(event.created_at) : "Demo state"}</time>
                   </div>
                 </article>
               );
@@ -195,7 +195,7 @@ export default function DoraTeamPage() {
                   <strong>{event.agent}</strong>
                   <p>{event.title}</p>
                 </div>
-                <time>{formatPublicEventTime(event.created_at)}</time>
+                <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
               </article>
             ))}
           </div>

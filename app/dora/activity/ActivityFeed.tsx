@@ -141,7 +141,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
                 key={`${event.created_at}-${event.agent}-${event.title}`}
                 aria-label={`${formatPublicEventTime(event.created_at)} ${event.agent}: ${event.title}`}
               >
-                <time>{formatPublicEventTime(event.created_at)}</time>
+                <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
                 <strong>{event.agent}</strong>
                 <span>{event.title}</span>
               </li>
@@ -241,7 +241,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
                   key={`${event.created_at}-${event.agent}-${event.event_type}-${event.title}-${event.state}`}
                   className={`dora-activity-event dora-activity-event-${event.severity}`}
                 >
-                  <time>{formatPublicEventTime(event.created_at)}</time>
+                  <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
                   <span className="dora-activity-event-dot" aria-hidden />
                   <span className="dora-activity-agent-mark">
                     <DoraemonMark />
