@@ -6,11 +6,17 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarClock,
+  CheckCircle2,
   CircleDot,
+  Clock3,
   Eye,
   Filter,
+  GitBranch,
+  Layers3,
+  ListFilter,
   LockKeyhole,
   Radio,
+  ScanLine,
   ShieldCheck,
   Sparkles
 } from "lucide-react";
@@ -45,6 +51,47 @@ const timeFilters = [
   { value: "latest5", label: "Latest 5" }
 ] as const;
 
+const activityPrinciples = [
+  {
+    title: "Newest-first",
+    summary: "Sorted by event creation time before any filters run.",
+    icon: Clock3
+  },
+  {
+    title: "Fixed labels",
+    summary: "Kinds, states, and titles are public vocabulary only.",
+    icon: ListFilter
+  },
+  {
+    title: "No payloads",
+    summary: "Prompts, artifacts, paths, accounts, and run internals stay hidden.",
+    icon: ShieldCheck
+  },
+  {
+    title: "Read-only",
+    summary: "Visitors can inspect the rhythm, never execute work.",
+    icon: LockKeyhole
+  }
+] as const;
+
+const activityLanes = [
+  {
+    title: "Work",
+    kinds: ["agent_work", "tool_call"] as const,
+    summary: "Visible public progress and sanitized tool labels."
+  },
+  {
+    title: "Coordination",
+    kinds: ["handoff", "owner_review"] as const,
+    summary: "Handoffs and owner checkpoints without private task names."
+  },
+  {
+    title: "Health",
+    kinds: ["alert", "system"] as const,
+    summary: "Attention and system posture at a safe abstraction level."
+  }
+] as const;
+
 type KindFilter = (typeof kindFilters)[number]["value"];
 type SeverityFilter = "all" | PublicDoraEvent["severity"];
 type TimeFilter = (typeof timeFilters)[number]["value"];
@@ -52,6 +99,17 @@ type ActivityFeedEvent = Omit<PublicDoraEvent, "event_id">;
 
 function maxEventDate(events: ActivityFeedEvent[]) {
   return events[0]?.created_at.slice(0, 10);
+}
+
+function countBy<T extends string>(items: ActivityFeedEvent[], read: (event: ActivityFeedEvent) => T) {
+  return items.reduce(
+    (counts, event) => {
+      const value = read(event);
+      counts[value] = (counts[value] ?? 0) + 1;
+      return counts;
+    },
+    {} as Partial<Record<T, number>>
+  );
 }
 
 export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
@@ -62,6 +120,8 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
 
   const agents = useMemo(() => Array.from(new Set(events.map((event) => event.agent))).sort(), [events]);
   const groupCount = useMemo(() => new Set(events.map((event) => event.event_type)).size, [events]);
+  const kindCounts = useMemo(() => countBy(events, (event) => event.event_type), [events]);
+  const severityCounts = useMemo(() => countBy(events, (event) => event.severity), [events]);
   const currentWindowDate = maxEventDate(events);
   const heroEvents = events.slice(0, 5);
 
@@ -90,6 +150,12 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
   }, [agent, currentWindowDate, events, kind, severity, timeRange]);
 
   const hasActiveFilters = kind !== "all" || agent !== "all" || severity !== "all" || timeRange !== "all";
+  const activeFilterLabels = [
+    { key: "kind", label: kind === "all" ? "All kinds" : kindLabels[kind] },
+    { key: "agent", label: agent === "all" ? "All agents" : agent },
+    { key: "severity", label: severity === "all" ? "All severity" : severityLabels[severity] },
+    { key: "time", label: timeFilters.find((item) => item.value === timeRange)?.label ?? "All time" }
+  ];
 
   function clearFilters() {
     setKind("all");
@@ -112,13 +178,17 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
           <span>
             <DoraemonMark />
           </span>
-          <strong>Live public lens</strong>
+          <strong>Public activity lens</strong>
           <small>Sanitized event flow</small>
+        </div>
+        <div className="dora-activity-lens-copy">
+          <strong>Every public signal, ordered.</strong>
+          <p>Doraemon Office turns agent motion into a readable, fixed-label timeline without exposing private work.</p>
         </div>
         <div className="dora-activity-lens-strip" aria-label="Activity posture">
           <span>
             <Radio size={14} aria-hidden />
-            Live bridge aware
+            Relay-aware
           </span>
           <span>
             <ShieldCheck size={14} aria-hidden />
@@ -132,8 +202,8 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
         <div className="dora-activity-hero-rail" aria-label="Recent public activity preview">
           <div>
             <span className="dora-activity-rail-live-dot" aria-hidden />
-            <strong>Live activity</strong>
-            <small>public-safe</small>
+            <strong>Demo public stream</strong>
+            <small>fixed labels</small>
           </div>
           <ol>
             {heroEvents.map((event) => (
@@ -150,6 +220,24 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
         </div>
       </section>
 
+      <section className="dora-activity-principle-strip" aria-label="Public activity safety principles">
+        {activityPrinciples.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <article key={item.title}>
+              <span>
+                <Icon size={18} aria-hidden />
+              </span>
+              <div>
+                <strong>{item.title}</strong>
+                <p>{item.summary}</p>
+              </div>
+            </article>
+          );
+        })}
+      </section>
+
       <section className="dora-activity-summary" aria-label="Public activity summary">
         <article>
           <Radio size={24} aria-hidden />
@@ -163,12 +251,24 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
         </article>
         <article>
           <CircleDot size={24} aria-hidden />
-          <strong>Demo</strong>
-          <span>fallback ready</span>
+          <strong>{severityCounts.warning ?? 0}</strong>
+          <span>attention labels</span>
+        </article>
+        <article>
+          <CalendarClock size={24} aria-hidden />
+          <strong>Window</strong>
+          <span>{currentWindowDate ? "latest public slice" : "fallback ready"}</span>
         </article>
       </section>
 
       <section className="dora-activity-controls" aria-label="Activity filters">
+        <div className="dora-activity-controls-head">
+          <div>
+            <strong>Filter public stream</strong>
+            <p>All controls operate on sanitized event labels only.</p>
+          </div>
+          <span>{filteredEvents.length} shown</span>
+        </div>
         <div className="dora-activity-kind-filters" role="group" aria-label="Event kind filters">
           {kindFilters.map((item) => (
             <button
@@ -220,6 +320,11 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
             Clear
           </button>
         </div>
+        <div className="dora-activity-active-filters" aria-label="Current activity filters">
+          {activeFilterLabels.map((filter) => (
+            <span key={filter.key}>{filter.label}</span>
+          ))}
+        </div>
       </section>
 
       <div className="dora-activity-layout">
@@ -227,7 +332,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
           <div className="dora-activity-feed-heading">
             <div>
               <h2 id="dora-activity-feed-title">Public event timeline</h2>
-              <p>Newest first. Fixed labels only.</p>
+              <p>Newest first by creation time. Fixed labels only.</p>
             </div>
             <span>{filteredEvents.length} shown</span>
           </div>
@@ -277,6 +382,32 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
         <aside className="dora-activity-side" aria-label="Public schema and live bridge">
           <section>
             <div className="dora-activity-side-title">
+              <GitBranch size={20} aria-hidden />
+              <h2>Event lanes</h2>
+            </div>
+            <p>Public activity is grouped into readable lanes without exposing run internals.</p>
+            <div className="dora-activity-lane-list">
+              {activityLanes.map((lane) => {
+                const count = lane.kinds.reduce((total, laneKind) => total + (kindCounts[laneKind] ?? 0), 0);
+
+                return (
+                  <article key={lane.title}>
+                    <span>
+                      <Layers3 size={15} aria-hidden />
+                    </span>
+                    <div>
+                      <strong>{lane.title}</strong>
+                      <small>{count} public labels</small>
+                      <p>{lane.summary}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
+          <section>
+            <div className="dora-activity-side-title">
               <ShieldCheck size={20} aria-hidden />
               <h2>Public schema</h2>
             </div>
@@ -303,7 +434,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
 
           <section>
             <div className="dora-activity-side-title">
-              <Radio size={20} aria-hidden />
+              <ScanLine size={20} aria-hidden />
               <h2>Live bridge</h2>
             </div>
             <p>Open the public command room view when the stage is more useful than the feed.</p>
@@ -311,6 +442,14 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
               View Office Live
               <ArrowRight size={15} aria-hidden />
             </Link>
+          </section>
+
+          <section>
+            <div className="dora-activity-side-title">
+              <CheckCircle2 size={20} aria-hidden />
+              <h2>Boundary check</h2>
+            </div>
+            <p>Visible activity never includes raw IDs, prompts, artifacts, private paths, accounts, orders, or execution controls.</p>
           </section>
         </aside>
       </div>

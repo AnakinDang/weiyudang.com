@@ -14660,3 +14660,356 @@ textarea {
     min-height: auto;
   }
 }
+
+/* Step 13: Doraemon Activity intelligence polish */
+.dora-activity {
+  gap: 1.08rem;
+}
+
+.dora-activity-lens {
+  min-height: 34rem;
+  border-color: rgba(147, 197, 253, 0.7);
+  background:
+    radial-gradient(ellipse at 50% 78%, rgba(246, 201, 69, 0.16), transparent 25%),
+    radial-gradient(ellipse at 56% 66%, rgba(37, 99, 235, 0.18), transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(248, 251, 255, 0.86) 72%, #ffffff 100%),
+    #ffffff;
+  box-shadow:
+    0 32px 98px rgba(37, 99, 235, 0.09),
+    0 20px 70px rgba(15, 23, 42, 0.055);
+}
+
+.dora-activity-lens img {
+  height: 34rem;
+  opacity: 0.48;
+  object-position: center 46%;
+  filter:
+    saturate(1.08)
+    contrast(1.03)
+    drop-shadow(0 26px 70px rgba(37, 99, 235, 0.12));
+}
+
+.dora-activity-lens::after {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.72), transparent 30%, transparent 70%, rgba(255, 255, 255, 0.78)),
+    linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.72) 42%, transparent 68%);
+}
+
+.dora-activity-lens-overlay {
+  top: 1.25rem;
+  left: 1.25rem;
+  border-color: rgba(147, 197, 253, 0.78);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.dora-activity-lens-copy {
+  position: absolute;
+  top: 6.15rem;
+  left: 1.35rem;
+  z-index: 2;
+  max-width: min(28rem, 52%);
+}
+
+.dora-activity-lens-copy strong {
+  display: block;
+  color: #0f172a;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 880;
+  letter-spacing: 0;
+  line-height: 0.98;
+}
+
+.dora-activity-lens-copy p {
+  max-width: 24rem;
+  margin: 0.82rem 0 0;
+  color: #475569;
+  font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.dora-activity-lens-strip {
+  right: 1.05rem;
+  bottom: 7.5rem;
+  left: 1.05rem;
+  border-color: rgba(147, 197, 253, 0.7);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.dora-activity-hero-rail {
+  border-color: rgba(147, 197, 253, 0.78);
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.dora-activity-hero-rail > div {
+  min-width: 10rem;
+}
+
+.dora-activity-principle-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.82rem;
+}
+
+.dora-activity-principle-strip article,
+.dora-activity-lane-list article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.12rem 0.68rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.82)),
+    #ffffff;
+  box-shadow: 0 16px 46px rgba(15, 23, 42, 0.045);
+}
+
+.dora-activity-principle-strip article {
+  min-height: 6.2rem;
+  padding: 0.95rem;
+}
+
+.dora-activity-principle-strip article > span,
+.dora-activity-lane-list article > span {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2563eb;
+}
+
+.dora-activity-principle-strip strong,
+.dora-activity-lane-list strong {
+  display: block;
+  color: #0f172a;
+  font-size: 0.84rem;
+  font-weight: 840;
+}
+
+.dora-activity-principle-strip p,
+.dora-activity-lane-list p {
+  margin: 0.32rem 0 0;
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: 1.42;
+}
+
+.dora-activity-summary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dora-activity-summary article {
+  min-height: 5.35rem;
+  border-color: rgba(191, 219, 254, 0.64);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.84)),
+    #ffffff;
+}
+
+.dora-activity-controls {
+  border-color: rgba(191, 219, 254, 0.64);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 251, 255, 0.84)),
+    #ffffff;
+}
+
+.dora-activity-controls-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  padding-bottom: 0.76rem;
+}
+
+.dora-activity-controls-head strong {
+  color: #0f172a;
+  font-size: 0.96rem;
+  font-weight: 840;
+}
+
+.dora-activity-controls-head p {
+  margin: 0.2rem 0 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 680;
+}
+
+.dora-activity-controls-head > span,
+.dora-activity-active-filters span {
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  border-radius: 999px;
+  background: rgba(224, 242, 254, 0.58);
+  color: #1d4ed8;
+  padding: 0.28rem 0.58rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.dora-activity-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.dora-activity-active-filters span {
+  background: rgba(255, 255, 255, 0.84);
+  color: #475569;
+}
+
+.dora-activity-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(18.4rem, 0.34fr);
+}
+
+.dora-activity-feed,
+.dora-activity-side section {
+  border-color: rgba(191, 219, 254, 0.64);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.84)),
+    #ffffff;
+}
+
+.dora-activity-feed {
+  padding: 1.12rem;
+}
+
+.dora-activity-timeline {
+  gap: 0.18rem;
+}
+
+.dora-activity-timeline::before {
+  left: 5.78rem;
+  background: linear-gradient(180deg, transparent, rgba(37, 99, 235, 0.34), rgba(34, 197, 94, 0.18), transparent);
+}
+
+.dora-activity-event {
+  grid-template-columns: 4.2rem 1rem 2.78rem minmax(0, 1fr) minmax(8.8rem, auto);
+  min-height: 4.55rem;
+  border-color: rgba(191, 219, 254, 0);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.dora-activity-event:hover {
+  border-color: rgba(147, 197, 253, 0.72);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.055);
+}
+
+.dora-activity-event-main strong {
+  font-size: 0.93rem;
+}
+
+.dora-activity-event-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.64rem;
+  border: 1px solid rgba(191, 219, 254, 0.58);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 0 0.56rem;
+}
+
+.dora-activity-side {
+  top: 5.35rem;
+}
+
+.dora-activity-lane-list {
+  display: grid;
+  gap: 0.62rem;
+  margin-top: 0.92rem;
+}
+
+.dora-activity-lane-list article {
+  padding: 0.74rem;
+}
+
+.dora-activity-lane-list small {
+  display: block;
+  margin-top: 0.18rem;
+  color: #2563eb;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+@media (max-width: 1180px) {
+  .dora-activity-principle-strip,
+  .dora-activity-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-activity-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-activity-side {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .dora-activity-lens {
+    min-height: 36rem;
+  }
+
+  .dora-activity-lens img {
+    height: 36rem;
+    object-position: 58% 50%;
+  }
+
+  .dora-activity-lens-copy {
+    top: 5.2rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+
+  .dora-activity-lens-copy strong {
+    max-width: 18rem;
+    font-size: 2rem;
+  }
+
+  .dora-activity-lens-copy p {
+    max-width: 20rem;
+    font-size: 0.86rem;
+  }
+
+  .dora-activity-lens-strip {
+    display: none;
+  }
+
+  .dora-activity-hero-rail {
+    grid-template-columns: 1fr;
+    right: 0.78rem;
+    bottom: 0.78rem;
+    left: 0.78rem;
+  }
+
+  .dora-activity-principle-strip,
+  .dora-activity-summary,
+  .dora-activity-side {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-activity-controls-head {
+    flex-direction: column;
+    gap: 0.58rem;
+  }
+
+  .dora-activity-event {
+    grid-template-columns: 3.35rem 0.9rem 2.35rem minmax(0, 1fr);
+    min-height: 5.2rem;
+  }
+
+  .dora-activity-event-meta {
+    grid-column: 4;
+    justify-self: start;
+    text-align: left;
+    white-space: normal;
+  }
+}
