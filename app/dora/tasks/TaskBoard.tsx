@@ -9,8 +9,11 @@ import {
   CheckCircle2,
   ClipboardList,
   Eye,
+  GitBranch,
+  Layers3,
+  ListChecks,
   LockKeyhole,
-  Radio,
+  ScanLine,
   ShieldAlert,
   ShieldCheck,
   Sparkles,
@@ -57,6 +60,47 @@ const severityLabels = {
   warning: "Warning"
 } as const satisfies Record<PublicTask["severity"], string>;
 
+const taskPrinciples = [
+  {
+    title: "Opaque keys",
+    summary: "Public task IDs stay stable but never reveal internal run names.",
+    icon: Eye
+  },
+  {
+    title: "Fixed titles",
+    summary: "Visible task labels are generic public vocabulary only.",
+    icon: ListChecks
+  },
+  {
+    title: "Owner review",
+    summary: "The page can show a checkpoint exists without showing the task body.",
+    icon: Bell
+  },
+  {
+    title: "No execution",
+    summary: "There are no public submit, approve, retry, or mutation controls.",
+    icon: LockKeyhole
+  }
+] as const;
+
+const taskLanes = [
+  {
+    title: "Needs owner",
+    states: ["Owner review", "Attention"] as const,
+    summary: "Review and attention labels stay visible while private details stay hidden."
+  },
+  {
+    title: "In motion",
+    states: ["Working"] as const,
+    summary: "Active work appears as coarse posture, not raw task names or prompts."
+  },
+  {
+    title: "Closed",
+    states: ["Completed"] as const,
+    summary: "Completed public states show outcome posture without artifacts."
+  }
+] as const;
+
 function taskToneClass(task: Pick<PublicTask, "severity" | "state">) {
   if (task.state === "Attention") {
     return "is-danger";
@@ -76,12 +120,18 @@ function taskToneClass(task: Pick<PublicTask, "severity" | "state">) {
 export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stats: readonly PublicTaskStat[] }) {
   const [filter, setFilter] = useState<TaskFilter>("all");
 
-  const previewTasks = tasks.slice(0, 6);
+  const heroTasks = tasks.slice(0, 4);
+  const previewTasks = tasks.slice(0, 4);
   const filteredTasks = useMemo(
     () => (filter === "all" ? tasks : tasks.filter((task) => task.state === filter)),
     [filter, tasks]
   );
   const ownerReviewTasks = useMemo(() => tasks.filter((task) => task.state === "Owner review"), [tasks]);
+  const activeFilterLabels = [
+    { key: "state", label: filter === "all" ? "All public states" : taskFilterLabels[filter] },
+    { key: "privacy", label: "No private task names" },
+    { key: "mode", label: "Display-only" }
+  ];
 
   return (
     <div className="dora-tasks">
@@ -89,8 +139,8 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
         <DoraOfficeHeroArt className="dora-tasks-hero-art" />
         <DoraOfficeHeroCopy
           className="dora-tasks-hero-copy"
-          lines={["Public task queue.", "Owner stays in the loop."]}
-          summary="Aggregated states only. No execution controls."
+          lines={["Tasks are visible.", "Work stays private."]}
+          summary="Aggregated states only. Owner checkpoints without execution controls."
         />
 
         <DoraOfficeHeroBoundaryCard
@@ -110,7 +160,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
             <strong>Doraemon</strong>
             <span>coordinates</span>
           </div>
-          {tasks.map((task, index) => (
+          {heroTasks.map((task, index) => (
             <div key={task.publicKey} className={`dora-tasks-orbit-node dora-tasks-orbit-node-${index + 1}`}>
               <span className={taskToneClass(task)} />
               <strong>{task.state}</strong>
@@ -131,7 +181,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
         <DoraOfficeHeroSignalRail
           className="dora-tasks-hero-signal-strip"
           ariaLabel="Public task state preview"
-          label="Task state rail"
+          label="Public task states"
           items={previewTasks.map((task) => ({
             key: task.publicKey,
             ariaLabel: `${task.publicKey} ${task.title}: ${task.state}`,
@@ -140,6 +190,24 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
             detail: task.agentRole
           }))}
         />
+      </section>
+
+      <section className="dora-tasks-principle-strip" aria-label="Public task safety principles">
+        {taskPrinciples.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <article key={item.title}>
+              <span>
+                <Icon size={18} aria-hidden />
+              </span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.summary}</p>
+              </div>
+            </article>
+          );
+        })}
       </section>
 
       <section className="dora-tasks-stats" aria-label="Public task state counts">
@@ -160,21 +228,33 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
       </section>
 
       <section className="dora-tasks-controls" aria-label="Task filters">
-        <div className="dora-tasks-filter-group" role="radiogroup" aria-label="Task state filters">
-          {taskFilters.map((item) => (
-            <button
-              key={item.value}
-              role="radio"
-              type="button"
-              className={filter === item.value ? "is-active" : ""}
-              aria-checked={filter === item.value}
-              onClick={() => setFilter(item.value)}
-            >
-              {item.label}
-            </button>
-          ))}
+        <div>
+          <div className="dora-tasks-controls-head">
+            <div>
+              <strong>Filter public queue</strong>
+              <p>Every control operates on sanitized task posture only.</p>
+            </div>
+            <span>{filteredTasks.length} shown</span>
+          </div>
+          <div className="dora-tasks-filter-group" role="group" aria-label="Task state filters">
+            {taskFilters.map((item) => (
+              <button
+                key={item.value}
+                type="button"
+                className={filter === item.value ? "is-active" : ""}
+                aria-pressed={filter === item.value}
+                onClick={() => setFilter(item.value)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+          <ul className="dora-tasks-active-filters" aria-label="Current task filters">
+            {activeFilterLabels.map((item) => (
+              <li key={item.key}>{item.label}</li>
+            ))}
+          </ul>
         </div>
-        <span>{filteredTasks.length} shown</span>
       </section>
 
       <div className="dora-tasks-layout">
@@ -218,9 +298,48 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
               </article>
             ))}
           </div>
+
+          {filteredTasks.length === 0 ? (
+            <div className="dora-tasks-empty">
+              <ClipboardList size={18} aria-hidden />
+              <strong>No public tasks match this filter.</strong>
+              <button type="button" onClick={() => setFilter("all")}>
+                Show all
+              </button>
+            </div>
+          ) : null}
         </section>
 
         <aside className="dora-tasks-side" aria-label="Owner review and public boundary">
+          <section className="dora-tasks-lanes-card">
+            <div className="dora-tasks-section-heading">
+              <div>
+                <h2>Queue lanes</h2>
+                <p>Public task posture grouped by what a visitor can safely understand.</p>
+              </div>
+              <GitBranch size={21} aria-hidden />
+            </div>
+
+            <div className="dora-tasks-lane-list">
+              {taskLanes.map((lane) => {
+                const count = tasks.filter((task) => lane.states.some((state) => state === task.state)).length;
+
+                return (
+                  <article key={lane.title}>
+                    <span>
+                      <Layers3 size={15} aria-hidden />
+                    </span>
+                    <div>
+                      <h3>{lane.title}</h3>
+                      <small>{count} public labels</small>
+                      <p>{lane.summary}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+
           <section className="dora-tasks-owner-lane">
             <div className="dora-tasks-section-heading">
               <div>
@@ -231,15 +350,19 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
             </div>
 
             <div className="dora-tasks-owner-list">
-              {ownerReviewTasks.map((task) => (
-                <article key={task.publicKey}>
-                  <span aria-hidden />
-                  <div>
-                    <strong>{task.title}</strong>
-                    <p>{task.agentRole} · {task.updated}</p>
-                  </div>
-                </article>
-              ))}
+              {ownerReviewTasks.length > 0 ? (
+                ownerReviewTasks.map((task) => (
+                  <article key={task.publicKey}>
+                    <span aria-hidden />
+                    <div>
+                      <h3>{task.title}</h3>
+                      <p>{task.agentRole} · {task.updated}</p>
+                    </div>
+                  </article>
+                ))
+              ) : (
+                <div className="dora-tasks-owner-empty">No public owner-review checkpoint is visible.</div>
+              )}
             </div>
           </section>
 
@@ -276,7 +399,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
           </section>
 
           <section className="dora-tasks-live-card">
-            <Radio size={20} aria-hidden />
+            <ScanLine size={20} aria-hidden />
             <strong>Read-only posture</strong>
             <p>Public visitors can inspect state, not mutate work.</p>
           </section>

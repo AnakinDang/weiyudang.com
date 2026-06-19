@@ -15013,3 +15013,367 @@ textarea {
     white-space: normal;
   }
 }
+
+/* Step 14: Doraemon Tasks review-queue polish */
+.dora-tasks {
+  gap: 1.08rem;
+}
+
+.dora-tasks-hero {
+  min-height: 34.2rem;
+  border-color: rgba(147, 197, 253, 0.7);
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 50% 78%, rgba(246, 201, 69, 0.14), transparent 25%),
+    radial-gradient(ellipse at 56% 66%, rgba(37, 99, 235, 0.18), transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(248, 251, 255, 0.88) 72%, #ffffff 100%),
+    #ffffff;
+  box-shadow:
+    0 32px 98px rgba(37, 99, 235, 0.09),
+    0 20px 70px rgba(15, 23, 42, 0.055);
+}
+
+.dora-tasks-hero-art {
+  top: -12%;
+  left: -4%;
+  width: 108%;
+  height: 106%;
+  object-position: center 44%;
+  opacity: 0.48;
+  filter:
+    saturate(1.08)
+    contrast(1.03)
+    drop-shadow(0 26px 70px rgba(37, 99, 235, 0.12));
+}
+
+.dora-tasks-hero-copy {
+  top: 1.65rem;
+  left: 1.62rem;
+  max-width: min(34rem, 54%);
+}
+
+.dora-tasks-hero-copy p {
+  font-size: clamp(1.55rem, 2.45vw, 2.28rem);
+  line-height: 1.03;
+}
+
+.dora-tasks-hero-copy small {
+  margin-top: 0.76rem;
+  max-width: 28rem;
+  color: #334155;
+  font-size: 0.94rem;
+}
+
+.dora-tasks-hero-boundary-card {
+  border-color: rgba(147, 197, 253, 0.78);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.dora-tasks-orbit-ring {
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.dora-tasks-hub svg {
+  border-color: rgba(147, 197, 253, 0.88);
+  box-shadow:
+    0 18px 44px rgba(37, 99, 235, 0.14),
+    0 0 0 7px rgba(255, 255, 255, 0.78),
+    0 0 0 12px rgba(37, 99, 235, 0.08);
+}
+
+.dora-tasks-orbit-node {
+  border-color: rgba(147, 197, 253, 0.76);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.dora-tasks-hero-boundary,
+.dora-tasks-hero-signal-strip {
+  border-color: rgba(147, 197, 253, 0.76);
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.dora-tasks-principle-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.82rem;
+}
+
+.dora-tasks-principle-strip article,
+.dora-tasks-lane-list article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.12rem 0.68rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.82)),
+    #ffffff;
+  box-shadow: 0 16px 46px rgba(15, 23, 42, 0.045);
+}
+
+.dora-tasks-principle-strip article {
+  min-height: 6.2rem;
+  padding: 0.95rem;
+}
+
+.dora-tasks-principle-strip article > span,
+.dora-tasks-lane-list article > span {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2563eb;
+}
+
+.dora-tasks-principle-strip h3,
+.dora-tasks-lane-list h3 {
+  display: block;
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.84rem;
+  font-weight: 840;
+  line-height: 1.2;
+}
+
+.dora-tasks-principle-strip p,
+.dora-tasks-lane-list p {
+  margin: 0.32rem 0 0;
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: 1.42;
+}
+
+.dora-tasks-stats {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dora-tasks-stats article,
+.dora-tasks-controls,
+.dora-tasks-queue,
+.dora-tasks-side section {
+  border-color: rgba(191, 219, 254, 0.64);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.84)),
+    #ffffff;
+}
+
+.dora-tasks-controls {
+  display: block;
+  padding: 0.92rem;
+}
+
+.dora-tasks-controls > div {
+  display: grid;
+  gap: 0.78rem;
+}
+
+.dora-tasks-controls-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  padding-bottom: 0.76rem;
+}
+
+.dora-tasks-controls-head strong {
+  color: #0f172a;
+  font-size: 0.96rem;
+  font-weight: 840;
+}
+
+.dora-tasks-controls-head p {
+  margin: 0.2rem 0 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 680;
+}
+
+.dora-tasks-controls-head > span,
+.dora-tasks-active-filters li {
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  border-radius: 999px;
+  background: rgba(224, 242, 254, 0.58);
+  color: #1d4ed8;
+  padding: 0.28rem 0.58rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.dora-tasks-active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-tasks-active-filters li {
+  background: rgba(255, 255, 255, 0.84);
+  color: #475569;
+}
+
+.dora-tasks-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(18.6rem, 0.34fr);
+}
+
+.dora-tasks-queue {
+  padding: 1.12rem;
+}
+
+.dora-tasks-row {
+  border-color: rgba(191, 219, 254, 0.54);
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.dora-tasks-row:hover {
+  border-color: rgba(147, 197, 253, 0.78);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.055);
+}
+
+.dora-tasks-row.is-warning {
+  background:
+    linear-gradient(90deg, rgba(255, 251, 235, 0.7), rgba(255, 255, 255, 0.82)),
+    #ffffff;
+}
+
+.dora-tasks-empty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-top: 0.8rem;
+  border: 1px dashed rgba(191, 219, 254, 0.78);
+  border-radius: 8px;
+  background: rgba(248, 251, 255, 0.74);
+  padding: 0.82rem;
+  color: #475569;
+  font-size: 0.82rem;
+}
+
+.dora-tasks-empty svg {
+  color: #2563eb;
+}
+
+.dora-tasks-empty button {
+  min-height: 2.25rem;
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #1d4ed8;
+  padding: 0 0.82rem;
+  font-size: 0.76rem;
+  font-weight: 780;
+}
+
+.dora-tasks-side {
+  top: 5.35rem;
+}
+
+.dora-tasks-lane-list {
+  display: grid;
+  gap: 0.62rem;
+  margin-top: 0.92rem;
+}
+
+.dora-tasks-lane-list article {
+  padding: 0.74rem;
+}
+
+.dora-tasks-lane-list small {
+  display: block;
+  margin-top: 0.18rem;
+  color: #2563eb;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.dora-tasks-owner-list h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 820;
+  line-height: 1.2;
+}
+
+.dora-tasks-owner-empty {
+  border: 1px dashed rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(248, 251, 255, 0.74);
+  padding: 0.72rem;
+  color: #64748b;
+  font-size: 0.76rem;
+  font-weight: 760;
+}
+
+@media (max-width: 1180px) {
+  .dora-tasks-principle-strip,
+  .dora-tasks-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-tasks-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-tasks-side {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .dora-tasks-hero {
+    min-height: 39rem;
+  }
+
+  .dora-tasks-hero-art {
+    top: -5%;
+    left: -18%;
+    width: 136%;
+    height: 64%;
+    object-position: center 44%;
+    opacity: 0.44;
+  }
+
+  .dora-tasks-hero-copy {
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
+  }
+
+  .dora-tasks-hero-copy p {
+    font-size: 1.52rem;
+  }
+
+  .dora-tasks-principle-strip,
+  .dora-tasks-stats,
+  .dora-tasks-side {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-tasks-principle-strip article {
+    min-height: auto;
+  }
+
+  .dora-tasks-controls-head,
+  .dora-tasks-empty {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dora-tasks-filter-group button {
+    flex: 1 1 auto;
+  }
+
+  .dora-tasks-row {
+    grid-template-columns: 2.55rem minmax(0, 1fr);
+  }
+}
