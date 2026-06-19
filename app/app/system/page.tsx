@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import {
   Activity,
@@ -14,6 +13,7 @@ import {
   XCircle
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
+import { requireOwnerSession } from "@/lib/private/owner-session";
 import {
   privateSystemDiagnosticLanes,
   privateSystemDiagnostics,
@@ -24,11 +24,6 @@ import {
   type SystemTone,
   type PrivateSystemService
 } from "@/lib/private/system";
-
-export const metadata: Metadata = {
-  title: "System Health",
-  description: "Owner-only safe diagnostics for service posture, event freshness, review queues, and repair boundaries."
-};
 
 export const dynamic = "force-dynamic";
 
@@ -404,7 +399,8 @@ function EmptySystemDiagnostics() {
   );
 }
 
-export default function SystemPage() {
+export default async function SystemPage() {
+  await requireOwnerSession("/app/system");
   const primaryService = privateSystemServices[0];
 
   if (!primaryService) {
