@@ -1,24 +1,18 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   CalendarClock,
   CheckCircle2,
-  CircleDot,
-  Clock3,
   Eye,
   Filter,
   GitBranch,
   Layers3,
-  ListFilter,
   LockKeyhole,
-  Radio,
   ScanLine,
   ShieldCheck,
-  Sparkles
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -49,29 +43,6 @@ const timeFilters = [
   { value: "all", label: "All time" },
   { value: "current", label: "Current window" },
   { value: "latest5", label: "Latest 5" }
-] as const;
-
-const activityPrinciples = [
-  {
-    title: "Newest-first",
-    summary: "Sorted by event creation time before any filters run.",
-    icon: Clock3
-  },
-  {
-    title: "Fixed labels",
-    summary: "Kinds, states, and titles are public vocabulary only.",
-    icon: ListFilter
-  },
-  {
-    title: "No payloads",
-    summary: "Prompts, artifacts, paths, accounts, and run internals stay hidden.",
-    icon: ShieldCheck
-  },
-  {
-    title: "Read-only",
-    summary: "Visitors can inspect the rhythm, never execute work.",
-    icon: LockKeyhole
-  }
 ] as const;
 
 const activityLanes = [
@@ -119,11 +90,8 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
   const [timeRange, setTimeRange] = useState<TimeFilter>("all");
 
   const agents = useMemo(() => Array.from(new Set(events.map((event) => event.agent))).sort(), [events]);
-  const groupCount = useMemo(() => new Set(events.map((event) => event.event_type)).size, [events]);
   const kindCounts = useMemo(() => countBy(events, (event) => event.event_type), [events]);
-  const severityCounts = useMemo(() => countBy(events, (event) => event.severity), [events]);
   const currentWindowDate = maxEventDate(events);
-  const heroEvents = events.slice(0, 5);
 
   const filteredEvents = useMemo(() => {
     const base = events.filter((event) => {
@@ -166,101 +134,6 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
 
   return (
     <div className="dora-activity">
-      <section className="dora-activity-lens" aria-label="Doraemon public activity lens">
-        <Image
-          src="/visuals/doraemon-activity-lens-v1.webp"
-          alt=""
-          width={1400}
-          height={788}
-          sizes="(max-width: 900px) 100vw, 70vw"
-        />
-        <div className="dora-activity-lens-overlay">
-          <span>
-            <DoraemonMark />
-          </span>
-          <strong>Public activity lens</strong>
-          <small>Sanitized event flow</small>
-        </div>
-        <div className="dora-activity-lens-copy">
-          <strong>Every public signal, ordered.</strong>
-          <p>Doraemon Office turns agent motion into a readable, fixed-label timeline without exposing private work.</p>
-        </div>
-        <div className="dora-activity-lens-strip" aria-label="Activity posture">
-          <span>
-            <Radio size={14} aria-hidden />
-            Relay-aware
-          </span>
-          <span>
-            <ShieldCheck size={14} aria-hidden />
-            Public schema only
-          </span>
-          <span>
-            <LockKeyhole size={14} aria-hidden />
-            Owner data hidden
-          </span>
-        </div>
-        <div className="dora-activity-hero-rail" aria-label="Recent public activity preview">
-          <div>
-            <span className="dora-activity-rail-live-dot" aria-hidden />
-            <strong>Demo public stream</strong>
-            <small>fixed labels</small>
-          </div>
-          <ol>
-            {heroEvents.map((event) => (
-              <li
-                key={`${event.created_at}-${event.agent}-${event.title}`}
-                aria-label={`${formatPublicEventTime(event.created_at)} ${event.agent}: ${event.title}`}
-              >
-                <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
-                <strong>{event.agent}</strong>
-                <span>{event.title}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="dora-activity-principle-strip" aria-label="Public activity safety principles">
-        {activityPrinciples.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <article key={item.title}>
-              <span>
-                <Icon size={18} aria-hidden />
-              </span>
-              <div>
-                <strong>{item.title}</strong>
-                <p>{item.summary}</p>
-              </div>
-            </article>
-          );
-        })}
-      </section>
-
-      <section className="dora-activity-summary" aria-label="Public activity summary">
-        <article>
-          <Radio size={24} aria-hidden />
-          <strong>{events.length}</strong>
-          <span>public events</span>
-        </article>
-        <article>
-          <Sparkles size={24} aria-hidden />
-          <strong>{groupCount}</strong>
-          <span>event groups</span>
-        </article>
-        <article>
-          <CircleDot size={24} aria-hidden />
-          <strong>{severityCounts.warning ?? 0}</strong>
-          <span>attention labels</span>
-        </article>
-        <article>
-          <CalendarClock size={24} aria-hidden />
-          <strong>Window</strong>
-          <span>{currentWindowDate ? "latest public slice" : "fallback ready"}</span>
-        </article>
-      </section>
-
       <section className="dora-activity-controls" aria-label="Activity filters">
         <div className="dora-activity-controls-head">
           <div>
