@@ -2,36 +2,23 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   Bell,
-  CheckCircle2,
   ClipboardList,
   Eye,
   GitBranch,
   Layers3,
-  ListChecks,
   LockKeyhole,
   ScanLine,
-  ShieldAlert,
   ShieldCheck,
-  Sparkles,
-  TimerReset
+  Sparkles
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
-import {
-  DoraOfficeHeroArt,
-  DoraOfficeHeroBoundaryCard,
-  DoraOfficeHeroBoundaryStrip,
-  DoraOfficeHeroCopy,
-  DoraOfficeHeroSignalRail
-} from "@/components/DoraOfficeHero";
 import { StatusBadge } from "@/components/StatusBadge";
-import type { publicDoraTasks, publicDoraTaskStats } from "@/lib/dora-office";
+import { publicDoraTaskToneClasses, type publicDoraTasks } from "@/lib/dora-office";
 
 type PublicTask = (typeof publicDoraTasks)[number];
-type PublicTaskStat = (typeof publicDoraTaskStats)[number];
 type TaskFilter = "all" | PublicTask["state"];
 
 const taskFilterLabels = {
@@ -48,40 +35,10 @@ const taskFilters = [
   ...taskFilterOrder.map((value) => ({ value, label: taskFilterLabels[value] }))
 ] as const;
 
-const statIcons = {
-  Working: TimerReset,
-  "Owner review": Bell,
-  Attention: ShieldAlert,
-  Completed: CheckCircle2
-} as const satisfies Record<PublicTaskStat["label"], LucideIcon>;
-
 const severityLabels = {
   normal: "Normal",
   warning: "Warning"
 } as const satisfies Record<PublicTask["severity"], string>;
-
-const taskPrinciples = [
-  {
-    title: "Opaque keys",
-    summary: "Public task IDs stay stable but never reveal internal run names.",
-    icon: Eye
-  },
-  {
-    title: "Fixed titles",
-    summary: "Visible task labels are generic public vocabulary only.",
-    icon: ListChecks
-  },
-  {
-    title: "Owner review",
-    summary: "The page can show a checkpoint exists without showing the task body.",
-    icon: Bell
-  },
-  {
-    title: "No execution",
-    summary: "There are no public submit, approve, retry, or mutation controls.",
-    icon: LockKeyhole
-  }
-] as const;
 
 const taskLanes = [
   {
@@ -101,27 +58,13 @@ const taskLanes = [
   }
 ] as const;
 
-function taskToneClass(task: Pick<PublicTask, "severity" | "state">) {
-  if (task.state === "Attention") {
-    return "is-danger";
-  }
-
-  if (task.severity === "warning") {
-    return "is-warning";
-  }
-
-  if (task.state === "Completed") {
-    return "is-normal";
-  }
-
-  return "is-info";
+function taskToneClass(task: Pick<PublicTask, "state">) {
+  return publicDoraTaskToneClasses[task.state];
 }
 
-export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stats: readonly PublicTaskStat[] }) {
+export function TaskBoard({ tasks }: { tasks: readonly PublicTask[] }) {
   const [filter, setFilter] = useState<TaskFilter>("all");
 
-  const heroTasks = tasks.slice(0, 4);
-  const previewTasks = tasks.slice(0, 4);
   const filteredTasks = useMemo(
     () => (filter === "all" ? tasks : tasks.filter((task) => task.state === filter)),
     [filter, tasks]
@@ -134,99 +77,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
   ];
 
   return (
-    <div className="dora-tasks">
-      <section className="dora-tasks-hero" aria-label="Public Doraemon task orbit">
-        <DoraOfficeHeroArt className="dora-tasks-hero-art" />
-        <DoraOfficeHeroCopy
-          className="dora-tasks-hero-copy"
-          lines={["Tasks are visible.", "Work stays private."]}
-          summary="Aggregated states only. Owner checkpoints without execution controls."
-        />
-
-        <DoraOfficeHeroBoundaryCard
-          className="dora-tasks-hero-boundary-card"
-          items={[
-            { icon: Eye, title: "Public aggregation", detail: "Opaque keys only" },
-            { icon: LockKeyhole, title: "Private details", detail: "Prompts hidden" }
-          ]}
-        />
-
-        <div className="dora-tasks-orbit" aria-hidden="true">
-          <div className="dora-tasks-orbit-ring dora-tasks-orbit-ring-outer" />
-          <div className="dora-tasks-orbit-ring dora-tasks-orbit-ring-middle" />
-          <div className="dora-tasks-orbit-ring dora-tasks-orbit-ring-inner" />
-          <div className="dora-tasks-hub">
-            <DoraemonMark />
-            <strong>Doraemon</strong>
-            <span>coordinates</span>
-          </div>
-          {heroTasks.map((task, index) => (
-            <div key={task.publicKey} className={`dora-tasks-orbit-node dora-tasks-orbit-node-${index + 1}`}>
-              <span className={taskToneClass(task)} />
-              <strong>{task.state}</strong>
-              <small>{task.agentRole}</small>
-            </div>
-          ))}
-        </div>
-
-        <DoraOfficeHeroBoundaryStrip
-          className="dora-tasks-hero-boundary"
-          items={[
-            { icon: Eye, label: "Public aggregation" },
-            { icon: LockKeyhole, label: "Private details hidden" },
-            { icon: ShieldCheck, label: "Display-only" }
-          ]}
-        />
-
-        <DoraOfficeHeroSignalRail
-          className="dora-tasks-hero-signal-strip"
-          ariaLabel="Public task state preview"
-          label="Public task states"
-          items={previewTasks.map((task) => ({
-            key: task.publicKey,
-            ariaLabel: `${task.publicKey} ${task.title}: ${task.state}`,
-            meta: task.publicKey,
-            title: task.title,
-            detail: task.agentRole
-          }))}
-        />
-      </section>
-
-      <section className="dora-tasks-principle-strip" aria-label="Public task safety principles">
-        {taskPrinciples.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <article key={item.title}>
-              <span>
-                <Icon size={18} aria-hidden />
-              </span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.summary}</p>
-              </div>
-            </article>
-          );
-        })}
-      </section>
-
-      <section className="dora-tasks-stats" aria-label="Public task state counts">
-        {stats.map((stat) => {
-          const Icon = statIcons[stat.label];
-
-          return (
-            <article key={stat.label}>
-              <Icon size={23} aria-hidden />
-              <div>
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </div>
-              <StatusBadge tone={stat.tone}>{stat.label}</StatusBadge>
-            </article>
-          );
-        })}
-      </section>
-
+    <div className="dora-tasks dora-tasks-board">
       <section className="dora-tasks-controls" aria-label="Task filters">
         <div>
           <div className="dora-tasks-controls-head">
@@ -261,7 +112,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
         <section className="dora-tasks-queue" aria-labelledby="dora-tasks-queue-title">
           <div className="dora-tasks-section-heading">
             <div>
-              <h2 id="dora-tasks-queue-title">Sanitized task groups</h2>
+              <h3 id="dora-tasks-queue-title">Sanitized task groups</h3>
               <p>Fixed public titles, coarse timing, and opaque task keys only.</p>
             </div>
             <ClipboardList size={22} aria-hidden />
@@ -278,7 +129,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
                     <span className="dora-tasks-public-key">{task.publicKey}</span>
                     <StatusBadge tone={task.tone}>{task.state}</StatusBadge>
                   </div>
-                  <h3>{task.title}</h3>
+                  <h4>{task.title}</h4>
                   <p>{task.summary}</p>
                 </div>
                 <dl className="dora-tasks-row-meta">
@@ -314,8 +165,8 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
           <section className="dora-tasks-lanes-card">
             <div className="dora-tasks-section-heading">
               <div>
-                <h2>Queue lanes</h2>
-                <p>Public task posture grouped by what a visitor can safely understand.</p>
+                <h3>Queue lanes</h3>
+                <p>Public posture grouped by what a visitor can safely understand.</p>
               </div>
               <GitBranch size={21} aria-hidden />
             </div>
@@ -330,7 +181,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
                       <Layers3 size={15} aria-hidden />
                     </span>
                     <div>
-                      <h3>{lane.title}</h3>
+                      <h4>{lane.title}</h4>
                       <small>{count} public labels</small>
                       <p>{lane.summary}</p>
                     </div>
@@ -343,7 +194,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
           <section className="dora-tasks-owner-lane">
             <div className="dora-tasks-section-heading">
               <div>
-                <h2>Owner review lane</h2>
+                <h3>Owner review lane</h3>
                 <p>Shows only that attention is needed, not the private task body.</p>
               </div>
               <Bell size={21} aria-hidden />
@@ -355,8 +206,12 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
                   <article key={task.publicKey}>
                     <span aria-hidden />
                     <div>
-                      <h3>{task.title}</h3>
-                      <p>{task.agentRole} · {task.updated}</p>
+                      <h4>{task.title}</h4>
+                      <p>
+                        {task.agentRole}
+                        {" · "}
+                        {task.updated}
+                      </p>
                     </div>
                   </article>
                 ))
@@ -369,7 +224,7 @@ export function TaskBoard({ tasks, stats }: { tasks: readonly PublicTask[]; stat
           <section className="dora-tasks-boundary-card">
             <div className="dora-tasks-section-heading">
               <div>
-                <h2>Public task boundary</h2>
+                <h3>Public task boundary</h3>
                 <p>This page is an aggregation surface, not an action console.</p>
               </div>
               <ShieldCheck size={21} aria-hidden />
