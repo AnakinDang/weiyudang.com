@@ -183,6 +183,13 @@ export const publicDoraTasks = [
   }
 ] as const;
 
+export const publicDoraTaskToneClasses = {
+  "Owner review": "is-warning",
+  Working: "is-info",
+  Attention: "is-danger",
+  Completed: "is-normal"
+} as const satisfies Record<(typeof publicDoraTasks)[number]["state"], string>;
+
 export const publicDoraTaskStats = [
   { label: "Working", value: "1", tone: "info" },
   { label: "Owner review", value: "1", tone: "warning" },
