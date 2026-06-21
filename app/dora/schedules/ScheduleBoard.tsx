@@ -5,30 +5,18 @@ import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
-  Bell,
   CalendarClock,
-  CheckCircle2,
-  Eye,
   GitBranch,
   Layers3,
-  ListChecks,
-  LockKeyhole,
+  LineChart,
   Radio,
   Repeat2,
   ShieldCheck,
-  Sparkles,
-  TimerReset
+  Sparkles
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
-import {
-  DoraOfficeHeroArt,
-  DoraOfficeHeroBoundaryCard,
-  DoraOfficeHeroBoundaryStrip,
-  DoraOfficeHeroCopy,
-  DoraOfficeHeroSignalRail
-} from "@/components/DoraOfficeHero";
 import { StatusBadge } from "@/components/StatusBadge";
-import type { publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
+import { publicDoraScheduleToneClasses, type publicScheduleBoundaries, type publicSchedules } from "@/lib/dora-office";
 
 type PublicSchedule = (typeof publicSchedules)[number];
 type PublicScheduleBoundary = (typeof publicScheduleBoundaries)[number];
@@ -50,33 +38,10 @@ const cadenceLabels = {
 
 const rhythmIcons = {
   "Daily brief": Sparkles,
-  "Market scan": Radio,
-  "System health": ShieldCheck,
-  "Weekly review": Repeat2
+  "Market scan": LineChart,
+  "System health": Radio,
+  "Weekly review": CalendarClock
 } as const satisfies Record<PublicSchedule["name"], LucideIcon>;
-
-const schedulePrinciples = [
-  {
-    title: "Coarse windows",
-    summary: "Public timing stays at cadence and next-window level.",
-    icon: CalendarClock
-  },
-  {
-    title: "Fixed names",
-    summary: "Visible schedule names are public vocabulary only.",
-    icon: ListChecks
-  },
-  {
-    title: "Owner posture",
-    summary: "Review status can be visible without owner-only instructions.",
-    icon: Bell
-  },
-  {
-    title: "No scheduler",
-    summary: "No create, pause, resume, delete, or command controls.",
-    icon: LockKeyhole
-  }
-] as const;
 
 const rhythmLanes = [
   {
@@ -97,7 +62,7 @@ const rhythmLanes = [
 ] as const;
 
 function scheduleToneClass(schedule: Pick<PublicSchedule, "state">) {
-  return schedule.state === "Owner review" ? "is-warning" : "is-info";
+  return publicDoraScheduleToneClasses[schedule.state];
 }
 
 export function ScheduleBoard({
@@ -109,7 +74,6 @@ export function ScheduleBoard({
 }) {
   const [stateFilter, setStateFilter] = useState<StateFilter>("all");
   const [cadenceFilter, setCadenceFilter] = useState<CadenceFilter>("all");
-  const previewSchedules = schedules.slice(0, 4);
 
   const cadenceFilters = useMemo(
     () => [
@@ -138,129 +102,23 @@ export function ScheduleBoard({
     [cadenceFilter, schedules, stateFilter]
   );
 
-  const ownerReviewCount = schedules.filter((schedule) => schedule.state === "Owner review").length;
-  const cadenceCount = new Set(schedules.map((schedule) => schedule.cadence)).size;
+  const ownerReviewCount = useMemo(
+    () => schedules.filter((schedule) => schedule.state === "Owner review").length,
+    [schedules]
+  );
+  const ownerReviewText =
+    ownerReviewCount === 1
+      ? "1 review window is public. "
+      : `${ownerReviewCount} review windows are public. `;
   const activeFilterLabels = [
     { key: "state", label: stateFilter === "all" ? "All public states" : stateFilter },
     { key: "cadence", label: cadenceFilter === "all" ? "All cadence windows" : cadenceLabels[cadenceFilter] },
     { key: "privacy", label: "No scheduler commands" },
-    { key: "mode", label: "Read-only" }
+    { key: "mode", label: "Display-only" }
   ];
 
   return (
-    <div className="dora-schedules">
-      <section className="dora-schedules-hero" aria-label="Doraemon operating rhythm">
-        <DoraOfficeHeroArt className="dora-schedules-hero-art" />
-        <DoraOfficeHeroCopy
-          className="dora-schedules-hero-copy"
-          lines={["Rhythm is visible.", "Scheduler stays private."]}
-          summary="Coarse cadence windows only. No commands, paths, prompts, or controls."
-        />
-
-        <DoraOfficeHeroBoundaryCard
-          className="dora-schedules-hero-boundary-card"
-          items={[
-            { icon: Eye, title: "Public cadence", detail: "Coarse windows" },
-            { icon: LockKeyhole, title: "Private scheduler", detail: "Commands hidden" }
-          ]}
-        />
-
-        <div className="dora-schedules-clock" aria-hidden="true">
-          <div className="dora-schedules-clock-ring dora-schedules-clock-ring-outer" />
-          <div className="dora-schedules-clock-ring dora-schedules-clock-ring-middle" />
-          <div className="dora-schedules-clock-ring dora-schedules-clock-ring-inner" />
-          <div className="dora-schedules-hub">
-            <DoraemonMark />
-            <strong>Doraemon</strong>
-            <span>rhythm</span>
-          </div>
-          {previewSchedules.map((schedule, index) => {
-            const Icon = rhythmIcons[schedule.name];
-
-            return (
-              <div key={schedule.name} className={`dora-schedules-clock-node dora-schedules-clock-node-${index + 1}`}>
-                <span className={scheduleToneClass(schedule)}>
-                  <Icon size={15} aria-hidden />
-                </span>
-                <strong>{schedule.name}</strong>
-                <small>{schedule.cadence}</small>
-              </div>
-            );
-          })}
-        </div>
-
-        <DoraOfficeHeroBoundaryStrip
-          className="dora-schedules-hero-boundary"
-          items={[
-            { icon: Eye, label: "Coarse windows" },
-            { icon: LockKeyhole, label: "Commands hidden" },
-            { icon: ShieldCheck, label: "Read-only" }
-          ]}
-        />
-
-        <DoraOfficeHeroSignalRail
-          className="dora-schedules-hero-signal-strip"
-          ariaLabel="Public schedule window preview"
-          label="Public rhythm windows"
-          items={previewSchedules.map((schedule) => ({
-            key: schedule.name,
-            ariaLabel: `${schedule.name}: ${schedule.cadence}, next ${schedule.next}`,
-            meta: schedule.cadence,
-            title: schedule.name,
-            detail: schedule.next
-          }))}
-        />
-      </section>
-
-      <section className="dora-schedules-principle-strip" aria-label="Public schedule safety principles">
-        {schedulePrinciples.map((item) => {
-          const Icon = item.icon;
-
-          return (
-            <article key={item.title}>
-              <span>
-                <Icon size={18} aria-hidden />
-              </span>
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.summary}</p>
-              </div>
-            </article>
-          );
-        })}
-      </section>
-
-      <section className="dora-schedules-stats" aria-label="Public schedule summary">
-        <article>
-          <Repeat2 size={23} aria-hidden />
-          <div>
-            <strong>{schedules.length}</strong>
-            <span>public rhythms</span>
-          </div>
-        </article>
-        <article>
-          <TimerReset size={23} aria-hidden />
-          <div>
-            <strong>{cadenceCount}</strong>
-            <span>cadence windows</span>
-          </div>
-        </article>
-        <article>
-          <CheckCircle2 size={23} aria-hidden />
-          <div>
-            <strong>{ownerReviewCount}</strong>
-            <span>review window</span>
-          </div>
-        </article>
-        <article>
-          <LockKeyhole size={23} aria-hidden />
-          <div>
-            <strong>0</strong>
-            <span>mutation controls</span>
-          </div>
-        </article>
-      </section>
-
+    <div className="dora-schedules dora-schedules-board-island">
       <section className="dora-schedules-controls" aria-label="Schedule filters">
         <div>
           <div className="dora-schedules-controls-head">
@@ -299,7 +157,7 @@ export function ScheduleBoard({
             </label>
           </div>
 
-          <ul className="dora-schedules-active-filters" aria-label="Active filter posture">
+          <ul className="dora-schedules-active-filters" aria-label="Filter posture and guarantees">
             {activeFilterLabels.map((item) => (
               <li key={item.key}>{item.label}</li>
             ))}
@@ -311,7 +169,7 @@ export function ScheduleBoard({
         <section className="dora-schedules-board" aria-labelledby="dora-schedules-board-title">
           <div className="dora-schedules-section-heading">
             <div>
-              <h2 id="dora-schedules-board-title">Recurring operating windows</h2>
+              <h3 id="dora-schedules-board-title">Recurring operating windows</h3>
               <p>Public names, coarse last/next windows, and safe status only.</p>
             </div>
             <CalendarClock size={22} aria-hidden />
@@ -322,7 +180,7 @@ export function ScheduleBoard({
               <article className="dora-schedules-empty" aria-live="polite">
                 <CalendarClock size={20} aria-hidden />
                 <div>
-                  <h3>No public rhythm matches these filters</h3>
+                  <h4>No public rhythm matches these filters</h4>
                   <p>Try a broader state or cadence view. Private scheduler details remain hidden.</p>
                 </div>
               </article>
@@ -337,7 +195,7 @@ export function ScheduleBoard({
                     </span>
                     <div className="dora-schedules-lane-main">
                       <div>
-                        <h3>{schedule.name}</h3>
+                        <h4>{schedule.name}</h4>
                         <StatusBadge tone={schedule.tone}>{schedule.state}</StatusBadge>
                       </div>
                       <p>{schedule.summary}</p>
@@ -364,10 +222,10 @@ export function ScheduleBoard({
         </section>
 
         <aside className="dora-schedules-side" aria-label="Schedule boundary and bridges">
-          <section className="dora-schedules-rhythm-card">
+          <section className="dora-schedules-rhythm-card" aria-label="Rhythm lanes">
             <div className="dora-schedules-section-heading">
               <div>
-                <h2>Rhythm lanes</h2>
+                <h3>Rhythm lanes</h3>
                 <p>Public cadence grouped by what a visitor can safely understand.</p>
               </div>
               <GitBranch size={21} aria-hidden />
@@ -385,8 +243,14 @@ export function ScheduleBoard({
                       <Layers3 size={15} aria-hidden />
                     </span>
                     <div>
-                      <h3>{lane.title}</h3>
-                      <small>{count} public windows</small>
+                      <h4>{lane.title}</h4>
+                      <small>
+                        {count}
+                        {" "}
+                        public
+                        {" "}
+                        {count === 1 ? "window" : "windows"}
+                      </small>
                       <p>{lane.summary}</p>
                     </div>
                   </article>
@@ -395,10 +259,10 @@ export function ScheduleBoard({
             </div>
           </section>
 
-          <section className="dora-schedules-boundary-card">
+          <section className="dora-schedules-boundary-card" aria-label="Schedule boundary">
             <div className="dora-schedules-section-heading">
               <div>
-                <h2>Schedule boundary</h2>
+                <h3>Schedule boundary</h3>
                 <p>Rhythm is public. Implementation remains private.</p>
               </div>
               <ShieldCheck size={21} aria-hidden />
@@ -413,14 +277,17 @@ export function ScheduleBoard({
             </ul>
           </section>
 
-          <section className="dora-schedules-review-card">
-            <ReviewWindowIcon />
+          <section className="dora-schedules-review-card" aria-label="Owner loop">
+            <CalendarClock size={19} aria-hidden />
             <strong>Owner loop</strong>
-            <p>Review windows are visible only as public state, never as private instructions.</p>
+            <p>
+              {ownerReviewCount > 0 ? ownerReviewText : ""}
+              Private instructions stay hidden.
+            </p>
           </section>
 
-          <section className="dora-schedules-link-card">
-            <Radio size={20} aria-hidden />
+          <section className="dora-schedules-link-card" aria-label="Activity bridge">
+            <Repeat2 size={20} aria-hidden />
             <strong>Activity bridge</strong>
             <p>Open the public activity feed for latest fixed labels.</p>
             <Link href="/dora/activity" className="link-focus">
@@ -431,13 +298,5 @@ export function ScheduleBoard({
         </aside>
       </div>
     </div>
-  );
-}
-
-function ReviewWindowIcon() {
-  return (
-    <span className="dora-schedules-review-icon" aria-hidden>
-      <CalendarClock size={19} />
-    </span>
   );
 }
