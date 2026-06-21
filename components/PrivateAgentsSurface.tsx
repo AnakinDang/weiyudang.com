@@ -4,6 +4,7 @@ import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import {
+  ArrowRight,
   Bot,
   Boxes,
   Brain,
@@ -11,12 +12,17 @@ import {
   CheckCircle2,
   ClipboardCheck,
   FileText,
+  Gauge,
   GitBranch,
+  History,
+  Layers3,
   LineChart,
   LockKeyhole,
+  Network,
   Radio,
   ShieldCheck,
   Sparkles,
+  UserCheck,
   Waypoints
 } from "lucide-react";
 import Link from "next/link";
@@ -25,6 +31,7 @@ import type {
   PrivateAgent,
   PrivateAgentCoverageLane,
   PrivateAgentHandoff,
+  PrivateAgentLeaseStatus,
   PrivateAgentMetric,
   PrivateAgentRole,
   PrivateAgentSourceHealth
@@ -67,7 +74,35 @@ const sourceHealthTone = {
   Pending: "private"
 } as const satisfies Record<PrivateAgentSourceHealth, Tone>;
 
+const leaseStatusTone = {
+  "Active lease": "info",
+  "Review lease": "warning",
+  "Owner-gated": "warning",
+  "Queued lease": "private",
+  "Idle lease": "private"
+} as const satisfies Record<PrivateAgentLeaseStatus, Tone>;
+
+const sourceHealthOrder: readonly PrivateAgentSourceHealth[] = ["Good", "Partial", "Degraded", "Pending"];
+const leaseStatusOrder: readonly PrivateAgentLeaseStatus[] = [
+  "Active lease",
+  "Review lease",
+  "Owner-gated",
+  "Queued lease",
+  "Idle lease"
+];
+
 const REVIEW_QUEUE_PREVIEW_LIMIT = 3;
+
+function countBy<T extends string>(items: readonly PrivateAgent[], read: (agent: PrivateAgent) => T) {
+  const counts = new Map<T, number>();
+
+  items.forEach((agent) => {
+    const key = read(agent);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  });
+
+  return counts;
+}
 
 function LightStatusBadge({ children, tone }: { children: ReactNode; tone: Tone }) {
   const className = {
@@ -100,9 +135,9 @@ function AgentButton({
       type="button"
       aria-pressed={active}
       onClick={onSelect}
-      className={`link-focus grid gap-3 rounded-[8px] border p-4 text-left transition ${
+      className={`link-focus grid min-h-[14.5rem] gap-3 rounded-[8px] border p-4 text-left transition ${
         active
-          ? "border-sky-200/45 bg-sky-300/14 shadow-[0_18px_50px_rgba(14,165,233,0.12)]"
+          ? "border-sky-300/55 bg-sky-300/14 shadow-[0_18px_50px_rgba(14,165,233,0.14)]"
           : "border-slate-700 bg-white/[0.045] hover:-translate-y-0.5 hover:border-sky-300/35 hover:bg-white/[0.07]"
       }`}
     >
@@ -110,19 +145,22 @@ function AgentButton({
         <span className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
           <Icon size={21} aria-hidden />
         </span>
-        <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
+        <span className="grid justify-items-end gap-1">
+          <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
+          <span className="text-[0.68rem] font-semibold uppercase text-slate-500">{agent.sourceHealth}</span>
+        </span>
       </div>
       <div>
         <h3 className="text-base font-semibold text-white">{agent.name}</h3>
         <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{agent.role}</p>
       </div>
-      <p className="text-sm leading-6 text-slate-300">{agent.currentFocus}</p>
-      <div className="grid gap-2 border-t border-slate-700 pt-3 text-xs text-slate-400">
+      <p className="line-clamp-2 text-sm leading-6 text-slate-300">{agent.currentFocus}</p>
+      <div className="mt-auto grid gap-2 border-t border-slate-700 pt-3 text-xs text-slate-400">
         <span>
           <strong className="text-slate-300">Lease:</strong> {agent.leaseStatus}
         </span>
         <span>
-          <strong className="text-slate-300">Updated:</strong> {agent.lastUpdated}
+          <strong className="text-slate-300">Next:</strong> {agent.nextReview}
         </span>
       </div>
     </button>
@@ -164,24 +202,58 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
           </div>
 
           <div className="relative mt-10 max-w-4xl">
-            <p className="text-sm font-semibold text-blue-700">Authenticated MiniDora operations map</p>
-            <h2 id="private-agents-title" className="mt-3 max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
-              See who owns the next decision.
+            <h2 id="private-agents-title" className="max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
+              MiniDora Agents
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
-              The private Agents surface turns the MiniDora team into a reviewable operating map: leases, capabilities,
-              source health, handoffs, and guardrails stay visible before any future API or workflow can move.
+              Inspect the team behind the Personal OS: current leases, source health, recent outputs, handoffs, and
+              guardrails. Intelligence without execution. You approve the work.
             </p>
           </div>
 
-          <div className="relative mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="relative mt-7 grid overflow-hidden rounded-[8px] border border-slate-200 bg-white/82 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur sm:grid-cols-2 xl:grid-cols-4">
             {metrics.map((metric) => (
-              <div key={metric.label} className="rounded-[8px] border border-slate-200 bg-white/82 p-4 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur">
+              <div
+                key={metric.label}
+                className="border-b border-slate-200 p-4 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:last:border-r-0"
+              >
                 <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
                 <strong className="mt-2 block text-3xl font-semibold text-slate-950">{metric.value}</strong>
                 <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
               </div>
             ))}
+          </div>
+
+          <div className="relative mt-6 grid gap-3 md:grid-cols-3">
+            {[
+              {
+                label: "Doraemon coordinates",
+                value: activeAgent.mission,
+                icon: Waypoints
+              },
+              {
+                label: "MiniDoras prepare",
+                value: activeAgent.outputs.join(", "),
+                icon: Sparkles
+              },
+              {
+                label: "Owner decides",
+                value: activeAgent.nextReview,
+                icon: UserCheck
+              }
+            ].map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <article key={item.label} className="rounded-[8px] border border-blue-100 bg-white/74 p-4 shadow-[0_16px_55px_rgba(37,99,235,0.07)] backdrop-blur">
+                  <div className="flex items-center gap-2 text-blue-700">
+                    <Icon size={16} aria-hidden />
+                    <p className="text-xs font-bold uppercase">{item.label}</p>
+                  </div>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">{item.value}</p>
+                </article>
+              );
+            })}
           </div>
         </div>
 
@@ -220,6 +292,10 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
               <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{activeAgent.lease}</p>
             </div>
             <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
+              <p className="text-xs font-bold uppercase text-slate-500">Last output</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{activeAgent.lastOutput}</p>
+            </div>
+            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
               <p className="text-xs font-bold uppercase text-slate-500">Next review</p>
               <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{activeAgent.nextReview}</p>
             </div>
@@ -253,6 +329,24 @@ function AgentDetail({ agent }: { agent: PrivateAgent }) {
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <p className="text-xs font-bold uppercase text-slate-400">Last output</p>
             <p className="mt-2 text-sm leading-6 text-slate-200">{agent.lastOutput}</p>
+          </div>
+          <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+            <div className="flex items-center gap-2 text-sky-100">
+              <History size={18} aria-hidden />
+              <p className="text-xs font-bold uppercase text-slate-400">State history</p>
+            </div>
+            <ol className="mt-4 grid gap-3">
+              {agent.history.map((item) => (
+                <li key={`${item.time}-${item.title}`} className="grid gap-3 rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3 sm:grid-cols-[4.5rem_minmax(0,1fr)_auto]">
+                  <time className="text-xs font-bold uppercase text-slate-500">{item.time}</time>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{item.title}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-400">{item.detail}</p>
+                  </div>
+                  <StatusBadge tone={item.tone}>{item.state}</StatusBadge>
+                </li>
+              ))}
+            </ol>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
@@ -300,6 +394,138 @@ function AgentDetail({ agent }: { agent: PrivateAgent }) {
           </div>
         </aside>
       </div>
+    </section>
+  );
+}
+
+function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateAgent[]; activeAgent: PrivateAgent }) {
+  const sourceCounts = countBy(agents, (agent) => agent.sourceHealth);
+  const leaseCounts = countBy(agents, (agent) => agent.leaseStatus);
+
+  return (
+    <section className="grid gap-5 xl:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]">
+      <section className="panel p-5" aria-labelledby="agent-lease-map-title">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 text-sky-100">
+              <Network size={22} aria-hidden />
+              <h2 id="agent-lease-map-title" className="text-2xl font-semibold text-white">
+                Lease map
+              </h2>
+            </div>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+              A scan-first view of who is active, who needs review, and which lanes are intentionally queued.
+            </p>
+          </div>
+          <StatusBadge tone="private">Owner controlled</StatusBadge>
+        </div>
+
+        <div className="mt-5 grid gap-3 lg:grid-cols-5">
+          {leaseStatusOrder.map((status) => {
+            const count = leaseCounts.get(status) ?? 0;
+            return (
+              <article key={status} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+                <StatusBadge tone={leaseStatusTone[status]}>{status}</StatusBadge>
+                <strong className="mt-4 block text-3xl font-semibold text-white">{count}</strong>
+                <p className="mt-2 text-xs leading-5 text-slate-400">
+                  {count === 1 ? "agent" : "agents"} currently in this posture.
+                </p>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 overflow-hidden rounded-[8px] border border-slate-700">
+          {agents.map((agent) => {
+            const Icon = roleIcons[agent.role];
+            const active = agent.id === activeAgent.id;
+
+            return (
+              <div
+                key={agent.id}
+                className={`grid gap-3 border-b border-slate-700 p-3 last:border-b-0 md:grid-cols-[minmax(0,1fr)_11rem_9rem_9rem] md:items-center ${
+                  active ? "bg-sky-300/12" : "bg-white/[0.025]"
+                }`}
+              >
+                <div className="flex min-w-0 items-center gap-3">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
+                    <Icon size={17} aria-hidden />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-white">{agent.name}</p>
+                    <p className="truncate text-xs text-slate-400">{agent.lease}</p>
+                  </div>
+                </div>
+                <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
+                <StatusBadge tone={leaseStatusTone[agent.leaseStatus]}>{agent.leaseStatus}</StatusBadge>
+                <StatusBadge tone={sourceHealthTone[agent.sourceHealth]}>{agent.sourceHealth}</StatusBadge>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      <aside className="grid gap-5">
+        <section className="panel p-5" aria-labelledby="agent-source-map-title">
+          <div className="flex items-center gap-2 text-yellow-100">
+            <Gauge size={22} aria-hidden />
+            <h2 id="agent-source-map-title" className="text-2xl font-semibold text-white">
+              Source health
+            </h2>
+          </div>
+          <div className="mt-5 grid gap-3">
+            {sourceHealthOrder.map((source) => {
+              const count = sourceCounts.get(source) ?? 0;
+              const width = agents.length > 0 ? Math.round((count / agents.length) * 100) : 0;
+
+              return (
+                <div key={source} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <StatusBadge tone={sourceHealthTone[source]}>{source}</StatusBadge>
+                    <span className="text-sm font-semibold text-slate-300">
+                      {count}/{agents.length}
+                    </span>
+                  </div>
+                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-800" aria-hidden>
+                    <div className="h-full rounded-full bg-sky-300" style={{ width: `${width}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="panel p-5" aria-labelledby="agent-command-path-title">
+          <div className="flex items-center gap-2 text-sky-100">
+            <Layers3 size={22} aria-hidden />
+            <h2 id="agent-command-path-title" className="text-2xl font-semibold text-white">
+              Review paths
+            </h2>
+          </div>
+          <div className="mt-5 grid gap-3">
+            <Link href="/app/command" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex items-center gap-2 text-sm font-semibold text-white">
+                  <UserCheck size={17} aria-hidden />
+                  Open Command
+                </span>
+                <ArrowRight className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />
+              </div>
+              <p className="mt-2 text-xs leading-5 text-slate-400">Prepare a mission packet for the selected agent lane.</p>
+            </Link>
+            <Link href="/app/events" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex items-center gap-2 text-sm font-semibold text-white">
+                  <ClipboardCheck size={17} aria-hidden />
+                  Open Review Queue
+                </span>
+                <ArrowRight className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />
+              </div>
+              <p className="mt-2 text-xs leading-5 text-slate-400">Review owner-gated work before any future action path exists.</p>
+            </Link>
+          </div>
+        </section>
+      </aside>
     </section>
   );
 }
@@ -479,7 +705,21 @@ export function PrivateAgentsSurface({
     <div className="grid gap-5">
       <HeroPanel activeAgent={activeAgent} metrics={metrics} />
 
-      <section className="panel-quiet p-3" aria-label="MiniDora roster selector">
+      <section className="panel-quiet p-4" aria-labelledby="minidora-roster-title">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3 px-1">
+          <div>
+            <div className="flex items-center gap-2 text-sky-100">
+              <Bot size={22} aria-hidden />
+              <h2 id="minidora-roster-title" className="text-2xl font-semibold text-white">
+                MiniDora roster
+              </h2>
+            </div>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+              Select an agent to inspect its lease, recent history, inputs, outputs, source posture, and guardrail.
+            </p>
+          </div>
+          <StatusBadge tone="info">Interactive inspector</StatusBadge>
+        </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {agents.map((agent) => (
             <AgentButton
@@ -492,6 +732,7 @@ export function PrivateAgentsSurface({
         </div>
       </section>
 
+      <AgentOperationsMap agents={agents} activeAgent={activeAgent} />
       <AgentDetail agent={activeAgent} />
       <CoverageAndBoundary coverage={coverage} boundary={boundary} />
       <HandoffsAndQueue activeAgent={activeAgent} handoffs={handoffs} reviewQueue={reviewQueue} />
