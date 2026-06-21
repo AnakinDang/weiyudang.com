@@ -156,7 +156,7 @@ export const privateSchedules = [
     access: "owner-only",
     accessTone: "private",
     summary: "Summarize service posture, event freshness, and queue health for owner review.",
-    safety: "No internal hostnames, ports, filesystem paths, or tokens are rendered.",
+    safety: "No internal hostnames, ports, filesystem paths, or credential material is rendered.",
     purpose: "Keep the Personal OS observable without turning the web page into a repair console.",
     lastRun: "Tracked off-page",
     nextAction: "Summarize public boundary, private auth posture, event freshness, and queue health.",
@@ -284,7 +284,7 @@ export const scheduleRhythmLanes = [
 
 export const scheduleControlPolicy = [
   "The web page is a schedule register, not a scheduler.",
-  "Cron command strings, shell paths, and private prompts stay outside the web bundle.",
+  "Scheduler command strings, shell paths, and private prompts stay outside the web bundle.",
   "Research schedules can prepare evidence only; they cannot submit orders or mutate accounts.",
   "Owner review remains the boundary before future schedule mutation exists."
 ] as const;
