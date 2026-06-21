@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Eye, Filter, LockKeyhole, Radio, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { ActivityFeed } from "@/app/dora/activity/ActivityFeed";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
 
@@ -46,6 +47,9 @@ export default function DoraActivityPage() {
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
       <div className="dora-activity-landing">
+        <div className="dora-office-route-dock-wrap">
+          <DoraOfficeRouteDock active="/dora/activity" />
+        </div>
         <section className="dora-activity-landing-hero" aria-labelledby="dora-activity-title">
           <div className="container dora-activity-landing-hero-grid">
             <div className="dora-activity-landing-copy">

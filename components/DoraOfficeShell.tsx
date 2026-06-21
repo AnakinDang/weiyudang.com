@@ -1,30 +1,13 @@
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
 import {
   ArrowUpRight,
-  Bot,
-  CalendarClock,
-  ClipboardList,
-  Home,
   Radio,
-  ShieldCheck,
-  Sparkles
+  ShieldCheck
 } from "lucide-react";
-import { DORA_LIVE_BRIDGE_URL, doraOfficeRoutes, type DoraOfficeRoute } from "@/lib/dora-office";
-import { DoraOfficeRouteScroller } from "@/components/DoraOfficeRouteScroller";
+import { DORA_LIVE_BRIDGE_URL, type DoraOfficeRoute } from "@/lib/dora-office";
+import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
-
-const routeIcons: Record<DoraOfficeRoute, LucideIcon> = {
-  "/dora": Home,
-  "/dora/office": Radio,
-  "/dora/activity": CalendarClock,
-  "/dora/team": Bot,
-  "/dora/tasks": ClipboardList,
-  "/dora/schedules": CalendarClock,
-  "/dora/knowledge": Sparkles,
-  "/dora/system": ShieldCheck
-} as const;
 
 export function DoraOfficeShell({
   active,
@@ -46,29 +29,13 @@ export function DoraOfficeShell({
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
       <section className={`dora-office-subpage${pageClassName ? ` ${pageClassName}` : ""}`}>
+        <div className="dora-office-route-dock-wrap">
+          <DoraOfficeRouteDock active={active} />
+        </div>
         <div className="container dora-office-subpage-shell">
-          <nav className="dora-office-route-rail" aria-label="Doraemon Office navigation">
-            <Link href="/dora" className="link-focus dora-office-rail-brand">
-              Doraemon Office
-            </Link>
-            <div className="dora-office-rail-links" data-dora-office-route-list>
-              {doraOfficeRoutes.map((item) => {
-                const Icon = routeIcons[item.href];
-                const isActive = item.href === active;
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`link-focus dora-office-rail-link${isActive ? " is-active" : ""}`}
-                  >
-                    <Icon size={18} aria-hidden />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-              <DoraOfficeRouteScroller active={active} />
+          <aside className="dora-office-route-rail dora-office-context-rail" aria-label="Doraemon Office context">
+            <div className="dora-office-rail-brand">
+              Office context
             </div>
             <div className="dora-office-rail-boundary">
               <Radio size={20} aria-hidden />
@@ -85,7 +52,7 @@ export function DoraOfficeShell({
                 <ArrowUpRight size={13} aria-hidden />
               </a>
             </div>
-          </nav>
+          </aside>
 
           <div className="dora-office-subpage-main">
             <div className="dora-office-subpage-heading">

@@ -21,6 +21,7 @@ import {
   Users
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
@@ -89,6 +90,9 @@ export default function DoraOfficePage() {
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
       <div className="dora-office-landing">
+        <div className="dora-office-route-dock-wrap">
+          <DoraOfficeRouteDock active="/dora/office" />
+        </div>
         <section className="dora-office-dashboard-hero" aria-labelledby="dora-office-title">
           <div className="container dora-office-dashboard-shell">
             <aside className="dora-office-dashboard-nav" aria-label="Doraemon Office navigation">
