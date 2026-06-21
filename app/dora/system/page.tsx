@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { SystemHealthPanel } from "@/app/dora/system/SystemHealthPanel";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
@@ -127,6 +128,9 @@ export default function DoraSystemPage() {
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
       <div className="dora-system-landing">
+        <div className="dora-office-route-dock-wrap">
+          <DoraOfficeRouteDock active="/dora/system" />
+        </div>
         <section className="dora-system-landing-hero" aria-labelledby="dora-system-title">
           <div className="container dora-system-landing-hero-grid">
             <div className="dora-system-landing-copy">

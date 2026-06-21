@@ -16,6 +16,7 @@ import {
   Users
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
@@ -156,6 +157,9 @@ export default function DoraTeamPage() {
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
       <div className="dora-team-landing">
+        <div className="dora-office-route-dock-wrap">
+          <DoraOfficeRouteDock active="/dora/team" />
+        </div>
         <section className="dora-team-landing-hero" aria-labelledby="dora-team-title">
           <div className="container dora-team-landing-hero-grid">
             <div className="dora-team-landing-copy">
