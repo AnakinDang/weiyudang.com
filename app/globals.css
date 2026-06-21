@@ -26315,3 +26315,592 @@ textarea {
     margin-top: -4.85rem;
   }
 }
+
+/* Step 36: Doraemon Office native command room refinement */
+.dora-office-dashboard-hero {
+  padding: clamp(0.95rem, 1.6vw, 1.3rem) 1rem 1.6rem;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #ffffff 72%, #f8fbff 100%),
+    #ffffff;
+}
+
+.dora-office-dashboard-hero::before {
+  background:
+    radial-gradient(circle at 53% 28%, rgba(147, 197, 253, 0.14), transparent 25%),
+    radial-gradient(circle at 68% 72%, rgba(246, 201, 69, 0.08), transparent 18%),
+    linear-gradient(112deg, transparent 0 56%, rgba(37, 99, 235, 0.028) 56.2%, transparent 69%);
+}
+
+.dora-office-dashboard-shell {
+  width: min(1510px, calc(100vw - 2rem));
+  max-width: none;
+  grid-template-columns: minmax(14.6rem, 0.2fr) minmax(38rem, 1fr) minmax(18.8rem, 0.25fr);
+  gap: 1rem;
+  min-height: min(820px, calc(100svh - 5.55rem));
+}
+
+.dora-office-dashboard-nav,
+.dora-office-dashboard-rail section,
+.dora-office-dashboard-task-card,
+.dora-office-dashboard-rhythm-card,
+.dora-office-dashboard-safety-row,
+.dora-office-dashboard-live-strip,
+.dora-office-dashboard-head,
+.dora-office-dashboard-stage-panel {
+  border-radius: 8px;
+}
+
+.dora-office-dashboard-nav,
+.dora-office-dashboard-rail section,
+.dora-office-dashboard-task-card,
+.dora-office-dashboard-rhythm-card,
+.dora-office-dashboard-safety-row,
+.dora-office-dashboard-live-strip,
+.dora-office-dashboard-head {
+  border: 1px solid rgba(221, 231, 240, 0.92);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 24px 70px rgba(15, 23, 42, 0.065),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+  backdrop-filter: blur(20px) saturate(1.1);
+}
+
+.dora-office-dashboard-nav {
+  min-height: min(792px, calc(100svh - 6.25rem));
+  padding: 1.08rem;
+}
+
+.dora-office-dashboard-brand {
+  gap: 0.72rem;
+  padding-bottom: 1.12rem;
+}
+
+.dora-office-dashboard-brand svg {
+  width: 2.85rem;
+  height: 2.85rem;
+}
+
+.dora-office-dashboard-nav-link {
+  min-height: 2.62rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.dora-office-dashboard-nav-link.is-active {
+  background:
+    radial-gradient(circle at 86% 50%, rgba(255, 255, 255, 0.32), transparent 20%),
+    linear-gradient(180deg, #2b72ff, #155eef);
+}
+
+.dora-office-dashboard-nav-note {
+  border-radius: 8px;
+}
+
+.dora-office-dashboard-main {
+  gap: 0.86rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dora-office-dashboard-main > * {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+
+.dora-office-dashboard-head {
+  align-items: center;
+  padding: 0.92rem 1.08rem;
+}
+
+.dora-office-dashboard-pretitle {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.dora-office-dashboard-pretitle::after {
+  display: inline-block;
+  width: 0.32rem;
+  height: 0.32rem;
+  border-radius: 999px;
+  background: #2563eb;
+  content: "";
+}
+
+.dora-office-dashboard-head h1 {
+  margin-top: 0.24rem;
+  font-size: clamp(1.9rem, 2.5vw, 2.62rem);
+  font-weight: 800;
+}
+
+.dora-office-dashboard-head p:not(.dora-office-dashboard-pretitle) {
+  max-width: 40rem;
+  margin-top: 0.42rem;
+  color: #475569;
+  font-size: 0.94rem;
+}
+
+.dora-office-dashboard-actions {
+  display: grid;
+  justify-items: end;
+  gap: 0.62rem;
+}
+
+.dora-office-dashboard-open-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.44rem;
+  min-height: 2.45rem;
+  border: 1px solid rgba(191, 219, 254, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0 0.9rem;
+  color: #155eef;
+  font-size: 0.82rem;
+  font-weight: 800;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.08);
+}
+
+.dora-office-dashboard-stage-panel {
+  min-height: clamp(30rem, 43vw, 38rem);
+  border-color: rgba(191, 219, 254, 0.72);
+  background:
+    radial-gradient(circle at 50% 73%, rgba(246, 201, 69, 0.16), transparent 18%),
+    radial-gradient(circle at 51% 48%, rgba(147, 197, 253, 0.27), transparent 43%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.95), #ffffff);
+  box-shadow:
+    0 30px 84px rgba(37, 99, 235, 0.095),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+.dora-office-dashboard-stage-panel::before {
+  right: 6%;
+  bottom: 2.3rem;
+  left: 6%;
+  height: 13rem;
+  opacity: 0.88;
+}
+
+.dora-office-dashboard-stage-panel .dora-office-portal-art {
+  inset: 0 0 4.8rem;
+}
+
+.dora-office-dashboard-stage-panel .dora-office-portal-art img {
+  object-fit: cover;
+  object-position: 53% 50%;
+  opacity: 0.9;
+  filter:
+    saturate(1.08)
+    contrast(1.03)
+    drop-shadow(0 34px 82px rgba(37, 99, 235, 0.12));
+  mask-image: radial-gradient(ellipse at 53% 48%, #000 0 72%, rgba(0, 0, 0, 0.64) 88%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse at 53% 48%, #000 0 72%, rgba(0, 0, 0, 0.64) 88%, transparent 100%);
+}
+
+.dora-office-stage-core-card {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  z-index: 6;
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  width: min(17rem, 38%);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.dora-office-stage-core-card svg {
+  width: 4.25rem;
+  height: 4.25rem;
+  border: 1px solid rgba(191, 219, 254, 0.95);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.74);
+  padding: 0.62rem;
+  color: #2563eb;
+  box-shadow:
+    0 20px 50px rgba(37, 99, 235, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.dora-office-stage-core-card strong {
+  color: #05070a;
+  font-size: clamp(1.15rem, 1.7vw, 1.55rem);
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+.dora-office-stage-core-card span {
+  border: 1px solid rgba(191, 219, 254, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 0.32rem 0.8rem;
+  color: #155eef;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.dora-office-stage-core-card i {
+  display: block;
+  width: 2.4rem;
+  height: 0.44rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 20% 50%, #2563eb 0 22%, transparent 24%),
+    radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.34) 0 22%, transparent 24%),
+    radial-gradient(circle at 80% 50%, rgba(37, 99, 235, 0.24) 0 22%, transparent 24%);
+}
+
+.dora-office-dashboard-stage-panel .dora-office-stage-agents {
+  right: 6.2%;
+  bottom: 1rem;
+  left: 6.2%;
+}
+
+.dora-office-dashboard-stage-panel .dora-office-stage-agent span {
+  width: 3.05rem;
+  height: 3.05rem;
+  border-color: rgba(191, 219, 254, 0.95);
+}
+
+.dora-office-dashboard-stage-panel .dora-office-stage-agent strong {
+  font-size: 0.64rem;
+}
+
+.dora-office-dashboard-stage-panel .dora-office-stage-agent small {
+  color: #475569;
+  font-size: 0.58rem;
+}
+
+.dora-office-dashboard-safety-row {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dora-office-dashboard-safety-row span {
+  color: #475569;
+}
+
+.dora-office-dashboard-operations {
+  display: grid;
+  grid-template-columns: minmax(21rem, 1.25fr) minmax(16rem, 0.95fr) minmax(15rem, 0.82fr);
+  gap: 0.86rem;
+  align-items: stretch;
+}
+
+.dora-office-dashboard-operations > section {
+  min-width: 0;
+}
+
+.dora-office-dashboard-live-strip {
+  display: grid;
+  align-content: start;
+  min-height: 16.9rem;
+  overflow: hidden;
+}
+
+.dora-office-dashboard-live-strip > div {
+  padding: 0.78rem 0.95rem;
+}
+
+.dora-office-dashboard-live-strip > div strong {
+  color: #0f172a;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.dora-office-dashboard-live-strip > div small {
+  color: #475569;
+}
+
+.dora-office-dashboard-live-strip > div span {
+  background: #2563eb;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.3);
+  animation: office-agent-pulse 2.8s ease-out infinite;
+}
+
+.dora-office-dashboard-live-strip ol {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.dora-office-dashboard-live-strip li {
+  display: grid;
+  grid-template-columns: 4.9rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.72rem;
+  min-height: 2.15rem;
+  border-left: 0;
+  border-top: 1px solid rgba(221, 231, 240, 0.82);
+  padding: 0.48rem 0.95rem;
+}
+
+.dora-office-dashboard-live-strip li:first-child {
+  border-top: 0;
+}
+
+.dora-office-dashboard-live-strip li::before {
+  top: 50%;
+  left: 0.72rem;
+  width: 0.36rem;
+  height: 0.36rem;
+  transform: translateY(-50%);
+}
+
+.dora-office-dashboard-live-strip time {
+  color: #475569;
+  font-size: 0.7rem;
+}
+
+.dora-office-dashboard-live-strip li strong {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-office-dashboard-live-strip li span {
+  justify-self: end;
+  border: 1px solid rgba(191, 219, 254, 0.82);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.74);
+  padding: 0.18rem 0.48rem;
+  color: #155eef;
+  font-size: 0.64rem;
+  font-weight: 800;
+}
+
+.dora-office-dashboard-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  width: fit-content;
+  margin: 0.62rem 0.95rem 0.85rem;
+  color: #155eef;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.dora-office-dashboard-task-card,
+.dora-office-dashboard-rhythm-card {
+  padding: 1rem;
+}
+
+.dora-office-dashboard-task-card h2,
+.dora-office-dashboard-rhythm-card h2 {
+  margin: 0.68rem 0 0;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.dora-office-dashboard-task-card p,
+.dora-office-dashboard-rhythm-card p {
+  margin: 0.88rem 0 0;
+  color: #475569;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.dora-office-dashboard-stat-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.56rem;
+}
+
+.dora-office-dashboard-stat-row div {
+  border: 1px solid rgba(221, 231, 240, 0.9);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.72));
+  padding: 0.62rem 0.7rem;
+}
+
+.dora-office-dashboard-stat-row div:first-child {
+  border-left: 1px solid rgba(221, 231, 240, 0.9);
+  padding-left: 0.7rem;
+}
+
+.dora-office-dashboard-stat-row strong {
+  text-align: right;
+}
+
+.dora-office-dashboard-rhythm {
+  border-left: 1px solid rgba(191, 219, 254, 0.9);
+  padding-left: 0.85rem;
+}
+
+.dora-office-dashboard-rhythm strong {
+  font-size: 1.02rem;
+}
+
+.dora-office-dashboard-rail section {
+  gap: 0.72rem;
+  padding: 1rem;
+}
+
+.dora-office-dashboard-rail section:first-child {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(37, 99, 235, 0.075), transparent 34%),
+    rgba(255, 255, 255, 0.9);
+}
+
+.dora-office-dashboard-rail h2 {
+  font-size: 0.96rem;
+}
+
+.dora-office-dashboard-rail section > strong {
+  font-size: 0.86rem;
+}
+
+.dora-office-dashboard-rail dt {
+  color: #64748b;
+}
+
+.dora-office-dashboard-rail dd {
+  color: #0f172a;
+}
+
+@media (min-width: 1181px) and (max-height: 840px) {
+  .dora-office-dashboard-shell {
+    min-height: calc(100svh - 5.25rem);
+  }
+
+  .dora-office-dashboard-nav {
+    min-height: calc(100svh - 5.9rem);
+  }
+
+  .dora-office-dashboard-stage-panel {
+    min-height: clamp(27.5rem, 38vw, 32rem);
+  }
+
+  .dora-office-dashboard-live-strip {
+    min-height: 15.5rem;
+  }
+}
+
+@media (max-width: 1180px) {
+  .dora-office-dashboard-shell {
+    width: min(100%, calc(100vw - 2rem));
+    grid-template-columns: minmax(13rem, 0.24fr) minmax(0, 1fr);
+  }
+
+  .dora-office-dashboard-operations {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dora-office-dashboard-live-strip li {
+    grid-template-columns: 5.2rem minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .dora-office-dashboard-shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dora-office-dashboard-nav {
+    min-height: 0;
+  }
+
+  .dora-office-dashboard-head {
+    display: grid;
+  }
+
+  .dora-office-dashboard-actions {
+    justify-items: start;
+  }
+
+  .dora-office-dashboard-stage-panel {
+    min-height: 28rem;
+  }
+
+  .dora-office-stage-core-card {
+    top: 20%;
+    width: min(16rem, 48%);
+  }
+
+  .dora-office-dashboard-rail {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .dora-office-dashboard-hero {
+    padding: 0.8rem 0.72rem 1.25rem;
+  }
+
+  .dora-office-dashboard-shell {
+    width: 100%;
+  }
+
+  .dora-office-dashboard-head h1 {
+    font-size: 2.34rem;
+  }
+
+  .dora-office-dashboard-open-link {
+    width: 100%;
+  }
+
+  .dora-office-dashboard-stage-panel {
+    min-height: 20.4rem;
+  }
+
+  .dora-office-dashboard-stage-panel .dora-office-portal-art {
+    inset: 0 0 3.1rem;
+  }
+
+  .dora-office-stage-core-card {
+    top: 17%;
+    width: min(14rem, 70%);
+  }
+
+  .dora-office-stage-core-card svg {
+    width: 3.1rem;
+    height: 3.1rem;
+    padding: 0.46rem;
+  }
+
+  .dora-office-stage-core-card strong {
+    font-size: 1.05rem;
+  }
+
+  .dora-office-dashboard-safety-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-office-dashboard-live-strip li {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 0.16rem;
+    padding-left: 1rem;
+  }
+
+  .dora-office-dashboard-live-strip li::before {
+    display: none;
+  }
+
+  .dora-office-dashboard-live-strip li span {
+    justify-self: start;
+  }
+
+  .dora-office-dashboard-stat-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dora-office-stage-core-card svg,
+  .dora-office-dashboard-live-strip > div span {
+    animation: none !important;
+  }
+}
