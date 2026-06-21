@@ -21079,3 +21079,1018 @@ textarea {
     animation: none !important;
   }
 }
+
+/* Step 26: Doraemon Schedules landing-first rhythm clock */
+.dora-schedules-landing {
+  overflow: hidden;
+  background: #ffffff;
+  color: #05070a;
+}
+
+.dora-schedules-landing-hero {
+  position: relative;
+  min-height: min(50rem, calc(100svh - 4.55rem));
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(191, 219, 254, 0.34), transparent 24rem),
+    radial-gradient(circle at 66% 78%, rgba(246, 201, 69, 0.13), transparent 15rem),
+    linear-gradient(90deg, #ffffff 0%, #ffffff 39%, rgba(255, 255, 255, 0.75) 58%, rgba(255, 255, 255, 0) 78%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 78%, #f8fbff 100%),
+    #ffffff;
+  padding: clamp(2.4rem, 4vw, 4.2rem) 0 1.05rem;
+}
+
+.dora-schedules-landing-hero-grid,
+.dora-schedules-landing-section > .container {
+  width: min(1320px, calc(100% - 6rem));
+}
+
+.dora-schedules-landing-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(30rem, 0.42fr) minmax(38rem, 0.58fr);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.dora-schedules-landing-copy {
+  position: relative;
+  z-index: 2;
+  padding-bottom: clamp(1rem, 4vw, 4.4rem);
+}
+
+.dora-schedules-landing-copy h1 {
+  max-width: 8.6ch;
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(4.45rem, 6.85vw, 6.95rem);
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 0.92;
+}
+
+.dora-schedules-landing-copy h1 span {
+  display: block;
+  background: linear-gradient(180deg, #2f7cff 0%, #1157da 100%);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.dora-schedules-landing-copy > p {
+  max-width: 27rem;
+  margin: 1.65rem 0 0;
+  color: #334155;
+  font-size: clamp(1.2rem, 1.62vw, 1.5rem);
+  line-height: 1.43;
+}
+
+.dora-schedules-landing-rule {
+  width: 3.4rem;
+  height: 1px;
+  margin-top: 2rem;
+  background: rgba(148, 163, 184, 0.62);
+}
+
+.dora-schedules-landing-actions {
+  display: grid;
+  justify-items: start;
+  gap: 1.55rem;
+  margin-top: 2.05rem;
+}
+
+.dora-schedules-command-visual {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.dora-schedules-command-stage {
+  position: relative;
+  min-height: clamp(35rem, 48vw, 43rem);
+  overflow: visible;
+}
+
+.dora-schedules-command-stage::before {
+  position: absolute;
+  right: 1%;
+  bottom: 1.4rem;
+  left: 0;
+  height: 17rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.24), rgba(147, 197, 253, 0.12) 44%, transparent 76%);
+  filter: blur(1.35rem);
+  content: "";
+  opacity: 0.72;
+}
+
+.dora-schedules-command-room {
+  position: absolute;
+  inset: 5% 0 12%;
+  z-index: 1;
+  overflow: hidden;
+  border: 1px solid rgba(147, 197, 253, 0.42);
+  border-radius: 8px;
+  background:
+    linear-gradient(132deg, rgba(255, 255, 255, 0.82), rgba(239, 246, 255, 0.58) 52%, rgba(255, 255, 255, 0.18)),
+    radial-gradient(circle at 52% 42%, rgba(37, 99, 235, 0.13), transparent 18rem);
+  box-shadow:
+    0 36px 90px rgba(37, 99, 235, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  transform: perspective(1200px) rotateY(-7deg) rotateX(2deg);
+}
+
+.dora-schedules-command-room::before,
+.dora-schedules-command-room::after {
+  position: absolute;
+  content: "";
+}
+
+.dora-schedules-command-room::before {
+  inset: 10% 12% 20% 10%;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  border-radius: 8px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08));
+}
+
+.dora-schedules-command-room::after {
+  top: 14%;
+  right: 8%;
+  bottom: 17%;
+  width: 27%;
+  border: 1px solid rgba(147, 197, 253, 0.54);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.dora-schedules-command-room span {
+  position: absolute;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 50%;
+}
+
+.dora-schedules-command-room span:nth-child(1) {
+  right: 8%;
+  bottom: 11%;
+  left: 10%;
+  height: 42%;
+  transform: perspective(760px) rotateX(70deg);
+}
+
+.dora-schedules-command-room span:nth-child(2) {
+  right: 23%;
+  bottom: 18%;
+  left: 24%;
+  height: 26%;
+  transform: perspective(760px) rotateX(70deg);
+}
+
+.dora-schedules-command-room span:nth-child(3) {
+  right: 40%;
+  bottom: 25%;
+  left: 42%;
+  height: 14%;
+  border-color: rgba(246, 201, 69, 0.28);
+  transform: perspective(760px) rotateX(70deg);
+}
+
+.dora-schedules-command-boundary {
+  position: absolute;
+  top: 18%;
+  right: 1.2%;
+  z-index: 5;
+  width: min(15.2rem, 28%);
+  color: #05070a;
+}
+
+.dora-schedules-command-boundary > strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.dora-schedules-command-boundary > p {
+  margin: 0.82rem 0 1rem;
+  color: #111827;
+  font-size: 0.88rem;
+  line-height: 1.52;
+}
+
+.dora-schedules-command-boundary div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.55rem;
+  border-bottom: 1px dashed rgba(100, 116, 139, 0.42);
+  padding: 0.72rem 0;
+  color: #0f172a;
+  font-size: 0.74rem;
+  font-weight: 820;
+}
+
+.dora-schedules-command-boundary svg {
+  color: #1d6ef2;
+}
+
+.dora-schedules-command-clock {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.dora-schedules-command-ring {
+  position: absolute;
+  right: 8%;
+  bottom: 10rem;
+  left: 10%;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 50%;
+  transform: perspective(900px) rotateX(67deg);
+  filter: drop-shadow(0 0 18px rgba(37, 99, 235, 0.13));
+  animation: doraemon-orbit-breathe 6.8s ease-in-out infinite;
+}
+
+.dora-schedules-command-ring-1 {
+  height: 17rem;
+}
+
+.dora-schedules-command-ring-2 {
+  right: 21%;
+  bottom: 12rem;
+  left: 26%;
+  height: 10.5rem;
+  border-color: rgba(37, 99, 235, 0.16);
+  animation-delay: 320ms;
+}
+
+.dora-schedules-command-ring-3 {
+  right: 38%;
+  bottom: 14rem;
+  left: 42%;
+  height: 5.5rem;
+  border-color: rgba(244, 183, 64, 0.22);
+  animation-delay: 720ms;
+}
+
+.dora-schedules-command-hub {
+  position: absolute;
+  bottom: 15.1rem;
+  left: 51.5%;
+  z-index: 4;
+  display: grid;
+  justify-items: center;
+  color: #2563eb;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.dora-schedules-command-hub svg {
+  width: 4.35rem;
+  height: 4.35rem;
+  border: 1px solid rgba(191, 219, 254, 0.82);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 0.58rem;
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.1);
+}
+
+.dora-schedules-command-hub strong,
+.dora-schedules-command-node strong {
+  display: block;
+  margin-top: 0.28rem;
+  color: #0f172a;
+  font-size: 0.74rem;
+  font-weight: 850;
+  line-height: 1.1;
+}
+
+.dora-schedules-command-hub small,
+.dora-schedules-command-node small {
+  color: #64748b;
+  font-size: 0.64rem;
+  font-weight: 700;
+}
+
+.dora-schedules-command-node {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  min-width: 9.1rem;
+  border: 1px solid rgba(147, 197, 253, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.56rem 0.66rem;
+  box-shadow:
+    0 16px 42px rgba(37, 99, 235, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.dora-schedules-command-node > span {
+  display: grid;
+  grid-row: span 2;
+  place-items: center;
+  width: 2.45rem;
+  height: 2.45rem;
+  margin-right: 0.52rem;
+  border: 1px solid rgba(191, 219, 254, 0.82);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #2563eb;
+  box-shadow: 0 0 0 5px rgba(239, 246, 255, 0.86);
+  animation: doraemon-node-float 4.8s ease-in-out infinite;
+}
+
+.dora-schedules-command-node > span.is-warning {
+  color: #c08400;
+  box-shadow: 0 0 0 5px rgba(254, 243, 199, 0.86);
+}
+
+.dora-schedules-command-node-1 {
+  right: 34%;
+  bottom: 24.2rem;
+}
+
+.dora-schedules-command-node-2 {
+  left: 10%;
+  bottom: 17.2rem;
+}
+
+.dora-schedules-command-node-3 {
+  right: 24%;
+  bottom: 16.6rem;
+}
+
+.dora-schedules-command-node-4 {
+  right: 36%;
+  bottom: 10.45rem;
+}
+
+.dora-schedules-command-strip {
+  position: absolute;
+  right: 4.8%;
+  bottom: 2.15rem;
+  left: 6.6%;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.24fr) minmax(0, 0.76fr);
+  gap: 0.8rem;
+  border: 1px solid rgba(147, 197, 253, 0.72);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.86)),
+    #ffffff;
+  padding: 0.78rem 0.86rem;
+  box-shadow:
+    0 24px 66px rgba(15, 23, 42, 0.086),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.dora-schedules-command-strip > div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  gap: 0.16rem 0.48rem;
+  min-width: 0;
+}
+
+.dora-schedules-command-strip > div > span {
+  grid-row: span 2;
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.dora-schedules-command-strip strong {
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 840;
+}
+
+.dora-schedules-command-strip small {
+  grid-column: 2;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 720;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-schedules-command-strip ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.7rem, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-schedules-command-strip li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  border-left: 1px solid rgba(37, 99, 235, 0.2);
+  padding-left: 0.68rem;
+}
+
+.dora-schedules-command-strip li::before {
+  position: absolute;
+  top: 0.18rem;
+  left: -0.28rem;
+  width: 0.43rem;
+  height: 0.43rem;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.22);
+  content: "";
+}
+
+.dora-schedules-command-strip li > span {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 760;
+}
+
+.dora-schedules-command-strip li strong {
+  display: block;
+  overflow: hidden;
+  margin-top: 0.12rem;
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 820;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-schedules-command-strip li small {
+  display: block;
+  grid-column: auto;
+  margin-top: 0.08rem;
+  max-width: 100%;
+}
+
+.dora-schedules-landing-section {
+  border-bottom: 1px solid rgba(221, 231, 240, 0.82);
+  padding: clamp(2.4rem, 4.5vw, 4.4rem) 0;
+  background: #ffffff;
+}
+
+.dora-schedules-section-copy {
+  display: grid;
+  align-content: start;
+  gap: 0.95rem;
+}
+
+.dora-schedules-section-copy h2,
+.dora-schedules-register-heading h2,
+.dora-schedules-continuation-section h2 {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(1.8rem, 2.8vw, 2.55rem);
+  font-weight: 830;
+  letter-spacing: 0;
+  line-height: 1.04;
+}
+
+.dora-schedules-section-copy p,
+.dora-schedules-register-heading p,
+.dora-schedules-continuation-section p {
+  max-width: 30rem;
+  margin: 0;
+  color: #334155;
+  line-height: 1.55;
+}
+
+.dora-schedules-boundary-grid {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.3fr) minmax(0, 0.7fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.dora-schedules-boundary-diagram {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid rgba(221, 231, 240, 0.84);
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, rgba(239, 246, 255, 0.82), #ffffff 48%, rgba(239, 246, 255, 0.84)),
+    #ffffff;
+}
+
+.dora-schedules-boundary-diagram::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: repeating-linear-gradient(180deg, #1d6ef2 0 12px, transparent 12px 24px);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.dora-schedules-boundary-diagram > div {
+  display: grid;
+  align-content: center;
+  gap: 0.8rem;
+  min-height: 14.4rem;
+  padding: 1.65rem 2rem;
+}
+
+.dora-schedules-boundary-diagram > div > svg {
+  color: #1d6ef2;
+}
+
+.dora-schedules-boundary-diagram strong {
+  color: #05070a;
+  font-size: 0.9rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.dora-schedules-boundary-diagram ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-schedules-boundary-diagram li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #334155;
+  font-size: 0.82rem;
+}
+
+.dora-schedules-boundary-diagram li svg {
+  color: #1d6ef2;
+}
+
+.dora-schedules-boundary-mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border: 1px solid rgba(37, 99, 235, 0.34);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.12);
+  transform: translate(-50%, -50%);
+}
+
+.dora-schedules-boundary-mark svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #1d6ef2;
+}
+
+.dora-schedules-principles-section {
+  padding-block: clamp(1.4rem, 2.4vw, 2.1rem);
+}
+
+.dora-schedules-principles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.dora-schedules-principles-grid article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.12rem 0.72rem;
+  min-height: 7.1rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.82)),
+    #ffffff;
+  padding: 1rem;
+  box-shadow: 0 16px 46px rgba(15, 23, 42, 0.045);
+}
+
+.dora-schedules-principles-grid article > span {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2563eb;
+}
+
+.dora-schedules-principles-grid strong {
+  display: block;
+  color: #0f172a;
+  font-size: 0.86rem;
+  font-weight: 840;
+}
+
+.dora-schedules-principles-grid p {
+  margin: 0.36rem 0 0;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 650;
+  line-height: 1.42;
+}
+
+#public-rhythm-register {
+  scroll-margin-top: 5.2rem;
+}
+
+.dora-schedules-register-section {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.dora-schedules-register-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.2rem;
+}
+
+.dora-schedules-register-heading p {
+  margin-top: 0.72rem;
+}
+
+.dora-schedules-log-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.72rem;
+  min-width: min(100%, 32rem);
+}
+
+.dora-schedules-log-stats article {
+  min-width: 0;
+  border: 1px solid rgba(191, 219, 254, 0.64);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 0.9rem;
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.04);
+}
+
+.dora-schedules-log-stats svg {
+  color: #1d6ef2;
+}
+
+.dora-schedules-log-stats strong {
+  display: block;
+  margin-top: 0.45rem;
+  color: #0f67f4;
+  font-size: 1.65rem;
+  font-weight: 880;
+  line-height: 0.96;
+}
+
+.dora-schedules-log-stats span {
+  display: block;
+  margin-top: 0.28rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 760;
+}
+
+.dora-schedules-board-island {
+  gap: 1rem;
+}
+
+.dora-schedules-board-island .dora-schedules-section-heading h3,
+.dora-schedules-lane-main h4,
+.dora-schedules-rhythm-list h4,
+.dora-schedules-empty h4 {
+  display: block;
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.88rem;
+  font-weight: 840;
+  line-height: 1.2;
+}
+
+.dora-schedules-lane-main h4 {
+  font-size: 0.92rem;
+}
+
+.dora-schedules-empty h4 {
+  font-size: 0.86rem;
+}
+
+.dora-schedules-review-card > svg {
+  color: #1d6ef2;
+}
+
+.dora-schedules-continuation-section {
+  padding-bottom: clamp(2.8rem, 5vw, 5rem);
+}
+
+@media (max-width: 1240px) {
+  .dora-schedules-landing-hero-grid,
+  .dora-schedules-landing-section > .container {
+    width: min(100% - 3rem, 1020px);
+  }
+
+  .dora-schedules-landing-hero-grid,
+  .dora-schedules-boundary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-schedules-landing-hero-grid {
+    gap: 0.7rem;
+  }
+
+  .dora-schedules-landing-copy {
+    max-width: 42rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .dora-schedules-landing-copy h1 {
+    font-size: clamp(4rem, 10vw, 6.1rem);
+  }
+
+  .dora-schedules-command-stage {
+    min-height: clamp(31rem, 62vw, 41rem);
+  }
+
+  .dora-schedules-principles-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-schedules-register-heading {
+    display: grid;
+    align-items: start;
+  }
+
+  .dora-schedules-log-stats {
+    min-width: 0;
+  }
+}
+
+@media (min-width: 1241px) and (max-height: 820px) {
+  .dora-schedules-landing-hero {
+    min-height: calc(100svh - 7rem);
+    padding-top: 2.1rem;
+  }
+
+  .dora-schedules-command-stage {
+    min-height: calc(100svh - 8.8rem);
+  }
+
+  .dora-schedules-command-room {
+    inset: 4% 0 12%;
+  }
+
+  .dora-schedules-command-boundary {
+    top: 16%;
+  }
+
+  .dora-schedules-command-ring-1 {
+    bottom: 8.3rem;
+    height: 15rem;
+  }
+
+  .dora-schedules-command-ring-2 {
+    bottom: 10rem;
+    height: 9.2rem;
+  }
+
+  .dora-schedules-command-ring-3 {
+    bottom: 11.5rem;
+    height: 5rem;
+  }
+
+  .dora-schedules-command-hub {
+    bottom: 12.9rem;
+  }
+
+  .dora-schedules-command-node-1 {
+    bottom: 21.2rem;
+  }
+
+  .dora-schedules-command-node-2,
+  .dora-schedules-command-node-3 {
+    bottom: 14.7rem;
+  }
+
+  .dora-schedules-command-node-4 {
+    bottom: 9.1rem;
+  }
+
+  .dora-schedules-command-strip {
+    bottom: 1.1rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .dora-schedules-landing-hero {
+    padding-top: 1.85rem;
+  }
+
+  .dora-schedules-landing-hero-grid,
+  .dora-schedules-landing-section > .container {
+    width: min(100% - 1.5rem, 620px);
+  }
+
+  .dora-schedules-landing-copy h1 {
+    font-size: clamp(3.05rem, 14vw, 4.55rem);
+  }
+
+  .dora-schedules-landing-copy > p {
+    max-width: 22rem;
+    font-size: 1rem;
+  }
+
+  .dora-schedules-landing-actions {
+    gap: 0.9rem;
+  }
+
+  .dora-schedules-command-stage {
+    min-height: 26rem;
+  }
+
+  .dora-schedules-command-room {
+    inset: -0.4rem -1.25rem 7.4rem -1.25rem;
+  }
+
+  .dora-schedules-command-boundary {
+    top: 0.85rem;
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+    border: 1px solid rgba(191, 219, 254, 0.62);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.74);
+    padding: 0.76rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .dora-schedules-command-boundary > p {
+    display: none;
+  }
+
+  .dora-schedules-command-boundary div {
+    display: inline-grid;
+    width: 49%;
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .dora-schedules-command-ring-1 {
+    bottom: 8.6rem;
+    height: 11rem;
+  }
+
+  .dora-schedules-command-ring-2 {
+    bottom: 9.8rem;
+    height: 7rem;
+  }
+
+  .dora-schedules-command-ring-3 {
+    bottom: 11rem;
+    height: 4rem;
+  }
+
+  .dora-schedules-command-hub {
+    bottom: 12.2rem;
+  }
+
+  .dora-schedules-command-hub svg {
+    width: 3.1rem;
+    height: 3.1rem;
+  }
+
+  .dora-schedules-command-node {
+    min-width: 7.7rem;
+    padding: 0.5rem 0.56rem;
+  }
+
+  .dora-schedules-command-node-1 {
+    right: 26%;
+    bottom: 15.6rem;
+  }
+
+  .dora-schedules-command-node-2 {
+    left: 2%;
+    bottom: 10.9rem;
+  }
+
+  .dora-schedules-command-node-3 {
+    right: 1%;
+    bottom: 10.7rem;
+  }
+
+  .dora-schedules-command-node-4 {
+    right: 29%;
+    bottom: 9.7rem;
+  }
+
+  .dora-schedules-command-strip {
+    right: 0;
+    bottom: 0.7rem;
+    left: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .dora-schedules-command-strip ol {
+    display: flex;
+    overflow-x: auto;
+    padding-block: 0.1rem;
+  }
+
+  .dora-schedules-command-strip li {
+    flex: 0 0 10.2rem;
+  }
+
+  .dora-schedules-boundary-diagram,
+  .dora-schedules-principles-grid,
+  .dora-schedules-log-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-schedules-boundary-diagram::before,
+  .dora-schedules-boundary-mark {
+    display: none;
+  }
+
+  .dora-schedules-log-stats {
+    width: 100%;
+  }
+
+  .dora-schedules-controls-head {
+    display: grid;
+  }
+}
+
+@media (max-width: 580px) {
+  .dora-schedules-landing-copy h1 {
+    font-size: clamp(2.75rem, 13vw, 3.72rem);
+  }
+
+  .dora-schedules-command-stage {
+    min-height: 24.6rem;
+  }
+
+  .dora-schedules-command-boundary {
+    top: 0.65rem;
+    padding: 0.66rem;
+  }
+
+  .dora-schedules-command-boundary > strong {
+    font-size: 0.82rem;
+  }
+
+  .dora-schedules-command-boundary div {
+    gap: 0.4rem;
+    font-size: 0.66rem;
+  }
+
+  .dora-schedules-command-node {
+    min-width: 6.4rem;
+    gap: 0.12rem 0.42rem;
+  }
+
+  .dora-schedules-command-node-4 {
+    display: none;
+  }
+
+  .dora-schedules-command-node strong {
+    font-size: 0.7rem;
+  }
+
+  .dora-schedules-command-node small {
+    font-size: 0.62rem;
+  }
+
+  .dora-schedules-landing-section {
+    padding-block: 2.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dora-schedules-command-ring,
+  .dora-schedules-command-node > span {
+    animation: none !important;
+  }
+}

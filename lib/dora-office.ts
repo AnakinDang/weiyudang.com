@@ -236,6 +236,11 @@ export const publicSchedules = [
   }
 ] as const;
 
+export const publicDoraScheduleToneClasses = {
+  Working: "is-info",
+  "Owner review": "is-warning"
+} as const satisfies Record<(typeof publicSchedules)[number]["state"], string>;
+
 export const publicScheduleBoundaries = [
   "Only coarse cadence and next-window labels are public.",
   "No scheduler command strings, local paths, private prompts, or controls are rendered.",
