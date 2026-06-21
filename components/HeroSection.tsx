@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Bot, Clock3, FlaskConical, LineChart, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
-import { formatPublicEventDateTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
+import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
 
 const heroSurfaces = [
   {
@@ -33,14 +33,14 @@ const heroSurfaces = [
     summary: "Research-only",
     href: "/lab",
     state: "research",
-    stateLabel: "Research",
+    stateLabel: "Research-only",
     icon: LineChart
   }
 ];
 
-const heroSignals = ["Public studio", "Doraemon Office", "Owner gated"] as const;
+const heroSignals = ["Public studio", "Doraemon Office", "Owner-only"] as const;
 
-const heroAgents = ["Research Dora", "Strategy Dora", "Data Dora", "Operations Dora"] as const;
+const heroAgents = ["Research MiniDora", "Product MiniDora", "Data MiniDora", "Ops MiniDora"] as const;
 
 export function HeroSection() {
   const recentEvents = getRecentPublicDoraEvents(5);
@@ -49,7 +49,7 @@ export function HeroSection() {
     <section className="premium-hero">
       <div className="premium-hero-backdrop" aria-hidden="true">
         <Image
-          src="/visuals/doraemon-office-doorway-v3.png"
+          src="/visuals/personal-os-portal-v2.png"
           alt=""
           fill
           priority
@@ -66,7 +66,7 @@ export function HeroSection() {
             Personal AI systems studio.
           </p>
           <p className="premium-hero-support">
-            Research, writing, Doraemon, and the operating layer behind one person&apos;s work.
+            I build living systems that turn research, writing, Doraemon, and daily work into one coherent operating layer.
           </p>
           <div className="premium-hero-statusline" aria-label="Public and private boundary">
             {heroSignals.map((signal, index) => (
@@ -106,7 +106,7 @@ export function HeroSection() {
               <span>Doraemon Office</span>
               <strong>Public window</strong>
             </div>
-            <span className="premium-office-live-pill">
+            <span className="premium-office-status-pill">
               <span aria-hidden="true" />
               Demo replay
             </span>
@@ -128,18 +128,18 @@ export function HeroSection() {
               <ShieldCheck size={17} aria-hidden />
               <span>
                 <strong>Public Window</strong>
-                <small>Sanitized. Read-only. Safe.</small>
+                <small>Sanitized. Demo-safe. Read-only.</small>
               </span>
             </div>
           </div>
         </aside>
 
         <div className="premium-hero-bottom-deck">
-          <section className="premium-office-events premium-hero-live-strip" aria-label="Live activity (public-safe)">
+          <section className="premium-office-events premium-hero-demo-strip" aria-label="Public activity (demo-safe)">
             <div className="premium-office-events-head">
               <span>
                 <Clock3 size={14} aria-hidden />
-                Live activity (public-safe)
+                Public activity (demo-safe)
               </span>
               <Link href="/dora/activity" className="link-focus">
                 View all
@@ -149,7 +149,7 @@ export function HeroSection() {
             <ol>
               {recentEvents.map((event) => (
                 <li key={event.event_id}>
-                  <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
+                  <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
                   <strong>{event.agent}</strong>
                   <span>{event.title}</span>
                 </li>
