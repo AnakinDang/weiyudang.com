@@ -15,8 +15,8 @@ import { AiLabPanel } from "@/components/AiLabPanel";
 import { HeroSection } from "@/components/HeroSection";
 import { JournalCard } from "@/components/JournalCard";
 import { LiveNotesFeed } from "@/components/LiveNotesFeed";
-import { ProjectExplorer } from "@/components/ProjectExplorer";
 import { SectionHeading } from "@/components/SectionHeading";
+import { SelectedWorkShowcase } from "@/components/SelectedWorkShowcase";
 import { SiteChrome } from "@/components/SiteChrome";
 import { getLatestJournalEntries, getLatestNotes, getProjects } from "@/lib/content";
 
@@ -185,7 +185,7 @@ export default function HomePage() {
               <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
-          <ProjectExplorer projects={projects.slice(0, 5)} />
+          <SelectedWorkShowcase projects={projects.slice(0, 5)} />
         </div>
       </section>
 
