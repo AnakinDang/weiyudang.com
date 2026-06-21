@@ -105,12 +105,12 @@ const miniDoraRoles = [
   }
 ] as const;
 
-const heroAgentLabels = [
-  "Strategy MiniDora",
-  "Research MiniDora",
-  "Data MiniDora",
-  "Market MiniDora",
-  "Operations MiniDora"
+const heroAgentNodes = [
+  { name: "Research MiniDora", tone: "research" },
+  { name: "Dev MiniDora", tone: "dev" },
+  { name: "Product MiniDora", tone: "product" },
+  { name: "Memory MiniDora", tone: "memory" },
+  { name: "Ops MiniDora", tone: "ops" }
 ] as const;
 
 const publicItems = ["Sanitized activity", "High-level state", "Agent presence", "System health"];
@@ -149,8 +149,6 @@ export default function DoraPage() {
 
             <div
               className="doraemon-command-preview"
-              role="img"
-              aria-label="Public Doraemon Office preview with MiniDora agents, a sanitized activity strip, and a public/private boundary."
             >
               <div className="doraemon-portal-stage" aria-hidden="true">
                 <Image
@@ -178,6 +176,21 @@ export default function DoraPage() {
                 </div>
               </div>
 
+              <div className="doraemon-stage-floor" aria-hidden="true">
+                <span className="doraemon-stage-orbit doraemon-stage-orbit-one" />
+                <span className="doraemon-stage-orbit doraemon-stage-orbit-two" />
+                <span className="doraemon-stage-orbit doraemon-stage-orbit-three" />
+                {heroAgentNodes.map((agent, index) => (
+                  <span
+                    key={agent.name}
+                    className={`doraemon-agent-node doraemon-agent-node-${index + 1} doraemon-agent-node-${agent.tone}`}
+                  >
+                    <DoraemonMark className="doraemon-agent-node-mark" />
+                    <small>{agent.name}</small>
+                  </span>
+                ))}
+              </div>
+
               <div className="doraemon-activity-preview" aria-label="Recent public-safe Doraemon activity">
                 <div className="doraemon-activity-preview-head">
                   <span>
@@ -198,11 +211,6 @@ export default function DoraPage() {
                     </div>
                   ))}
                 </div>
-              </div>
-              <div className="doraemon-hero-agent-labels" aria-hidden="true">
-                {heroAgentLabels.map((label) => (
-                  <span key={label}>{label}</span>
-                ))}
               </div>
             </div>
           </div>
