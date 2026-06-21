@@ -6,7 +6,7 @@ import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-off
 const heroSurfaces = [
   {
     title: "Public Studio",
-    summary: "Projects & notes",
+    summary: "Essays, ideas, projects",
     href: "/projects",
     state: "public",
     stateLabel: "Public",
@@ -14,15 +14,15 @@ const heroSurfaces = [
   },
   {
     title: "Doraemon Office",
-    summary: "Public-safe office",
-    href: "/dora",
+    summary: "Main command-room entrance",
+    href: "/dora/office",
     state: "public-safe",
     stateLabel: "Public-safe",
     icon: Bot
   },
   {
     title: "Owner Cockpit",
-    summary: "Private daily surface",
+    summary: "Approvals, schedules, review",
     href: "/app",
     state: "private",
     stateLabel: "Private",
@@ -30,17 +30,13 @@ const heroSurfaces = [
   },
   {
     title: "Research Desk",
-    summary: "Research-only",
+    summary: "Long-form research notes",
     href: "/lab",
     state: "research",
     stateLabel: "Research-only",
     icon: LineChart
   }
 ];
-
-const heroSignals = ["Public studio", "Doraemon Office", "Owner-only"] as const;
-
-const heroAgents = ["Research MiniDora", "Product MiniDora", "Data MiniDora", "Ops MiniDora"] as const;
 
 export function HeroSection() {
   const recentEvents = getRecentPublicDoraEvents(5);
@@ -49,39 +45,31 @@ export function HeroSection() {
     <section className="premium-hero">
       <div className="premium-hero-backdrop" aria-hidden="true">
         <Image
-          src="/visuals/personal-os-portal-v2.png"
+          src="/visuals/doraemon-office-doorway-v3.png"
           alt=""
           fill
           priority
           quality={95}
-          sizes="100vw"
+          sizes="(max-width: 900px) 100vw, 62vw"
         />
       </div>
       <div className="premium-hero-lightfield" aria-hidden="true" />
 
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
-          <h1 className="premium-hero-title">Weiyu Dang</h1>
-          <p className="premium-hero-lede">
-            Personal AI systems studio.
-          </p>
+          <h1 className="premium-hero-title">
+            <span className="premium-hero-name">Weiyu Dang</span>
+            <span>
+              Personal OS for research, writing, and <em>Doraemon.</em>
+            </span>
+          </h1>
           <p className="premium-hero-support">
-            I build living systems that turn research, writing, Doraemon, and daily work into one coherent operating layer.
+            A living studio where public work, Doraemon Office, MiniDoras, and private owner workflows stay connected.
           </p>
-          <div className="premium-hero-statusline" aria-label="Public and private boundary">
-            {heroSignals.map((signal, index) => (
-              <span key={signal} className="premium-hero-signal">
-                <span className="premium-hero-signal-dot" aria-hidden={true} />
-                {signal}
-                {index < heroSignals.length - 1 ? (
-                  <span className="premium-hero-signal-divider" aria-hidden={true} />
-                ) : null}
-              </span>
-            ))}
-          </div>
           <div className="premium-hero-actions">
-            <Link href="/dora" className="link-focus premium-primary-link">
-              Enter Doraemon
+            <Link href="/dora/office" className="link-focus premium-primary-link">
+              <Bot size={18} aria-hidden />
+              Enter Doraemon Office
               <ArrowRight size={16} aria-hidden />
             </Link>
             <Link href="#os-layers" className="link-focus premium-text-link">
@@ -89,15 +77,11 @@ export function HeroSection() {
               <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
-        </div>
-
-        <div className="premium-agent-constellation" role="list" aria-label="Doraemon agent signals">
-          {heroAgents.map((agent, index) => (
-            <span key={agent} className={`premium-agent-node premium-agent-node-${index + 1}`} role="listitem">
-              <Bot size={18} aria-hidden />
-              <small>{agent}</small>
-            </span>
-          ))}
+          <Link href="/app" className="link-focus premium-owner-inline">
+            <LockKeyhole size={15} aria-hidden />
+            Owner cockpit
+            <ArrowRight size={14} aria-hidden />
+          </Link>
         </div>
 
         <aside className="premium-office-capsule" aria-label="Public-safe Doraemon Office status">
