@@ -7,10 +7,12 @@ import {
   BarChart3,
   CheckCircle2,
   Clock3,
+  Database,
   FileSearch,
   Gauge,
   GitCompareArrows,
   LineChart,
+  LockKeyhole,
   Radio,
   ShieldCheck,
   SlidersHorizontal
@@ -80,6 +82,95 @@ function qualityTone(quality: string) {
   }
 
   return "info";
+}
+
+function isOpenEvidenceState(state: string) {
+  return ["Degraded", "Incomplete", "Partial", "Pending", "Required"].includes(state);
+}
+
+function isDegradedSourceState(state: string) {
+  return state !== "Working" && state !== "Healthy";
+}
+
+function ResearchIntelStrip({
+  signals,
+  evidencePackets,
+  sourceHealth,
+  gates,
+  unavailableActions
+}: {
+  signals: readonly TradingSignal[];
+  evidencePackets: readonly TradingEvidencePacket[];
+  sourceHealth: readonly TradingSource[];
+  gates: readonly TradingGate[];
+  unavailableActions: readonly string[];
+}) {
+  const openEvidencePackets = evidencePackets.filter((packet) => isOpenEvidenceState(packet.state)).length;
+  const degradedSourceCount = sourceHealth.filter((source) => isDegradedSourceState(source.state)).length;
+  const disabledGateCount = gates.filter((gate) => gate.value === "Disabled").length;
+  const reviewSignals = signals.filter((signal) => sourceTone(signal.sourceHealth) !== "info").length;
+  const intel = [
+    {
+      label: "Signals in review",
+      value: reviewSignals.toString(),
+      detail: `${signals.length} research signals tracked`,
+      icon: LineChart,
+      tone: "sky"
+    },
+    {
+      label: "Evidence blockers",
+      value: openEvidencePackets.toString(),
+      detail: `${evidencePackets.length} packets visible`,
+      icon: FileSearch,
+      tone: "amber"
+    },
+    {
+      label: "Degraded sources",
+      value: degradedSourceCount.toString(),
+      detail: "shown before confidence can rise",
+      icon: AlertTriangle,
+      tone: "amber"
+    },
+    {
+      label: "Execution gates",
+      value: disabledGateCount.toString(),
+      detail: `${unavailableActions.length} unavailable actions`,
+      icon: Ban,
+      tone: "rose"
+    }
+  ] as const;
+
+  return (
+    <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label="Trading research intelligence summary">
+      {intel.map((item) => {
+        const Icon = item.icon;
+        const toneClass =
+          item.tone === "sky"
+            ? "border-sky-200/25 bg-sky-300/[0.07] text-sky-100"
+            : item.tone === "rose"
+              ? "border-rose-200/20 bg-rose-300/[0.07] text-rose-100"
+              : "border-yellow-200/24 bg-yellow-300/[0.08] text-yellow-100";
+
+        return (
+          <article key={item.label} className="panel-quiet overflow-hidden p-0">
+            <div className="grid min-h-32 grid-cols-[auto_minmax(0,1fr)] gap-4 p-4">
+              <span className={`flex size-11 items-center justify-center rounded-[8px] border ${toneClass}`}>
+                <Icon size={21} aria-hidden />
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-bold uppercase tracking-[0.08em] text-slate-500">{item.label}</p>
+                <div className="mt-3 flex items-end gap-2">
+                  <strong className="text-4xl font-semibold leading-none text-white">{item.value}</strong>
+                  <span className="pb-1 text-xs font-semibold uppercase text-slate-500">now</span>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </section>
+  );
 }
 
 function SignalCard({ signal }: { signal: TradingSignal }) {
@@ -1095,7 +1186,17 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
         />
         <div className="grid items-end gap-6 xl:grid-cols-[minmax(0,1fr)_25rem]">
           <div>
-            <h2 className="max-w-4xl text-3xl font-semibold text-white md:text-5xl">MiniDora Trading Research</h2>
+            <div className="mb-5 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-yellow-100">
+                <LockKeyhole size={14} aria-hidden />
+                Owner Mode
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-sky-100">
+                <Database size={14} aria-hidden />
+                Private research environment
+              </span>
+            </div>
+            <h2 className="max-w-4xl text-3xl font-semibold tracking-[-0.015em] text-white md:text-5xl">MiniDora Trading Research</h2>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
               Evidence-first research cockpit for signals, desk disagreement, source degradation, gates, and replay.
             </p>
@@ -1103,6 +1204,18 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
               MiniDora Trading organizes market research artifacts for owner review. It does not connect to broker write
               paths, submit orders, manage accounts, or auto-promote phases.
             </p>
+            <div className="mt-6 grid max-w-3xl gap-2 text-sm sm:grid-cols-3">
+              {[
+                ["Evidence first", `${data.evidencePackets.length} packets`],
+                ["Desk disagreement", `${data.desks.length} desks`],
+                ["Blocked execution", `${data.unavailableActions.length} actions`]
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-[8px] border border-slate-700/80 bg-black/15 px-3 py-2">
+                  <p className="text-xs font-bold uppercase text-slate-500">{label}</p>
+                  <p className="mt-1 font-semibold text-slate-100">{value}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
@@ -1127,6 +1240,14 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
           </div>
         </div>
       </section>
+
+      <ResearchIntelStrip
+        signals={data.signals}
+        evidencePackets={data.evidencePackets}
+        sourceHealth={data.sourceHealth}
+        gates={data.gates}
+        unavailableActions={data.unavailableActions}
+      />
 
       <section className="panel-quiet p-3" aria-label="Trading research views">
         <div className="flex flex-wrap gap-2">
