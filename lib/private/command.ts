@@ -32,9 +32,9 @@ const commandReviewPacketMode =
 
 export const commandSurfaceCopy = {
   badges: ["Owner-only", "Draft-only", "No dispatch"],
-  heroTitle: "Draft a mission before anything moves.",
+  heroTitle: "Command",
   heroDetail:
-    "Command is the owner-level surface for shaping intent, previewing a plan, and preparing the exact review packet that must pass before implementation, publishing, or runtime work happens.",
+    "Draft a mission before anything moves. Command is the owner-level surface for shaping intent, previewing a plan, and preparing the exact review packet that must pass before implementation, publishing, or runtime work happens.",
   draftLabel: "Draft pad",
   draftAriaLabel: "Owner command draft",
   draftPlaceholder: "Describe intent, constraints, evidence needed, and review gates.",

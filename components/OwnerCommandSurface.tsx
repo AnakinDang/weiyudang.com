@@ -173,13 +173,19 @@ function CommandWorkspace({
   const activePanel = data.modePanels[activeMode] ?? data.modePanels[fallbackMode];
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
   const draftLines = useMemo(() => draft.split(/\n/).filter((line) => line.trim().length > 0).length, [draft]);
+  const commandMetrics = [
+    { label: "Plan gates", value: data.planStages.length.toString(), detail: "Visible before work moves" },
+    { label: "Owner checkpoints", value: data.approvals.length.toString(), detail: "Review states, not execution" },
+    { label: "Evidence checks", value: data.evidenceRequirements.length.toString(), detail: "Required before PR/deploy" },
+    { label: "Blocked actions", value: data.unavailableActions.length.toString(), detail: "No dispatch in this slice" }
+  ] as const;
 
   return (
     <section
       className="overflow-hidden rounded-[8px] border border-white/70 bg-white text-slate-950 shadow-[0_34px_120px_rgba(15,23,42,0.18)]"
       aria-labelledby="owner-command-title"
     >
-      <div className="grid min-h-[34rem] gap-0 xl:grid-cols-[minmax(0,1.08fr)_30rem]">
+      <div className="grid min-h-[34rem] gap-0 xl:grid-cols-[minmax(0,1.08fr)_32rem]">
         <div className="relative overflow-hidden p-6 md:p-8">
           <div
             className="pointer-events-none absolute -right-28 -top-32 size-96 rounded-full bg-blue-500/12 blur-3xl"
@@ -205,9 +211,9 @@ function CommandWorkspace({
             </span>
           </div>
 
-          <div className="relative mt-10 max-w-4xl">
+          <div className="relative mt-8 max-w-4xl">
             <p className="text-sm font-semibold text-blue-700">{data.surfaceStatus.posture}</p>
-            <h2 id="owner-command-title" className="mt-3 max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
+            <h2 id="owner-command-title" className="mt-2 max-w-4xl text-5xl font-semibold leading-[0.98] text-slate-950 md:text-6xl">
               {data.copy.heroTitle}
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
@@ -215,7 +221,19 @@ function CommandWorkspace({
             </p>
           </div>
 
-          <div className="relative mt-7 rounded-[8px] border border-slate-200 bg-white/82 p-4 shadow-[0_18px_70px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="relative mt-6 grid overflow-hidden rounded-[8px] border border-blue-100 bg-white/78 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur sm:grid-cols-2 xl:grid-cols-4">
+            {commandMetrics.map((metric) => (
+              <div key={metric.label} className="border-b border-blue-100/80 p-4 last:border-b-0 sm:border-b sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:last:border-r-0">
+                <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
+                <div className="mt-2 flex items-end justify-between gap-3">
+                  <p className="text-xs leading-5 text-slate-500">{metric.detail}</p>
+                  <p className="text-3xl font-semibold leading-none text-blue-600">{metric.value}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="relative mt-5 rounded-[8px] border border-slate-200 bg-white/86 p-4 shadow-[0_18px_70px_rgba(37,99,235,0.1)] backdrop-blur">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase text-slate-500">{data.copy.draftLabel}</p>
@@ -264,30 +282,6 @@ function CommandWorkspace({
               </div>
             </div>
           </div>
-
-          <div className="relative mt-5 flex flex-wrap gap-2" role="group" aria-label={data.copy.lensGroupLabel}>
-            {data.modeTabs.map((mode) => {
-              const Icon = modeIcons[mode.icon] ?? Radio;
-              const active = activeMode === mode.key;
-
-              return (
-                <button
-                  key={mode.key}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => setActiveMode(mode.key)}
-                  className={`link-focus inline-flex items-center gap-2 rounded-[8px] border px-3 py-2 text-sm font-semibold transition ${
-                    active
-                      ? "border-blue-200 bg-blue-50 text-blue-800"
-                      : "border-slate-200 bg-white/72 text-slate-600 hover:border-blue-200 hover:text-blue-700"
-                  }`}
-                >
-                  <Icon size={16} aria-hidden />
-                  {mode.label}
-                </button>
-              );
-            })}
-          </div>
         </div>
 
         <section
@@ -298,6 +292,33 @@ function CommandWorkspace({
             className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-blue-500/12 blur-3xl"
             aria-hidden
           />
+          <div
+            className="relative mb-4 grid gap-2 rounded-[8px] border border-blue-100 bg-white/72 p-2 shadow-[0_16px_48px_rgba(37,99,235,0.08)] sm:grid-cols-5"
+            role="group"
+            aria-label={data.copy.lensGroupLabel}
+          >
+            {data.modeTabs.map((mode) => {
+              const Icon = modeIcons[mode.icon] ?? Radio;
+              const active = activeMode === mode.key;
+
+              return (
+                <button
+                  key={mode.key}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setActiveMode(mode.key)}
+                  className={`link-focus inline-flex items-center justify-center gap-2 rounded-[8px] border px-3 py-2 text-xs font-semibold transition ${
+                    active
+                      ? "border-blue-200 bg-blue-50 text-blue-800 shadow-[0_10px_24px_rgba(37,99,235,0.08)]"
+                      : "border-transparent bg-transparent text-slate-600 hover:border-blue-100 hover:bg-white hover:text-blue-700"
+                  }`}
+                >
+                  <Icon size={15} aria-hidden />
+                  {mode.label}
+                </button>
+              );
+            })}
+          </div>
           <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
