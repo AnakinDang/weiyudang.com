@@ -10,6 +10,7 @@ import {
   FileText,
   Globe2,
   LockKeyhole,
+  Mail,
   RefreshCw,
   ShieldCheck,
   Sparkles,
@@ -77,31 +78,38 @@ const contextItems = [
 const miniDoraRoles = [
   {
     name: "Research MiniDora",
-    summary: "Finds signals, reads deeply, and prepares evidence."
+    summary: "Finds signals, reads deeply, and prepares evidence.",
+    status: "Public-safe role"
   },
   {
     name: "Dev MiniDora",
-    summary: "Turns product slices into working software."
+    summary: "Turns product slices into working software.",
+    status: "Public-safe role"
   },
   {
     name: "Product MiniDora",
-    summary: "Shapes scope, quality, and release rhythm."
+    summary: "Shapes scope, quality, and release rhythm.",
+    status: "Public-safe role"
   },
   {
     name: "Ops MiniDora",
-    summary: "Keeps schedules, health, and routines clear."
+    summary: "Keeps schedules, health, and routines clear.",
+    status: "Public-safe role"
   },
   {
     name: "Memory MiniDora",
-    summary: "Maintains long-term context and knowledge."
+    summary: "Maintains long-term context and knowledge.",
+    status: "Public-safe role"
   },
   {
     name: "Trading MiniDora",
-    summary: "Organizes market research with no execution."
+    summary: "Organizes market research with no execution.",
+    status: "Research-only"
   },
   {
     name: "Media MiniDora",
-    summary: "Creates public-safe visuals and story assets."
+    summary: "Creates public-safe visuals and story assets.",
+    status: "Public-safe role"
   }
 ] as const;
 
@@ -130,6 +138,7 @@ export default function DoraPage() {
                 <span>Office</span>
               </h1>
               <p className="doraemon-doorway-lede">The public window into Weiyu&apos;s personal AI command room.</p>
+              <p className="doraemon-doorway-principle">Doraemon coordinates. MiniDoras work. Weiyu decides.</p>
               <div className="doraemon-doorway-actions">
                 <Link href="/dora/office" className="link-focus doraemon-primary-action">
                   Enter Doraemon Office
@@ -142,6 +151,10 @@ export default function DoraPage() {
                 <Link href="/projects/doraemon-agent-system" className="link-focus doraemon-quiet-action">
                   Read the project
                   <ArrowRight size={15} aria-hidden />
+                </Link>
+                <Link href="/contact" className="link-focus doraemon-quiet-action">
+                  Contact Weiyu
+                  <Mail size={15} aria-hidden />
                 </Link>
               </div>
             </div>
@@ -266,6 +279,15 @@ export default function DoraPage() {
               {miniDoraRoles.map((agent) => (
                 <article key={agent.name}>
                   <DoraemonMark className="doraemon-card-mark" />
+                  <span
+                    className={
+                      agent.status === "Research-only"
+                        ? "doraemon-agent-card-status is-research"
+                        : "doraemon-agent-card-status"
+                    }
+                  >
+                    {agent.status}
+                  </span>
                   <h3>{agent.name}</h3>
                   <p>{agent.summary}</p>
                 </article>
@@ -278,7 +300,10 @@ export default function DoraPage() {
           <div className="container doraemon-safety-grid">
             <div>
               <h2>Public Safety Boundary</h2>
-              <p>Your trust matters. The public window is designed with a strict boundary.</p>
+              <p>
+                Public Doraemon Office is read-only and sanitized. It does not expose private tasks, prompts, memory,
+                credentials, trading data, or owner-only controls.
+              </p>
               <ul className="doraemon-safety-list">
                 <li>
                   <CheckCircle2 size={16} aria-hidden />
@@ -294,7 +319,7 @@ export default function DoraPage() {
                 </li>
                 <li>
                   <CheckCircle2 size={16} aria-hidden />
-                  No trading or execution.
+                  No live trading, no order placement, or broker credentials.
                 </li>
                 <li>
                   <CheckCircle2 size={16} aria-hidden />
