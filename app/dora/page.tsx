@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { SiteChrome } from "@/components/SiteChrome";
-import { DORA_LIVE_BRIDGE_URL, formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
+import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
   title: "Doraemon",
@@ -42,7 +42,7 @@ const capabilities = [
   },
   {
     title: "Public Window",
-    summary: "Selected visibility is sanitized, real-time safe, and designed with privacy first.",
+    summary: "Selected visibility is sanitized, read-only, and designed with privacy first.",
     icon: Globe2
   }
 ] as const;
@@ -118,7 +118,6 @@ const privateItems = ["Owner tasks and notes", "Strategies and playbooks", "Know
 
 export default function DoraPage() {
   const recentEvents = getRecentPublicDoraEvents(5);
-  const liveBridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
 
   return (
     <SiteChrome headerVariant="doraemon">
@@ -171,7 +170,7 @@ export default function DoraPage() {
                   <div className="doraemon-boundary-row">
                     <Eye size={16} aria-hidden />
                     <span>Public Window</span>
-                    <small>Sanitized. Continuous. Safe.</small>
+                    <small>Sanitized. Demo-safe. Read-only.</small>
                   </div>
                 </div>
               </div>
@@ -347,11 +346,11 @@ export default function DoraPage() {
               })}
             </div>
             <div className="doraemon-live-note">
-              <span>Current bridge</span>
-              <a href={DORA_LIVE_BRIDGE_URL} target="_blank" rel="noreferrer" className="link-focus">
-                {liveBridgeHost}
+              <span>Public preview</span>
+              <Link href="/dora/office" className="link-focus">
+                Open Doraemon Office
                 <ArrowRight size={14} aria-hidden />
-              </a>
+              </Link>
             </div>
           </div>
         </section>

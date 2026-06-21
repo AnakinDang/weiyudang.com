@@ -25556,3 +25556,384 @@ textarea {
     padding-left: 0;
   }
 }
+
+/* Step 33: Apple-like Doraemon public entry refinement */
+.page-shell-doraemon {
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.site-header-doraemon {
+  border-bottom: 1px solid rgba(203, 213, 225, 0.58);
+  background: rgba(255, 255, 255, 0.86);
+  -webkit-backdrop-filter: blur(28px) saturate(1.25);
+  backdrop-filter: blur(28px) saturate(1.25);
+}
+
+.doraemon-entry-page {
+  background: #ffffff;
+}
+
+.doraemon-doorway {
+  min-height: min(768px, calc(100svh - 4.55rem));
+  padding: clamp(2.5rem, 4.35vw, 4.55rem) 1.25rem 0.78rem;
+  background:
+    linear-gradient(90deg, #ffffff 0%, #ffffff 33%, rgba(255, 255, 255, 0.86) 51%, rgba(255, 255, 255, 0) 75%),
+    radial-gradient(circle at 76% 39%, rgba(191, 219, 254, 0.2), transparent 35%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 76%, #f8fbff 100%),
+    #ffffff;
+}
+
+.doraemon-doorway::before {
+  opacity: 0.92;
+  background:
+    radial-gradient(circle at 76% 38%, rgba(96, 165, 250, 0.14), transparent 34%),
+    radial-gradient(circle at 56% 82%, rgba(250, 204, 21, 0.08), transparent 21%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.018), transparent 24%);
+}
+
+.doraemon-doorway-grid {
+  max-width: min(1388px, calc(100vw - 5rem));
+  grid-template-columns: minmax(27rem, 0.41fr) minmax(45rem, 0.59fr);
+  min-height: calc(min(768px, calc(100svh - 4.55rem)) - clamp(3.2rem, 5.1vw, 5rem));
+}
+
+.doraemon-doorway-copy {
+  max-width: 37rem;
+  padding-bottom: clamp(4rem, 8vh, 6.25rem);
+}
+
+.doraemon-doorway-copy h1 {
+  letter-spacing: 0;
+  font-size: clamp(5.9rem, 7.9vw, 7.78rem);
+  line-height: 0.88;
+}
+
+.doraemon-doorway-copy h1 span:first-child {
+  color: #155eef;
+  text-shadow: 0 16px 42px rgba(37, 99, 235, 0.12);
+}
+
+.doraemon-doorway-copy h1 span:last-child {
+  color: #030712;
+}
+
+.doraemon-doorway-lede {
+  max-width: 28.5rem;
+  color: #475569;
+  font-size: clamp(1.2rem, 1.52vw, 1.45rem);
+}
+
+.doraemon-doorway-actions::before {
+  width: 3.7rem;
+  background: rgba(148, 163, 184, 0.48);
+}
+
+.doraemon-primary-action {
+  min-width: 18.1rem;
+  border-radius: 0.55rem;
+  background: linear-gradient(180deg, #2563eb 0%, #155eef 100%);
+  box-shadow:
+    0 19px 42px rgba(37, 99, 235, 0.23),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.doraemon-primary-action:hover {
+  background: linear-gradient(180deg, #1d4ed8 0%, #0f52df 100%);
+}
+
+.doraemon-quiet-action {
+  color: #155eef;
+}
+
+.doraemon-command-preview {
+  min-height: 39.9rem;
+}
+
+.doraemon-command-preview::before {
+  right: 4.5%;
+  bottom: 1.85rem;
+  left: 11.5%;
+  height: 16.6rem;
+  opacity: 0.95;
+  background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.22), rgba(147, 197, 253, 0.12) 48%, transparent 77%);
+}
+
+.doraemon-command-preview::after {
+  opacity: 0.38;
+}
+
+.doraemon-portal-stage {
+  inset: -1.75rem -0.95rem 6.2rem -0.18rem;
+}
+
+.doraemon-portal-stage::before {
+  inset: 5.8% 1.8% 7.8% 14.2%;
+  opacity: 0.78;
+}
+
+.doraemon-portal-stage img {
+  --dora-office-portal-scale: 1.055;
+  --dora-office-portal-scale-peak: 1.062;
+  object-position: 55.6% 50%;
+  filter:
+    saturate(1.2)
+    contrast(1.055)
+    drop-shadow(0 34px 78px rgba(37, 99, 235, 0.14));
+}
+
+.doraemon-portal-panel {
+  top: 24.4%;
+  right: 5%;
+  width: min(15.5rem, 28%);
+  border-color: rgba(37, 99, 235, 0.13);
+  background: rgba(255, 255, 255, 0.52);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  backdrop-filter: blur(18px) saturate(1.1);
+}
+
+.doraemon-boundary-row small {
+  color: #475569;
+}
+
+.doraemon-stage-floor {
+  right: 6.2%;
+  bottom: 8.9rem;
+  left: 7.7%;
+  height: 10.95rem;
+}
+
+.doraemon-stage-floor::before,
+.doraemon-stage-floor::after {
+  opacity: 0.78;
+}
+
+.doraemon-agent-node {
+  filter: drop-shadow(0 14px 20px rgba(37, 99, 235, 0.12));
+}
+
+.doraemon-agent-node-mark {
+  width: 3.24rem;
+  height: 3.24rem;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.doraemon-agent-node small {
+  color: #0f172a;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.doraemon-activity-preview {
+  right: clamp(2.35rem, 4.2vw, 4rem);
+  bottom: 0.45rem;
+  left: clamp(-30.5rem, -34vw, -18.5rem);
+  border-color: rgba(148, 163, 184, 0.28);
+  border-radius: 0.72rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 28px 78px rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.94);
+}
+
+.doraemon-activity-preview::after {
+  display: none;
+}
+
+.doraemon-activity-preview-head small::after {
+  background: #2563eb;
+  box-shadow: none;
+}
+
+.doraemon-activity-tick strong {
+  color: #0f172a;
+}
+
+.doraemon-entry-section {
+  border-top: 1px solid rgba(226, 232, 240, 0.84);
+  background: #ffffff;
+}
+
+.doraemon-capability-grid {
+  max-width: min(1268px, calc(100vw - 5rem));
+}
+
+.doraemon-capability-grid > div:last-child {
+  padding-top: 0.1rem;
+}
+
+.doraemon-entry-section h2 {
+  color: #030712;
+  letter-spacing: 0;
+}
+
+.doraemon-entry-section p {
+  color: #475569;
+}
+
+.doraemon-radar {
+  border-radius: 0.55rem;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(250, 204, 21, 0.16), transparent 18%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.94));
+}
+
+.doraemon-agent-strip article {
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.doraemon-boundary-panel {
+  border-radius: 0.68rem;
+  background:
+    linear-gradient(90deg, rgba(248, 251, 255, 0.9), rgba(255, 255, 255, 0.96)),
+    #ffffff;
+}
+
+.doraemon-live-note {
+  background: rgba(248, 251, 255, 0.72);
+}
+
+@media (min-width: 1181px) and (max-height: 820px) {
+  .doraemon-doorway {
+    min-height: calc(100svh - 4.55rem);
+    padding-top: 1.55rem;
+  }
+
+  .doraemon-doorway-grid {
+    min-height: calc(100svh - 7.75rem);
+  }
+
+  .doraemon-doorway-copy {
+    padding-bottom: 4.4rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 33.6rem;
+  }
+
+  .doraemon-portal-stage {
+    inset: -1.05rem -0.72rem 5.12rem 0;
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 901px) {
+  .doraemon-doorway-grid {
+    max-width: min(1080px, calc(100vw - 3rem));
+    grid-template-columns: minmax(18.5rem, 0.47fr) minmax(31rem, 1.53fr);
+  }
+
+  .doraemon-doorway-copy h1 {
+    font-size: clamp(5rem, 7.15vw, 6.15rem);
+  }
+
+  .doraemon-portal-panel {
+    width: min(14.1rem, 28%);
+  }
+}
+
+@media (max-width: 900px) {
+  .doraemon-doorway {
+    min-height: auto;
+    padding-top: 2.1rem;
+    background:
+      radial-gradient(circle at 56% 54%, rgba(191, 219, 254, 0.22), transparent 37%),
+      linear-gradient(180deg, #ffffff 0%, #ffffff 78%, #f8fbff 100%);
+  }
+
+  .doraemon-doorway-grid {
+    max-width: min(100%, 42rem);
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .doraemon-doorway-copy {
+    padding-bottom: 0;
+    text-align: left;
+  }
+
+  .doraemon-command-preview {
+    width: 100%;
+    max-width: 100%;
+    min-height: 32rem;
+    justify-self: stretch;
+  }
+
+  .doraemon-portal-panel {
+    display: none;
+  }
+
+  .doraemon-activity-preview {
+    right: 0.35rem;
+    left: 0.35rem;
+  }
+
+  .doraemon-capability-grid,
+  .doraemon-minidora-grid,
+  .doraemon-safety-grid,
+  .doraemon-context-section > .container {
+    max-width: min(100%, 42rem);
+  }
+}
+
+@media (max-width: 720px) {
+  .doraemon-doorway {
+    padding: 1.18rem 1rem 0.72rem;
+  }
+
+  .doraemon-doorway-copy h1 {
+    max-width: 100%;
+    font-size: clamp(3.78rem, 16.3vw, 4.55rem);
+    line-height: 0.9;
+  }
+
+  .doraemon-doorway-lede {
+    max-width: 20.5rem;
+    margin-top: 1.35rem;
+    font-size: 1.04rem;
+  }
+
+  .doraemon-doorway-actions {
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+  }
+
+  .doraemon-primary-action,
+  .doraemon-quiet-action {
+    justify-content: center;
+  }
+
+  .doraemon-command-preview {
+    min-height: 21.2rem;
+    margin-inline: -0.5rem;
+    margin-top: 1rem;
+  }
+
+  .doraemon-portal-stage {
+    inset: 0 -0.92rem 5.9rem -0.92rem;
+  }
+
+  .doraemon-portal-stage img {
+    --dora-office-portal-scale: 1.045;
+    --dora-office-portal-scale-peak: 1.052;
+    --dora-office-portal-x: -6%;
+    object-position: 52% 50%;
+  }
+
+  .doraemon-activity-preview {
+    padding: 0.72rem;
+  }
+
+  .doraemon-activity-ticks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .doraemon-activity-tick:nth-child(n + 3) {
+    display: none;
+  }
+
+  .doraemon-entry-section {
+    padding-top: 2.6rem;
+    padding-bottom: 2.8rem;
+  }
+}
