@@ -23,7 +23,7 @@ import { getLatestJournalEntries, getLatestNotes, getProjects } from "@/lib/cont
 const operatingLayers = [
   {
     title: "Public studio",
-    summary: "Projects, research notes, journal entries, and contact paths that explain the work without private internals.",
+    summary: "Projects, research notes, journal entries, and contact paths that explain the work.",
     boundary: "public",
     boundaryLabel: "Public",
     safety: "Safe to share",
@@ -35,7 +35,7 @@ const operatingLayers = [
     title: "Doraemon Office",
     summary: "A public command-room view for Doraemon, MiniDoras, activity, schedules, and system heartbeat.",
     boundary: "public-safe",
-    boundaryLabel: "Public safe",
+    boundaryLabel: "Public-safe",
     safety: "Sanitized read-only",
     actionLabel: "Open Doraemon",
     href: "/dora",
@@ -45,7 +45,7 @@ const operatingLayers = [
     title: "Owner cockpit",
     summary: "The private daily surface for priorities, commands, review queues, schedules, and knowledge work.",
     boundary: "owner-only",
-    boundaryLabel: "Owner only",
+    boundaryLabel: "Owner-only",
     safety: "Authenticated",
     actionLabel: "Open cockpit",
     href: "/app",
@@ -55,7 +55,7 @@ const operatingLayers = [
     title: "Research desk",
     summary: "Public lab notes and evidence-first research context, including MiniDora trading work without execution.",
     boundary: "research-only",
-    boundaryLabel: "Research",
+    boundaryLabel: "Research-only",
     safety: "Public notes",
     actionLabel: "Open research",
     href: "/lab",
@@ -65,7 +65,7 @@ const operatingLayers = [
 
 const operatingPrinciples = [
   {
-    title: "Weiyu stays in the loop",
+    title: "Weiyu stays in control",
     summary: "Final authority.",
     icon: ShieldCheck
   },
@@ -81,7 +81,7 @@ const operatingPrinciples = [
   },
   {
     title: "Boundaries by design",
-    summary: "Public, private, and research-only.",
+    summary: "Public, private, research.",
     icon: Globe2
   }
 ];
@@ -96,10 +96,9 @@ export default function HomePage() {
       <HeroSection />
 
       <section id="os-layers" className="home-section home-os-section">
-        <div className="container home-section-frame">
-          <div className="home-section-heading home-section-heading-split">
+        <div className="container home-os-frame">
+          <div className="home-os-heading">
             <div>
-              <p className="eyebrow">Personal OS layers</p>
               <h2 className="section-title">One OS. Four connected surfaces.</h2>
             </div>
             <p className="section-summary">
@@ -108,38 +107,53 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="home-layer-system" aria-label="Weiyu Personal OS connected surfaces">
-            <div className="home-layer-rail" aria-hidden="true" />
+          <div className="home-os-constellation" role="group" aria-label="Weiyu Personal OS connected surfaces">
+            <div className="home-os-core" role="group" aria-label="Personal OS center">
+              <span className="home-os-core-mark" aria-hidden="true">Wy</span>
+              <strong>Personal OS</strong>
+              <span className="home-os-core-owner">Weiyu Dang</span>
+            </div>
+            <div className="home-os-orbit-icons" aria-hidden="true">
+              <span><UserRound size={20} /></span>
+              <span><MonitorPlay size={20} /></span>
+              <span><LockKeyhole size={20} /></span>
+              <span><LineChart size={20} /></span>
+            </div>
             {operatingLayers.map((item, index) => {
               const Icon = item.icon;
               return (
-                <Link key={item.title} href={item.href} className="link-focus home-layer-row">
-                  <span className={`home-layer-marker home-layer-marker-${index + 1}`} aria-hidden="true" />
-                  <span className="home-layer-icon">
-                    <Icon size={24} aria-hidden />
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className={`link-focus home-os-surface home-os-surface-${index + 1} home-os-boundary-${item.boundary}`}
+                >
+                  <span className="home-os-surface-icon">
+                    <Icon size={25} aria-hidden />
                   </span>
-                  <span className="home-layer-copy">
+                  <span className="home-os-surface-copy">
                     <strong>{item.title}</strong>
                     <span>{item.summary}</span>
                   </span>
-                  <span className="home-layer-action">
-                    {item.actionLabel}
-                    <ArrowRight size={16} aria-hidden />
-                  </span>
-                  <span className={`home-boundary-badge home-boundary-${item.boundary.replace(" ", "-")}`}>
-                    <strong>{item.boundaryLabel}</strong>
-                    <small>{item.safety}</small>
+                  <span className="home-os-surface-footer">
+                    <span className="home-os-boundary-label">
+                      <span aria-hidden="true" />
+                      {item.boundaryLabel}
+                    </span>
+                    <span className="home-os-surface-action">
+                      {item.actionLabel}
+                      <ArrowRight size={15} aria-hidden />
+                    </span>
                   </span>
                 </Link>
               );
             })}
           </div>
 
-          <div className="home-principle-strip">
+          <div className="home-os-principle-strip">
             {operatingPrinciples.map((item) => {
               const Icon = item.icon;
               return (
-                <div key={item.title} className="home-principle-item">
+                <div key={item.title} className="home-os-principle-item">
                   <Icon size={17} aria-hidden />
                   <div>
                     <strong>{item.title}</strong>
