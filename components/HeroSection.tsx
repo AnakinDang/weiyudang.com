@@ -38,7 +38,9 @@ const heroSurfaces = [
   }
 ];
 
-const heroSignals = ["Public window", "Doraemon entry", "Owner gated"] as const;
+const heroSignals = ["Public studio", "Doraemon Office", "Owner gated"] as const;
+
+const heroAgents = ["Research Dora", "Strategy Dora", "Data Dora", "Operations Dora"] as const;
 
 export function HeroSection() {
   const recentEvents = getRecentPublicDoraEvents(5);
@@ -59,15 +61,12 @@ export function HeroSection() {
 
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
-          <h1 className="premium-hero-title" aria-label="Weiyu Dang Personal OS">
-            <span className="premium-hero-name">Weiyu Dang</span>
-            <span>Personal OS</span>
-          </h1>
+          <h1 className="premium-hero-title">Weiyu Dang</h1>
           <p className="premium-hero-lede">
-            A living personal site for AI systems, research, writing, and Doraemon.
+            Personal AI systems studio.
           </p>
           <p className="premium-hero-support">
-            Public studio in front. Doraemon Office in view. Owner work behind a private boundary.
+            Research, writing, Doraemon, and the operating layer behind one person&apos;s work.
           </p>
           <div className="premium-hero-statusline" aria-label="Public and private boundary">
             {heroSignals.map((signal, index) => (
@@ -90,6 +89,15 @@ export function HeroSection() {
               <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
+        </div>
+
+        <div className="premium-agent-constellation" role="list" aria-label="Doraemon agent signals">
+          {heroAgents.map((agent, index) => (
+            <span key={agent} className={`premium-agent-node premium-agent-node-${index + 1}`} role="listitem">
+              <Bot size={18} aria-hidden />
+              <small>{agent}</small>
+            </span>
+          ))}
         </div>
 
         <aside className="premium-office-capsule" aria-label="Public-safe Doraemon Office status">
@@ -126,45 +134,47 @@ export function HeroSection() {
           </div>
         </aside>
 
-        <section className="premium-office-events premium-hero-live-strip" aria-label="Live activity (public-safe)">
-          <div className="premium-office-events-head">
-            <span>
-              <Clock3 size={14} aria-hidden />
-              Live activity (public-safe)
-            </span>
-            <Link href="/dora/activity" className="link-focus">
-              View all
-              <ArrowRight size={13} aria-hidden />
-            </Link>
-          </div>
-          <ol>
-            {recentEvents.map((event) => (
-              <li key={event.event_id}>
-                <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
-                <strong>{event.agent}</strong>
-                <span>{event.title}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        <div className="premium-surface-rail" aria-label="Personal OS connected surfaces">
-          {heroSurfaces.map((surface) => {
-            const Icon = surface.icon;
-            return (
-              <Link key={surface.title} href={surface.href} className="link-focus premium-surface-link">
-                <Icon size={15} aria-hidden />
-                <span>
-                  <strong>{surface.title}</strong>
-                </span>
-                <span className="premium-surface-state">{surface.stateLabel}</span>
+        <div className="premium-hero-bottom-deck">
+          <section className="premium-office-events premium-hero-live-strip" aria-label="Live activity (public-safe)">
+            <div className="premium-office-events-head">
+              <span>
+                <Clock3 size={14} aria-hidden />
+                Live activity (public-safe)
+              </span>
+              <Link href="/dora/activity" className="link-focus">
+                View all
+                <ArrowRight size={13} aria-hidden />
               </Link>
-            );
-          })}
-          <span className="premium-surface-rail-note">
-            <Sparkles size={14} aria-hidden />
-            Public surfaces stay visible. Owner work stays private.
-          </span>
+            </div>
+            <ol>
+              {recentEvents.map((event) => (
+                <li key={event.event_id}>
+                  <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
+                  <strong>{event.agent}</strong>
+                  <span>{event.title}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <div className="premium-surface-rail" aria-label="Personal OS connected surfaces">
+            {heroSurfaces.map((surface) => {
+              const Icon = surface.icon;
+              return (
+                <Link key={surface.title} href={surface.href} className="link-focus premium-surface-link">
+                  <Icon size={15} aria-hidden />
+                  <span>
+                    <strong>{surface.title}</strong>
+                  </span>
+                  <span className="premium-surface-state">{surface.stateLabel}</span>
+                </Link>
+              );
+            })}
+            <span className="premium-surface-rail-note">
+              <Sparkles size={14} aria-hidden />
+              Public surfaces stay visible. Owner work stays private.
+            </span>
+          </div>
         </div>
       </div>
     </section>
