@@ -2,29 +2,33 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  Activity,
   ArrowRight,
-  Brain,
+  BookOpen,
   CalendarClock,
   CheckCircle2,
+  CheckSquare,
   Eye,
   Globe2,
-  GraduationCap,
-  Info,
+  Home,
   LockKeyhole,
   Radio,
+  Server,
   ShieldCheck,
   Sparkles,
+  Target,
   Users
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
-  DORA_LIVE_BRIDGE_URL,
+  doraOfficeRoutes,
   formatPublicEventDateTime,
   getRecentPublicDoraEvents,
   publicDoraTaskStats,
-  publicSchedules
+  publicSchedules,
+  publicSystemStatus
 } from "@/lib/dora-office";
 import { getPublicAgents } from "@/lib/public-agents";
 
@@ -35,29 +39,6 @@ export const metadata: Metadata = {
   description: "The public live/demo Doraemon Office view without private task names, prompts, accounts, or controls."
 };
 
-const officePrinciples = [
-  {
-    title: "Multi-Agent Team",
-    summary: "Specialized MiniDoras coordinate in real time.",
-    icon: Users
-  },
-  {
-    title: "Always On, Always Learning",
-    summary: "Continuous monitor, analyze, and improve loops.",
-    icon: Brain
-  },
-  {
-    title: "Owner in the Loop",
-    summary: "Weiyu sets direction. Doraemon executes.",
-    icon: ShieldCheck
-  },
-  {
-    title: "Public Window",
-    summary: "Selected visibility. Privacy by design.",
-    icon: Globe2
-  }
-] as const;
-
 const publicBoundaryItems = [
   "No private tasks or notes",
   "No prompts or workflows",
@@ -66,34 +47,31 @@ const publicBoundaryItems = [
   "Research-only. Not an order, recommendation, or execution system."
 ] as const;
 
-const publicWindowItems = ["Sanitized activity", "High-level statuses", "Agent presence", "System health"] as const;
-const privateAreaItems = ["Owner tasks and notes", "Strategies and playbooks", "Knowledge and data", "Accounts and integrations"] as const;
-
-const projectContext = [
-  {
-    title: "Personal OS",
-    summary: "Doraemon Office is the operating layer of Weiyu's work and thinking.",
-    icon: Users
-  },
-  {
-    title: "Built with Discipline",
-    summary: "Strong privacy boundary, clean architecture, and clear principles.",
-    icon: ShieldCheck
-  },
-  {
-    title: "Open in the Right Way",
-    summary: "Share the public window to inspire and build trust, not for attention.",
-    icon: GraduationCap
-  },
-  {
-    title: "Long-Term Vision",
-    summary: "Better thinking. Better work. More impact over time.",
-    icon: Sparkles
-  }
-] as const;
-
 function officeAgentClass(index: number) {
   return `dora-office-stage-agent dora-office-stage-agent-${index + 1}`;
+}
+
+function officeRouteIcon(href: string) {
+  switch (href) {
+    case "/dora":
+      return Home;
+    case "/dora/office":
+      return Radio;
+    case "/dora/activity":
+      return Activity;
+    case "/dora/team":
+      return Users;
+    case "/dora/tasks":
+      return CheckSquare;
+    case "/dora/schedules":
+      return CalendarClock;
+    case "/dora/knowledge":
+      return BookOpen;
+    case "/dora/system":
+      return Server;
+    default:
+      return Sparkles;
+  }
 }
 
 export default function DoraOfficePage() {
@@ -102,42 +80,67 @@ export default function DoraOfficePage() {
   const recentEvents = getRecentPublicDoraEvents(5);
   const stripEvents = recentEvents.slice(0, 5);
   const nextSchedule = publicSchedules[0];
-  const liveBridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
+  const currentFocusEvent = recentEvents[0];
+  const heartbeatItems = publicSystemStatus.slice(0, 3);
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
       <div className="dora-office-landing">
-        <section className="dora-office-landing-hero" aria-labelledby="dora-office-title">
-          <div className="container dora-office-landing-hero-grid">
-            <div className="dora-office-landing-copy">
-              <h1 id="dora-office-title">
-                <span>Doraemon</span>
-                {" "}
-                Office
-              </h1>
-              <p>The public window into Weiyu&apos;s personal AI command room.</p>
-              <div className="dora-office-landing-rule" aria-hidden />
-              <div className="dora-office-landing-actions">
-                <a href="#office-command-surface" className="link-focus dora-office-primary-cta">
-                  Enter Doraemon Office
-                  <ArrowRight size={19} aria-hidden />
-                </a>
-                <div className="dora-office-secondary-actions">
-                  <Link href="/dora/team" className="link-focus dora-office-text-link">
-                    Meet the MiniDoras
-                    <ArrowRight size={15} aria-hidden />
-                  </Link>
-                  <Link href="/projects/doraemon-agent-system" className="link-focus dora-office-text-link">
-                    Read the project
-                    <ArrowRight size={15} aria-hidden />
-                  </Link>
+        <section className="dora-office-dashboard-hero" aria-labelledby="dora-office-title">
+          <div className="container dora-office-dashboard-shell">
+            <aside className="dora-office-dashboard-nav" aria-label="Doraemon Office navigation">
+              <div className="dora-office-dashboard-brand">
+                <DoraemonMark />
+                <div>
+                  <strong>Doraemon Office</strong>
+                  <StatusBadge tone="info">Public window</StatusBadge>
                 </div>
               </div>
-            </div>
 
-            <div className="dora-office-landing-visual" id="live-dashboard">
+              <nav>
+                {doraOfficeRoutes.map((route) => {
+                  const Icon = officeRouteIcon(route.href);
+                  const isActive = route.href === "/dora/office";
+
+                  return (
+                    <Link
+                      key={route.href}
+                      href={route.href}
+                      className={`link-focus dora-office-dashboard-nav-link${isActive ? " is-active" : ""}`}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      <Icon size={18} aria-hidden />
+                      {route.label}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              <div className="dora-office-dashboard-nav-note">
+                <Eye size={18} aria-hidden />
+                <strong>Public Window</strong>
+                <span>Sanitized. Demo-safe. Read-only.</span>
+                <Link href="/dora/system" className="link-focus">
+                  Boundary details
+                  <ArrowRight size={14} aria-hidden />
+                </Link>
+              </div>
+            </aside>
+
+            <div className="dora-office-dashboard-main" id="live-dashboard">
+              <header className="dora-office-dashboard-head">
+                <div>
+                  <h1 id="dora-office-title">Office Live</h1>
+                  <p>Public-safe command room view.</p>
+                </div>
+                <div className="dora-office-dashboard-badges">
+                  <StatusBadge tone="info">Demo replay</StatusBadge>
+                  <StatusBadge tone="private">Read-only</StatusBadge>
+                </div>
+              </header>
+
               <section
-                className="dora-office-stage-panel dora-office-landing-stage-panel"
+                className="dora-office-stage-panel dora-office-dashboard-stage-panel"
                 aria-label="Public Doraemon Office stage with sanitized MiniDora state"
               >
                 <div className="dora-office-portal-art" aria-hidden="true">
@@ -147,46 +150,52 @@ export default function DoraOfficePage() {
                     width={1536}
                     height={1024}
                     priority
-                    quality={95}
-                    sizes="(max-width: 900px) 100vw, 58vw"
+                    quality={85}
+                    sizes="(max-width: 900px) 100vw, 52vw"
                   />
-                </div>
-
-                <div className="dora-office-landing-stage-note">
-                  <strong>Doraemon Office</strong>
-                  <p>A personal AI command room built for thinking, creating, and long-term impact.</p>
-                  <div className="dora-office-stage-boundary">
-                    <div>
-                      <LockKeyhole size={18} aria-hidden />
-                      <strong>Private area</strong>
-                      <span>Owner-only</span>
-                    </div>
-                    <div>
-                      <Eye size={18} aria-hidden />
-                      <strong>Public window</strong>
-                      <span>Sanitized. Real-time. Safe.</span>
-                    </div>
-                  </div>
                 </div>
 
                 <div className="dora-office-stage-agents">
                   {stageAgents.map((agent, index) => (
-                    <div key={agent.publicId} className={officeAgentClass(index)}>
+                    <div key={agent.publicId} className={officeAgentClass(index)} title={agent.displayName}>
                       <span>
                         <DoraemonMark />
                       </span>
                       <strong>{agent.stageName}</strong>
-                      <small>{agent.role}</small>
+                      <small>{agent.stateLabel}</small>
                     </div>
                   ))}
                 </div>
               </section>
 
-              <section className="dora-office-live-strip dora-office-landing-live-strip" aria-label="Recent public-safe Doraemon Office activity">
+              <div className="dora-office-dashboard-safety-row" aria-label="Public Office safety posture">
+                <div>
+                  <ShieldCheck size={18} aria-hidden />
+                  <strong>Public-safe</strong>
+                  <span>Sanitized view</span>
+                </div>
+                <div>
+                  <Eye size={18} aria-hidden />
+                  <strong>Demo replay</strong>
+                  <span>Fixed snapshot</span>
+                </div>
+                <div>
+                  <LockKeyhole size={18} aria-hidden />
+                  <strong>Read-only</strong>
+                  <span>No execution</span>
+                </div>
+                <div>
+                  <Globe2 size={18} aria-hidden />
+                  <strong>Safe by design</strong>
+                  <span>Privacy first</span>
+                </div>
+              </div>
+
+              <section className="dora-office-live-strip dora-office-dashboard-live-strip" aria-label="Recent public-safe Doraemon Office activity">
                 <div>
                   <span aria-hidden />
-                  <strong>Live activity (public-safe)</strong>
-                  <small>Updated just now</small>
+                  <strong>Demo activity (public-safe)</strong>
+                  <small>Demo replay · Newest first</small>
                 </div>
                 <ol>
                   {stripEvents.map((event) => (
@@ -198,184 +207,97 @@ export default function DoraOfficePage() {
                   ))}
                 </ol>
               </section>
-            </div>
-          </div>
-        </section>
 
-        <section className="dora-office-landing-section dora-office-does-section" aria-labelledby="dora-office-does-title">
-          <div className="container dora-office-does-grid">
-            <div className="dora-office-orbit-card" aria-hidden="true">
-              <div className="dora-office-orbit-radar">
-                <span />
+              <div className="dora-office-dashboard-bottom">
+                <section aria-label="Public task posture">
+                  <CheckSquare size={20} aria-hidden />
+                  <h2>Task posture</h2>
+                  <div className="dora-office-dashboard-stat-row">
+                    {publicDoraTaskStats.map((stat) => (
+                      <div key={stat.label}>
+                        <strong>{stat.value}</strong>
+                        <span>{stat.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p>All tasks are read-only in the public window.</p>
+                </section>
+
+                <section aria-label="Next public operating rhythm">
+                  <CalendarClock size={20} aria-hidden />
+                  <h2>Next rhythm</h2>
+                  <div className="dora-office-dashboard-rhythm">
+                    <span>{nextSchedule.name}</span>
+                    <strong>{nextSchedule.next}</strong>
+                  </div>
+                  <p>Public cadence only. No cron strings or private prompts.</p>
+                </section>
               </div>
             </div>
-            <div>
-              <h2 id="dora-office-does-title">What Doraemon Office Does</h2>
-              <p>
-                Doraemon Office is Weiyu&apos;s personal AI command room. A team of MiniDoras work across research,
-                writing, data, strategy, and operations, coordinated to turn ideas into impact.
-              </p>
-              <div className="dora-office-principle-grid">
-                {officePrinciples.map((item) => {
-                  const Icon = item.icon;
 
-                  return (
-                    <article key={item.title}>
-                      <span>
-                        <Icon size={20} aria-hidden />
-                      </span>
-                      <h3>{item.title}</h3>
-                      <p>{item.summary}</p>
-                    </article>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
+            <aside className="dora-office-dashboard-rail" aria-label="Office Live public context">
+              <section>
+                <Target size={22} aria-hidden />
+                <h2>Current Focus</h2>
+                <strong>{currentFocusEvent?.title ?? "Demo snapshot"}</strong>
+                <p>Public-safe attention state from the demo replay buffer.</p>
+                <dl>
+                  <div>
+                    <dt>Led by</dt>
+                    <dd>{currentFocusEvent?.agent ?? "Doraemon"}</dd>
+                  </div>
+                  <div>
+                    <dt>Status</dt>
+                    <dd>{currentFocusEvent?.state ?? "Demo"}</dd>
+                  </div>
+                  <div>
+                    <dt>Freshness</dt>
+                    <dd>Demo snapshot</dd>
+                  </div>
+                </dl>
+                <Link href="/dora/activity" className="link-focus dora-office-text-link">
+                  View in Activity
+                  <ArrowRight size={15} aria-hidden />
+                </Link>
+              </section>
 
-        <section className="dora-office-landing-section dora-office-minidoras-section" aria-labelledby="dora-office-minidoras-title">
-          <div className="container dora-office-minidoras-grid">
-            <div className="dora-office-section-copy">
-              <h2 id="dora-office-minidoras-title">Meet the MiniDoras</h2>
-              <p>From research to writing, from data to operations, each MiniDora has a clear role.</p>
-              <Link href="/dora/team" className="link-focus dora-office-text-link">
-                Explore the team
-                <ArrowRight size={15} aria-hidden />
-              </Link>
-            </div>
-            <div className="dora-office-agent-card-row">
-              {agents.slice(1).map((agent) => (
-                <article key={agent.publicId}>
-                  <DoraemonMark />
-                  <h3>{agent.displayName}</h3>
-                  <p>{agent.summary}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="dora-office-landing-section dora-office-safety-section" aria-labelledby="dora-office-safety-title">
-          <div className="container dora-office-safety-grid">
-            <div className="dora-office-section-copy">
-              <h2 id="dora-office-safety-title">Public Safety Boundary</h2>
-              <p>Your trust matters. The public window is designed with a strict boundary.</p>
-              <ul className="dora-office-boundary-list">
-                {publicBoundaryItems.map((item) => (
-                  <li key={item}>
-                    <CheckCircle2 size={15} aria-hidden />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="dora-office-boundary-diagram">
-              <div>
-                <Eye size={22} aria-hidden />
-                <strong>Public window</strong>
+              <section>
+                <ShieldCheck size={22} aria-hidden />
+                <h2>Public Boundary</h2>
                 <ul>
-                  {publicWindowItems.map((item) => (
+                  {publicBoundaryItems.slice(0, 4).map((item) => (
                     <li key={item}>
                       <CheckCircle2 size={14} aria-hidden />
                       {item}
                     </li>
                   ))}
                 </ul>
-              </div>
-              <span className="dora-office-boundary-bell" aria-hidden>
-                <DoraemonMark />
-              </span>
-              <div>
-                <LockKeyhole size={22} aria-hidden />
-                <strong>Private area</strong>
-                <ul>
-                  {privateAreaItems.map((item) => (
-                    <li key={item}>
-                      <CheckCircle2 size={14} aria-hidden />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
+                <Link href="/dora/system" className="link-focus dora-office-text-link">
+                  Learn more
+                  <ArrowRight size={15} aria-hidden />
+                </Link>
+              </section>
 
-        <section
-          className="dora-office-landing-section dora-office-command-section"
-          id="office-command-surface"
-          aria-labelledby="dora-office-command-title"
-        >
-          <div className="container dora-office-command-shell">
-            <div className="dora-office-command-heading">
-              <h2 id="dora-office-command-title">Office command surface</h2>
-              <p>Jump into the public-safe dashboard views without exposing private systems.</p>
-            </div>
-            <div className="dora-office-command-grid">
-              <Link href="/dora/activity" className="link-focus dora-office-command-card">
-                <Radio size={24} aria-hidden />
-                <h3>Public relay</h3>
-                <p>A read-only broadcast of sanitized Doraemon Office activity.</p>
-                <StatusBadge tone="info">display-only</StatusBadge>
-              </Link>
-              <Link href="/dora/schedules" className="link-focus dora-office-command-card">
-                <CalendarClock size={24} aria-hidden />
-                <h3>{nextSchedule.name}</h3>
-                <p>Next rhythm: {nextSchedule.next}. Public cadence only, never cron strings or private prompts.</p>
-                <StatusBadge tone="info">safe cadence</StatusBadge>
-              </Link>
-              <Link href="/dora/tasks" className="link-focus dora-office-command-card">
-                <ShieldCheck size={24} aria-hidden />
-                <h3>Task posture</h3>
-                <div className="dora-office-task-posture">
-                  {publicDoraTaskStats.map((stat) => (
-                    <div key={stat.label}>
-                      <strong>{stat.value}</strong>
-                      <span>{stat.label}</span>
+              <section>
+                <Radio size={22} aria-hidden />
+                <h2>System Heartbeat</h2>
+                <dl>
+                  {heartbeatItems.map((item) => (
+                    <div key={item.label}>
+                      <dt>{item.label}</dt>
+                      <dd>{item.value}</dd>
                     </div>
                   ))}
-                </div>
-              </Link>
-              <a href={DORA_LIVE_BRIDGE_URL} target="_blank" rel="noopener noreferrer" className="link-focus dora-office-command-card">
-                <Info size={24} aria-hidden />
-                <h3>Live bridge</h3>
-                <p>Open the larger visualizer when the office stage needs more room.</p>
-                <span className="dora-office-text-link">
-                  {liveBridgeHost}
+                </dl>
+                <Link href="/dora/system" className="link-focus dora-office-text-link">
+                  System status
                   <ArrowRight size={15} aria-hidden />
-                </span>
-              </a>
-            </div>
+                </Link>
+              </section>
+            </aside>
           </div>
         </section>
 
-        <section className="dora-office-landing-section dora-office-project-section" aria-label="Doraemon Office project context">
-          <div className="container dora-office-project-grid">
-            <div className="dora-office-section-copy">
-              <h2>Project Context</h2>
-              <p>This is a long-term personal OS experiment. Built in public. Designed to compound.</p>
-              <Link href="/projects/doraemon-agent-system" className="link-focus dora-office-text-link">
-                Read the full project
-                <ArrowRight size={15} aria-hidden />
-              </Link>
-            </div>
-            <div className="dora-office-project-context-row">
-              {projectContext.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <article key={item.title}>
-                    <Icon size={22} aria-hidden />
-                    <h3>{item.title}</h3>
-                    <p>{item.summary}</p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </section>
       </div>
     </SiteChrome>
   );
