@@ -179,7 +179,7 @@ export const publicDoraTasks = [
     agentRole: "System health",
     updated: "Recent",
     severity: "warning",
-    summary: "A public-safe attention state is visible while private diagnostics, paths, and repair actions stay hidden."
+    summary: "A public-safe attention state is visible while private diagnostics, paths, and owner actions stay hidden."
   }
 ] as const;
 
@@ -301,14 +301,23 @@ export const publicSystemEvents = [
     label: "Operations boundary",
     state: "Private",
     tone: "private",
-    detail: "Diagnostics and repair actions stay in authenticated owner surfaces."
+    detail: "Diagnostics and owner actions stay in authenticated owner surfaces."
   }
 ] as const;
+
+export const publicSystemToneClasses = {
+  normal: "is-normal",
+  info: "is-info",
+  private: "is-private"
+} as const satisfies Record<
+  (typeof publicSystemStatus)[number]["tone"] | (typeof publicSystemEvents)[number]["tone"],
+  string
+>;
 
 export const publicSystemBoundaries = [
   "Public visitors can see live/demo posture and public schema health.",
   "Private infrastructure details, credentials, and diagnostic logs stay behind owner access.",
-  "This page is display-only and has no repair, restart, deploy, or purge controls."
+  "This page is display-only and cannot change public or private systems."
 ] as const;
 
 export function latestAgentEvent(agent: PublicAgent) {
