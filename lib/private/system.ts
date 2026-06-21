@@ -80,10 +80,10 @@ export const privateSystemServices = [
         detail: "The route guard must redirect before private UI is sent."
       },
       {
-        label: "Session token",
+        label: "Session material",
         state: "Hidden",
         tone: "private",
-        detail: "The page never renders token values or cookie contents."
+        detail: "The page never renders credential values or cookie contents."
       },
       {
         label: "Public pages",
@@ -93,7 +93,7 @@ export const privateSystemServices = [
       }
     ],
     risks: ["Auth copy can drift if route smoke is skipped.", "Future private APIs must check auth server-side."],
-    noGo: ["No token display", "No client-readable session", "No unauthenticated app shell"]
+    noGo: ["No credential display", "No client-readable session", "No unauthenticated app shell"]
   },
   {
     id: "doraemon-public-boundary",
@@ -137,7 +137,7 @@ export const privateSystemServices = [
     tone: "warning",
     detail: "The private cockpit has no live internal event source connected yet.",
     visibleSignal: "Use summary freshness only until a private source exists.",
-    ownerGate: "Owner can see the absence of a private feed without seeing raw logs.",
+    ownerGate: "Owner can see the absence of a private feed without seeing runtime records.",
     evidence: [
       {
         label: "Live source",
@@ -159,7 +159,7 @@ export const privateSystemServices = [
       }
     ],
     risks: ["Freshness can look more precise than it is if mock wording is too confident."],
-    noGo: ["No raw event payload", "No internal subscription URL", "No local service name"]
+    noGo: ["No event payload", "No internal feed address", "No implementation label"]
   },
   {
     id: "review-queue-health",
@@ -203,7 +203,7 @@ export const privateSystemServices = [
     tone: "private",
     detail: "The command surface is draft-only until a separate audited API exists.",
     visibleSignal: "Command work can be drafted, but not sent to runtime.",
-    ownerGate: "Write APIs need auth, audit, rollback, and error handling before controls exist.",
+    ownerGate: "Write APIs need auth, audit, recovery, and error handling before controls exist.",
     evidence: [
       {
         label: "Write API",
@@ -218,7 +218,7 @@ export const privateSystemServices = [
         detail: "Future commands need a reviewable action log."
       },
       {
-        label: "Rollback",
+        label: "Recovery",
         state: "Required",
         tone: "warning",
         detail: "Future repair or command flows need a recovery model."
@@ -287,7 +287,7 @@ export const privateSystemSignals = [
     value: "None surfaced",
     tone: "normal",
     scope: "Summary only",
-    detail: "No private failure feed is connected; this is not a raw log assertion.",
+    detail: "No private failure feed is connected; this is not a runtime-record assertion.",
     lastChecked: "Tracked off-page"
   },
   {
@@ -316,7 +316,7 @@ export const privateSystemGaps = [
     label: "Repair API not designed",
     state: "Blocked",
     tone: "private",
-    detail: "Restart, deploy, purge, rollback, and log access require separate auth and audit design.",
+    detail: "Repair, release, queue mutation, recovery, and runtime-detail access require separate auth and audit design.",
     notedAt: "Current slice",
     revisitWhen: "Before any repair control appears"
   },
@@ -370,14 +370,14 @@ export const privateSystemDiagnosticLanes = [
     owner: "Owner",
     state: "Blocked",
     tone: "private",
-    detail: "Repair, command, deploy, trading, and broker paths stay unavailable without audit design."
+    detail: "Repair, command, trading, and broker paths stay unavailable without audit design."
   }
 ] as const satisfies readonly PrivateSystemDiagnosticLane[];
 
 export const privateSystemDiagnostics = [
   "Diagnostics are summary-level only.",
-  "No service path, port, credential, local hostname, or raw log line is rendered.",
-  "Bundle boundary checks are a release gate for credential values, paths, token strings, and raw logs.",
-  "Repair, restart, deploy, and rollback workflows need separate authenticated APIs.",
+  "No implementation address, credential value, local machine label, or runtime record line is rendered.",
+  "Bundle boundary checks are a release gate for credential values, machine paths, and runtime records.",
+  "Repair, release, and recovery workflows need separate authenticated APIs.",
   "Public Doraemon status and private Owner Cockpit status stay separated."
 ] as const;
