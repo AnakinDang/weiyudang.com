@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { SystemHealthPanel } from "@/app/dora/system/SystemHealthPanel";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -295,6 +296,12 @@ export default function DoraSystemPage() {
             })}
           </div>
         </section>
+
+        <DoraOfficeOperatingRhythm
+          surface="system"
+          title="System health closes the public readiness loop"
+          summary="The public dashboard can say whether the office window is healthy without becoming an operations console."
+        />
 
         <section
           className="dora-system-landing-section dora-system-register-section"
