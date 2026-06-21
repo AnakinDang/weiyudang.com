@@ -38,7 +38,7 @@ const teamPrinciples = [
     icon: Bot
   },
   {
-    title: "Fixed public states",
+    title: "Demo-safe posture",
     summary: "Stable labels such as planning, working, handoff, owner review, and attention.",
     icon: Activity
   },
@@ -79,6 +79,23 @@ const teamLanes = [
 
 const publicWindowItems = ["Public-safe profiles", "Sanitized states", "Fixed event labels", "Team presence"] as const;
 const privateAreaItems = ["Owner tasks", "Prompts and workflows", "Accounts and credentials", "Private knowledge"] as const;
+const heroSafetySignals = [
+  {
+    title: "Public-safe",
+    summary: "Read-only profiles",
+    icon: Users
+  },
+  {
+    title: "Demo fallback",
+    summary: "Sanitized view",
+    icon: ShieldCheck
+  },
+  {
+    title: "No execution",
+    summary: "No private work",
+    icon: LockKeyhole
+  }
+] as const;
 
 const commandRoutes = [
   {
@@ -165,6 +182,19 @@ export default function DoraTeamPage() {
                   </Link>
                 </div>
               </div>
+              <div className="dora-team-hero-signal-strip" aria-label="Public team safety posture">
+                {heroSafetySignals.map((signal) => {
+                  const Icon = signal.icon;
+
+                  return (
+                    <div key={signal.title}>
+                      <Icon size={17} aria-hidden />
+                      <strong>{signal.title}</strong>
+                      <span>{signal.summary}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="dora-team-landing-visual">
@@ -183,7 +213,7 @@ export default function DoraTeamPage() {
 
                 <div className="dora-team-stage-boundary">
                   <strong>Doraemon Team</strong>
-                  <p>Public-safe profiles. Real-time posture. No private work exposed.</p>
+                  <p>Public-safe profiles. Demo-safe posture. No private work exposed.</p>
                   <div>
                     <Eye size={17} aria-hidden />
                     <span>Public window</span>
@@ -214,11 +244,11 @@ export default function DoraTeamPage() {
                 </div>
               </section>
 
-              <section className="dora-office-live-strip dora-team-landing-live-strip" aria-label="Recent public-safe MiniDora team activity">
+              <section className="dora-office-live-strip dora-team-landing-activity-strip" aria-label="Recent public-safe MiniDora team activity">
                 <div>
                   <span aria-hidden />
-                  <strong>Live team activity</strong>
-                  <small>Public-safe labels</small>
+                  <strong>Public team activity</strong>
+                  <small>Demo fallback · Public-safe labels</small>
                 </div>
                 <ol>
                   {recentSignals.map((event) => (
@@ -231,6 +261,42 @@ export default function DoraTeamPage() {
                 </ol>
               </section>
             </div>
+
+            <aside className="dora-team-hero-side" aria-label="MiniDora public team context">
+              <section className="dora-team-hero-side-card">
+                <div className="dora-team-hero-side-head">
+                  <Layers3 size={20} aria-hidden />
+                  <h2>Operating lanes</h2>
+                </div>
+                <ol className="dora-team-hero-lane-list">
+                  {teamLanes.map((lane) => (
+                    <li key={lane.title}>
+                      <strong>{lane.title}</strong>
+                      <span>{lane.summary}</span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+
+              <section className="dora-team-hero-side-card">
+                <div className="dora-team-hero-side-head">
+                  <ShieldCheck size={20} aria-hidden />
+                  <h2>Public boundary</h2>
+                </div>
+                <ul className="dora-team-hero-boundary-list">
+                  {publicWindowItems.map((item) => (
+                    <li key={item}>
+                      <CheckCircle2 size={14} aria-hidden />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/dora/system" className="link-focus dora-office-text-link">
+                  Boundary details
+                  <ArrowRight size={15} aria-hidden />
+                </Link>
+              </section>
+            </aside>
           </div>
         </section>
 
@@ -308,6 +374,11 @@ export default function DoraTeamPage() {
                     </div>
                     <p className="dora-team-role">{agent.role}</p>
                     <p>{agent.summary}</p>
+                    {agent.publicId === "agent_trading" ? (
+                      <p className="dora-team-research-boundary">
+                        Research-only. Not an order, recommendation, or execution system.
+                      </p>
+                    ) : null}
                     <div className="dora-team-event">
                       <Activity size={15} aria-hidden />
                       <span>Latest public label</span>
