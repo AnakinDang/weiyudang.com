@@ -22,6 +22,14 @@ export type PrivateAgentTone = "normal" | "info" | "warning" | "private";
 export type PrivateAgentSourceHealth = "Good" | "Partial" | "Degraded" | "Pending";
 export type PrivateAgentLeaseStatus = "Active lease" | "Review lease" | "Owner-gated" | "Queued lease" | "Idle lease";
 
+export type PrivateAgentHistoryItem = {
+  time: string;
+  title: string;
+  state: string;
+  tone: PrivateAgentTone;
+  detail: string;
+};
+
 export type PrivateAgent = {
   id: PrivateAgentId;
   name: string;
@@ -41,6 +49,7 @@ export type PrivateAgent = {
   inputs: readonly string[];
   outputs: readonly string[];
   guardrail: string;
+  history: readonly PrivateAgentHistoryItem[];
 };
 
 export type PrivateAgentMetric = {
@@ -87,7 +96,30 @@ export const privateAgentRoster = [
     nextReview: "Confirm the current Agents slice after local evidence and Opus review.",
     inputs: ["Owner instruction", "Personal OS docs", "previous review findings"],
     outputs: ["slice brief", "handoff packet", "risk notes"],
-    guardrail: "Cannot approve its own work or bypass owner review."
+    guardrail: "Cannot approve its own work or bypass owner review.",
+    history: [
+      {
+        time: "Now",
+        title: "Agents slice in motion",
+        state: "Planning",
+        tone: "info",
+        detail: "Routing this owner-only roster through implementation, verification, and Opus review."
+      },
+      {
+        time: "Step 6",
+        title: "Command surface closed",
+        state: "Complete",
+        tone: "normal",
+        detail: "Merged the owner command surface after local QA and Claude review."
+      },
+      {
+        time: "Step 5",
+        title: "Trading boundary held",
+        state: "Complete",
+        tone: "normal",
+        detail: "Kept market research inside a research-only cockpit with no execution path."
+      }
+    ]
   },
   {
     id: "minidora-dev",
@@ -107,7 +139,30 @@ export const privateAgentRoster = [
     nextReview: "Attach build, route, leak, and visual evidence before merge.",
     inputs: ["repo state", "design docs", "local QA"],
     outputs: ["component diff", "verification log", "deployment notes"],
-    guardrail: "No hidden write path, dispatch button, or private API is added in UI-only slices."
+    guardrail: "No hidden write path, dispatch button, or private API is added in UI-only slices.",
+    history: [
+      {
+        time: "Now",
+        title: "Roster interface polish",
+        state: "Working",
+        tone: "info",
+        detail: "Building the private MiniDora roster into a scan-first team control panel."
+      },
+      {
+        time: "Step 6",
+        title: "Command QA packet",
+        state: "Complete",
+        tone: "normal",
+        detail: "Produced build, route, browser, and leak evidence for the command surface."
+      },
+      {
+        time: "Step 4",
+        title: "Owner Today surface",
+        state: "Complete",
+        tone: "normal",
+        detail: "Connected daily priorities, review pressure, and command shortcuts."
+      }
+    ]
   },
   {
     id: "minidora-product",
@@ -127,7 +182,30 @@ export const privateAgentRoster = [
     nextReview: "Check whether the Agents page now answers roster, lease, source-health, and handoff questions.",
     inputs: ["IA", "design brief", "auth spec"],
     outputs: ["page intent", "copy constraints", "review checklist"],
-    guardrail: "Cannot expand a slice into execution, publishing, or broker behavior."
+    guardrail: "Cannot expand a slice into execution, publishing, or broker behavior.",
+    history: [
+      {
+        time: "Now",
+        title: "Team surface acceptance",
+        state: "Reviewing",
+        tone: "warning",
+        detail: "Checking that roster, history, capabilities, leases, and source health are all visible."
+      },
+      {
+        time: "Step 6",
+        title: "Command hierarchy review",
+        state: "Complete",
+        tone: "normal",
+        detail: "Kept mission drafting separate from hidden execution."
+      },
+      {
+        time: "Step 3",
+        title: "Public Office alignment",
+        state: "Complete",
+        tone: "normal",
+        detail: "Made the public Doraemon story line up with private cockpit vocabulary."
+      }
+    ]
   },
   {
     id: "minidora-research",
@@ -147,7 +225,30 @@ export const privateAgentRoster = [
     nextReview: "Verify the page says what evidence exists and what remains mocked.",
     inputs: ["docs", "review notes", "route smoke"],
     outputs: ["evidence packet", "gap list", "source posture"],
-    guardrail: "No private source documents or raw memory records are rendered."
+    guardrail: "No private source documents or raw memory records are rendered.",
+    history: [
+      {
+        time: "Now",
+        title: "Evidence posture check",
+        state: "Reviewing",
+        tone: "warning",
+        detail: "Separating verified local evidence from intentionally mocked cockpit state."
+      },
+      {
+        time: "Step 6",
+        title: "Leak probe reviewed",
+        state: "Complete",
+        tone: "normal",
+        detail: "Confirmed private command copy did not appear on unauthenticated login routes."
+      },
+      {
+        time: "Step 5",
+        title: "Research-only claim traced",
+        state: "Complete",
+        tone: "normal",
+        detail: "Matched trading copy to the research-only contract."
+      }
+    ]
   },
   {
     id: "minidora-trading",
@@ -167,7 +268,30 @@ export const privateAgentRoster = [
     nextReview: "Keep the research-only disclaimer visible wherever trading appears.",
     inputs: ["curated signal mocks", "research boundary", "source-health notes"],
     outputs: ["research posture", "evidence gate", "risk summary"],
-    guardrail: "Research-only. Not an order, recommendation, or execution system."
+    guardrail: "Research-only. Not an order, recommendation, or execution system.",
+    history: [
+      {
+        time: "Now",
+        title: "Owner-gated market lane",
+        state: "Owner review",
+        tone: "warning",
+        detail: "Visible in the roster, but intentionally separated from broker or order workflows."
+      },
+      {
+        time: "Step 5",
+        title: "Research cockpit passed",
+        state: "Complete",
+        tone: "normal",
+        detail: "Evidence, disagreement, and replay stayed research-only."
+      },
+      {
+        time: "Queued",
+        title: "Live data deferred",
+        state: "Degraded",
+        tone: "warning",
+        detail: "Market and broker connections remain absent from this web surface."
+      }
+    ]
   },
   {
     id: "minidora-ops",
@@ -187,7 +311,30 @@ export const privateAgentRoster = [
     nextReview: "Define read-only schedule evidence before any private endpoint exists.",
     inputs: ["operating rhythm", "system health mocks", "acceptance checks"],
     outputs: ["schedule view", "health view", "ops handoff"],
-    guardrail: "No cron command strings, ports, local paths, or restart controls are displayed."
+    guardrail: "No cron command strings, ports, local paths, or restart controls are displayed.",
+    history: [
+      {
+        time: "Queued",
+        title: "Schedules slice waiting",
+        state: "Queued",
+        tone: "private",
+        detail: "Needs a read-only evidence plan before runtime sources are connected."
+      },
+      {
+        time: "Step 4",
+        title: "System health preview",
+        state: "Complete",
+        tone: "normal",
+        detail: "Kept owner cockpit status calm and route-protected."
+      },
+      {
+        time: "Future",
+        title: "Operational endpoints not wired",
+        state: "Pending",
+        tone: "private",
+        detail: "No restart controls, cron commands, ports, or local paths are rendered."
+      }
+    ]
   },
   {
     id: "minidora-memory",
@@ -207,7 +354,30 @@ export const privateAgentRoster = [
     nextReview: "Design Knowledge Vault evidence before connecting private sources.",
     inputs: ["curated notes", "decision logs", "public/private contract"],
     outputs: ["context brief", "memory boundary", "knowledge checklist"],
-    guardrail: "No raw private vault pages, source files, or memory records appear in the UI."
+    guardrail: "No raw private vault pages, source files, or memory records appear in the UI.",
+    history: [
+      {
+        time: "Idle",
+        title: "Knowledge Vault deferred",
+        state: "Idle",
+        tone: "private",
+        detail: "Waiting for a dedicated private knowledge slice."
+      },
+      {
+        time: "Step 3",
+        title: "Public boundary defined",
+        state: "Complete",
+        tone: "normal",
+        detail: "Public knowledge pages stay curated and never expose raw vault material."
+      },
+      {
+        time: "Future",
+        title: "Memory sources not connected",
+        state: "Pending",
+        tone: "private",
+        detail: "Private memory records are not available through this static cockpit."
+      }
+    ]
   },
   {
     id: "minidora-media",
@@ -227,7 +397,30 @@ export const privateAgentRoster = [
     nextReview: "Generate and review assets only when the target page direction is fixed.",
     inputs: ["visual brief", "approved references", "asset policy"],
     outputs: ["concept frames", "runtime assets", "replacement notes"],
-    guardrail: "Raw/source asset collections stay private and takedown-friendly."
+    guardrail: "Raw/source asset collections stay private and takedown-friendly.",
+    history: [
+      {
+        time: "Queued",
+        title: "Asset pass waiting",
+        state: "Queued",
+        tone: "private",
+        detail: "Visual exploration waits until the target surface is stable enough to judge."
+      },
+      {
+        time: "Step 1",
+        title: "Apple-like direction captured",
+        state: "Complete",
+        tone: "normal",
+        detail: "Personal site direction moved toward premium, minimal, alive interfaces."
+      },
+      {
+        time: "Future",
+        title: "Raw assets remain private",
+        state: "Pending",
+        tone: "private",
+        detail: "Runtime visuals should stay replaceable and source collections stay outside public repos."
+      }
+    ]
   }
 ] as const satisfies readonly PrivateAgent[];
 
