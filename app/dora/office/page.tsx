@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   Activity,
   ArrowRight,
+  ArrowUpRight,
   BookOpen,
   CalendarClock,
   CheckCircle2,
@@ -24,6 +25,7 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   doraOfficeRoutes,
+  DORA_LIVE_BRIDGE_URL,
   formatPublicEventDateTime,
   getRecentPublicDoraEvents,
   publicDoraTaskStats,
@@ -82,6 +84,7 @@ export default function DoraOfficePage() {
   const nextSchedule = publicSchedules[0];
   const currentFocusEvent = recentEvents[0];
   const heartbeatItems = publicSystemStatus.slice(0, 3);
+  const liveBridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
@@ -130,12 +133,25 @@ export default function DoraOfficePage() {
             <div className="dora-office-dashboard-main" id="live-dashboard">
               <header className="dora-office-dashboard-head">
                 <div>
+                  <p className="dora-office-dashboard-pretitle">Doraemon Office · Public Command Room</p>
                   <h1 id="dora-office-title">Office Live</h1>
-                  <p>Public-safe command room view.</p>
+                  <p>A public-safe command room for Doraemon and the MiniDoras.</p>
                 </div>
-                <div className="dora-office-dashboard-badges">
-                  <StatusBadge tone="info">Demo replay</StatusBadge>
-                  <StatusBadge tone="private">Read-only</StatusBadge>
+                <div className="dora-office-dashboard-actions">
+                  <div className="dora-office-dashboard-badges">
+                    <StatusBadge tone="info">Demo fallback</StatusBadge>
+                    <StatusBadge tone="private">Read-only</StatusBadge>
+                  </div>
+                  <a
+                    href={DORA_LIVE_BRIDGE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open larger visualizer ${liveBridgeHost} in a new tab`}
+                    className="link-focus dora-office-dashboard-open-link"
+                  >
+                    Open visualizer
+                    <ArrowUpRight size={14} aria-hidden />
+                  </a>
                 </div>
               </header>
 
@@ -153,6 +169,13 @@ export default function DoraOfficePage() {
                     quality={85}
                     sizes="(max-width: 900px) 100vw, 52vw"
                   />
+                </div>
+
+                <div className="dora-office-stage-core-card" aria-hidden="true">
+                  <DoraemonMark />
+                  <strong>Doraemon Office</strong>
+                  <span>Public-safe · Read-only</span>
+                  <i />
                 </div>
 
                 <div className="dora-office-stage-agents">
@@ -191,25 +214,32 @@ export default function DoraOfficePage() {
                 </div>
               </div>
 
-              <section className="dora-office-live-strip dora-office-dashboard-live-strip" aria-label="Recent public-safe Doraemon Office activity">
-                <div>
-                  <span aria-hidden />
-                  <strong>Demo activity (public-safe)</strong>
-                  <small>Demo replay · Newest first</small>
-                </div>
-                <ol>
-                  {stripEvents.map((event) => (
-                    <li key={event.event_id}>
-                      <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
-                      <strong>{event.agent}</strong>
-                      <span>{event.title}</span>
-                    </li>
-                  ))}
-                </ol>
-              </section>
+              <div className="dora-office-dashboard-operations">
+                <section
+                  className="dora-office-live-strip dora-office-dashboard-live-strip"
+                  aria-label="Recent public-safe Doraemon Office activity"
+                >
+                  <div>
+                    <span aria-hidden />
+                    <strong>Recent public activity</strong>
+                    <small>Demo fallback · Newest first</small>
+                  </div>
+                  <ol>
+                    {stripEvents.map((event) => (
+                      <li key={event.event_id}>
+                        <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
+                        <strong>{event.agent}</strong>
+                        <span>{event.title}</span>
+                      </li>
+                    ))}
+                  </ol>
+                  <Link href="/dora/activity" className="link-focus dora-office-dashboard-card-link">
+                    View all activity
+                    <ArrowRight size={14} aria-hidden />
+                  </Link>
+                </section>
 
-              <div className="dora-office-dashboard-bottom">
-                <section aria-label="Public task posture">
+                <section className="dora-office-dashboard-task-card" aria-label="Public task posture">
                   <CheckSquare size={20} aria-hidden />
                   <h2>Task posture</h2>
                   <div className="dora-office-dashboard-stat-row">
@@ -218,12 +248,12 @@ export default function DoraOfficePage() {
                         <strong>{stat.value}</strong>
                         <span>{stat.label}</span>
                       </div>
-                    ))}
+                  ))}
                   </div>
                   <p>All tasks are read-only in the public window.</p>
                 </section>
 
-                <section aria-label="Next public operating rhythm">
+                <section className="dora-office-dashboard-rhythm-card" aria-label="Next public operating rhythm">
                   <CalendarClock size={20} aria-hidden />
                   <h2>Next rhythm</h2>
                   <div className="dora-office-dashboard-rhythm">
