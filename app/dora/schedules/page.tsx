@@ -19,6 +19,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { ScheduleBoard } from "@/app/dora/schedules/ScheduleBoard";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -286,6 +287,12 @@ export default function DoraSchedulesPage() {
             })}
           </div>
         </section>
+
+        <DoraOfficeOperatingRhythm
+          surface="schedules"
+          title="Schedules set the rhythm for the public office"
+          summary="A public schedule is not a cron viewer. It is the first safe signal in a chain that ends in task posture, health, and activity."
+        />
 
         <section
           className="dora-schedules-landing-section dora-schedules-register-section"

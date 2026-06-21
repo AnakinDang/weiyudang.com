@@ -149,7 +149,7 @@ export const publicDoraTasks = [
     agentRole: "Coordinator",
     updated: "Recent",
     severity: "warning",
-    summary: "A public-safe review checkpoint is waiting for Weiyu. The private task title and prompt stay hidden."
+    summary: "A public-safe review checkpoint is waiting for Weiyu. The private task name and prompt stay hidden."
   },
   {
     publicKey: "t_7c18b2e4",
@@ -319,6 +319,67 @@ export const publicSystemBoundaries = [
   "Private infrastructure details, credentials, and diagnostic logs stay behind owner access.",
   "This page is display-only and cannot change public or private systems."
 ] as const;
+
+export type PublicDoraOperatingRhythmStep = {
+  stage: string;
+  label: string;
+  route: DoraOfficeRoute;
+  state: string;
+  tone: "normal" | "info" | "warning" | "private";
+  window: string;
+  signal: string;
+  boundary: string;
+};
+
+const primaryPublicSchedule = publicSchedules.find((schedule) => schedule.name === "Daily brief") ?? publicSchedules[0];
+const primaryPublicTask = publicDoraTasks.find((task) => task.state === "Owner review") ?? publicDoraTasks[0];
+const primaryPublicSystemStatus =
+  publicSystemStatus.find((status) => status.label === "Public schema") ?? publicSystemStatus[0];
+const primaryPublicEvent = getRecentPublicDoraEvents(1)[0] ?? publicDoraEvents[0];
+const primaryPublicEventKind = primaryPublicEvent.event_type.replaceAll("_", " ");
+
+export const publicDoraOperatingRhythm = [
+  {
+    stage: "Schedule",
+    label: primaryPublicSchedule.name,
+    route: "/dora/schedules",
+    state: primaryPublicSchedule.state,
+    tone: primaryPublicSchedule.tone,
+    window: primaryPublicSchedule.cadence,
+    signal: primaryPublicSchedule.summary,
+    boundary: "No scheduler commands, exact triggers, or source material render publicly."
+  },
+  {
+    stage: "Task posture",
+    label: primaryPublicTask.title,
+    route: "/dora/tasks",
+    state: primaryPublicTask.state,
+    tone: primaryPublicTask.tone,
+    window: primaryPublicTask.agentRole,
+    signal: primaryPublicTask.summary,
+    boundary: "No private task names, owner notes, project paths, or controls appear."
+  },
+  {
+    stage: "System health",
+    label: primaryPublicSystemStatus.label,
+    route: "/dora/system",
+    state: primaryPublicSystemStatus.value,
+    tone: primaryPublicSystemStatus.tone,
+    window: "Health rail",
+    signal: primaryPublicSystemStatus.detail,
+    boundary: "No diagnostics, host details, local ports, or credential material render."
+  },
+  {
+    stage: "Activity",
+    label: primaryPublicEvent.title,
+    route: "/dora/activity",
+    state: primaryPublicEvent.state,
+    tone: primaryPublicEvent.severity,
+    window: primaryPublicEventKind,
+    signal: `${primaryPublicEvent.agent} emitted a fixed public ${primaryPublicEventKind} label.`,
+    boundary: "No internal identifiers, payloads, artifacts, or raw run state appear."
+  }
+] as const satisfies readonly PublicDoraOperatingRhythmStep[];
 
 export function latestAgentEvent(agent: PublicAgent) {
   return publicDoraEvents.find((event) => event.agent === agent.displayName);

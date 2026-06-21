@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Eye, Filter, LockKeyhole, Radio, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { ActivityFeed } from "@/app/dora/activity/ActivityFeed";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
@@ -153,6 +154,12 @@ export default function DoraActivityPage() {
             })}
           </div>
         </section>
+
+        <DoraOfficeOperatingRhythm
+          surface="activity"
+          title="Activity closes the public operating loop"
+          summary="The timeline gives schedule, task, and system signals their surrounding story without exposing private work."
+        />
 
         <section
           className="dora-activity-landing-section dora-activity-log-section"

@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { TaskBoard } from "@/app/dora/tasks/TaskBoard";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -264,6 +265,12 @@ export default function DoraTasksPage() {
             })}
           </div>
         </section>
+
+        <DoraOfficeOperatingRhythm
+          surface="tasks"
+          title="Tasks are one signal in the operating loop"
+          summary="Schedules create cadence, tasks expose public posture, system health proves readiness, and activity gives the timeline around it."
+        />
 
         <section
           className="dora-tasks-landing-section dora-tasks-queue-section"
