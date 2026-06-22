@@ -1,31 +1,32 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, Bot, LockKeyhole, Network, ShieldCheck, Sparkles, Workflow } from "lucide-react";
+import { ArrowRight, Bot, LockKeyhole, MonitorPlay, Network, ShieldCheck, Sparkles, Workflow } from "lucide-react";
 
 const labModes = [
   {
-    id: "dora",
-    label: "Doraemon",
-    icon: Bot,
-    title: "Public companion",
-    summary: "A warm guide for explaining public projects, answering safe questions, and routing visitors.",
-    intent: "Make the personal site feel alive without exposing private systems.",
-    link: "/dora",
-    linkLabel: "Meet Doraemon",
-    events: ["Read public project index", "Match visitor intent", "Return bounded answer"]
+    id: "office",
+    label: "Office",
+    icon: MonitorPlay,
+    title: "Doraemon Office",
+    summary: "A public-safe command room for agent presence, activity, schedules, and system rhythm.",
+    intent: "Visitors can understand the operating system without seeing private tasks, prompts, or owner notes.",
+    link: "/dora/office",
+    linkLabel: "Open office",
+    events: ["Show sanitized activity", "Render agent presence", "Keep owner state private"]
   },
   {
-    id: "minidora",
-    label: "MiniDora",
+    id: "team",
+    label: "MiniDoras",
     icon: Network,
-    title: "Specialist helpers",
-    summary: "Small agent roles for research, code, media, and trading research, all framed around owner review.",
-    intent: "Expand execution capacity while keeping Weiyu's judgment central.",
-    link: "/projects/doraemon-agent-system",
-    linkLabel: "Agent system",
-    events: ["Break task into artifacts", "Collect evidence", "Wait for owner review"]
+    title: "Agent team",
+    summary: "Specialized MiniDoras make research, engineering, product, ops, memory, media, and trading research legible.",
+    intent: "Agents appear as teammates with roles and audit trails, not anonymous automation.",
+    link: "/dora/team",
+    linkLabel: "Meet the team",
+    events: ["Coordinate handoffs", "Surface public roles", "Separate research from execution"]
   },
   {
     id: "weiyu-ai",
@@ -89,29 +90,30 @@ export function AiLabPanel() {
         })}
       </div>
 
-      <div className="home-agent-map" aria-label="Doraemon system relationship map">
-        <div className="home-agent-orbit" aria-hidden="true">
-          <span className="home-agent-orbit-ring home-agent-orbit-ring-one" />
-          <span className="home-agent-orbit-ring home-agent-orbit-ring-two" />
-          <span className="home-agent-pulse home-agent-pulse-one" />
-          <span className="home-agent-pulse home-agent-pulse-two" />
-          <span className="home-agent-pulse home-agent-pulse-three" />
+      <div className="home-ai-command-room" aria-label="Doraemon Office public command-room preview">
+        <Image
+          className="home-ai-command-room-art"
+          src="/visuals/doraemon-office-command-room-v2.png"
+          alt=""
+          width={1536}
+          height={1024}
+          sizes="(max-width: 1180px) 94vw, 54vw"
+          priority={false}
+        />
+
+        <div className="home-ai-room-panel">
+          <span>
+            <Icon size={15} aria-hidden />
+            {active.label}
+          </span>
+          <strong>{active.title}</strong>
+          <p>{active.summary}</p>
         </div>
 
-        <div className="home-agent-node home-agent-node-left">
-          <Network size={25} aria-hidden />
-          <strong>MiniDoras</strong>
-          <span>Specialists</span>
-        </div>
-        <div className="home-agent-node home-agent-node-center">
-          <Bot size={31} aria-hidden />
-          <strong>Doraemon</strong>
-          <span>Orchestrator</span>
-        </div>
-        <div className="home-agent-node home-agent-node-right">
-          <Sparkles size={25} aria-hidden />
-          <strong>Weiyu AI</strong>
-          <span>Studio umbrella</span>
+        <div className="home-ai-mini-agent-strip" role="list" aria-label="Doraemon Office system pillars">
+          <span role="listitem"><Bot size={16} aria-hidden />Doraemon</span>
+          <span role="listitem"><Network size={16} aria-hidden />MiniDoras</span>
+          <span role="listitem"><Sparkles size={16} aria-hidden />Weiyu AI</span>
         </div>
       </div>
 
@@ -146,24 +148,24 @@ export function AiLabPanel() {
         <div className="home-ai-boundary-strip">
           <span>
             <ShieldCheck size={15} aria-hidden />
-            Owner review
+            Public-safe
           </span>
           <span>
             <Workflow size={15} aria-hidden />
-            Audit trails
+            Read-only
           </span>
           <span>
             <LockKeyhole size={15} aria-hidden />
-            Public / Private
+            Owner-only
           </span>
           <span>
             <Workflow size={14} aria-hidden />
-            No execution
+            Research-only
           </span>
         </div>
 
         <div className="home-ai-footer">
-          <span>No fake metrics. State, evidence, and boundaries first.</span>
+          <span>Curated public guide. No prompts, credentials, private memory, or execution controls.</span>
           <Link
             href={active.link}
             className="link-focus home-text-action"
