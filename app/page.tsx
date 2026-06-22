@@ -7,6 +7,7 @@ import {
   LineChart,
   LockKeyhole,
   MonitorPlay,
+  Network,
   ShieldCheck,
   Sparkles,
   UserRound
@@ -193,26 +194,26 @@ export default function HomePage() {
       <section id="doraemon-system" className="home-section home-ai-section">
         <div className="container home-ai-grid">
           <div className="home-ai-copy">
-            <p className="eyebrow">Doraemon system</p>
-            <h2 className="section-title">Doraemon, MiniDoras, and Weiyu AI.</h2>
+            <p className="eyebrow">Public command room</p>
+            <h2 className="section-title">Doraemon Office</h2>
             <p className="section-summary">
-              One system. Multiple agents. Clear public/private boundaries. The system should support Weiyu&apos;s judgment,
-              taste, and review instead of replacing them.
+              The public window into Weiyu&apos;s personal AI command room. Doraemon coordinates MiniDoras across research,
+              writing, data, product, and operations; private work stays behind the owner cockpit.
             </p>
             <div className="home-ai-actions">
               <Link
-                href="/dora"
+                href="/dora/office"
                 className="link-focus home-primary-action"
               >
                 <Bot size={17} aria-hidden />
-                Meet Doraemon
+                Enter Doraemon Office
               </Link>
               <Link
-                href="/projects/weiyu-ai"
+                href="/dora/team"
                 className="link-focus home-text-action"
               >
-                <Sparkles size={17} aria-hidden />
-                Weiyu AI
+                <Network size={17} aria-hidden />
+                Meet the MiniDoras
               </Link>
               <Link
                 href="/app"
