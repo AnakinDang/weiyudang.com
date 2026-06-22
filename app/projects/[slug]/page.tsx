@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { MarkdownBody } from "@/components/MarkdownBody";
 import { SiteChrome } from "@/components/SiteChrome";
+import { TradingProjectShowcase } from "@/components/TradingProjectShowcase";
 import { getProjectBySlug, getProjects } from "@/lib/content";
 import { boundaryForProject, visualForProject } from "@/lib/projectPresentation";
 
@@ -87,6 +88,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               <div className="project-dossier-body">
                 <h2>Overview</h2>
                 <MarkdownBody body={project.body} />
+                {project.slug === "minidora-trading" ? <TradingProjectShowcase /> : null}
               </div>
             </article>
 
