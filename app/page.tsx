@@ -125,6 +125,7 @@ export default function HomePage() {
                 <Link
                   key={item.title}
                   href={item.href}
+                  prefetch={item.href.startsWith("/app") ? false : undefined}
                   className={`link-focus home-os-surface home-os-surface-${index + 1} home-os-boundary-${item.boundary}`}
                 >
                   <span className="home-os-surface-icon">
@@ -215,6 +216,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/app"
+                prefetch={false}
                 className="link-focus home-text-action home-private-action"
               >
                 <LockKeyhole size={17} aria-hidden />

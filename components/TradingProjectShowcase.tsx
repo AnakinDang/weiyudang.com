@@ -240,7 +240,7 @@ export function TradingProjectShowcase() {
             health. Access is gated by the private owner session.
           </p>
         </div>
-        <Link href="/app/trading" className="link-focus">
+        <Link href="/app/trading" prefetch={false} className="link-focus">
           <LockKeyhole size={16} aria-hidden />
           Open read-only dashboard
           <ArrowRight size={16} aria-hidden />
