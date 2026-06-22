@@ -54,6 +54,9 @@ export function HeroSection() {
         />
       </div>
       <div className="premium-hero-lightfield" aria-hidden="true" />
+      <div className="premium-hero-signal-field" aria-hidden="true">
+        <span className="premium-hero-signal-trace" />
+      </div>
 
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
