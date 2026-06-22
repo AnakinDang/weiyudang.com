@@ -6,6 +6,7 @@ export type SettingsTone = "normal" | "info" | "warning" | "private" | "danger";
 export type SettingsLifecycle = "held" | "status-only" | "planned" | "blocked";
 
 export type OwnerSettingMetric = {
+  lifecycle: SettingsLifecycle;
   label: string;
   value: string;
   detail: string;
@@ -256,10 +257,15 @@ const plannedSettingsCount = ownerSettingsPackets.filter((packet) => packet.life
 const blockedSettingsCount = ownerSettingsPackets.filter((packet) => packet.lifecycle === "blocked").length;
 
 export const ownerSettingsMetrics = [
-  { label: "Held", value: heldSettingsCount.toString(), detail: "Boundaries currently active" },
-  { label: "Status-only", value: statusOnlySettingsCount.toString(), detail: "Preference previews only" },
-  { label: "Planned", value: plannedSettingsCount.toString(), detail: "Needs mutation design" },
-  { label: "Blocked", value: blockedSettingsCount.toString(), detail: "No control path allowed" }
+  { lifecycle: "held", label: "Held", value: heldSettingsCount.toString(), detail: "Boundaries currently active" },
+  {
+    lifecycle: "status-only",
+    label: "Status-only",
+    value: statusOnlySettingsCount.toString(),
+    detail: "Preference previews only"
+  },
+  { lifecycle: "planned", label: "Planned", value: plannedSettingsCount.toString(), detail: "Needs mutation design" },
+  { lifecycle: "blocked", label: "Blocked", value: blockedSettingsCount.toString(), detail: "No control path allowed" }
 ] as const satisfies readonly OwnerSettingMetric[];
 
 export const ownerSettingsLanes = [
