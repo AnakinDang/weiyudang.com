@@ -112,6 +112,12 @@ type FilterOption = {
 
 const unavailableControls = ["Create job", "Pause job", "Resume job", "Delete job", "Edit command"] as const;
 const rhythmIcons = [Sun, BarChart3, Moon, CalendarClock] as const;
+const scheduleMetricToneClasses = [
+  "border-sky-200/25 bg-sky-300/10 text-sky-100",
+  "border-yellow-200/30 bg-yellow-300/10 text-yellow-100",
+  "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
+  "border-violet-200/25 bg-violet-300/10 text-violet-100"
+] as const;
 
 function evidenceSummary(schedule: PrivateSchedule) {
   const ready = schedule.evidence.filter((item) => item.ready).length;
@@ -144,35 +150,45 @@ function SchedulesHero({
 }) {
   return (
     <section
-      className="overflow-hidden rounded-[8px] border border-white/70 bg-white text-slate-950 shadow-[0_34px_120px_rgba(15,23,42,0.18)]"
+      className="panel relative isolate overflow-hidden p-0"
       aria-labelledby="schedules-title"
     >
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-2/3 bg-[radial-gradient(circle_at_66%_18%,rgba(56,189,248,0.22),transparent_34%),radial-gradient(circle_at_82%_72%,rgba(250,204,21,0.13),transparent_30%),linear-gradient(135deg,transparent,rgba(59,130,246,0.10))]"
+        aria-hidden
+      />
       <div className="grid min-h-[31rem] gap-0 xl:grid-cols-[minmax(0,1fr)_25rem] 2xl:grid-cols-[minmax(0,1fr)_28rem]">
         <div className="relative grid gap-6 overflow-hidden p-6 md:p-8 2xl:grid-cols-[minmax(18rem,0.72fr)_minmax(22rem,1fr)]">
-          <div className="pointer-events-none absolute -left-24 top-12 size-80 rounded-full bg-blue-500/10 blur-3xl" aria-hidden />
-          <div className="pointer-events-none absolute bottom-0 right-0 h-56 w-[44rem] rounded-tl-full border border-blue-100 bg-[radial-gradient(circle_at_65%_100%,rgba(250,204,21,0.2),rgba(37,99,235,0.08)_42%,transparent_70%)]" aria-hidden />
+          <div className="pointer-events-none absolute -left-24 top-12 size-80 rounded-full bg-sky-500/14 blur-3xl" aria-hidden />
+          <div className="pointer-events-none absolute bottom-0 right-0 h-56 w-[44rem] rounded-tl-full border border-sky-200/10 bg-[radial-gradient(circle_at_65%_100%,rgba(250,204,21,0.12),rgba(56,189,248,0.10)_42%,transparent_70%)]" aria-hidden />
 
           <div className="relative">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold uppercase text-blue-800">
+            <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
+              <CalendarClock size={14} aria-hidden />
+              Owner Schedules
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
                 <LockKeyhole size={14} aria-hidden />
                 Owner-only
               </span>
-              <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase text-emerald-800">
+              <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
                 <FileSearch size={14} aria-hidden />
                 Read-only register
               </span>
-              <span className="inline-flex items-center gap-2 rounded-[8px] border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs font-bold uppercase text-amber-800">
+              <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
                 <ShieldCheck size={14} aria-hidden />
                 No scheduler controls
               </span>
             </div>
 
             <div className="mt-10 max-w-3xl">
-              <h2 id="schedules-title" className="text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
+              <p className="eyebrow">Authenticated private rhythm</p>
+              <h2 id="schedules-title" className="mt-2 text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
                 Schedules
               </h2>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 md:text-lg">
                 Time awareness and operating windows for Doraemon, MiniDoras, and owner review. The page shows rhythm,
                 evidence, and gates without becoming a scheduler.
               </p>
@@ -180,41 +196,41 @@ function SchedulesHero({
 
             <RhythmMiniMap lanes={data.rhythmLanes} selectedSchedule={selectedSchedule} />
 
-            <div className="mt-7 grid overflow-hidden rounded-[8px] border border-slate-200 bg-white/82 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur sm:grid-cols-2 2xl:hidden">
-              {data.metrics.map((metric) => (
-                <MetricCell key={metric.label} metric={metric} />
+            <div className="mt-7 grid gap-3 sm:grid-cols-2 2xl:hidden">
+              {data.metrics.map((metric, index) => (
+                <MetricCell key={metric.label} metric={metric} toneClass={scheduleMetricToneClasses[index % scheduleMetricToneClasses.length]} />
               ))}
             </div>
           </div>
 
-          <div className="relative hidden min-h-[24rem] rounded-[8px] border border-slate-200 bg-white/62 p-5 shadow-[0_24px_90px_rgba(37,99,235,0.08)] backdrop-blur 2xl:block">
+          <div className="relative hidden min-h-[24rem] rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_24px_90px_rgba(14,165,233,0.08)] backdrop-blur 2xl:block">
             <RhythmClock lanes={data.rhythmLanes} selectedSchedule={selectedSchedule} />
           </div>
 
-          <div className="relative hidden overflow-hidden rounded-[8px] border border-slate-200 bg-white/82 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur 2xl:col-span-2 2xl:grid 2xl:grid-cols-4">
-            {data.metrics.map((metric) => (
-              <MetricCell key={metric.label} metric={metric} wide />
+          <div className="relative hidden gap-3 2xl:col-span-2 2xl:grid 2xl:grid-cols-4">
+            {data.metrics.map((metric, index) => (
+              <MetricCell key={metric.label} metric={metric} toneClass={scheduleMetricToneClasses[index % scheduleMetricToneClasses.length]} />
             ))}
           </div>
         </div>
 
         <section
-          className="relative border-t border-slate-200 bg-[linear-gradient(180deg,#f7fbff,#edf5ff)] p-5 md:p-6 xl:border-l xl:border-t-0"
+          className="relative border-t border-slate-700/70 bg-[#07111f]/45 p-5 md:p-6 xl:border-l xl:border-t-0"
           aria-labelledby="next-schedule-title"
         >
-          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-blue-500/12 blur-3xl" aria-hidden />
-          <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-sky-500/12 blur-3xl" aria-hidden />
+          <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">Next operating window</p>
-                <h3 id="next-schedule-title" className="mt-1 text-2xl font-semibold text-slate-950">
+                <p className="text-xs font-bold uppercase text-yellow-100">Next operating window</p>
+                <h3 id="next-schedule-title" className="mt-1 text-2xl font-semibold text-white">
                   {selectedSchedule.name}
                 </h3>
-                <p className="mt-1 text-xs font-bold uppercase text-blue-700">{selectedSchedule.window.label}</p>
+                <p className="mt-1 text-xs font-bold uppercase text-sky-100">{selectedSchedule.window.label}</p>
               </div>
               <StatusBadge tone={selectedSchedule.tone}>{selectedSchedule.state}</StatusBadge>
             </div>
-            <p className="mt-5 text-sm leading-6 text-slate-600">{selectedSchedule.purpose}</p>
+            <p className="mt-5 text-sm leading-6 text-slate-300">{selectedSchedule.purpose}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               <StatusBadge tone={selectedSchedule.accessTone}>{selectedSchedule.access}</StatusBadge>
               <StatusBadge tone="info">{selectedSchedule.cadence}</StatusBadge>
@@ -222,22 +238,22 @@ function SchedulesHero({
           </div>
 
           <div className="relative mt-4 grid gap-3">
-            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Next action</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{selectedSchedule.nextAction}</p>
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Next action</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{selectedSchedule.nextAction}</p>
             </div>
-            <div className="rounded-[8px] border border-amber-100 bg-amber-50/80 p-4">
-              <p className="text-xs font-bold uppercase text-amber-800">Owner gate</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{selectedSchedule.ownerGate}</p>
+            <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
+              <p className="text-xs font-bold uppercase text-yellow-100">Owner gate</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{selectedSchedule.ownerGate}</p>
             </div>
-            <dl className="grid grid-cols-2 gap-3 rounded-[8px] border border-slate-200 bg-white/78 p-4 text-sm">
+            <dl className="grid grid-cols-2 gap-3 rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm">
               <div>
-                <dt className="text-xs font-bold uppercase text-slate-500">Evidence</dt>
-                <dd className="mt-1 font-semibold text-slate-950">{evidenceSummary(selectedSchedule)}</dd>
+                <dt className="text-xs font-bold uppercase text-slate-400">Evidence</dt>
+                <dd className="mt-1 font-semibold text-white">{evidenceSummary(selectedSchedule)}</dd>
               </div>
               <div>
-                <dt className="text-xs font-bold uppercase text-slate-500">No-go</dt>
-                <dd className="mt-1 font-semibold text-slate-950">{selectedSchedule.noGo.length}</dd>
+                <dt className="text-xs font-bold uppercase text-slate-400">No-go</dt>
+                <dd className="mt-1 font-semibold text-white">{selectedSchedule.noGo.length}</dd>
               </div>
             </dl>
           </div>
@@ -255,13 +271,13 @@ function RhythmMiniMap({
   selectedSchedule: PrivateSchedule;
 }) {
   return (
-    <div className="mt-7 rounded-[8px] border border-blue-100 bg-white/76 p-4 shadow-[0_16px_55px_rgba(37,99,235,0.07)] backdrop-blur 2xl:hidden">
+    <div className="mt-7 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-4 shadow-[0_16px_55px_rgba(14,165,233,0.08)] backdrop-blur 2xl:hidden">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-blue-700">
+        <div className="flex items-center gap-2 text-sky-100">
           <Clock3 size={17} aria-hidden />
           <p className="text-xs font-bold uppercase">Rhythm map</p>
         </div>
-        <span className="rounded-[8px] border border-blue-100 bg-blue-50 px-2.5 py-1 text-xs font-bold uppercase text-blue-800">
+        <span className="rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-2.5 py-1 text-xs font-bold uppercase text-sky-100">
           {selectedSchedule.nextWindow}
         </span>
       </div>
@@ -269,15 +285,15 @@ function RhythmMiniMap({
         {lanes.map((lane, index) => {
           const Icon = rhythmIcons[index] ?? Clock3;
           return (
-            <article key={lane.label} className="rounded-[8px] border border-slate-200 bg-white/78 p-3 text-slate-700">
-              <div className="flex items-center gap-2 text-blue-700">
-                <span className="flex size-8 items-center justify-center rounded-[8px] border border-blue-100 bg-blue-50">
+            <article key={lane.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3 text-slate-300">
+              <div className="flex items-center gap-2 text-sky-100">
+                <span className="flex size-8 items-center justify-center rounded-[8px] border border-sky-200/35 bg-sky-200/16">
                   <Icon size={15} aria-hidden />
                 </span>
                 <span className="text-xs font-bold uppercase">{String(index + 1).padStart(2, "0")}</span>
               </div>
-              <p className="mt-3 text-sm font-semibold text-slate-950">{lane.label}</p>
-              <p className="mt-1 text-xs leading-5 text-slate-500">{lane.time}</p>
+              <p className="mt-3 text-sm font-semibold text-white">{lane.label}</p>
+              <p className="mt-1 text-xs leading-5 text-slate-400">{lane.time}</p>
             </article>
           );
         })}
@@ -286,16 +302,12 @@ function RhythmMiniMap({
   );
 }
 
-function MetricCell({ metric, wide = false }: { metric: ScheduleMetric; wide?: boolean }) {
+function MetricCell({ metric, toneClass }: { metric: ScheduleMetric; toneClass: string }) {
   return (
-    <div
-      className={`border-b border-slate-200 p-4 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 ${
-        wide ? "2xl:border-b-0 2xl:[&:nth-child(2n)]:border-r 2xl:last:border-r-0" : ""
-      }`}
-    >
-      <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
-      <strong className="mt-2 block text-3xl font-semibold text-slate-950">{metric.value}</strong>
-      <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
+    <div className={`rounded-[8px] border p-4 ${toneClass}`}>
+      <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
+      <strong className="mt-2 block text-3xl font-semibold text-white">{metric.value}</strong>
+      <p className="mt-2 text-sm leading-5 text-slate-200/85">{metric.detail}</p>
     </div>
   );
 }
@@ -309,12 +321,12 @@ function RhythmClock({
 }) {
   return (
     <div className="relative h-full min-h-[21rem]">
-      <div className="absolute left-1/2 top-1/2 size-56 -translate-x-1/2 -translate-y-1/2 rounded-full border-[12px] border-slate-100" aria-hidden />
-      <div className="absolute left-1/2 top-1/2 size-56 -translate-x-1/2 -translate-y-1/2 rounded-full border-[12px] border-transparent border-r-blue-600 border-t-blue-600" aria-hidden />
-      <div className="absolute left-1/2 top-1/2 size-28 -translate-x-1/2 -translate-y-1/2 rounded-full border border-blue-100 bg-white p-4 text-center shadow-[0_16px_55px_rgba(37,99,235,0.12)]">
-        <Clock3 className="mx-auto text-blue-600" size={26} aria-hidden />
-        <strong className="mt-2 block text-sm font-semibold text-slate-950">{selectedSchedule.cadence}</strong>
-        <span className="mt-1 block text-xs font-bold uppercase text-blue-700">{selectedSchedule.nextWindow}</span>
+      <div className="absolute left-1/2 top-1/2 size-56 -translate-x-1/2 -translate-y-1/2 rounded-full border-[12px] border-slate-700" aria-hidden />
+      <div className="absolute left-1/2 top-1/2 size-56 -translate-x-1/2 -translate-y-1/2 rounded-full border-[12px] border-transparent border-r-sky-300 border-t-yellow-300" aria-hidden />
+      <div className="absolute left-1/2 top-1/2 size-28 -translate-x-1/2 -translate-y-1/2 rounded-full border border-sky-200/25 bg-[#07111f] p-4 text-center shadow-[0_16px_55px_rgba(14,165,233,0.12)]">
+        <Clock3 className="mx-auto text-sky-100" size={26} aria-hidden />
+        <strong className="mt-2 block text-sm font-semibold text-white">{selectedSchedule.cadence}</strong>
+        <span className="mt-1 block text-xs font-bold uppercase text-sky-100">{selectedSchedule.nextWindow}</span>
       </div>
 
       {lanes.map((lane, index) => {
@@ -328,9 +340,9 @@ function RhythmClock({
 
         return (
           <article key={lane.label} className={`absolute ${positions[index] ?? "left-3 top-8"} max-w-[9rem] text-sm`}>
-            <Icon className="text-blue-600" size={22} aria-hidden />
-            <strong className="mt-2 block text-slate-950">{lane.label}</strong>
-            <span className="mt-1 block text-xs leading-5 text-slate-500">{lane.time}</span>
+            <Icon className="text-sky-100" size={22} aria-hidden />
+            <strong className="mt-2 block text-white">{lane.label}</strong>
+            <span className="mt-1 block text-xs leading-5 text-slate-400">{lane.time}</span>
           </article>
         );
       })}
