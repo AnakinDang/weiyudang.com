@@ -2,19 +2,15 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Activity,
   ArrowRight,
   ArrowUpRight,
-  BookOpen,
   CalendarClock,
   CheckCircle2,
   CheckSquare,
   Eye,
   Globe2,
-  Home,
   LockKeyhole,
   Radio,
-  Server,
   ShieldCheck,
   Sparkles,
   Target,
@@ -25,7 +21,6 @@ import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
-  doraOfficeRoutes,
   DORA_LIVE_BRIDGE_URL,
   formatPublicEventDateTime,
   getRecentPublicDoraEvents,
@@ -50,33 +45,6 @@ const publicBoundaryItems = [
   "Research-only. Not an order, recommendation, or execution system."
 ] as const;
 
-function officeAgentClass(index: number) {
-  return `dora-office-stage-agent dora-office-stage-agent-${index + 1}`;
-}
-
-function officeRouteIcon(href: string) {
-  switch (href) {
-    case "/dora":
-      return Home;
-    case "/dora/office":
-      return Radio;
-    case "/dora/activity":
-      return Activity;
-    case "/dora/team":
-      return Users;
-    case "/dora/tasks":
-      return CheckSquare;
-    case "/dora/schedules":
-      return CalendarClock;
-    case "/dora/knowledge":
-      return BookOpen;
-    case "/dora/system":
-      return Server;
-    default:
-      return Sparkles;
-  }
-}
-
 export default function DoraOfficePage() {
   const agents = getPublicAgents();
   const stageAgents = agents.filter((agent) => agent.publicId !== "agent_dora").slice(0, MAX_STAGE_AGENTS);
@@ -89,112 +57,129 @@ export default function DoraOfficePage() {
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
-      <div className="dora-office-landing">
+      <div className="dora-office-landing dora-office-product-landing">
         <div className="dora-office-route-dock-wrap">
           <DoraOfficeRouteDock active="/dora/office" />
         </div>
-        <section className="dora-office-dashboard-hero" aria-labelledby="dora-office-title">
-          <div className="container dora-office-dashboard-shell">
-            <aside className="dora-office-dashboard-nav" aria-label="Doraemon Office navigation">
-              <div className="dora-office-dashboard-brand">
-                <DoraemonMark />
-                <div>
-                  <strong>Doraemon Office</strong>
-                  <StatusBadge tone="info">Public window</StatusBadge>
-                </div>
-              </div>
-
-              <nav>
-                {doraOfficeRoutes.map((route) => {
-                  const Icon = officeRouteIcon(route.href);
-                  const isActive = route.href === "/dora/office";
-
-                  return (
-                    <Link
-                      key={route.href}
-                      href={route.href}
-                      className={`link-focus dora-office-dashboard-nav-link${isActive ? " is-active" : ""}`}
-                      aria-current={isActive ? "page" : undefined}
-                    >
-                      <Icon size={18} aria-hidden />
-                      {route.label}
-                    </Link>
-                  );
-                })}
-              </nav>
-
-              <div className="dora-office-dashboard-nav-note">
-                <Eye size={18} aria-hidden />
-                <strong>Public Window</strong>
-                <span>Sanitized. Demo-safe. Read-only.</span>
-                <Link href="/dora/system" className="link-focus">
-                  Boundary details
-                  <ArrowRight size={14} aria-hidden />
+        <section className="dora-office-product-hero" aria-labelledby="dora-office-title">
+          <div className="container dora-office-product-shell" id="live-dashboard">
+            <div className="dora-office-product-copy">
+              <h1 id="dora-office-title">
+                <span>Doraemon</span>
+                <span>Office</span>
+              </h1>
+              <p>
+                A public-safe command room where Doraemon coordinates, MiniDoras work, and Weiyu keeps the final
+                authority.
+              </p>
+              <div className="dora-office-product-actions">
+                <a
+                  href={DORA_LIVE_BRIDGE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open larger visualizer ${liveBridgeHost} in a new tab`}
+                  className="link-focus dora-office-product-primary"
+                >
+                  Open visualizer
+                  <ArrowUpRight size={16} aria-hidden />
+                </a>
+                <Link href="/dora/activity" className="link-focus dora-office-product-secondary">
+                  View Activity
+                  <ArrowRight size={16} aria-hidden />
                 </Link>
               </div>
-            </aside>
+              <div className="dora-office-product-posture" aria-label="Doraemon Office public posture">
+                <StatusBadge tone="info">Demo replay</StatusBadge>
+                <StatusBadge tone="private">Read-only</StatusBadge>
+                <StatusBadge tone="normal">Public schema</StatusBadge>
+              </div>
+            </div>
 
-            <div className="dora-office-dashboard-main" id="live-dashboard">
-              <header className="dora-office-dashboard-head">
+            <div
+              className="dora-office-product-stage"
+              aria-label="Public Doraemon Office stage with sanitized MiniDora state"
+            >
+              <Image
+                src="/visuals/doraemon-office-doorway-v3.png"
+                alt=""
+                width={1586}
+                height={992}
+                priority
+                quality={95}
+                sizes="(max-width: 1180px) 100vw, 62vw"
+              />
+
+              <div className="dora-office-product-panel">
+                <strong>Doraemon Office</strong>
+                <p>A personal AI command room built for thinking, creating, and long-term impact.</p>
                 <div>
-                  <p className="dora-office-dashboard-pretitle">Doraemon Office · Public Command Room</p>
-                  <h1 id="dora-office-title">Office Live</h1>
-                  <p>A public-safe command room for Doraemon and the MiniDoras.</p>
+                  <LockKeyhole size={16} aria-hidden />
+                  <span>Private Area</span>
+                  <small>Owner-only</small>
                 </div>
-                <div className="dora-office-dashboard-actions">
-                  <div className="dora-office-dashboard-badges">
-                    <StatusBadge tone="info">Demo fallback</StatusBadge>
-                    <StatusBadge tone="private">Read-only</StatusBadge>
-                  </div>
-                  <a
-                    href={DORA_LIVE_BRIDGE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Open larger visualizer ${liveBridgeHost} in a new tab`}
-                    className="link-focus dora-office-dashboard-open-link"
-                  >
-                    Open visualizer
-                    <ArrowUpRight size={14} aria-hidden />
-                  </a>
+                <div>
+                  <Eye size={16} aria-hidden />
+                  <span>Public Window</span>
+                  <small>Sanitized. Demo-safe. Read-only.</small>
                 </div>
-              </header>
+              </div>
 
-              <section
-                className="dora-office-stage-panel dora-office-dashboard-stage-panel"
-                aria-label="Public Doraemon Office stage with sanitized MiniDora state"
-              >
-                <div className="dora-office-portal-art" aria-hidden="true">
-                  <Image
-                    src="/visuals/doraemon-office-command-room-v2.png"
-                    alt=""
-                    width={1536}
-                    height={1024}
-                    priority
-                    quality={85}
-                    sizes="(max-width: 900px) 100vw, 52vw"
-                  />
-                </div>
+              <div className="dora-office-product-focus">
+                <Target size={18} aria-hidden />
+                <span>Current focus</span>
+                <strong>{currentFocusEvent?.title ?? "Demo snapshot"}</strong>
+              </div>
 
-                <div className="dora-office-stage-core-card" aria-hidden="true">
-                  <DoraemonMark />
-                  <strong>Doraemon Office</strong>
-                  <span>Public-safe · Read-only</span>
-                  <i />
-                </div>
+              <div className="dora-office-product-agent-ring" aria-hidden="true">
+                {stageAgents.slice(0, 5).map((agent) => (
+                  <span key={agent.publicId}>
+                    <DoraemonMark />
+                    <small>{agent.stageName}</small>
+                  </span>
+                ))}
+              </div>
+              <ul className="sr-only">
+                {stageAgents.slice(0, 5).map((agent) => (
+                  <li key={agent.publicId}>
+                    {agent.displayName}: {agent.stateLabel}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                <div className="dora-office-stage-agents">
-                  {stageAgents.map((agent, index) => (
-                    <div key={agent.publicId} className={officeAgentClass(index)} title={agent.displayName}>
-                      <span>
-                        <DoraemonMark />
-                      </span>
-                      <strong>{agent.stageName}</strong>
-                      <small>{agent.stateLabel}</small>
-                    </div>
-                  ))}
-                </div>
-              </section>
+            <section className="dora-office-product-livebar" aria-label="Recent public-safe Doraemon Office activity">
+              <div className="dora-office-product-livebar-head">
+                <span aria-hidden />
+                <strong>Recent public activity</strong>
+                <small>Demo replay · Newest first</small>
+              </div>
+              <ol>
+                {stripEvents.map((event) => (
+                  <li key={event.event_id}>
+                    <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
+                    <strong>{event.agent}</strong>
+                    <span>{event.title}</span>
+                  </li>
+                ))}
+              </ol>
+              <Link href="/dora/activity" className="link-focus dora-office-product-livebar-link">
+                View all
+                <ArrowRight size={14} aria-hidden />
+              </Link>
+            </section>
+          </div>
+        </section>
 
+        <section className="dora-office-product-details" aria-label="Doraemon Office public dashboard details">
+          <div className="container dora-office-product-detail-head">
+            <h2>Public operating view</h2>
+            <p>
+              The stage stays readable first. The dashboard below keeps activity, posture, rhythm, and boundary state
+              public-safe.
+            </p>
+          </div>
+          <div className="container dora-office-product-detail-grid">
+            <div className="dora-office-product-maincards">
               <div className="dora-office-dashboard-safety-row" aria-label="Public Office safety posture">
                 <div>
                   <ShieldCheck size={18} aria-hidden />
@@ -331,7 +316,6 @@ export default function DoraOfficePage() {
             </aside>
           </div>
         </section>
-
       </div>
     </SiteChrome>
   );

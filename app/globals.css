@@ -27257,6 +27257,619 @@ textarea {
   }
 }
 
+/* Step 43: Doraemon Office product-stage landing */
+.dora-office-product-landing {
+  background: #ffffff;
+}
+
+.dora-office-route-dock-wrap + .dora-office-product-hero {
+  margin-top: -1px;
+}
+
+.dora-office-product-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: min(880px, calc(100svh - 4.6rem));
+  border-bottom: 1px solid rgba(221, 231, 240, 0.92);
+  background:
+    radial-gradient(circle at 72% 42%, rgba(147, 197, 253, 0.24), transparent 32%),
+    radial-gradient(circle at 80% 84%, rgba(246, 201, 69, 0.1), transparent 16%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 74%, #f8fbff 100%);
+}
+
+.dora-office-product-hero::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0 34%, rgba(255, 255, 255, 0.78) 45%, transparent 66%),
+    radial-gradient(ellipse at 55% 88%, rgba(37, 99, 235, 0.12), transparent 38%);
+  pointer-events: none;
+  content: "";
+}
+
+.dora-office-product-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(1.8rem, 4vw, 4rem);
+  align-items: center;
+  width: min(1510px, calc(100vw - 2rem));
+  max-width: none;
+  min-height: min(810px, calc(100svh - 5.4rem));
+  padding: clamp(2.6rem, 5vw, 5.3rem) 0 1.45rem;
+}
+
+.dora-office-product-copy {
+  display: grid;
+  justify-items: start;
+  gap: 1.18rem;
+  max-width: 34rem;
+}
+
+.dora-office-product-copy h1 {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(4.7rem, 8.1vw, 8.15rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.88;
+}
+
+.dora-office-product-copy h1 span {
+  display: block;
+}
+
+.dora-office-product-copy h1 span:first-child {
+  color: #2563eb;
+}
+
+.dora-office-product-copy p {
+  max-width: 32rem;
+  margin: 0;
+  color: #334155;
+  font-size: clamp(1.04rem, 1.45vw, 1.34rem);
+  line-height: 1.55;
+}
+
+.dora-office-product-actions,
+.dora-office-product-posture {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.74rem;
+  align-items: center;
+}
+
+.dora-office-product-primary,
+.dora-office-product-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.58rem;
+  min-height: 3.05rem;
+  border-radius: 8px;
+  padding: 0 1.15rem;
+  font-size: 0.94rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.dora-office-product-primary {
+  border: 1px solid #155eef;
+  background: linear-gradient(180deg, #2f78ff, #155eef);
+  color: #ffffff;
+  box-shadow: 0 22px 46px rgba(37, 99, 235, 0.22);
+}
+
+.dora-office-product-secondary {
+  border: 1px solid rgba(191, 219, 254, 0.92);
+  background: rgba(255, 255, 255, 0.86);
+  color: #155eef;
+}
+
+.dora-office-product-posture {
+  padding-top: 0.1rem;
+}
+
+.dora-office-product-stage {
+  position: relative;
+  align-self: stretch;
+  min-height: clamp(34rem, 46vw, 47rem);
+}
+
+.dora-office-product-stage > img {
+  position: absolute;
+  inset: 0 -3% 0 0;
+  width: 103%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 58% 50%;
+  filter:
+    saturate(1.08)
+    contrast(1.02)
+    drop-shadow(0 36px 92px rgba(37, 99, 235, 0.13));
+  mask-image: linear-gradient(90deg, transparent 0, #000 13%, #000 89%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 13%, #000 89%, transparent 100%);
+}
+
+.dora-office-product-panel {
+  position: absolute;
+  top: 22%;
+  right: 0.6%;
+  z-index: 3;
+  display: grid;
+  gap: 0.72rem;
+  width: min(18rem, 33vw);
+  border: 1px solid rgba(191, 219, 254, 0.88);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1.25rem;
+  box-shadow:
+    0 28px 70px rgba(37, 99, 235, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(18px) saturate(1.12);
+  backdrop-filter: blur(18px) saturate(1.12);
+}
+
+.dora-office-product-panel strong {
+  color: #05070a;
+  font-size: 0.93rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.dora-office-product-panel p {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.dora-office-product-panel div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.06rem 0.58rem;
+  border-top: 1px dashed rgba(100, 116, 139, 0.26);
+  padding-top: 0.78rem;
+  color: #155eef;
+}
+
+.dora-office-product-panel div span {
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.dora-office-product-panel div small {
+  grid-column: 2;
+  color: #334155;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.dora-office-product-focus {
+  position: absolute;
+  top: 12%;
+  left: 14%;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.05rem 0.55rem;
+  align-items: center;
+  max-width: 15.8rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 0.72rem 0.82rem;
+  color: #155eef;
+  box-shadow: 0 18px 44px rgba(37, 99, 235, 0.1);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.dora-office-product-focus span {
+  color: #64748b;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.dora-office-product-focus strong {
+  grid-column: 2;
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 0.84rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-office-product-agent-ring {
+  position: absolute;
+  right: 7%;
+  bottom: 7.2rem;
+  left: 22%;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  pointer-events: none;
+}
+
+.dora-office-product-agent-ring span {
+  display: grid;
+  justify-items: center;
+  color: #2563eb;
+}
+
+.dora-office-product-agent-ring svg {
+  display: none;
+}
+
+.dora-office-product-agent-ring small {
+  color: #0f172a;
+  font-size: 0.64rem;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.dora-office-product-livebar {
+  position: relative;
+  z-index: 5;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 13.5rem minmax(0, 1fr) auto;
+  align-items: stretch;
+  overflow: hidden;
+  margin-top: clamp(-4.2rem, -4.5vw, -2.2rem);
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow:
+    0 28px 70px rgba(15, 23, 42, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(22px) saturate(1.12);
+  backdrop-filter: blur(22px) saturate(1.12);
+}
+
+.dora-office-product-livebar-head {
+  display: grid;
+  align-content: center;
+  gap: 0.25rem;
+  border-right: 1px solid rgba(221, 231, 240, 0.78);
+  padding: 0.9rem 1rem;
+}
+
+.dora-office-product-livebar-head span {
+  width: 0.44rem;
+  height: 0.44rem;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.32);
+  animation: office-agent-pulse 2.8s ease-out infinite;
+}
+
+.dora-office-product-livebar-head strong {
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.dora-office-product-livebar-head small {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.dora-office-product-livebar ol {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-office-product-livebar li {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 0.18rem;
+  min-height: 5.25rem;
+  border-right: 1px solid rgba(191, 219, 254, 0.62);
+  padding: 0.72rem 0.88rem;
+}
+
+.dora-office-product-livebar li::before {
+  position: absolute;
+  top: 1.05rem;
+  left: -0.22rem;
+  width: 0.44rem;
+  height: 0.44rem;
+  border: 1px solid rgba(37, 99, 235, 0.42);
+  border-radius: 999px;
+  background: #ffffff;
+  content: "";
+}
+
+.dora-office-product-livebar time {
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.dora-office-product-livebar li strong {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 0.77rem;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-office-product-livebar li span {
+  overflow: hidden;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dora-office-product-livebar-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
+  padding: 0 1rem;
+  color: #155eef;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.dora-office-product-details {
+  padding: 4rem 1rem 4.6rem;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(147, 197, 253, 0.12), transparent 24%),
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 38%);
+}
+
+.dora-office-product-detail-head {
+  display: grid;
+  grid-template-columns: minmax(0, 0.55fr) minmax(18rem, 0.45fr);
+  gap: 1rem;
+  align-items: end;
+  width: min(1510px, calc(100vw - 2rem));
+  max-width: none;
+  margin-bottom: 1rem;
+}
+
+.dora-office-product-detail-head h2 {
+  margin: 0;
+  color: #05070a;
+  font-size: clamp(1.75rem, 2.55vw, 2.55rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.04;
+}
+
+.dora-office-product-detail-head p {
+  margin: 0;
+  color: #334155;
+  font-size: clamp(0.98rem, 1.15vw, 1.12rem);
+  line-height: 1.55;
+}
+
+.dora-office-product-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.29fr);
+  gap: 1rem;
+  width: min(1510px, calc(100vw - 2rem));
+  max-width: none;
+}
+
+.dora-office-product-maincards {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.dora-office-product-details .dora-office-dashboard-safety-row,
+.dora-office-product-details .dora-office-dashboard-live-strip,
+.dora-office-product-details .dora-office-dashboard-task-card,
+.dora-office-product-details .dora-office-dashboard-rhythm-card,
+.dora-office-product-details .dora-office-dashboard-rail section {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+@media (max-width: 1180px) {
+  .dora-office-product-shell {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+    padding-top: 3rem;
+  }
+
+  .dora-office-product-copy {
+    max-width: 44rem;
+  }
+
+  .dora-office-product-stage {
+    min-height: clamp(30rem, 62vw, 43rem);
+  }
+
+  .dora-office-product-stage > img {
+    inset: 0;
+    width: 100%;
+    transform: none;
+  }
+
+  .dora-office-product-panel {
+    right: 5%;
+    width: min(18rem, 36vw);
+  }
+
+  .dora-office-product-livebar {
+    margin-top: -2rem;
+  }
+
+  .dora-office-product-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dora-office-product-details .dora-office-dashboard-rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dora-office-product-detail-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 840px) {
+  .dora-office-product-hero {
+    min-height: 0;
+  }
+
+  .dora-office-product-shell {
+    width: min(100%, calc(100vw - 1.1rem));
+    padding: 2.1rem 0 1rem;
+  }
+
+  .dora-office-product-copy h1 {
+    font-size: clamp(4.3rem, 17vw, 6.4rem);
+  }
+
+  .dora-office-product-stage {
+    min-height: 28rem;
+  }
+
+  .dora-office-product-stage > img {
+    inset: 0;
+    width: 100%;
+    transform: none;
+    mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  }
+
+  .dora-office-product-panel {
+    top: 7%;
+    right: 0.5rem;
+    width: min(17rem, calc(100vw - 2rem));
+    padding: 0.92rem;
+  }
+
+  .dora-office-product-focus {
+    top: auto;
+    bottom: 1.1rem;
+    left: 0.5rem;
+  }
+
+  .dora-office-product-agent-ring {
+    right: 1.5rem;
+    bottom: 4.6rem;
+    left: 1.5rem;
+  }
+
+  .dora-office-product-agent-ring span:nth-child(n + 4) {
+    display: none;
+  }
+
+  .dora-office-product-livebar {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  .dora-office-product-livebar-head {
+    border-right: 0;
+    border-bottom: 1px solid rgba(221, 231, 240, 0.78);
+  }
+
+  .dora-office-product-livebar ol {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-office-product-livebar li {
+    min-height: 4.2rem;
+    border-right: 0;
+    border-bottom: 1px solid rgba(221, 231, 240, 0.78);
+  }
+
+  .dora-office-product-livebar li:nth-child(n + 4) {
+    display: none;
+  }
+
+  .dora-office-product-livebar-link {
+    min-height: 3rem;
+    justify-content: flex-start;
+  }
+
+  .dora-office-product-details {
+    padding: 2.4rem 0.55rem 4.2rem;
+  }
+
+  .dora-office-product-detail-grid {
+    width: 100%;
+  }
+
+  .dora-office-product-detail-head {
+    width: 100%;
+  }
+
+  .dora-office-product-details .dora-office-dashboard-rail {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .dora-office-product-copy {
+    gap: 0.94rem;
+  }
+
+  .dora-office-product-copy h1 {
+    font-size: clamp(3.65rem, 17vw, 4.8rem);
+  }
+
+  .dora-office-product-copy p {
+    font-size: 1rem;
+  }
+
+  .dora-office-product-actions {
+    width: 100%;
+  }
+
+  .dora-office-product-primary,
+  .dora-office-product-secondary {
+    width: 100%;
+  }
+
+  .dora-office-product-stage {
+    min-height: 24.6rem;
+  }
+
+  .dora-office-product-stage > img {
+    object-position: 57% 50%;
+  }
+
+  .dora-office-product-panel {
+    display: none;
+  }
+
+  .dora-office-product-agent-ring {
+    bottom: 4.2rem;
+  }
+
+  .dora-office-product-agent-ring svg {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dora-office-product-livebar-head span {
+    animation: none !important;
+  }
+}
+
 /* Step 37: MiniDora team map refinement */
 .dora-team-landing-hero {
   min-height: min(760px, calc(100svh - 4.55rem));
