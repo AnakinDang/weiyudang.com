@@ -347,7 +347,7 @@ export const publicDoraOperatingRhythm = [
     tone: primaryPublicSchedule.tone,
     window: primaryPublicSchedule.cadence,
     signal: primaryPublicSchedule.summary,
-    boundary: "No private automation details, exact triggers, or source material render publicly."
+    boundary: "No precise automation detail or private source material renders publicly."
   },
   {
     stage: "Task posture",

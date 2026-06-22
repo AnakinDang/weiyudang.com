@@ -98,6 +98,31 @@ const continuationRoutes = [
 export default function DoraTasksPage() {
   const heroTasks = publicDoraTasks.slice(0, 4);
   const ownerReviewCount = publicDoraTasks.filter((task) => task.state === "Owner review").length;
+  const attentionCount = publicDoraTasks.filter((task) => task.state === "Attention").length;
+  const taskCommandCards = [
+    {
+      title: "Queue Posture",
+      summary: "Aggregated public task state, with fixed titles and opaque keys.",
+      icon: ClipboardList,
+      rows: [
+        { label: "Groups", value: publicDoraTasks.length },
+        { label: "Owner review", value: ownerReviewCount },
+        { label: "Attention", value: attentionCount }
+      ]
+    },
+    {
+      title: "Public Boundary",
+      summary: "The public queue shows posture, not task content.",
+      icon: ShieldCheck,
+      items: ["No task names", "No prompts or notes", "No project paths"]
+    },
+    {
+      title: "Display-only",
+      summary: "Public visitors can inspect state but cannot mutate work.",
+      icon: LockKeyhole,
+      items: ["No approve control", "No retry control", "No execution path"]
+    }
+  ] as const;
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
@@ -175,8 +200,8 @@ export default function DoraTasksPage() {
                 <section className="dora-tasks-command-stream" aria-label="Recent public task posture preview">
                   <div>
                     <span aria-hidden />
-                    <strong>Live public task posture</strong>
-                    <small>{publicDoraTasks.length} sanitized task groups</small>
+                    <strong>Public task posture</strong>
+                    <small>Demo fallback · {publicDoraTasks.length} sanitized task groups</small>
                   </div>
                   <ol>
                     {heroTasks.map((task) => (
@@ -190,6 +215,39 @@ export default function DoraTasksPage() {
                 </section>
               </section>
             </div>
+
+            <aside className="dora-tasks-command-rail" aria-label="Doraemon Tasks public context">
+              {taskCommandCards.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <section key={item.title} className="dora-office-product-command-card">
+                    <Icon size={20} aria-hidden />
+                    <h2>{item.title}</h2>
+                    <p>{item.summary}</p>
+                    {"rows" in item ? (
+                      <dl>
+                        {item.rows.map(({ label, value }) => (
+                          <div key={label}>
+                            <dt>{label}</dt>
+                            <dd>{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : (
+                      <ul>
+                        {item.items.map((entry) => (
+                          <li key={entry}>
+                            <ShieldCheck size={14} aria-hidden />
+                            {entry}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                );
+              })}
+            </aside>
           </div>
         </section>
 

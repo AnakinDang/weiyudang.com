@@ -120,6 +120,31 @@ export default function DoraSchedulesPage() {
     publicScheduleCount === 1
       ? "1 sanitized window"
       : `${publicScheduleCount} sanitized windows`;
+  const cadenceCount = new Set(publicSchedules.map((schedule) => schedule.cadence)).size;
+  const scheduleCommandCards = [
+    {
+      title: "Rhythm Posture",
+      summary: "Coarse public cadence windows, without automation internals.",
+      icon: Repeat2,
+      rows: [
+        { label: "Windows", value: publicScheduleCount },
+        { label: "Cadences", value: cadenceCount },
+        { label: "Review", value: ownerReviewCount }
+      ]
+    },
+    {
+      title: "Public Boundary",
+      summary: "Visitors can understand rhythm without seeing how it runs.",
+      icon: ShieldCheck,
+      items: ["No private automation", "No precise trigger times", "No private prompts"]
+    },
+    {
+      title: "Window Buckets",
+      summary: "Coarse labels show timing shape, not live schedule data.",
+      icon: CalendarClock,
+      items: ["Morning bucket", "Session bucket", "Weekly bucket"]
+    }
+  ] as const;
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
@@ -218,6 +243,39 @@ export default function DoraSchedulesPage() {
                 </section>
               </section>
             </div>
+
+            <aside className="dora-schedules-command-rail" aria-label="Doraemon Schedules public context">
+              {scheduleCommandCards.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <section key={item.title} className="dora-office-product-command-card">
+                    <Icon size={20} aria-hidden />
+                    <h2>{item.title}</h2>
+                    <p>{item.summary}</p>
+                    {"rows" in item ? (
+                      <dl>
+                        {item.rows.map(({ label, value }) => (
+                          <div key={label}>
+                            <dt>{label}</dt>
+                            <dd>{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : (
+                      <ul>
+                        {item.items.map((entry) => (
+                          <li key={entry}>
+                            <ShieldCheck size={14} aria-hidden />
+                            {entry}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                );
+              })}
+            </aside>
           </div>
         </section>
 
