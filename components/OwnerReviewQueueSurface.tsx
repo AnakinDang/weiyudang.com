@@ -107,6 +107,20 @@ const flowSteps = [
   { id: "implementation", label: "Implementation later", detail: "Only after gates open", icon: GitBranch }
 ] as const satisfies readonly { id: string; label: string; detail: string; icon: LucideIcon }[];
 
+const metricIcons: Record<string, LucideIcon> = {
+  "Open decisions": ClipboardCheck,
+  Now: Clock3,
+  Blocked: LockKeyhole,
+  "Evidence cards": FileSearch
+};
+
+const metricToneClass: Record<string, string> = {
+  "Open decisions": "border-sky-200/25 bg-sky-300/10 text-sky-100",
+  Now: "border-yellow-200/30 bg-yellow-300/10 text-yellow-100",
+  Blocked: "border-violet-200/25 bg-violet-300/10 text-violet-100",
+  "Evidence cards": "border-emerald-200/25 bg-emerald-300/10 text-emerald-100"
+};
+
 function urgencyTone(urgency: string): ReviewQueueTone {
   if (urgency === "Now") {
     return "warning";
@@ -136,6 +150,21 @@ function uniqueLanes(items: readonly ReviewQueueItem[]) {
   return Array.from(new Set(items.map((item) => item.lane)));
 }
 
+function ReviewMetricCard({ metric }: { metric: ReviewQueueMetric }) {
+  const Icon = metricIcons[metric.label] ?? ClipboardCheck;
+
+  return (
+    <article className={`rounded-[8px] border p-4 ${metricToneClass[metric.label] ?? metricToneClass["Open decisions"]}`}>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
+        <Icon size={17} aria-hidden />
+      </div>
+      <p className="mt-3 text-2xl font-semibold text-white">{metric.value}</p>
+      <p className="mt-2 text-xs leading-5 text-slate-200/85">{metric.detail}</p>
+    </article>
+  );
+}
+
 function ReviewHero({
   currentItem,
   data
@@ -145,57 +174,56 @@ function ReviewHero({
 }) {
   return (
     <section
-      className="overflow-hidden rounded-[8px] border border-white/70 bg-white text-slate-950 shadow-[0_34px_120px_rgba(15,23,42,0.18)]"
+      className="panel relative isolate overflow-hidden p-0"
       aria-labelledby="review-queue-title"
     >
-      <div className="grid min-h-[30rem] gap-0 xl:grid-cols-[minmax(0,1.08fr)_31rem]">
-        <div className="relative overflow-hidden p-6 md:p-8">
-          <div className="pointer-events-none absolute -right-28 -top-32 size-96 rounded-full bg-blue-500/12 blur-3xl" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-2/3 bg-[radial-gradient(circle_at_64%_18%,rgba(56,189,248,0.22),transparent_32%),radial-gradient(circle_at_80%_70%,rgba(250,204,21,0.12),transparent_30%),linear-gradient(135deg,transparent,rgba(59,130,246,0.10))]"
+        aria-hidden
+      />
+      <div className="grid min-h-[30rem] gap-0 xl:grid-cols-[minmax(0,1fr)_30rem]">
+        <div className="relative overflow-hidden p-6 md:p-7">
           <div
-            className="pointer-events-none absolute bottom-0 left-1/2 h-44 w-[46rem] -translate-x-1/2 rounded-t-full border border-blue-100 bg-[radial-gradient(circle_at_50%_100%,rgba(37,99,235,0.14),transparent_62%)]"
+            className="pointer-events-none absolute bottom-0 left-1/2 h-44 w-[46rem] -translate-x-1/2 rounded-t-full border border-sky-200/10 bg-[radial-gradient(circle_at_50%_100%,rgba(56,189,248,0.12),transparent_62%)]"
             aria-hidden
           />
 
-          <div className="relative flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold uppercase text-blue-800">
+          <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
+            <ClipboardCheck size={14} aria-hidden />
+            Owner Review Queue
+          </div>
+
+          <div className="relative mt-5 max-w-4xl">
+            <h2 id="review-queue-title" className="max-w-4xl text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
+              Decisions stay explicit before anything moves.
+            </h2>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
+              Decision packets prepared by Doraemon and MiniDoras. Review evidence, blockers, allowed next steps, and
+              missing proof without approving, dispatching, or silently promoting work.
+            </p>
+          </div>
+
+          <div className="relative mt-5 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
               <LockKeyhole size={14} aria-hidden />
               Owner-only
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase text-emerald-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
               <FileSearch size={14} aria-hidden />
               Read-only packets
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs font-bold uppercase text-amber-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
               <ShieldCheck size={14} aria-hidden />
               No execution
             </span>
           </div>
 
-          <div className="relative mt-10 max-w-4xl">
-            <h2 id="review-queue-title" className="max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
-              Review Queue
-            </h2>
-            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
-              Decision packets prepared by Doraemon and MiniDoras. You review evidence, blockers, allowed next steps,
-              and missing proof before anything moves.
-            </p>
+          <div className="relative mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {data.metrics.map((metric) => <ReviewMetricCard key={metric.label} metric={metric} />)}
           </div>
 
-          <div className="relative mt-7 grid overflow-hidden rounded-[8px] border border-slate-200 bg-white/82 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur sm:grid-cols-2 xl:grid-cols-4">
-            {data.metrics.map((metric) => (
-              <div
-                key={metric.label}
-                className="border-b border-slate-200 p-4 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:last:border-r-0"
-              >
-                <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
-                <strong className="mt-2 block text-3xl font-semibold text-slate-950">{metric.value}</strong>
-                <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="relative mt-6 rounded-[8px] border border-blue-100 bg-white/76 p-4 shadow-[0_16px_55px_rgba(37,99,235,0.07)] backdrop-blur">
-            <div className="flex items-center gap-2 text-blue-700">
+          <div className="relative mt-6 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-4 backdrop-blur">
+            <div className="flex items-center gap-2 text-sky-100">
               <Waypoints size={17} aria-hidden />
               <p className="text-xs font-bold uppercase">Decision flow</p>
             </div>
@@ -207,12 +235,13 @@ function ReviewHero({
                 return (
                   <div
                     key={step.label}
+                    aria-current={active ? "step" : undefined}
                     className={`rounded-[8px] border p-3 ${
-                      active ? "border-blue-300 bg-blue-50 text-blue-900" : "border-slate-200 bg-white/78 text-slate-700"
+                      active ? "border-sky-200/55 bg-sky-300/14 text-white" : "border-slate-700 bg-white/[0.045] text-slate-300"
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="flex size-8 items-center justify-center rounded-[8px] border border-current/20 bg-white/70">
+                      <span className="flex size-8 items-center justify-center rounded-[8px] border border-current/20 bg-white/[0.06]">
                         <Icon size={15} aria-hidden />
                       </span>
                       <span className="text-xs font-bold uppercase">{String(index + 1).padStart(2, "0")}</span>
@@ -227,22 +256,22 @@ function ReviewHero({
         </div>
 
         <section
-          className="relative border-t border-slate-200 bg-[linear-gradient(180deg,#f7fbff,#edf5ff)] p-5 md:p-6 xl:border-l xl:border-t-0"
+          className="relative border-t border-slate-700/70 bg-[#07111f]/45 p-5 md:p-6 xl:border-l xl:border-t-0"
           aria-labelledby="current-review-title"
         >
-          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-blue-500/12 blur-3xl" aria-hidden />
-          <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-sky-500/12 blur-3xl" aria-hidden />
+          <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">Current packet</p>
-                <h3 id="current-review-title" className="mt-1 text-2xl font-semibold text-slate-950">
+                <p className="text-xs font-bold uppercase text-yellow-100">Current packet</p>
+                <h3 id="current-review-title" className="mt-2 text-2xl font-semibold text-white">
                   {currentItem.title}
                 </h3>
-                <p className="mt-1 text-xs font-bold uppercase text-blue-700">{currentItem.agent}</p>
+                <p className="mt-1 text-xs font-bold uppercase text-sky-100">{currentItem.agent}</p>
               </div>
               <StatusBadge tone={urgencyTone(currentItem.urgency)}>{currentItem.urgency}</StatusBadge>
             </div>
-            <p className="mt-5 text-sm leading-6 text-slate-600">{currentItem.requestedDecision}</p>
+            <p className="mt-5 text-sm leading-6 text-slate-300">{currentItem.requestedDecision}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               <StatusBadge tone={currentItem.tone}>{currentItem.decision}</StatusBadge>
               <StatusBadge tone="info">{currentItem.lane}</StatusBadge>
@@ -250,23 +279,23 @@ function ReviewHero({
           </div>
 
           <div className="relative mt-4 grid gap-3">
-            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Recommended handling</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{currentItem.recommendedHandling}</p>
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Recommended handling</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{currentItem.recommendedHandling}</p>
             </div>
-            <div className="rounded-[8px] border border-amber-100 bg-amber-50/80 p-4">
-              <p className="text-xs font-bold uppercase text-amber-800">Allowed next</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{currentItem.allowedNext}</p>
+            <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
+              <p className="text-xs font-bold uppercase text-yellow-100">Allowed next</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{currentItem.allowedNext}</p>
             </div>
-            <div className="rounded-[8px] border border-slate-200 bg-white/78 p-4">
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <dl className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <dt className="text-xs font-bold uppercase text-slate-500">Evidence</dt>
-                  <dd className="mt-1 font-semibold text-slate-950">{evidenceSummary(currentItem)}</dd>
+                  <dt className="text-xs font-bold uppercase text-slate-400">Evidence</dt>
+                  <dd className="mt-1 font-semibold text-white">{evidenceSummary(currentItem)}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-bold uppercase text-slate-500">Blockers</dt>
-                  <dd className="mt-1 font-semibold text-slate-950">{currentItem.blockers.length}</dd>
+                  <dt className="text-xs font-bold uppercase text-slate-400">Blockers</dt>
+                  <dd className="mt-1 font-semibold text-white">{currentItem.blockers.length}</dd>
                 </div>
               </dl>
             </div>
