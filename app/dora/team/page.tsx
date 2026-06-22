@@ -148,10 +148,27 @@ function orbitClass(index: number) {
   return `dora-team-landing-orbit-agent dora-team-landing-orbit-agent-${index + 1}`;
 }
 
+function AgentAvatar({ agent }: { agent: PublicAgent }) {
+  const isDoraemon = agent.publicId === "agent_dora";
+
+  return (
+    <span className={`dora-team-avatar ${isDoraemon ? "is-doraemon" : "is-minidora"}`} role="img" aria-label={`${agent.stageName} public avatar`}>
+      <DoraemonMark />
+      {isDoraemon ? null : (
+        <span className="dora-team-avatar-role" aria-hidden>
+          {agent.stageName.slice(0, 1)}
+        </span>
+      )}
+    </span>
+  );
+}
+
 export default function DoraTeamPage() {
   const agents = getPublicAgents();
   const doraemon = agents.find((agent) => agent.publicId === "agent_dora") ?? agents[0];
   const minidoras = agents.filter((agent) => agent.publicId !== doraemon.publicId);
+  const selectedAgent = minidoras.find((agent) => agent.publicId === "agent_research") ?? minidoras[0] ?? doraemon;
+  const selectedAgentEvent = latestAgentEvent(selectedAgent);
   const recentSignals = getRecentPublicDoraEvents(5);
 
   return (
@@ -267,7 +284,29 @@ export default function DoraTeamPage() {
             </div>
 
             <aside className="dora-team-hero-side" aria-label="MiniDora public team context">
-              <section className="dora-team-hero-side-card">
+              <section className="dora-team-hero-side-card dora-team-selected-agent-card">
+                <div className="dora-team-selected-agent-head">
+                  <AgentAvatar agent={selectedAgent} />
+                  <div>
+                    <h2>{selectedAgent.displayName}</h2>
+                    <p>{selectedAgent.role}</p>
+                  </div>
+                  <StatusBadge tone={getPublicAgentTone(selectedAgent)}>{selectedAgent.stateLabel}</StatusBadge>
+                </div>
+                <p>{selectedAgent.summary}</p>
+                <dl>
+                  <div>
+                    <dt>Latest label</dt>
+                    <dd>{selectedAgentEvent?.title ?? "Demo state"}</dd>
+                  </div>
+                  <div>
+                    <dt>Updated</dt>
+                    <dd>{selectedAgentEvent ? formatPublicEventTime(selectedAgentEvent.created_at) : "Demo"}</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section className="dora-team-hero-side-card dora-team-operating-lanes-card">
                 <div className="dora-team-hero-side-head">
                   <Layers3 size={20} aria-hidden />
                   <h2>Operating lanes</h2>
@@ -282,19 +321,22 @@ export default function DoraTeamPage() {
                 </ol>
               </section>
 
-              <section className="dora-team-hero-side-card">
+              <section className="dora-team-hero-side-card dora-team-public-boundary-card">
                 <div className="dora-team-hero-side-head">
                   <ShieldCheck size={20} aria-hidden />
                   <h2>Public boundary</h2>
                 </div>
                 <ul className="dora-team-hero-boundary-list">
-                  {publicWindowItems.map((item) => (
+                  {publicWindowItems.slice(0, 3).map((item) => (
                     <li key={item}>
                       <CheckCircle2 size={14} aria-hidden />
                       {item}
                     </li>
                   ))}
                 </ul>
+                <p className="dora-team-research-boundary">
+                  Research-only. Not an order, recommendation, or execution system.
+                </p>
                 <Link href="/dora/system" className="link-focus dora-office-text-link">
                   Boundary details
                   <ArrowRight size={15} aria-hidden />
@@ -342,9 +384,7 @@ export default function DoraTeamPage() {
                 return (
                   <article key={agent.publicId} className={`dora-team-card dora-team-card-${agent.colorToken}`}>
                     <div className="dora-team-card-top">
-                      <span className="dora-team-avatar">
-                        <DoraemonMark />
-                      </span>
+                      <AgentAvatar agent={agent} />
                       <span className={`dora-team-state-dot ${stateToneClass[agent.state]}`} aria-hidden />
                     </div>
                     <div className="dora-team-card-title">
