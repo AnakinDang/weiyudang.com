@@ -27,7 +27,7 @@ import { publicDoraScheduleToneClasses, publicScheduleBoundaries, publicSchedule
 
 export const metadata: Metadata = {
   title: "Doraemon Schedules",
-  description: "Public-safe Doraemon Office schedule rhythm with no scheduler command strings, local paths, prompts, or controls."
+  description: "Public-safe Doraemon Office schedule rhythm with no private internals or controls."
 };
 
 type PublicSchedule = (typeof publicSchedules)[number];
@@ -47,7 +47,7 @@ const scheduleStats = [
     value: publicSchedules.filter((schedule) => schedule.state === "Owner review").length.toString(),
     icon: CheckCircle2
   },
-  { label: "Scheduler controls", value: "0", icon: LockKeyhole }
+  { label: "Private controls", value: "0", icon: LockKeyhole }
 ] as const;
 
 const schedulePrinciples = [
@@ -74,7 +74,7 @@ const schedulePrinciples = [
 ] as const;
 
 const publicWindowItems = ["Schedule name", "Rhythm category", "Last run window", "Next window", "Public state"] as const;
-const privateAreaItems = ["Scheduler internals", "Exact triggers", "Last contents", "Execution details", "Private data"] as const;
+const privateAreaItems = ["Automation internals", "Exact triggers", "Last contents", "Execution details", "Private data"] as const;
 
 const continuationRoutes = [
   {
@@ -135,7 +135,7 @@ export default function DoraSchedulesPage() {
                 {" "}
                 Schedules
               </h1>
-              <p>Public operating rhythm without scheduler internals.</p>
+              <p>Public operating rhythm without private automation internals.</p>
               <div className="dora-schedules-landing-rule" aria-hidden />
               <div className="dora-schedules-landing-actions">
                 <a href="#public-rhythm-register" className="link-focus dora-office-primary-cta">
@@ -165,14 +165,14 @@ export default function DoraSchedulesPage() {
 
                 <div className="dora-schedules-command-boundary">
                   <strong>Public cadence</strong>
-                  <p>Coarse rhythm windows. Scheduler details stay private.</p>
+                  <p>Coarse rhythm windows. Automation details stay private.</p>
                   <div>
                     <Eye size={17} aria-hidden />
                     <span>Public rhythm</span>
                   </div>
                   <div>
                     <LockKeyhole size={17} aria-hidden />
-                    <span>Private scheduler</span>
+                    <span>Private automation</span>
                   </div>
                 </div>
 
@@ -221,6 +221,35 @@ export default function DoraSchedulesPage() {
           </div>
         </section>
 
+        <section
+          className="dora-schedules-landing-section dora-schedules-register-section"
+          id="public-rhythm-register"
+          aria-labelledby="public-rhythm-register-title"
+        >
+          <div className="container dora-schedules-register-heading">
+            <div>
+              <h2 id="public-rhythm-register-title">Public Rhythm Register</h2>
+              <p>Filter sanitized schedule windows by public state and coarse cadence. No private automation details render.</p>
+            </div>
+            <div className="dora-schedules-log-stats" aria-label="Public schedule summary">
+              {scheduleStats.map((stat) => {
+                const Icon = stat.icon;
+
+                return (
+                  <article key={stat.label}>
+                    <Icon size={20} aria-hidden />
+                    <strong>{stat.value}</strong>
+                    <span>{stat.label}</span>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+          <div className="container">
+            <ScheduleBoard schedules={publicSchedules} boundaries={publicScheduleBoundaries} />
+          </div>
+        </section>
+
         <section className="dora-schedules-landing-section dora-schedules-boundary-section" aria-labelledby="dora-schedules-boundary-title">
           <div className="container dora-schedules-boundary-grid">
             <div className="dora-schedules-section-copy">
@@ -236,7 +265,7 @@ export default function DoraSchedulesPage() {
               </ul>
             </div>
 
-            <div className="dora-schedules-boundary-diagram" aria-label="Public rhythm and private scheduler boundary">
+            <div className="dora-schedules-boundary-diagram" aria-label="Public rhythm and private automation boundary">
               <div>
                 <Eye size={22} aria-hidden />
                 <strong>Public Window</strong>
@@ -291,37 +320,8 @@ export default function DoraSchedulesPage() {
         <DoraOfficeOperatingRhythm
           surface="schedules"
           title="Schedules set the rhythm for the public office"
-          summary="A public schedule is not a cron viewer. It is the first safe signal in a chain that ends in task posture, health, and activity."
+          summary="A public schedule is not an implementation viewer. It is the first safe signal in a chain that ends in task posture, health, and activity."
         />
-
-        <section
-          className="dora-schedules-landing-section dora-schedules-register-section"
-          id="public-rhythm-register"
-          aria-labelledby="public-rhythm-register-title"
-        >
-          <div className="container dora-schedules-register-heading">
-            <div>
-              <h2 id="public-rhythm-register-title">Public Rhythm Register</h2>
-              <p>Filter sanitized schedule windows by public state and coarse cadence. No scheduler commands render.</p>
-            </div>
-            <div className="dora-schedules-log-stats" aria-label="Public schedule summary">
-              {scheduleStats.map((stat) => {
-                const Icon = stat.icon;
-
-                return (
-                  <article key={stat.label}>
-                    <Icon size={20} aria-hidden />
-                    <strong>{stat.value}</strong>
-                    <span>{stat.label}</span>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-          <div className="container">
-            <ScheduleBoard schedules={publicSchedules} boundaries={publicScheduleBoundaries} />
-          </div>
-        </section>
 
         <section className="dora-schedules-landing-section dora-schedules-continuation-section" aria-label="Doraemon Schedules continuation routes">
           <div className="container dora-office-command-shell">

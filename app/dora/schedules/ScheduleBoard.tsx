@@ -29,6 +29,11 @@ const stateFilters = [
   { value: "Owner review", label: "Owner review" }
 ] as const satisfies readonly { value: StateFilter; label: string }[];
 
+const stateLabels = {
+  Working: "Working",
+  "Owner review": "Owner review"
+} as const satisfies Record<PublicSchedule["state"], string>;
+
 const cadenceLabels = {
   Morning: "Morning",
   "Market days": "Market days",
@@ -111,9 +116,9 @@ export function ScheduleBoard({
       ? "1 review window is public. "
       : `${ownerReviewCount} review windows are public. `;
   const activeFilterLabels = [
-    { key: "state", label: stateFilter === "all" ? "All public states" : stateFilter },
+    { key: "state", label: stateFilter === "all" ? "All public states" : stateLabels[stateFilter] },
     { key: "cadence", label: cadenceFilter === "all" ? "All cadence windows" : cadenceLabels[cadenceFilter] },
-    { key: "privacy", label: "No scheduler commands" },
+    { key: "privacy", label: "No private details" },
     { key: "mode", label: "Display-only" }
   ];
 
@@ -181,7 +186,7 @@ export function ScheduleBoard({
                 <CalendarClock size={20} aria-hidden />
                 <div>
                   <h4>No public rhythm matches these filters</h4>
-                  <p>Try a broader state or cadence view. Private scheduler details remain hidden.</p>
+                  <p>Try a broader state or cadence view. Private automation details remain hidden.</p>
                 </div>
               </article>
             ) : (
