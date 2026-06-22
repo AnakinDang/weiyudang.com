@@ -33249,3 +33249,870 @@ textarea {
     align-items: start;
   }
 }
+
+/* Step 49: Doraemon Knowledge landing-first public synthesis polish.
+   Keep after Step 16 and the shared route dock rules; this block moves Knowledge onto the current Office dashboard language. */
+.dora-knowledge-landing {
+  min-height: 100svh;
+  overflow: clip;
+  background:
+    radial-gradient(circle at 76% 6%, rgba(37, 99, 235, 0.08), transparent 29rem),
+    radial-gradient(circle at 17% 31%, rgba(147, 197, 253, 0.11), transparent 31rem),
+    linear-gradient(180deg, #ffffff 0%, #f8fbff 46%, #ffffff 100%);
+  color: #0f172a;
+}
+
+.dora-knowledge-landing .dora-office-route-dock-wrap {
+  width: min(100% - 2.4rem, 1510px);
+  margin-top: 0.76rem;
+}
+
+.dora-knowledge-landing .dora-office-route-dock {
+  min-height: 3.06rem;
+}
+
+.dora-knowledge-landing .dora-office-route-dock-link {
+  min-height: 2.34rem;
+}
+
+.dora-knowledge-landing .dora-office-route-dock-posture {
+  min-height: 2.78rem;
+}
+
+.dora-office-route-dock-wrap + .dora-knowledge-landing-hero {
+  min-height: min(660px, calc(100svh - 8.75rem));
+  padding-top: 1.35rem;
+}
+
+.dora-knowledge-landing-hero {
+  display: grid;
+  align-items: center;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.76);
+}
+
+.dora-knowledge-landing-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(26rem, 0.4fr) minmax(35rem, 0.6fr);
+  align-items: center;
+  gap: 2.65rem;
+}
+
+.dora-knowledge-landing-copy {
+  display: grid;
+  align-content: center;
+  gap: 1.12rem;
+  padding-bottom: 1.25rem;
+}
+
+.dora-knowledge-landing-copy h1 {
+  margin: 0;
+  max-width: 8.8ch;
+  color: #0f172a;
+  font-size: 5.9rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 0.9;
+}
+
+.dora-knowledge-landing-copy h1 span {
+  display: block;
+  color: #2563eb;
+}
+
+.dora-knowledge-landing-copy > p {
+  max-width: 29rem;
+  margin: 0.22rem 0 0;
+  color: #475569;
+  font-size: 1.18rem;
+  font-weight: 560;
+  line-height: 1.5;
+}
+
+.dora-knowledge-landing-rule {
+  width: 3.2rem;
+  height: 1px;
+  margin-top: 0.3rem;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.44), rgba(37, 99, 235, 0));
+}
+
+.dora-knowledge-landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.08rem;
+  margin-top: 0.34rem;
+}
+
+.dora-knowledge-command-visual {
+  min-width: 0;
+}
+
+.dora-knowledge-command-stage {
+  position: relative;
+  min-height: 37rem;
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.68);
+  border-radius: 8px;
+  background:
+    radial-gradient(ellipse at 48% 76%, rgba(246, 201, 69, 0.16), transparent 23%),
+    radial-gradient(ellipse at 53% 68%, rgba(37, 99, 235, 0.18), transparent 51%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(248, 251, 255, 0.92) 72%, #ffffff 100%),
+    #ffffff;
+  box-shadow:
+    0 34px 96px rgba(37, 99, 235, 0.1),
+    0 20px 70px rgba(15, 23, 42, 0.06);
+}
+
+.dora-knowledge-command-stage::before {
+  position: absolute;
+  right: 7%;
+  bottom: 6.8rem;
+  left: 7%;
+  height: 15.5rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.18), rgba(147, 197, 253, 0.052) 48%, transparent 72%);
+  content: "";
+  filter: blur(1rem);
+  animation: doraemon-stage-aura 8.2s ease-in-out infinite;
+}
+
+.dora-knowledge-command-room {
+  top: -10%;
+  left: -5%;
+  width: 112%;
+  height: 99%;
+  object-position: center 38%;
+  opacity: 0.46;
+  filter:
+    saturate(1.08)
+    contrast(1.03)
+    drop-shadow(0 26px 70px rgba(37, 99, 235, 0.12));
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 98%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 72%, transparent 98%);
+}
+
+.dora-knowledge-command-boundary {
+  position: absolute;
+  top: 14.5%;
+  right: 4.2%;
+  z-index: 3;
+  display: grid;
+  gap: 0.68rem;
+  width: min(17.8rem, 36%);
+  border: 1px solid rgba(147, 197, 253, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 1rem;
+  box-shadow:
+    0 18px 50px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  backdrop-filter: blur(14px) saturate(1.08);
+}
+
+.dora-knowledge-command-boundary strong {
+  color: #0f172a;
+  font-size: 0.92rem;
+  font-weight: 840;
+}
+
+.dora-knowledge-command-boundary p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.46;
+}
+
+.dora-knowledge-command-boundary div {
+  display: flex;
+  align-items: center;
+  gap: 0.48rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.82);
+  padding-top: 0.64rem;
+  color: #2563eb;
+  font-size: 0.78rem;
+  font-weight: 780;
+}
+
+.dora-knowledge-command-prism {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.dora-knowledge-command-ring {
+  position: absolute;
+  right: 12%;
+  bottom: 8.75rem;
+  left: 12%;
+  height: 15.2rem;
+  border: 1px solid rgba(147, 197, 253, 0.7);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 42px rgba(147, 197, 253, 0.15);
+  transform: perspective(38rem) rotateX(63deg);
+}
+
+.dora-knowledge-command-ring-2 {
+  right: 25%;
+  bottom: 10.7rem;
+  left: 25%;
+  height: 9.3rem;
+  border-style: dashed;
+}
+
+.dora-knowledge-command-ring-3 {
+  right: 36%;
+  bottom: 12.45rem;
+  left: 36%;
+  height: 5rem;
+}
+
+.dora-knowledge-command-hub,
+.dora-knowledge-command-node {
+  position: absolute;
+  z-index: 4;
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.91);
+  box-shadow: 0 16px 46px rgba(15, 23, 42, 0.07);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  backdrop-filter: blur(16px) saturate(1.08);
+}
+
+.dora-knowledge-command-hub {
+  right: 50%;
+  bottom: 13.62rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.28rem;
+  padding: 0.68rem 0.78rem;
+  text-align: center;
+  transform: translateX(50%);
+}
+
+.dora-knowledge-command-hub svg {
+  width: 3.3rem;
+  height: 3.3rem;
+  border: 1px solid rgba(147, 197, 253, 0.9);
+  border-radius: 999px;
+  box-shadow:
+    0 18px 44px rgba(37, 99, 235, 0.14),
+    0 0 0 7px rgba(255, 255, 255, 0.78),
+    0 0 0 12px rgba(37, 99, 235, 0.08);
+}
+
+.dora-knowledge-command-hub strong,
+.dora-knowledge-command-node strong {
+  color: #0f172a;
+  font-size: 0.76rem;
+  font-weight: 840;
+  line-height: 1.16;
+}
+
+.dora-knowledge-command-hub small,
+.dora-knowledge-command-node small {
+  color: #64748b;
+  font-size: 0.66rem;
+  font-weight: 760;
+  line-height: 1.18;
+}
+
+.dora-knowledge-command-node {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.08rem 0.5rem;
+  min-width: 8.45rem;
+  padding: 0.58rem 0.66rem;
+}
+
+.dora-knowledge-command-node > span {
+  display: grid;
+  grid-row: span 2;
+  place-items: center;
+  width: 1.95rem;
+  height: 1.95rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.88);
+  color: #2563eb;
+}
+
+.dora-knowledge-command-node-1 {
+  left: 10%;
+  bottom: 20.1rem;
+}
+
+.dora-knowledge-command-node-2 {
+  right: 29%;
+  bottom: 19.8rem;
+}
+
+.dora-knowledge-command-node-3 {
+  left: 9%;
+  bottom: 12.45rem;
+}
+
+.dora-knowledge-command-node-4 {
+  right: 20%;
+  bottom: 12.05rem;
+}
+
+.dora-knowledge-command-strip {
+  position: absolute;
+  right: 5.2%;
+  bottom: 2.68rem;
+  left: 7.2%;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.18fr) minmax(0, 0.82fr);
+  align-items: stretch;
+  gap: 0.78rem;
+  border: 1px solid rgba(147, 197, 253, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 0.74rem;
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.08);
+  -webkit-backdrop-filter: blur(16px) saturate(1.08);
+  backdrop-filter: blur(16px) saturate(1.08);
+}
+
+.dora-knowledge-command-strip > div {
+  display: grid;
+  align-content: center;
+  gap: 0.16rem;
+}
+
+.dora-knowledge-command-strip > div > span {
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 999px;
+  background: #2563eb;
+  box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.12);
+}
+
+.dora-knowledge-command-strip strong {
+  color: #0f172a;
+  font-size: 0.76rem;
+  font-weight: 840;
+  line-height: 1.18;
+}
+
+.dora-knowledge-command-strip small,
+.dora-knowledge-command-strip span {
+  color: #64748b;
+  font-size: 0.66rem;
+  font-weight: 760;
+}
+
+.dora-knowledge-command-strip ol {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(5.7rem, 1fr));
+  gap: 0.42rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-knowledge-command-strip li {
+  display: grid;
+  align-content: center;
+  gap: 0.08rem;
+  border-left: 1px solid rgba(191, 219, 254, 0.78);
+  padding-left: 0.58rem;
+}
+
+.dora-knowledge-landing-section,
+.dora-knowledge-continuation-section {
+  padding-block: 2.6rem;
+}
+
+.dora-knowledge-register-section {
+  padding-top: 3.1rem;
+}
+
+.dora-knowledge-register-heading,
+.dora-knowledge-continuation-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 0.48fr) minmax(26rem, 0.52fr);
+  align-items: end;
+  gap: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.dora-knowledge-register-heading h2,
+.dora-knowledge-continuation-heading h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 2.25rem;
+  font-weight: 820;
+  letter-spacing: 0;
+  line-height: 1.02;
+}
+
+.dora-knowledge-register-heading p,
+.dora-knowledge-continuation-heading p {
+  max-width: 40rem;
+  margin: 0.5rem 0 0;
+  color: #64748b;
+  font-size: 1rem;
+  font-weight: 580;
+  line-height: 1.48;
+}
+
+.dora-knowledge-log-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.62rem;
+}
+
+.dora-knowledge-log-stats article {
+  display: grid;
+  min-height: 5.15rem;
+  gap: 0.2rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.84)),
+    #ffffff;
+  padding: 0.78rem;
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.045);
+}
+
+.dora-knowledge-log-stats svg {
+  color: #2563eb;
+}
+
+.dora-knowledge-log-stats strong {
+  display: block;
+  color: #0f172a;
+  font-size: 1.38rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.dora-knowledge-log-stats span {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 780;
+  line-height: 1.15;
+}
+
+.dora-knowledge-register-section .dora-knowledge {
+  gap: 0.86rem;
+}
+
+.dora-knowledge-register-section .dora-knowledge-principle-strip {
+  margin-bottom: 0;
+}
+
+.dora-knowledge-register-section .dora-knowledge-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(18.6rem, 0.34fr);
+  gap: 0.86rem;
+}
+
+.dora-knowledge-register-section .dora-knowledge-output-card,
+.dora-knowledge-register-section .dora-knowledge-flow-track article {
+  min-height: 10.2rem;
+}
+
+.dora-knowledge-continuation-section {
+  border-top: 1px solid rgba(226, 232, 240, 0.72);
+  background:
+    radial-gradient(circle at 82% 16%, rgba(37, 99, 235, 0.06), transparent 24rem),
+    linear-gradient(180deg, #ffffff, #f8fbff);
+}
+
+.dora-knowledge-continuation-posture {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.45rem;
+}
+
+.dora-knowledge-continuation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.78rem;
+}
+
+.dora-knowledge-continuation-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.72rem;
+  min-height: 8.35rem;
+  border: 1px solid rgba(191, 219, 254, 0.64);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.86)),
+    #ffffff;
+  padding: 0.92rem;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 16px 46px rgba(15, 23, 42, 0.045);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.dora-knowledge-continuation-card:hover {
+  border-color: rgba(147, 197, 253, 0.82);
+  box-shadow: 0 20px 52px rgba(37, 99, 235, 0.09);
+  transform: translateY(-1px);
+}
+
+.dora-knowledge-continuation-card > span {
+  display: grid;
+  place-items: center;
+  width: 2.42rem;
+  height: 2.42rem;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2563eb;
+}
+
+.dora-knowledge-continuation-card h3 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.94rem;
+  font-weight: 840;
+  line-height: 1.18;
+}
+
+.dora-knowledge-continuation-card p {
+  margin: 0.36rem 0 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 630;
+  line-height: 1.42;
+}
+
+.dora-knowledge-continuation-card strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  margin-top: 0.78rem;
+  color: #155eef;
+  font-size: 0.76rem;
+  font-weight: 820;
+}
+
+@media (max-width: 1320px) and (min-width: 1181px) {
+  .dora-knowledge-landing-hero-grid {
+    grid-template-columns: minmax(24rem, 0.42fr) minmax(32rem, 0.58fr);
+    width: min(100% - 4.25rem, 1180px);
+    gap: 1.7rem;
+  }
+
+  .dora-knowledge-command-stage {
+    min-height: 34.5rem;
+  }
+
+  .dora-knowledge-command-boundary {
+    right: 2%;
+    width: min(15.8rem, 32%);
+  }
+
+  .dora-knowledge-command-node {
+    min-width: 7.7rem;
+  }
+
+  .dora-knowledge-command-node-1 {
+    left: 7%;
+    bottom: 17rem;
+  }
+
+  .dora-knowledge-command-node-2 {
+    right: 34%;
+    bottom: 17rem;
+  }
+
+  .dora-knowledge-command-node-3 {
+    left: 6%;
+    bottom: 10.9rem;
+  }
+
+  .dora-knowledge-command-node-4 {
+    right: 15%;
+    bottom: 10.7rem;
+  }
+
+  .dora-knowledge-command-strip {
+    right: 3.5%;
+    left: 6%;
+  }
+}
+
+@media (max-width: 1180px) {
+  .dora-office-route-dock-wrap + .dora-knowledge-landing-hero {
+    min-height: auto;
+  }
+
+  .dora-knowledge-landing-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .dora-knowledge-command-visual,
+  .dora-knowledge-command-stage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dora-knowledge-command-stage {
+    min-height: 32rem;
+  }
+
+  .dora-knowledge-register-heading,
+  .dora-knowledge-continuation-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-log-stats,
+  .dora-knowledge-continuation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-knowledge-register-section .dora-knowledge-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-register-section .dora-knowledge-side {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .dora-knowledge-landing .dora-office-route-dock-wrap {
+    width: min(100% - 1rem, 42rem);
+    margin-top: 0.52rem;
+  }
+
+  .dora-knowledge-landing .dora-office-route-dock {
+    grid-template-columns: 1fr;
+    min-height: 2.8rem;
+  }
+
+  .dora-knowledge-landing .dora-office-route-dock-brand,
+  .dora-knowledge-landing .dora-office-route-dock-posture {
+    display: none;
+  }
+
+  .dora-knowledge-landing .dora-office-route-dock-links {
+    padding: 0.42rem 0.5rem;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1.05rem), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1.05rem), transparent 100%);
+  }
+
+  .dora-knowledge-landing .dora-office-route-dock-link {
+    min-height: 2.1rem;
+    padding-inline: 0.58rem;
+    font-size: 0.73rem;
+  }
+
+  .dora-office-route-dock-wrap + .dora-knowledge-landing-hero {
+    padding-top: 1.12rem;
+  }
+
+  .dora-knowledge-landing-copy h1 {
+    font-size: 4rem;
+  }
+
+  .dora-knowledge-landing-copy > p {
+    max-width: 23.5rem;
+    font-size: 0.98rem;
+    line-height: 1.48;
+  }
+
+  .dora-knowledge-landing-actions {
+    gap: 0.82rem;
+  }
+
+  .dora-knowledge-landing-actions .dora-office-primary-cta {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .dora-knowledge-command-stage {
+    min-height: 22.4rem;
+  }
+
+  .dora-knowledge-command-boundary {
+    top: 0.52rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    width: auto;
+    padding: 0.58rem 0.62rem;
+  }
+
+  .dora-knowledge-command-boundary p {
+    display: none;
+  }
+
+  .dora-knowledge-command-boundary div {
+    width: 49%;
+  }
+
+  .dora-knowledge-command-ring-1 {
+    right: 6%;
+    bottom: 7.2rem;
+    left: 6%;
+    height: 10.4rem;
+  }
+
+  .dora-knowledge-command-ring-2 {
+    right: 22%;
+    bottom: 8.5rem;
+    left: 22%;
+    height: 6.2rem;
+  }
+
+  .dora-knowledge-command-ring-3 {
+    right: 34%;
+    bottom: 9.65rem;
+    left: 34%;
+    height: 3.3rem;
+  }
+
+  .dora-knowledge-command-hub {
+    bottom: 10.35rem;
+  }
+
+  .dora-knowledge-command-hub svg {
+    width: 2.65rem;
+    height: 2.65rem;
+  }
+
+  .dora-knowledge-command-node {
+    min-width: 6.55rem;
+    padding: 0.46rem 0.52rem;
+  }
+
+  .dora-knowledge-command-node-1 {
+    right: auto;
+    bottom: 12.35rem;
+    left: 3%;
+  }
+
+  .dora-knowledge-command-node-2 {
+    right: 3%;
+    bottom: 12.15rem;
+  }
+
+  .dora-knowledge-command-node-3 {
+    right: auto;
+    bottom: 8.65rem;
+    left: 5%;
+  }
+
+  .dora-knowledge-command-node-4 {
+    right: 5%;
+    bottom: 8.45rem;
+  }
+
+  .dora-knowledge-command-strip {
+    right: 0.2rem;
+    bottom: 0.36rem;
+    left: 0.2rem;
+    display: block;
+    padding: 0.62rem;
+  }
+
+  .dora-knowledge-command-strip > div {
+    margin-bottom: 0.5rem;
+  }
+
+  .dora-knowledge-command-strip ol {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .dora-knowledge-command-strip li {
+    flex: 0 0 8rem;
+    scroll-snap-align: start;
+  }
+
+  .dora-knowledge-register-section {
+    padding-top: 1.7rem;
+  }
+
+  .dora-knowledge-register-heading,
+  .dora-knowledge-continuation-heading {
+    gap: 0.85rem;
+  }
+
+  .dora-knowledge-log-stats,
+  .dora-knowledge-continuation-grid,
+  .dora-knowledge-register-section .dora-knowledge-side {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-principle-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-output-grid,
+  .dora-knowledge-flow-track {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-knowledge-outputs,
+  .dora-knowledge-flow {
+    padding: 0.82rem;
+  }
+
+  .dora-knowledge-continuation-posture {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 520px) {
+  .dora-knowledge-landing-hero-grid,
+  .dora-knowledge-landing-section > .container,
+  .dora-knowledge-continuation-section > .container {
+    width: min(calc(100% - 1.05rem), 42rem);
+  }
+
+  .dora-knowledge-landing-copy h1 {
+    font-size: 3.58rem;
+  }
+
+  .dora-knowledge-command-stage {
+    min-height: 21rem;
+  }
+
+  .dora-knowledge-command-node {
+    min-width: 6rem;
+  }
+
+  .dora-knowledge-command-node strong {
+    font-size: 0.68rem;
+  }
+
+  .dora-knowledge-command-node small {
+    font-size: 0.6rem;
+  }
+
+  .dora-knowledge-landing-section,
+  .dora-knowledge-continuation-section {
+    padding-block: 1.85rem;
+  }
+
+  .dora-knowledge-register-heading h2,
+  .dora-knowledge-continuation-heading h2 {
+    font-size: 1.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dora-knowledge-command-stage::before,
+  .dora-knowledge-continuation-card,
+  .dora-knowledge-command-node {
+    animation: none;
+    transition: none;
+  }
+}

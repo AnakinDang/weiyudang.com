@@ -66,13 +66,13 @@ export const publicKnowledgeStats = [
     value: "hidden"
   },
   {
-    label: "Raw vault pages",
-    value: "0"
+    label: "Source pages",
+    value: "0 public"
   }
 ] as const;
 
 export const publicKnowledgeBoundaries = [
-  "No raw vault pages, owner context records, private instruction text, or unpublished reports are rendered.",
+  "No owner context, source records, or unreleased research drafts are rendered.",
   "Public links point only to curated site pages.",
-  "Private source quality can shape public writing, but private source text does not cross the boundary."
+  "Private research can shape public writing, but source passages do not cross the boundary."
 ] as const;

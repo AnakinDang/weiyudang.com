@@ -14,14 +14,6 @@ import {
   ShieldCheck,
   Sparkles
 } from "lucide-react";
-import { DoraemonMark } from "@/components/DoraemonMark";
-import {
-  DoraOfficeHeroArt,
-  DoraOfficeHeroBoundaryCard,
-  DoraOfficeHeroBoundaryStrip,
-  DoraOfficeHeroCopy,
-  DoraOfficeHeroSignalRail
-} from "@/components/DoraOfficeHero";
 import { StatusBadge } from "@/components/StatusBadge";
 import type {
   publicKnowledgeBoundaries,
@@ -53,21 +45,18 @@ const statIcons = {
   "Public outputs": FileText,
   "Publish gates": ShieldCheck,
   "Private sources": LockKeyhole,
-  "Raw vault pages": LockKeyhole
+  "Source pages": LockKeyhole
 } as const satisfies Record<PublicKnowledgeStat["label"], LucideIcon>;
-
-// The hero prism has four positioned nodes; the full publish path still renders below.
-const HERO_PREVIEW_MAX = 4;
 
 const knowledgePrinciples = [
   {
     title: "Curated outputs",
-    detail: "Public pages are rewritten summaries, not raw vault mirrors.",
+    detail: "Public pages are curated summaries, not direct mirrors of private sources.",
     icon: Sparkles
   },
   {
     title: "Source privacy",
-    detail: "Notes, memory, and private files stay out of public routes.",
+    detail: "Owner notes and source files stay out of public routes.",
     icon: LockKeyhole
   },
   {
@@ -76,8 +65,8 @@ const knowledgePrinciples = [
     icon: ShieldCheck
   },
   {
-    title: "No public RAG",
-    detail: "Visitors never query the private vault or hidden memory.",
+    title: "No private querying",
+    detail: "Visitors never query hidden sources or owner-only context.",
     icon: Eye
   }
 ] as const;
@@ -95,7 +84,7 @@ const vaultLanes = [
   },
   {
     title: "Private source layer",
-    detail: "Raw text, memory, prompts, and drafts remain hidden.",
+    detail: "Owner-only records and drafts remain hidden.",
     icon: LockKeyhole
   }
 ] as const;
@@ -108,80 +97,17 @@ export function KnowledgeVaultPanel({
   outputs,
   flow,
   boundaries,
-  stats
+  stats,
+  showStats = true
 }: {
   outputs: readonly PublicKnowledgeOutput[];
   flow: readonly PublicKnowledgeFlow[];
   boundaries: readonly PublicKnowledgeBoundary[];
   stats: readonly PublicKnowledgeStat[];
+  showStats?: boolean;
 }) {
-  const previewFlow = flow.slice(0, HERO_PREVIEW_MAX);
-
   return (
     <div className="dora-knowledge">
-      <section className="dora-knowledge-hero" aria-label="Public Knowledge Vault synthesis map">
-        <DoraOfficeHeroArt className="dora-knowledge-hero-art" />
-        <DoraOfficeHeroCopy
-          className="dora-knowledge-hero-copy"
-          lines={["Knowledge becomes public.", "Sources stay private."]}
-          summary="Curated synthesis only. No raw vault pages, private memory, or public RAG."
-        />
-
-        <DoraOfficeHeroBoundaryCard
-          className="dora-knowledge-hero-boundary-card"
-          items={[
-            { icon: Eye, title: "Public synthesis", detail: "Rewritten outputs" },
-            { icon: LockKeyhole, title: "Private sources", detail: "Raw text hidden" }
-          ]}
-        />
-
-        <div className="dora-knowledge-prism" aria-hidden="true">
-          <div className="dora-knowledge-prism-plane dora-knowledge-prism-plane-1" />
-          <div className="dora-knowledge-prism-plane dora-knowledge-prism-plane-2" />
-          <div className="dora-knowledge-prism-plane dora-knowledge-prism-plane-3" />
-          <div className="dora-knowledge-prism-core">
-            <DoraemonMark />
-            <strong>Curated output</strong>
-            <span>owner reviewed</span>
-          </div>
-          {previewFlow.map((item, index) => {
-            const Icon = flowIcons[item.step];
-
-            return (
-              <div key={item.step} className={`dora-knowledge-prism-node dora-knowledge-prism-node-${index + 1}`}>
-                <span>
-                  <Icon size={15} aria-hidden />
-                </span>
-                <strong>{item.step}</strong>
-                <small>{item.shortLabel}</small>
-              </div>
-            );
-          })}
-        </div>
-
-        <DoraOfficeHeroBoundaryStrip
-          className="dora-knowledge-hero-boundary"
-          items={[
-            { icon: Eye, label: "Public summaries" },
-            { icon: LockKeyhole, label: "Sources private" },
-            { icon: ShieldCheck, label: "Owner reviewed" }
-          ]}
-        />
-
-        <DoraOfficeHeroSignalRail
-          className="dora-knowledge-hero-signal-strip"
-          ariaLabel="Public knowledge publishing preview"
-          label="Public publish path"
-          items={previewFlow.map((item) => ({
-            key: item.step,
-            ariaLabel: `${item.step}: ${item.shortLabel}`,
-            meta: item.shortLabel,
-            title: item.step,
-            detail: "public-safe"
-          }))}
-        />
-      </section>
-
       <section className="dora-knowledge-principle-strip" aria-label="Public Knowledge Vault principles">
         {knowledgePrinciples.map((principle) => {
           const Icon = principle.icon;
@@ -200,21 +126,23 @@ export function KnowledgeVaultPanel({
         })}
       </section>
 
-      <section className="dora-knowledge-stats" aria-label="Public Knowledge Vault summary">
-        {stats.map((stat) => {
-          const Icon = statIcons[stat.label];
+      {showStats ? (
+        <section className="dora-knowledge-stats" aria-label="Public Knowledge Vault summary">
+          {stats.map((stat) => {
+            const Icon = statIcons[stat.label];
 
-          return (
-            <article key={stat.label}>
-              <Icon size={23} aria-hidden />
-              <div>
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </div>
-            </article>
-          );
-        })}
-      </section>
+            return (
+              <article key={stat.label}>
+                <Icon size={23} aria-hidden />
+                <div>
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              </article>
+            );
+          })}
+        </section>
+      ) : null}
 
       <div className="dora-knowledge-layout">
         <section className="dora-knowledge-outputs" aria-labelledby="dora-knowledge-outputs-title">
