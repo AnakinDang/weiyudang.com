@@ -62,34 +62,28 @@ export default function DoraOfficePage() {
         <section className="dora-office-product-hero" aria-labelledby="dora-office-title">
           <div className="container dora-office-product-shell" id="live-dashboard">
             <div className="dora-office-product-copy">
-              <h1 id="dora-office-title">
+              <h1 id="dora-office-title" aria-label="Doraemon Office">
                 <span>Doraemon</span>
                 <span>Office</span>
               </h1>
               <p>
-                A public-safe command room where Doraemon coordinates, MiniDoras work, and Weiyu keeps the final
-                authority.
+                The native public office overview: sanitized activity, MiniDora presence, operating rhythm, and system
+                posture inside weiyudang.com.
               </p>
               <div className="dora-office-product-actions">
-                <a
-                  href={DORA_LIVE_BRIDGE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open larger visualizer ${liveBridgeHost} in a new tab`}
-                  className="link-focus dora-office-product-primary"
-                >
-                  Open visualizer
-                  <ArrowUpRight size={16} aria-hidden />
-                </a>
-                <Link href="/dora/activity" className="link-focus dora-office-product-secondary">
+                <Link href="/dora/activity" className="link-focus dora-office-product-primary">
                   View Activity
+                  <ArrowRight size={16} aria-hidden />
+                </Link>
+                <Link href="/dora/team" className="link-focus dora-office-product-secondary">
+                  Meet the Team
                   <ArrowRight size={16} aria-hidden />
                 </Link>
               </div>
               <div className="dora-office-product-posture" aria-label="Doraemon Office public posture">
+                <StatusBadge tone="normal">Native route</StatusBadge>
                 <StatusBadge tone="info">Demo replay</StatusBadge>
                 <StatusBadge tone="private">Read-only</StatusBadge>
-                <StatusBadge tone="normal">Public schema</StatusBadge>
               </div>
             </div>
 
@@ -98,18 +92,18 @@ export default function DoraOfficePage() {
               aria-label="Public Doraemon Office stage with sanitized MiniDora state"
             >
               <Image
-                src="/visuals/doraemon-office-doorway-v3.png"
+                src="/visuals/doraemon-office-command-room-v2.png"
                 alt=""
-                width={1586}
-                height={992}
+                width={1536}
+                height={1024}
                 priority
-                quality={95}
-                sizes="(max-width: 1180px) 100vw, 62vw"
+                quality={85}
+                sizes="(max-width: 720px) 200vw, (max-width: 1180px) 100vw, 62vw"
               />
 
               <div className="dora-office-product-panel">
-                <strong>Doraemon Office</strong>
-                <p>A personal AI command room built for thinking, creating, and long-term impact.</p>
+                <strong>Public Office</strong>
+                <p>Doraemon coordinates visible state while task names, prompt bodies, memory records, and controls stay out.</p>
                 <div>
                   <LockKeyhole size={16} aria-hidden />
                   <span>Private Area</span>
@@ -188,6 +182,22 @@ export default function DoraOfficePage() {
                   ))}
                 </dl>
               </section>
+
+              <section className="dora-office-product-command-card dora-office-product-bridge-card">
+                <ArrowUpRight size={20} aria-hidden />
+                <h2>Full-screen bridge</h2>
+                <p>The native routes are primary. The visualizer remains available when the stage needs more room.</p>
+                <a
+                  href={DORA_LIVE_BRIDGE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open full-screen visualizer ${liveBridgeHost} in a new tab`}
+                  className="link-focus"
+                >
+                  {liveBridgeHost}
+                  <ArrowUpRight size={13} aria-hidden />
+                </a>
+              </section>
             </aside>
 
             <section className="dora-office-product-livebar" aria-label="Recent public-safe Doraemon Office activity">
@@ -217,8 +227,8 @@ export default function DoraOfficePage() {
           <div className="container dora-office-product-detail-head">
             <h2>Public operating view</h2>
             <p>
-              The stage stays readable first. The dashboard below keeps activity, posture, rhythm, and boundary state
-              public-safe.
+              The office now starts inside the site. Activity feed, team presence, cadence summary, schedules, and
+              system posture stay public-safe and read-only.
             </p>
           </div>
           <div className="container dora-office-product-detail-grid">
@@ -268,7 +278,7 @@ export default function DoraOfficePage() {
                     <span>{nextSchedule.name}</span>
                     <strong>{nextSchedule.next}</strong>
                   </div>
-                  <p>Public cadence only. No cron strings or private prompts.</p>
+                  <p>Public cadence only. No cron strings or prompt bodies.</p>
                 </section>
               </div>
             </div>
