@@ -37307,3 +37307,256 @@ textarea {
     min-height: 20rem;
   }
 }
+
+/* Step 58: MiniDora team agent floor alignment */
+.dora-team-landing-hero-grid {
+  grid-template-columns: minmax(20.5rem, 0.56fr) minmax(36rem, 1.22fr) minmax(16.5rem, 0.44fr);
+  gap: 1rem;
+}
+
+.dora-team-landing-copy h1 {
+  max-width: 8.25ch;
+  line-height: 0.88;
+}
+
+.dora-team-command-stage {
+  box-shadow:
+    0 34px 92px rgba(37, 99, 235, 0.095),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
+}
+
+.dora-team-command-room {
+  inset: -4.55rem -3.35rem 3.75rem -3.35rem;
+}
+
+.dora-team-stage-boundary {
+  right: 1.15rem;
+  width: min(15rem, 32%);
+}
+
+.dora-team-orbit-system {
+  right: 5.5%;
+  bottom: 3.85rem;
+  left: 5.5%;
+}
+
+.dora-team-hero-side {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.dora-team-hero-side-card {
+  gap: 0.55rem;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.dora-team-selected-agent-card {
+  align-content: start;
+}
+
+.dora-team-selected-agent-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.68rem;
+}
+
+.dora-team-selected-agent-head .dora-team-avatar {
+  width: 3.25rem;
+  height: 3.25rem;
+}
+
+.dora-team-avatar {
+  position: relative;
+}
+
+.dora-team-avatar-role {
+  position: absolute;
+  right: -0.12rem;
+  bottom: -0.1rem;
+  display: grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.52rem;
+  font-weight: 900;
+  line-height: 1;
+  box-shadow: 0 8px 14px rgba(37, 99, 235, 0.2);
+}
+
+.dora-team-selected-agent-head h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+.dora-team-selected-agent-head p {
+  margin: 0.18rem 0 0;
+  color: #475569;
+  font-size: 0.73rem;
+  font-weight: 760;
+}
+
+.dora-team-selected-agent-card > p {
+  margin: 0;
+  color: #334155;
+  font-size: 0.8rem;
+  line-height: 1.48;
+}
+
+.dora-team-selected-agent-card dl {
+  display: grid;
+  gap: 0.44rem;
+  margin: 0;
+  padding-top: 0.2rem;
+}
+
+.dora-team-selected-agent-card dl div {
+  display: grid;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1fr);
+  gap: 0.5rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.78);
+  padding-top: 0.44rem;
+}
+
+.dora-team-selected-agent-card dt {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 760;
+}
+
+.dora-team-selected-agent-card dd {
+  margin: 0;
+  color: #0f172a;
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-align: left;
+}
+
+.dora-team-operating-lanes-card .dora-team-hero-lane-list {
+  gap: 0.42rem;
+}
+
+.dora-team-operating-lanes-card .dora-team-hero-lane-list li {
+  padding-top: 0.4rem;
+}
+
+.dora-team-public-boundary-card .dora-team-research-boundary {
+  margin: 0;
+  border-color: rgba(246, 201, 69, 0.42);
+  background: rgba(255, 251, 235, 0.74);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 1366px) and (min-width: 1181px) {
+  .dora-team-landing-hero-grid {
+    grid-template-columns: minmax(18.75rem, 0.58fr) minmax(31rem, 1.12fr) minmax(15.75rem, 0.46fr);
+  }
+
+  .dora-team-selected-agent-head {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .dora-team-selected-agent-head .status-badge {
+    justify-self: start;
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 1180px) {
+  .dora-team-landing-hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dora-team-hero-side {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: auto;
+  }
+
+  .dora-team-selected-agent-head {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .dora-team-selected-agent-head .status-badge {
+    justify-self: start;
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 840px) {
+  .dora-team-landing-copy {
+    align-content: start;
+    padding-top: 0.65rem;
+  }
+
+  .dora-team-hero-signal-strip {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding-bottom: 0.08rem;
+    scrollbar-width: none;
+  }
+
+  .dora-team-hero-signal-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dora-team-hero-signal-strip div {
+    flex: 0 0 auto;
+    min-width: 8.6rem;
+    border-radius: 8px;
+  }
+
+  .dora-team-command-stage {
+    min-height: 21.5rem;
+  }
+
+  .dora-team-hero-side {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dora-team-operating-lanes-card {
+    display: none;
+  }
+
+  .dora-team-public-boundary-card {
+    display: grid;
+  }
+
+  .dora-team-public-boundary-card .dora-team-hero-boundary-list,
+  .dora-team-public-boundary-card .dora-office-text-link {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .dora-team-landing-copy h1 {
+    font-size: clamp(3.05rem, 14vw, 3.78rem);
+  }
+
+  .dora-team-hero-signal-strip {
+    margin-top: 0.8rem;
+  }
+
+  .dora-team-command-stage {
+    min-height: 17.75rem;
+  }
+
+  .dora-team-command-room {
+    inset: -0.25rem -0.85rem 4.35rem -0.85rem;
+  }
+
+  .dora-team-landing-activity-strip {
+    margin-top: 0.7rem;
+  }
+
+  .dora-team-public-boundary-card .dora-team-research-boundary {
+    font-size: 0.7rem;
+  }
+}
