@@ -294,7 +294,7 @@ export function ScheduleBoard({
           <section className="dora-schedules-link-card" aria-label="Activity bridge">
             <Repeat2 size={20} aria-hidden />
             <strong>Activity bridge</strong>
-            <p>Open the public activity feed for latest fixed labels.</p>
+            <p>Open the public activity feed for surrounding fixed labels.</p>
             <Link href="/dora/activity" className="link-focus">
               View Activity
               <ArrowRight size={15} aria-hidden />
