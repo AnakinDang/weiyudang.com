@@ -31,6 +31,7 @@ type ScheduleEvidence = {
   label: string;
   state: string;
   tone: ScheduleTone;
+  ready: boolean;
   detail: string;
 };
 
@@ -38,6 +39,21 @@ type ScheduleWindow = {
   label: string;
   time: string;
   detail: string;
+};
+
+type ScheduleStep = {
+  label: string;
+  state: string;
+  tone: ScheduleTone;
+  detail: string;
+};
+
+type ScheduleOwnerPosture = {
+  label: string;
+  state: string;
+  tone: ScheduleTone;
+  detail: string;
+  next: string;
 };
 
 type PrivateSchedule = {
@@ -58,6 +74,9 @@ type PrivateSchedule = {
   nextAction: string;
   window: ScheduleWindow;
   evidence: readonly ScheduleEvidence[];
+  readingSteps: readonly ScheduleStep[];
+  safeOutputs: readonly ScheduleStep[];
+  ownerPostures: readonly ScheduleOwnerPosture[];
   dependencies: readonly string[];
   ownerGate: string;
   noGo: readonly string[];
@@ -92,12 +111,15 @@ type FilterOption = {
 };
 
 const unavailableControls = ["Create job", "Pause job", "Resume job", "Delete job", "Edit command"] as const;
-const readyEvidenceStates = new Set(["Ready", "Visible", "Collected", "Held", "Required"]);
 const rhythmIcons = [Sun, BarChart3, Moon, CalendarClock] as const;
 
 function evidenceSummary(schedule: PrivateSchedule) {
-  const ready = schedule.evidence.filter((item) => item.tone === "normal" || readyEvidenceStates.has(item.state)).length;
-  return `${ready} / ${schedule.evidence.length}`;
+  const ready = schedule.evidence.filter((item) => item.ready).length;
+  return `${ready} of ${schedule.evidence.length} ready`;
+}
+
+function postureChoiceKey(scheduleId: string, label: string) {
+  return `${scheduleId}:${label}`;
 }
 
 function filterOptions(schedules: readonly PrivateSchedule[]) {
@@ -384,12 +406,12 @@ function ScheduleList({
               </div>
               <StatusBadge tone={schedule.tone}>{schedule.state}</StatusBadge>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-xs text-slate-400">
+            <div className="grid gap-2 text-xs text-slate-400 sm:grid-cols-3">
               <span>
                 <strong className="text-slate-300">Cadence:</strong> {schedule.cadence}
               </span>
               <span>
-                <strong className="text-slate-300">Proof:</strong> {evidenceSummary(schedule)}
+                <strong className="text-slate-300">Evidence:</strong> {evidenceSummary(schedule)}
               </span>
               <span>
                 <strong className="text-slate-300">Window:</strong> {schedule.nextWindow}
@@ -405,15 +427,19 @@ function ScheduleList({
 function RhythmWorkbench({
   schedules,
   selectedSchedule,
+  postureChoice,
   activeFilter,
   filters,
+  onPostureChoice,
   onFilterSelect,
   onScheduleSelect
 }: {
   schedules: readonly PrivateSchedule[];
   selectedSchedule: PrivateSchedule;
+  postureChoice: string;
   activeFilter: string;
   filters: readonly FilterOption[];
+  onPostureChoice: (choice: string) => void;
   onFilterSelect: (filter: string) => void;
   onScheduleSelect: (id: string) => void;
 }) {
@@ -475,13 +501,17 @@ function RhythmWorkbench({
             <StatusBadge tone={selectedSchedule.tone}>{selectedSchedule.state}</StatusBadge>
           </div>
 
-          <div className="mt-5 grid gap-4 lg:grid-cols-2">
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
             <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
-              <p className="text-xs font-bold uppercase text-slate-400">Purpose</p>
+              <h4 className="text-xs font-bold uppercase text-slate-400">Summary</h4>
+              <p className="mt-2 text-sm leading-6 text-slate-300">{selectedSchedule.summary}</p>
+            </div>
+            <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
+              <h4 className="text-xs font-bold uppercase text-slate-400">Purpose</h4>
               <p className="mt-2 text-sm leading-6 text-slate-300">{selectedSchedule.purpose}</p>
             </div>
             <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
-              <p className="text-xs font-bold uppercase text-slate-400">Next action</p>
+              <h4 className="text-xs font-bold uppercase text-slate-400">Next action</h4>
               <p className="mt-2 text-sm leading-6 text-slate-300">{selectedSchedule.nextAction}</p>
             </div>
           </div>
@@ -489,39 +519,68 @@ function RhythmWorkbench({
           <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
             <div className="flex items-center gap-2 text-sky-100">
               <ShieldCheck size={17} aria-hidden />
-              <p className="text-sm font-semibold">Safety boundary</p>
+              <h4 className="text-sm font-semibold">Safety boundary</h4>
             </div>
             <p className="mt-3 text-sm leading-6 text-slate-300">{selectedSchedule.safety}</p>
           </div>
 
-          <div className="mt-4 grid gap-3 md:grid-cols-3">
-            {selectedSchedule.evidence.map((evidence) => (
-              <div key={`${selectedSchedule.id}-${evidence.label}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-white">{evidence.label}</p>
-                  <StatusBadge tone={evidence.tone}>{evidence.state}</StatusBadge>
+          <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
+            <div className="flex items-center gap-2 text-sky-100">
+              <Waypoints size={17} aria-hidden />
+              <h4 className="text-sm font-semibold">Reading steps</h4>
+            </div>
+            <div className="mt-3 grid gap-3 md:grid-cols-3">
+              {selectedSchedule.readingSteps.map((step, index) => (
+                <div key={`${selectedSchedule.id}-${step.label}`} className="rounded-[8px] border border-slate-700 bg-white/[0.035] p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-bold uppercase text-slate-500">{String(index + 1).padStart(2, "0")}</span>
+                    <StatusBadge tone={step.tone}>{step.state}</StatusBadge>
+                  </div>
+                  <p className="mt-3 text-sm font-semibold text-white">{step.label}</p>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{step.detail}</p>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-400">{evidence.detail}</p>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
+            <h4 className="text-sm font-semibold text-sky-100">Evidence</h4>
+            <div className="mt-3 grid gap-3 md:grid-cols-3">
+              {selectedSchedule.evidence.map((evidence) => (
+                <div key={`${selectedSchedule.id}-${evidence.label}`} className="rounded-[8px] border border-slate-700 bg-white/[0.035] p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-sm font-semibold text-white">{evidence.label}</p>
+                    <StatusBadge tone={evidence.tone}>{evidence.state}</StatusBadge>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{evidence.detail}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </article>
 
         <aside className="grid gap-4 xl:col-span-2 2xl:col-span-1">
+          <ScheduleOperatingPlanner
+            selectedSchedule={selectedSchedule}
+            postureChoice={postureChoice}
+            onPostureChoice={onPostureChoice}
+          />
+
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex items-center gap-2 text-sky-100">
               <Clock3 size={17} aria-hidden />
-              <p className="text-sm font-semibold">Window</p>
+              <h4 className="text-sm font-semibold">Window</h4>
             </div>
-            <p className="mt-3 text-xs font-bold uppercase text-slate-400">{selectedSchedule.window.time}</p>
+            <p className="mt-3 text-sm font-semibold text-white">{selectedSchedule.window.label}</p>
+            <p className="mt-1 text-xs font-bold uppercase text-slate-400">{selectedSchedule.window.time}</p>
             <p className="mt-2 text-sm leading-6 text-slate-300">{selectedSchedule.window.detail}</p>
-            <p className="mt-4 text-xs font-bold uppercase text-slate-400">Last run</p>
+            <h4 className="mt-4 text-xs font-bold uppercase text-slate-400">Last run</h4>
             <p className="mt-1 text-sm text-slate-300">{selectedSchedule.lastRun}</p>
           </div>
 
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs font-bold uppercase text-slate-400">Dependencies</p>
+              <h4 className="text-xs font-bold uppercase text-slate-400">Dependencies</h4>
               <span className="text-sm font-semibold text-slate-300">{selectedSchedule.dependencies.length}</span>
             </div>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -536,7 +595,7 @@ function RhythmWorkbench({
           <div className="rounded-[8px] border border-red-300/35 bg-red-400/8 p-4">
             <div className="flex items-center gap-2 text-red-100">
               <XCircle size={17} aria-hidden />
-              <p className="text-sm font-semibold">No-go actions</p>
+              <h4 className="text-sm font-semibold">No-go actions</h4>
             </div>
             <ul className="mt-3 grid gap-2 text-sm leading-6 text-slate-300">
               {selectedSchedule.noGo.map((item) => (
@@ -549,10 +608,98 @@ function RhythmWorkbench({
           </div>
 
           <div className="rounded-[8px] border border-blue-300/35 bg-blue-400/8 p-4">
-            <p className="text-xs font-bold uppercase text-blue-100">Owner gate</p>
+            <h4 className="text-xs font-bold uppercase text-blue-100">Owner gate</h4>
             <p className="mt-2 text-sm leading-6 text-slate-300">{selectedSchedule.ownerGate}</p>
           </div>
         </aside>
+      </div>
+    </section>
+  );
+}
+
+function ScheduleOperatingPlanner({
+  selectedSchedule,
+  postureChoice,
+  onPostureChoice
+}: {
+  selectedSchedule: PrivateSchedule;
+  postureChoice: string;
+  onPostureChoice: (choice: string) => void;
+}) {
+  const selectedPosture =
+    selectedSchedule.ownerPostures.find((posture) => posture.label === postureChoice) ?? selectedSchedule.ownerPostures[0];
+
+  return (
+    <section className="rounded-[8px] border border-sky-300/35 bg-sky-300/10 p-4" aria-labelledby="schedule-operating-planner-title">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2 text-sky-100">
+            <ShieldCheck size={17} aria-hidden />
+            <h3 id="schedule-operating-planner-title" className="text-sm font-semibold">
+              Owner window plan
+            </h3>
+          </div>
+          <p className="mt-2 text-xs leading-5 text-slate-400">
+            Pick a local reading posture for this schedule window. No schedule job, delivery, or runtime action is sent.
+          </p>
+        </div>
+        <StatusBadge tone="private">Local only</StatusBadge>
+      </div>
+      {selectedPosture ? (
+        <p className="sr-only" aria-live="polite">
+          Posture: {selectedPosture.label}. {selectedPosture.next}
+        </p>
+      ) : null}
+
+      <div className="mt-4 grid gap-2">
+        {selectedSchedule.ownerPostures.map((posture) => {
+          const active = posture.label === selectedPosture?.label;
+
+          return (
+            <button
+              key={postureChoiceKey(selectedSchedule.id, posture.label)}
+              type="button"
+              aria-pressed={active}
+              onClick={() => onPostureChoice(posture.label)}
+              className={`link-focus rounded-[8px] border p-3 text-left transition ${
+                active
+                  ? "border-sky-200/65 bg-sky-200/16 text-white"
+                  : "border-slate-700 bg-[#07111f]/58 text-slate-300 hover:border-sky-200/35 hover:bg-white/[0.07]"
+              }`}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-sm font-semibold">{posture.label}</span>
+                <StatusBadge tone={posture.tone}>{posture.state}</StatusBadge>
+              </div>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{posture.detail}</p>
+            </button>
+          );
+        })}
+      </div>
+
+      {selectedPosture ? (
+        <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+          <h4 className="text-xs font-bold uppercase text-slate-400">If selected</h4>
+          <p className="mt-2 text-sm leading-6 text-slate-300">{selectedPosture.next}</p>
+        </div>
+      ) : null}
+
+      <div className="mt-4">
+        <h4 className="text-xs font-bold uppercase text-slate-400">Safe outputs</h4>
+        <div className="mt-3 grid gap-2">
+          {selectedSchedule.safeOutputs.map((output) => (
+            <div key={`${selectedSchedule.id}-${output.label}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">
+                  <CheckCircle2 size={15} aria-hidden />
+                  {output.label}
+                </span>
+                <StatusBadge tone={output.tone}>{output.state}</StatusBadge>
+              </div>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{output.detail}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -707,6 +854,7 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
   const filters = useMemo(() => filterOptions(data.schedules), [data.schedules]);
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedScheduleId, setSelectedScheduleId] = useState(data.schedules[0]?.id ?? "");
+  const [postureChoices, setPostureChoices] = useState<Record<string, string>>({});
 
   const visibleSchedules = useMemo(() => {
     if (activeFilter === "All") {
@@ -736,6 +884,15 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
     }
   }
 
+  const postureChoice = postureChoices[selectedSchedule.id] ?? selectedSchedule.ownerPostures[0]?.label ?? "";
+
+  function handlePostureChoice(choice: string) {
+    setPostureChoices((current) => ({
+      ...current,
+      [selectedSchedule.id]: choice
+    }));
+  }
+
   return (
     <div className="grid gap-5">
       <h1 className="sr-only">Private schedules rhythm register</h1>
@@ -743,8 +900,10 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
       <RhythmWorkbench
         schedules={visibleSchedules}
         selectedSchedule={selectedSchedule}
+        postureChoice={postureChoice}
         activeFilter={activeFilter}
         filters={filters}
+        onPostureChoice={handlePostureChoice}
         onFilterSelect={handleFilterSelect}
         onScheduleSelect={setSelectedScheduleId}
       />

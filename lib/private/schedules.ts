@@ -6,6 +6,7 @@ export type PrivateScheduleEvidence = {
   label: string;
   state: string;
   tone: ScheduleTone;
+  ready: boolean;
   detail: string;
 };
 
@@ -13,6 +14,21 @@ export type PrivateScheduleWindow = {
   label: string;
   time: string;
   detail: string;
+};
+
+export type PrivateScheduleStep = {
+  label: string;
+  state: string;
+  tone: ScheduleTone;
+  detail: string;
+};
+
+export type PrivateScheduleOwnerPosture = {
+  label: string;
+  state: string;
+  tone: ScheduleTone;
+  detail: string;
+  next: string;
 };
 
 export type PrivateSchedule = {
@@ -33,6 +49,9 @@ export type PrivateSchedule = {
   nextAction: string;
   window: PrivateScheduleWindow;
   evidence: readonly PrivateScheduleEvidence[];
+  readingSteps: readonly PrivateScheduleStep[];
+  safeOutputs: readonly PrivateScheduleStep[];
+  ownerPostures: readonly PrivateScheduleOwnerPosture[];
   dependencies: readonly string[];
   ownerGate: string;
   noGo: readonly string[];
@@ -80,19 +99,85 @@ export const privateSchedules = [
         label: "Priority inputs",
         state: "Ready",
         tone: "normal",
+        ready: true,
         detail: "Uses curated priorities and review queue state, not raw private prompts."
       },
       {
         label: "Approvals",
         state: "Visible",
         tone: "warning",
+        ready: true,
         detail: "Items that need owner decisions stay in review state."
       },
       {
         label: "Delivery",
         state: "No-send",
         tone: "private",
+        ready: false,
         detail: "This page does not send messages or trigger delivery."
+      }
+    ],
+    readingSteps: [
+      {
+        label: "Scan priorities",
+        state: "Readable",
+        tone: "normal",
+        detail: "Start with priorities, review queue pressure, and schedule constraints."
+      },
+      {
+        label: "Check owner gates",
+        state: "Required",
+        tone: "warning",
+        detail: "Identify decisions that need explicit owner action before the day moves."
+      },
+      {
+        label: "Hold delivery",
+        state: "Blocked",
+        tone: "private",
+        detail: "No message is sent and no reminder is triggered from this page."
+      }
+    ],
+    safeOutputs: [
+      {
+        label: "Operating brief",
+        state: "Allowed",
+        tone: "normal",
+        detail: "A short owner-readable plan with priorities, watch items, and review queue links."
+      },
+      {
+        label: "Review packet",
+        state: "Allowed",
+        tone: "info",
+        detail: "Decision items can be summarized for Review Queue without becoming execution state."
+      },
+      {
+        label: "Runtime action",
+        state: "Unavailable",
+        tone: "private",
+        detail: "Tool dispatch, delivery, or schedule mutation remains outside this surface."
+      }
+    ],
+    ownerPostures: [
+      {
+        label: "Read now",
+        state: "Owner read",
+        tone: "normal",
+        detail: "Treat this loop as the next item to inspect in the cockpit.",
+        next: "Read the brief, then move any decision into Review Queue or Command."
+      },
+      {
+        label: "Defer window",
+        state: "Safe hold",
+        tone: "info",
+        detail: "Leave the loop visible but do not promote it into today's work.",
+        next: "Keep the schedule unchanged and revisit at the next owner review window."
+      },
+      {
+        label: "Need more evidence",
+        state: "Needs proof",
+        tone: "warning",
+        detail: "Ask for more proof before trusting this recurring loop.",
+        next: "Open System Health or Review Queue; do not send or mutate the schedule."
       }
     ],
     dependencies: ["Review Queue", "Schedules", "System Health"],
@@ -125,19 +210,85 @@ export const privateSchedules = [
         label: "Research posture",
         state: "Held",
         tone: "normal",
+        ready: true,
         detail: "The schedule can prepare evidence, but cannot recommend or execute trades."
       },
       {
         label: "Source health",
         state: "Partial",
         tone: "warning",
+        ready: false,
         detail: "Market data health is summarized without showing accounts or broker details."
       },
       {
         label: "Execution",
         state: "Blocked",
         tone: "private",
+        ready: false,
         detail: "No broker, paper, live, or order path exists in the web cockpit."
+      }
+    ],
+    readingSteps: [
+      {
+        label: "Read context",
+        state: "Research-only",
+        tone: "normal",
+        detail: "Scan market context as evidence, not as advice or instruction."
+      },
+      {
+        label: "Check source health",
+        state: "Partial",
+        tone: "warning",
+        detail: "Treat degraded sources as a blocker, not something to smooth over."
+      },
+      {
+        label: "Hold execution",
+        state: "Blocked",
+        tone: "private",
+        detail: "No broker write, paper trade, live order, or recommendation can emerge here."
+      }
+    ],
+    safeOutputs: [
+      {
+        label: "Research note",
+        state: "Allowed",
+        tone: "normal",
+        detail: "A private evidence note for owner reading, clearly marked research-only."
+      },
+      {
+        label: "Evidence gap",
+        state: "Allowed",
+        tone: "warning",
+        detail: "A visible missing-source or disagreement row for future review."
+      },
+      {
+        label: "Trade instruction",
+        state: "Unavailable",
+        tone: "private",
+        detail: "No order, recommendation, position sizing, or account action is rendered."
+      }
+    ],
+    ownerPostures: [
+      {
+        label: "Read research",
+        state: "Owner read",
+        tone: "normal",
+        detail: "Use the schedule as a private research context scan.",
+        next: "Open Trading Team for evidence and gates; do not treat this as a trade action."
+      },
+      {
+        label: "Hold for sources",
+        state: "Needs proof",
+        tone: "warning",
+        detail: "Pause interpretation when source health is incomplete.",
+        next: "Keep the loop visible and require source evidence before summary."
+      },
+      {
+        label: "Defer trading",
+        state: "No action",
+        tone: "private",
+        detail: "Leave research untouched for this window.",
+        next: "No schedule mutation, order path, or recommendation is created."
       }
     ],
     dependencies: ["Trading Team", "Evidence gates", "Source health"],
@@ -170,19 +321,85 @@ export const privateSchedules = [
         label: "Auth gate",
         state: "Required",
         tone: "private",
+        ready: true,
         detail: "Private routes must redirect before owner-only shell content renders."
       },
       {
         label: "Public boundary",
         state: "Required",
         tone: "warning",
+        ready: true,
         detail: "Public Doraemon status stays separate from private diagnostics."
       },
       {
         label: "Repair controls",
         state: "Unavailable",
         tone: "private",
+        ready: false,
         detail: "Restart, deploy, purge, and raw log actions are not rendered."
+      }
+    ],
+    readingSteps: [
+      {
+        label: "Check boundary",
+        state: "Required",
+        tone: "warning",
+        detail: "Confirm public and private health views stay separate."
+      },
+      {
+        label: "Read posture",
+        state: "Readable",
+        tone: "normal",
+        detail: "Summarize route gates, event freshness, and attention areas."
+      },
+      {
+        label: "Hold repair",
+        state: "Unavailable",
+        tone: "private",
+        detail: "No restart, deploy, log, or purge affordance belongs in this surface."
+      }
+    ],
+    safeOutputs: [
+      {
+        label: "Health note",
+        state: "Allowed",
+        tone: "normal",
+        detail: "A private summary of posture and attention areas."
+      },
+      {
+        label: "Review item",
+        state: "Allowed",
+        tone: "info",
+        detail: "A future Review Queue packet can be created after separate implementation."
+      },
+      {
+        label: "Repair command",
+        state: "Unavailable",
+        tone: "private",
+        detail: "No operational command or raw service detail is exposed here."
+      }
+    ],
+    ownerPostures: [
+      {
+        label: "Read health",
+        state: "Owner read",
+        tone: "normal",
+        detail: "Use this window to inspect safe service posture.",
+        next: "Open System Health for details; keep repair work outside the schedule surface."
+      },
+      {
+        label: "Escalate review",
+        state: "Review needed",
+        tone: "warning",
+        detail: "Treat an attention area as a future Review Queue item.",
+        next: "Draft a reviewed packet; do not add repair controls to schedules."
+      },
+      {
+        label: "Hold repairs",
+        state: "Blocked",
+        tone: "private",
+        detail: "Keep operations read-only until audit and rollback design exists.",
+        next: "No restart, deploy, purge, or raw log action is created."
       }
     ],
     dependencies: ["System Health", "Doraemon public boundary", "Owner auth gate"],
@@ -215,19 +432,85 @@ export const privateSchedules = [
         label: "Shipped work",
         state: "Collected",
         tone: "info",
+        ready: true,
         detail: "Summaries should link to reviewed PRs or deployment evidence."
       },
       {
         label: "Deferred work",
         state: "Visible",
         tone: "warning",
+        ready: true,
         detail: "Open decisions stay visible instead of silently becoming tasks."
       },
       {
         label: "Promotion",
         state: "Blocked",
         tone: "private",
+        ready: false,
         detail: "Review notes cannot become execution state from this page."
+      }
+    ],
+    readingSteps: [
+      {
+        label: "Collect shipped work",
+        state: "Collected",
+        tone: "info",
+        detail: "Review shipped PRs, deployments, and verification evidence."
+      },
+      {
+        label: "Name deferrals",
+        state: "Visible",
+        tone: "warning",
+        detail: "Keep postponed work explicit instead of letting it vanish."
+      },
+      {
+        label: "Hold promotion",
+        state: "Blocked",
+        tone: "private",
+        detail: "Review notes cannot become next-week execution without owner approval."
+      }
+    ],
+    safeOutputs: [
+      {
+        label: "Weekly packet",
+        state: "Allowed",
+        tone: "normal",
+        detail: "A private review packet of shipped, deferred, blocked, and candidate work."
+      },
+      {
+        label: "Next-slice shortlist",
+        state: "Owner-gated",
+        tone: "warning",
+        detail: "Candidate work stays reviewable until the owner chooses the next slice."
+      },
+      {
+        label: "Auto-plan",
+        state: "Unavailable",
+        tone: "private",
+        detail: "No automatic planning mutation or task promotion is rendered."
+      }
+    ],
+    ownerPostures: [
+      {
+        label: "Review now",
+        state: "Owner review",
+        tone: "warning",
+        detail: "Use this loop to choose what should shape the next week.",
+        next: "Move chosen items into Command or Review Queue after owner decision."
+      },
+      {
+        label: "Defer close",
+        state: "Safe hold",
+        tone: "info",
+        detail: "Keep the weekly packet open until evidence is complete.",
+        next: "Do not auto-promote postponed work."
+      },
+      {
+        label: "Need proof",
+        state: "Needs evidence",
+        tone: "warning",
+        detail: "Ask for PR, deployment, or review evidence before closing the week.",
+        next: "Attach evidence first; leave execution unavailable."
       }
     ],
     dependencies: ["Review Queue", "Agents", "Deploy evidence"],
