@@ -55,7 +55,7 @@ Private app routes:
 - `/app/command`
 - `/app/trading`
 - `/app/agents`
-- `/app/events`
+- `/app/review`
 - `/app/settings`
 
 ## Important Boundaries
@@ -147,7 +147,7 @@ Production should set a strong `APP_ACCESS_TOKEN` in Vercel.
 
 - Replace Doraemon static mock with constrained public content retrieval and API rate limiting.
 - Add Cloudflare Turnstile or equivalent bot protection for public forms/API.
-- Connect `/app/events` to a real authenticated event stream.
+- Connect `/app/review` to a real authenticated owner review stream.
 - Connect `/app/trading` to read-only artifacts from MiniDora Trading.
 - Add real contact mailbox routing for `hello@weiyudang.com`.
 - Add more lab notes and project pages as the system grows.

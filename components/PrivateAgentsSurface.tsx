@@ -635,7 +635,7 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
               </div>
               <p className="mt-2 text-xs leading-5 text-slate-400">Prepare a mission packet for the selected agent lane.</p>
             </Link>
-            <Link href="/app/events" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
+            <Link href="/app/review" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2 text-sm font-semibold text-white">
                   <ClipboardCheck size={17} aria-hidden />
@@ -941,7 +941,7 @@ function HandoffsAndQueue({
             </article>
           ))}
         </div>
-        <Link href="/app/events" className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100 hover:text-white">
+        <Link href="/app/review" className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100 hover:text-white">
           Open Review Queue
           <LineChart size={15} aria-hidden />
         </Link>

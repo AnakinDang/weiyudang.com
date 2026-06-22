@@ -368,7 +368,7 @@ function LoopPanel() {
             <ArrowRight size={16} aria-hidden />
           </Link>
           <Link
-            href="/app/events"
+            href="/app/review"
             className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
           >
             Review Queue
@@ -482,7 +482,7 @@ function ReviewQueueRail({ reviewQueue }: { reviewQueue: readonly ReviewItem[] }
           </article>
         ))}
       </div>
-      <Link href="/app/events" className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100 transition hover:text-white">
+      <Link href="/app/review" className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100 transition hover:text-white">
         Open review queue
         <ArrowRight size={15} aria-hidden />
       </Link>

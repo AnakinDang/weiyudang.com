@@ -161,7 +161,7 @@ Routes:
 - `/app/command`
 - `/app/trading`
 - `/app/agents`
-- `/app/events`
+- `/app/review`
 - `/app/settings`
 - future `/app/schedules`
 - future `/app/knowledge`
