@@ -243,7 +243,7 @@ export const publicDoraScheduleToneClasses = {
 
 export const publicScheduleBoundaries = [
   "Only coarse cadence and next-window labels are public.",
-  "No scheduler command strings, local paths, private prompts, or controls are rendered.",
+  "No private automation details, source material, or controls are rendered.",
   "Research schedules remain read-only and cannot change private systems."
 ] as const;
 
@@ -347,7 +347,7 @@ export const publicDoraOperatingRhythm = [
     tone: primaryPublicSchedule.tone,
     window: primaryPublicSchedule.cadence,
     signal: primaryPublicSchedule.summary,
-    boundary: "No scheduler commands, exact triggers, or source material render publicly."
+    boundary: "No private automation details, exact triggers, or source material render publicly."
   },
   {
     stage: "Task posture",
