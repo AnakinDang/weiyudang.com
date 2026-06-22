@@ -200,7 +200,7 @@ export function SystemHealthPanel({
     : "Safe snapshot";
   const activeFilterLabels = [
     { key: "state", label: toneFilter === "all" ? "All public signals" : toneFilterLabels[toneFilter] },
-    { key: "privacy", label: "No diagnostics" },
+    { key: "privacy", label: "No private details" },
     { key: "mode", label: "Display-only" }
   ];
 
@@ -289,7 +289,7 @@ export function SystemHealthPanel({
                 <Eye size={18} aria-hidden />
                 <div>
                   <h4>No public health check matches this filter</h4>
-                  <p>Try a broader signal. Private diagnostics remain hidden.</p>
+                  <p>Try a broader signal. Private operational detail remains hidden.</p>
                 </div>
                 <button type="button" onClick={() => setToneFilter("all")}>
                   Show all
@@ -374,7 +374,7 @@ export function SystemHealthPanel({
               </StatusBadge>
             </div>
             <p className="dora-system-probe-copy">
-              Reads only the public health summary. Raw events, task titles, paths, and diagnostics are not rendered.
+              Reads only the public health summary. Private operational detail is not rendered.
             </p>
             <dl>
               <div>
@@ -395,7 +395,7 @@ export function SystemHealthPanel({
           <section className="dora-system-owner-card" aria-label="Owner operations boundary">
             <LockKeyhole size={20} aria-hidden />
             <strong>Owner cockpit</strong>
-            <p>Owner-only diagnostic actions stay behind authenticated access.</p>
+            <p>Owner-only operations stay behind authenticated access.</p>
           </section>
 
           <section className="dora-system-link-card" aria-label="Activity bridge">

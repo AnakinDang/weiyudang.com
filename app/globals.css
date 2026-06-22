@@ -32660,3 +32660,592 @@ textarea {
     align-items: start;
   }
 }
+
+/* Step 48: Doraemon System health register-first dashboard polish.
+   Keep after Step 27 and the shared route dock rules; this block intentionally tightens their baseline. */
+.dora-system-landing .dora-office-route-dock-wrap {
+  width: min(100% - 2.4rem, 1510px);
+  margin-top: 0.76rem;
+}
+
+.dora-system-landing .dora-office-route-dock {
+  min-height: 3.06rem;
+}
+
+.dora-system-landing .dora-office-route-dock-link {
+  min-height: 2.34rem;
+}
+
+.dora-system-landing .dora-office-route-dock-posture {
+  min-height: 2.78rem;
+}
+
+.dora-office-route-dock-wrap + .dora-system-landing-hero {
+  min-height: min(660px, calc(100svh - 8.75rem));
+  padding-top: clamp(1rem, 1.8vw, 1.55rem);
+}
+
+.dora-system-landing-hero-grid {
+  grid-template-columns: minmax(26rem, 0.4fr) minmax(35rem, 0.6fr);
+  gap: clamp(1.4rem, 3vw, 3.1rem);
+}
+
+.dora-system-landing-copy {
+  gap: 1.16rem;
+  padding-bottom: clamp(0.4rem, 2vw, 1.45rem);
+}
+
+.dora-system-landing-copy h1 {
+  font-size: clamp(4rem, 6.15vw, 6.1rem);
+}
+
+.dora-system-landing-copy > p {
+  font-size: clamp(1.06rem, 1.32vw, 1.24rem);
+}
+
+.dora-system-landing-actions {
+  gap: 1.18rem;
+}
+
+.dora-system-command-stage {
+  min-height: clamp(31.5rem, 43vw, 38rem);
+}
+
+.dora-system-command-room {
+  inset: 4.2% 0 11.5%;
+}
+
+.dora-system-command-boundary {
+  top: 15%;
+  right: 4.2%;
+}
+
+.dora-system-command-ring-1 {
+  bottom: 8.75rem;
+  height: 15.2rem;
+}
+
+.dora-system-command-ring-2 {
+  bottom: 10.7rem;
+  height: 9.3rem;
+}
+
+.dora-system-command-ring-3 {
+  bottom: 12.45rem;
+  height: 5rem;
+}
+
+.dora-system-command-hub {
+  bottom: 13.62rem;
+}
+
+.dora-system-command-node {
+  min-width: 8.55rem;
+}
+
+.dora-system-command-node-1 {
+  left: 12%;
+  bottom: 20.1rem;
+}
+
+.dora-system-command-node-2 {
+  right: 29%;
+  bottom: 19.8rem;
+}
+
+.dora-system-command-node-3 {
+  left: 10%;
+  bottom: 12.45rem;
+}
+
+.dora-system-command-node-4 {
+  right: 22%;
+  bottom: 12.05rem;
+}
+
+.dora-system-command-strip {
+  right: 5.2%;
+  bottom: 2.68rem;
+  left: 7.2%;
+  grid-template-columns: minmax(7rem, 0.18fr) minmax(0, 0.82fr);
+}
+
+.dora-system-command-strip ol {
+  grid-template-columns: repeat(4, minmax(5.7rem, 1fr));
+}
+
+.dora-system-register-section {
+  padding-top: clamp(2.05rem, 3.8vw, 3.35rem);
+}
+
+.dora-system-register-heading {
+  margin-bottom: 1rem;
+}
+
+.dora-system-log-stats article {
+  padding: 0.78rem;
+}
+
+.dora-system-register .dora-system-controls {
+  padding: 0.92rem;
+}
+
+.dora-system-register-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(18.5rem, 0.36fr);
+  gap: 0.86rem;
+}
+
+.dora-system-status-board,
+.dora-system-stream-card,
+.dora-system-boundary-card,
+.dora-system-probe-card,
+.dora-system-owner-card,
+.dora-system-link-card {
+  border-radius: 8px;
+}
+
+.dora-system-status-row {
+  min-height: 6.45rem;
+  gap: 0.72rem;
+  padding: 0.82rem;
+}
+
+.dora-system-event {
+  padding: 0.72rem;
+}
+
+.dora-system-side {
+  gap: 0.86rem;
+}
+
+.dora-system-status-board,
+.dora-system-stream-card,
+.dora-system-boundary-card,
+.dora-system-probe-card,
+.dora-system-owner-card,
+.dora-system-link-card {
+  padding: 1rem;
+}
+
+.dora-system-boundary-section {
+  padding-block: clamp(1.9rem, 3.2vw, 3.1rem);
+}
+
+.dora-system-principles-section {
+  padding-block: clamp(1.15rem, 1.9vw, 1.62rem);
+}
+
+.dora-system-principles-grid article {
+  min-height: 6.2rem;
+  padding: 0.86rem;
+}
+
+@media (max-width: 1320px) and (min-width: 1181px) {
+  .dora-system-landing-hero-grid {
+    grid-template-columns: minmax(24rem, 0.42fr) minmax(32rem, 0.58fr);
+    width: min(100% - 4.25rem, 1180px);
+  }
+
+  .dora-system-command-stage {
+    min-height: clamp(29.5rem, 41vw, 34.5rem);
+  }
+
+  .dora-system-command-boundary {
+    right: 2%;
+    width: min(15.2rem, 31%);
+  }
+
+  .dora-system-command-boundary > p {
+    font-size: 0.82rem;
+  }
+
+  .dora-system-command-boundary div:nth-of-type(3) {
+    display: none;
+  }
+
+  .dora-system-command-ring-1 {
+    bottom: 7.9rem;
+    height: 13.7rem;
+  }
+
+  .dora-system-command-ring-2 {
+    bottom: 9.62rem;
+    height: 8.3rem;
+  }
+
+  .dora-system-command-ring-3 {
+    bottom: 11.15rem;
+    height: 4.4rem;
+  }
+
+  .dora-system-command-hub {
+    bottom: 12.1rem;
+  }
+
+  .dora-system-command-node {
+    min-width: 7.55rem;
+  }
+
+  .dora-system-command-node-1 {
+    left: 7%;
+    bottom: 16.9rem;
+  }
+
+  .dora-system-command-node-2 {
+    right: 36%;
+    bottom: 17rem;
+  }
+
+  .dora-system-command-node-3 {
+    left: 6%;
+    bottom: 10.9rem;
+  }
+
+  .dora-system-command-node-4 {
+    right: 16%;
+    bottom: 10.7rem;
+  }
+
+  .dora-system-command-strip {
+    right: 3.5%;
+    left: 6%;
+  }
+}
+
+@media (max-width: 1180px) {
+  .dora-office-route-dock-wrap + .dora-system-landing-hero {
+    min-height: auto;
+  }
+
+  .dora-system-landing-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 0.38rem;
+  }
+
+  .dora-system-command-visual,
+  .dora-system-command-stage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dora-system-command-stage {
+    min-height: clamp(28rem, 55vw, 35rem);
+  }
+
+  .dora-system-register-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-system-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 981px) {
+  .dora-office-route-dock-wrap + .dora-system-landing-hero {
+    min-height: min(620px, calc(100svh - 8.75rem));
+  }
+
+  .dora-system-landing-hero-grid {
+    grid-template-columns: minmax(21rem, 0.42fr) minmax(28rem, 0.58fr);
+    width: min(100% - 3rem, 1020px);
+    gap: clamp(1rem, 2.2vw, 1.8rem);
+  }
+
+  .dora-system-command-stage {
+    min-height: clamp(25rem, 42vw, 29rem);
+  }
+
+  .dora-system-command-boundary {
+    right: 2%;
+    width: min(14.4rem, 32%);
+  }
+
+  .dora-system-command-boundary div:nth-of-type(3) {
+    display: none;
+  }
+
+  .dora-system-command-node {
+    min-width: 7.1rem;
+  }
+
+  .dora-system-command-node-1 {
+    left: 5%;
+    bottom: 15.3rem;
+  }
+
+  .dora-system-command-node-2 {
+    right: 34%;
+    bottom: 17.8rem;
+  }
+
+  .dora-system-command-node-3 {
+    left: 4%;
+    bottom: 9.8rem;
+  }
+
+  .dora-system-command-node-4 {
+    right: 14%;
+    bottom: 9.55rem;
+  }
+
+  .dora-system-command-strip {
+    right: 3%;
+    left: 4%;
+  }
+}
+
+@media (max-width: 760px) {
+  .dora-system-landing .dora-office-route-dock-wrap {
+    width: min(100% - 1rem, 42rem);
+    margin-top: 0.52rem;
+  }
+
+  .dora-system-landing .dora-office-route-dock {
+    grid-template-columns: 1fr;
+    min-height: 2.8rem;
+  }
+
+  .dora-system-landing .dora-office-route-dock-brand,
+  .dora-system-landing .dora-office-route-dock-posture {
+    display: none;
+  }
+
+  .dora-system-landing .dora-office-route-dock-links {
+    padding: 0.42rem 0.5rem;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1.05rem), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1.05rem), transparent 100%);
+  }
+
+  .dora-system-landing .dora-office-route-dock-link {
+    min-height: 2.1rem;
+    padding-inline: 0.58rem;
+    font-size: 0.73rem;
+  }
+
+  .dora-office-route-dock-wrap + .dora-system-landing-hero {
+    padding-top: 1.12rem;
+  }
+
+  .dora-system-landing-copy h1 {
+    font-size: clamp(3rem, 13.8vw, 4.1rem);
+  }
+
+  .dora-system-landing-copy > p {
+    max-width: 23.5rem;
+    font-size: 0.98rem;
+    line-height: 1.48;
+  }
+
+  .dora-system-landing-actions {
+    gap: 0.82rem;
+  }
+
+  .dora-system-landing-actions .dora-office-primary-cta {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .dora-system-command-stage {
+    min-height: 21.9rem;
+  }
+
+  .dora-system-command-room {
+    inset: 3.1rem 0 5.3rem;
+  }
+
+  .dora-system-command-boundary {
+    top: 0.52rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    padding: 0.58rem 0.62rem;
+  }
+
+  .dora-system-command-boundary div {
+    width: 49%;
+  }
+
+  .dora-system-command-ring-1 {
+    bottom: 7.2rem;
+    height: 10.4rem;
+  }
+
+  .dora-system-command-ring-2 {
+    bottom: 8.5rem;
+    height: 6.2rem;
+  }
+
+  .dora-system-command-ring-3 {
+    bottom: 9.65rem;
+    height: 3.3rem;
+  }
+
+  .dora-system-command-hub {
+    bottom: 10.35rem;
+  }
+
+  .dora-system-command-hub svg {
+    width: 2.65rem;
+    height: 2.65rem;
+  }
+
+  .dora-system-command-node {
+    min-width: 6.65rem;
+    padding: 0.46rem 0.52rem;
+  }
+
+  .dora-system-command-node-1 {
+    right: auto;
+    bottom: 12.35rem;
+    left: 3%;
+  }
+
+  .dora-system-command-node-2 {
+    right: 3%;
+    bottom: 12.15rem;
+  }
+
+  .dora-system-command-node-3 {
+    right: auto;
+    bottom: 8.65rem;
+    left: 5%;
+  }
+
+  .dora-system-command-node-4 {
+    right: 5%;
+    bottom: 8.45rem;
+  }
+
+  .dora-system-command-strip {
+    right: 0.2rem;
+    bottom: 0.36rem;
+    left: 0.2rem;
+    padding: 0.62rem;
+  }
+
+  .dora-system-command-strip ol {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .dora-system-command-strip li {
+    flex: 0 0 8rem;
+    scroll-snap-align: start;
+  }
+
+  .dora-system-register-section {
+    padding-top: 1.7rem;
+  }
+
+  .dora-system-register-heading {
+    gap: 0.85rem;
+  }
+
+  .dora-system-log-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.46rem;
+  }
+
+  .dora-system-log-stats article {
+    padding: 0.68rem;
+  }
+
+  .dora-system-log-stats strong {
+    font-size: 1.28rem;
+  }
+
+  .dora-system-filter-group {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.08rem;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1rem), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1rem), transparent 100%);
+  }
+
+  .dora-system-filter-group button {
+    flex: 0 0 auto;
+  }
+
+  .dora-system-status-row {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    padding: 0.78rem;
+  }
+
+  .dora-system-event {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .dora-system-event .status-badge {
+    grid-column: 2;
+    width: fit-content;
+  }
+
+  .dora-system-side {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-system-probe-card dl {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-system-boundary-section,
+  .dora-system-principles-section {
+    padding-block: 1.7rem;
+  }
+
+  .dora-system-boundary-diagram > div {
+    min-height: auto;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .dora-system-landing-hero-grid,
+  .dora-system-landing-section > .container {
+    width: min(calc(100% - 1.05rem), 42rem);
+  }
+
+  .dora-system-landing-copy h1 {
+    font-size: clamp(2.85rem, 13.4vw, 3.72rem);
+  }
+
+  .dora-system-command-stage {
+    min-height: 20.5rem;
+  }
+
+  .dora-system-command-node {
+    min-width: 6rem;
+  }
+
+  .dora-system-command-node strong {
+    font-size: 0.68rem;
+  }
+
+  .dora-system-command-node small {
+    font-size: 0.6rem;
+  }
+
+  .dora-system-landing-section {
+    padding-block: 1.85rem;
+  }
+
+  .dora-system-register-section {
+    padding-top: 1.55rem;
+  }
+
+  .dora-system-register-heading h2,
+  .dora-system-continuation-section h2 {
+    font-size: clamp(1.56rem, 8vw, 2.05rem);
+  }
+
+  .dora-system-register-heading p {
+    font-size: 0.94rem;
+  }
+
+  .dora-system-controls-head {
+    align-items: start;
+  }
+}

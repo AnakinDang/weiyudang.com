@@ -159,7 +159,7 @@ export const publicDoraTasks = [
     agentRole: "Trading research",
     updated: "Recent",
     severity: "normal",
-    summary: "Research-only context is being prepared without account data or execution paths."
+    summary: "Research-only context is being prepared without account data or execution detail."
   },
   {
     publicKey: "t_9adc74a6",
@@ -179,7 +179,7 @@ export const publicDoraTasks = [
     agentRole: "System health",
     updated: "Recent",
     severity: "warning",
-    summary: "A public-safe attention state is visible while private diagnostics, paths, and owner actions stay hidden."
+    summary: "A public-safe attention state is visible while private operational detail and owner actions stay hidden."
   }
 ] as const;
 
@@ -316,7 +316,7 @@ export const publicSystemToneClasses = {
 
 export const publicSystemBoundaries = [
   "Public visitors can see live/demo posture and public schema health.",
-  "Private infrastructure details, credentials, and diagnostic logs stay behind owner access.",
+  "Private operational detail and owner-only operations stay behind owner access.",
   "This page is display-only and cannot change public or private systems."
 ] as const;
 
@@ -357,7 +357,7 @@ export const publicDoraOperatingRhythm = [
     tone: primaryPublicTask.tone,
     window: primaryPublicTask.agentRole,
     signal: primaryPublicTask.summary,
-    boundary: "No private task names, owner notes, project paths, or controls appear."
+    boundary: "No private task names, owner notes, source material, or controls appear."
   },
   {
     stage: "System health",
@@ -367,7 +367,7 @@ export const publicDoraOperatingRhythm = [
     tone: primaryPublicSystemStatus.tone,
     window: "Health rail",
     signal: primaryPublicSystemStatus.detail,
-    boundary: "No diagnostics, host details, local ports, or credential material render."
+    boundary: "No private operational detail or owner-only operations render."
   },
   {
     stage: "Activity",
