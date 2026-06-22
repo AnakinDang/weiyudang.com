@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import {
   AlertTriangle,
   ArrowRight,
+  CheckCircle2,
   ClipboardCheck,
   Clock3,
   FileSearch,
@@ -26,6 +27,7 @@ type ReviewQueueEvidence = {
   label: string;
   state: string;
   tone: ReviewQueueTone;
+  ready: boolean;
   detail: string;
 };
 
@@ -33,6 +35,21 @@ type ReviewQueueCheckpoint = {
   label: string;
   state: string;
   tone: ReviewQueueTone;
+};
+
+type ReviewQueueDecisionOption = {
+  label: string;
+  state: string;
+  tone: ReviewQueueTone;
+  detail: string;
+  next: string;
+};
+
+type ReviewQueueGate = {
+  label: string;
+  state: string;
+  tone: ReviewQueueTone;
+  detail: string;
 };
 
 type ReviewQueueItem = {
@@ -50,6 +67,8 @@ type ReviewQueueItem = {
   evidence: readonly string[];
   evidenceCards: readonly ReviewQueueEvidence[];
   checkpoints: readonly ReviewQueueCheckpoint[];
+  decisionOptions: readonly ReviewQueueDecisionOption[];
+  reviewGates: readonly ReviewQueueGate[];
   blockers: readonly string[];
   allowedNext: string;
   disallowedActions: readonly string[];
@@ -81,12 +100,12 @@ type ReviewQueueData = {
 
 const unavailableActions = ["Approve and execute", "Reject and run", "Public publish", "Runtime dispatch"] as const;
 const flowSteps = [
-  { label: "Packet created", detail: "Prepared by agent", icon: ClipboardCheck },
-  { label: "Evidence collected", detail: "Proof and gaps named", icon: FileSearch },
-  { label: "Owner review", detail: "You inspect here", icon: ShieldCheck },
-  { label: "Owner gates", detail: "Next step stays explicit", icon: LockKeyhole },
-  { label: "Implements later", detail: "Only after gates open", icon: GitBranch }
-] as const satisfies readonly { label: string; detail: string; icon: LucideIcon }[];
+  { id: "packet", label: "Packet created", detail: "Prepared by agent", icon: ClipboardCheck },
+  { id: "evidence", label: "Evidence collected", detail: "Proof and gaps named", icon: FileSearch },
+  { id: "owner-review", label: "Owner review", detail: "You inspect here", icon: ShieldCheck },
+  { id: "owner-gates", label: "Owner gates", detail: "Next step stays explicit", icon: LockKeyhole },
+  { id: "implementation", label: "Implementation later", detail: "Only after gates open", icon: GitBranch }
+] as const satisfies readonly { id: string; label: string; detail: string; icon: LucideIcon }[];
 
 function urgencyTone(urgency: string): ReviewQueueTone {
   if (urgency === "Now") {
@@ -101,12 +120,16 @@ function urgencyTone(urgency: string): ReviewQueueTone {
 }
 
 function evidenceSummary(item: ReviewQueueItem) {
-  const ready = item.evidenceCards.filter((card) => card.tone === "normal" || card.state === "Visible").length;
+  const ready = item.evidenceCards.filter((card) => card.ready).length;
   return `${ready} / ${item.evidenceCards.length}`;
 }
 
 function laneItemLabel(count: string) {
   return count === "1" ? "item" : "items";
+}
+
+function optionChoiceKey(itemId: string, label: string) {
+  return `${itemId}:${label}`;
 }
 
 function uniqueLanes(items: readonly ReviewQueueItem[]) {
@@ -179,7 +202,7 @@ function ReviewHero({
             <div className="mt-4 grid gap-3 md:grid-cols-5">
               {flowSteps.map((step, index) => {
                 const Icon = step.icon;
-                const active = step.label === "Owner review";
+                const active = step.id === "owner-review";
 
                 return (
                   <div
@@ -341,15 +364,19 @@ function QueueList({
 function EvidenceWorkbench({
   items,
   selectedItem,
+  draftChoice,
   activeLane,
   lanes,
+  onDraftChoice,
   onLaneSelect,
   onItemSelect
 }: {
   items: readonly ReviewQueueItem[];
   selectedItem: ReviewQueueItem;
+  draftChoice: string;
   activeLane: string;
   lanes: readonly string[];
+  onDraftChoice: (choice: string) => void;
   onLaneSelect: (lane: string) => void;
   onItemSelect: (id: string) => void;
 }) {
@@ -432,9 +459,28 @@ function EvidenceWorkbench({
             </div>
             <p className="mt-3 text-sm leading-6 text-slate-300">{selectedItem.note}</p>
           </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_12rem]">
+            <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Evidence requested</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {selectedItem.evidence.map((evidence) => (
+                  <span key={`${selectedItem.id}-${evidence}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-1.5 text-xs font-semibold text-slate-300">
+                    {evidence}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Updated</p>
+              <p className="mt-3 text-sm font-semibold text-white">{selectedItem.updated}</p>
+            </div>
+          </div>
         </article>
 
         <aside className="grid gap-4 xl:col-span-2 2xl:col-span-1">
+          <DecisionPlanner selectedItem={selectedItem} draftChoice={draftChoice} onDraftChoice={onDraftChoice} />
+
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs font-bold uppercase text-slate-400">Evidence</p>
@@ -473,6 +519,99 @@ function EvidenceWorkbench({
             <p className="mt-2 text-sm leading-6 text-slate-300">{selectedItem.allowedNext}</p>
           </div>
         </aside>
+      </div>
+    </section>
+  );
+}
+
+function DecisionPlanner({
+  selectedItem,
+  draftChoice,
+  onDraftChoice
+}: {
+  selectedItem: ReviewQueueItem;
+  draftChoice: string;
+  onDraftChoice: (choice: string) => void;
+}) {
+  const selectedOption = selectedItem.decisionOptions.find((option) => option.label === draftChoice) ?? selectedItem.decisionOptions[0];
+
+  return (
+    <section className="rounded-[8px] border border-sky-300/35 bg-sky-300/10 p-4" aria-labelledby="decision-planner-title">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2 text-sky-100">
+            <ShieldCheck size={17} aria-hidden />
+            <h3 id="decision-planner-title" className="text-sm font-semibold">
+              Owner decision draft
+            </h3>
+          </div>
+          <p className="mt-2 text-xs leading-5 text-slate-400">
+            Choose a local review posture for this packet. No API call, approval, publish, or dispatch is sent.
+          </p>
+        </div>
+        <StatusBadge tone="private">Local only</StatusBadge>
+      </div>
+
+      <div className="mt-4 grid gap-2">
+        {selectedItem.decisionOptions.map((option) => {
+          const active = option.label === selectedOption?.label;
+
+          return (
+            <button
+              key={optionChoiceKey(selectedItem.id, option.label)}
+              type="button"
+              aria-pressed={active}
+              onClick={() => onDraftChoice(option.label)}
+              className={`link-focus rounded-[8px] border p-3 text-left transition ${
+                active
+                  ? "border-sky-200/65 bg-sky-200/16 text-white"
+                  : "border-slate-700 bg-[#07111f]/58 text-slate-300 hover:border-sky-200/35 hover:bg-white/[0.07]"
+              }`}
+            >
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-sm font-semibold">{option.label}</span>
+                <StatusBadge tone={option.tone}>{option.state}</StatusBadge>
+              </div>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{option.detail}</p>
+            </button>
+          );
+        })}
+      </div>
+
+      {selectedOption ? (
+        <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+          <p className="text-xs font-bold uppercase text-slate-400">If selected</p>
+          <p className="mt-2 text-sm leading-6 text-slate-300">{selectedOption.next}</p>
+        </div>
+      ) : null}
+
+      <div className="mt-4">
+        <p className="text-xs font-bold uppercase text-slate-400">Gates before merge</p>
+        <div className="mt-3 grid gap-2">
+          {selectedItem.reviewGates.map((gate) => (
+            <div key={`${selectedItem.id}-${gate.label}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">
+                  <CheckCircle2 size={15} aria-hidden />
+                  {gate.label}
+                </span>
+                <StatusBadge tone={gate.tone}>{gate.state}</StatusBadge>
+              </div>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{gate.detail}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <p className="text-xs font-bold uppercase text-slate-400">Still unavailable</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {selectedItem.disallowedActions.map((action) => (
+            <span key={`${selectedItem.id}-${action}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 px-3 py-1.5 text-xs font-semibold text-slate-300">
+              {action}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -628,6 +767,7 @@ export function OwnerReviewQueueSurface({ data }: { data: ReviewQueueData }) {
   const lanes = useMemo(() => uniqueLanes(data.queue), [data.queue]);
   const [activeLane, setActiveLane] = useState("All lanes");
   const [selectedItemId, setSelectedItemId] = useState(data.queue[0]?.id ?? "");
+  const [draftChoices, setDraftChoices] = useState<Record<string, string>>({});
 
   const visibleQueue = useMemo(() => {
     if (activeLane === "All lanes") {
@@ -651,14 +791,25 @@ export function OwnerReviewQueueSurface({ data }: { data: ReviewQueueData }) {
     }
   }
 
+  const draftChoice = draftChoices[selectedItem.id] ?? selectedItem.decisionOptions[0]?.label ?? "";
+
+  function handleDraftChoice(choice: string) {
+    setDraftChoices((current) => ({
+      ...current,
+      [selectedItem.id]: choice
+    }));
+  }
+
   return (
     <div className="grid gap-5">
       <ReviewHero currentItem={selectedItem} data={data} />
       <EvidenceWorkbench
         items={visibleQueue}
         selectedItem={selectedItem}
+        draftChoice={draftChoice}
         activeLane={activeLane}
         lanes={lanes}
+        onDraftChoice={handleDraftChoice}
         onLaneSelect={handleLaneSelect}
         onItemSelect={setSelectedItemId}
       />
