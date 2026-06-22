@@ -230,6 +230,35 @@ export default function DoraSystemPage() {
           </div>
         </section>
 
+        <section
+          className="dora-system-landing-section dora-system-register-section"
+          id="public-health-register"
+          aria-labelledby="public-health-register-title"
+        >
+          <div className="container dora-system-register-heading">
+            <div>
+              <h2 id="public-health-register-title">Public Health Register</h2>
+              <p>Live relay health resolves into safe labels and aggregate counts. Private operations never render.</p>
+            </div>
+            <div className="dora-system-log-stats" aria-label="Public system summary">
+              {systemStats.map((stat) => {
+                const Icon = stat.icon;
+
+                return (
+                  <article key={stat.label}>
+                    <Icon size={20} aria-hidden />
+                    <strong>{stat.value}</strong>
+                    <span>{stat.label}</span>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+          <div className="container">
+            <SystemHealthPanel statuses={publicSystemStatus} events={publicSystemEvents} boundaries={publicSystemBoundaries} />
+          </div>
+        </section>
+
         <section className="dora-system-landing-section dora-system-boundary-section" aria-labelledby="dora-system-boundary-title">
           <div className="container dora-system-boundary-grid">
             <div className="dora-system-section-copy">
@@ -302,35 +331,6 @@ export default function DoraSystemPage() {
           title="System health closes the public readiness loop"
           summary="The public dashboard can say whether the office window is healthy without becoming an operations console."
         />
-
-        <section
-          className="dora-system-landing-section dora-system-register-section"
-          id="public-health-register"
-          aria-labelledby="public-health-register-title"
-        >
-          <div className="container dora-system-register-heading">
-            <div>
-              <h2 id="public-health-register-title">Public Health Register</h2>
-              <p>Live relay health resolves into safe labels and aggregate counts. Private diagnostics never render.</p>
-            </div>
-            <div className="dora-system-log-stats" aria-label="Public system summary">
-              {systemStats.map((stat) => {
-                const Icon = stat.icon;
-
-                return (
-                  <article key={stat.label}>
-                    <Icon size={20} aria-hidden />
-                    <strong>{stat.value}</strong>
-                    <span>{stat.label}</span>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-          <div className="container">
-            <SystemHealthPanel statuses={publicSystemStatus} events={publicSystemEvents} boundaries={publicSystemBoundaries} />
-          </div>
-        </section>
 
         <section className="dora-system-landing-section dora-system-continuation-section" aria-label="Doraemon System continuation routes">
           <div className="container dora-office-command-shell">
