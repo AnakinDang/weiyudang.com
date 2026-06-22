@@ -250,7 +250,7 @@ export const publicScheduleBoundaries = [
 export const publicSystemStatus = [
   {
     label: "Relay mode",
-    value: "Live bridge + demo fallback",
+    value: "Relay bridge + demo fallback",
     tone: "info",
     detail: "The public dashboard can fall back to a demo snapshot when live relay state is unavailable."
   },
