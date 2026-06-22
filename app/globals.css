@@ -30066,6 +30066,12 @@ textarea {
 
 /* Step 39: Homepage Personal OS first viewport */
 .premium-hero {
+  --home-hero-motion-cycle: 18s;
+  --home-hero-motion-ease: cubic-bezier(0.42, 0, 0.18, 1);
+  --home-hero-portal-lift: -0.24rem;
+  --home-hero-portal-scale: 1.035;
+  --home-hero-portal-scale-peak: 1.041;
+
   min-height: min(780px, calc(100svh - 4.55rem));
   overflow: hidden;
   padding: 2.7rem 1.25rem 0.8rem;
@@ -30105,6 +30111,7 @@ textarea {
     linear-gradient(112deg, transparent 0%, rgba(37, 99, 235, 0.1) 45%, rgba(244, 183, 64, 0.09) 60%, transparent 100%);
   opacity: 0.78;
   filter: blur(34px);
+  animation: none;
 }
 
 .premium-hero-backdrop img {
@@ -30114,8 +30121,8 @@ textarea {
     saturate(1.04)
     contrast(1.02)
     drop-shadow(0 34px 96px rgba(37, 99, 235, 0.13));
-  transform: scale(1.035);
-  animation: premium-home-portal-drift 16s ease-in-out infinite;
+  transform: translateY(0) scale(var(--home-hero-portal-scale));
+  animation: premium-home-portal-drift var(--home-hero-motion-cycle) var(--home-hero-motion-ease) infinite;
   mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.04) 20%, rgba(0, 0, 0, 0.78) 42%, #000 94%, transparent 100%);
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.04) 20%, rgba(0, 0, 0, 0.78) 42%, #000 94%, transparent 100%);
 }
@@ -30128,9 +30135,9 @@ textarea {
   width: min(52rem, 54vw);
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.66), rgba(244, 183, 64, 0.52), transparent);
-  opacity: 0.68;
-  transform: rotate(-1.1deg);
-  animation: premium-home-signal-sweep 6.4s ease-in-out infinite;
+  opacity: 0.46;
+  transform: rotate(-1.1deg) scaleX(0.98);
+  animation: none;
 }
 
 .premium-hero-grid {
@@ -30325,11 +30332,11 @@ textarea {
 @keyframes premium-home-portal-drift {
   0%,
   100% {
-    transform: translateY(0) scale(1.035);
+    transform: translateY(0) scale(var(--home-hero-portal-scale));
   }
 
   50% {
-    transform: translateY(-0.35rem) scale(1.045);
+    transform: translateY(var(--home-hero-portal-lift)) scale(var(--home-hero-portal-scale-peak));
   }
 }
 
@@ -30410,6 +30417,10 @@ textarea {
 
 @media (max-width: 900px) {
   .premium-hero {
+    --home-hero-portal-lift: -0.12rem;
+    --home-hero-portal-scale: 1.12;
+    --home-hero-portal-scale-peak: 1.124;
+
     min-height: auto;
     padding-top: 1.85rem;
     background:
@@ -30425,7 +30436,6 @@ textarea {
   .premium-hero-backdrop img {
     object-position: 57% 16%;
     opacity: 0.42;
-    transform: scale(1.12);
     mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.36) 0%, #000 42%, transparent 86%);
     -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.36) 0%, #000 42%, transparent 86%);
   }
@@ -36190,7 +36200,7 @@ textarea {
   opacity: 0.48;
   transform: perspective(900px) rotateX(58deg) rotateZ(-1.4deg);
   transform-origin: 58% 58%;
-  animation: home-signal-grid-breathe 14s ease-in-out infinite;
+  animation: home-signal-grid-breathe var(--home-hero-motion-cycle) var(--home-hero-motion-ease) infinite;
   mask-image: linear-gradient(90deg, transparent, #000 28%, #000 84%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 28%, #000 84%, transparent);
   content: "";
@@ -36207,7 +36217,7 @@ textarea {
   opacity: 0.42;
   transform: rotate(0.8deg);
   transform-origin: center;
-  animation: home-signal-trace-flow 9.5s ease-in-out infinite;
+  animation: none;
   pointer-events: none;
 }
 
@@ -36221,19 +36231,6 @@ textarea {
   50% {
     opacity: 0.54;
     transform: perspective(900px) rotateX(58deg) rotateZ(-1.4deg) translateY(-0.34rem);
-  }
-}
-
-@keyframes home-signal-trace-flow {
-  0%,
-  100% {
-    opacity: 0.22;
-    transform: translateX(-0.6rem) rotate(0.8deg) scaleX(0.98);
-  }
-
-  48% {
-    opacity: 0.52;
-    transform: translateX(0.9rem) rotate(0.8deg) scaleX(1.025);
   }
 }
 
