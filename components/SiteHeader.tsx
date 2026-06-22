@@ -51,7 +51,7 @@ export function SiteHeader({
             <span className="site-light-indicator" aria-hidden="true">
               <Sun size={16} />
             </span>
-            <Link href="/app" className="link-focus site-owner-signin" aria-label="Owner sign in">
+            <Link href="/app" prefetch={false} className="link-focus site-owner-signin" aria-label="Owner sign in">
               <span className="site-owner-signin-full">Owner Sign in</span>
               <span className="site-owner-signin-short" aria-hidden="true">
                 Owner
@@ -89,6 +89,7 @@ export function SiteHeader({
         </nav>
         <Link
           href="/app"
+          prefetch={false}
           className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#f4b740]/40 bg-[#fff8e5] px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-[#fff2c7]"
         >
           <LockKeyhole size={16} aria-hidden />

@@ -99,7 +99,7 @@ export function HeroSection() {
               <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
-          <Link href="/app" className="link-focus premium-owner-inline">
+          <Link href="/app" prefetch={false} className="link-focus premium-owner-inline">
             <LockKeyhole size={15} aria-hidden />
             Owner Cockpit
             <ArrowRight size={14} aria-hidden />
@@ -168,7 +168,12 @@ export function HeroSection() {
             {heroSurfaces.map((surface) => {
               const Icon = surface.icon;
               return (
-                <Link key={surface.title} href={surface.href} className="link-focus premium-surface-link">
+                <Link
+                  key={surface.title}
+                  href={surface.href}
+                  prefetch={surface.href.startsWith("/app") ? false : undefined}
+                  className="link-focus premium-surface-link"
+                >
                   <Icon size={15} aria-hidden />
                   <span>
                     <strong>{surface.title}</strong>
