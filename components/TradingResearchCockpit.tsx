@@ -92,85 +92,54 @@ function isDegradedSourceState(state: string) {
   return state !== "Working" && state !== "Healthy";
 }
 
-function ResearchIntelStrip({
-  signals,
-  evidencePackets,
-  sourceHealth,
-  gates,
-  unavailableActions
-}: {
-  signals: readonly TradingSignal[];
-  evidencePackets: readonly TradingEvidencePacket[];
-  sourceHealth: readonly TradingSource[];
-  gates: readonly TradingGate[];
-  unavailableActions: readonly string[];
-}) {
-  const openEvidencePackets = evidencePackets.filter((packet) => isOpenEvidenceState(packet.state)).length;
-  const degradedSourceCount = sourceHealth.filter((source) => isDegradedSourceState(source.state)).length;
-  const disabledGateCount = gates.filter((gate) => gate.value === "Disabled").length;
-  const reviewSignals = signals.filter((signal) => sourceTone(signal.sourceHealth) !== "info").length;
-  const intel = [
-    {
-      label: "Signals in review",
-      value: reviewSignals.toString(),
-      detail: `${signals.length} research signals tracked`,
-      icon: LineChart,
-      tone: "sky"
-    },
-    {
-      label: "Evidence blockers",
-      value: openEvidencePackets.toString(),
-      detail: `${evidencePackets.length} packets visible`,
-      icon: FileSearch,
-      tone: "amber"
-    },
-    {
-      label: "Degraded sources",
-      value: degradedSourceCount.toString(),
-      detail: "shown before confidence can rise",
-      icon: AlertTriangle,
-      tone: "amber"
-    },
-    {
-      label: "Execution gates",
-      value: disabledGateCount.toString(),
-      detail: `${unavailableActions.length} unavailable actions`,
-      icon: Ban,
-      tone: "rose"
-    }
-  ] as const;
+function isGateBlocker(gate: TradingGate) {
+  return gate.value !== "Clear" && gate.value !== "Working" && gate.value !== "Healthy";
+}
 
-  return (
-    <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4" aria-label="Trading research intelligence summary">
-      {intel.map((item) => {
-        const Icon = item.icon;
-        const toneClass =
-          item.tone === "sky"
-            ? "border-sky-200/25 bg-sky-300/[0.07] text-sky-100"
-            : item.tone === "rose"
-              ? "border-rose-200/20 bg-rose-300/[0.07] text-rose-100"
-              : "border-yellow-200/24 bg-yellow-300/[0.08] text-yellow-100";
+function confidenceTone(confidence: string) {
+  if (confidence === "Low" || confidence === "Medium-low") {
+    return "warning";
+  }
 
-        return (
-          <article key={item.label} className="panel-quiet overflow-hidden p-0">
-            <div className="grid min-h-32 grid-cols-[auto_minmax(0,1fr)] gap-4 p-4">
-              <span className={`flex size-11 items-center justify-center rounded-[8px] border ${toneClass}`}>
-                <Icon size={21} aria-hidden />
-              </span>
-              <div className="min-w-0">
-                <p className="text-xs font-bold uppercase tracking-[0.08em] text-slate-500">{item.label}</p>
-                <div className="mt-3 flex items-end gap-2">
-                  <strong className="text-4xl font-semibold leading-none text-white">{item.value}</strong>
-                  <span className="pb-1 text-xs font-semibold uppercase text-slate-500">now</span>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
-              </div>
-            </div>
-          </article>
-        );
-      })}
-    </section>
-  );
+  if (confidence === "High") {
+    return "normal";
+  }
+
+  return "info";
+}
+
+function sourceDotClass(state: string) {
+  if (state === "Working" || state === "Healthy") {
+    return "is-normal";
+  }
+
+  if (state === "Disabled") {
+    return "is-private";
+  }
+
+  return "is-warning";
+}
+
+function tradingPosture(data: TradingResearchCockpitData) {
+  const degradedSourceCount = data.sourceHealth.filter((source) => isDegradedSourceState(source.state)).length;
+  const gateBlockerCount = data.gates.filter(isGateBlocker).length;
+  const systemReviewCount = data.systemStatus.filter((item) => item.state !== "Working" && item.state !== "Healthy").length;
+  const hasDanger = data.gates.some((gate) => gate.value === "Blocked") || data.systemStatus.some((item) => item.state === "Blocked");
+  const hasReviewWork = degradedSourceCount > 0 || gateBlockerCount > 0 || systemReviewCount > 0;
+
+  if (!hasReviewWork) {
+    return {
+      label: "Research steady",
+      detail: data.status.lastUpdated,
+      tone: "normal" as const
+    };
+  }
+
+  return {
+    label: data.status.posture,
+    detail: `${degradedSourceCount}/${data.sourceHealth.length} sources need review · ${gateBlockerCount} gates unavailable`,
+    tone: hasDanger ? ("danger" as const) : ("warning" as const)
+  };
 }
 
 function SignalCard({ signal }: { signal: TradingSignal }) {
@@ -336,54 +305,6 @@ function SafetyRail({ unavailableActions }: { unavailableActions: readonly strin
   );
 }
 
-function TodayView({
-  signals,
-  todayFocus,
-  desks,
-  sourceHealth,
-  unavailableActions
-}: {
-  signals: readonly TradingSignal[];
-  todayFocus: readonly TradingTodayFocus[];
-  desks: readonly TradingDesk[];
-  sourceHealth: readonly TradingSource[];
-  unavailableActions: readonly string[];
-}) {
-  return (
-    <div className="grid gap-5">
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4" aria-label="What matters today">
-        {todayFocus.map((item) => {
-          const Icon =
-            item.icon === "alert" ? AlertTriangle : item.icon === "shield" ? ShieldCheck : item.icon === "compare" ? GitCompareArrows : FileSearch;
-
-          return (
-            <article key={item.title} className="panel p-5">
-              <div className="flex items-start justify-between gap-3">
-                <span className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/20 bg-sky-300/10 text-sky-100">
-                  <Icon size={21} aria-hidden />
-                </span>
-                <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
-              </div>
-              <h3 className="mt-5 text-xl font-semibold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{item.detail}</p>
-            </article>
-          );
-        })}
-      </section>
-
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_24rem]">
-        <SignalTable signals={signals} />
-        <SafetyRail unavailableActions={unavailableActions} />
-      </section>
-
-      <section className="grid gap-5 lg:grid-cols-2">
-        <DeskDisagreement desks={desks} />
-        <SourceDegradation sources={sourceHealth} />
-      </section>
-    </div>
-  );
-}
-
 function DeskDisagreement({ desks }: { desks: readonly TradingDesk[] }) {
   return (
     <section className="panel p-5" aria-labelledby="trading-desk-title">
@@ -439,6 +360,272 @@ function SourceDegradation({ sources }: { sources: readonly TradingSource[] }) {
         ))}
       </div>
     </section>
+  );
+}
+
+function TradingTodayCockpit({
+  signals,
+  todayFocus,
+  desks,
+  sourceHealth,
+  evidencePackets,
+  gates,
+  replay,
+  systemStatus,
+  unavailableActions,
+  deskScope,
+  onSelectView
+}: {
+  signals: readonly TradingSignal[];
+  todayFocus: readonly TradingTodayFocus[];
+  desks: readonly TradingDesk[];
+  sourceHealth: readonly TradingSource[];
+  evidencePackets: readonly TradingEvidencePacket[];
+  gates: readonly TradingGate[];
+  replay: readonly TradingReplayEvent[];
+  systemStatus: readonly TradingSystemStatusItem[];
+  unavailableActions: readonly string[];
+  deskScope: string;
+  onSelectView: (view: TradingView) => void;
+}) {
+  const degradedSources = sourceHealth.filter((source) => isDegradedSourceState(source.state));
+  const openEvidencePackets = evidencePackets.filter((packet) => isOpenEvidenceState(packet.state));
+  const gateBlockers = gates.filter(isGateBlocker);
+  const topSignals = signals.slice(0, 5);
+  const disagreementDesks = desks.slice(0, 5);
+  const replayEvents = replay.slice(-5);
+
+  const metrics = [
+    {
+      label: "Signals needing review",
+      value: signals.length.toString(),
+      detail: `${signals.filter((signal) => sourceTone(signal.sourceHealth) !== "info").length} need source review`,
+      source: `Counted from ${deskScope} signal rows`
+    },
+    {
+      label: "Evidence packets",
+      value: evidencePackets.length.toString(),
+      detail: `${openEvidencePackets.length} open blockers`,
+      source: "All desks · evidence packets"
+    },
+    {
+      label: "Gates blocked",
+      value: gateBlockers.length.toString(),
+      detail: `${unavailableActions.length} unavailable actions`,
+      source: "All desks · disabled gates"
+    },
+    {
+      label: "Source degradation",
+      value: `${degradedSources.length}/${sourceHealth.length}`,
+      detail: "visible before confidence rises",
+      source: "All desks · source health"
+    },
+    {
+      label: "Replay events",
+      value: replay.length.toString(),
+      detail: "research state changes",
+      source: "All desks · replay trace"
+    }
+  ];
+
+  return (
+    <div className="trading-today-cockpit">
+      <section className="trading-today-focus-card" aria-labelledby="trading-today-focus-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Today</p>
+            <h2 id="trading-today-focus-title">What matters today</h2>
+          </div>
+          <StatusBadge tone="warning">Owner review</StatusBadge>
+        </div>
+        <div className="trading-today-focus-list">
+          {todayFocus.slice(0, 4).map((item) => (
+            <article key={item.title}>
+              <span />
+              <div>
+                <strong>{item.title}</strong>
+                <small>{item.detail}</small>
+              </div>
+              <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
+            </article>
+          ))}
+        </div>
+        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("Evidence")}>
+          Open evidence queue
+        </button>
+      </section>
+
+      <section className="trading-today-metrics" aria-label="Trading research cockpit summary">
+        {metrics.map((metric) => (
+          <article key={metric.label}>
+            <p>{metric.label}</p>
+            <strong>{metric.value}</strong>
+            <span>{metric.detail}</span>
+            <small>{metric.source}</small>
+          </article>
+        ))}
+      </section>
+
+      <section className="trading-today-signal-table" aria-labelledby="trading-today-signals-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Signals</p>
+            <h2 id="trading-today-signals-title">Signals needing review</h2>
+          </div>
+          <p className="trading-today-filter-note">Showing: {deskScope} · evidence priority · all themes</p>
+        </div>
+        <div className="trading-today-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Desk</th>
+                <th scope="col">Instrument / theme</th>
+                <th scope="col">Signal</th>
+                <th scope="col">Confidence</th>
+                <th scope="col">Evidence</th>
+                <th scope="col">Gate</th>
+              </tr>
+            </thead>
+            <tbody>
+              {topSignals.map((signal) => (
+                <tr key={`${signal.instrument}-${signal.desk}`}>
+                  <td>
+                    <span className="trading-today-desk-dot" aria-hidden />
+                    {signal.desk}
+                  </td>
+                  <td>
+                    <strong>{signal.instrument}</strong>
+                    <small>{signal.horizon}</small>
+                  </td>
+                  <td>{signal.thesis}</td>
+                  <td>
+                    <StatusBadge tone={confidenceTone(signal.confidence)}>{signal.confidence}</StatusBadge>
+                  </td>
+                  <td>
+                    {signal.evidence} / {signal.counterEvidence} counter
+                  </td>
+                  <td>
+                    <StatusBadge tone={sourceTone(signal.sourceHealth)}>{signal.sourceHealth}</StatusBadge>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("Signals")}>
+          View all signals
+        </button>
+      </section>
+
+      <section className="trading-today-disagreement" aria-labelledby="trading-today-disagreement-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Desks</p>
+            <h2 id="trading-today-disagreement-title">Desk disagreement</h2>
+          </div>
+          <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("Desks")}>
+            Full desk view
+          </button>
+        </div>
+        <div className="trading-today-desk-list">
+          {disagreementDesks.map((desk) => (
+            <article key={desk.name}>
+              <div>
+                <strong>{desk.name}</strong>
+                <small>{desk.focus}</small>
+              </div>
+              <StatusBadge tone={sourceTone(desk.stance)}>{desk.stance}</StatusBadge>
+              <p>{desk.disagreement}</p>
+              <span className="trading-today-desk-need">Needs: {desk.needs}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="trading-today-source-card" aria-labelledby="trading-today-source-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Sources</p>
+            <h2 id="trading-today-source-title">Source degradation</h2>
+          </div>
+        </div>
+        <div className="trading-today-source-list">
+          {sourceHealth.map((source) => (
+            <article key={source.source}>
+              <span className={`trading-today-source-dot ${sourceDotClass(source.state)}`} aria-hidden />
+              <strong>{source.source}</strong>
+              <span>{source.state}</span>
+            </article>
+          ))}
+        </div>
+        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("System")}>
+          Review source health
+        </button>
+      </section>
+
+      <section className="trading-today-evidence-card" aria-labelledby="trading-today-evidence-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Evidence</p>
+            <h2 id="trading-today-evidence-title">Gates & Evidence summary</h2>
+          </div>
+        </div>
+        <div className="trading-today-gate-list">
+          {gates.slice(0, 5).map((gate) => (
+            <article key={gate.label}>
+              <span>{gate.label}</span>
+              <StatusBadge tone={gateTone(gate.value)}>{gate.value}</StatusBadge>
+            </article>
+          ))}
+        </div>
+        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("Evidence")}>
+          Open evidence center
+        </button>
+      </section>
+
+      <section className="trading-today-replay-card" aria-labelledby="trading-today-replay-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Replay</p>
+            <h2 id="trading-today-replay-title">Replay timeline</h2>
+          </div>
+        </div>
+        <ol className="trading-today-replay-line">
+          {replayEvents.map((event) => (
+            <li key={`${event.time}-${event.desk}-${event.change}`}>
+              <span aria-hidden />
+              <time>{event.time}</time>
+              <strong>{event.change}</strong>
+              <small>{event.desk}</small>
+            </li>
+          ))}
+        </ol>
+        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("Replay")}>
+          Open replay center
+        </button>
+      </section>
+
+      <section className="trading-today-snapshot-card" aria-labelledby="trading-today-snapshot-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Snapshot</p>
+            <h2 id="trading-today-snapshot-title">System posture</h2>
+          </div>
+        </div>
+        <div className="trading-today-snapshot-list">
+          {systemStatus.map((item) => (
+            <article key={item.label}>
+              <span className={`trading-today-source-dot ${sourceDotClass(item.state)}`} aria-hidden />
+              <strong>{item.label}</strong>
+              <small>{item.state}</small>
+            </article>
+          ))}
+        </div>
+        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("System")}>
+          View system health
+        </button>
+      </section>
+    </div>
   );
 }
 
@@ -1176,81 +1363,50 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
     () => data.instruments.find((instrument) => instrument.symbol === activeInstrumentSymbol) ?? data.instruments[0],
     [activeInstrumentSymbol, data.instruments]
   );
+  const posture = useMemo(() => tradingPosture(data), [data]);
 
   return (
-    <div className="grid gap-5">
-      <section className="panel relative isolate overflow-hidden p-6 md:p-7">
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-1/2 bg-[radial-gradient(circle_at_55%_35%,rgba(56,189,248,0.16),transparent_34%),linear-gradient(135deg,transparent,rgba(250,204,21,0.08))]"
-          aria-hidden
-        />
-        <div className="grid items-end gap-6 xl:grid-cols-[minmax(0,1fr)_25rem]">
-          <div>
-            <div className="mb-5 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-yellow-100">
-                <LockKeyhole size={14} aria-hidden />
-                Owner Mode
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-sky-100">
-                <Database size={14} aria-hidden />
-                Private research environment
-              </span>
-            </div>
-            <h2 className="max-w-4xl text-3xl font-semibold tracking-[-0.015em] text-white md:text-5xl">MiniDora Trading Research</h2>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-              Evidence-first research cockpit for signals, desk disagreement, source degradation, gates, and replay.
-            </p>
-            <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-400">
-              MiniDora Trading organizes market research artifacts for owner review. It does not connect to broker write
-              paths, submit orders, manage accounts, or auto-promote phases.
-            </p>
-            <div className="mt-6 grid max-w-3xl gap-2 text-sm sm:grid-cols-3">
-              {[
-                ["Evidence first", `${data.evidencePackets.length} packets`],
-                ["Desk disagreement", `${data.desks.length} desks`],
-                ["Blocked execution", `${data.unavailableActions.length} actions`]
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-[8px] border border-slate-700/80 bg-black/15 px-3 py-2">
-                  <p className="text-xs font-bold uppercase text-slate-500">{label}</p>
-                  <p className="mt-1 font-semibold text-slate-100">{value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
-            <div className="flex items-center gap-2 text-yellow-100">
-              <ShieldCheck size={19} aria-hidden />
-              <h3 className="font-semibold text-white">Persistent boundary</h3>
-            </div>
-            <p className="mt-3 text-sm font-semibold leading-6 text-yellow-50">{data.disclaimer}</p>
-            <div className="mt-4 grid gap-2">
-              {[
-                ["Mode", data.status.mode],
-                ["Phase", data.status.phase],
-                ["Posture", data.status.posture],
-                ["Freshness", data.status.lastUpdated]
-              ].map(([label, value]) => (
-                <div key={label} className="grid grid-cols-[1fr_auto] gap-3 border-t border-yellow-100/15 pt-3">
-                  <span className="text-xs font-bold uppercase text-yellow-50/70">{label}</span>
-                  <span className="text-sm font-semibold text-white">{value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+    <div className="trading-research-cockpit">
+      <section className="trading-cockpit-heading" aria-labelledby="trading-cockpit-title">
+        <div>
+          <h2 id="trading-cockpit-title">MiniDora Trading Research</h2>
+          <p>Evidence-first research cockpit for market understanding, desk disagreement, gates, and replay.</p>
+        </div>
+        <div className={`trading-cockpit-status is-${posture.tone}`} aria-label="Trading research status">
+          <span className="trading-cockpit-live-dot" aria-hidden />
+          <strong>{posture.label}</strong>
+          <small>{posture.detail}</small>
         </div>
       </section>
 
-      <ResearchIntelStrip
-        signals={data.signals}
-        evidencePackets={data.evidencePackets}
-        sourceHealth={data.sourceHealth}
-        gates={data.gates}
-        unavailableActions={data.unavailableActions}
-      />
+      <section className="trading-cockpit-chip-row" aria-label="Trading research posture">
+        <span>
+          <LockKeyhole size={15} aria-hidden />
+          Owner-only
+        </span>
+        <span>
+          <Database size={15} aria-hidden />
+          Evidence-first
+        </span>
+        <span>
+          <Ban size={15} aria-hidden />
+          No execution
+        </span>
+      </section>
 
-      <section className="panel-quiet p-3" aria-label="Trading research views">
-        <div className="flex flex-wrap gap-2">
+      <section className="trading-cockpit-boundary-banner" aria-label="Trading research boundary">
+        <ShieldCheck size={22} aria-hidden />
+        <div>
+          <strong>{data.disclaimer}</strong>
+          <p>MiniDora Trading provides research artifacts for owner review. No broker connectivity. No accounts. No auto-execution.</p>
+        </div>
+        <button type="button" onClick={() => setActiveView("Evidence")}>
+          Open evidence center
+        </button>
+      </section>
+
+      <section className="trading-cockpit-tabs" aria-label="Trading research views">
+        <div>
           {data.views.map((view) => {
             const Icon = viewIcons[view];
             const isActive = activeView === view;
@@ -1261,11 +1417,7 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => setActiveView(view)}
-                className={`link-focus inline-flex items-center gap-2 rounded-[8px] border px-3 py-2 text-sm font-semibold transition ${
-                  isActive
-                    ? "border-sky-200/40 bg-sky-300/15 text-sky-50"
-                    : "border-slate-700 bg-white/[0.035] text-slate-300 hover:border-sky-200/30 hover:text-white"
-                }`}
+                className={isActive ? "is-active" : ""}
               >
                 <Icon size={16} aria-hidden />
                 {view}
@@ -1276,7 +1428,7 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
       </section>
 
       {(activeView === "Today" || activeView === "Signals") && (
-        <section className="panel-quiet p-4" aria-label="Desk signal filters">
+        <section className="trading-cockpit-filter-bar" aria-label="Desk signal filters">
           <div className="flex flex-wrap items-center gap-2">
             <span className="mr-1 text-xs font-bold uppercase text-slate-400">Desk filter</span>
             {deskFilters.map((desk) => {
@@ -1303,12 +1455,18 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
       )}
 
       {activeView === "Today" ? (
-        <TodayView
+        <TradingTodayCockpit
           signals={filteredSignals}
           todayFocus={data.todayFocus}
           desks={data.desks}
           sourceHealth={data.sourceHealth}
+          evidencePackets={data.evidencePackets}
+          gates={data.gates}
+          replay={data.replay}
+          systemStatus={data.systemStatus}
           unavailableActions={data.unavailableActions}
+          deskScope={activeDesk}
+          onSelectView={setActiveView}
         />
       ) : null}
       {activeView === "Signals" ? (
