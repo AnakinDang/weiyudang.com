@@ -251,7 +251,7 @@ export default function DoraTeamPage() {
               <section className="dora-office-live-strip dora-team-landing-activity-strip" aria-label="Recent public-safe MiniDora team activity">
                 <div>
                   <span aria-hidden />
-                  <strong>Public team activity</strong>
+                  <strong>Recent public team signals</strong>
                   <small>Demo fallback · Public-safe labels</small>
                 </div>
                 <ol>

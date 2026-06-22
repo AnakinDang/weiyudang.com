@@ -14,26 +14,21 @@ export const metadata: Metadata = {
   description: "Public sanitized Doraemon Office activity timeline."
 };
 
-const activityPrinciples = [
+const activityBoundaryItems = ["No raw IDs", "No prompts or workflows", "No accounts or execution"] as const;
+const activityFilterItems = ["Kind", "Agent", "Severity", "Time window"] as const;
+
+const activityCommandCardTemplates = [
   {
-    title: "Newest first",
-    summary: "Events are ordered by creation time before filters run.",
-    icon: Radio
+    title: "Public Boundary",
+    summary: "The activity surface explains motion without exposing the private work behind it.",
+    icon: ShieldCheck,
+    items: activityBoundaryItems
   },
   {
-    title: "Public schema",
-    summary: "Only fixed public labels, states, agents, and safe times render.",
-    icon: ShieldCheck
-  },
-  {
-    title: "Readable filters",
-    summary: "Kind, agent, severity, and time controls stay code-native.",
-    icon: Filter
-  },
-  {
-    title: "Private by default",
-    summary: "Prompts, paths, payloads, accounts, and execution controls stay out.",
-    icon: LockKeyhole
+    title: "Filter Surface",
+    summary: "Code-native controls filter sanitized event labels, not private payloads.",
+    icon: Filter,
+    items: activityFilterItems
   }
 ] as const;
 
@@ -44,6 +39,19 @@ export default function DoraActivityPage() {
   const heroAgents = Array.from(new Set(heroEvents.map((event) => event.agent))).slice(0, 4);
   const groupCount = new Set(events.map((event) => event.event_type)).size;
   const warningCount = events.filter((event) => event.severity === "warning").length;
+  const activityCommandCards = [
+    {
+      title: "Timeline Posture",
+      summary: "Newest public labels first, with event groups and review labels visible at a safe level.",
+      icon: Radio,
+      rows: [
+        { label: "Events", value: events.length },
+        { label: "Groups", value: groupCount },
+        { label: "Order", value: "Newest first" }
+      ]
+    },
+    ...activityCommandCardTemplates
+  ] as const;
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
@@ -109,8 +117,8 @@ export default function DoraActivityPage() {
                 <div className="dora-activity-command-timeline" aria-label="Recent public activity preview">
                   <div>
                     <span aria-hidden />
-                    <strong>Live public stream</strong>
-                    <small>{events.length} sanitized events</small>
+                    <strong>Public event stream</strong>
+                    <small>Demo fallback · {events.length} sanitized events</small>
                   </div>
                   <ol>
                     {heroEvents.map((event) => (
@@ -132,26 +140,39 @@ export default function DoraActivityPage() {
                 </div>
               </section>
             </div>
-          </div>
-        </section>
 
-        <section className="dora-activity-landing-section dora-activity-principles-preview" aria-label="Doraemon Activity public principles">
-          <div className="container dora-activity-principles-grid">
-            {activityPrinciples.map((item) => {
-              const Icon = item.icon;
+            <aside className="dora-activity-command-rail" aria-label="Doraemon Activity public context">
+              {activityCommandCards.map((item) => {
+                const Icon = item.icon;
 
-              return (
-                <article key={item.title}>
-                  <span>
-                    <Icon size={18} aria-hidden />
-                  </span>
-                  <div>
-                    <strong>{item.title}</strong>
+                return (
+                  <section key={item.title} className="dora-office-product-command-card">
+                    <Icon size={20} aria-hidden />
+                    <h2>{item.title}</h2>
                     <p>{item.summary}</p>
-                  </div>
-                </article>
-              );
-            })}
+                    {"rows" in item ? (
+                      <dl>
+                        {item.rows.map(({ label, value }) => (
+                          <div key={label}>
+                            <dt>{label}</dt>
+                            <dd>{value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    ) : (
+                      <ul>
+                        {item.items.map((entry) => (
+                          <li key={entry}>
+                            <ShieldCheck size={14} aria-hidden />
+                            {entry}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                );
+              })}
+            </aside>
           </div>
         </section>
 

@@ -252,7 +252,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
           ) : null}
         </section>
 
-        <aside className="dora-activity-side" aria-label="Public schema and live bridge">
+        <aside className="dora-activity-side" aria-label="Public activity side rail">
           <section>
             <div className="dora-activity-side-title">
               <GitBranch size={20} aria-hidden />
@@ -308,11 +308,11 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
           <section>
             <div className="dora-activity-side-title">
               <ScanLine size={20} aria-hidden />
-              <h2>Live bridge</h2>
+              <h2>Office bridge</h2>
             </div>
             <p>Open the public command room view when the stage is more useful than the feed.</p>
             <Link href="/dora/office" className="link-focus">
-              View Office Live
+              Open Doraemon Office
               <ArrowRight size={15} aria-hidden />
             </Link>
           </section>
