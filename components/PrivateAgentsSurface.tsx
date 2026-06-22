@@ -93,6 +93,29 @@ const leaseStatusOrder: readonly PrivateAgentLeaseStatus[] = [
 
 const REVIEW_QUEUE_PREVIEW_LIMIT = 3;
 
+type AgentReviewRow = {
+  label: string;
+  state: string;
+  tone: Tone;
+  ready: boolean;
+  detail: string;
+};
+
+type AgentOwnerPosture = {
+  label: string;
+  state: string;
+  tone: Tone;
+  detail: string;
+  next: string;
+};
+
+type AgentSafeOutputRow = {
+  label: string;
+  state: string;
+  tone: Tone;
+  detail: string;
+};
+
 function countBy<T extends string>(items: readonly PrivateAgent[], read: (agent: PrivateAgent) => T) {
   const counts = new Map<T, number>();
 
@@ -102,6 +125,102 @@ function countBy<T extends string>(items: readonly PrivateAgent[], read: (agent:
   });
 
   return counts;
+}
+
+function readinessLabel(rows: readonly AgentReviewRow[]) {
+  const ready = rows.filter((row) => row.ready).length;
+  return `${ready} of ${rows.length} ready`;
+}
+
+function sourceHealthReady(sourceHealth: PrivateAgentSourceHealth) {
+  return sourceHealth === "Good" || sourceHealth === "Partial";
+}
+
+function leaseHasOwnerSignal(leaseStatus: PrivateAgentLeaseStatus) {
+  return leaseStatus === "Active lease" || leaseStatus === "Review lease" || leaseStatus === "Owner-gated";
+}
+
+function reviewRowsForAgent(agent: PrivateAgent): AgentReviewRow[] {
+  return [
+    {
+      label: "Lease posture",
+      state: agent.leaseStatus,
+      tone: leaseStatusTone[agent.leaseStatus],
+      ready: leaseHasOwnerSignal(agent.leaseStatus),
+      detail: agent.lease
+    },
+    {
+      label: "Source health",
+      state: agent.sourceHealth,
+      tone: sourceHealthTone[agent.sourceHealth],
+      ready: sourceHealthReady(agent.sourceHealth),
+      detail: agent.sourceDetail
+    },
+    {
+      label: "History trail",
+      state: `${agent.history.length} items`,
+      tone: agent.history.length > 0 ? "normal" : "private",
+      ready: agent.history.length > 0,
+      detail: agent.history.length > 0 ? "Recent state history is visible for owner review." : "No history is available for this agent."
+    }
+  ];
+}
+
+function safeOutputsForAgent(agent: PrivateAgent): AgentSafeOutputRow[] {
+  return [
+    {
+      label: "Owner brief",
+      state: "Allowed",
+      tone: "normal",
+      detail: `${agent.name} can be summarized for owner reading without creating runtime action.`
+    },
+    {
+      label: "Review queue note",
+      state: "Allowed",
+      tone: "info",
+      detail: "A decision packet can point to the Review Queue after explicit owner review."
+    },
+    {
+      label: "Dispatch",
+      state: "Unavailable",
+      tone: "private",
+      detail: "This page has no execute, approve, publish, trade, or dispatch control."
+    }
+  ];
+}
+
+function ownerPosturesForAgent(agent: PrivateAgent): AgentOwnerPosture[] {
+  const sourceReady = sourceHealthReady(agent.sourceHealth);
+
+  return [
+    {
+      label: "Review now",
+      state: "Owner read",
+      tone: sourceReady ? "normal" : "warning",
+      detail: "Inspect this agent's lease, evidence, and recent history in the cockpit.",
+      next: `Read ${agent.name}'s lease and history, then move any decision into Command or Review Queue.`
+    },
+    {
+      label: sourceReady ? "Hold for owner" : "Need source proof",
+      state: sourceReady ? "Safe hold" : "Needs evidence",
+      tone: sourceReady ? "info" : "warning",
+      detail: sourceReady ? "Keep the agent visible without promoting new work." : "Source health is not strong enough for confident promotion.",
+      next: sourceReady
+        ? "Leave the lease unchanged and revisit at the next owner review window."
+        : "Require source evidence before treating this agent lane as ready."
+    },
+    {
+      label: "Do not dispatch",
+      state: "No action",
+      tone: "private",
+      detail: "Keep this page read-only even when the agent looks ready.",
+      next: "No hidden execution, tool call, publish, trade, or schedule mutation is created."
+    }
+  ];
+}
+
+function postureChoiceKey(agentId: PrivateAgent["id"], label: string) {
+  return `${agentId}:${label}`;
 }
 
 function LightStatusBadge({ children, tone }: { children: ReactNode; tone: Tone }) {
@@ -530,6 +649,151 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
   );
 }
 
+function AgentReviewDrilldown({
+  agent,
+  ownerPostures,
+  postureChoice,
+  onPostureChoice
+}: {
+  agent: PrivateAgent;
+  ownerPostures: readonly AgentOwnerPosture[];
+  postureChoice: string;
+  onPostureChoice: (choice: string) => void;
+}) {
+  const readinessRows = reviewRowsForAgent(agent);
+  const safeOutputs = safeOutputsForAgent(agent);
+  const selectedPosture = ownerPostures.find((posture) => posture.label === postureChoice) ?? ownerPostures[0];
+
+  return (
+    <section className="panel p-5" aria-labelledby="agent-review-drilldown-title">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-yellow-100">
+            <ClipboardCheck size={22} aria-hidden />
+            <h2 id="agent-review-drilldown-title" className="text-2xl font-semibold text-white">
+              Owner review drilldown
+            </h2>
+          </div>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+            Decide how to read the selected agent lane. This inspector is local-only: it does not dispatch agents,
+            create tasks, publish notes, or promote leases.
+          </p>
+        </div>
+        <StatusBadge tone="private">Local only</StatusBadge>
+      </div>
+
+      <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
+        <article className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-5" aria-labelledby="agent-readiness-title">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold uppercase text-yellow-100">Selected lane</p>
+              <h3 id="agent-readiness-title" className="mt-2 text-2xl font-semibold text-white">
+                {agent.name}
+              </h3>
+              <p className="mt-2 text-xs font-bold uppercase text-slate-400">
+                {agent.role}, {readinessLabel(readinessRows)}
+              </p>
+            </div>
+            <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
+          </div>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3">
+            {readinessRows.map((row) => (
+              <div key={`${agent.id}-${row.label}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h4 className="text-sm font-semibold text-white">{row.label}</h4>
+                  <StatusBadge tone={row.tone}>{row.state}</StatusBadge>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-400">{row.detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 rounded-[8px] border border-red-300/30 bg-red-400/8 p-4">
+            <h4 className="text-xs font-bold uppercase text-red-100">Guardrail</h4>
+            <p className="mt-2 text-sm leading-6 text-slate-300">{agent.guardrail}</p>
+          </div>
+        </article>
+
+        <aside className="grid content-start gap-4">
+          <section className="rounded-[8px] border border-yellow-200/35 bg-yellow-300/10 p-4" aria-labelledby="agent-owner-posture-title">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2 text-yellow-100">
+                  <UserCheck size={17} aria-hidden />
+                  <h3 id="agent-owner-posture-title" className="text-sm font-semibold text-white">
+                    Owner posture
+                  </h3>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-yellow-50/80">
+                  Choose a local reading posture for this agent. The choice is not saved or sent.
+                </p>
+              </div>
+              <StatusBadge tone="private">No dispatch</StatusBadge>
+            </div>
+            {selectedPosture ? (
+              <p className="sr-only" aria-live="polite">
+                {agent.name} posture: {selectedPosture.label}. {selectedPosture.next}
+              </p>
+            ) : null}
+
+            <div className="mt-4 grid gap-2">
+              {ownerPostures.map((posture) => {
+                const active = posture.label === selectedPosture?.label;
+
+                return (
+                  <button
+                    key={postureChoiceKey(agent.id, posture.label)}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => onPostureChoice(posture.label)}
+                    className={`link-focus rounded-[8px] border p-3 text-left transition ${
+                      active
+                        ? "border-yellow-100/65 bg-yellow-200/14 text-white"
+                        : "border-slate-700 bg-[#07111f]/58 text-slate-300 hover:border-yellow-100/35 hover:bg-white/[0.07]"
+                    }`}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <span className="text-sm font-semibold">{posture.label}</span>
+                      <StatusBadge tone={posture.tone}>{posture.state}</StatusBadge>
+                    </div>
+                    <p className="mt-2 text-xs leading-5 text-slate-400">{posture.detail}</p>
+                  </button>
+                );
+              })}
+            </div>
+
+            {selectedPosture ? (
+              <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                <h4 className="text-xs font-bold uppercase text-slate-400">If selected</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-300">{selectedPosture.next}</p>
+              </div>
+            ) : null}
+          </section>
+
+          <section className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+            <h3 className="text-sm font-semibold text-white">Safe outputs</h3>
+            <div className="mt-3 grid gap-2">
+              {safeOutputs.map((output) => (
+                <div key={`${agent.id}-${output.label}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">
+                      <CheckCircle2 size={15} aria-hidden />
+                      {output.label}
+                    </span>
+                    <StatusBadge tone={output.tone}>{output.state}</StatusBadge>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{output.detail}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+  );
+}
+
 function CoverageAndBoundary({
   coverage,
   boundary
@@ -692,6 +956,7 @@ export function PrivateAgentsSurface({
   reviewQueue
 }: PrivateAgentsSurfaceProps) {
   const [activeAgentId, setActiveAgentId] = useState(agents[0]?.id ?? "");
+  const [postureChoices, setPostureChoices] = useState<Partial<Record<PrivateAgent["id"], string>>>({});
   const activeAgent = useMemo(
     () => agents.find((agent) => agent.id === activeAgentId) ?? agents[0],
     [activeAgentId, agents]
@@ -699,6 +964,16 @@ export function PrivateAgentsSurface({
 
   if (!activeAgent) {
     return null;
+  }
+
+  const activePostures = ownerPosturesForAgent(activeAgent);
+  const postureChoice = postureChoices[activeAgent.id] ?? activePostures[0]?.label ?? "";
+
+  function handlePostureChoice(choice: string) {
+    setPostureChoices((current) => ({
+      ...current,
+      [activeAgent.id]: choice
+    }));
   }
 
   return (
@@ -733,6 +1008,12 @@ export function PrivateAgentsSurface({
       </section>
 
       <AgentOperationsMap agents={agents} activeAgent={activeAgent} />
+      <AgentReviewDrilldown
+        agent={activeAgent}
+        ownerPostures={activePostures}
+        postureChoice={postureChoice}
+        onPostureChoice={handlePostureChoice}
+      />
       <AgentDetail agent={activeAgent} />
       <CoverageAndBoundary coverage={coverage} boundary={boundary} />
       <HandoffsAndQueue activeAgent={activeAgent} handoffs={handoffs} reviewQueue={reviewQueue} />
