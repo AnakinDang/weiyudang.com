@@ -155,12 +155,6 @@ export default function DoraActivityPage() {
           </div>
         </section>
 
-        <DoraOfficeOperatingRhythm
-          surface="activity"
-          title="Activity closes the public operating loop"
-          summary="The timeline gives schedule, task, and system signals their surrounding story without exposing private work."
-        />
-
         <section
           className="dora-activity-landing-section dora-activity-log-section"
           id="public-activity-log"
@@ -190,6 +184,12 @@ export default function DoraActivityPage() {
             <ActivityFeed events={events} />
           </div>
         </section>
+
+        <DoraOfficeOperatingRhythm
+          surface="activity"
+          title="Activity closes the public operating loop"
+          summary="The public log above gives schedule, task, and system signals their surrounding story without exposing private work."
+        />
 
         <section className="dora-activity-landing-section dora-activity-continuation-section" aria-label="Doraemon Activity continuation routes">
           <div className="container dora-office-command-shell">

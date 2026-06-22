@@ -31205,3 +31205,446 @@ textarea {
     padding-block: 1.85rem;
   }
 }
+
+/* Step 45: Doraemon Activity log-first dashboard polish */
+.dora-activity-landing .dora-office-route-dock-wrap {
+  width: min(100% - 2.4rem, 1510px);
+  margin-top: 0.76rem;
+}
+
+.dora-activity-landing .dora-office-route-dock {
+  min-height: 3.06rem;
+}
+
+.dora-activity-landing .dora-office-route-dock-link {
+  min-height: 2.34rem;
+}
+
+.dora-activity-landing .dora-office-route-dock-posture {
+  min-height: 2.78rem;
+}
+
+.dora-office-route-dock-wrap + .dora-activity-landing-hero {
+  min-height: min(660px, calc(100svh - 8.75rem));
+  padding-top: clamp(1rem, 1.8vw, 1.55rem);
+}
+
+.dora-activity-landing-hero-grid {
+  grid-template-columns: minmax(26rem, 0.4fr) minmax(35rem, 0.6fr);
+  gap: clamp(1.4rem, 3vw, 3.1rem);
+}
+
+.dora-activity-landing-copy {
+  padding-bottom: clamp(0.4rem, 2vw, 1.45rem);
+}
+
+.dora-activity-landing-copy h1 {
+  font-size: clamp(4rem, 6.15vw, 6.1rem);
+}
+
+.dora-activity-landing-copy > p {
+  margin-top: 1.28rem;
+  font-size: clamp(1.06rem, 1.32vw, 1.24rem);
+}
+
+.dora-activity-landing-rule {
+  margin-top: 1.5rem;
+}
+
+.dora-activity-landing-actions {
+  gap: 1.18rem;
+  margin-top: 1.65rem;
+}
+
+.dora-activity-command-stage {
+  min-height: clamp(31.5rem, 43vw, 38rem);
+}
+
+.dora-activity-command-art {
+  inset: -3.2rem -2rem 4.6rem -5.4rem;
+}
+
+.dora-activity-command-timeline {
+  right: 5.2%;
+  bottom: 2.95rem;
+  left: 9%;
+}
+
+.dora-activity-command-agent-1 {
+  bottom: 11.6rem;
+}
+
+.dora-activity-command-agent-2 {
+  bottom: 14.1rem;
+}
+
+.dora-activity-command-agent-3 {
+  bottom: 11.9rem;
+}
+
+.dora-activity-command-agent-4 {
+  bottom: 13rem;
+}
+
+.dora-activity-principles-preview {
+  padding-block: clamp(1.15rem, 1.9vw, 1.62rem);
+}
+
+.dora-activity-principles-grid article {
+  min-height: 6.2rem;
+  padding: 0.86rem;
+}
+
+.dora-activity-log-section {
+  padding-top: clamp(2.05rem, 3.8vw, 3.35rem);
+}
+
+.dora-activity-log-heading {
+  margin-bottom: 1rem;
+}
+
+.dora-activity-log-section .dora-activity-controls {
+  padding: 1rem;
+}
+
+.dora-activity-log-section .dora-activity-controls-head {
+  margin-bottom: 0.9rem;
+}
+
+.dora-activity-log-section .dora-activity-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(17.5rem, 0.34fr);
+  gap: 0.86rem;
+}
+
+.dora-activity-log-section .dora-activity-feed,
+.dora-activity-log-section .dora-activity-side section {
+  border-radius: 8px;
+}
+
+.dora-activity-log-section .dora-activity-event {
+  grid-template-columns: 4.1rem auto 2.24rem minmax(0, 1fr) minmax(8.2rem, auto);
+  padding: 0.78rem 0.8rem;
+}
+
+.dora-activity-log-section .dora-activity-side section {
+  padding: 1rem;
+}
+
+@media (max-width: 1320px) and (min-width: 1181px) {
+  .dora-activity-landing-hero-grid {
+    grid-template-columns: minmax(24rem, 0.42fr) minmax(32rem, 0.58fr);
+    width: min(100% - 4.25rem, 1180px);
+  }
+
+  .dora-activity-command-stage {
+    min-height: clamp(29.5rem, 41vw, 34.5rem);
+  }
+
+  .dora-activity-command-art {
+    inset: -2.2rem -1rem 4.4rem -3.7rem;
+  }
+
+  .dora-activity-command-schema {
+    right: 2%;
+    width: min(16rem, 32%);
+  }
+
+  .dora-activity-command-timeline {
+    right: 3.5%;
+    left: 7%;
+  }
+}
+
+@media (max-width: 1180px) {
+  .dora-office-route-dock-wrap + .dora-activity-landing-hero {
+    min-height: auto;
+  }
+
+  .dora-activity-landing-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 0.38rem;
+  }
+
+  .dora-activity-command-visual,
+  .dora-activity-command-stage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dora-activity-command-stage {
+    min-height: clamp(28rem, 55vw, 35rem);
+  }
+
+  .dora-activity-command-art {
+    inset: -2.65rem -1.5rem 4.8rem -2.25rem;
+  }
+
+  .dora-activity-log-section .dora-activity-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-activity-log-section .dora-activity-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .dora-activity-landing .dora-office-route-dock-wrap {
+    width: min(100% - 1rem, 42rem);
+    margin-top: 0.52rem;
+  }
+
+  .dora-activity-landing .dora-office-route-dock {
+    grid-template-columns: 1fr;
+    min-height: 2.8rem;
+  }
+
+  .dora-activity-landing .dora-office-route-dock-brand,
+  .dora-activity-landing .dora-office-route-dock-posture {
+    display: none;
+  }
+
+  .dora-activity-landing .dora-office-route-dock-links {
+    padding: 0.42rem 0.5rem;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1.05rem), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1.05rem), transparent 100%);
+  }
+
+  .dora-activity-landing .dora-office-route-dock-link {
+    min-height: 2.1rem;
+    padding-inline: 0.58rem;
+    font-size: 0.73rem;
+  }
+
+  .dora-office-route-dock-wrap + .dora-activity-landing-hero {
+    padding-top: 1.12rem;
+  }
+
+  .dora-activity-landing-copy h1 {
+    font-size: clamp(3rem, 13.8vw, 4.1rem);
+  }
+
+  .dora-activity-landing-copy > p {
+    max-width: 23.5rem;
+    margin-top: 0.9rem;
+    font-size: 0.98rem;
+    line-height: 1.48;
+  }
+
+  .dora-activity-landing-rule {
+    margin-top: 1.18rem;
+  }
+
+  .dora-activity-landing-actions {
+    gap: 0.82rem;
+    margin-top: 1.16rem;
+  }
+
+  .dora-activity-landing-actions .dora-office-primary-cta {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .dora-activity-command-stage {
+    min-height: 21.8rem;
+  }
+
+  .dora-activity-command-art {
+    inset: -0.45rem -0.8rem 5.55rem -0.8rem;
+  }
+
+  .dora-activity-command-schema {
+    top: 0.52rem;
+    right: 0.75rem;
+    left: 0.75rem;
+    padding: 0.58rem 0.62rem;
+  }
+
+  .dora-activity-command-timeline {
+    right: 0.2rem;
+    bottom: 0.36rem;
+    left: 0.2rem;
+    padding: 0.62rem;
+  }
+
+  .dora-activity-command-agent {
+    width: 2.08rem;
+    height: 2.08rem;
+  }
+
+  .dora-activity-command-agent svg {
+    width: 1.42rem;
+    height: 1.42rem;
+  }
+
+  .dora-activity-command-agent-1 {
+    bottom: 9.15rem;
+    left: 15%;
+  }
+
+  .dora-activity-command-agent-2 {
+    bottom: 10.6rem;
+    left: 37%;
+  }
+
+  .dora-activity-command-agent-3 {
+    bottom: 9.35rem;
+    left: 63%;
+  }
+
+  .dora-activity-command-agent-4 {
+    bottom: 10.25rem;
+    left: 82%;
+  }
+
+  .dora-activity-principles-preview {
+    padding-block: 1rem;
+  }
+
+  .dora-activity-principles-grid {
+    gap: 0.62rem;
+  }
+
+  .dora-activity-principles-grid article {
+    min-height: auto;
+    padding: 0.76rem;
+  }
+
+  .dora-activity-log-section {
+    padding-top: 1.7rem;
+  }
+
+  .dora-activity-log-heading {
+    gap: 0.85rem;
+  }
+
+  .dora-activity-log-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.46rem;
+  }
+
+  .dora-activity-log-stats article {
+    padding: 0.72rem 0.62rem;
+  }
+
+  .dora-activity-log-stats strong {
+    font-size: 1.28rem;
+  }
+
+  .dora-activity-log-section .dora-activity-controls {
+    padding: 0.78rem;
+  }
+
+  .dora-activity-kind-filters {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 0.08rem;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1rem), transparent 100%);
+    mask-image: linear-gradient(90deg, #000 0, #000 calc(100% - 1rem), transparent 100%);
+  }
+
+  .dora-activity-kind-filters button {
+    flex: 0 0 auto;
+  }
+
+  .dora-activity-log-section .dora-activity-event {
+    grid-template-columns: 3.25rem auto minmax(0, 1fr);
+    align-items: start;
+    padding: 0.78rem;
+  }
+
+  .dora-activity-log-section .dora-activity-event-dot {
+    display: none;
+  }
+
+  .dora-activity-log-section .dora-activity-event-main {
+    grid-column: 3;
+    min-width: 0;
+  }
+
+  .dora-activity-log-section .dora-activity-event-main > div {
+    flex-wrap: wrap;
+    gap: 0.34rem;
+  }
+
+  .dora-activity-log-section .dora-activity-event-main strong {
+    white-space: normal;
+  }
+
+  .dora-activity-log-section .dora-activity-event-meta {
+    grid-column: 3;
+    justify-self: start;
+    margin-top: 0.2rem;
+  }
+
+  .dora-activity-log-section .dora-activity-side {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .dora-activity-landing-hero-grid,
+  .dora-activity-landing-section > .container {
+    width: min(calc(100% - 1.05rem), 42rem);
+  }
+
+  .dora-activity-landing-copy h1 {
+    font-size: clamp(2.85rem, 13.4vw, 3.72rem);
+  }
+
+  .dora-activity-command-stage {
+    min-height: 20.2rem;
+  }
+
+  .dora-activity-command-art {
+    inset: -0.25rem -0.85rem 5.2rem -0.85rem;
+  }
+
+  .dora-activity-command-timeline ol {
+    scroll-snap-type: x proximity;
+  }
+
+  .dora-activity-command-timeline li {
+    flex-basis: 8.2rem;
+    scroll-snap-align: start;
+  }
+
+  .dora-activity-command-agent-1,
+  .dora-activity-command-agent-3 {
+    bottom: 8.55rem;
+  }
+
+  .dora-activity-command-agent-2,
+  .dora-activity-command-agent-4 {
+    bottom: 9.65rem;
+  }
+
+  .dora-activity-landing-section {
+    padding-block: 1.85rem;
+  }
+
+  .dora-activity-log-section {
+    padding-top: 1.55rem;
+  }
+
+  .dora-activity-log-heading h2,
+  .dora-activity-continuation-section h2 {
+    font-size: clamp(1.56rem, 8vw, 2.05rem);
+  }
+
+  .dora-activity-log-heading p {
+    font-size: 0.94rem;
+  }
+
+  .dora-activity-log-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dora-activity-controls-head {
+    align-items: start;
+  }
+
+  .dora-activity-selects {
+    gap: 0.58rem;
+  }
+}
