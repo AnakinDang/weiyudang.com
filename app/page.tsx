@@ -33,7 +33,7 @@ const operatingLayers = [
   },
   {
     title: "Doraemon Office",
-    summary: "A public command-room view for Doraemon, MiniDoras, activity, schedules, and system heartbeat.",
+    summary: "A sanitized room for Doraemon, MiniDoras, activity, schedules, and system heartbeat.",
     boundary: "public-safe",
     boundaryLabel: "Public-safe",
     safety: "Sanitized read-only",
@@ -42,8 +42,8 @@ const operatingLayers = [
     icon: MonitorPlay
   },
   {
-    title: "Owner cockpit",
-    summary: "The private daily surface for priorities, commands, review queues, schedules, and knowledge work.",
+    title: "Owner Cockpit",
+    summary: "The private daily surface for priorities, approvals, schedules, and knowledge work.",
     boundary: "owner-only",
     boundaryLabel: "Owner-only",
     safety: "Authenticated",
@@ -53,7 +53,7 @@ const operatingLayers = [
   },
   {
     title: "Research desk",
-    summary: "Public lab notes and evidence-first research context, including MiniDora trading work without execution.",
+    summary: "Public-safe lab notes and evidence-first research context, including MiniDora trading work without execution.",
     boundary: "research-only",
     boundaryLabel: "Research-only",
     safety: "Public notes",
@@ -99,11 +99,11 @@ export default function HomePage() {
         <div className="container home-os-frame">
           <div className="home-os-heading">
             <div>
-              <h2 className="section-title">One OS. Four connected surfaces.</h2>
+              <h2 className="section-title">One operating system. Four clear surfaces.</h2>
             </div>
             <p className="section-summary">
-              The public site explains the work. Doraemon makes the office visible. The private cockpit drives execution.
-              Research stays public-safe and execution-free.
+              The public site explains the work. Doraemon Office makes agent activity visible. The owner cockpit stays
+              private. Research stays public-safe, evidence-first, and execution-free.
             </p>
           </div>
 
