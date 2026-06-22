@@ -32,6 +32,7 @@ const commandReviewPacketMode =
 
 export const commandSurfaceCopy = {
   badges: ["Owner-only", "Draft-only", "No dispatch"],
+  surfaceLabel: "Owner Command",
   heroTitle: "Command",
   heroDetail:
     "Draft a mission before anything moves. Command is the owner-level surface for shaping intent, previewing a plan, and preparing the exact review packet that must pass before implementation, publishing, or runtime work happens.",

@@ -41,6 +41,7 @@ export type OwnerCommandSurfaceData = {
   };
   copy: {
     badges: readonly string[];
+    surfaceLabel: string;
     heroTitle: string;
     heroDetail: string;
     draftLabel: string;
@@ -144,12 +145,12 @@ function safeTone(tone: string): Tone {
   return "info";
 }
 
-function LightStatusBadge({ children, tone }: { children: React.ReactNode; tone: Tone }) {
+function CommandStatusBadge({ children, tone }: { children: React.ReactNode; tone: Tone }) {
   const className = {
-    normal: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    info: "border-blue-200 bg-blue-50 text-blue-800",
-    warning: "border-amber-200 bg-amber-50 text-amber-800",
-    private: "border-slate-200 bg-slate-50 text-slate-700"
+    normal: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
+    info: "border-sky-200/25 bg-sky-300/10 text-sky-100",
+    warning: "border-yellow-200/30 bg-yellow-300/10 text-yellow-100",
+    private: "border-violet-200/25 bg-violet-300/10 text-violet-100"
   }[tone];
 
   return (
@@ -174,87 +175,116 @@ function CommandWorkspace({
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
   const draftLines = useMemo(() => draft.split(/\n/).filter((line) => line.trim().length > 0).length, [draft]);
   const commandMetrics = [
-    { label: "Plan gates", value: data.planStages.length.toString(), detail: "Visible before work moves" },
-    { label: "Owner checkpoints", value: data.approvals.length.toString(), detail: "Review states, not execution" },
-    { label: "Evidence checks", value: data.evidenceRequirements.length.toString(), detail: "Required before PR/deploy" },
-    { label: "Blocked actions", value: data.unavailableActions.length.toString(), detail: "No dispatch in this slice" }
+    {
+      label: "Plan gates",
+      value: data.planStages.length.toString(),
+      detail: "Visible before work moves",
+      toneClass: "border-sky-200/25 bg-sky-300/10 text-sky-100"
+    },
+    {
+      label: "Owner checkpoints",
+      value: data.approvals.length.toString(),
+      detail: "Review states, not execution",
+      toneClass: "border-yellow-200/30 bg-yellow-300/10 text-yellow-100"
+    },
+    {
+      label: "Evidence checks",
+      value: data.evidenceRequirements.length.toString(),
+      detail: "Required before PR/deploy",
+      toneClass: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100"
+    },
+    {
+      label: "Blocked actions",
+      value: data.unavailableActions.length.toString(),
+      detail: "No dispatch in this slice",
+      toneClass: "border-violet-200/25 bg-violet-300/10 text-violet-100"
+    }
   ] as const;
 
   return (
     <section
-      className="overflow-hidden rounded-[8px] border border-white/70 bg-white text-slate-950 shadow-[0_34px_120px_rgba(15,23,42,0.18)]"
+      className="panel relative isolate overflow-hidden p-0"
       aria-labelledby="owner-command-title"
     >
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-2/3 bg-[radial-gradient(circle_at_68%_16%,rgba(56,189,248,0.22),transparent_34%),radial-gradient(circle_at_84%_74%,rgba(250,204,21,0.13),transparent_30%),linear-gradient(135deg,transparent,rgba(59,130,246,0.10))]"
+        aria-hidden
+      />
       <div className="grid min-h-[34rem] gap-0 xl:grid-cols-[minmax(0,1.08fr)_32rem]">
         <div className="relative overflow-hidden p-6 md:p-8">
           <div
-            className="pointer-events-none absolute -right-28 -top-32 size-96 rounded-full bg-blue-500/12 blur-3xl"
+            className="pointer-events-none absolute -right-28 -top-32 size-96 rounded-full bg-sky-500/14 blur-3xl"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute bottom-0 left-1/2 h-44 w-[46rem] -translate-x-1/2 rounded-t-full border border-blue-100 bg-[radial-gradient(circle_at_50%_100%,rgba(37,99,235,0.14),transparent_62%)]"
+            className="pointer-events-none absolute bottom-0 left-1/2 h-44 w-[46rem] -translate-x-1/2 rounded-t-full border border-sky-200/10 bg-[radial-gradient(circle_at_50%_100%,rgba(56,189,248,0.12),transparent_62%)]"
             aria-hidden
           />
 
-          <div className="relative flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold uppercase text-blue-800">
+          <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
+            <Radio size={14} aria-hidden />
+            {data.copy.surfaceLabel}
+          </div>
+
+          <div className="relative mt-4 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
               <LockKeyhole size={14} aria-hidden />
               {data.copy.badges[0]}
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase text-emerald-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
               <Radio size={14} aria-hidden />
               {data.copy.badges[1]}
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs font-bold uppercase text-amber-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
               <ShieldCheck size={14} aria-hidden />
               {data.copy.badges[2]}
             </span>
           </div>
 
           <div className="relative mt-8 max-w-4xl">
-            <p className="text-sm font-semibold text-blue-700">{data.surfaceStatus.posture}</p>
-            <h2 id="owner-command-title" className="mt-2 max-w-4xl text-5xl font-semibold leading-[0.98] text-slate-950 md:text-6xl">
+            <p className="eyebrow">{data.surfaceStatus.posture}</p>
+            <h2 id="owner-command-title" className="mt-2 max-w-4xl text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
               {data.copy.heroTitle}
             </h2>
-            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
+            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
               {data.copy.heroDetail}
             </p>
           </div>
 
-          <div className="relative mt-6 grid overflow-hidden rounded-[8px] border border-blue-100 bg-white/78 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur sm:grid-cols-2 xl:grid-cols-4">
+          <div className="relative mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {commandMetrics.map((metric) => (
-              <div key={metric.label} className="border-b border-blue-100/80 p-4 last:border-b-0 sm:border-b sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:last:border-r-0">
-                <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
+              <div key={metric.label} className={`rounded-[8px] border p-4 ${metric.toneClass}`}>
+                <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
                 <div className="mt-2 flex items-end justify-between gap-3">
-                  <p className="text-xs leading-5 text-slate-500">{metric.detail}</p>
-                  <p className="text-3xl font-semibold leading-none text-blue-600">{metric.value}</p>
+                  <p className="text-xs leading-5 text-slate-200/85">{metric.detail}</p>
+                  <p className="text-3xl font-semibold leading-none text-white">{metric.value}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="relative mt-5 rounded-[8px] border border-slate-200 bg-white/86 p-4 shadow-[0_18px_70px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="relative mt-5 rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-4 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">{data.copy.draftLabel}</p>
-                <h3 className="mt-1 text-xl font-semibold text-slate-950">{data.draft.title}</h3>
+                <p className="text-xs font-bold uppercase text-yellow-100">{data.copy.draftLabel}</p>
+                <h3 className="mt-1 text-xl font-semibold text-white">{data.draft.title}</h3>
               </div>
-              <LightStatusBadge tone="private">{data.surfaceStatus.mode}</LightStatusBadge>
+              <CommandStatusBadge tone="private">{data.surfaceStatus.mode}</CommandStatusBadge>
             </div>
             <textarea
               aria-label={data.copy.draftAriaLabel}
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
-              className="mt-4 min-h-40 w-full resize-y rounded-[8px] border border-slate-200 bg-slate-50/80 p-4 text-sm leading-7 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-blue-300 focus:bg-white"
+              className="link-focus mt-4 min-h-40 w-full resize-y rounded-[8px] border border-slate-700 bg-black/20 p-4 text-sm leading-7 text-slate-100 transition placeholder:text-slate-500 focus:border-sky-200/50 focus:bg-[#020817]/60"
               placeholder={data.copy.draftPlaceholder}
             />
-            <div className="mt-3 grid gap-3 text-sm text-slate-600 sm:grid-cols-[1fr_auto] sm:items-center">
+            <div className="mt-3 grid gap-3 text-sm text-slate-300 sm:grid-cols-[1fr_auto] sm:items-center">
               <div className="flex flex-wrap gap-3">
                 <span>
-                  <strong className="text-slate-950">{draftWords}</strong> words
+                  <strong className="text-white">{draftWords}</strong> words
                 </span>
                 <span>
-                  <strong className="text-slate-950">{draftLines}</strong> active lines
+                  <strong className="text-white">{draftLines}</strong> active lines
                 </span>
                 <span>{data.surfaceStatus.runtime}</span>
               </div>
@@ -262,7 +292,7 @@ function CommandWorkspace({
                 <button
                   type="button"
                   onClick={() => setActiveMode(data.reviewPacketModeKey)}
-                  className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-[0_16px_36px_rgba(37,99,235,0.2)] transition hover:bg-blue-700"
+                  className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-sky-300 px-3 py-2 text-sm font-semibold text-slate-950 shadow-[0_16px_36px_rgba(14,165,233,0.18)] transition hover:bg-sky-200"
                 >
                   {data.copy.preparePacketAction}
                   <ArrowRight size={15} aria-hidden />
@@ -270,12 +300,12 @@ function CommandWorkspace({
                 <button
                   type="button"
                   onClick={() => setDraft(data.draft.prompt)}
-                  className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:text-blue-700"
+                  className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
                 >
                   <RotateCcw size={15} aria-hidden />
                   {data.copy.resetAction}
                 </button>
-                <span className="inline-flex items-center gap-2 rounded-[8px] border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-400">
+                <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-2 text-sm font-semibold text-yellow-50">
                   <LockKeyhole size={15} aria-hidden />
                   {data.copy.dispatchUnavailable}
                 </span>
@@ -285,15 +315,15 @@ function CommandWorkspace({
         </div>
 
         <section
-          className="relative border-t border-slate-200 bg-[linear-gradient(180deg,#f7fbff,#edf5ff)] p-5 md:p-6 xl:border-l xl:border-t-0"
+          className="relative border-t border-slate-700/70 bg-[#07111f]/45 p-5 md:p-6 xl:border-l xl:border-t-0"
           aria-labelledby="command-mode-title"
         >
           <div
-            className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-blue-500/12 blur-3xl"
+            className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-sky-500/12 blur-3xl"
             aria-hidden
           />
           <div
-            className="relative mb-4 grid gap-2 rounded-[8px] border border-blue-100 bg-white/72 p-2 shadow-[0_16px_48px_rgba(37,99,235,0.08)] sm:grid-cols-5"
+            className="relative mb-4 grid gap-2 rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-2 shadow-[0_16px_48px_rgba(14,165,233,0.08)] sm:grid-cols-5"
             role="group"
             aria-label={data.copy.lensGroupLabel}
           >
@@ -309,8 +339,8 @@ function CommandWorkspace({
                   onClick={() => setActiveMode(mode.key)}
                   className={`link-focus inline-flex items-center justify-center gap-2 rounded-[8px] border px-3 py-2 text-xs font-semibold transition ${
                     active
-                      ? "border-blue-200 bg-blue-50 text-blue-800 shadow-[0_10px_24px_rgba(37,99,235,0.08)]"
-                      : "border-transparent bg-transparent text-slate-600 hover:border-blue-100 hover:bg-white hover:text-blue-700"
+                      ? "border-sky-200/45 bg-sky-300/14 text-white shadow-[0_10px_24px_rgba(14,165,233,0.08)]"
+                      : "border-transparent bg-transparent text-slate-300 hover:border-sky-200/25 hover:bg-white/[0.055] hover:text-white"
                   }`}
                 >
                   <Icon size={15} aria-hidden />
@@ -319,39 +349,39 @@ function CommandWorkspace({
               );
             })}
           </div>
-          <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">{data.copy.activeLensLabel}</p>
-                <h3 id="command-mode-title" className="mt-1 text-xl font-semibold text-slate-950">
+                <p className="text-xs font-bold uppercase text-yellow-100">{data.copy.activeLensLabel}</p>
+                <h3 id="command-mode-title" className="mt-1 text-xl font-semibold text-white">
                   {activePanel.title}
                 </h3>
               </div>
-              <span className="flex size-11 items-center justify-center rounded-[8px] bg-blue-600 text-white">
+              <span className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
                 <Sparkles size={21} aria-hidden />
               </span>
             </div>
-            <p className="mt-4 text-sm leading-6 text-slate-600">{activePanel.detail}</p>
+            <p className="mt-4 text-sm leading-6 text-slate-300">{activePanel.detail}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <LightStatusBadge tone={safeTone(activePanel.tone)}>{activePanel.state}</LightStatusBadge>
-              <LightStatusBadge tone="private">{data.surfaceStatus.dispatch}</LightStatusBadge>
+              <CommandStatusBadge tone={safeTone(activePanel.tone)}>{activePanel.state}</CommandStatusBadge>
+              <CommandStatusBadge tone="private">{data.surfaceStatus.dispatch}</CommandStatusBadge>
             </div>
           </div>
 
           <section
-            className="relative mt-4 rounded-[8px] border border-blue-100 bg-white/78 p-5"
+            className="relative mt-4 rounded-[8px] border border-slate-700 bg-white/[0.045] p-5"
             aria-labelledby="command-review-packet-title"
           >
-            <p className="text-xs font-bold uppercase text-slate-500">{data.copy.reviewPacketLabel}</p>
-            <h3 id="command-review-packet-title" className="mt-1 text-xl font-semibold text-slate-950">
+            <p className="text-xs font-bold uppercase text-yellow-100">{data.copy.reviewPacketLabel}</p>
+            <h3 id="command-review-packet-title" className="mt-1 text-xl font-semibold text-white">
               {data.reviewPacket.title}
             </h3>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{data.reviewPacket.summary}</p>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{data.reviewPacket.summary}</p>
             <div className="mt-4 grid gap-3">
               {data.reviewPacket.sections.map((section) => (
-                <div key={section.label} className="grid grid-cols-[5.5rem_1fr] gap-3 rounded-[8px] border border-blue-100 bg-white/72 p-3">
-                  <span className="text-xs font-bold uppercase text-slate-500">{section.label}</span>
-                  <span className="text-sm font-semibold text-slate-950">{section.value}</span>
+                <div key={section.label} className="grid grid-cols-[5.5rem_1fr] gap-3 rounded-[8px] border border-slate-700 bg-black/15 p-3">
+                  <span className="text-xs font-bold uppercase text-slate-400">{section.label}</span>
+                  <span className="text-sm font-semibold text-white">{section.value}</span>
                 </div>
               ))}
             </div>
@@ -359,12 +389,12 @@ function CommandWorkspace({
 
           <div className="relative mt-4 grid gap-3">
             {data.readinessChecks.map((check) => (
-              <article key={check.label} className="rounded-[8px] border border-blue-100 bg-white/72 p-4">
+              <article key={check.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <h4 className="text-sm font-semibold text-slate-950">{check.label}</h4>
-                  <LightStatusBadge tone={safeTone(check.tone)}>{check.state}</LightStatusBadge>
+                  <h4 className="text-sm font-semibold text-white">{check.label}</h4>
+                  <CommandStatusBadge tone={safeTone(check.tone)}>{check.state}</CommandStatusBadge>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-600">{check.detail}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-300">{check.detail}</p>
               </article>
             ))}
           </div>
