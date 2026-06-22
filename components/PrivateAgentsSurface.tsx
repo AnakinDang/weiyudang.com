@@ -1,7 +1,6 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
@@ -223,21 +222,6 @@ function postureChoiceKey(agentId: PrivateAgent["id"], label: string) {
   return `${agentId}:${label}`;
 }
 
-function LightStatusBadge({ children, tone }: { children: ReactNode; tone: Tone }) {
-  const className = {
-    normal: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    info: "border-blue-200 bg-blue-50 text-blue-800",
-    warning: "border-amber-200 bg-amber-50 text-amber-800",
-    private: "border-slate-200 bg-slate-50 text-slate-700"
-  }[tone];
-
-  return (
-    <span className={`inline-flex items-center rounded-[8px] border px-2.5 py-1 text-xs font-bold uppercase ${className}`}>
-      {children}
-    </span>
-  );
-}
-
 function AgentButton({
   agent,
   active,
@@ -288,57 +272,76 @@ function AgentButton({
 
 function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metrics: readonly PrivateAgentMetric[] }) {
   const ActiveIcon = roleIcons[activeAgent.role];
+  const heroMetrics = metrics.map((metric, index) => ({
+    ...metric,
+    toneClass: [
+      "border-sky-200/25 bg-sky-300/10 text-sky-100",
+      "border-yellow-200/30 bg-yellow-300/10 text-yellow-100",
+      "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
+      "border-violet-200/25 bg-violet-300/10 text-violet-100"
+    ][index % 4]
+  }));
 
   return (
     <section
-      className="overflow-hidden rounded-[8px] border border-white/70 bg-white text-slate-950 shadow-[0_34px_120px_rgba(15,23,42,0.18)]"
+      className="panel relative isolate overflow-hidden p-0"
       aria-labelledby="private-agents-title"
     >
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-2/3 bg-[radial-gradient(circle_at_66%_18%,rgba(56,189,248,0.22),transparent_34%),radial-gradient(circle_at_82%_72%,rgba(250,204,21,0.13),transparent_30%),linear-gradient(135deg,transparent,rgba(59,130,246,0.10))]"
+        aria-hidden
+      />
       <div className="grid min-h-[30rem] gap-0 xl:grid-cols-[minmax(0,1.08fr)_31rem]">
         <div className="relative overflow-hidden p-6 md:p-8">
           <div
-            className="pointer-events-none absolute -right-28 -top-32 size-96 rounded-full bg-blue-500/12 blur-3xl"
+            className="pointer-events-none absolute -left-28 top-10 size-96 rounded-full bg-sky-500/14 blur-3xl"
             aria-hidden
           />
           <div
-            className="pointer-events-none absolute bottom-0 left-1/2 h-44 w-[46rem] -translate-x-1/2 rounded-t-full border border-blue-100 bg-[radial-gradient(circle_at_50%_100%,rgba(37,99,235,0.14),transparent_62%)]"
+            className="pointer-events-none absolute bottom-0 right-0 h-56 w-[46rem] rounded-tl-full border border-sky-200/10 bg-[radial-gradient(circle_at_65%_100%,rgba(250,204,21,0.12),rgba(56,189,248,0.10)_42%,transparent_70%)]"
             aria-hidden
           />
 
-          <div className="relative flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold uppercase text-blue-800">
+          <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
+            <Network size={14} aria-hidden />
+            Agent operations
+          </div>
+
+          <div className="relative mt-4 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
               <LockKeyhole size={14} aria-hidden />
               Owner-only
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase text-emerald-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
               <Radio size={14} aria-hidden />
               Read-only roster
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs font-bold uppercase text-amber-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
               <ShieldCheck size={14} aria-hidden />
               No execution
             </span>
           </div>
 
           <div className="relative mt-10 max-w-4xl">
-            <h2 id="private-agents-title" className="max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
+            <p className="eyebrow">Private MiniDora roster</p>
+            <h2 id="private-agents-title" className="mt-2 max-w-4xl text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
               MiniDora Agents
             </h2>
-            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
+            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
               Inspect the team behind the Personal OS: current leases, source health, recent outputs, handoffs, and
               guardrails. Intelligence without execution. You approve the work.
             </p>
           </div>
 
-          <div className="relative mt-7 grid overflow-hidden rounded-[8px] border border-slate-200 bg-white/82 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur sm:grid-cols-2 xl:grid-cols-4">
-            {metrics.map((metric) => (
+          <div className="relative mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {heroMetrics.map((metric) => (
               <div
                 key={metric.label}
-                className="border-b border-slate-200 p-4 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:last:border-r-0"
+                className={`rounded-[8px] border p-4 ${metric.toneClass}`}
               >
-                <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
-                <strong className="mt-2 block text-3xl font-semibold text-slate-950">{metric.value}</strong>
-                <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
+                <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
+                <strong className="mt-2 block text-3xl font-semibold text-white">{metric.value}</strong>
+                <p className="mt-2 text-sm leading-5 text-slate-200/85">{metric.detail}</p>
               </div>
             ))}
           </div>
@@ -364,12 +367,12 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
               const Icon = item.icon;
 
               return (
-                <article key={item.label} className="rounded-[8px] border border-blue-100 bg-white/74 p-4 shadow-[0_16px_55px_rgba(37,99,235,0.07)] backdrop-blur">
-                  <div className="flex items-center gap-2 text-blue-700">
+                <article key={item.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 shadow-[0_16px_55px_rgba(14,165,233,0.08)] backdrop-blur">
+                  <div className="flex items-center gap-2 text-sky-100">
                     <Icon size={16} aria-hidden />
                     <p className="text-xs font-bold uppercase">{item.label}</p>
                   </div>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">{item.value}</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-slate-200">{item.value}</p>
                 </article>
               );
             })}
@@ -377,50 +380,50 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
         </div>
 
         <section
-          className="relative border-t border-slate-200 bg-[linear-gradient(180deg,#f7fbff,#edf5ff)] p-5 md:p-6 xl:border-l xl:border-t-0"
+          className="relative border-t border-slate-700/70 bg-[#07111f]/45 p-5 md:p-6 xl:border-l xl:border-t-0"
           aria-labelledby="active-agent-title"
         >
           <div
-            className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-blue-500/12 blur-3xl"
+            className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-sky-500/12 blur-3xl"
             aria-hidden
           />
-          <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">Active selection</p>
-                <h3 id="active-agent-title" className="mt-1 text-2xl font-semibold text-slate-950">
+                <p className="text-xs font-bold uppercase text-yellow-100">Active selection</p>
+                <h3 id="active-agent-title" className="mt-1 text-2xl font-semibold text-white">
                   {activeAgent.name}
                 </h3>
-                <p className="mt-1 text-xs font-bold uppercase text-blue-700">{activeAgent.role}</p>
+                <p className="mt-1 text-xs font-bold uppercase text-sky-100">{activeAgent.role}</p>
               </div>
-              <span className="flex size-12 items-center justify-center rounded-[8px] bg-blue-600 text-white">
+              <span className="flex size-12 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
                 <ActiveIcon size={23} aria-hidden />
               </span>
             </div>
-            <p className="mt-5 text-sm leading-6 text-slate-600">{activeAgent.mission}</p>
+            <p className="mt-5 text-sm leading-6 text-slate-300">{activeAgent.mission}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <LightStatusBadge tone={activeAgent.tone}>{activeAgent.state}</LightStatusBadge>
-              <LightStatusBadge tone="private">{activeAgent.leaseStatus}</LightStatusBadge>
-              <LightStatusBadge tone={sourceHealthTone[activeAgent.sourceHealth]}>{activeAgent.sourceHealth}</LightStatusBadge>
+              <StatusBadge tone={activeAgent.tone}>{activeAgent.state}</StatusBadge>
+              <StatusBadge tone={leaseStatusTone[activeAgent.leaseStatus]}>{activeAgent.leaseStatus}</StatusBadge>
+              <StatusBadge tone={sourceHealthTone[activeAgent.sourceHealth]}>{activeAgent.sourceHealth}</StatusBadge>
             </div>
           </div>
 
           <div className="relative mt-4 grid gap-3">
-            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Current lease</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{activeAgent.lease}</p>
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Current lease</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{activeAgent.lease}</p>
             </div>
-            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Last output</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{activeAgent.lastOutput}</p>
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Last output</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{activeAgent.lastOutput}</p>
             </div>
-            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Next review</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{activeAgent.nextReview}</p>
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Next review</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{activeAgent.nextReview}</p>
             </div>
-            <div className="rounded-[8px] border border-amber-100 bg-amber-50/80 p-4">
-              <p className="text-xs font-bold uppercase text-amber-800">Guardrail</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{activeAgent.guardrail}</p>
+            <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
+              <p className="text-xs font-bold uppercase text-yellow-100">Guardrail</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{activeAgent.guardrail}</p>
             </div>
           </div>
         </section>
