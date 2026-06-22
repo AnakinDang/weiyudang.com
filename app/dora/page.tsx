@@ -117,8 +117,10 @@ const heroAgentNodes = [
   { name: "Research MiniDora", tone: "research" },
   { name: "Dev MiniDora", tone: "dev" },
   { name: "Product MiniDora", tone: "product" },
+  { name: "Ops MiniDora", tone: "ops" },
   { name: "Memory MiniDora", tone: "memory" },
-  { name: "Ops MiniDora", tone: "ops" }
+  { name: "Trading MiniDora", tone: "trading" },
+  { name: "Media MiniDora", tone: "media" }
 ] as const;
 
 const publicItems = ["Sanitized activity", "High-level state", "Agent presence", "System health"];
@@ -138,7 +140,6 @@ export default function DoraPage() {
                 <span>Office</span>
               </h1>
               <p className="doraemon-doorway-lede">The public window into Weiyu&apos;s personal AI command room.</p>
-              <p className="doraemon-doorway-principle">Doraemon coordinates. MiniDoras work. Weiyu decides.</p>
               <div className="doraemon-doorway-actions">
                 <Link href="/dora/office" className="link-focus doraemon-primary-action">
                   Enter Doraemon Office
@@ -207,7 +208,7 @@ export default function DoraPage() {
                 <div className="doraemon-activity-preview-head">
                   <span>
                     <Clock3 size={14} aria-hidden />
-                    Demo activity (public-safe)
+                    Demo activity · public-safe
                   </span>
                   <small>Demo replay</small>
                 </div>
