@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
 import {
   Bell,
+  CircleDashed,
   Eye,
   FileSearch,
   LockKeyhole,
@@ -21,8 +21,7 @@ import {
   ownerSettingsMetrics,
   ownerSettingsPackets,
   ownerSettingsPolicy,
-  type OwnerSettingsPacket,
-  type SettingsTone
+  type OwnerSettingsPacket
 } from "@/lib/private/settings";
 
 export const dynamic = "force-dynamic";
@@ -36,108 +35,120 @@ const unavailableControls = [
   "Send notification"
 ] as const;
 
-function LightStatusBadge({ children, tone }: { children: ReactNode; tone: SettingsTone }) {
-  const className = {
-    normal: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    info: "border-blue-200 bg-blue-50 text-blue-800",
-    warning: "border-amber-200 bg-amber-50 text-amber-800",
-    private: "border-slate-200 bg-slate-50 text-slate-700",
-    danger: "border-red-200 bg-red-50 text-red-800"
-  }[tone];
+const settingsMetricIcons = {
+  held: ShieldCheck,
+  "status-only": Eye,
+  planned: CircleDashed,
+  blocked: LockKeyhole
+} as const;
+
+const settingsMetricToneClass = {
+  held: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
+  "status-only": "border-sky-200/25 bg-sky-300/10 text-sky-100",
+  planned: "border-yellow-200/30 bg-yellow-300/10 text-yellow-100",
+  blocked: "border-violet-200/25 bg-violet-300/10 text-violet-100"
+} as const;
+
+function SettingsMetricCard({ metric }: { metric: (typeof ownerSettingsMetrics)[number] }) {
+  const Icon = settingsMetricIcons[metric.lifecycle] ?? Settings2;
+  const toneClass = settingsMetricToneClass[metric.lifecycle] ?? settingsMetricToneClass["status-only"];
 
   return (
-    <span className={`inline-flex items-center rounded-[8px] border px-2.5 py-1 text-xs font-bold uppercase ${className}`}>
-      {children}
-    </span>
+    <article className={`rounded-[8px] border p-4 ${toneClass}`}>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
+        <Icon size={17} aria-hidden />
+      </div>
+      <p className="mt-3 text-2xl font-semibold text-white">{metric.value}</p>
+      <p className="mt-2 text-xs leading-5 text-slate-200/85">{metric.detail}</p>
+    </article>
   );
 }
 
 function SettingsHero({ primaryPacket }: { primaryPacket: OwnerSettingsPacket }) {
   return (
     <section
-      className="overflow-hidden rounded-[8px] border border-white/70 bg-white text-slate-950 shadow-[0_34px_120px_rgba(15,23,42,0.18)]"
+      className="panel relative isolate overflow-hidden"
       aria-labelledby="settings-title"
     >
-      <div className="grid min-h-[30rem] gap-0 xl:grid-cols-[minmax(0,1.08fr)_31rem]">
-        <div className="relative overflow-hidden p-6 md:p-8">
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-2/3 bg-[radial-gradient(circle_at_64%_18%,rgba(56,189,248,0.22),transparent_32%),radial-gradient(circle_at_80%_70%,rgba(250,204,21,0.12),transparent_30%),linear-gradient(135deg,transparent,rgba(59,130,246,0.10))]"
+        aria-hidden
+      />
+      <div className="grid min-h-[30rem] gap-0 xl:grid-cols-[minmax(0,1fr)_30rem]">
+        <div className="relative overflow-hidden p-6 md:p-7">
           <div
-            className="pointer-events-none absolute -right-28 -top-32 size-96 rounded-full bg-blue-500/12 blur-3xl"
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute bottom-0 left-0 h-52 w-[42rem] rounded-tr-full border border-blue-100 bg-[radial-gradient(circle_at_35%_100%,rgba(37,99,235,0.12),rgba(250,204,21,0.12)_45%,transparent_70%)]"
+            className="pointer-events-none absolute bottom-0 left-0 h-52 w-[42rem] rounded-tr-full border border-sky-200/10 bg-[radial-gradient(circle_at_35%_100%,rgba(56,189,248,0.12),rgba(250,204,21,0.10)_45%,transparent_70%)]"
             aria-hidden
           />
 
-          <div className="relative flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold uppercase text-blue-800">
-              <LockKeyhole size={14} aria-hidden />
-              Owner-only
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase text-emerald-800">
-              <ShieldCheck size={14} aria-hidden />
-              Status-only
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs font-bold uppercase text-amber-800">
-              <XCircle size={14} aria-hidden />
-              No secret display
-            </span>
+          <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
+            <Settings2 size={14} aria-hidden />
+            Owner Settings
           </div>
 
-          <div className="relative mt-10 max-w-4xl">
-            <p className="text-sm font-semibold text-blue-700">Read-only settings register</p>
-            <h2 id="settings-title" className="mt-3 max-w-4xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
-              Keep owner preferences visible without exposing credentials or adding mutation controls.
+          <div className="relative mt-5 max-w-4xl">
+            <h2 id="settings-title" className="max-w-4xl text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
+              Settings describe posture. They do not become controls.
             </h2>
-            <p className="mt-5 max-w-3xl text-base leading-7 text-slate-600">
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
               Settings show profile posture, session status, display modes, and notification intent. They do not reveal
               token material, connect accounts, send notifications, edit schedules, or write preferences.
             </p>
           </div>
 
-          <div className="relative mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            {ownerSettingsMetrics.map((metric) => (
-              <div key={metric.label} className="rounded-[8px] border border-slate-200 bg-white/82 p-4 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur">
-                <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
-                <strong className="mt-2 block text-3xl font-semibold text-slate-950">{metric.value}</strong>
-                <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
-              </div>
-            ))}
+          <div className="relative mt-5 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
+              <LockKeyhole size={14} aria-hidden />
+              Owner-only
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
+              <ShieldCheck size={14} aria-hidden />
+              Status-only
+            </span>
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
+              <XCircle size={14} aria-hidden />
+              No secret display
+            </span>
+          </div>
+
+          <div className="relative mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {ownerSettingsMetrics.map((metric) => <SettingsMetricCard key={metric.label} metric={metric} />)}
           </div>
         </div>
 
         <div
-          className="relative border-t border-slate-200 bg-[linear-gradient(180deg,#f7fbff,#edf5ff)] p-5 md:p-6 xl:border-l xl:border-t-0"
+          className="relative border-t border-slate-700/70 bg-[#07111f]/45 p-5 md:p-6 xl:border-l xl:border-t-0"
         >
-          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-blue-500/12 blur-3xl" aria-hidden />
-          <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-sky-500/12 blur-3xl" aria-hidden />
+          <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">Primary boundary</p>
-                <h3 className="mt-1 text-2xl font-semibold text-slate-950">
+                <p className="text-xs font-bold uppercase text-yellow-100">Primary boundary</p>
+                <h3 className="mt-2 text-2xl font-semibold text-white">
                   {primaryPacket.title}
                 </h3>
-                <p className="mt-1 text-xs font-bold uppercase text-blue-700">{primaryPacket.domain}</p>
+                <p className="mt-1 text-xs font-bold uppercase text-sky-100">{primaryPacket.domain}</p>
               </div>
-              <span className="flex size-12 items-center justify-center rounded-[8px] bg-blue-600 text-white">
+              <span className="flex size-12 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
                 <Settings2 size={23} aria-hidden />
               </span>
             </div>
-            <p className="mt-5 text-sm leading-6 text-slate-600">{primaryPacket.summary}</p>
+            <p className="mt-5 text-sm leading-6 text-slate-300">{primaryPacket.summary}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <LightStatusBadge tone={primaryPacket.tone}>{primaryPacket.state}</LightStatusBadge>
-              <LightStatusBadge tone="private">Owner gated</LightStatusBadge>
+              <StatusBadge tone={primaryPacket.tone}>{primaryPacket.state}</StatusBadge>
+              <StatusBadge tone="private">Owner gated</StatusBadge>
             </div>
           </div>
 
           <div className="relative mt-4 grid gap-3">
-            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Visible value</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{primaryPacket.visibleValue}</p>
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Visible value</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{primaryPacket.visibleValue}</p>
             </div>
-            <div className="rounded-[8px] border border-amber-100 bg-amber-50/80 p-4">
-              <p className="text-xs font-bold uppercase text-amber-800">Owner gate</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{primaryPacket.ownerGate}</p>
+            <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
+              <p className="text-xs font-bold uppercase text-yellow-100">Owner gate</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{primaryPacket.ownerGate}</p>
             </div>
           </div>
         </div>
