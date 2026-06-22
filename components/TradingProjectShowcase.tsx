@@ -36,6 +36,24 @@ const desks = [
     focus: "Gates, missing evidence, forbidden actions",
     state: "Gate",
     detail: "Stops weak packets from becoming conclusions when sources degrade or evidence is missing."
+  },
+  {
+    name: "News Desk",
+    focus: "Catalyst watch, source freshness, event windows",
+    state: "Watch",
+    detail: "Separates event context from urgency so public examples do not imply live private signals."
+  },
+  {
+    name: "Crypto Desk",
+    focus: "Digital asset samples, regime context, liquidity checks",
+    state: "Sample",
+    detail: "Keeps crypto research in the same evidence-first lane without account or wallet context."
+  },
+  {
+    name: "Evidence Desk",
+    focus: "Provenance, blockers, replay trace",
+    state: "Trace",
+    detail: "Links every important claim to a packet, a missing proof item, or a counter-evidence note."
   }
 ] as const;
 
@@ -88,6 +106,49 @@ const replaySteps = [
   "Evidence Desk marks missing proof.",
   "Risk Desk keeps execution disabled.",
   "Owner reviews the packet in the private cockpit."
+] as const;
+
+const consolePreview = [
+  {
+    view: "Today",
+    detail: "Owner review needs, source health, open questions",
+    state: "Private"
+  },
+  {
+    view: "Signals",
+    detail: "Thesis, confidence band, evidence and counter-evidence counts",
+    state: "Research"
+  },
+  {
+    view: "Desks",
+    detail: "Macro, equity, options, risk, news, crypto, evidence disagreement",
+    state: "Compare"
+  },
+  {
+    view: "Instruments",
+    detail: "Instrument-level summaries, history, source quality, risk flags",
+    state: "Gated"
+  },
+  {
+    view: "Options Lab",
+    detail: "Volatility and scenario notes without strategy execution",
+    state: "Scenario"
+  },
+  {
+    view: "Evidence",
+    detail: "Gate status, missing proof, provenance, blockers",
+    state: "Trace"
+  },
+  {
+    view: "Replay",
+    detail: "How desks formed or revised a research view",
+    state: "Audit"
+  },
+  {
+    view: "System",
+    detail: "Data freshness, run health, degraded-mode explanation",
+    state: "Health"
+  }
 ] as const;
 
 const publicPrivateRows = [
@@ -233,12 +294,31 @@ export function TradingProjectShowcase() {
       </section>
 
       <section className="trading-project-console-preview" aria-labelledby="trading-private-console-title">
-        <div>
-          <h2 id="trading-private-console-title">Private console preview</h2>
-          <p>
-            The owner cockpit organizes sample signals, desks, evidence gates, options scenarios, replay, and source
-            health. Access is gated by the private owner session.
-          </p>
+        <div className="trading-project-console-preview__copy">
+          <div>
+            <h2 id="trading-private-console-title">Private console preview</h2>
+            <p>
+              The owner cockpit organizes sample signals, desks, evidence gates, options scenarios, replay, and source
+              health. Access is gated by the private owner session.
+            </p>
+          </div>
+          <div className="trading-project-console-preview__guardrail" aria-label="Private console guardrails">
+            {["Read-only", "Owner-gated", "No execution"].map((item) => (
+              <span key={item}>
+                <CheckCircle2 size={14} aria-hidden />
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="trading-project-console-map" aria-label="Private trading console view map">
+          {consolePreview.map((item) => (
+            <article key={item.view}>
+              <span>{item.state}</span>
+              <strong>{item.view}</strong>
+              <p>{item.detail}</p>
+            </article>
+          ))}
         </div>
         <Link href="/app/trading" prefetch={false} className="link-focus">
           <LockKeyhole size={16} aria-hidden />
