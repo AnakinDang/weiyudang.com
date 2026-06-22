@@ -193,6 +193,35 @@ export default function DoraTasksPage() {
           </div>
         </section>
 
+        <section
+          className="dora-tasks-landing-section dora-tasks-queue-section"
+          id="public-task-queue"
+          aria-labelledby="public-task-queue-title"
+        >
+          <div className="container dora-tasks-queue-heading">
+            <div>
+              <h2 id="public-task-queue-title">Public Task Queue</h2>
+              <p>Filter sanitized groups by public state. Every row uses fixed labels, opaque keys, and coarse timing.</p>
+            </div>
+            <div className="dora-tasks-log-stats" aria-label="Public task state counts">
+              {publicDoraTaskStats.map((stat) => {
+                const Icon = statIcons[stat.label];
+
+                return (
+                  <article key={stat.label}>
+                    <Icon size={20} aria-hidden />
+                    <strong>{stat.value}</strong>
+                    <span>{stat.label}</span>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+          <div className="container">
+            <TaskBoard tasks={publicDoraTasks} />
+          </div>
+        </section>
+
         <section className="dora-tasks-landing-section dora-tasks-boundary-section" aria-labelledby="dora-tasks-boundary-title">
           <div className="container dora-tasks-boundary-grid">
             <div className="dora-tasks-section-copy">
@@ -271,35 +300,6 @@ export default function DoraTasksPage() {
           title="Tasks are one signal in the operating loop"
           summary="Schedules create cadence, tasks expose public posture, system health proves readiness, and activity gives the timeline around it."
         />
-
-        <section
-          className="dora-tasks-landing-section dora-tasks-queue-section"
-          id="public-task-queue"
-          aria-labelledby="public-task-queue-title"
-        >
-          <div className="container dora-tasks-queue-heading">
-            <div>
-              <h2 id="public-task-queue-title">Public Task Queue</h2>
-              <p>Filter sanitized groups by public state. Every row uses fixed labels, opaque keys, and coarse timing.</p>
-            </div>
-            <div className="dora-tasks-log-stats" aria-label="Public task state counts">
-              {publicDoraTaskStats.map((stat) => {
-                const Icon = statIcons[stat.label];
-
-                return (
-                  <article key={stat.label}>
-                    <Icon size={20} aria-hidden />
-                    <strong>{stat.value}</strong>
-                    <span>{stat.label}</span>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-          <div className="container">
-            <TaskBoard tasks={publicDoraTasks} />
-          </div>
-        </section>
 
         <section className="dora-tasks-landing-section dora-tasks-continuation-section" aria-label="Doraemon Tasks continuation routes">
           <div className="container dora-office-command-shell">
