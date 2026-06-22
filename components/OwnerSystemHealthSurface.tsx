@@ -130,15 +130,15 @@ const constellationIcons = [LockKeyhole, ShieldCheck, Radio, FileSearch, Waypoin
 
 function SystemBadge({ children, tone = "info" }: { children: React.ReactNode; tone?: SystemTone }) {
   const className = {
-    normal: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    info: "border-blue-200 bg-blue-50 text-blue-800",
-    warning: "border-amber-200 bg-amber-50 text-amber-800",
-    private: "border-slate-200 bg-slate-50 text-slate-700",
-    danger: "border-red-200 bg-red-50 text-red-800"
+    normal: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
+    info: "border-sky-200/25 bg-sky-300/10 text-sky-100",
+    warning: "border-yellow-200/30 bg-yellow-300/10 text-yellow-100",
+    private: "border-violet-200/25 bg-violet-300/10 text-violet-100",
+    danger: "border-red-300/30 bg-red-300/10 text-red-100"
   }[tone];
 
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-[8px] border px-2.5 py-1 text-xs font-bold ${className}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-[8px] border px-2.5 py-1 text-xs font-bold uppercase ${className}`}>
       {children}
     </span>
   );
@@ -182,30 +182,52 @@ function evidenceSummary(service: PrivateSystemService) {
 function SystemHero({ data, selectedService }: { data: OwnerSystemHealthData; selectedService: PrivateSystemService }) {
   const summary = healthSummary(data.services);
   const PostureIcon = postureCopy[selectedService.posture].icon;
+  const metricToneClass = (label: string) => {
+    const normalized = label.toLowerCase();
+    if (normalized.includes("healthy")) {
+      return "border-emerald-200/25 bg-emerald-300/10 text-emerald-100";
+    }
+    if (normalized.includes("watch")) {
+      return "border-yellow-200/30 bg-yellow-300/10 text-yellow-100";
+    }
+    if (normalized.includes("blocked")) {
+      return "border-violet-200/25 bg-violet-300/10 text-violet-100";
+    }
+    return "border-sky-200/25 bg-sky-300/10 text-sky-100";
+  };
 
   return (
     <section
-      className="overflow-hidden rounded-[8px] border border-white/70 bg-white text-slate-950 shadow-[0_34px_120px_rgba(15,23,42,0.18)]"
+      className="panel relative isolate overflow-hidden p-0"
       aria-labelledby="system-health-title"
     >
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-2/3 bg-[radial-gradient(circle_at_66%_18%,rgba(56,189,248,0.22),transparent_34%),radial-gradient(circle_at_82%_72%,rgba(250,204,21,0.13),transparent_30%),linear-gradient(135deg,transparent,rgba(59,130,246,0.10))]"
+        aria-hidden
+      />
       <div className="grid min-h-[31rem] gap-0 xl:grid-cols-[minmax(0,1fr)_25rem] 2xl:grid-cols-[minmax(0,1fr)_29rem]">
         <div className="relative overflow-hidden p-6 md:p-8">
-          <div className="pointer-events-none absolute -right-28 -top-32 size-96 rounded-full bg-blue-500/10 blur-3xl" aria-hidden />
+          <div className="pointer-events-none absolute -left-28 top-10 size-96 rounded-full bg-sky-500/14 blur-3xl" aria-hidden />
           <div
-            className="pointer-events-none absolute bottom-0 left-1/2 h-48 w-[50rem] -translate-x-1/2 rounded-t-full border border-blue-100 bg-[radial-gradient(circle_at_50%_100%,rgba(37,99,235,0.14),rgba(34,197,94,0.08)_42%,transparent_70%)]"
+            className="pointer-events-none absolute bottom-0 right-0 h-56 w-[46rem] rounded-tl-full border border-sky-200/10 bg-[radial-gradient(circle_at_65%_100%,rgba(250,204,21,0.12),rgba(56,189,248,0.10)_42%,transparent_70%)]"
             aria-hidden
           />
 
-          <div className="relative flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold uppercase text-blue-800">
+          <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
+            <Gauge size={14} aria-hidden />
+            Owner System Health
+          </div>
+
+          <div className="relative mt-4 flex flex-wrap items-center gap-2">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
               <LockKeyhole size={14} aria-hidden />
               Owner-only
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-100 bg-emerald-50 px-3 py-1.5 text-xs font-bold uppercase text-emerald-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
               <FileSearch size={14} aria-hidden />
               Evidence-first
             </span>
-            <span className="inline-flex items-center gap-2 rounded-[8px] border border-amber-100 bg-amber-50 px-3 py-1.5 text-xs font-bold uppercase text-amber-800">
+            <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
               <ShieldCheck size={14} aria-hidden />
               Read-only posture
             </span>
@@ -213,21 +235,22 @@ function SystemHero({ data, selectedService }: { data: OwnerSystemHealthData; se
 
           <div className="relative mt-10 grid gap-8 2xl:grid-cols-[minmax(18rem,0.82fr)_minmax(24rem,1fr)]">
             <div>
-              <h2 id="system-health-title" className="max-w-3xl text-4xl font-semibold leading-[1.02] text-slate-950 md:text-5xl">
+              <p className="eyebrow">Private diagnostics room</p>
+              <h2 id="system-health-title" className="mt-2 max-w-3xl text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
                 System Health
               </h2>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
+              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 md:text-lg">
                 A private posture room for Doraemon and the MiniDoras: service status, review gates, boundary checks,
                 and known gaps without turning diagnostics into an operations console.
               </p>
             </div>
 
-            <div className="relative min-h-[18rem] rounded-[8px] border border-slate-200 bg-white/64 p-5 shadow-[0_24px_90px_rgba(37,99,235,0.08)] backdrop-blur">
-              <div className="absolute inset-6 rounded-full border border-blue-100" aria-hidden />
-              <div className="absolute inset-x-12 top-1/2 border-t border-blue-100" aria-hidden />
-              <div className="absolute inset-y-12 left-1/2 border-l border-blue-100" aria-hidden />
+            <div className="relative min-h-[18rem] rounded-[8px] border border-slate-700 bg-[#07111f]/72 p-5 shadow-[0_24px_90px_rgba(14,165,233,0.10)] backdrop-blur">
+              <div className="absolute inset-6 rounded-full border border-sky-200/12" aria-hidden />
+              <div className="absolute inset-x-12 top-1/2 border-t border-sky-200/12" aria-hidden />
+              <div className="absolute inset-y-12 left-1/2 border-l border-sky-200/12" aria-hidden />
               <div className="relative flex h-full min-h-[15rem] items-center justify-center">
-                <div className="flex size-24 items-center justify-center rounded-full border border-blue-200 bg-blue-600 text-white shadow-[0_22px_70px_rgba(37,99,235,0.28)]">
+                <div className="flex size-24 items-center justify-center rounded-full border border-sky-200/35 bg-sky-300/16 text-sky-50 shadow-[0_22px_70px_rgba(14,165,233,0.18)]">
                   <Gauge size={36} aria-hidden />
                 </div>
                 {data.services.slice(0, 6).map((service, index) => {
@@ -240,8 +263,10 @@ function SystemHero({ data, selectedService }: { data: OwnerSystemHealthData; se
                   return (
                     <div
                       key={service.id}
-                      className={`absolute flex size-14 items-center justify-center rounded-[8px] border text-blue-700 transition ${
-                        isSelected ? "border-blue-300 bg-blue-50 shadow-[0_12px_34px_rgba(37,99,235,0.2)]" : "border-slate-200 bg-white"
+                      className={`absolute flex size-14 items-center justify-center rounded-[8px] border transition ${
+                        isSelected
+                          ? "border-sky-300/60 bg-sky-300/18 text-white shadow-[0_12px_34px_rgba(14,165,233,0.18)]"
+                          : "border-slate-700 bg-slate-950/70 text-slate-300"
                       }`}
                       style={{ left: "50%", top: "50%", transform: `translate(-50%, -50%) translate(${x}rem, ${y}rem)` }}
                       aria-label={service.label}
@@ -254,68 +279,68 @@ function SystemHero({ data, selectedService }: { data: OwnerSystemHealthData; se
             </div>
           </div>
 
-          <div className="relative mt-7 grid overflow-hidden rounded-[8px] border border-slate-200 bg-white/82 shadow-[0_18px_70px_rgba(37,99,235,0.08)] backdrop-blur sm:grid-cols-2 xl:grid-cols-4">
+          <div className="relative mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {data.metrics.map((metric) => (
               <div
                 key={metric.label}
-                className="border-b border-slate-200 p-4 sm:border-r sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(n+3)]:border-b-0 xl:border-b-0 xl:[&:nth-child(2n)]:border-r xl:last:border-r-0"
+                className={`rounded-[8px] border p-4 ${metricToneClass(metric.label)}`}
               >
-                <p className="text-xs font-bold uppercase text-slate-500">{metric.label}</p>
-                <strong className="mt-2 block text-3xl font-semibold text-slate-950">{metric.value}</strong>
-                <p className="mt-2 text-sm leading-5 text-slate-600">{metric.detail}</p>
+                <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
+                <strong className="mt-2 block text-3xl font-semibold text-white">{metric.value}</strong>
+                <p className="mt-2 text-sm leading-5 text-slate-200/85">{metric.detail}</p>
               </div>
             ))}
           </div>
         </div>
 
         <section
-          className="relative border-t border-slate-200 bg-[linear-gradient(180deg,#f7fbff,#edf5ff)] p-5 md:p-6 xl:border-l xl:border-t-0"
+          className="relative border-t border-slate-700/70 bg-[#07111f]/45 p-5 md:p-6 xl:border-l xl:border-t-0"
           aria-labelledby="posture-card-title"
         >
-          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-blue-500/12 blur-3xl" aria-hidden />
-          <div className="relative rounded-[8px] border border-white bg-white/78 p-5 shadow-[0_20px_80px_rgba(37,99,235,0.1)] backdrop-blur">
+          <div className="pointer-events-none absolute inset-x-6 top-6 h-48 rounded-full bg-sky-500/12 blur-3xl" aria-hidden />
+          <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-500">Selected service</p>
-                <h3 id="posture-card-title" className="mt-1 text-2xl font-semibold text-slate-950">
+                <p className="text-xs font-bold uppercase text-yellow-100">Selected service</p>
+                <h3 id="posture-card-title" className="mt-1 text-2xl font-semibold text-white">
                   {selectedService.label}
                 </h3>
-                <p className="mt-1 text-xs font-bold uppercase text-blue-700">{selectedService.domain}</p>
+                <p className="mt-1 text-xs font-bold uppercase text-sky-100">{selectedService.domain}</p>
               </div>
-              <span className="flex size-12 items-center justify-center rounded-[8px] bg-blue-600 text-white">
+              <span className="flex size-12 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
                 <PostureIcon size={22} aria-hidden />
               </span>
             </div>
-            <p className="mt-5 text-sm leading-6 text-slate-600">{selectedService.visibleSignal}</p>
+            <p className="mt-5 text-sm leading-6 text-slate-300">{selectedService.visibleSignal}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               <SystemBadge tone={selectedService.tone}>{selectedService.state}</SystemBadge>
               <SystemBadge tone="private">{postureCopy[selectedService.posture].label}</SystemBadge>
             </div>
           </div>
 
-          <dl className="relative mt-4 grid grid-cols-3 gap-3 rounded-[8px] border border-slate-200 bg-white/78 p-4 text-sm">
+          <dl className="relative mt-4 grid grid-cols-3 gap-3 rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm">
             <div>
-              <dt className="text-xs font-bold uppercase text-slate-500">Held</dt>
-              <dd className="mt-1 text-lg font-semibold text-slate-950">{summary.healthy}</dd>
+              <dt className="text-xs font-bold uppercase text-slate-400">Held</dt>
+              <dd className="mt-1 text-lg font-semibold text-white">{summary.healthy}</dd>
             </div>
             <div>
-              <dt className="text-xs font-bold uppercase text-slate-500">Watch</dt>
-              <dd className="mt-1 text-lg font-semibold text-slate-950">{summary.watch}</dd>
+              <dt className="text-xs font-bold uppercase text-slate-400">Watch</dt>
+              <dd className="mt-1 text-lg font-semibold text-white">{summary.watch}</dd>
             </div>
             <div>
-              <dt className="text-xs font-bold uppercase text-slate-500">Blocked</dt>
-              <dd className="mt-1 text-lg font-semibold text-slate-950">{summary.blocked}</dd>
+              <dt className="text-xs font-bold uppercase text-slate-400">Blocked</dt>
+              <dd className="mt-1 text-lg font-semibold text-white">{summary.blocked}</dd>
             </div>
           </dl>
 
           <div className="relative mt-4 grid gap-3">
-            <div className="rounded-[8px] border border-blue-100 bg-white/78 p-4">
-              <p className="text-xs font-bold uppercase text-slate-500">Owner gate</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{selectedService.ownerGate}</p>
+            <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+              <p className="text-xs font-bold uppercase text-slate-400">Owner gate</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{selectedService.ownerGate}</p>
             </div>
-            <div className="rounded-[8px] border border-amber-100 bg-amber-50/80 p-4">
-              <p className="text-xs font-bold uppercase text-amber-800">Boundary posture</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-950">{postureCopy[selectedService.posture].detail}</p>
+            <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
+              <p className="text-xs font-bold uppercase text-yellow-100">Boundary posture</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{postureCopy[selectedService.posture].detail}</p>
             </div>
           </div>
         </section>
