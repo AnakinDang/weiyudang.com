@@ -324,31 +324,6 @@ export default function DoraTeamPage() {
           </div>
         </section>
 
-        <section className="dora-team-landing-section dora-team-lanes-section" aria-labelledby="dora-team-lanes-title">
-          <div className="container dora-team-lanes-grid">
-            <div className="dora-team-section-copy">
-              <h2 id="dora-team-lanes-title">Team Operating Lanes</h2>
-              <p>Doraemon stays central while MiniDoras specialize around the work that compounds: research, building, operations, memory, and public-safe output.</p>
-              <Link href="/dora/office" className="link-focus dora-office-text-link">
-                See the command room
-                <ArrowRight size={15} aria-hidden />
-              </Link>
-            </div>
-            <div className="dora-team-lane-grid">
-              {teamLanes.map((lane) => (
-                <article key={lane.title}>
-                  <span>
-                    <Layers3 size={18} aria-hidden />
-                  </span>
-                  <strong>{lane.title}</strong>
-                  <small>{lane.agents}</small>
-                  <p>{lane.summary}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="dora-team-landing-section dora-team-roster-section" id="agent-roster" aria-labelledby="dora-team-roster-title">
           <div className="container dora-team-roster-layout">
             <div className="dora-team-section-copy">
@@ -396,6 +371,31 @@ export default function DoraTeamPage() {
                   </article>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        <section className="dora-team-landing-section dora-team-lanes-section" aria-labelledby="dora-team-lanes-title">
+          <div className="container dora-team-lanes-grid">
+            <div className="dora-team-section-copy">
+              <h2 id="dora-team-lanes-title">Team Operating Lanes</h2>
+              <p>These lanes show how the MiniDoras above stay coordinated around work that compounds: research, building, operations, memory, and public-safe output.</p>
+              <Link href="/dora/office" className="link-focus dora-office-text-link">
+                See the command room
+                <ArrowRight size={15} aria-hidden />
+              </Link>
+            </div>
+            <div className="dora-team-lane-grid">
+              {teamLanes.map((lane) => (
+                <article key={lane.title}>
+                  <span>
+                    <Layers3 size={18} aria-hidden />
+                  </span>
+                  <strong>{lane.title}</strong>
+                  <small>{lane.agents}</small>
+                  <p>{lane.summary}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
