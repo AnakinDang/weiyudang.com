@@ -21,7 +21,7 @@ const heroSurfaces = [
     icon: Bot
   },
   {
-    title: "Owner console",
+    title: "Owner Cockpit",
     summary: "Private review and approvals",
     href: "/app",
     state: "private",
@@ -66,7 +66,7 @@ export function HeroSection() {
           </h1>
           <p className="premium-hero-support">
             A public studio for essays and systems, Doraemon Office for public-safe agent activity,
-            and an owner-only console for private review.
+            and an owner-only cockpit for private review.
           </p>
           <div
             className="premium-hero-statusline"
@@ -85,7 +85,7 @@ export function HeroSection() {
             <span className="premium-hero-signal-divider" aria-hidden="true" />
             <span className="premium-hero-signal premium-hero-signal-private">
               <span className="premium-hero-signal-dot" aria-hidden="true" />
-              Owner-only console
+              Owner Cockpit
             </span>
           </div>
           <div className="premium-hero-actions">
@@ -101,7 +101,7 @@ export function HeroSection() {
           </div>
           <Link href="/app" className="link-focus premium-owner-inline">
             <LockKeyhole size={15} aria-hidden />
-            Owner console
+            Owner Cockpit
             <ArrowRight size={14} aria-hidden />
           </Link>
         </div>
@@ -128,7 +128,7 @@ export function HeroSection() {
                 <LockKeyhole size={17} aria-hidden />
                 <span>
                   <strong>Private Area</strong>
-                  <small>Owner-only console</small>
+                  <small>Owner-only cockpit</small>
                 </span>
               </div>
             <div className="premium-office-boundary-row">
