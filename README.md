@@ -5,7 +5,7 @@ Initial Next.js version of `weiyudang.com`: a light personal website for Weiyu D
 ## What Is Included
 
 - Public routes: `/`, `/about`, `/projects`, `/projects/[slug]`, `/dora`, `/lab`, `/journal`, `/contact`
-- Private routes: `/app`, `/app/command`, `/app/trading`, `/app/agents`, `/app/events`, `/app/settings`
+- Private routes: `/app`, `/app/command`, `/app/trading`, `/app/agents`, `/app/review`, `/app/settings`
 - Structured content under `content/projects`, `content/notes`, and `content/agents`
 - Journal content under `content/journal` for photography, life notes, and field observations
 - Static Doraemon public chat mock

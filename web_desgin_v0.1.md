@@ -78,7 +78,7 @@ Contact
 | `/app/command`                    | 私有      | Doraemon Command Center                     |
 | `/app/trading`                    | 私有      | MiniDora Trading WebUI                      |
 | `/app/agents`                     | 私有      | MiniDora Agent 状态                         |
-| `/app/events`                     | 私有      | Agent event stream / timeline               |
+| `/app/review`                     | 私有      | Owner review queue / decision timeline      |
 | `/app/settings`                   | 私有      | 设置、权限、API 状态                        |
 
 我的建议是：**所有真正有操作价值的入口都放在 `/app/\*`，公开页只做展示和解释。**
@@ -737,7 +737,7 @@ Public
 游客可见：主页、公开项目、公开日志、Doraemon public guide
 
 Authenticated
-只有你可见：/app、command center、trading dashboard、agent events
+只有你可见：/app、command center、trading dashboard、agent review queue
 
 Local-only
 只在 Mac mini / 本地网络：agent runtime、trading services、broker adapter、credentials
@@ -923,7 +923,7 @@ Routes:
 - /app/command
 - /app/trading
 - /app/agents
-- /app/events
+- /app/review
 - /app/settings
 
 Homepage sections:

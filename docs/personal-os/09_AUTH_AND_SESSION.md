@@ -55,7 +55,7 @@ Examples:
 - `/app/command`
 - `/app/trading`
 - `/app/agents`
-- `/app/events`
+- `/app/review`
 - `/app/schedules`
 - `/app/knowledge`
 - `/app/settings`

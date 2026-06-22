@@ -72,7 +72,7 @@ export const ownerOperatingMap = [
   },
   {
     title: "Review Queue",
-    href: "/app/events",
+    href: "/app/review",
     state: "Owner-gated",
     tone: "info",
     current: false,

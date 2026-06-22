@@ -79,7 +79,7 @@ export const privateReviewQueue = [
     owner: "Owner",
     agent: "Codex",
     lane: "Ship gate",
-    surface: "/app/events",
+    surface: "/app/review",
     decision: "Review needed",
     tone: "warning",
     urgency: "Now",
@@ -99,7 +99,7 @@ export const privateReviewQueue = [
         state: "Required",
         tone: "warning",
         ready: false,
-        detail: "Unauthenticated /app/events must redirect before private shell content renders."
+        detail: "Unauthenticated /app/review must redirect before private shell content renders."
       },
       {
         label: "Review",
@@ -148,7 +148,7 @@ export const privateReviewQueue = [
         label: "Private route gate",
         state: "Required",
         tone: "warning",
-        detail: "Unauthenticated /app/events must redirect before private shell content renders."
+        detail: "Unauthenticated /app/review must redirect before private shell content renders."
       },
       {
         label: "Browser QA",

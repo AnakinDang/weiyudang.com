@@ -6,6 +6,12 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (request.nextUrl.pathname === "/app/events") {
+    const reviewUrl = new URL("/app/review", request.url);
+    reviewUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(reviewUrl, 308);
+  }
+
   const isAuthed = await verifyOwnerSession(
     request.cookies.get(OWNER_SESSION_COOKIE)?.value,
     getOwnerAccessSecret()

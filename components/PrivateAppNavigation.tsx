@@ -25,7 +25,7 @@ const appNav = [
   { href: "/app/trading", label: "Trading Team", icon: LineChart },
   { href: "/app/knowledge", label: "Knowledge Vault", icon: Database },
   { href: "/app/schedules", label: "Schedules", icon: CalendarClock },
-  { href: "/app/events", label: "Review Queue", icon: Activity },
+  { href: "/app/review", label: "Review Queue", icon: Activity },
   { href: "/app/system", label: "System Health", icon: Gauge },
   { href: "/app/settings", label: "Settings", icon: Settings }
 ] as const;
