@@ -3,28 +3,23 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  ArrowUpRight,
   CalendarClock,
-  CheckCircle2,
   CheckSquare,
   Eye,
   Globe2,
   LockKeyhole,
-  Radio,
   ShieldCheck,
   Target
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeLiveBridge } from "@/components/DoraOfficeLiveBridge";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
-  DORA_LIVE_BRIDGE_URL,
-  formatPublicEventDateTime,
   getRecentPublicDoraEvents,
   publicDoraTaskStats,
-  publicSchedules,
-  publicSystemStatus
+  publicSchedules
 } from "@/lib/dora-office";
 import { getPublicAgents } from "@/lib/public-agents";
 
@@ -50,8 +45,6 @@ export default function DoraOfficePage() {
   const stripEvents = recentEvents.slice(0, 5);
   const nextSchedule = publicSchedules[0];
   const currentFocusEvent = recentEvents[0];
-  const heartbeatItems = publicSystemStatus.slice(0, 3);
-  const liveBridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
@@ -82,7 +75,7 @@ export default function DoraOfficePage() {
               </div>
               <div className="dora-office-product-posture" aria-label="Doraemon Office public posture">
                 <StatusBadge tone="normal">Native route</StatusBadge>
-                <StatusBadge tone="info">Demo replay</StatusBadge>
+                <StatusBadge tone="info">Live/demo relay</StatusBadge>
                 <StatusBadge tone="private">Read-only</StatusBadge>
               </div>
             </div>
@@ -139,87 +132,7 @@ export default function DoraOfficePage() {
               </ul>
             </div>
 
-            <aside className="dora-office-product-command-rail" aria-label="Office Live public context">
-              <section className="dora-office-product-command-card">
-                <Target size={20} aria-hidden />
-                <h2>Current Focus</h2>
-                <strong>{currentFocusEvent?.title ?? "Demo snapshot"}</strong>
-                <p>Public-safe attention state from the demo replay buffer.</p>
-                <dl>
-                  <div>
-                    <dt>Led by</dt>
-                    <dd>{currentFocusEvent?.agent ?? "Doraemon"}</dd>
-                  </div>
-                  <div>
-                    <dt>Status</dt>
-                    <dd>{currentFocusEvent?.state ?? "Demo"}</dd>
-                  </div>
-                </dl>
-              </section>
-
-              <section className="dora-office-product-command-card">
-                <ShieldCheck size={20} aria-hidden />
-                <h2>Public Boundary</h2>
-                <ul>
-                  {publicBoundaryItems.slice(0, 4).map((item) => (
-                    <li key={item}>
-                      <CheckCircle2 size={13} aria-hidden />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-
-              <section className="dora-office-product-command-card">
-                <Radio size={20} aria-hidden />
-                <h2>System Heartbeat</h2>
-                <dl>
-                  {heartbeatItems.map((item) => (
-                    <div key={item.label}>
-                      <dt>{item.label}</dt>
-                      <dd>{item.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </section>
-
-              <section className="dora-office-product-command-card dora-office-product-bridge-card">
-                <ArrowUpRight size={20} aria-hidden />
-                <h2>Full-screen bridge</h2>
-                <p>The native routes are primary. The visualizer remains available when the stage needs more room.</p>
-                <a
-                  href={DORA_LIVE_BRIDGE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open full-screen visualizer ${liveBridgeHost} in a new tab`}
-                  className="link-focus"
-                >
-                  {liveBridgeHost}
-                  <ArrowUpRight size={13} aria-hidden />
-                </a>
-              </section>
-            </aside>
-
-            <section className="dora-office-product-livebar" aria-label="Recent public-safe Doraemon Office activity">
-              <div className="dora-office-product-livebar-head">
-                <span aria-hidden />
-                <strong>Recent public activity</strong>
-                <small>Demo replay · Newest first</small>
-              </div>
-              <ol>
-                {stripEvents.map((event) => (
-                  <li key={event.event_id}>
-                    <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
-                    <strong>{event.agent}</strong>
-                    <span>{event.title}</span>
-                  </li>
-                ))}
-              </ol>
-              <Link href="/dora/activity" className="link-focus dora-office-product-livebar-link">
-                View all
-                <ArrowRight size={14} aria-hidden />
-              </Link>
-            </section>
+            <DoraOfficeLiveBridge fallbackEvents={stripEvents} boundaryItems={publicBoundaryItems} />
           </div>
         </section>
 
