@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Bell,
   CheckCircle2,
-  Clock3,
   Eye,
   FileText,
   Globe2,
@@ -16,9 +15,10 @@ import {
   Sparkles,
   Users
 } from "lucide-react";
+import { DoraEntryActivityPreview } from "@/components/DoraEntryActivityPreview";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { SiteChrome } from "@/components/SiteChrome";
-import { formatPublicEventTime, getRecentPublicDoraEvents } from "@/lib/dora-office";
+import { getRecentPublicDoraEvents, toPublicDoraEventClientView } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
   title: "Doraemon",
@@ -127,7 +127,7 @@ const publicItems = ["Sanitized activity", "High-level state", "Agent presence",
 const privateItems = ["Owner tasks and notes", "Strategies and playbooks", "Knowledge and data", "Accounts and integrations"];
 
 export default function DoraPage() {
-  const recentEvents = getRecentPublicDoraEvents(5);
+  const stripEvents = getRecentPublicDoraEvents(5).map(toPublicDoraEventClientView);
 
   return (
     <SiteChrome headerVariant="doraemon">
@@ -204,27 +204,7 @@ export default function DoraPage() {
                 ))}
               </div>
 
-              <div className="doraemon-activity-preview" aria-label="Recent public-safe Doraemon activity">
-                <div className="doraemon-activity-preview-head">
-                  <span>
-                    <Clock3 size={14} aria-hidden />
-                    Demo activity · public-safe
-                  </span>
-                  <small>Demo replay</small>
-                </div>
-                <div className="doraemon-activity-ticks">
-                  {recentEvents.map((event) => (
-                    <div
-                      key={event.event_id}
-                      className={`doraemon-activity-tick doraemon-activity-tick-${event.severity}`}
-                    >
-                      <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
-                      <strong>{event.agent}</strong>
-                      <span>{event.title}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <DoraEntryActivityPreview fallbackEvents={stripEvents} />
             </div>
           </div>
         </section>

@@ -12107,6 +12107,31 @@ textarea {
   transform: translateY(-50%);
 }
 
+.doraemon-activity-preview-head.is-live span::before {
+  animation: doraemon-live-pulse 1.8s ease-in-out infinite;
+}
+
+.doraemon-activity-preview-head.is-live small {
+  color: #1d4ed8;
+  font-weight: 760;
+}
+
+@keyframes doraemon-live-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 0.34rem rgba(37, 99, 235, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doraemon-activity-preview-head.is-live span::before {
+    animation: none;
+  }
+}
+
 .doraemon-activity-ticks {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
