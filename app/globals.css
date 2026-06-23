@@ -28254,6 +28254,11 @@ textarea {
   animation: office-agent-pulse 2.8s ease-out infinite;
 }
 
+.dora-office-product-livebar-head span.is-live {
+  background: #16a34a;
+  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.34);
+}
+
 .dora-office-product-livebar-head strong {
   color: #0f172a;
   font-size: 0.82rem;

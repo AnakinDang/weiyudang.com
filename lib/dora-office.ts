@@ -3,6 +3,7 @@ export { formatPublicEventDateTime, formatPublicEventTime, getPublicToolLabel } 
 
 export const DORA_LIVE_BRIDGE_URL = "https://dora.weiyudang.com";
 export const DORA_RELAY_HEALTH_URL = "https://relay.weiyudang.com/health";
+export const DORA_RELAY_WS_URL = "wss://relay.weiyudang.com/ws/events";
 
 export const doraOfficeRoutes = [
   { href: "/dora", label: "Overview" },
