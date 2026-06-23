@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
-import { formatPublicEventTime, getPublicToolLabel } from "@/lib/dora-public-format";
+import { formatPublicEventTime } from "@/lib/dora-public-format";
 import type { PublicDoraEvent } from "@/lib/dora-office";
 
 const kindLabels = {
@@ -66,7 +66,10 @@ const activityLanes = [
 type KindFilter = (typeof kindFilters)[number]["value"];
 type SeverityFilter = "all" | PublicDoraEvent["severity"];
 type TimeFilter = (typeof timeFilters)[number]["value"];
-type ActivityFeedEvent = Omit<PublicDoraEvent, "event_id">;
+export type ActivityFeedEvent = Pick<
+  PublicDoraEvent,
+  "created_at" | "event_type" | "agent" | "state" | "severity" | "title"
+>;
 
 function maxEventDate(events: ActivityFeedEvent[]) {
   return events[0]?.created_at.slice(0, 10);
@@ -212,8 +215,6 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
 
           <div className="dora-activity-timeline">
             {filteredEvents.map((event) => {
-              const toolLabel = getPublicToolLabel(event.tool_name);
-
               return (
                 <article
                   key={`${event.created_at}-${event.agent}-${event.event_type}-${event.title}-${event.state}`}
@@ -234,7 +235,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
                     </p>
                   </div>
                   <div className="dora-activity-event-meta">
-                    {toolLabel ? <span>Tool: {toolLabel}</span> : <span>Fixed public label</span>}
+                    <span>Fixed public label</span>
                   </div>
                 </article>
               );

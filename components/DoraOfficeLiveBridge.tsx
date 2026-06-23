@@ -14,13 +14,18 @@ import { mergeLiveEvents, normalizeRelayEvent, normalizeRelayHealth, type DoraRe
 
 type ConnectionState = "checking" | "connected" | "live" | "fallback";
 
+export type DoraOfficeBridgeEvent = Pick<
+  PublicDoraEvent,
+  "event_id" | "created_at" | "event_type" | "agent" | "state" | "severity" | "title"
+>;
+
 const HEALTH_POLL_MS = 30_000;
 const RELAY_FALLBACK_MS = 4_500;
 const RELAY_RECONNECT_BASE_MS = 5_000;
 const RELAY_RECONNECT_MAX_MS = 60_000;
 
 type DoraOfficeLiveBridgeProps = {
-  fallbackEvents: PublicDoraEvent[];
+  fallbackEvents: DoraOfficeBridgeEvent[];
   boundaryItems: readonly string[];
 };
 

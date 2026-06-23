@@ -130,13 +130,13 @@ function applyRelayProbe(statuses: readonly PublicSystemStatus[], probe: RelayPr
     }),
     "Event freshness": (status: PublicSystemStatus) => ({
       ...status,
-      value: `${probe.health.buffered} public events`,
-      detail: "The relay publishes a safe replay-buffer count as the public freshness proxy."
+      value: probe.health.buffered > 0 ? "Recent public signal" : "Idle",
+      detail: "The relay publishes a healthy public heartbeat without exposing event-rate counters."
     }),
     "Replay buffer": (status: PublicSystemStatus) => ({
       ...status,
       value: probe.health.seen >= probe.health.buffered ? "Dedupe aligned" : "Dedupe watching",
-      detail: `${probe.health.buffered} sanitized replay entries and ${probe.health.seen} recent dedupe markers are visible as counts only.`
+      detail: "Replay and dedupe posture are summarized without publishing raw counter values."
     })
   } as const satisfies Record<PublicSystemStatus["label"], (status: PublicSystemStatus) => DisplaySystemStatus>;
 
@@ -195,9 +195,7 @@ export function SystemHealthPanel({
     () => (toneFilter === "all" ? displayStatuses : displayStatuses.filter((status) => status.tone === toneFilter)),
     [displayStatuses, toneFilter]
   );
-  const safeCounterText = relayProbe.health
-    ? `${relayProbe.health.buffered} buffered / ${relayProbe.health.seen} seen`
-    : "Safe snapshot";
+  const safeCounterText = relayProbe.health ? "Public relay healthy" : "Safe snapshot";
   const activeFilterLabels = [
     { key: "state", label: toneFilter === "all" ? "All public signals" : toneFilterLabels[toneFilter] },
     { key: "privacy", label: "No private details" },
@@ -386,8 +384,8 @@ export function SystemHealthPanel({
                 <dd>{relayProbe.health ? (relayProbe.health.hasRegistry ? "ready" : "pending") : "fallback"}</dd>
               </div>
               <div>
-                <dt>Viewers</dt>
-                <dd>{relayProbe.health ? relayProbe.health.viewers : "not shown"}</dd>
+                <dt>Presence</dt>
+                <dd>{relayProbe.health ? "Public relay active" : "not shown"}</dd>
               </div>
             </dl>
           </section>
