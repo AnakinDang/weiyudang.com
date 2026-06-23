@@ -7,17 +7,12 @@ import {
   DORA_LIVE_BRIDGE_URL,
   DORA_RELAY_HEALTH_URL,
   DORA_RELAY_WS_URL,
-  formatPublicEventDateTime,
-  type PublicDoraEvent
-} from "@/lib/dora-office";
+  type PublicDoraEventClientView
+} from "@/lib/dora-public-client";
+import { formatPublicEventDateTime } from "@/lib/dora-public-format";
 import { mergeLiveEvents, normalizeRelayEvent, normalizeRelayHealth, type DoraRelayHealth } from "@/lib/dora-live-relay";
 
 type ConnectionState = "checking" | "connected" | "live" | "fallback";
-
-export type DoraOfficeBridgeEvent = Pick<
-  PublicDoraEvent,
-  "event_id" | "created_at" | "event_type" | "agent" | "state" | "severity" | "title"
->;
 
 const HEALTH_POLL_MS = 30_000;
 const RELAY_FALLBACK_MS = 4_500;
@@ -25,14 +20,14 @@ const RELAY_RECONNECT_BASE_MS = 5_000;
 const RELAY_RECONNECT_MAX_MS = 60_000;
 
 type DoraOfficeLiveBridgeProps = {
-  fallbackEvents: DoraOfficeBridgeEvent[];
+  fallbackEvents: PublicDoraEventClientView[];
   boundaryItems: readonly string[];
 };
 
 function useDoraOfficeLiveEvents() {
   const [connection, setConnection] = useState<ConnectionState>("checking");
   const [health, setHealth] = useState<DoraRelayHealth | null>(null);
-  const [events, setEvents] = useState<PublicDoraEvent[]>([]);
+  const [events, setEvents] = useState<PublicDoraEventClientView[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -152,22 +147,22 @@ function useDoraOfficeLiveEvents() {
   return { connection, events, health };
 }
 
-function visibleLiveEvents(liveEvents: PublicDoraEvent[]) {
+function visibleLiveEvents(liveEvents: PublicDoraEventClientView[]) {
   return liveEvents.filter(
     (event) => !(event.event_type === "system" && event.severity === "normal" && /^(System health|Heartbeat)$/.test(event.title))
   );
 }
 
-function displayEvents(liveEvents: PublicDoraEvent[], fallbackEvents: PublicDoraEvent[]) {
+function displayEvents(liveEvents: PublicDoraEventClientView[], fallbackEvents: PublicDoraEventClientView[]) {
   const visible = visibleLiveEvents(liveEvents);
   return visible.length > 0 ? visible : fallbackEvents;
 }
 
-function focusEvent(events: PublicDoraEvent[]) {
+function focusEvent(events: PublicDoraEventClientView[]) {
   return events.find((event) => event.event_type !== "system") ?? events[0] ?? null;
 }
 
-function modeLabel(connection: ConnectionState, liveEvents: PublicDoraEvent[]) {
+function modeLabel(connection: ConnectionState, liveEvents: PublicDoraEventClientView[]) {
   if (connection === "live") return "Live relay";
   if (connection === "connected") return "Live relay · awaiting events";
   if (connection === "checking") return "Checking relay";
@@ -175,7 +170,7 @@ function modeLabel(connection: ConnectionState, liveEvents: PublicDoraEvent[]) {
   return "Demo replay";
 }
 
-function activityModeLabel(connection: ConnectionState, liveEvents: PublicDoraEvent[], hasVisibleLiveActivity: boolean) {
+function activityModeLabel(connection: ConnectionState, liveEvents: PublicDoraEventClientView[], hasVisibleLiveActivity: boolean) {
   if (connection === "live" && hasVisibleLiveActivity) return "Live relay";
   if (connection === "live" || connection === "connected") return "Live relay · demo activity";
   if (liveEvents.length > 0) return "Demo replay · relay reconnecting";
@@ -183,7 +178,7 @@ function activityModeLabel(connection: ConnectionState, liveEvents: PublicDoraEv
   return "Demo replay";
 }
 
-function freshnessLabel(liveEvents: PublicDoraEvent[]) {
+function freshnessLabel(liveEvents: PublicDoraEventClientView[]) {
   if (liveEvents.length === 0) return "Demo snapshot";
   return `Last event: ${formatPublicEventDateTime(liveEvents[0].created_at)}`;
 }

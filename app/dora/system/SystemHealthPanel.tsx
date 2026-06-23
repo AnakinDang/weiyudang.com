@@ -18,11 +18,9 @@ import {
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   DORA_RELAY_HEALTH_URL,
-  publicSystemToneClasses,
-  type publicSystemBoundaries,
-  type publicSystemEvents,
-  type publicSystemStatus
-} from "@/lib/dora-office";
+  publicSystemToneClasses
+} from "@/lib/dora-public-client";
+import type { publicSystemBoundaries, publicSystemEvents, publicSystemStatus } from "@/lib/dora-office";
 
 type PublicSystemStatus = (typeof publicSystemStatus)[number];
 type PublicSystemEvent = (typeof publicSystemEvents)[number];

@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
-import { publicDoraScheduleToneClasses, type publicScheduleBoundaries, type publicSchedules } from "@/lib/dora-office";
+import { publicDoraScheduleToneClasses } from "@/lib/dora-public-client";
+import type { publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
 
 type PublicSchedule = (typeof publicSchedules)[number];
 type PublicScheduleBoundary = (typeof publicScheduleBoundaries)[number];

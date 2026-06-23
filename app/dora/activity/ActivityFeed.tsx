@@ -17,7 +17,7 @@ import {
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
 import { formatPublicEventTime } from "@/lib/dora-public-format";
-import type { PublicDoraEvent } from "@/lib/dora-office";
+import type { PublicDoraEventClientView } from "@/lib/dora-public-client";
 
 const kindLabels = {
   agent_work: "Agent work",
@@ -26,18 +26,18 @@ const kindLabels = {
   owner_review: "Owner review",
   alert: "Alerts",
   system: "System"
-} as const satisfies Record<PublicDoraEvent["event_type"], string>;
+} as const satisfies Record<PublicDoraEventClientView["event_type"], string>;
 
 const kindFilters = [
   { value: "all" as const, label: "All" },
-  ...Object.entries(kindLabels).map(([value, label]) => ({ value: value as PublicDoraEvent["event_type"], label }))
+  ...Object.entries(kindLabels).map(([value, label]) => ({ value: value as PublicDoraEventClientView["event_type"], label }))
 ] as const;
 
 const severityLabels = {
   normal: "Normal",
   info: "Info",
   warning: "Warning"
-} as const satisfies Record<PublicDoraEvent["severity"], string>;
+} as const satisfies Record<PublicDoraEventClientView["severity"], string>;
 
 const timeFilters = [
   { value: "all", label: "All time" },
@@ -64,12 +64,9 @@ const activityLanes = [
 ] as const;
 
 type KindFilter = (typeof kindFilters)[number]["value"];
-type SeverityFilter = "all" | PublicDoraEvent["severity"];
+type SeverityFilter = "all" | PublicDoraEventClientView["severity"];
 type TimeFilter = (typeof timeFilters)[number]["value"];
-export type ActivityFeedEvent = Pick<
-  PublicDoraEvent,
-  "created_at" | "event_type" | "agent" | "state" | "severity" | "title"
->;
+export type ActivityFeedEvent = PublicDoraEventClientView;
 
 function maxEventDate(events: ActivityFeedEvent[]) {
   return events[0]?.created_at.slice(0, 10);
@@ -217,7 +214,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
             {filteredEvents.map((event) => {
               return (
                 <article
-                  key={`${event.created_at}-${event.agent}-${event.event_type}-${event.title}-${event.state}`}
+                  key={event.event_id}
                   className={`dora-activity-event dora-activity-event-${event.severity}`}
                 >
                   <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>

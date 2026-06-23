@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Eye, Filter, LockKeyhole, Radio, ShieldCheck, Sparkles, Users } from "lucide-react";
-import { ActivityFeed, type ActivityFeedEvent } from "@/app/dora/activity/ActivityFeed";
+import { ActivityFeed } from "@/app/dora/activity/ActivityFeed";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
-import { formatPublicEventTime, getRecentPublicDoraEvents, type PublicDoraEvent } from "@/lib/dora-office";
+import { formatPublicEventTime, getRecentPublicDoraEvents, toPublicDoraEventClientView } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
   title: "Doraemon Activity",
@@ -32,20 +32,9 @@ const activityCommandCardTemplates = [
   }
 ] as const;
 
-function clientSafeActivityEvent(event: PublicDoraEvent): ActivityFeedEvent {
-  return {
-    created_at: event.created_at,
-    event_type: event.event_type,
-    agent: event.agent,
-    state: event.state,
-    severity: event.severity,
-    title: event.title
-  };
-}
-
 export default function DoraActivityPage() {
   const publicEvents = getRecentPublicDoraEvents().sort((left, right) => Date.parse(right.created_at) - Date.parse(left.created_at));
-  const events = publicEvents.map(clientSafeActivityEvent);
+  const events = publicEvents.map(toPublicDoraEventClientView);
   const heroEvents = events.slice(0, 5);
   const heroAgents = Array.from(new Set(heroEvents.map((event) => event.agent))).slice(0, 4);
   const groupCount = new Set(events.map((event) => event.event_type)).size;

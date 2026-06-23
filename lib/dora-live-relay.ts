@@ -1,4 +1,5 @@
 import type { PublicDoraEvent } from "@/lib/dora-office";
+import type { PublicDoraEventClientView } from "@/lib/dora-public-client";
 
 export type DoraRelayHealth = {
   status: "ok";
@@ -133,7 +134,7 @@ function publicState(eventType: keyof typeof EVENT_GROUPS, value: unknown): Publ
   return STATE_BY_EVENT[eventType];
 }
 
-export function normalizeRelayEvent(value: unknown): PublicDoraEvent | null {
+export function normalizeRelayEvent(value: unknown): PublicDoraEventClientView | null {
   if (!isObject(value)) return null;
 
   const eventId = safeString(value["event_id"]);
@@ -176,7 +177,11 @@ export function normalizeRelayHealth(value: unknown): DoraRelayHealth | null {
   };
 }
 
-export function mergeLiveEvents(events: PublicDoraEvent[], next: PublicDoraEvent, limit = 12) {
+export function mergeLiveEvents(
+  events: PublicDoraEventClientView[],
+  next: PublicDoraEventClientView,
+  limit = 12
+) {
   const deduped = [next, ...events.filter((event) => event.event_id !== next.event_id)];
   return deduped
     .sort((left, right) => Date.parse(right.created_at) - Date.parse(left.created_at))
