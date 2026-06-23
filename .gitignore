@@ -10,3 +10,5 @@ output/
 .playwright-cli/
 *.log
 .vercel
+.claude/
+*.tsbuildinfo
