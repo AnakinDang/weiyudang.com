@@ -43,6 +43,16 @@ const systemIcons = {
   "Replay buffer": RefreshCw
 } as const satisfies Record<PublicSystemStatus["label"], LucideIcon>;
 
+// The hero lens is a stable schema preview — it names WHAT each public check
+// measures, while the live current values render in the register below. This
+// keeps the prominent hero from contradicting the live "Live relay" register.
+const heroSchemaNotes = {
+  "Relay mode": "Live / demo posture",
+  "Public schema": "Closed allowlist",
+  "Event freshness": "Sanitized event age",
+  "Replay buffer": "Dedupe by opaque ID"
+} as const satisfies Record<PublicSystemStatus["label"], string>;
+
 const systemStats = [
   { label: "Public checks", value: publicSystemStatus.length.toString(), icon: Signal },
   { label: "Safe counters", value: "Only", icon: Database },
@@ -192,7 +202,7 @@ export default function DoraSystemPage() {
                   <article className="dora-system-command-hub">
                     <DoraemonMark />
                     <strong>Public health</strong>
-                    <small>{primaryStatus.value}</small>
+                    <small>{heroSchemaNotes[primaryStatus.label]}</small>
                   </article>
                   {heroStatuses.map((status, index) => {
                     const Icon = systemIcons[status.label];
@@ -203,7 +213,7 @@ export default function DoraSystemPage() {
                           <Icon size={16} aria-hidden />
                         </span>
                         <strong>{status.label}</strong>
-                        <small>{status.value}</small>
+                        <small>{heroSchemaNotes[status.label]}</small>
                       </article>
                     );
                   })}
@@ -219,7 +229,7 @@ export default function DoraSystemPage() {
                     {heroStatuses.map((status) => (
                       <li key={status.label}>
                         <span>{status.label}</span>
-                        <strong>{status.value}</strong>
+                        <strong>{heroSchemaNotes[status.label]}</strong>
                         <small>public-safe</small>
                       </li>
                     ))}

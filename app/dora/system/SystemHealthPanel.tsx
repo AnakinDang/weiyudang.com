@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -16,10 +16,9 @@ import {
   TimerReset
 } from "lucide-react";
 import { StatusBadge } from "@/components/StatusBadge";
-import {
-  DORA_RELAY_HEALTH_URL,
-  publicSystemToneClasses
-} from "@/lib/dora-public-client";
+import { publicSystemToneClasses } from "@/lib/dora-public-client";
+import type { DoraRelayHealth } from "@/lib/dora-live-relay";
+import { freshnessLabel, useDoraLiveEvents, visibleLiveEvents, type DoraConnectionState } from "@/lib/use-dora-live";
 import type { publicSystemBoundaries, publicSystemEvents, publicSystemStatus } from "@/lib/dora-office";
 
 type PublicSystemStatus = (typeof publicSystemStatus)[number];
@@ -39,18 +38,6 @@ type DisplaySystemEvent = {
   tone: PublicSystemTone;
   detail: string;
 };
-
-type RelayHealth = {
-  viewers: number;
-  buffered: number;
-  seen: number;
-  hasRegistry: boolean;
-};
-
-type RelayProbe =
-  | { state: "checking"; checkedLabel: string; health: null }
-  | { state: "live"; checkedLabel: string; health: RelayHealth }
-  | { state: "fallback"; checkedLabel: string; health: null };
 
 const statusIcons = {
   "Relay mode": Radio,
@@ -76,39 +63,22 @@ function systemToneClass(item: { tone: PublicSystemTone }) {
   return publicSystemToneClasses[item.tone];
 }
 
-function readCount(value: unknown) {
-  if (!Number.isInteger(value)) {
-    return null;
-  }
+type ProbeMode = "live" | "checking" | "fallback";
 
-  const count = value as number;
-  return count >= 0 ? count : null;
+function isRelayConnected(connection: DoraConnectionState) {
+  return connection === "live" || connection === "connected";
 }
 
-function parseRelayHealth(payload: unknown): RelayHealth | null {
-  if (!payload || typeof payload !== "object") {
-    return null;
-  }
-
-  const body = payload as Record<string, unknown>;
-  if (body["status"] !== "ok") {
-    return null;
-  }
-
-  const viewers = readCount(body["viewers"]);
-  const buffered = readCount(body["buffered"]);
-  const seen = readCount(body["seen"]);
-  const hasRegistry = body["has_registry"];
-
-  if (viewers === null || buffered === null || seen === null || typeof hasRegistry !== "boolean") {
-    return null;
-  }
-
-  return { viewers, buffered, seen, hasRegistry };
-}
-
-function applyRelayProbe(statuses: readonly PublicSystemStatus[], probe: RelayProbe): DisplaySystemStatus[] {
-  if (probe.state !== "live") {
+// Overlay live, public-safe posture onto the static demo statuses. `health` is
+// the single source of truth (non-null only when the relay is connected AND the
+// health endpoint responded), so the overlay never disagrees with the probe
+// card. Only coarse labels cross the boundary — never raw viewers/buffered/seen.
+function applyRelayOverlay(
+  statuses: readonly PublicSystemStatus[],
+  health: DoraRelayHealth | null,
+  lastEventFreshness: string
+): DisplaySystemStatus[] {
+  if (!health) {
     return statuses.map((status) => ({ ...status }));
   }
 
@@ -121,19 +91,20 @@ function applyRelayProbe(statuses: readonly PublicSystemStatus[], probe: RelayPr
     }),
     "Public schema": (status: PublicSystemStatus) => ({
       ...status,
-      value: probe.health.hasRegistry ? "Registry snapshot OK" : "Registry pending",
-      detail: probe.health.hasRegistry
+      value: health.hasRegistry ? "Registry snapshot OK" : "Registry pending",
+      detail: health.hasRegistry
         ? "The relay has a sanitized public registry snapshot available."
         : "The relay is live, but the public registry snapshot is not ready yet."
     }),
     "Event freshness": (status: PublicSystemStatus) => ({
       ...status,
-      value: probe.health.buffered > 0 ? "Recent public signal" : "Idle",
-      detail: "The relay publishes a healthy public heartbeat without exposing event-rate counters."
+      value: lastEventFreshness,
+      tone: lastEventFreshness === "Awaiting public signal" ? ("info" as const) : ("normal" as const),
+      detail: "Freshness is derived from the public event stream without exposing event-rate counters."
     }),
     "Replay buffer": (status: PublicSystemStatus) => ({
       ...status,
-      value: probe.health.seen >= probe.health.buffered ? "Dedupe aligned" : "Dedupe watching",
+      value: health.seen >= health.buffered ? "Dedupe aligned" : "Dedupe watching",
       detail: "Replay and dedupe posture are summarized without publishing raw counter values."
     })
   } as const satisfies Record<PublicSystemStatus["label"], (status: PublicSystemStatus) => DisplaySystemStatus>;
@@ -141,8 +112,8 @@ function applyRelayProbe(statuses: readonly PublicSystemStatus[], probe: RelayPr
   return statuses.map((status) => relayStatusOverlays[status.label](status));
 }
 
-function relayProbeEvent(probe: RelayProbe): DisplaySystemEvent {
-  if (probe.state === "live") {
+function relayProbeEvent(mode: ProbeMode): DisplaySystemEvent {
+  if (mode === "live") {
     return {
       time: "Live",
       label: "Relay health probe",
@@ -152,7 +123,7 @@ function relayProbeEvent(probe: RelayProbe): DisplaySystemEvent {
     };
   }
 
-  if (probe.state === "checking") {
+  if (mode === "checking") {
     return {
       time: "Check",
       label: "Relay health probe",
@@ -171,6 +142,18 @@ function relayProbeEvent(probe: RelayProbe): DisplaySystemEvent {
   };
 }
 
+function probeBadgeLabel(mode: ProbeMode) {
+  if (mode === "live") return "Live";
+  if (mode === "checking") return "Checking";
+  return "Fallback";
+}
+
+function probeCheckedLabel(mode: ProbeMode) {
+  if (mode === "live") return "Live relay connected";
+  if (mode === "checking") return "Checking relay";
+  return "Fallback active";
+}
+
 export function SystemHealthPanel({
   statuses,
   events,
@@ -180,58 +163,41 @@ export function SystemHealthPanel({
   events: readonly PublicSystemEvent[];
   boundaries: readonly PublicSystemBoundary[];
 }) {
-  const [relayProbe, setRelayProbe] = useState<RelayProbe>({
-    state: "checking",
-    checkedLabel: "Checking",
-    health: null
-  });
+  const live = useDoraLiveEvents();
   const [toneFilter, setToneFilter] = useState<HealthFilter>("all");
 
-  const displayStatuses = useMemo(() => applyRelayProbe(statuses, relayProbe), [relayProbe, statuses]);
-  const displayEvents = useMemo(() => [relayProbeEvent(relayProbe), ...events], [events, relayProbe]);
+  const connected = isRelayConnected(live.connection);
+  // Single source of truth: treat health as live only when the socket is
+  // connected AND the health endpoint responded. The probe card, the health
+  // fields, and the status-board overlay all derive from this, so they can
+  // never disagree (e.g. a "Live" badge over a "fallback" body).
+  const liveHealth = connected ? live.health : null;
+  const isLive = liveHealth !== null;
+  const probeMode: ProbeMode = isLive ? "live" : live.connection === "fallback" ? "fallback" : "checking";
+
+  const visibleEvents = useMemo(() => visibleLiveEvents(live.events), [live.events]);
+  const lastEventFreshness = useMemo(
+    () => (visibleEvents.length > 0 ? freshnessLabel(visibleEvents) : isLive ? "Awaiting public signal" : "Demo snapshot"),
+    [isLive, visibleEvents]
+  );
+  const displayStatuses = useMemo(
+    () => applyRelayOverlay(statuses, liveHealth, lastEventFreshness),
+    [lastEventFreshness, liveHealth, statuses]
+  );
+  const displayEventList = useMemo(
+    () => [relayProbeEvent(probeMode), ...events],
+    [events, probeMode]
+  );
   const filteredStatuses = useMemo(
     () => (toneFilter === "all" ? displayStatuses : displayStatuses.filter((status) => status.tone === toneFilter)),
     [displayStatuses, toneFilter]
   );
-  const safeCounterText = relayProbe.health ? "Public relay healthy" : "Safe snapshot";
+  const safeCounterText = liveHealth ? "Public relay healthy" : "Safe snapshot";
   const activeFilterLabels = [
     { key: "state", label: toneFilter === "all" ? "All public signals" : toneFilterLabels[toneFilter] },
     { key: "privacy", label: "No private details" },
     { key: "mode", label: "Display-only" }
   ];
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    async function checkRelay() {
-      try {
-        const response = await fetch(DORA_RELAY_HEALTH_URL, {
-          cache: "no-store",
-          credentials: "omit",
-          signal: controller.signal
-        });
-
-        if (!response.ok) {
-          throw new Error("relay health unavailable");
-        }
-
-        const health = parseRelayHealth(await response.json());
-        if (!health) {
-          throw new Error("relay health shape mismatch");
-        }
-
-        setRelayProbe({ state: "live", checkedLabel: "Checked just now", health });
-      } catch {
-        if (!controller.signal.aborted) {
-          setRelayProbe({ state: "fallback", checkedLabel: "Fallback active", health: null });
-        }
-      }
-    }
-
-    void checkRelay();
-
-    return () => controller.abort();
-  }, []);
 
   return (
     <div className="dora-system dora-system-register">
@@ -326,7 +292,7 @@ export function SystemHealthPanel({
             </div>
 
             <div className="dora-system-event-list">
-              {displayEvents.map((event) => (
+              {displayEventList.map((event) => (
                 <article key={`${event.time}-${event.label}`} className={`dora-system-event ${systemToneClass(event)}`}>
                   <span className="dora-system-event-window">{event.time}</span>
                   <span className="dora-system-event-dot" aria-hidden="true" />
@@ -358,16 +324,14 @@ export function SystemHealthPanel({
             </ul>
           </section>
 
-          <section className={`dora-system-probe-card ${relayProbe.state === "live" ? "is-normal" : "is-info"}`} aria-label="Live relay probe">
+          <section className={`dora-system-probe-card ${isLive ? "is-normal" : "is-info"}`} aria-label="Live relay probe">
             <div className="dora-system-probe-heading">
               <Radio size={20} aria-hidden />
               <div>
                 <strong>Live relay probe</strong>
-                <p>{relayProbe.checkedLabel}</p>
+                <p>{probeCheckedLabel(probeMode)}</p>
               </div>
-              <StatusBadge tone={relayProbe.state === "live" ? "normal" : "info"}>
-                {relayProbe.state === "live" ? "Live" : relayProbe.state === "checking" ? "Checking" : "Fallback"}
-              </StatusBadge>
+              <StatusBadge tone={isLive ? "normal" : "info"}>{probeBadgeLabel(probeMode)}</StatusBadge>
             </div>
             <p className="dora-system-probe-copy">
               Reads only the public health summary. Private operational detail is not rendered.
@@ -379,11 +343,11 @@ export function SystemHealthPanel({
               </div>
               <div>
                 <dt>Registry</dt>
-                <dd>{relayProbe.health ? (relayProbe.health.hasRegistry ? "ready" : "pending") : "fallback"}</dd>
+                <dd>{liveHealth ? (liveHealth.hasRegistry ? "ready" : "pending") : "fallback"}</dd>
               </div>
               <div>
                 <dt>Presence</dt>
-                <dd>{relayProbe.health ? "Public relay active" : "not shown"}</dd>
+                <dd>{liveHealth ? "Public relay active" : "not shown"}</dd>
               </div>
             </dl>
           </section>
