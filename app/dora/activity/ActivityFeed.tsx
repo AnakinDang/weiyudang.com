@@ -18,6 +18,7 @@ import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
 import { formatPublicEventTime } from "@/lib/dora-public-format";
 import type { PublicDoraEventClientView } from "@/lib/dora-public-client";
+import { activityModeLabel, displayEvents, useDoraLiveEvents, visibleLiveEvents } from "@/lib/use-dora-live";
 
 const kindLabels = {
   agent_work: "Agent work",
@@ -83,18 +84,23 @@ function countBy<T extends string>(items: ActivityFeedEvent[], read: (event: Act
   );
 }
 
-export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
+export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedEvent[] }) {
   const [kind, setKind] = useState<KindFilter>("all");
   const [agent, setAgent] = useState("all");
   const [severity, setSeverity] = useState<SeverityFilter>("all");
   const [timeRange, setTimeRange] = useState<TimeFilter>("all");
 
-  const agents = useMemo(() => Array.from(new Set(events.map((event) => event.agent))).sort(), [events]);
-  const kindCounts = useMemo(() => countBy(events, (event) => event.event_type), [events]);
-  const currentWindowDate = maxEventDate(events);
+  const live = useDoraLiveEvents();
+  const hasVisibleLiveActivity = useMemo(() => visibleLiveEvents(live.events).length > 0, [live.events]);
+  const sourceEvents = useMemo(() => displayEvents(live.events, fallbackEvents), [live.events, fallbackEvents]);
+  const activityMode = activityModeLabel(live.connection, live.events, hasVisibleLiveActivity);
+
+  const agents = useMemo(() => Array.from(new Set(sourceEvents.map((event) => event.agent))).sort(), [sourceEvents]);
+  const kindCounts = useMemo(() => countBy(sourceEvents, (event) => event.event_type), [sourceEvents]);
+  const currentWindowDate = maxEventDate(sourceEvents);
 
   const filteredEvents = useMemo(() => {
-    const base = events.filter((event) => {
+    const base = sourceEvents.filter((event) => {
       if (kind !== "all" && event.event_type !== kind) {
         return false;
       }
@@ -115,7 +121,7 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
     });
 
     return timeRange === "latest5" ? base.slice(0, 5) : base;
-  }, [agent, currentWindowDate, events, kind, severity, timeRange]);
+  }, [agent, currentWindowDate, sourceEvents, kind, severity, timeRange]);
 
   const hasActiveFilters = kind !== "all" || agent !== "all" || severity !== "all" || timeRange !== "all";
   const activeFilterLabels = [
@@ -207,7 +213,18 @@ export function ActivityFeed({ events }: { events: ActivityFeedEvent[] }) {
               <h2 id="dora-activity-feed-title">Public event timeline</h2>
               <p>Newest first by creation time. Fixed labels only.</p>
             </div>
-            <span>{filteredEvents.length} shown</span>
+            <div className="dora-activity-feed-mode">
+              <span
+                className={hasVisibleLiveActivity ? "dora-activity-live-dot is-live" : "dora-activity-live-dot"}
+                aria-hidden
+              />
+              <strong>{activityMode}</strong>
+            </div>
+          </div>
+          <div className="sr-only" aria-live="polite">
+            {hasVisibleLiveActivity
+              ? "Doraemon activity is showing live public events."
+              : "Doraemon activity is showing a public-safe demo snapshot."}
           </div>
 
           <div className="dora-activity-timeline">
