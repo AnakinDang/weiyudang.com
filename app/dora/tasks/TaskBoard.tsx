@@ -16,7 +16,8 @@ import {
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
-import { publicDoraTaskToneClasses, type publicDoraTasks } from "@/lib/dora-office";
+import { publicDoraTaskToneClasses } from "@/lib/dora-public-client";
+import type { publicDoraTasks } from "@/lib/dora-office";
 
 type PublicTask = (typeof publicDoraTasks)[number];
 type TaskFilter = "all" | PublicTask["state"];

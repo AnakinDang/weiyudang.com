@@ -4,7 +4,8 @@ import {
   Radio,
   ShieldCheck
 } from "lucide-react";
-import { DORA_LIVE_BRIDGE_URL, type DoraOfficeRoute } from "@/lib/dora-office";
+import { DORA_LIVE_BRIDGE_URL } from "@/lib/dora-public-client";
+import type { DoraOfficeRoute } from "@/lib/dora-office";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";

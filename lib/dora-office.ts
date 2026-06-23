@@ -1,9 +1,9 @@
-import type { PublicAgent } from "@/lib/public-agents";
-export { formatPublicEventDateTime, formatPublicEventTime, getPublicToolLabel } from "@/lib/dora-public-format";
+import "server-only";
 
-export const DORA_LIVE_BRIDGE_URL = "https://dora.weiyudang.com";
-export const DORA_RELAY_HEALTH_URL = "https://relay.weiyudang.com/health";
-export const DORA_RELAY_WS_URL = "wss://relay.weiyudang.com/ws/events";
+import type { PublicAgent } from "@/lib/public-agents";
+import type { PublicDoraEventClientView } from "@/lib/dora-public-client";
+export { formatPublicEventDateTime, formatPublicEventTime, getPublicToolLabel } from "@/lib/dora-public-format";
+export type { PublicDoraEventClientView } from "@/lib/dora-public-client";
 
 export const doraOfficeRoutes = [
   { href: "/dora", label: "Overview" },
@@ -26,8 +26,21 @@ export type PublicDoraEvent = {
   state: "Planning" | "Working" | "Tool call" | "Handoff" | "Owner review" | "Completed" | "Attention" | "Demo";
   severity: "normal" | "info" | "warning";
   title: string;
+  // Server-only demo metadata. Do not pass this type directly into client component props.
   tool_name?: string;
 };
+
+export function toPublicDoraEventClientView(event: PublicDoraEvent): PublicDoraEventClientView {
+  return {
+    event_id: event.event_id,
+    created_at: event.created_at,
+    event_type: event.event_type,
+    agent: event.agent,
+    state: event.state,
+    severity: event.severity,
+    title: event.title
+  };
+}
 
 export function getPublicAgentTone(agent: Pick<PublicAgent, "state">) {
   if (agent.state === "waiting_user") {
@@ -184,13 +197,6 @@ export const publicDoraTasks = [
   }
 ] as const;
 
-export const publicDoraTaskToneClasses = {
-  "Owner review": "is-warning",
-  Working: "is-info",
-  Attention: "is-danger",
-  Completed: "is-normal"
-} as const satisfies Record<(typeof publicDoraTasks)[number]["state"], string>;
-
 export const publicDoraTaskStats = [
   { label: "Working", value: "1", tone: "info" },
   { label: "Owner review", value: "1", tone: "warning" },
@@ -236,11 +242,6 @@ export const publicSchedules = [
     summary: "A slower review loop for shipped work, deferred decisions, and public-safe outcomes."
   }
 ] as const;
-
-export const publicDoraScheduleToneClasses = {
-  Working: "is-info",
-  "Owner review": "is-warning"
-} as const satisfies Record<(typeof publicSchedules)[number]["state"], string>;
 
 export const publicScheduleBoundaries = [
   "Only coarse cadence and next-window labels are public.",
@@ -305,15 +306,6 @@ export const publicSystemEvents = [
     detail: "Diagnostics and owner actions stay in authenticated owner surfaces."
   }
 ] as const;
-
-export const publicSystemToneClasses = {
-  normal: "is-normal",
-  info: "is-info",
-  private: "is-private"
-} as const satisfies Record<
-  (typeof publicSystemStatus)[number]["tone"] | (typeof publicSystemEvents)[number]["tone"],
-  string
->;
 
 export const publicSystemBoundaries = [
   "Public visitors can see live/demo posture and public schema health.",

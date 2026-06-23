@@ -22,7 +22,8 @@ import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhyth
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
-import { publicDoraTaskToneClasses, publicDoraTasks, publicDoraTaskStats } from "@/lib/dora-office";
+import { publicDoraTaskToneClasses } from "@/lib/dora-public-client";
+import { publicDoraTasks, publicDoraTaskStats } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
   title: "Doraemon Tasks",

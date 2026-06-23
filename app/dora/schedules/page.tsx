@@ -23,7 +23,8 @@ import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhyth
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
-import { publicDoraScheduleToneClasses, publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
+import { publicDoraScheduleToneClasses } from "@/lib/dora-public-client";
+import { publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
 
 export const metadata: Metadata = {
   title: "Doraemon Schedules",

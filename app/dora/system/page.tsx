@@ -22,11 +22,11 @@ import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhyth
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
+import { publicSystemToneClasses } from "@/lib/dora-public-client";
 import {
   publicSystemBoundaries,
   publicSystemEvents,
-  publicSystemStatus,
-  publicSystemToneClasses
+  publicSystemStatus
 } from "@/lib/dora-office";
 
 export const metadata: Metadata = {

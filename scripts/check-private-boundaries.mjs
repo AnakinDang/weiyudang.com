@@ -8,6 +8,12 @@ const ignoredDirectories = new Set([".next", ".git", "node_modules", "output"]);
 
 const importSpecifierPattern =
   /(?:from\s+["']([^"']+)["']|import\s*\(\s*["']([^"']+)["']|require\s*\(\s*["']([^"']+)["'])/g;
+const leadingCommentsPattern = /^\s*(?:(?:\/\/[^\n]*|\/\*[\s\S]*?\*\/)\s*)*/;
+const clientDirectivePattern = /^["']use client["']\s*;?/;
+const doraOfficeRuntimeImportPattern =
+  /import\s+(?!type\b)[^;]*\s+from\s+["']@\/lib\/dora-office["']\s*;?|import\s*\(\s*["']@\/lib\/dora-office["']\s*\)|require\s*\(\s*["']@\/lib\/dora-office["']\s*\)/g;
+const fullPublicDoraEventTypePattern = /\bPublicDoraEvent\b/;
+const publicToolNamePattern = /\btool_name\b/;
 
 // These scan source tokens, not rendered copy, so labels such as "No-go actions"
 // remain valid while actual JSX/Router/form affordances stay blocked.
@@ -61,6 +67,14 @@ function lineNumberFor(source, index) {
   return source.slice(0, index).split("\n").length;
 }
 
+function hasClientDirective(source) {
+  const withoutBom = source.replace(/^\uFEFF/, "");
+  const leadingCommentsMatch = withoutBom.match(leadingCommentsPattern);
+  const directiveStart = leadingCommentsMatch?.[0].length ?? 0;
+
+  return clientDirectivePattern.test(withoutBom.slice(directiveStart));
+}
+
 function privateImportTarget(file, specifier) {
   if (specifier === "@/lib/private" || specifier.startsWith("@/lib/private/")) {
     return specifier;
@@ -107,6 +121,29 @@ for (const file of files) {
       if (match?.index !== undefined) {
         violations.push(`${relativePath}:${lineNumberFor(source, match.index)} matches forbidden settings mutation pattern ${pattern}`);
       }
+    }
+  }
+
+  if (hasClientDirective(source)) {
+    doraOfficeRuntimeImportPattern.lastIndex = 0;
+    for (const match of source.matchAll(doraOfficeRuntimeImportPattern)) {
+      violations.push(
+        `${relativePath}:${lineNumberFor(source, match.index ?? 0)} imports @/lib/dora-office at runtime inside a client component; use @/lib/dora-public-client for browser-safe values and import type for server-only shapes`
+      );
+    }
+
+    const fullEventTypeMatch = source.match(fullPublicDoraEventTypePattern);
+    if (fullEventTypeMatch?.index !== undefined) {
+      violations.push(
+        `${relativePath}:${lineNumberFor(source, fullEventTypeMatch.index)} uses full PublicDoraEvent inside a client component; use PublicDoraEventClientView instead`
+      );
+    }
+
+    const toolNameMatch = source.match(publicToolNamePattern);
+    if (toolNameMatch?.index !== undefined) {
+      violations.push(
+        `${relativePath}:${lineNumberFor(source, toolNameMatch.index)} references tool_name inside a client component; project to fixed public labels before crossing the client boundary`
+      );
     }
   }
 }
