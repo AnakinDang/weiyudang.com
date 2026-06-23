@@ -2,16 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ArrowRight, NotebookPen, Radio } from "lucide-react";
+import { ArrowRight, BookOpen, Lightbulb, NotebookPen, Radio } from "lucide-react";
 import type { Note } from "@/lib/content";
 
 const pulses = ["drafting", "annotating", "connecting", "publishing"];
 
+const noteIcons = [BookOpen, Lightbulb, NotebookPen];
+
 export function LiveNotesFeed({ notes }: { notes: Note[] }) {
   const [active, setActive] = useState(0);
+  const [isAutoRotating, setIsAutoRotating] = useState(true);
 
   useEffect(() => {
-    if (notes.length <= 1) {
+    if (!isAutoRotating || notes.length <= 1) {
       return;
     }
 
@@ -24,7 +27,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
     }, 3600);
 
     return () => window.clearInterval(timer);
-  }, [notes.length]);
+  }, [isAutoRotating, notes.length]);
 
   const activeNote = notes[active] ?? notes[0];
 
@@ -32,27 +35,81 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
     return null;
   }
 
+  function selectNote(index: number) {
+    setActive(index);
+    setIsAutoRotating(false);
+  }
+
+  function selectAdjacentNote(offset: number) {
+    const nextIndex = (active + offset + notes.length) % notes.length;
+    document.getElementById(`home-note-tab-${notes[nextIndex].slug}`)?.focus();
+    selectNote(nextIndex);
+  }
+
   return (
     <div className="home-notes-feed">
-      <div className="home-notes-list">
+      <div className="home-notes-list" role="tablist" aria-label="Latest notes">
         {notes.map((note, index) => {
           const isActive = index === active;
+          const NoteIcon = noteIcons[index % noteIcons.length];
           return (
             <button
               key={note.slug}
+              id={`home-note-tab-${note.slug}`}
               type="button"
-              onClick={() => setActive(index)}
+              onClick={() => selectNote(index)}
+              onKeyDown={(event) => {
+                if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                  event.preventDefault();
+                  selectAdjacentNote(1);
+                }
+
+                if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                  event.preventDefault();
+                  selectAdjacentNote(-1);
+                }
+
+                if (event.key === "Home") {
+                  event.preventDefault();
+                  document.getElementById(`home-note-tab-${notes[0].slug}`)?.focus();
+                  selectNote(0);
+                }
+
+                if (event.key === "End") {
+                  event.preventDefault();
+                  const lastIndex = notes.length - 1;
+                  document.getElementById(`home-note-tab-${notes[lastIndex].slug}`)?.focus();
+                  selectNote(lastIndex);
+                }
+              }}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls="home-note-preview-panel"
+              tabIndex={isActive ? 0 : -1}
               className={`home-note-button${isActive ? " is-active" : ""}`}
             >
-              <p className="mono text-xs text-slate-500">{note.dateLabel}</p>
-              <h3 className="mt-2 text-xl font-semibold text-slate-950">{note.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{note.summary}</p>
+              <span className="home-note-row-icon" aria-hidden="true">
+                <NoteIcon size={18} />
+              </span>
+              <span className="home-note-row-copy">
+                <span className="home-note-row-title">
+                  <strong>{note.title}</strong>
+                  <span className="home-note-row-tag">{note.categoryLabel}</span>
+                </span>
+                <span>{note.summary}</span>
+              </span>
+              <time dateTime={note.date}>{note.dateLabel}</time>
             </button>
           );
         })}
       </div>
 
-      <div className="panel home-note-preview">
+      <div
+        id="home-note-preview-panel"
+        className="panel home-note-preview"
+        role="tabpanel"
+        aria-labelledby={`home-note-tab-${activeNote.slug}`}
+      >
         <div>
           <div className="home-note-preview-head">
             <span className="home-note-feed-label">

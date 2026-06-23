@@ -169,15 +169,14 @@ export default function HomePage() {
       </section>
 
       <section className="home-section home-project-section">
-        <div className="container home-section-frame">
+        <div className="container home-project-showroom">
           <div className="home-section-heading home-section-heading-split">
-            <div>
-              <p className="eyebrow">Selected work</p>
-              <h2 className="section-title">Projects as personal artifacts.</h2>
+            <div className="home-project-heading-copy">
+              <h2 className="section-title">Selected systems</h2>
             </div>
             <p className="section-summary">
-              A living index of systems, tools, experiments, and research. Public pages explain the work; private execution
-              stays behind the app shell.
+              A few systems and artifacts from the studio. Public pages explain the work; private execution stays behind
+              the app shell.
             </p>
             <Link
               href="/projects"
@@ -187,7 +186,7 @@ export default function HomePage() {
               <ArrowRight size={16} aria-hidden />
             </Link>
           </div>
-          <SelectedWorkShowcase projects={projects.slice(0, 5)} />
+          <SelectedWorkShowcase projects={projects} />
         </div>
       </section>
 
@@ -258,8 +257,8 @@ export default function HomePage() {
           <div>
             <SectionHeading
               eyebrow="Latest notes"
-              title="Short notes from the research studio."
-              summary="A light shelf for experiments, architecture decisions, research fragments, and the evolution of the website."
+              title="Thoughts, research, and updates from the desk."
+              summary="A light shelf for experiments, architecture decisions, research fragments, and the evolution of the Personal OS."
             />
             <LiveNotesFeed notes={notes} />
           </div>

@@ -1,15 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Bot,
-  Gamepad2,
-  Globe2,
-  ImageIcon,
-  LineChart,
-  LockKeyhole,
-  ShieldCheck,
-  Sparkles
-} from "lucide-react";
+import { ArrowRight, Bot, Gamepad2, Globe2, ImageIcon, LineChart, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
 import type { Project } from "@/lib/content";
 import { boundaryForProject, visualForProject } from "@/lib/projectPresentation";
 
@@ -50,70 +40,41 @@ const boundaryNotes = [
   }
 ] as const;
 
-function pickFeaturedProject(projects: Project[]) {
-  return projects.find((project) => project.slug === "weiyu-ai") ?? projects[0];
-}
-
 export function SelectedWorkShowcase({ projects }: { projects: Project[] }) {
-  const featuredProject = pickFeaturedProject(projects);
-  const supportingProjects = projects.filter((project) => project.slug !== featuredProject?.slug).slice(0, 4);
+  const selectedProjects = projects.slice(0, 5);
 
-  if (!featuredProject) {
+  if (selectedProjects.length === 0) {
     return null;
   }
 
-  const featuredBoundary = boundaryForProject(featuredProject);
-  const FeaturedIcon = categoryIcons[featuredProject.category] ?? Sparkles;
-  const featuredVisual = visualForProject(featuredProject.slug);
-
   return (
     <div className="home-work-showcase">
-      <div className="home-work-featured" aria-label={`Featured project: ${featuredProject.title}`}>
-        <div className={`home-work-featured-visual home-work-visual-${featuredVisual}`} aria-hidden="true">
-          <span className="home-work-featured-orb">
-            <FeaturedIcon size={42} aria-hidden />
-          </span>
-        </div>
-        <div className="home-work-featured-copy">
-          <div className="home-work-featured-meta">
-            <span className="home-work-featured-label">Featured</span>
-            <span className={`home-work-boundary home-work-boundary-${featuredBoundary.className}`}>
-              <span aria-hidden="true" />
-              {featuredBoundary.label}
-            </span>
-          </div>
-          <h3>{featuredProject.title}</h3>
-          <p>{featuredProject.summary}</p>
-          <div className="home-work-tags" aria-label={`${featuredProject.title} metadata`}>
-            <span>{featuredProject.categoryLabel}</span>
-            <span>{featuredProject.statusLabel}</span>
-            <span>{featuredProject.visibilityLabel}</span>
-          </div>
-          <Link href={`/projects/${featuredProject.slug}`} className="link-focus home-work-featured-link">
-            View project
-            <ArrowRight size={16} aria-hidden />
-          </Link>
-        </div>
-      </div>
-
-      <div className="home-work-rail" aria-label="Selected project artifacts">
-        {supportingProjects.map((project) => {
+      <div className="home-work-track" aria-label="Selected project artifacts">
+        {selectedProjects.map((project) => {
           const boundary = boundaryForProject(project);
           const Icon = categoryIcons[project.category] ?? Sparkles;
           return (
-            <Link key={project.slug} href={`/projects/${project.slug}`} className="link-focus home-work-artifact">
-              <span className={`home-work-artifact-visual home-work-visual-${visualForProject(project.slug)}`} aria-hidden="true">
-                <Icon size={24} />
+            <Link
+              key={project.slug}
+              href={`/projects/${project.slug}`}
+              className="link-focus home-work-system"
+            >
+              <span className="home-work-track-node" aria-hidden="true" />
+              <span className={`home-work-system-visual home-work-visual-${visualForProject(project.slug)}`} aria-hidden="true">
+                <Icon size={28} />
               </span>
-              <span className="home-work-artifact-copy">
+              <span className="home-work-system-copy">
                 <strong>{project.title}</strong>
                 <span>{project.summary}</span>
               </span>
-              <span className={`home-work-boundary home-work-boundary-${boundary.className}`}>
-                <span aria-hidden="true" />
-                {boundary.label}
+              <span className="home-work-system-meta">
+                <span className={`home-work-boundary home-work-boundary-${boundary.className}`}>
+                  <span aria-hidden="true" />
+                  {boundary.label}
+                </span>
+                <span className="home-work-system-category">{project.categoryLabel}</span>
               </span>
-              <span className="home-work-artifact-arrow">
+              <span className="home-work-system-arrow">
                 <ArrowRight size={16} aria-hidden />
               </span>
             </Link>
