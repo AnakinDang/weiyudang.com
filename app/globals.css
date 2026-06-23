@@ -6978,6 +6978,39 @@ textarea {
   white-space: nowrap;
 }
 
+.dora-activity-feed-mode {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  color: #64748b;
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+.dora-activity-feed-mode strong {
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.dora-activity-live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #94a3b8;
+}
+
+.dora-activity-live-dot.is-live {
+  background: #2563eb;
+  animation: doraemon-live-pulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dora-activity-live-dot.is-live {
+    animation: none;
+  }
+}
+
 .dora-activity-timeline {
   position: relative;
   display: grid;

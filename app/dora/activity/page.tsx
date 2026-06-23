@@ -118,7 +118,7 @@ export default function DoraActivityPage() {
                   <div>
                     <span aria-hidden />
                     <strong>Public event stream</strong>
-                    <small>Demo fallback · {events.length} sanitized events</small>
+                    <small>Sanitized public schema sample</small>
                   </div>
                   <ol>
                     {heroEvents.map((event) => (
@@ -202,7 +202,7 @@ export default function DoraActivityPage() {
             </div>
           </div>
           <div className="container">
-            <ActivityFeed events={events} />
+            <ActivityFeed fallbackEvents={events} />
           </div>
         </section>
 
