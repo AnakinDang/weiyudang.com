@@ -12,14 +12,15 @@ import {
   Target
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
-import { DoraOfficeLiveBridge } from "@/components/DoraOfficeLiveBridge";
+import { DoraOfficeLiveBridge, type DoraOfficeBridgeEvent } from "@/components/DoraOfficeLiveBridge";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   getRecentPublicDoraEvents,
   publicDoraTaskStats,
-  publicSchedules
+  publicSchedules,
+  type PublicDoraEvent
 } from "@/lib/dora-office";
 import { getPublicAgents } from "@/lib/public-agents";
 
@@ -38,11 +39,23 @@ const publicBoundaryItems = [
   "Research-only. Not an order, recommendation, or execution system."
 ] as const;
 
+function clientSafeEvent(event: PublicDoraEvent): DoraOfficeBridgeEvent {
+  return {
+    event_id: event.event_id,
+    created_at: event.created_at,
+    event_type: event.event_type,
+    agent: event.agent,
+    state: event.state,
+    severity: event.severity,
+    title: event.title
+  };
+}
+
 export default function DoraOfficePage() {
   const agents = getPublicAgents();
   const stageAgents = agents.filter((agent) => agent.publicId !== "agent_dora").slice(0, MAX_STAGE_AGENTS);
   const recentEvents = getRecentPublicDoraEvents(5);
-  const stripEvents = recentEvents.slice(0, 5);
+  const stripEvents = recentEvents.slice(0, 5).map(clientSafeEvent);
   const nextSchedule = publicSchedules[0];
   const currentFocusEvent = recentEvents[0];
 
