@@ -17,13 +17,15 @@ import {
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
+import { DoraTeamSignals } from "@/components/DoraTeamSignals";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
   formatPublicEventTime,
   getPublicAgentTone,
   getRecentPublicDoraEvents,
-  latestAgentEvent
+  latestAgentEvent,
+  toPublicDoraEventClientView
 } from "@/lib/dora-office";
 import { getPublicAgents, type PublicAgent } from "@/lib/public-agents";
 
@@ -87,8 +89,8 @@ const heroSafetySignals = [
     icon: Users
   },
   {
-    title: "Demo fallback",
-    summary: "Sanitized view",
+    title: "Sanitized",
+    summary: "Public schema",
     icon: ShieldCheck
   },
   {
@@ -169,7 +171,7 @@ export default function DoraTeamPage() {
   const minidoras = agents.filter((agent) => agent.publicId !== doraemon.publicId);
   const selectedAgent = minidoras.find((agent) => agent.publicId === "agent_research") ?? minidoras[0] ?? doraemon;
   const selectedAgentEvent = latestAgentEvent(selectedAgent);
-  const recentSignals = getRecentPublicDoraEvents(5);
+  const signalEvents = getRecentPublicDoraEvents(5).map(toPublicDoraEventClientView);
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
@@ -265,22 +267,7 @@ export default function DoraTeamPage() {
                 </div>
               </section>
 
-              <section className="dora-office-live-strip dora-team-landing-activity-strip" aria-label="Recent public-safe MiniDora team activity">
-                <div>
-                  <span aria-hidden />
-                  <strong>Recent public team signals</strong>
-                  <small>Demo fallback · Public-safe labels</small>
-                </div>
-                <ol>
-                  {recentSignals.map((event) => (
-                    <li key={event.event_id}>
-                      <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
-                      <strong>{event.agent}</strong>
-                      <span>{event.title}</span>
-                    </li>
-                  ))}
-                </ol>
-              </section>
+              <DoraTeamSignals fallbackSignals={signalEvents} />
             </div>
 
             <aside className="dora-team-hero-side" aria-label="MiniDora public team context">
