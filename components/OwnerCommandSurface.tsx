@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   AlertTriangle,
   ArrowRight,
@@ -17,8 +17,10 @@ import {
   Sparkles,
   Waypoints
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
+import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 
 type Tone = "normal" | "info" | "warning" | "private";
 type CommandMode = string;
@@ -137,6 +139,11 @@ const modeIcons = {
   shield: ShieldCheck
 } as const satisfies Record<CommandModeIcon, typeof Radio>;
 
+function commandText(value: string | undefined, locale: SiteLocale) {
+  if (!value) return "";
+  return locale === "zh" ? translateToZh(value) ?? value : value;
+}
+
 function safeTone(tone: string): Tone {
   if (tone === "normal" || tone === "warning" || tone === "private") {
     return tone;
@@ -163,16 +170,22 @@ function CommandStatusBadge({ children, tone }: { children: React.ReactNode; ton
 function CommandWorkspace({
   activeMode,
   setActiveMode,
-  data
+  data,
+  locale
 }: {
   activeMode: CommandMode;
   setActiveMode: (mode: CommandMode) => void;
   data: OwnerCommandSurfaceData;
+  locale: SiteLocale;
 }) {
-  const [draft, setDraft] = useState<string>(data.draft.prompt);
+  const t = (value: string | undefined) => commandText(value, locale);
+  const defaultDraft = useMemo(() => t(data.draft.prompt), [data.draft.prompt, locale]);
+  const [draft, setDraft] = useState<string>(defaultDraft);
+  const [draftWasEdited, setDraftWasEdited] = useState(false);
   const fallbackMode = data.modeTabs[0]?.key ?? data.reviewPacketModeKey;
   const activePanel = data.modePanels[activeMode] ?? data.modePanels[fallbackMode];
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
+  const draftCharacters = useMemo(() => Array.from(draft.replace(/\s/g, "")).length, [draft]);
   const draftLines = useMemo(() => draft.split(/\n/).filter((line) => line.trim().length > 0).length, [draft]);
   const commandMetrics = [
     {
@@ -200,6 +213,16 @@ function CommandWorkspace({
       toneClass: "border-violet-200/25 bg-violet-300/10 text-violet-100"
     }
   ] as const;
+  const primaryDraftMetric = locale === "zh"
+    ? { value: draftCharacters, label: "字符" }
+    : { value: draftWords, label: "words" };
+  const lineMetricLabel = locale === "zh" ? "行有效内容" : "active lines";
+
+  useEffect(() => {
+    if (!draftWasEdited) {
+      setDraft(defaultDraft);
+    }
+  }, [defaultDraft, draftWasEdited]);
 
   return (
     <section
@@ -223,40 +246,40 @@ function CommandWorkspace({
 
           <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
             <Radio size={14} aria-hidden />
-            {data.copy.surfaceLabel}
+            {t(data.copy.surfaceLabel)}
           </div>
 
           <div className="relative mt-4 flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
               <LockKeyhole size={14} aria-hidden />
-              {data.copy.badges[0]}
+              {t(data.copy.badges[0])}
             </span>
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
               <Radio size={14} aria-hidden />
-              {data.copy.badges[1]}
+              {t(data.copy.badges[1])}
             </span>
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
               <ShieldCheck size={14} aria-hidden />
-              {data.copy.badges[2]}
+              {t(data.copy.badges[2])}
             </span>
           </div>
 
           <div className="relative mt-8 max-w-4xl">
-            <p className="eyebrow">{data.surfaceStatus.posture}</p>
+            <p className="eyebrow">{t(data.surfaceStatus.posture)}</p>
             <h2 id="owner-command-title" className="mt-2 max-w-4xl text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
-              {data.copy.heroTitle}
+              {t(data.copy.heroTitle)}
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-              {data.copy.heroDetail}
+              {t(data.copy.heroDetail)}
             </p>
           </div>
 
           <div className="relative mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {commandMetrics.map((metric) => (
               <div key={metric.label} className={`rounded-[8px] border p-4 ${metric.toneClass}`}>
-                <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
+                <p className="text-xs font-bold uppercase text-current">{t(metric.label)}</p>
                 <div className="mt-2 flex items-end justify-between gap-3">
-                  <p className="text-xs leading-5 text-slate-200/85">{metric.detail}</p>
+                  <p className="text-xs leading-5 text-slate-200/85">{t(metric.detail)}</p>
                   <p className="text-3xl font-semibold leading-none text-white">{metric.value}</p>
                 </div>
               </div>
@@ -266,27 +289,30 @@ function CommandWorkspace({
           <div className="relative mt-5 rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-4 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase text-yellow-100">{data.copy.draftLabel}</p>
-                <h3 className="mt-1 text-xl font-semibold text-white">{data.draft.title}</h3>
+                <p className="text-xs font-bold uppercase text-yellow-100">{t(data.copy.draftLabel)}</p>
+                <h3 className="mt-1 text-xl font-semibold text-white">{t(data.draft.title)}</h3>
               </div>
-              <CommandStatusBadge tone="private">{data.surfaceStatus.mode}</CommandStatusBadge>
+              <CommandStatusBadge tone="private">{t(data.surfaceStatus.mode)}</CommandStatusBadge>
             </div>
             <textarea
-              aria-label={data.copy.draftAriaLabel}
+              aria-label={t(data.copy.draftAriaLabel)}
               value={draft}
-              onChange={(event) => setDraft(event.target.value)}
+              onChange={(event) => {
+                setDraftWasEdited(true);
+                setDraft(event.target.value);
+              }}
               className="link-focus mt-4 min-h-40 w-full resize-y rounded-[8px] border border-slate-700 bg-black/20 p-4 text-sm leading-7 text-slate-100 transition placeholder:text-slate-500 focus:border-sky-200/50 focus:bg-[#020817]/60"
-              placeholder={data.copy.draftPlaceholder}
+              placeholder={t(data.copy.draftPlaceholder)}
             />
             <div className="mt-3 grid gap-3 text-sm text-slate-300 sm:grid-cols-[1fr_auto] sm:items-center">
               <div className="flex flex-wrap gap-3">
                 <span>
-                  <strong className="text-white">{draftWords}</strong> words
+                  <strong className="text-white">{primaryDraftMetric.value}</strong> {primaryDraftMetric.label}
                 </span>
                 <span>
-                  <strong className="text-white">{draftLines}</strong> active lines
+                  <strong className="text-white">{draftLines}</strong> {lineMetricLabel}
                 </span>
-                <span>{data.surfaceStatus.runtime}</span>
+                <span>{t(data.surfaceStatus.runtime)}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button
@@ -294,20 +320,23 @@ function CommandWorkspace({
                   onClick={() => setActiveMode(data.reviewPacketModeKey)}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-sky-300 px-3 py-2 text-sm font-semibold text-slate-950 shadow-[0_16px_36px_rgba(14,165,233,0.18)] transition hover:bg-sky-200"
                 >
-                  {data.copy.preparePacketAction}
+                  {t(data.copy.preparePacketAction)}
                   <ArrowRight size={15} aria-hidden />
                 </button>
                 <button
                   type="button"
-                  onClick={() => setDraft(data.draft.prompt)}
+                  onClick={() => {
+                    setDraftWasEdited(false);
+                    setDraft(defaultDraft);
+                  }}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
                 >
                   <RotateCcw size={15} aria-hidden />
-                  {data.copy.resetAction}
+                  {t(data.copy.resetAction)}
                 </button>
                 <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-2 text-sm font-semibold text-yellow-50">
                   <LockKeyhole size={15} aria-hidden />
-                  {data.copy.dispatchUnavailable}
+                  {t(data.copy.dispatchUnavailable)}
                 </span>
               </div>
             </div>
@@ -325,7 +354,7 @@ function CommandWorkspace({
           <div
             className="relative mb-4 grid gap-2 rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-2 shadow-[0_16px_48px_rgba(14,165,233,0.08)] sm:grid-cols-5"
             role="group"
-            aria-label={data.copy.lensGroupLabel}
+            aria-label={t(data.copy.lensGroupLabel)}
           >
             {data.modeTabs.map((mode) => {
               const Icon = modeIcons[mode.icon] ?? Radio;
@@ -344,7 +373,7 @@ function CommandWorkspace({
                   }`}
                 >
                   <Icon size={15} aria-hidden />
-                  {mode.label}
+                  {t(mode.label)}
                 </button>
               );
             })}
@@ -352,19 +381,19 @@ function CommandWorkspace({
           <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-yellow-100">{data.copy.activeLensLabel}</p>
+                <p className="text-xs font-bold uppercase text-yellow-100">{t(data.copy.activeLensLabel)}</p>
                 <h3 id="command-mode-title" className="mt-1 text-xl font-semibold text-white">
-                  {activePanel.title}
+                  {t(activePanel.title)}
                 </h3>
               </div>
               <span className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
                 <Sparkles size={21} aria-hidden />
               </span>
             </div>
-            <p className="mt-4 text-sm leading-6 text-slate-300">{activePanel.detail}</p>
+            <p className="mt-4 text-sm leading-6 text-slate-300">{t(activePanel.detail)}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <CommandStatusBadge tone={safeTone(activePanel.tone)}>{activePanel.state}</CommandStatusBadge>
-              <CommandStatusBadge tone="private">{data.surfaceStatus.dispatch}</CommandStatusBadge>
+              <CommandStatusBadge tone={safeTone(activePanel.tone)}>{t(activePanel.state)}</CommandStatusBadge>
+              <CommandStatusBadge tone="private">{t(data.surfaceStatus.dispatch)}</CommandStatusBadge>
             </div>
           </div>
 
@@ -372,16 +401,16 @@ function CommandWorkspace({
             className="relative mt-4 rounded-[8px] border border-slate-700 bg-white/[0.045] p-5"
             aria-labelledby="command-review-packet-title"
           >
-            <p className="text-xs font-bold uppercase text-yellow-100">{data.copy.reviewPacketLabel}</p>
+            <p className="text-xs font-bold uppercase text-yellow-100">{t(data.copy.reviewPacketLabel)}</p>
             <h3 id="command-review-packet-title" className="mt-1 text-xl font-semibold text-white">
-              {data.reviewPacket.title}
+              {t(data.reviewPacket.title)}
             </h3>
-            <p className="mt-3 text-sm leading-6 text-slate-300">{data.reviewPacket.summary}</p>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{t(data.reviewPacket.summary)}</p>
             <div className="mt-4 grid gap-3">
               {data.reviewPacket.sections.map((section) => (
                 <div key={section.label} className="grid grid-cols-[5.5rem_1fr] gap-3 rounded-[8px] border border-slate-700 bg-black/15 p-3">
-                  <span className="text-xs font-bold uppercase text-slate-400">{section.label}</span>
-                  <span className="text-sm font-semibold text-white">{section.value}</span>
+                  <span className="text-xs font-bold uppercase text-slate-400">{t(section.label)}</span>
+                  <span className="text-sm font-semibold text-white">{t(section.value)}</span>
                 </div>
               ))}
             </div>
@@ -391,10 +420,10 @@ function CommandWorkspace({
             {data.readinessChecks.map((check) => (
               <article key={check.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <h4 className="text-sm font-semibold text-white">{check.label}</h4>
-                  <CommandStatusBadge tone={safeTone(check.tone)}>{check.state}</CommandStatusBadge>
+                  <h4 className="text-sm font-semibold text-white">{t(check.label)}</h4>
+                  <CommandStatusBadge tone={safeTone(check.tone)}>{t(check.state)}</CommandStatusBadge>
                 </div>
-                <p className="mt-2 text-xs leading-5 text-slate-300">{check.detail}</p>
+                <p className="mt-2 text-xs leading-5 text-slate-300">{t(check.detail)}</p>
               </article>
             ))}
           </div>
@@ -404,7 +433,9 @@ function CommandWorkspace({
   );
 }
 
-function PlanPreview({ data }: { data: OwnerCommandSurfaceData }) {
+function PlanPreview({ data, locale }: { data: OwnerCommandSurfaceData; locale: SiteLocale }) {
+  const t = (value: string | undefined) => commandText(value, locale);
+
   return (
     <section className="panel overflow-hidden p-0" aria-labelledby="command-plan-title">
       <div className="grid gap-0 xl:grid-cols-[20rem_minmax(0,1fr)]">
@@ -412,12 +443,12 @@ function PlanPreview({ data }: { data: OwnerCommandSurfaceData }) {
           <div className="flex size-11 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
             <Waypoints size={22} aria-hidden />
           </div>
-          <p className="eyebrow mt-5">{data.copy.planEyebrow}</p>
+          <p className="eyebrow mt-5">{t(data.copy.planEyebrow)}</p>
           <h2 id="command-plan-title" className="mt-2 text-2xl font-semibold text-white">
-            {data.copy.planTitle}
+            {t(data.copy.planTitle)}
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-300">
-            {data.copy.planDetail}
+            {t(data.copy.planDetail)}
           </p>
         </div>
         <div className="grid gap-3 p-4 md:p-5 xl:grid-cols-5">
@@ -430,13 +461,13 @@ function PlanPreview({ data }: { data: OwnerCommandSurfaceData }) {
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <StatusBadge tone={safeTone(stage.tone)}>{stage.state}</StatusBadge>
+                <StatusBadge tone={safeTone(stage.tone)}>{t(stage.state)}</StatusBadge>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-white">{stage.label}</h3>
-              <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{stage.owner}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-300">{stage.detail}</p>
+              <h3 className="mt-4 text-lg font-semibold text-white">{t(stage.label)}</h3>
+              <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{t(stage.owner)}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{t(stage.detail)}</p>
               <p className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3 text-xs leading-5 text-slate-400">
-                {stage.proof}
+                {t(stage.proof)}
               </p>
             </article>
           ))}
@@ -446,7 +477,9 @@ function PlanPreview({ data }: { data: OwnerCommandSurfaceData }) {
   );
 }
 
-function ApprovalGate({ data }: { data: OwnerCommandSurfaceData }) {
+function ApprovalGate({ data, locale }: { data: OwnerCommandSurfaceData; locale: SiteLocale }) {
+  const t = (value: string | undefined) => commandText(value, locale);
+
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <section className="panel p-5" aria-labelledby="command-approval-title">
@@ -455,25 +488,25 @@ function ApprovalGate({ data }: { data: OwnerCommandSurfaceData }) {
             <div className="flex items-center gap-2 text-yellow-100">
               <ClipboardCheck size={22} aria-hidden />
               <h2 id="command-approval-title" className="text-2xl font-semibold text-white">
-                {data.copy.approvalTitle}
+                {t(data.copy.approvalTitle)}
               </h2>
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-              {data.copy.approvalDetail}
+              {t(data.copy.approvalDetail)}
             </p>
           </div>
-          <StatusBadge tone="warning">{data.copy.approvalStatus}</StatusBadge>
+          <StatusBadge tone="warning">{t(data.copy.approvalStatus)}</StatusBadge>
         </div>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {data.approvals.map((approval) => (
             <article key={approval.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-sm font-semibold text-white">{approval.title}</h3>
-                <StatusBadge tone={safeTone(approval.tone)}>{approval.state}</StatusBadge>
+                <h3 className="text-sm font-semibold text-white">{t(approval.title)}</h3>
+                <StatusBadge tone={safeTone(approval.tone)}>{t(approval.state)}</StatusBadge>
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-300">{approval.detail}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{t(approval.detail)}</p>
               <p className="mt-3 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3 text-xs leading-5 text-slate-400">
-                {approval.decision}
+                {t(approval.decision)}
               </p>
             </article>
           ))}
@@ -481,16 +514,19 @@ function ApprovalGate({ data }: { data: OwnerCommandSurfaceData }) {
       </section>
 
       <UnavailableControlsPanel
-        eyebrow={data.copy.blockedActionsEyebrow}
-        title={data.copy.blockedActionsTitle}
-        items={data.unavailableActions}
-        note={data.copy.blockedActionsNote}
+        eyebrow={t(data.copy.blockedActionsEyebrow)}
+        title={t(data.copy.blockedActionsTitle)}
+        items={data.unavailableActions.map((item) => t(item))}
+        note={t(data.copy.blockedActionsNote)}
+        unavailableLabel={t("unavailable")}
       />
     </section>
   );
 }
 
-function AgentRouting({ data }: { data: OwnerCommandSurfaceData }) {
+function AgentRouting({ data, locale }: { data: OwnerCommandSurfaceData; locale: SiteLocale }) {
+  const t = (value: string | undefined) => commandText(value, locale);
+
   return (
     <section className="panel p-5" aria-labelledby="command-agent-title">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -498,14 +534,14 @@ function AgentRouting({ data }: { data: OwnerCommandSurfaceData }) {
           <div className="flex items-center gap-2 text-sky-100">
             <Bot size={22} aria-hidden />
             <h2 id="command-agent-title" className="text-2xl font-semibold text-white">
-              {data.copy.agentTitle}
+              {t(data.copy.agentTitle)}
             </h2>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-            {data.copy.agentDetail}
+            {t(data.copy.agentDetail)}
           </p>
         </div>
-        <StatusBadge tone="info">{data.copy.agentStatus}</StatusBadge>
+        <StatusBadge tone="info">{t(data.copy.agentStatus)}</StatusBadge>
       </div>
       <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
         {data.agents.map((agent) => {
@@ -517,13 +553,13 @@ function AgentRouting({ data }: { data: OwnerCommandSurfaceData }) {
                 <span className="flex size-10 items-center justify-center rounded-[8px] bg-sky-300/10 text-sky-100">
                   <Icon size={19} aria-hidden />
                 </span>
-                <StatusBadge tone={safeTone(agent.tone)}>{agent.state}</StatusBadge>
+                <StatusBadge tone={safeTone(agent.tone)}>{t(agent.state)}</StatusBadge>
               </div>
-              <h3 className="mt-4 font-semibold text-white">{agent.name}</h3>
-              <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{agent.role}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-300">{agent.focus}</p>
+              <h3 className="mt-4 font-semibold text-white">{t(agent.name)}</h3>
+              <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{t(agent.role)}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{t(agent.focus)}</p>
               <p className="mt-3 rounded-[8px] border border-slate-700 bg-black/15 p-3 text-xs leading-5 text-slate-400">
-                {data.copy.agentNextLabel}: {agent.next}
+                {t(data.copy.agentNextLabel)}: {t(agent.next)}
               </p>
             </article>
           );
@@ -533,27 +569,29 @@ function AgentRouting({ data }: { data: OwnerCommandSurfaceData }) {
   );
 }
 
-function EvidenceShelf({ data }: { data: OwnerCommandSurfaceData }) {
+function EvidenceShelf({ data, locale }: { data: OwnerCommandSurfaceData; locale: SiteLocale }) {
+  const t = (value: string | undefined) => commandText(value, locale);
+
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <section className="panel p-5" aria-labelledby="command-evidence-title">
         <div className="flex items-center gap-2 text-yellow-100">
           <FileSearch size={22} aria-hidden />
           <h2 id="command-evidence-title" className="text-2xl font-semibold text-white">
-            {data.copy.evidenceTitle}
+            {t(data.copy.evidenceTitle)}
           </h2>
         </div>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-          {data.copy.evidenceDetail}
+          {t(data.copy.evidenceDetail)}
         </p>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {data.evidenceRequirements.map((item) => (
             <article key={item.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="font-semibold text-white">{item.title}</h3>
-                <StatusBadge tone={safeTone(item.tone)}>{item.state}</StatusBadge>
+                <h3 className="font-semibold text-white">{t(item.title)}</h3>
+                <StatusBadge tone={safeTone(item.tone)}>{t(item.state)}</StatusBadge>
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{t(item.detail)}</p>
             </article>
           ))}
         </div>
@@ -563,17 +601,17 @@ function EvidenceShelf({ data }: { data: OwnerCommandSurfaceData }) {
         <div className="flex items-center gap-2 text-sky-100">
           <ClipboardCheck size={20} aria-hidden />
           <h2 id="command-output-title" className="text-xl font-semibold text-white">
-            {data.copy.outputTitle}
+            {t(data.copy.outputTitle)}
           </h2>
         </div>
         <div className="mt-4 grid gap-3">
           {data.outputShelf.map((item) => (
             <article key={item.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                <span className="text-xs font-bold uppercase text-yellow-100">{item.state}</span>
+                <h3 className="text-sm font-semibold text-white">{t(item.title)}</h3>
+                <span className="text-xs font-bold uppercase text-yellow-100">{t(item.state)}</span>
               </div>
-              <p className="mt-2 text-xs leading-5 text-slate-400">{item.detail}</p>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{t(item.detail)}</p>
             </article>
           ))}
         </div>
@@ -582,7 +620,9 @@ function EvidenceShelf({ data }: { data: OwnerCommandSurfaceData }) {
   );
 }
 
-function AuditBoundary({ data }: { data: OwnerCommandSurfaceData }) {
+function AuditBoundary({ data, locale }: { data: OwnerCommandSurfaceData; locale: SiteLocale }) {
+  const t = (value: string | undefined) => commandText(value, locale);
+
   return (
     <section className="panel p-5" aria-labelledby="command-audit-title">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -590,24 +630,24 @@ function AuditBoundary({ data }: { data: OwnerCommandSurfaceData }) {
           <div className="flex items-center gap-2 text-emerald-200">
             <CheckCircle2 size={22} aria-hidden />
             <h2 id="command-audit-title" className="text-2xl font-semibold text-white">
-              {data.copy.auditTitle}
+              {t(data.copy.auditTitle)}
             </h2>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-            {data.copy.auditDetail}
+            {t(data.copy.auditDetail)}
           </p>
         </div>
         <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-4 py-3">
           <div className="flex items-center gap-2 text-yellow-50">
             <LockKeyhole size={17} aria-hidden />
-            <span className="text-sm font-semibold">{data.copy.auditBadge}</span>
+            <span className="text-sm font-semibold">{t(data.copy.auditBadge)}</span>
           </div>
         </div>
       </div>
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         {data.auditRules.map((rule) => (
           <div key={rule} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm leading-6 text-slate-300">
-            {rule}
+            {t(rule)}
           </div>
         ))}
       </div>
@@ -616,21 +656,23 @@ function AuditBoundary({ data }: { data: OwnerCommandSurfaceData }) {
 }
 
 export function OwnerCommandSurface({ data }: { data: OwnerCommandSurfaceData }) {
+  const { locale } = useLanguage();
   const [activeMode, setActiveMode] = useState<CommandMode>(data.modeTabs[0]?.key ?? data.reviewPacketModeKey);
+  const t = (value: string | undefined) => commandText(value, locale);
 
   return (
-    <div className="grid gap-5">
-      <CommandWorkspace activeMode={activeMode} setActiveMode={setActiveMode} data={data} />
-      <PlanPreview data={data} />
-      <ApprovalGate data={data} />
-      <AgentRouting data={data} />
-      <EvidenceShelf data={data} />
-      <AuditBoundary data={data} />
+    <div className="grid gap-5" data-i18n-skip>
+      <CommandWorkspace activeMode={activeMode} setActiveMode={setActiveMode} data={data} locale={locale} />
+      <PlanPreview data={data} locale={locale} />
+      <ApprovalGate data={data} locale={locale} />
+      <AgentRouting data={data} locale={locale} />
+      <EvidenceShelf data={data} locale={locale} />
+      <AuditBoundary data={data} locale={locale} />
 
       <section className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4 text-sm font-semibold leading-6 text-yellow-50">
         <div className="flex gap-3">
           <AlertTriangle className="mt-0.5 shrink-0" size={18} aria-hidden />
-          <p>{data.draft.boundary}</p>
+          <p>{t(data.draft.boundary)}</p>
         </div>
       </section>
     </div>

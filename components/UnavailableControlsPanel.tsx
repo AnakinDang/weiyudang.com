@@ -4,12 +4,14 @@ export function UnavailableControlsPanel({
   eyebrow = "Unavailable until designed",
   title,
   items,
-  note
+  note,
+  unavailableLabel = "unavailable"
 }: {
   eyebrow?: string;
   title: string;
   items: readonly string[];
   note?: string;
+  unavailableLabel?: string;
 }) {
   return (
     <section className="panel p-5">
@@ -21,9 +23,9 @@ export function UnavailableControlsPanel({
         </div>
       </div>
       <div className="mt-4 grid gap-2">
-        {items.map((item) => (
-          <div key={item} className="rounded-[8px] border border-slate-700 bg-white/5 px-3 py-2 text-sm text-slate-300">
-            {item}: unavailable
+        {items.map((item, index) => (
+          <div key={`${item}-${index}`} className="rounded-[8px] border border-slate-700 bg-white/5 px-3 py-2 text-sm text-slate-300">
+            {item}: {unavailableLabel}
           </div>
         ))}
       </div>
