@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   SlidersHorizontal
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
 import type {
@@ -26,6 +27,7 @@ import type {
   TradingSignal,
   TradingView
 } from "@/lib/trading-team";
+import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 
 type TradingTodayFocus = TradingResearchCockpitData["todayFocus"][number];
 type TradingDesk = TradingResearchCockpitData["desks"][number];
@@ -48,6 +50,94 @@ const viewIcons = {
 
 const ALL_SIGNAL_FILTER = "__all_signals__";
 const ALL_STATE_FILTER = "All states";
+
+const viewZhLabels = {
+  Today: "今日",
+  Signals: "信号",
+  Desks: "研究台",
+  Instruments: "标的",
+  "Options Lab": "期权研究室",
+  Evidence: "证据",
+  Replay: "回放",
+  System: "系统"
+} as const satisfies Record<TradingView, string>;
+
+const deskZhLabels = {
+  "All desks": "全部研究台",
+  "Macro Desk": "宏观研究台",
+  "Equity Desk": "股票研究台",
+  "Options Desk": "期权研究台",
+  "Risk Desk": "风险研究台",
+  "News Desk": "新闻研究台",
+  "Crypto Desk": "数字资产研究台",
+  "Evidence Desk": "证据研究台"
+} as const satisfies Record<string, string>;
+
+const stateZhLabels: Record<string, string> = {
+  "All states": "全部状态",
+  Attached: "已附加",
+  Blocked: "阻塞",
+  Cautious: "谨慎",
+  Clear: "清晰",
+  Degraded: "降级",
+  Disabled: "已禁用",
+  Healthy: "健康",
+  High: "高",
+  Hold: "保持",
+  Incomplete: "不完整",
+  Investigating: "调查中",
+  Low: "低",
+  Medium: "中",
+  "Medium-low": "中低",
+  "Needs counter-evidence": "需要反证",
+  "Needs evidence": "需要证据",
+  "No view": "暂无观点",
+  Opened: "已打开",
+  "Open blockers": "开放阻塞点",
+  "Owner gated": "本人把关",
+  "Owner review": "本人审核",
+  "Owner-gated": "本人把关",
+  Partial: "部分完成",
+  Pending: "待处理",
+  Required: "必需",
+  Research: "研究",
+  Scenario: "情景研究",
+  "Scenario research": "情景研究",
+  Watch: "观察",
+  Working: "工作中"
+};
+
+function labelForLocale(value: string, locale: SiteLocale, labels: Record<string, string>) {
+  return locale === "zh" ? labels[value] ?? translateToZh(value) ?? value : value;
+}
+
+function viewLabel(view: TradingView, locale: SiteLocale) {
+  return locale === "zh" ? viewZhLabels[view] : view;
+}
+
+function deskLabel(desk: string, locale: SiteLocale) {
+  return labelForLocale(desk, locale, deskZhLabels);
+}
+
+function stateLabel(state: string, locale: SiteLocale) {
+  return labelForLocale(state, locale, stateZhLabels);
+}
+
+function actionLabel(action: string, locale: SiteLocale) {
+  return labelForLocale(action, locale, {});
+}
+
+function gateLabel(gate: string, locale: SiteLocale) {
+  return labelForLocale(gate, locale, {});
+}
+
+function evidenceCountLabel(visible: number, total: number, locale: SiteLocale) {
+  return locale === "zh" ? `已显示 ${visible} / ${total} 个证据包` : `${visible} of ${total} evidence packets shown`;
+}
+
+function eventCountLabel(visible: number, total: number, locale: SiteLocale) {
+  return locale === "zh" ? `已显示 ${visible} / ${total} 条事件` : `${visible} of ${total} events shown`;
+}
 
 function sourceTone(state: string) {
   if (state === "Disabled") {
@@ -150,20 +240,28 @@ function SignalCard({
   signal: TradingSignal;
   onTraceEvidence: (instrument: string) => void;
 }) {
+  const { locale } = useLanguage();
+
   return (
     <article className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="font-semibold text-white">{signal.instrument}</h3>
-          <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{signal.desk}</p>
+          <p className="mt-1 text-xs font-bold uppercase text-yellow-100" data-i18n-skip>
+            {deskLabel(signal.desk, locale)}
+          </p>
         </div>
-        <StatusBadge tone={sourceTone(signal.sourceHealth)}>{signal.sourceHealth}</StatusBadge>
+        <StatusBadge tone={sourceTone(signal.sourceHealth)}>
+          <span data-i18n-skip>{stateLabel(signal.sourceHealth, locale)}</span>
+        </StatusBadge>
       </div>
       <p className="mt-3 text-sm leading-6 text-slate-300">{signal.thesis}</p>
       <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
         <div>
           <dt className="text-xs font-bold uppercase text-slate-400">Confidence</dt>
-          <dd className="mt-1 font-semibold text-white">{signal.confidence}</dd>
+          <dd className="mt-1 font-semibold text-white" data-i18n-skip>
+            {stateLabel(signal.confidence, locale)}
+          </dd>
         </div>
         <div>
           <dt className="text-xs font-bold uppercase text-slate-400">Evidence</dt>
@@ -203,6 +301,8 @@ function SignalTable({
   signals: readonly TradingSignal[];
   onTraceEvidence: (instrument: string) => void;
 }) {
+  const { locale } = useLanguage();
+
   return (
     <section className="panel overflow-hidden p-0" aria-labelledby="trading-signals-title">
       <div className="border-b border-slate-700/70 p-5 md:p-6">
@@ -262,15 +362,21 @@ function SignalTable({
                 </td>
                 <td className="max-w-[20rem] px-4 py-4 align-top text-sm leading-6 text-slate-300">{signal.thesis}</td>
                 <td className="px-4 py-4 align-top">
-                  <p className="text-sm font-semibold text-white">{signal.confidence}</p>
-                  <p className="mt-1 text-xs text-yellow-100">{signal.state}</p>
+                  <p className="text-sm font-semibold text-white" data-i18n-skip>
+                    {stateLabel(signal.confidence, locale)}
+                  </p>
+                  <p className="mt-1 text-xs text-yellow-100" data-i18n-skip>
+                    {stateLabel(signal.state, locale)}
+                  </p>
                 </td>
                 <td className="px-4 py-4 align-top text-sm text-slate-300">
                   <span className="font-semibold text-white">{signal.evidence}</span> evidence
                   <p className="mt-1 text-xs text-slate-400">{signal.counterEvidence} counter</p>
                 </td>
                 <td className="px-4 py-4 align-top">
-                  <StatusBadge tone={sourceTone(signal.sourceHealth)}>{signal.sourceHealth}</StatusBadge>
+                  <StatusBadge tone={sourceTone(signal.sourceHealth)}>
+                    <span data-i18n-skip>{stateLabel(signal.sourceHealth, locale)}</span>
+                  </StatusBadge>
                   <p className="mt-2 text-xs leading-5 text-slate-400">{signal.blocker}</p>
                   <button
                     type="button"
@@ -282,7 +388,7 @@ function SignalTable({
                   </button>
                 </td>
                 <td className="px-4 py-4 align-top text-sm text-slate-300">
-                  {signal.desk}
+                  <span data-i18n-skip>{deskLabel(signal.desk, locale)}</span>
                   <p className="mt-1 text-xs text-slate-400">{signal.updated}</p>
                 </td>
               </tr>
@@ -295,6 +401,8 @@ function SignalTable({
 }
 
 function SafetyRail({ unavailableActions }: { unavailableActions: readonly string[] }) {
+  const { locale } = useLanguage();
+
   return (
     <aside className="grid content-start gap-4">
       <section className="panel p-5">
@@ -325,7 +433,9 @@ function SafetyRail({ unavailableActions }: { unavailableActions: readonly strin
         <div className="mt-4 grid gap-2">
           {unavailableActions.slice(0, 5).map((action) => (
             <div key={action} className="rounded-[8px] border border-red-300/20 bg-red-300/10 px-3 py-2 text-sm text-red-100">
-              {action}: unavailable
+              <span data-i18n-skip>
+                {locale === "zh" ? `${actionLabel(action, locale)}：不可用` : `${action}: unavailable`}
+              </span>
             </div>
           ))}
         </div>
@@ -335,6 +445,8 @@ function SafetyRail({ unavailableActions }: { unavailableActions: readonly strin
 }
 
 function DeskDisagreement({ desks }: { desks: readonly TradingDesk[] }) {
+  const { locale } = useLanguage();
+
   return (
     <section className="panel p-5" aria-labelledby="trading-desk-title">
       <div className="flex items-center gap-2">
@@ -350,8 +462,12 @@ function DeskDisagreement({ desks }: { desks: readonly TradingDesk[] }) {
         {desks.map((desk) => (
           <article key={desk.name} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="font-semibold text-white">{desk.name}</h3>
-              <span className="text-xs font-bold uppercase text-yellow-100">{desk.stance}</span>
+              <h3 className="font-semibold text-white" data-i18n-skip>
+                {deskLabel(desk.name, locale)}
+              </h3>
+              <span className="text-xs font-bold uppercase text-yellow-100" data-i18n-skip>
+                {stateLabel(desk.stance, locale)}
+              </span>
             </div>
             <p className="mt-2 text-xs font-semibold uppercase text-slate-400">{desk.focus}</p>
             <p className="mt-3 text-sm leading-6 text-slate-300">{desk.disagreement}</p>
@@ -366,6 +482,8 @@ function DeskDisagreement({ desks }: { desks: readonly TradingDesk[] }) {
 }
 
 function SourceDegradation({ sources }: { sources: readonly TradingSource[] }) {
+  const { locale } = useLanguage();
+
   return (
     <section className="panel p-5" aria-labelledby="trading-source-title">
       <div className="flex items-center gap-2">
@@ -382,7 +500,9 @@ function SourceDegradation({ sources }: { sources: readonly TradingSource[] }) {
           <article key={source.source} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <h3 className="font-semibold text-white">{source.source}</h3>
-              <StatusBadge tone={sourceTone(source.state)}>{source.state}</StatusBadge>
+              <StatusBadge tone={sourceTone(source.state)}>
+                <span data-i18n-skip>{stateLabel(source.state, locale)}</span>
+              </StatusBadge>
             </div>
             <p className="mt-3 text-sm leading-6 text-slate-300">{source.detail}</p>
           </article>
@@ -421,6 +541,7 @@ function TradingTodayCockpit({
   onSelectView: (view: TradingView) => void;
   onTraceEvidence: (instrument: string) => void;
 }) {
+  const { locale } = useLanguage();
   const degradedSources = sourceHealth.filter((source) => isDegradedSourceState(source.state));
   const openEvidencePackets = evidencePackets.filter((packet) => isOpenEvidenceState(packet.state));
   const gateBlockers = gates.filter(isGateBlocker);
@@ -432,32 +553,38 @@ function TradingTodayCockpit({
     {
       label: "Signals needing review",
       value: signals.length.toString(),
-      detail: `${signals.filter((signal) => sourceTone(signal.sourceHealth) !== "info").length} need source review`,
-      source: `Counted from ${deskScope} signal rows`
+      detail:
+        locale === "zh"
+          ? `${signals.filter((signal) => sourceTone(signal.sourceHealth) !== "info").length} 个信号需要来源复核`
+          : `${signals.filter((signal) => sourceTone(signal.sourceHealth) !== "info").length} need source review`,
+      source:
+        locale === "zh"
+          ? `来自 ${deskLabel(deskScope, locale)} 信号行`
+          : `Counted from ${deskScope} signal rows`
     },
     {
       label: "Evidence packets",
       value: evidencePackets.length.toString(),
-      detail: `${openEvidencePackets.length} open blockers`,
-      source: "All desks · evidence packets"
+      detail: locale === "zh" ? `${openEvidencePackets.length} 个开放阻塞点` : `${openEvidencePackets.length} open blockers`,
+      source: locale === "zh" ? "全部研究台 · 证据包" : "All desks · evidence packets"
     },
     {
       label: "Gates blocked",
       value: gateBlockers.length.toString(),
-      detail: `${unavailableActions.length} unavailable actions`,
-      source: "All desks · disabled gates"
+      detail: locale === "zh" ? `${unavailableActions.length} 个动作不可用` : `${unavailableActions.length} unavailable actions`,
+      source: locale === "zh" ? "全部研究台 · 已禁用门禁" : "All desks · disabled gates"
     },
     {
       label: "Source degradation",
       value: `${degradedSources.length}/${sourceHealth.length}`,
-      detail: "visible before confidence rises",
-      source: "All desks · source health"
+      detail: locale === "zh" ? "置信度上升前保持可见" : "visible before confidence rises",
+      source: locale === "zh" ? "全部研究台 · 来源健康" : "All desks · source health"
     },
     {
       label: "Replay events",
       value: replay.length.toString(),
-      detail: "research state changes",
-      source: "All desks · replay trace"
+      detail: locale === "zh" ? "研究状态变化" : "research state changes",
+      source: locale === "zh" ? "全部研究台 · 回放追踪" : "All desks · replay trace"
     }
   ];
 
@@ -479,7 +606,9 @@ function TradingTodayCockpit({
                 <strong>{item.title}</strong>
                 <small>{item.detail}</small>
               </div>
-              <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
+              <StatusBadge tone={sourceTone(item.state)}>
+                <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+              </StatusBadge>
             </article>
           ))}
         </div>
@@ -493,8 +622,8 @@ function TradingTodayCockpit({
           <article key={metric.label}>
             <p>{metric.label}</p>
             <strong>{metric.value}</strong>
-            <span>{metric.detail}</span>
-            <small>{metric.source}</small>
+            <span data-i18n-skip>{metric.detail}</span>
+            <small data-i18n-skip>{metric.source}</small>
           </article>
         ))}
       </section>
@@ -505,7 +634,11 @@ function TradingTodayCockpit({
             <p>Signals</p>
             <h2 id="trading-today-signals-title">Signals needing review</h2>
           </div>
-          <p className="trading-today-filter-note">Showing: {deskScope} · evidence priority · all themes</p>
+          <p className="trading-today-filter-note" data-i18n-skip>
+            {locale === "zh"
+              ? `显示：${deskLabel(deskScope, locale)} · 证据优先 · 全部主题`
+              : `Showing: ${deskScope} · evidence priority · all themes`}
+          </p>
         </div>
         <div className="trading-today-table-wrap">
           <table>
@@ -524,7 +657,7 @@ function TradingTodayCockpit({
                 <tr key={`${signal.instrument}-${signal.desk}`}>
                   <td>
                     <span className="trading-today-desk-dot" aria-hidden />
-                    {signal.desk}
+                    <span data-i18n-skip>{deskLabel(signal.desk, locale)}</span>
                   </td>
                   <td>
                     <strong>{signal.instrument}</strong>
@@ -532,13 +665,17 @@ function TradingTodayCockpit({
                   </td>
                   <td>{signal.thesis}</td>
                   <td>
-                    <StatusBadge tone={confidenceTone(signal.confidence)}>{signal.confidence}</StatusBadge>
+                    <StatusBadge tone={confidenceTone(signal.confidence)}>
+                      <span data-i18n-skip>{stateLabel(signal.confidence, locale)}</span>
+                    </StatusBadge>
                   </td>
                   <td>
                     {signal.evidence} / {signal.counterEvidence} counter
                   </td>
                   <td>
-                    <StatusBadge tone={sourceTone(signal.sourceHealth)}>{signal.sourceHealth}</StatusBadge>
+                    <StatusBadge tone={sourceTone(signal.sourceHealth)}>
+                      <span data-i18n-skip>{stateLabel(signal.sourceHealth, locale)}</span>
+                    </StatusBadge>
                     <button
                       type="button"
                       className="trading-cockpit-link mt-2"
@@ -572,10 +709,12 @@ function TradingTodayCockpit({
           {disagreementDesks.map((desk) => (
             <article key={desk.name}>
               <div>
-                <strong>{desk.name}</strong>
+                <strong data-i18n-skip>{deskLabel(desk.name, locale)}</strong>
                 <small>{desk.focus}</small>
               </div>
-              <StatusBadge tone={sourceTone(desk.stance)}>{desk.stance}</StatusBadge>
+              <StatusBadge tone={sourceTone(desk.stance)}>
+                <span data-i18n-skip>{stateLabel(desk.stance, locale)}</span>
+              </StatusBadge>
               <p>{desk.disagreement}</p>
               <span className="trading-today-desk-need">Needs: {desk.needs}</span>
             </article>
@@ -595,7 +734,7 @@ function TradingTodayCockpit({
             <article key={source.source}>
               <span className={`trading-today-source-dot ${sourceDotClass(source.state)}`} aria-hidden />
               <strong>{source.source}</strong>
-              <span>{source.state}</span>
+              <span data-i18n-skip>{stateLabel(source.state, locale)}</span>
             </article>
           ))}
         </div>
@@ -615,7 +754,9 @@ function TradingTodayCockpit({
           {gates.slice(0, 5).map((gate) => (
             <article key={gate.label}>
               <span>{gate.label}</span>
-              <StatusBadge tone={gateTone(gate.value)}>{gate.value}</StatusBadge>
+              <StatusBadge tone={gateTone(gate.value)}>
+                <span data-i18n-skip>{stateLabel(gate.value, locale)}</span>
+              </StatusBadge>
             </article>
           ))}
         </div>
@@ -637,7 +778,7 @@ function TradingTodayCockpit({
               <span aria-hidden />
               <time>{event.time}</time>
               <strong>{event.change}</strong>
-              <small>{event.desk}</small>
+              <small data-i18n-skip>{deskLabel(event.desk, locale)}</small>
             </li>
           ))}
         </ol>
@@ -658,7 +799,7 @@ function TradingTodayCockpit({
             <article key={item.label}>
               <span className={`trading-today-source-dot ${sourceDotClass(item.state)}`} aria-hidden />
               <strong>{item.label}</strong>
-              <small>{item.state}</small>
+              <small data-i18n-skip>{stateLabel(item.state, locale)}</small>
             </article>
           ))}
         </div>
@@ -681,6 +822,8 @@ function InstrumentsView({
   onSelectInstrument: (symbol: string) => void;
   unavailableActions: readonly string[];
 }) {
+  const { locale } = useLanguage();
+
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <div className="grid gap-5">
@@ -725,7 +868,9 @@ function InstrumentsView({
                   >
                     <span className="mono block text-xs text-yellow-100">{instrument.symbol}</span>
                     <strong className="mt-2 block text-sm">{instrument.label}</strong>
-                    <span className="mt-2 block text-xs text-slate-400">{instrument.desk}</span>
+                    <span className="mt-2 block text-xs text-slate-400" data-i18n-skip>
+                      {deskLabel(instrument.desk, locale)}
+                    </span>
                   </button>
                 );
               })}
@@ -741,17 +886,23 @@ function InstrumentsView({
                 <div className="grid min-w-[12rem] gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-xs font-bold uppercase text-slate-400">Posture</span>
-                    <span className="text-sm font-semibold text-white">{activeInstrument.posture}</span>
+                    <span className="text-sm font-semibold text-white" data-i18n-skip>
+                      {stateLabel(activeInstrument.posture, locale)}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-xs font-bold uppercase text-slate-400">Confidence</span>
-                    <span className="text-sm font-semibold text-white">{activeInstrument.confidence}</span>
+                    <span className="text-sm font-semibold text-white" data-i18n-skip>
+                      {stateLabel(activeInstrument.confidence, locale)}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-xs font-bold uppercase text-slate-400">Freshness</span>
                     <span className="text-sm font-semibold text-white">{activeInstrument.lastUpdated}</span>
                   </div>
-                  <StatusBadge tone={sourceTone(activeInstrument.sourceHealth)}>{activeInstrument.sourceHealth}</StatusBadge>
+                  <StatusBadge tone={sourceTone(activeInstrument.sourceHealth)}>
+                    <span data-i18n-skip>{stateLabel(activeInstrument.sourceHealth, locale)}</span>
+                  </StatusBadge>
                 </div>
               </div>
 
@@ -765,7 +916,9 @@ function InstrumentsView({
                       <article key={`${item.time}-${item.state}-${index}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
                         <div className="flex flex-wrap items-center justify-between gap-3">
                           <p className="mono text-xs text-yellow-100">{item.time}</p>
-                          <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
+                          <StatusBadge tone={sourceTone(item.state)}>
+                            <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+                          </StatusBadge>
                         </div>
                         <p className="mt-3 text-sm leading-6 text-slate-300">{item.note}</p>
                       </article>
@@ -785,7 +938,9 @@ function InstrumentsView({
                             <p className="mono text-xs text-yellow-100">{item.time}</p>
                             <h5 className="mt-2 font-semibold text-white">{item.label}</h5>
                           </div>
-                          <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
+                          <StatusBadge tone={sourceTone(item.state)}>
+                            <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+                          </StatusBadge>
                         </div>
                         <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
                       </article>
@@ -810,7 +965,9 @@ function InstrumentsView({
                 <div key={source.source} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <strong className="text-white">{source.source}</strong>
-                    <StatusBadge tone={sourceTone(source.state)}>{source.state}</StatusBadge>
+                    <StatusBadge tone={sourceTone(source.state)}>
+                      <span data-i18n-skip>{stateLabel(source.state, locale)}</span>
+                    </StatusBadge>
                   </div>
                   <p className="mt-3 text-sm leading-6 text-slate-300">{source.detail}</p>
                 </div>
@@ -847,6 +1004,8 @@ function InstrumentsView({
 }
 
 function OptionsLab({ scenarios }: { scenarios: readonly TradingOptionsScenario[] }) {
+  const { locale } = useLanguage();
+
   return (
     <section className="panel p-5" aria-labelledby="trading-options-title">
       <div className="flex flex-wrap items-start justify-between gap-4">
@@ -868,7 +1027,9 @@ function OptionsLab({ scenarios }: { scenarios: readonly TradingOptionsScenario[
           <article key={scenario.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex items-start justify-between gap-3">
               <h3 className="font-semibold text-white">{scenario.title}</h3>
-              <StatusBadge tone={sourceTone(scenario.state)}>{scenario.state}</StatusBadge>
+              <StatusBadge tone={sourceTone(scenario.state)}>
+                <span data-i18n-skip>{stateLabel(scenario.state, locale)}</span>
+              </StatusBadge>
             </div>
             <p className="mt-3 text-sm leading-6 text-slate-300">{scenario.detail}</p>
             <div className="mt-4 grid gap-2">
@@ -906,6 +1067,7 @@ function EvidenceView({
   stateFilter: string;
   onStateFilterChange: (value: string) => void;
 }) {
+  const { locale } = useLanguage();
   const signalOptions = useMemo(
     () => [
       { label: "All signals", value: ALL_SIGNAL_FILTER },
@@ -1005,7 +1167,7 @@ function EvidenceView({
               >
                 {stateOptions.map((state) => (
                   <option key={state} value={state}>
-                    {state}
+                    {stateLabel(state, locale)}
                   </option>
                 ))}
               </select>
@@ -1016,16 +1178,18 @@ function EvidenceView({
               disabled={!hasFilters}
               className="link-focus self-end rounded-[8px] border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 transition enabled:hover:border-sky-200/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
             >
-              Clear
+              <span data-i18n-skip>{locale === "zh" ? "清除" : "Clear"}</span>
             </button>
           </div>
 
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
             <p key={`count-${evidenceSummaryKey}`} className="text-xs font-bold uppercase text-slate-400" aria-live="polite">
-              {filteredEvidence.length} of {evidencePackets.length} evidence packets shown
+              <span data-i18n-skip>{evidenceCountLabel(filteredEvidence.length, evidencePackets.length, locale)}</span>
             </p>
             <StatusBadge key={`state-${evidenceSummaryKey}`} tone={hasFilters ? "info" : "private"}>
-              {hasFilters ? "Filtered evidence" : "Full trace"}
+              <span data-i18n-skip>
+                {locale === "zh" ? (hasFilters ? "已筛选证据" : "完整追踪") : hasFilters ? "Filtered evidence" : "Full trace"}
+              </span>
             </StatusBadge>
           </div>
         </article>
@@ -1041,8 +1205,12 @@ function EvidenceView({
                     <p className="mt-2 text-sm leading-6 text-slate-300">{packet.provenance}</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <StatusBadge tone={sourceTone(packet.state)}>{packet.state}</StatusBadge>
-                    <StatusBadge tone={qualityTone(packet.quality)}>{packet.quality}</StatusBadge>
+                    <StatusBadge tone={sourceTone(packet.state)}>
+                      <span data-i18n-skip>{stateLabel(packet.state, locale)}</span>
+                    </StatusBadge>
+                    <StatusBadge tone={qualityTone(packet.quality)}>
+                      <span data-i18n-skip>{stateLabel(packet.quality, locale)}</span>
+                    </StatusBadge>
                   </div>
                 </div>
 
@@ -1113,11 +1281,15 @@ function EvidenceView({
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <h3 className="font-semibold text-white">{signal.instrument}</h3>
                     <StatusBadge tone={signalSpecificPackets.length > 0 ? "info" : "warning"}>
-                      {signalSpecificPackets.length} specific
+                      <span data-i18n-skip>
+                        {locale === "zh" ? `${signalSpecificPackets.length} 个专属` : `${signalSpecificPackets.length} specific`}
+                      </span>
                     </StatusBadge>
                   </div>
-                  <p className="mt-2 text-xs font-bold uppercase text-slate-400">
-                    {signalSpecificPackets.length} signal-specific · {sharedPackets.length} shared
+                  <p className="mt-2 text-xs font-bold uppercase text-slate-400" data-i18n-skip>
+                    {locale === "zh"
+                      ? `${signalSpecificPackets.length} 个信号专属 · ${sharedPackets.length} 个共享`
+                      : `${signalSpecificPackets.length} signal-specific · ${sharedPackets.length} shared`}
                   </p>
                   <p className="mt-3 text-sm leading-6 text-slate-300">{signal.blocker}</p>
                 </article>
@@ -1139,8 +1311,12 @@ function EvidenceView({
             {gates.map((gate) => (
               <article key={gate.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <h3 className="font-semibold text-white">{gate.label}</h3>
-                  <StatusBadge tone={gateTone(gate.value)}>{gate.value}</StatusBadge>
+                  <h3 className="font-semibold text-white" data-i18n-skip>
+                    {gateLabel(gate.label, locale)}
+                  </h3>
+                  <StatusBadge tone={gateTone(gate.value)}>
+                    <span data-i18n-skip>{stateLabel(gate.value, locale)}</span>
+                  </StatusBadge>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-slate-300">{gate.detail}</p>
               </article>
@@ -1195,6 +1371,7 @@ function ReplayView({
   openQuestions: readonly string[];
   disclaimer: string;
 }) {
+  const { locale } = useLanguage();
   const [deskFilter, setDeskFilter] = useState("All desks");
   const [instrumentFilter, setInstrumentFilter] = useState("All instruments");
   const [evidenceFilter, setEvidenceFilter] = useState("All evidence");
@@ -1255,7 +1432,7 @@ function ReplayView({
             >
               {deskOptions.map((desk) => (
                 <option key={desk} value={desk}>
-                  {desk}
+                  {deskLabel(desk, locale)}
                 </option>
               ))}
             </select>
@@ -1269,7 +1446,7 @@ function ReplayView({
             >
               {instrumentOptions.map((instrument) => (
                 <option key={instrument} value={instrument}>
-                  {instrument}
+                  {locale === "zh" && instrument === "All instruments" ? "全部标的" : instrument}
                 </option>
               ))}
             </select>
@@ -1283,7 +1460,7 @@ function ReplayView({
             >
               {evidenceOptions.map((evidence) => (
                 <option key={evidence} value={evidence}>
-                  {evidence}
+                  {locale === "zh" && evidence === "All evidence" ? "全部证据" : stateLabel(evidence, locale)}
                 </option>
               ))}
             </select>
@@ -1294,15 +1471,19 @@ function ReplayView({
             disabled={!hasFilters}
             className="link-focus self-end rounded-[8px] border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 transition enabled:hover:border-sky-200/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
           >
-            Clear
+            <span data-i18n-skip>{locale === "zh" ? "清除" : "Clear"}</span>
           </button>
         </div>
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs font-bold uppercase text-slate-400">
-            {filteredReplay.length} of {replay.length} events shown
+            <span data-i18n-skip>{eventCountLabel(filteredReplay.length, replay.length, locale)}</span>
           </p>
-          <StatusBadge tone={hasFilters ? "info" : "private"}>{hasFilters ? "Filtered replay" : "Full replay"}</StatusBadge>
+          <StatusBadge tone={hasFilters ? "info" : "private"}>
+            <span data-i18n-skip>
+              {locale === "zh" ? (hasFilters ? "已筛选回放" : "完整回放") : hasFilters ? "Filtered replay" : "Full replay"}
+            </span>
+          </StatusBadge>
         </div>
 
         <div className="mt-4 grid gap-3">
@@ -1318,15 +1499,21 @@ function ReplayView({
                 </div>
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-semibold text-white">{event.desk}</h3>
-                    <StatusBadge tone={sourceTone(event.evidenceState)}>{event.evidenceState}</StatusBadge>
+                    <h3 className="font-semibold text-white" data-i18n-skip>
+                      {deskLabel(event.desk, locale)}
+                    </h3>
+                    <StatusBadge tone={sourceTone(event.evidenceState)}>
+                      <span data-i18n-skip>{stateLabel(event.evidenceState, locale)}</span>
+                    </StatusBadge>
                   </div>
                   <p className="mt-2 text-xs font-bold uppercase text-sky-100">{event.change}</p>
                   <p className="mt-2 text-sm leading-6 text-slate-300">{event.note}</p>
                 </div>
                 <div className="rounded-[8px] border border-slate-700 bg-black/15 p-3">
                   <p className="text-xs font-bold uppercase text-slate-500">State change</p>
-                  <p className="mt-2 text-sm font-semibold leading-5 text-white">{event.state}</p>
+                  <p className="mt-2 text-sm font-semibold leading-5 text-white" data-i18n-skip>
+                    {stateLabel(event.state, locale)}
+                  </p>
                 </div>
               </article>
             ))
@@ -1353,7 +1540,9 @@ function ReplayView({
                 <p className="mono text-xs text-yellow-100">{event.time}</p>
                 <p className="mt-2 text-sm font-semibold text-white">{event.change}</p>
                 <p className="mt-1 text-xs leading-5 text-slate-400">
-                  {event.desk} · {event.instrument}
+                  <span data-i18n-skip>
+                    {deskLabel(event.desk, locale)} · {event.instrument}
+                  </span>
                 </p>
               </div>
             ))}
@@ -1390,13 +1579,17 @@ function ReplayView({
 }
 
 function SystemView({ systemStatus }: { systemStatus: readonly TradingSystemStatusItem[] }) {
+  const { locale } = useLanguage();
+
   return (
     <section className="grid gap-5 lg:grid-cols-3">
       {systemStatus.map((item) => (
         <article key={item.label} className="panel p-5">
           <div className="flex items-start justify-between gap-3">
             <Gauge className="text-sky-100" size={22} aria-hidden />
-            <StatusBadge tone={sourceTone(item.state)}>{item.state}</StatusBadge>
+            <StatusBadge tone={sourceTone(item.state)}>
+              <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+            </StatusBadge>
           </div>
           <h2 className="mt-5 text-xl font-semibold text-white">{item.label}</h2>
           <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
@@ -1407,6 +1600,7 @@ function SystemView({ systemStatus }: { systemStatus: readonly TradingSystemStat
 }
 
 export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitData }) {
+  const { locale } = useLanguage();
   const [activeView, setActiveView] = useState<TradingView>("Today");
   const [activeDesk, setActiveDesk] = useState("All desks");
   const [activeInstrumentSymbol, setActiveInstrumentSymbol] = useState(data.instruments[0]?.symbol ?? "");
@@ -1491,7 +1685,7 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
                 className={isActive ? "is-active" : ""}
               >
                 <Icon size={16} aria-hidden />
-                {view}
+                <span data-i18n-skip>{viewLabel(view, locale)}</span>
               </button>
             );
           })}
@@ -1517,7 +1711,7 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
                       : "border-slate-700 bg-white/[0.035] text-slate-300 hover:border-yellow-200/30 hover:text-white"
                   }`}
                 >
-                  {desk}
+                  <span data-i18n-skip>{deskLabel(desk, locale)}</span>
                 </button>
               );
             })}
