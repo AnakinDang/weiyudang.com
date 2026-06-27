@@ -47,6 +47,7 @@ const viewIcons = {
 } as const satisfies Record<TradingView, typeof Gauge>;
 
 const ALL_SIGNAL_FILTER = "__all_signals__";
+const ALL_STATE_FILTER = "All states";
 
 function sourceTone(state: string) {
   if (state === "Disabled") {
@@ -142,7 +143,13 @@ function tradingPosture(data: TradingResearchCockpitData) {
   };
 }
 
-function SignalCard({ signal }: { signal: TradingSignal }) {
+function SignalCard({
+  signal,
+  onTraceEvidence
+}: {
+  signal: TradingSignal;
+  onTraceEvidence: (instrument: string) => void;
+}) {
   return (
     <article className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
       <div className="flex items-start justify-between gap-3">
@@ -177,11 +184,25 @@ function SignalCard({ signal }: { signal: TradingSignal }) {
         <p className="text-xs font-bold uppercase text-slate-400">Blocker</p>
         <p className="mt-2 text-sm leading-6 text-slate-300">{signal.blocker}</p>
       </div>
+      <button
+        type="button"
+        className="trading-cockpit-link mt-4"
+        aria-label={`Trace evidence for ${signal.instrument}`}
+        onClick={() => onTraceEvidence(signal.instrument)}
+      >
+        Trace evidence
+      </button>
     </article>
   );
 }
 
-function SignalTable({ signals }: { signals: readonly TradingSignal[] }) {
+function SignalTable({
+  signals,
+  onTraceEvidence
+}: {
+  signals: readonly TradingSignal[];
+  onTraceEvidence: (instrument: string) => void;
+}) {
   return (
     <section className="panel overflow-hidden p-0" aria-labelledby="trading-signals-title">
       <div className="border-b border-slate-700/70 p-5 md:p-6">
@@ -204,7 +225,7 @@ function SignalTable({ signals }: { signals: readonly TradingSignal[] }) {
 
       <div className="grid gap-3 p-4 lg:hidden">
         {signals.map((signal) => (
-          <SignalCard key={`${signal.instrument}-${signal.desk}`} signal={signal} />
+          <SignalCard key={`${signal.instrument}-${signal.desk}`} signal={signal} onTraceEvidence={onTraceEvidence} />
         ))}
       </div>
 
@@ -251,6 +272,14 @@ function SignalTable({ signals }: { signals: readonly TradingSignal[] }) {
                 <td className="px-4 py-4 align-top">
                   <StatusBadge tone={sourceTone(signal.sourceHealth)}>{signal.sourceHealth}</StatusBadge>
                   <p className="mt-2 text-xs leading-5 text-slate-400">{signal.blocker}</p>
+                  <button
+                    type="button"
+                    className="trading-cockpit-link mt-3"
+                    aria-label={`Trace evidence for ${signal.instrument}`}
+                    onClick={() => onTraceEvidence(signal.instrument)}
+                  >
+                    Trace evidence
+                  </button>
                 </td>
                 <td className="px-4 py-4 align-top text-sm text-slate-300">
                   {signal.desk}
@@ -374,7 +403,9 @@ function TradingTodayCockpit({
   systemStatus,
   unavailableActions,
   deskScope,
-  onSelectView
+  onOpenEvidenceQueue,
+  onSelectView,
+  onTraceEvidence
 }: {
   signals: readonly TradingSignal[];
   todayFocus: readonly TradingTodayFocus[];
@@ -386,7 +417,9 @@ function TradingTodayCockpit({
   systemStatus: readonly TradingSystemStatusItem[];
   unavailableActions: readonly string[];
   deskScope: string;
+  onOpenEvidenceQueue: () => void;
   onSelectView: (view: TradingView) => void;
+  onTraceEvidence: (instrument: string) => void;
 }) {
   const degradedSources = sourceHealth.filter((source) => isDegradedSourceState(source.state));
   const openEvidencePackets = evidencePackets.filter((packet) => isOpenEvidenceState(packet.state));
@@ -450,7 +483,7 @@ function TradingTodayCockpit({
             </article>
           ))}
         </div>
-        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("Evidence")}>
+        <button type="button" className="trading-cockpit-link" onClick={onOpenEvidenceQueue}>
           Open evidence queue
         </button>
       </section>
@@ -506,6 +539,14 @@ function TradingTodayCockpit({
                   </td>
                   <td>
                     <StatusBadge tone={sourceTone(signal.sourceHealth)}>{signal.sourceHealth}</StatusBadge>
+                    <button
+                      type="button"
+                      className="trading-cockpit-link mt-2"
+                      aria-label={`Trace evidence for ${signal.instrument}`}
+                      onClick={() => onTraceEvidence(signal.instrument)}
+                    >
+                      Trace evidence
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -578,7 +619,7 @@ function TradingTodayCockpit({
             </article>
           ))}
         </div>
-        <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("Evidence")}>
+        <button type="button" className="trading-cockpit-link" onClick={onOpenEvidenceQueue}>
           Open evidence center
         </button>
       </section>
@@ -849,17 +890,22 @@ function EvidenceView({
   evidencePackets,
   sourceHealth,
   signals,
-  unavailableActions
+  unavailableActions,
+  signalFilter,
+  onSignalFilterChange,
+  stateFilter,
+  onStateFilterChange
 }: {
   gates: readonly TradingGate[];
   evidencePackets: readonly TradingEvidencePacket[];
   sourceHealth: readonly TradingSource[];
   signals: readonly TradingSignal[];
   unavailableActions: readonly string[];
+  signalFilter: string;
+  onSignalFilterChange: (value: string) => void;
+  stateFilter: string;
+  onStateFilterChange: (value: string) => void;
 }) {
-  const [signalFilter, setSignalFilter] = useState(ALL_SIGNAL_FILTER);
-  const [stateFilter, setStateFilter] = useState("All states");
-
   const signalOptions = useMemo(
     () => [
       { label: "All signals", value: ALL_SIGNAL_FILTER },
@@ -868,7 +914,7 @@ function EvidenceView({
     [signals]
   );
   const stateOptions = useMemo(
-    () => ["All states", ...new Set(evidencePackets.map((packet) => packet.state))],
+    () => [ALL_STATE_FILTER, ...new Set(evidencePackets.map((packet) => packet.state))],
     [evidencePackets]
   );
   const filteredEvidence = useMemo(
@@ -878,7 +924,7 @@ function EvidenceView({
           return false;
         }
 
-        if (stateFilter !== "All states" && packet.state !== stateFilter) {
+        if (stateFilter !== ALL_STATE_FILTER && packet.state !== stateFilter) {
           return false;
         }
 
@@ -890,12 +936,16 @@ function EvidenceView({
   const missingEvidence = evidencePackets.filter((packet) =>
     ["Degraded", "Incomplete", "Partial", "Pending", "Required"].includes(packet.state)
   );
+  const filteredMissingEvidence = filteredEvidence.filter((packet) =>
+    ["Degraded", "Incomplete", "Partial", "Pending", "Required"].includes(packet.state)
+  );
   const openGateBlockers = gates.filter((gate) => ["Blocked", "Incomplete", "Required"].includes(gate.value));
-  const hasFilters = signalFilter !== ALL_SIGNAL_FILTER || stateFilter !== "All states";
+  const hasFilters = signalFilter !== ALL_SIGNAL_FILTER || stateFilter !== ALL_STATE_FILTER;
+  const evidenceSummaryKey = `${signalFilter}:${stateFilter}:${filteredEvidence.length}:${hasFilters ? "filtered" : "full"}`;
 
   function clearEvidenceFilters() {
-    setSignalFilter(ALL_SIGNAL_FILTER);
-    setStateFilter("All states");
+    onSignalFilterChange(ALL_SIGNAL_FILTER);
+    onStateFilterChange(ALL_STATE_FILTER);
   }
 
   return (
@@ -936,7 +986,7 @@ function EvidenceView({
               <span className="text-xs font-bold uppercase text-slate-400">Linked signal</span>
               <select
                 value={signalFilter}
-                onChange={(event) => setSignalFilter(event.target.value)}
+                onChange={(event) => onSignalFilterChange(event.target.value)}
                 className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
               >
                 {signalOptions.map((signal) => (
@@ -950,7 +1000,7 @@ function EvidenceView({
               <span className="text-xs font-bold uppercase text-slate-400">Evidence state</span>
               <select
                 value={stateFilter}
-                onChange={(event) => setStateFilter(event.target.value)}
+                onChange={(event) => onStateFilterChange(event.target.value)}
                 className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
               >
                 {stateOptions.map((state) => (
@@ -971,10 +1021,12 @@ function EvidenceView({
           </div>
 
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs font-bold uppercase text-slate-400" aria-live="polite">
+            <p key={`count-${evidenceSummaryKey}`} className="text-xs font-bold uppercase text-slate-400" aria-live="polite">
               {filteredEvidence.length} of {evidencePackets.length} evidence packets shown
             </p>
-            <StatusBadge tone={hasFilters ? "info" : "private"}>{hasFilters ? "Filtered evidence" : "Full trace"}</StatusBadge>
+            <StatusBadge key={`state-${evidenceSummaryKey}`} tone={hasFilters ? "info" : "private"}>
+              {hasFilters ? "Filtered evidence" : "Full trace"}
+            </StatusBadge>
           </div>
         </article>
 
@@ -1107,12 +1159,17 @@ function EvidenceView({
             </div>
           </div>
           <div className="mt-5 grid gap-3">
-            {missingEvidence.map((packet) => (
+            {filteredMissingEvidence.map((packet) => (
               <div key={packet.id} className="rounded-[8px] border border-yellow-200/20 bg-yellow-300/10 p-3">
                 <p className="text-sm font-semibold text-white">{packet.linkedSignal}</p>
                 <p className="mt-2 text-xs leading-5 text-slate-300">{packet.blocker}</p>
               </div>
             ))}
+            {filteredMissingEvidence.length === 0 ? (
+              <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3 text-sm text-slate-300">
+                No missing evidence in this filtered set.
+              </div>
+            ) : null}
           </div>
         </section>
 
@@ -1353,6 +1410,8 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
   const [activeView, setActiveView] = useState<TradingView>("Today");
   const [activeDesk, setActiveDesk] = useState("All desks");
   const [activeInstrumentSymbol, setActiveInstrumentSymbol] = useState(data.instruments[0]?.symbol ?? "");
+  const [evidenceSignalFilter, setEvidenceSignalFilter] = useState(ALL_SIGNAL_FILTER);
+  const [evidenceStateFilter, setEvidenceStateFilter] = useState(ALL_STATE_FILTER);
 
   const deskFilters = useMemo(() => ["All desks", ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
   const filteredSignals = useMemo(
@@ -1364,6 +1423,18 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
     [activeInstrumentSymbol, data.instruments]
   );
   const posture = useMemo(() => tradingPosture(data), [data]);
+
+  function openEvidenceCenter() {
+    setEvidenceSignalFilter(ALL_SIGNAL_FILTER);
+    setEvidenceStateFilter(ALL_STATE_FILTER);
+    setActiveView("Evidence");
+  }
+
+  function traceEvidenceForSignal(instrument: string) {
+    setEvidenceSignalFilter(instrument);
+    setEvidenceStateFilter(ALL_STATE_FILTER);
+    setActiveView("Evidence");
+  }
 
   return (
     <div className="trading-research-cockpit">
@@ -1400,7 +1471,7 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
           <strong>{data.disclaimer}</strong>
           <p>MiniDora Trading provides research artifacts for owner review. No broker connectivity. No accounts. No auto-execution.</p>
         </div>
-        <button type="button" onClick={() => setActiveView("Evidence")}>
+        <button type="button" onClick={openEvidenceCenter}>
           Open evidence center
         </button>
       </section>
@@ -1466,12 +1537,14 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
           systemStatus={data.systemStatus}
           unavailableActions={data.unavailableActions}
           deskScope={activeDesk}
+          onOpenEvidenceQueue={openEvidenceCenter}
           onSelectView={setActiveView}
+          onTraceEvidence={traceEvidenceForSignal}
         />
       ) : null}
       {activeView === "Signals" ? (
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.25fr)_24rem]">
-          <SignalTable signals={filteredSignals} />
+          <SignalTable signals={filteredSignals} onTraceEvidence={traceEvidenceForSignal} />
           <SafetyRail unavailableActions={data.unavailableActions} />
         </section>
       ) : null}
@@ -1507,6 +1580,10 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
           sourceHealth={data.sourceHealth}
           signals={data.signals}
           unavailableActions={data.unavailableActions}
+          signalFilter={evidenceSignalFilter}
+          onSignalFilterChange={setEvidenceSignalFilter}
+          stateFilter={evidenceStateFilter}
+          onStateFilterChange={setEvidenceStateFilter}
         />
       ) : null}
       {activeView === "Replay" ? <ReplayView replay={data.replay} openQuestions={data.openQuestions} disclaimer={data.disclaimer} /> : null}

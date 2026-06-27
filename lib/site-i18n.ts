@@ -684,10 +684,34 @@ const exactZhTranslations = {
   "Source degradation": "来源降级",
   "Open questions": "开放问题",
   "Evidence packets": "证据包",
+  "Missing evidence stays visible": "缺失证据保持可见",
+  "Open blockers": "开放阻塞点",
+  "Degraded sources": "降级来源",
   "Gate blockers": "门禁阻塞",
   "Replay events": "回放事件",
+  "Gates & Evidence": "门禁与证据",
   "Gates & Evidence summary": "门禁与证据摘要",
+  "Every important signal needs evidence, counter-evidence, source health, and owner review before confidence can rise. Missing packets stay visible as blockers.":
+    "每个重要信号都必须具备证据、反证、来源健康和人工审核，置信度才可以提升。缺失证据会继续作为阻塞项可见。",
+  "Traceable research only": "仅可追溯研究",
+  "Linked signal": "关联信号",
+  "Evidence state": "证据状态",
+  "All signals": "全部信号",
+  "All states": "全部状态",
+  "Filtered evidence": "已筛选证据",
+  "Full trace": "完整追踪",
+  "No evidence packets match this filter set. Clear filters to return to the full evidence trace.":
+    "没有证据包匹配当前筛选。清除筛选可回到完整证据追踪。",
+  "Open evidence queue": "打开证据队列",
   "Open evidence center": "打开证据中心",
+  "Trace evidence": "追溯证据",
+  "No missing evidence in this filtered set.": "当前筛选结果没有缺失证据。",
+  "Signal trace coverage": "信号追踪覆盖",
+  "Signals mapped to evidence": "信号与证据映射",
+  "Packet counts are grouped evidence packets. They complement the raw evidence and counter-evidence counts on each signal row.":
+    "包数量按证据包分组，用来补充每条信号行里的原始证据和反证数量。",
+  "Gate status": "门禁状态",
+  "Missing evidence": "缺失证据",
   "Replay timeline": "回放时间线",
   "System posture": "系统状态",
   "Open system posture": "打开系统状态",
@@ -707,6 +731,7 @@ const exactZhTranslations = {
   "Research boundary": "研究边界",
   "Persistent guardrails for every tab and row.": "每个标签页和每一行都保留固定护栏。",
   "Blocked actions": "已禁用动作",
+  "No trading controls": "没有交易控制",
   "No broker write": "不写入券商",
   "No account data": "不展示账户数据",
   "No orders": "不创建订单",
@@ -866,6 +891,18 @@ function normalizeText(value: string) {
   return value.replace(/\s+/g, " ").trim();
 }
 
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function replacePhrase(value: string, source: string, target: string) {
+  if (/^[A-Za-z]+$/.test(source)) {
+    return value.replace(new RegExp(`\\b${escapeRegExp(source)}\\b`, "g"), target);
+  }
+
+  return value.split(source).join(target);
+}
+
 export function translateToZh(value: string) {
   const normalized = normalizeText(value);
   if (!normalized) return null;
@@ -875,7 +912,7 @@ export function translateToZh(value: string) {
 
   let translated = normalized;
   for (const [source, target] of phraseZhTranslations) {
-    translated = translated.split(source).join(target);
+    translated = replacePhrase(translated, source, target);
   }
 
   return translated === normalized ? null : translated;
