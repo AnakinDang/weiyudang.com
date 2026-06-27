@@ -48,6 +48,16 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         ) : null}
         <form action="/api/login" method="post" className="mt-6 space-y-4">
           <input type="hidden" name="next" value={next} />
+          <input
+            type="text"
+            name="username"
+            value="owner"
+            readOnly
+            autoComplete="username"
+            className="sr-only"
+            tabIndex={-1}
+            aria-hidden="true"
+          />
           <label className="block">
             <span className="text-sm font-semibold text-slate-200">Access token</span>
             <input

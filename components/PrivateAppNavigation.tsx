@@ -17,6 +17,7 @@ import {
   Settings,
   Shield
 } from "lucide-react";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 const appNav = [
   { href: "/app", label: "Today", icon: LayoutDashboard },
@@ -117,6 +118,9 @@ export function PrivateDesktopSidebar() {
           Doraemon public entry
         </Link>
       </div>
+      <div className="mt-4">
+        <LanguageToggle tone="dark" />
+      </div>
       <SignOutButton />
     </aside>
   );
@@ -135,6 +139,7 @@ export function PrivateMobileHeader() {
       <div className="flex items-center justify-between gap-3 px-3 py-3">
         <OwnerMark compact />
         <div className="flex shrink-0 items-center gap-2">
+          <LanguageToggle tone="dark" compact />
           <span className="hidden rounded-[8px] border border-blue-200/30 bg-blue-300/10 px-2.5 py-1.5 text-xs font-semibold text-blue-100 min-[370px]:inline-flex">
             Private
           </span>
