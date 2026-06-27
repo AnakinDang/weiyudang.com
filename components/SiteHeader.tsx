@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, LockKeyhole, Sparkles, Sun } from "lucide-react";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 const defaultNavItems = [
   { href: "/about", label: "About" },
@@ -48,6 +49,7 @@ export function SiteHeader({
             ))}
           </nav>
           <div className="site-doraemon-actions">
+            <LanguageToggle tone="doraemon" />
             <span className="site-light-indicator" aria-hidden="true">
               <Sun size={16} />
             </span>
@@ -87,15 +89,18 @@ export function SiteHeader({
             </Link>
           ))}
         </nav>
-        <Link
-          href="/app"
-          prefetch={false}
-          className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#f4b740]/40 bg-[#fff8e5] px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-[#fff2c7]"
-        >
-          <LockKeyhole size={16} aria-hidden />
-          <span className="hidden sm:inline">Owner area</span>
-          <ArrowRight size={15} aria-hidden />
-        </Link>
+        <div className="flex items-center gap-2">
+          <LanguageToggle tone="light" compact />
+          <Link
+            href="/app"
+            prefetch={false}
+            className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-[#f4b740]/40 bg-[#fff8e5] px-3 py-2 text-sm font-semibold text-slate-900 transition hover:bg-[#fff2c7]"
+          >
+            <LockKeyhole size={16} aria-hidden />
+            <span className="hidden sm:inline">Owner area</span>
+            <ArrowRight size={15} aria-hidden />
+          </Link>
+        </div>
       </div>
     </header>
   );

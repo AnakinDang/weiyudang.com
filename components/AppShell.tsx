@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CalendarClock, ExternalLink, LockKeyhole, ShieldCheck } from "lucide-react";
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { PrivateDesktopSidebar, PrivateMobileHeader } from "@/components/PrivateAppNavigation";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center justify-end gap-2">
+                  <LanguageToggle tone="light" />
                   <div className="inline-flex items-center gap-2 rounded-[8px] border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-800">
                     <LockKeyhole size={16} aria-hidden />
                     Owner-only

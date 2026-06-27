@@ -23,6 +23,10 @@
   --public-warm: #f4b740;
 }
 
+html[data-i18n-pending] body[data-i18n-root] {
+  opacity: 0;
+}
+
 /* Step 8: Homepage living Doraemon Office capsule */
 .premium-office-capsule {
   position: relative;
@@ -433,9 +437,10 @@ textarea {
 .premium-hero-title {
   margin: 0;
   color: #05070a;
-  font-size: 5.75rem;
-  font-weight: 840;
-  line-height: 0.94;
+  font-size: 5.5rem;
+  font-weight: 660;
+  line-height: 1.02;
+  letter-spacing: 0;
 }
 
 .premium-hero-title span {
@@ -569,6 +574,67 @@ textarea {
   animation: personal-os-portal-drift 12s ease-in-out infinite;
   mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 18%, rgba(0, 0, 0, 0.78) 35%, #000 88%, transparent 100%);
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 18%, rgba(0, 0, 0, 0.78) 35%, #000 88%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .premium-hero-title span,
+  .premium-hero-support,
+  .premium-hero-statusline,
+  .premium-hero-actions,
+  .premium-owner-inline,
+  .premium-hero-bottom-deck {
+    animation: home-hero-rise 0.85s cubic-bezier(0.22, 0.72, 0.2, 1) backwards;
+  }
+
+  .premium-hero-title span:nth-child(1) {
+    animation-delay: 0.04s;
+  }
+  .premium-hero-title span:nth-child(2) {
+    animation-delay: 0.11s;
+  }
+  .premium-hero-title span:nth-child(3) {
+    animation-delay: 0.18s;
+  }
+  .premium-hero-support {
+    animation-delay: 0.26s;
+  }
+  .premium-hero-statusline {
+    animation-delay: 0.32s;
+  }
+  .premium-hero-actions {
+    animation-delay: 0.38s;
+  }
+  .premium-owner-inline {
+    animation-delay: 0.44s;
+  }
+  .premium-hero-bottom-deck {
+    animation-delay: 0.5s;
+    animation-duration: 1s;
+  }
+
+  .premium-office-capsule {
+    animation: home-hero-fade 1s ease 0.32s backwards;
+  }
+}
+
+@keyframes home-hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes home-hero-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .home-section {
@@ -33914,18 +33980,23 @@ textarea {
     right: 0.2rem;
     bottom: 0.36rem;
     left: 0.2rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.52rem;
     padding: 0.62rem;
   }
 
   .dora-system-command-strip ol {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.42rem;
+    overflow: visible;
+    scroll-snap-type: none;
   }
 
   .dora-system-command-strip li {
-    flex: 0 0 8rem;
-    scroll-snap-align: start;
+    min-width: 0;
+    padding-left: 0.58rem;
+    scroll-snap-align: none;
   }
 
   .dora-system-register-section {
@@ -39222,4 +39293,11 @@ textarea {
   .home-work-featured-link:focus-visible {
     transform: none;
   }
+}
+
+/* ===== Apple-like premium typography refinement (override layer) ===== */
+.premium-hero .premium-hero-title {
+  font-weight: 640;
+  line-height: 1.04;
+  letter-spacing: 0;
 }

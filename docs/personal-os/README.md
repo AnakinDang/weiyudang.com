@@ -31,6 +31,7 @@ public personal site
 8. [Implementation Readiness Checklist](08_IMPLEMENTATION_READINESS_CHECKLIST.md)
 9. [Auth and Session Spec](09_AUTH_AND_SESSION.md)
 10. [Content Model](10_CONTENT_MODEL.md)
+11. [Claude Frontend Handoff](11_CLAUDE_FRONTEND_HANDOFF.md)
 
 ## Product Layers
 
