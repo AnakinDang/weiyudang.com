@@ -739,6 +739,10 @@ const exactZhTranslations = {
   "Building a Personal AI Research Studio": "构建个人 AI 研究工作室",
   "A first public note on turning personal AI workflows into a small operating system.":
     "第一篇公开笔记：如何把个人 AI 工作流变成一个小型操作系统。",
+  "The first version of this website is a personal public shell for a larger private system.":
+    "这个网站的第一版，是一个更大私密系统的个人公开外壳。",
+  "The important design choice is boundary clarity: public pages explain the system, while private routes hold command, events, review queues, and operational dashboards.":
+    "最重要的设计选择是边界清晰：公开页面解释系统，私密路由承载指挥、事件、审核队列和运行仪表盘。",
   "Field Observations": "现场观察",
   "Observation": "观察",
   "Travel and daily fragments": "旅行与日常片段",
@@ -786,8 +790,93 @@ const exactZhTranslations = {
     "旅行片段、日常散步和现场观察。",
   "Public research notes, system sketches, design decisions, and experiments from Weiyu Dang's personal research studio.":
     "来自 Weiyu Dang 个人研究工作室的公开研究笔记、系统草图、设计决策和实验。",
+  "Research notes.": "研究笔记。",
+  "Public experiments, system sketches, design decisions, and research fragments from Weiyu's personal research studio. Public by design.":
+    "来自 Weiyu 个人研究工作室的公开实验、系统草图、设计决策和研究片段。按公开边界设计。",
   "Read the latest note": "阅读最新笔记",
   "Browse projects": "浏览项目",
+  "Research principles": "研究原则",
+  "Linked to work": "连接到真实工作",
+  "Every note connects to projects and artifacts.": "每篇笔记都连接到项目和产物。",
+  "Public research surface sketch": "公开研究界面草图",
+  "RESEARCH SURFACE": "研究界面",
+  "Observe": "观察",
+  "Watch, collect, and question.": "观察、收集、追问。",
+  "Prototype, test, and document.": "原型、测试、记录。",
+  "Reflect, decide, and refine.": "反思、决策、打磨。",
+  "Private boundary": "私密边界",
+  "Research protocol": "研究发布协议",
+  "Public publishing protocol": "公开发布协议",
+  "Draft privately": "先私密起草",
+  "Capture raw ideas and evidence.": "收集原始想法和证据。",
+  "Rewrite safely": "安全改写",
+  "Remove sensitive details and reduce to principles.": "移除敏感细节，沉淀为原则。",
+  "Publish public note": "发布公开笔记",
+  "Share summaries, sketches, and lessons.": "分享摘要、草图和经验。",
+  "Link artifact": "连接产物",
+  "Connect to projects, datasets, and code.": "连接到项目、数据集和代码。",
+  "Public Research": "公开研究",
+  "Curated summaries": "精选摘要",
+  "Design sketches": "设计草图",
+  "Concepts and methods": "概念与方法",
+  "Private Vault": "私密知识库",
+  "Raw notes and drafts": "原始笔记和草稿",
+  "Prompts and credentials": "Prompt 和凭证",
+  "Internal runtime and logs": "内部运行时和日志",
+  "Account and system state": "账户和系统状态",
+  "We publish what is safe, useful, and durable. The rest stays private by default.":
+    "我们只发布安全、有用、可长期保存的内容。其余内容默认保持私密。",
+  "This is living research.": "这是持续生长的研究。",
+  "New notes land when experiments evolve. Follow along, learn from the process, and build with care.":
+    "实验推进时，新的笔记会继续补上。你可以沿着过程阅读、学习，并更谨慎地构建。",
+  "How we organize notes": "我们如何组织笔记",
+  "Research model": "研究模型",
+  "Build logs": "构建日志",
+  "Ship, test, learn.": "交付、测试、学习。",
+  "Design notes": "设计笔记",
+  "Decisions and tradeoffs.": "决策和取舍。",
+  "Research sketches": "研究草图",
+  "Ideas in progress.": "进行中的想法。",
+  "What we share.": "我们分享什么。",
+  "Public research notes": "公开研究笔记",
+  "Research note filters": "研究笔记筛选",
+  "Search research notes": "搜索研究笔记",
+  "Search notes": "搜索笔记",
+  "Featured note": "精选笔记",
+  "Research note": "研究笔记",
+  "Read Building a Personal AI Research Studio": "阅读《构建个人 AI 研究工作室》",
+  "No public research notes yet.": "还没有公开研究笔记。",
+  "Clear search": "清除搜索",
+  "Selected research note": "选中的研究笔记",
+  "Selected note": "选中笔记",
+  "Read note": "阅读笔记",
+  "Related project": "相关项目",
+  "Back to Research": "返回研究",
+  "Public-safe note": "公开安全笔记",
+  "This note is public-safe.": "这篇笔记是公开安全的。",
+  "Curated summary only. No private prompts, raw notes, credentials, runtime IDs, or account state.":
+    "仅展示精选摘要。不包含私密 prompt、原始笔记、凭证、运行时 ID 或账户状态。",
+  "Note": "笔记",
+  "Research note metadata": "研究笔记元数据",
+  "Note dossier": "笔记档案",
+  "Date": "日期",
+  "Public research note": "公开研究笔记",
+  "Public rules": "公开规则",
+  "Explain principles, decisions, and sketches.": "解释原则、决策和草图。",
+  "Omit private source text and raw drafts.": "省略私密来源文本和原始草稿。",
+  "No credentials, accounts, prompts, or runtime logs.": "不包含凭证、账户、prompt 或运行日志。",
+  "Link back to durable project artifacts.": "回链到可长期保存的项目产物。",
+  "What this studio is for": "这个研究工作室用来做什么",
+  "The public studio is a place to make the work understandable without making the private operating layer public. It can show projects, principles, architecture sketches, and safe lessons from building Doraemon Office.":
+    "公开工作室用来让工作变得可理解，但不把私密运行层公开。它可以展示项目、原则、架构草图，以及构建 Doraemon Office 时可安全分享的经验。",
+  "System shape": "系统形态",
+  "Doraemon is the public entrance personality. MiniDoras are specialized teammates for research, writing, data, product, memory, media, operations, and market research. The owner cockpit is the private place where approvals, sensitive context, and final judgment stay with Weiyu.":
+    "Doraemon 是公开入口人格。MiniDoras 是面向研究、写作、数据、产品、记忆、媒体、运营和市场研究的专门队友。Owner cockpit 是私密区域，审批、敏感上下文和最终判断都留在 Weiyu 手里。",
+  "Publishing boundary": "发布边界",
+  "A public note should explain the durable idea, the design decision, and the evidence that can be shared. It should not include raw prompts, private drafts, local paths, account data, runtime IDs, credentials, order details, or private knowledge-base source text.":
+    "公开笔记应该解释可长期保存的想法、设计决策，以及可以分享的证据。它不应包含原始 prompt、私密草稿、本地路径、账户数据、运行时 ID、凭证、订单细节或私密知识库原文。",
+  "That boundary is not a temporary launch constraint. It is part of the product: public enough to build trust, private enough to keep the system honest.":
+    "这条边界不是上线初期的临时限制，而是产品的一部分：足够公开以建立信任，也足够私密以保持系统诚实。",
   "Share what's safe. Protect what's not.": "分享安全的内容，保护不该公开的内容。",
   "Evidence first": "证据优先",
   "Show the why, the how, and the limits.": "展示原因、方法和边界。",
@@ -1050,6 +1139,44 @@ function normalizeText(value: string) {
   return value.replace(/\s+/g, " ").trim();
 }
 
+const englishMonthNumbers = {
+  Jan: 1,
+  January: 1,
+  Feb: 2,
+  February: 2,
+  Mar: 3,
+  March: 3,
+  Apr: 4,
+  April: 4,
+  May: 5,
+  Jun: 6,
+  June: 6,
+  Jul: 7,
+  July: 7,
+  Aug: 8,
+  August: 8,
+  Sep: 9,
+  Sept: 9,
+  September: 9,
+  Oct: 10,
+  October: 10,
+  Nov: 11,
+  November: 11,
+  Dec: 12,
+  December: 12
+} as const satisfies Record<string, number>;
+
+function translateEnglishDateToZh(value: string) {
+  const match = value.match(/^([A-Z][a-z]+)\.?\s+(\d{1,2}),\s+(\d{4})$/);
+  if (!match) return null;
+
+  const [, monthName, day, year] = match;
+  const month = englishMonthNumbers[monthName as keyof typeof englishMonthNumbers];
+  if (!month) return null;
+
+  return `${year}年${month}月${Number(day)}日`;
+}
+
 function escapeRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -1068,6 +1195,9 @@ export function translateToZh(value: string) {
 
   const exact = exactZhTranslations[normalized as keyof typeof exactZhTranslations];
   if (exact) return exact;
+
+  const date = translateEnglishDateToZh(normalized);
+  if (date) return date;
 
   let translated = normalized;
   for (const [source, target] of phraseZhTranslations) {

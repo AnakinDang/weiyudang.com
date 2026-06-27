@@ -3918,6 +3918,10 @@ textarea {
   font-size: 0.9rem;
 }
 
+.lab-empty-state span {
+  overflow-wrap: anywhere;
+}
+
 .lab-empty-state button {
   border: 1px solid rgba(191, 219, 254, 0.9);
   border-radius: 8px;

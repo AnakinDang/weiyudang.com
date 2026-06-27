@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, FileSearch, Filter, FlaskConical, Link2, Search } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { TradingResearchBoundary } from "@/components/TradingResearchBoundary";
 import type { Note } from "@/lib/content";
 import { labCategories, type LabCategory } from "@/lib/content-model";
+import type { SiteLocale } from "@/lib/site-i18n";
 
 type LabFilter = {
   key: "all" | LabCategory;
@@ -20,6 +22,17 @@ const filters = [
   }))
 ] satisfies LabFilter[];
 
+const labFilterZhLabels = {
+  all: "全部",
+  "agent-systems": "智能体系统",
+  "dora-office": "Doraemon Office",
+  "trading-research": "交易研究",
+  design: "设计",
+  engineering: "工程",
+  "creative-media": "创意媒体",
+  operations: "运营"
+} satisfies Record<LabFilter["key"], string>;
+
 const noteVisuals = ["orbit", "blueprint", "signal", "method"] as const;
 
 function visualForNote(slug: string) {
@@ -31,7 +44,40 @@ function relatedProjectHref(note: Note) {
   return note.relatedProject ? `/projects/${note.relatedProject}` : "/projects";
 }
 
+function emptyMessageForNotes({
+  activeFilter,
+  activeFilterLabel,
+  locale,
+  query
+}: {
+  activeFilter: LabFilter["key"];
+  activeFilterLabel: string;
+  locale: SiteLocale;
+  query: string;
+}) {
+  const localizedFilterLabel = locale === "zh" ? labFilterZhLabels[activeFilter] : activeFilterLabel;
+
+  if (query) {
+    if (locale === "zh") {
+      return activeFilter === "all"
+        ? `没有匹配“${query}”的笔记。`
+        : `没有匹配“${query}”的${localizedFilterLabel}笔记。`;
+    }
+
+    return activeFilter === "all"
+      ? `No notes matching "${query}".`
+      : `No ${activeFilterLabel} notes matching "${query}".`;
+  }
+
+  if (locale === "zh") {
+    return activeFilter === "all" ? "还没有公开研究笔记。" : `还没有${localizedFilterLabel}笔记。`;
+  }
+
+  return activeFilter === "all" ? "No public research notes yet." : `No ${activeFilterLabel} notes yet.`;
+}
+
 export function LabNotesBrowser({ notes }: { notes: Note[] }) {
+  const { locale } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<LabFilter["key"]>("all");
   const [query, setQuery] = useState("");
   const [selectedSlug, setSelectedSlug] = useState(notes[0]?.slug ?? "");
@@ -49,6 +95,8 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
 
   const selectedNote = visibleNotes.find((note) => note.slug === selectedSlug) ?? visibleNotes[0];
   const activeFilterLabel = filters.find((item) => item.key === activeFilter)?.label ?? "All";
+  const trimmedQuery = query.trim();
+  const emptyMessage = emptyMessageForNotes({ activeFilter, activeFilterLabel, locale, query: trimmedQuery });
   const showsTradingResearch =
     activeFilter === "trading-research" || visibleNotes.some((note) => note.category === "trading-research");
 
@@ -136,16 +184,10 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
         {visibleNotes.length === 0 ? (
           <div className="lab-empty-state">
             <FileSearch size={22} aria-hidden />
-            <span>
-              {query.trim()
-                ? `No ${activeFilterLabel} notes matching "${query.trim()}".`
-                : activeFilter === "all"
-                  ? "No public research notes yet."
-                  : `No ${activeFilterLabel} notes yet.`}
-            </span>
-            {query.trim() ? (
-              <button type="button" onClick={() => setQuery("")}>
-                Clear search
+            <span data-i18n-skip>{emptyMessage}</span>
+            {trimmedQuery ? (
+              <button type="button" onClick={() => setQuery("")} data-i18n-skip>
+                {locale === "zh" ? "清除搜索" : "Clear search"}
               </button>
             ) : null}
           </div>
