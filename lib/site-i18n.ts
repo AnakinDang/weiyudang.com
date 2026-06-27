@@ -257,6 +257,7 @@ const exactZhTranslations = {
   "Doraemon Team Agents": "Doraemon 智能体团队",
   "MiniDora Team Agents": "MiniDora 团队",
   "Team Agents": "智能体团队",
+  "Doraemon Team": "Doraemon 团队",
   "Recent public team signals": "最近公开团队信号",
   "Live relay": "实时中继",
   "Live relay · demo activity": "实时中继 · 演示活动",
@@ -267,11 +268,76 @@ const exactZhTranslations = {
   "Read-only profiles": "只读档案",
   "Sanitized": "已脱敏",
   "Public schema": "公开 schema",
+  "Private area": "私密区域",
   "public-safe": "公开安全",
   "read-only": "只读",
+  "public window": "公开窗口",
+  "public activity": "公开活动",
+  "public profiles": "公开档案",
   "No execution": "无执行",
   "No private work": "无私密工作",
+  "View public activity": "查看公开活动",
+  "Operating lanes": "运行分工",
+  "Coordinate": "统筹",
+  "Build": "构建",
+  "Operate": "运营",
+  "Public boundary": "公开边界",
+  "Boundary details": "边界详情",
+  "Team Operating Lanes": "团队运行分工",
+  "See the command room": "查看指挥室",
+  "Continue Through Doraemon Office": "继续浏览 Doraemon Office",
+  "Move between the public-safe views without crossing into private owner systems.":
+    "在公开安全视图之间切换，不跨入私密系统。",
+  "These lanes show how the MiniDoras above stay coordinated around work that compounds: research, building, operations, memory, and public-safe output.":
+    "这些分工展示 MiniDoras 如何围绕能复利的工作保持协同：研究、构建、运营、记忆和公开安全输出。",
+  "Turns intent into plans, handoffs, and review checkpoints.":
+    "把意图转成计划、交接和审核检查点。",
+  "Reads, compares, preserves context, and keeps market work research-only.":
+    "阅读、比较、保留上下文，并保持市场工作仅用于研究。",
+  "Moves product slices from scope into tested, reviewed software.":
+    "把产品切片从范围定义推进到经过测试和审核的软件。",
+  "Keeps routines, health, public visuals, and publishing rhythm clear.":
+    "让例行节奏、健康状态、公开视觉和发布节奏保持清晰。",
+  "Research MiniDora": "研究 MiniDora",
+  "Product MiniDora": "产品 MiniDora",
+  "Ops MiniDora": "运营 MiniDora",
+  "Memory MiniDora": "记忆 MiniDora",
+  "Media MiniDora": "媒体 MiniDora",
+  "Dev": "开发",
+  "Ops": "运营",
+  "Memory": "记忆",
+  "Trading": "交易",
+  "Media": "媒体",
+  "Creative Production": "创意生产",
+  "Public-safe profiles": "公开安全档案",
+  "Sanitized states": "脱敏状态",
+  "Fixed event labels": "固定事件标签",
+  "Team presence": "团队在线状态",
+  "Finds source-backed context and prepares evidence briefs.":
+    "寻找有来源支撑的上下文，并准备证据简报。",
+  "Translates ideas into plans, handoffs, summaries, and review checkpoints.":
+    "把想法转成计划、交接、摘要和审核检查点。",
+  "Turns product slices into working software artifacts.":
+    "把产品切片变成可运行的软件产物。",
+  "Keeps scope, review standards, and release rhythm clear.":
+    "让范围、审核标准和发布节奏保持清晰。",
+  "Watches routines, schedules, and public-safe system health.":
+    "观察例行任务、日程和公开安全的系统健康。",
+  "Maintains durable context, summaries, and knowledge hygiene.":
+    "维护持久上下文、摘要和知识卫生。",
+  "Maintains an evidence-first research queue with owner review.":
+    "维护证据优先、需要本人审核的研究队列。",
+  "Builds repeatable workflows for images, video, and story assets.":
+    "为图片、视频和叙事素材构建可复用工作流。",
   "Doraemon team is showing live public signals.": "Doraemon 团队正在展示实时公开信号。",
+  "Doraemon team is showing a public-safe demo snapshot.": "Doraemon 团队正在展示公开安全的演示快照。",
+  "Latest label": "最新标签",
+  "Live public label": "实时公开标签",
+  "Demo public label": "演示公开标签",
+  "Profile baseline": "档案基线",
+  "No matching public event yet": "暂无匹配的公开事件",
+  "Source": "来源",
+  "Demo state": "演示状态",
 
   "Doraemon System": "Doraemon 系统",
   "Public health signal without private infrastructure.": "不暴露私有基础设施的公开健康信号。",
@@ -699,6 +765,7 @@ const phraseZhTranslations = [
   ["Health rail", "健康栏"],
   ["public checks", "项公开检查"],
   ["Public relay", "公开中继"],
+  ["public profiles", "公开档案"],
   ["SIGNAL", "信号"],
   ["Closed allowlist", "封闭白名单"],
   ["Live relay", "实时中继"],
