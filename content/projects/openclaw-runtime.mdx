@@ -1,0 +1,38 @@
+---
+title: "OpenClaw Runtime"
+slug: "openclaw-runtime"
+status: "prototype"
+visibility: "private-summary"
+category: "agent-infrastructure"
+summary: "The private runtime and monitoring substrate that supports Doraemon, MiniDoras, health checks, and owner-visible operational posture."
+cover: "/projects/openclaw-runtime"
+order: 7
+links:
+  - label: "Public System Posture"
+    href: "/dora/system"
+    private: false
+  - label: "Owner System Health"
+    href: "/app/system"
+    private: true
+---
+
+OpenClaw Runtime is the private operating substrate beneath the Personal OS.
+
+Public visitors do not need runtime internals. They need to know that Doraemon Office has a safe system posture, a public schema boundary, and a graceful fallback. The owner cockpit can show deeper health and review queues without turning public pages into an operations console.
+
+## Public Version
+
+The public System route shows coarse, safe posture:
+
+- live or demo mode
+- public schema status
+- event freshness at a safe abstraction level
+- read-only fallback behavior
+
+## Private Version
+
+The owner system surface can summarize service posture, review gaps, degraded sources, and boundary checks for Weiyu. It should remain diagnostic and owner-gated.
+
+## Boundary
+
+Public pages must not show local paths, private service labels, tokens, internal hostnames, raw logs, or repair controls. System health should reassure without exposing the control plane.

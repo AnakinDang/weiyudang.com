@@ -21,6 +21,10 @@ type ProjectPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+function isExternalProjectHref(href: string) {
+  return href.startsWith("https://");
+}
+
 export function generateStaticParams() {
   return getProjects().map((project) => ({ slug: project.slug }));
 }
@@ -118,15 +122,27 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               <section className="project-rail-panel">
                 <p className="projects-kicker">Project links</p>
                 <div className="project-link-list">
-                  {project.links.map((link) => (
-                    <Link key={link.href} href={link.href} className="link-focus project-link-row">
-                      <span>
-                        {link.private ? <LockKeyhole size={15} aria-hidden /> : <FileText size={15} aria-hidden />}
-                        {link.label}
-                      </span>
-                      <ArrowUpRight size={15} aria-hidden />
-                    </Link>
-                  ))}
+                  {project.links.map((link) => {
+                    const isExternal = isExternalProjectHref(link.href);
+
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="link-focus project-link-row"
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                      >
+                        <span>
+                          {link.private ? <LockKeyhole size={15} aria-hidden /> : <FileText size={15} aria-hidden />}
+                          {link.label}
+                          {link.private ? <span className="sr-only"> Owner-only</span> : null}
+                          {isExternal ? <span className="sr-only"> Opens in a new tab</span> : null}
+                        </span>
+                        <ArrowUpRight size={15} aria-hidden />
+                      </Link>
+                    );
+                  })}
                   <Link href="/dora" className="link-focus project-link-row">
                     <span>
                       <Bot size={15} aria-hidden />

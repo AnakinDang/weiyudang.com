@@ -1,0 +1,43 @@
+---
+title: "Doraemon Visualizer"
+slug: "doraemon-visualizer"
+status: "active"
+visibility: "private-summary"
+category: "agent-infrastructure"
+summary: "The public-safe visual bridge that turns Doraemon and MiniDora activity into an understandable command-room view."
+cover: "/projects/doraemon-visualizer"
+order: 4
+links:
+  - label: "Native Office"
+    href: "/dora/office"
+    private: false
+  - label: "Activity Timeline"
+    href: "/dora/activity"
+    private: false
+  - label: "Public Visualizer"
+    href: "https://dora.weiyudang.com"
+    private: false
+---
+
+Doraemon Visualizer makes the agent system legible.
+
+The long-term direction is native `weiyudang.com` routes under Doraemon Office. The visualizer remains useful as a public bridge: it can show sanitized activity, agent presence, a command-room stage, and safe system posture without revealing private work.
+
+## What It Shows
+
+- Doraemon and MiniDora presence.
+- Public-safe event labels.
+- Current office posture.
+- Recent activity and handoffs at a safe summary level.
+- Demo fallback when live relay data is unavailable.
+
+## What It Does Not Show
+
+- Raw run IDs or task IDs.
+- Private task titles or prompt bodies.
+- Tool payloads, artifacts, memory records, accounts, or local paths.
+- Execution controls or owner-only actions.
+
+## Product Direction
+
+The visualizer should increasingly feel like part of Doraemon Office rather than a separate iframe-style portal. The public page should explain motion, not expose internals.
