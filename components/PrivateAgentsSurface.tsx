@@ -25,7 +25,9 @@ import {
   Waypoints
 } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
+import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 import type {
   PrivateAgent,
   PrivateAgentCoverageLane,
@@ -101,6 +103,7 @@ type AgentReviewRow = {
 };
 
 type AgentOwnerPosture = {
+  key: string;
   label: string;
   state: string;
   tone: Tone;
@@ -115,6 +118,24 @@ type AgentSafeOutputRow = {
   detail: string;
 };
 
+// These short labels have different public-site and owner-cockpit meanings.
+const privateAgentZhOverrides: Partial<Record<string, string>> = {
+  Owner: "本人",
+  "Owner-gated": "本人把关",
+  Partial: "部分",
+  Pending: "待处理"
+};
+
+function agentText(value: string | undefined, locale: SiteLocale) {
+  if (!value) return "";
+  if (locale !== "zh") return value;
+  return privateAgentZhOverrides[value] ?? translateToZh(value) ?? value;
+}
+
+function joinAgentText(values: readonly string[], locale: SiteLocale) {
+  return values.map((value) => agentText(value, locale)).join(locale === "zh" ? "、" : ", ");
+}
+
 function countBy<T extends string>(items: readonly PrivateAgent[], read: (agent: PrivateAgent) => T) {
   const counts = new Map<T, number>();
 
@@ -126,8 +147,9 @@ function countBy<T extends string>(items: readonly PrivateAgent[], read: (agent:
   return counts;
 }
 
-function readinessLabel(rows: readonly AgentReviewRow[]) {
+function readinessLabel(rows: readonly AgentReviewRow[], locale: SiteLocale) {
   const ready = rows.filter((row) => row.ready).length;
+  if (locale === "zh") return `${ready}/${rows.length} 项就绪`;
   return `${ready} of ${rows.length} ready`;
 }
 
@@ -139,7 +161,7 @@ function leaseHasOwnerSignal(leaseStatus: PrivateAgentLeaseStatus) {
   return leaseStatus === "Active lease" || leaseStatus === "Review lease" || leaseStatus === "Owner-gated";
 }
 
-function reviewRowsForAgent(agent: PrivateAgent): AgentReviewRow[] {
+function reviewRowsForAgent(agent: PrivateAgent, locale: SiteLocale): AgentReviewRow[] {
   return [
     {
       label: "Lease posture",
@@ -157,7 +179,7 @@ function reviewRowsForAgent(agent: PrivateAgent): AgentReviewRow[] {
     },
     {
       label: "History trail",
-      state: `${agent.history.length} items`,
+      state: locale === "zh" ? `${agent.history.length} 条` : `${agent.history.length} items`,
       tone: agent.history.length > 0 ? "normal" : "private",
       ready: agent.history.length > 0,
       detail: agent.history.length > 0 ? "Recent state history is visible for owner review." : "No history is available for this agent."
@@ -165,13 +187,18 @@ function reviewRowsForAgent(agent: PrivateAgent): AgentReviewRow[] {
   ];
 }
 
-function safeOutputsForAgent(agent: PrivateAgent): AgentSafeOutputRow[] {
+function safeOutputsForAgent(agent: PrivateAgent, locale: SiteLocale): AgentSafeOutputRow[] {
+  const name = agentText(agent.name, locale);
+
   return [
     {
       label: "Owner brief",
       state: "Allowed",
       tone: "normal",
-      detail: `${agent.name} can be summarized for owner reading without creating runtime action.`
+      detail:
+        locale === "zh"
+          ? `${name} 可以汇总给本人阅读，不创建任何运行时动作。`
+          : `${agent.name} can be summarized for owner reading without creating runtime action.`
     },
     {
       label: "Review queue note",
@@ -188,50 +215,78 @@ function safeOutputsForAgent(agent: PrivateAgent): AgentSafeOutputRow[] {
   ];
 }
 
-function ownerPosturesForAgent(agent: PrivateAgent): AgentOwnerPosture[] {
+function ownerPosturesForAgent(agent: PrivateAgent, locale: SiteLocale): AgentOwnerPosture[] {
   const sourceReady = sourceHealthReady(agent.sourceHealth);
+  const name = agentText(agent.name, locale);
 
   return [
     {
-      label: "Review now",
-      state: "Owner read",
+      key: "review_now",
+      label: locale === "zh" ? "现在审核" : "Review now",
+      state: locale === "zh" ? "本人阅读" : "Owner read",
       tone: sourceReady ? "normal" : "warning",
-      detail: "Inspect this agent's lease, evidence, and recent history in the cockpit.",
-      next: `Read ${agent.name}'s lease and history, then move any decision into Command or Review Queue.`
+      detail:
+        locale === "zh"
+          ? "在驾驶舱中检查这个智能体的 lease、证据和近期历史。"
+          : "Inspect this agent's lease, evidence, and recent history in the cockpit.",
+      next:
+        locale === "zh"
+          ? `阅读 ${name} 的 lease 和历史，再把任何决策移入 Command 或 Review Queue。`
+          : `Read ${agent.name}'s lease and history, then move any decision into Command or Review Queue.`
     },
     {
-      label: sourceReady ? "Hold for owner" : "Need source proof",
-      state: sourceReady ? "Safe hold" : "Needs evidence",
+      key: "hold_or_source_proof",
+      label: locale === "zh" ? (sourceReady ? "等待本人" : "需要来源证明") : sourceReady ? "Hold for owner" : "Need source proof",
+      state: locale === "zh" ? (sourceReady ? "安全保持" : "需要证据") : sourceReady ? "Safe hold" : "Needs evidence",
       tone: sourceReady ? "info" : "warning",
-      detail: sourceReady ? "Keep the agent visible without promoting new work." : "Source health is not strong enough for confident promotion.",
-      next: sourceReady
-        ? "Leave the lease unchanged and revisit at the next owner review window."
-        : "Require source evidence before treating this agent lane as ready."
+      detail:
+        locale === "zh"
+          ? sourceReady
+            ? "保持这个智能体可见，但不推进新工作。"
+            : "来源健康不足以支持有把握的推进。"
+          : sourceReady
+            ? "Keep the agent visible without promoting new work."
+            : "Source health is not strong enough for confident promotion.",
+      next:
+        locale === "zh"
+          ? sourceReady
+            ? "保持 lease 不变，在下一个本人审核窗口再复查。"
+            : "先要求来源证据，再把这个智能体通道视为就绪。"
+          : sourceReady
+            ? "Leave the lease unchanged and revisit at the next owner review window."
+            : "Require source evidence before treating this agent lane as ready."
     },
     {
-      label: "Do not dispatch",
-      state: "No action",
+      key: "no_dispatch",
+      label: locale === "zh" ? "不要派发" : "Do not dispatch",
+      state: locale === "zh" ? "无动作" : "No action",
       tone: "private",
-      detail: "Keep this page read-only even when the agent looks ready.",
-      next: "No hidden execution, tool call, publish, trade, or schedule mutation is created."
+      detail: locale === "zh" ? "即使智能体看起来就绪，此页也保持只读。" : "Keep this page read-only even when the agent looks ready.",
+      next:
+        locale === "zh"
+          ? "不会创建隐藏执行、工具调用、发布、交易或日程变更。"
+          : "No hidden execution, tool call, publish, trade, or schedule mutation is created."
     }
   ];
 }
 
-function postureChoiceKey(agentId: PrivateAgent["id"], label: string) {
-  return `${agentId}:${label}`;
+function postureChoiceKey(agentId: PrivateAgent["id"], key: string) {
+  return `${agentId}:${key}`;
 }
 
 function AgentButton({
   agent,
   active,
-  onSelect
+  onSelect,
+  locale
 }: {
   agent: PrivateAgent;
   active: boolean;
   onSelect: () => void;
+  locale: SiteLocale;
 }) {
   const Icon = roleIcons[agent.role];
+  const t = (value: string | undefined) => agentText(value, locale);
 
   return (
     <button
@@ -249,29 +304,38 @@ function AgentButton({
           <Icon size={21} aria-hidden />
         </span>
         <span className="grid justify-items-end gap-1">
-          <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
-          <span className="text-[0.68rem] font-semibold uppercase text-slate-500">{agent.sourceHealth}</span>
+          <StatusBadge tone={agent.tone}>{t(agent.state)}</StatusBadge>
+          <span className="text-[0.68rem] font-semibold uppercase text-slate-500">{t(agent.sourceHealth)}</span>
         </span>
       </div>
       <div>
-        <h3 className="text-base font-semibold text-white">{agent.name}</h3>
-        <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{agent.role}</p>
+        <h3 className="text-base font-semibold text-white">{t(agent.name)}</h3>
+        <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{t(agent.role)}</p>
       </div>
-      <p className="line-clamp-2 text-sm leading-6 text-slate-300">{agent.currentFocus}</p>
+      <p className="line-clamp-2 text-sm leading-6 text-slate-300">{t(agent.currentFocus)}</p>
       <div className="mt-auto grid gap-2 border-t border-slate-700 pt-3 text-xs text-slate-400">
         <span>
-          <strong className="text-slate-300">Lease:</strong> {agent.leaseStatus}
+          <strong className="text-slate-300">{t("Lease")}:</strong> {t(agent.leaseStatus)}
         </span>
         <span>
-          <strong className="text-slate-300">Next:</strong> {agent.nextReview}
+          <strong className="text-slate-300">{t("Next")}:</strong> {t(agent.nextReview)}
         </span>
       </div>
     </button>
   );
 }
 
-function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metrics: readonly PrivateAgentMetric[] }) {
+function HeroPanel({
+  activeAgent,
+  metrics,
+  locale
+}: {
+  activeAgent: PrivateAgent;
+  metrics: readonly PrivateAgentMetric[];
+  locale: SiteLocale;
+}) {
   const ActiveIcon = roleIcons[activeAgent.role];
+  const t = (value: string | undefined) => agentText(value, locale);
   const heroMetrics = metrics.map((metric, index) => ({
     ...metric,
     toneClass: [
@@ -304,32 +368,31 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
 
           <div className="relative inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
             <Network size={14} aria-hidden />
-            Agent operations
+            {t("Agent operations")}
           </div>
 
           <div className="relative mt-4 flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-violet-200/25 bg-violet-300/10 px-3 py-1.5 text-xs font-bold uppercase text-violet-100">
               <LockKeyhole size={14} aria-hidden />
-              Owner-only
+              {t("Owner-only")}
             </span>
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 px-3 py-1.5 text-xs font-bold uppercase text-emerald-100">
               <Radio size={14} aria-hidden />
-              Read-only roster
+              {t("Read-only roster")}
             </span>
             <span className="inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold uppercase text-yellow-100">
               <ShieldCheck size={14} aria-hidden />
-              No execution
+              {t("No execution")}
             </span>
           </div>
 
           <div className="relative mt-10 max-w-4xl">
-            <p className="eyebrow">Private MiniDora roster</p>
+            <p className="eyebrow">{t("Private MiniDora roster")}</p>
             <h2 id="private-agents-title" className="mt-2 max-w-4xl text-3xl font-semibold leading-[1.04] text-white md:text-5xl">
-              MiniDora Agents
+              {t("MiniDora Agents")}
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-              Inspect the team behind the Personal OS: current leases, source health, recent outputs, handoffs, and
-              guardrails. Intelligence without execution. You approve the work.
+              {t("Inspect the team behind the Personal OS: current leases, source health, recent outputs, handoffs, and guardrails. Intelligence without execution. You approve the work.")}
             </p>
           </div>
 
@@ -339,9 +402,9 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
                 key={metric.label}
                 className={`rounded-[8px] border p-4 ${metric.toneClass}`}
               >
-                <p className="text-xs font-bold uppercase text-current">{metric.label}</p>
+                <p className="text-xs font-bold uppercase text-current">{t(metric.label)}</p>
                 <strong className="mt-2 block text-3xl font-semibold text-white">{metric.value}</strong>
-                <p className="mt-2 text-sm leading-5 text-slate-200/85">{metric.detail}</p>
+                <p className="mt-2 text-sm leading-5 text-slate-200/85">{t(metric.detail)}</p>
               </div>
             ))}
           </div>
@@ -350,17 +413,17 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
             {[
               {
                 label: "Doraemon coordinates",
-                value: activeAgent.mission,
+                value: t(activeAgent.mission),
                 icon: Waypoints
               },
               {
                 label: "MiniDoras prepare",
-                value: activeAgent.outputs.join(", "),
+                value: joinAgentText(activeAgent.outputs, locale),
                 icon: Sparkles
               },
               {
                 label: "Owner decides",
-                value: activeAgent.nextReview,
+                value: t(activeAgent.nextReview),
                 icon: UserCheck
               }
             ].map((item) => {
@@ -370,7 +433,7 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
                 <article key={item.label} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 shadow-[0_16px_55px_rgba(14,165,233,0.08)] backdrop-blur">
                   <div className="flex items-center gap-2 text-sky-100">
                     <Icon size={16} aria-hidden />
-                    <p className="text-xs font-bold uppercase">{item.label}</p>
+                    <p className="text-xs font-bold uppercase">{t(item.label)}</p>
                   </div>
                   <p className="mt-2 text-sm font-semibold leading-6 text-slate-200">{item.value}</p>
                 </article>
@@ -390,40 +453,40 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
           <div className="relative rounded-[8px] border border-slate-700 bg-[#07111f]/76 p-5 shadow-[0_20px_80px_rgba(14,165,233,0.10)] backdrop-blur">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-bold uppercase text-yellow-100">Active selection</p>
+                <p className="text-xs font-bold uppercase text-yellow-100">{t("Active selection")}</p>
                 <h3 id="active-agent-title" className="mt-1 text-2xl font-semibold text-white">
-                  {activeAgent.name}
+                  {t(activeAgent.name)}
                 </h3>
-                <p className="mt-1 text-xs font-bold uppercase text-sky-100">{activeAgent.role}</p>
+                <p className="mt-1 text-xs font-bold uppercase text-sky-100">{t(activeAgent.role)}</p>
               </div>
               <span className="flex size-12 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
                 <ActiveIcon size={23} aria-hidden />
               </span>
             </div>
-            <p className="mt-5 text-sm leading-6 text-slate-300">{activeAgent.mission}</p>
+            <p className="mt-5 text-sm leading-6 text-slate-300">{t(activeAgent.mission)}</p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <StatusBadge tone={activeAgent.tone}>{activeAgent.state}</StatusBadge>
-              <StatusBadge tone={leaseStatusTone[activeAgent.leaseStatus]}>{activeAgent.leaseStatus}</StatusBadge>
-              <StatusBadge tone={sourceHealthTone[activeAgent.sourceHealth]}>{activeAgent.sourceHealth}</StatusBadge>
+              <StatusBadge tone={activeAgent.tone}>{t(activeAgent.state)}</StatusBadge>
+              <StatusBadge tone={leaseStatusTone[activeAgent.leaseStatus]}>{t(activeAgent.leaseStatus)}</StatusBadge>
+              <StatusBadge tone={sourceHealthTone[activeAgent.sourceHealth]}>{t(activeAgent.sourceHealth)}</StatusBadge>
             </div>
           </div>
 
           <div className="relative mt-4 grid gap-3">
             <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-              <p className="text-xs font-bold uppercase text-slate-400">Current lease</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-white">{activeAgent.lease}</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Current lease")}</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{t(activeAgent.lease)}</p>
             </div>
             <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-              <p className="text-xs font-bold uppercase text-slate-400">Last output</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-white">{activeAgent.lastOutput}</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Last output")}</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{t(activeAgent.lastOutput)}</p>
             </div>
             <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-              <p className="text-xs font-bold uppercase text-slate-400">Next review</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-white">{activeAgent.nextReview}</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Next review")}</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-white">{t(activeAgent.nextReview)}</p>
             </div>
             <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-4">
-              <p className="text-xs font-bold uppercase text-yellow-100">Guardrail</p>
-              <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{activeAgent.guardrail}</p>
+              <p className="text-xs font-bold uppercase text-yellow-100">{t("Guardrail")}</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{t(activeAgent.guardrail)}</p>
             </div>
           </div>
         </section>
@@ -432,63 +495,65 @@ function HeroPanel({ activeAgent, metrics }: { activeAgent: PrivateAgent; metric
   );
 }
 
-function AgentDetail({ agent }: { agent: PrivateAgent }) {
+function AgentDetail({ agent, locale }: { agent: PrivateAgent; locale: SiteLocale }) {
+  const t = (value: string | undefined) => agentText(value, locale);
+
   return (
     <section className="panel p-5" aria-labelledby="agent-detail-title" aria-live="polite">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="eyebrow">Agent detail</p>
+          <p className="eyebrow">{t("Agent detail")}</p>
           <h2 id="agent-detail-title" className="mt-2 text-2xl font-semibold text-white">
-            {agent.name}
+            {t(agent.name)}
           </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">{agent.currentFocus}</p>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">{t(agent.currentFocus)}</p>
         </div>
-        <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
+        <StatusBadge tone={agent.tone}>{t(agent.state)}</StatusBadge>
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_18rem]">
         <div className="grid gap-4">
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-            <p className="text-xs font-bold uppercase text-slate-400">Last output</p>
-            <p className="mt-2 text-sm leading-6 text-slate-200">{agent.lastOutput}</p>
+            <p className="text-xs font-bold uppercase text-slate-400">{t("Last output")}</p>
+            <p className="mt-2 text-sm leading-6 text-slate-200">{t(agent.lastOutput)}</p>
           </div>
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex items-center gap-2 text-sky-100">
               <History size={18} aria-hidden />
-              <p className="text-xs font-bold uppercase text-slate-400">State history</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("State history")}</p>
             </div>
             <ol className="mt-4 grid gap-3">
               {agent.history.map((item) => (
                 <li key={`${item.time}-${item.title}`} className="grid gap-3 rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3 sm:grid-cols-[4.5rem_minmax(0,1fr)_auto]">
-                  <time className="text-xs font-bold uppercase text-slate-500">{item.time}</time>
+                  <time className="text-xs font-bold uppercase text-slate-500">{t(item.time)}</time>
                   <div>
-                    <p className="text-sm font-semibold text-white">{item.title}</p>
-                    <p className="mt-1 text-sm leading-6 text-slate-400">{item.detail}</p>
+                    <p className="text-sm font-semibold text-white">{t(item.title)}</p>
+                    <p className="mt-1 text-sm leading-6 text-slate-400">{t(item.detail)}</p>
                   </div>
-                  <StatusBadge tone={item.tone}>{item.state}</StatusBadge>
+                  <StatusBadge tone={item.tone}>{t(item.state)}</StatusBadge>
                 </li>
               ))}
             </ol>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-              <p className="text-xs font-bold uppercase text-slate-400">Inputs watched</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Inputs watched")}</p>
               <ul className="mt-3 grid gap-2 text-sm text-slate-300">
                 {agent.inputs.map((input) => (
                   <li key={input} className="flex gap-2">
                     <CheckCircle2 className="mt-0.5 shrink-0 text-sky-100" size={15} aria-hidden />
-                    <span>{input}</span>
+                    <span>{t(input)}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-              <p className="text-xs font-bold uppercase text-slate-400">Outputs prepared</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Outputs prepared")}</p>
               <ul className="mt-3 grid gap-2 text-sm text-slate-300">
                 {agent.outputs.map((output) => (
                   <li key={output} className="flex gap-2">
                     <Sparkles className="mt-0.5 shrink-0 text-yellow-100" size={15} aria-hidden />
-                    <span>{output}</span>
+                    <span>{t(output)}</span>
                   </li>
                 ))}
               </ul>
@@ -498,21 +563,21 @@ function AgentDetail({ agent }: { agent: PrivateAgent }) {
 
         <aside className="grid content-start gap-4">
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-            <p className="text-xs font-bold uppercase text-slate-400">Capabilities</p>
+            <p className="text-xs font-bold uppercase text-slate-400">{t("Capabilities")}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {agent.capabilities.map((capability) => (
                 <span key={capability} className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 px-2.5 py-1 text-xs text-slate-300">
-                  {capability}
+                  {t(capability)}
                 </span>
               ))}
             </div>
           </div>
           <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="text-xs font-bold uppercase text-slate-400">Source health</p>
-              <StatusBadge tone={sourceHealthTone[agent.sourceHealth]}>{agent.sourceHealth}</StatusBadge>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Source health")}</p>
+              <StatusBadge tone={sourceHealthTone[agent.sourceHealth]}>{t(agent.sourceHealth)}</StatusBadge>
             </div>
-            <p className="mt-3 text-sm leading-6 text-slate-300">{agent.sourceDetail}</p>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{t(agent.sourceDetail)}</p>
           </div>
         </aside>
       </div>
@@ -520,9 +585,18 @@ function AgentDetail({ agent }: { agent: PrivateAgent }) {
   );
 }
 
-function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateAgent[]; activeAgent: PrivateAgent }) {
+function AgentOperationsMap({
+  agents,
+  activeAgent,
+  locale
+}: {
+  agents: readonly PrivateAgent[];
+  activeAgent: PrivateAgent;
+  locale: SiteLocale;
+}) {
   const sourceCounts = countBy(agents, (agent) => agent.sourceHealth);
   const leaseCounts = countBy(agents, (agent) => agent.leaseStatus);
+  const t = (value: string | undefined) => agentText(value, locale);
 
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1.1fr)_minmax(22rem,0.9fr)]">
@@ -532,14 +606,14 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
             <div className="flex items-center gap-2 text-sky-100">
               <Network size={22} aria-hidden />
               <h2 id="agent-lease-map-title" className="text-2xl font-semibold text-white">
-                Lease map
+                {t("Lease map")}
               </h2>
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-              A scan-first view of who is active, who needs review, and which lanes are intentionally queued.
+              {t("A scan-first view of who is active, who needs review, and which lanes are intentionally queued.")}
             </p>
           </div>
-          <StatusBadge tone="private">Owner controlled</StatusBadge>
+          <StatusBadge tone="private">{t("Owner controlled")}</StatusBadge>
         </div>
 
         <div className="mt-5 grid gap-3 lg:grid-cols-5">
@@ -547,10 +621,10 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
             const count = leaseCounts.get(status) ?? 0;
             return (
               <article key={status} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-                <StatusBadge tone={leaseStatusTone[status]}>{status}</StatusBadge>
+                <StatusBadge tone={leaseStatusTone[status]}>{t(status)}</StatusBadge>
                 <strong className="mt-4 block text-3xl font-semibold text-white">{count}</strong>
                 <p className="mt-2 text-xs leading-5 text-slate-400">
-                  {count === 1 ? "agent" : "agents"} currently in this posture.
+                  {locale === "zh" ? `${count} 个智能体处于这个状态。` : `${count === 1 ? "agent" : "agents"} currently in this posture.`}
                 </p>
               </article>
             );
@@ -574,13 +648,13 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
                     <Icon size={17} aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-white">{agent.name}</p>
-                    <p className="truncate text-xs text-slate-400">{agent.lease}</p>
+                    <p className="truncate text-sm font-semibold text-white">{t(agent.name)}</p>
+                    <p className="truncate text-xs text-slate-400">{t(agent.lease)}</p>
                   </div>
                 </div>
-                <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
-                <StatusBadge tone={leaseStatusTone[agent.leaseStatus]}>{agent.leaseStatus}</StatusBadge>
-                <StatusBadge tone={sourceHealthTone[agent.sourceHealth]}>{agent.sourceHealth}</StatusBadge>
+                <StatusBadge tone={agent.tone}>{t(agent.state)}</StatusBadge>
+                <StatusBadge tone={leaseStatusTone[agent.leaseStatus]}>{t(agent.leaseStatus)}</StatusBadge>
+                <StatusBadge tone={sourceHealthTone[agent.sourceHealth]}>{t(agent.sourceHealth)}</StatusBadge>
               </div>
             );
           })}
@@ -592,7 +666,7 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
           <div className="flex items-center gap-2 text-yellow-100">
             <Gauge size={22} aria-hidden />
             <h2 id="agent-source-map-title" className="text-2xl font-semibold text-white">
-              Source health
+              {t("Source health")}
             </h2>
           </div>
           <div className="mt-5 grid gap-3">
@@ -603,7 +677,7 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
               return (
                 <div key={source} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
                   <div className="flex items-center justify-between gap-3">
-                    <StatusBadge tone={sourceHealthTone[source]}>{source}</StatusBadge>
+                    <StatusBadge tone={sourceHealthTone[source]}>{t(source)}</StatusBadge>
                     <span className="text-sm font-semibold text-slate-300">
                       {count}/{agents.length}
                     </span>
@@ -621,7 +695,7 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
           <div className="flex items-center gap-2 text-sky-100">
             <Layers3 size={22} aria-hidden />
             <h2 id="agent-command-path-title" className="text-2xl font-semibold text-white">
-              Review paths
+              {t("Review paths")}
             </h2>
           </div>
           <div className="mt-5 grid gap-3">
@@ -629,21 +703,21 @@ function AgentOperationsMap({ agents, activeAgent }: { agents: readonly PrivateA
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2 text-sm font-semibold text-white">
                   <UserCheck size={17} aria-hidden />
-                  Open Command
+                  {t("Open Command")}
                 </span>
                 <ArrowRight className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />
               </div>
-              <p className="mt-2 text-xs leading-5 text-slate-400">Prepare a mission packet for the selected agent lane.</p>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{t("Prepare a mission packet for the selected agent lane.")}</p>
             </Link>
             <Link href="/app/review" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2 text-sm font-semibold text-white">
                   <ClipboardCheck size={17} aria-hidden />
-                  Open Review Queue
+                  {t("Open Review Queue")}
                 </span>
                 <ArrowRight className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />
               </div>
-              <p className="mt-2 text-xs leading-5 text-slate-400">Review owner-gated work before any future action path exists.</p>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{t("Review owner-gated work before any future action path exists.")}</p>
             </Link>
           </div>
         </section>
@@ -656,16 +730,19 @@ function AgentReviewDrilldown({
   agent,
   ownerPostures,
   postureChoice,
-  onPostureChoice
+  onPostureChoice,
+  locale
 }: {
   agent: PrivateAgent;
   ownerPostures: readonly AgentOwnerPosture[];
   postureChoice: string;
   onPostureChoice: (choice: string) => void;
+  locale: SiteLocale;
 }) {
-  const readinessRows = reviewRowsForAgent(agent);
-  const safeOutputs = safeOutputsForAgent(agent);
-  const selectedPosture = ownerPostures.find((posture) => posture.label === postureChoice) ?? ownerPostures[0];
+  const t = (value: string | undefined) => agentText(value, locale);
+  const readinessRows = reviewRowsForAgent(agent, locale);
+  const safeOutputs = safeOutputsForAgent(agent, locale);
+  const selectedPosture = ownerPostures.find((posture) => posture.key === postureChoice) ?? ownerPostures[0];
 
   return (
     <section className="panel p-5" aria-labelledby="agent-review-drilldown-title">
@@ -674,47 +751,46 @@ function AgentReviewDrilldown({
           <div className="flex items-center gap-2 text-yellow-100">
             <ClipboardCheck size={22} aria-hidden />
             <h2 id="agent-review-drilldown-title" className="text-2xl font-semibold text-white">
-              Owner review drilldown
+              {t("Owner review drilldown")}
             </h2>
           </div>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-            Decide how to read the selected agent lane. This inspector is local-only: it does not dispatch agents,
-            create tasks, publish notes, or promote leases.
+            {t("Decide how to read the selected agent lane. This inspector is local-only: it does not dispatch agents, create tasks, publish notes, or promote leases.")}
           </p>
         </div>
-        <StatusBadge tone="private">Local only</StatusBadge>
+        <StatusBadge tone="private">{t("Local only")}</StatusBadge>
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
         <article className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-5" aria-labelledby="agent-readiness-title">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase text-yellow-100">Selected lane</p>
+              <p className="text-xs font-bold uppercase text-yellow-100">{t("Selected lane")}</p>
               <h3 id="agent-readiness-title" className="mt-2 text-2xl font-semibold text-white">
-                {agent.name}
+                {t(agent.name)}
               </h3>
               <p className="mt-2 text-xs font-bold uppercase text-slate-400">
-                {agent.role}, {readinessLabel(readinessRows)}
+                {t(agent.role)}, {readinessLabel(readinessRows, locale)}
               </p>
             </div>
-            <StatusBadge tone={agent.tone}>{agent.state}</StatusBadge>
+            <StatusBadge tone={agent.tone}>{t(agent.state)}</StatusBadge>
           </div>
 
           <div className="mt-5 grid gap-4 md:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3">
             {readinessRows.map((row) => (
               <div key={`${agent.id}-${row.label}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h4 className="text-sm font-semibold text-white">{row.label}</h4>
-                  <StatusBadge tone={row.tone}>{row.state}</StatusBadge>
+                  <h4 className="text-sm font-semibold text-white">{t(row.label)}</h4>
+                  <StatusBadge tone={row.tone}>{t(row.state)}</StatusBadge>
                 </div>
-                <p className="mt-3 text-sm leading-6 text-slate-400">{row.detail}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-400">{t(row.detail)}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-4 rounded-[8px] border border-red-300/30 bg-red-400/8 p-4">
-            <h4 className="text-xs font-bold uppercase text-red-100">Guardrail</h4>
-            <p className="mt-2 text-sm leading-6 text-slate-300">{agent.guardrail}</p>
+            <h4 className="text-xs font-bold uppercase text-red-100">{t("Guardrail")}</h4>
+            <p className="mt-2 text-sm leading-6 text-slate-300">{t(agent.guardrail)}</p>
           </div>
         </article>
 
@@ -725,31 +801,31 @@ function AgentReviewDrilldown({
                 <div className="flex items-center gap-2 text-yellow-100">
                   <UserCheck size={17} aria-hidden />
                   <h3 id="agent-owner-posture-title" className="text-sm font-semibold text-white">
-                    Owner posture
+                    {t("Owner posture")}
                   </h3>
                 </div>
                 <p className="mt-2 text-xs leading-5 text-yellow-50/80">
-                  Choose a local reading posture for this agent. The choice is not saved or sent.
+                  {t("Choose a local reading posture for this agent. The choice is not saved or sent.")}
                 </p>
               </div>
-              <StatusBadge tone="private">No dispatch</StatusBadge>
+              <StatusBadge tone="private">{t("No dispatch")}</StatusBadge>
             </div>
             {selectedPosture ? (
               <p className="sr-only" aria-live="polite">
-                {agent.name} posture: {selectedPosture.label}. {selectedPosture.next}
+                {t(agent.name)} {t("posture")}: {selectedPosture.label}. {selectedPosture.next}
               </p>
             ) : null}
 
             <div className="mt-4 grid gap-2">
               {ownerPostures.map((posture) => {
-                const active = posture.label === selectedPosture?.label;
+                const active = posture.key === selectedPosture?.key;
 
                 return (
                   <button
-                    key={postureChoiceKey(agent.id, posture.label)}
+                    key={postureChoiceKey(agent.id, posture.key)}
                     type="button"
                     aria-pressed={active}
-                    onClick={() => onPostureChoice(posture.label)}
+                    onClick={() => onPostureChoice(posture.key)}
                     className={`link-focus rounded-[8px] border p-3 text-left transition ${
                       active
                         ? "border-yellow-100/65 bg-yellow-200/14 text-white"
@@ -768,25 +844,25 @@ function AgentReviewDrilldown({
 
             {selectedPosture ? (
               <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
-                <h4 className="text-xs font-bold uppercase text-slate-400">If selected</h4>
+                <h4 className="text-xs font-bold uppercase text-slate-400">{t("If selected")}</h4>
                 <p className="mt-2 text-sm leading-6 text-slate-300">{selectedPosture.next}</p>
               </div>
             ) : null}
           </section>
 
           <section className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-            <h3 className="text-sm font-semibold text-white">Safe outputs</h3>
+            <h3 className="text-sm font-semibold text-white">{t("Safe outputs")}</h3>
             <div className="mt-3 grid gap-2">
               {safeOutputs.map((output) => (
                 <div key={`${agent.id}-${output.label}`} className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-2 text-sm font-semibold text-white">
                       <CheckCircle2 size={15} aria-hidden />
-                      {output.label}
+                      {t(output.label)}
                     </span>
-                    <StatusBadge tone={output.tone}>{output.state}</StatusBadge>
+                    <StatusBadge tone={output.tone}>{t(output.state)}</StatusBadge>
                   </div>
-                  <p className="mt-2 text-xs leading-5 text-slate-400">{output.detail}</p>
+                  <p className="mt-2 text-xs leading-5 text-slate-400">{t(output.detail)}</p>
                 </div>
               ))}
             </div>
@@ -799,11 +875,15 @@ function AgentReviewDrilldown({
 
 function CoverageAndBoundary({
   coverage,
-  boundary
+  boundary,
+  locale
 }: {
   coverage: readonly PrivateAgentCoverageLane[];
   boundary: readonly string[];
+  locale: SiteLocale;
 }) {
+  const t = (value: string | undefined) => agentText(value, locale);
+
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
       <section className="panel p-5" aria-labelledby="agent-coverage-title">
@@ -812,14 +892,14 @@ function CoverageAndBoundary({
             <div className="flex items-center gap-2 text-sky-100">
               <Waypoints size={22} aria-hidden />
               <h2 id="agent-coverage-title" className="text-2xl font-semibold text-white">
-                Coverage lanes
+                {t("Coverage lanes")}
               </h2>
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-              The roster is useful only when every lane says who owns the next review and what evidence is missing.
+              {t("The roster is useful only when every lane says who owns the next review and what evidence is missing.")}
             </p>
           </div>
-          <StatusBadge tone="info">Review map</StatusBadge>
+          <StatusBadge tone="info">{t("Review map")}</StatusBadge>
         </div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
@@ -832,11 +912,11 @@ function CoverageAndBoundary({
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <StatusBadge tone={lane.tone}>{lane.state}</StatusBadge>
+                <StatusBadge tone={lane.tone}>{t(lane.state)}</StatusBadge>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-white">{lane.label}</h3>
-              <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{lane.owner}</p>
-              <p className="mt-3 text-sm leading-6 text-slate-300">{lane.detail}</p>
+              <h3 className="mt-4 text-lg font-semibold text-white">{t(lane.label)}</h3>
+              <p className="mt-1 text-xs font-bold uppercase text-yellow-100">{t(lane.owner)}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{t(lane.detail)}</p>
             </article>
           ))}
         </div>
@@ -846,14 +926,14 @@ function CoverageAndBoundary({
         <div className="flex items-center gap-2 text-yellow-100">
           <ShieldCheck size={22} aria-hidden />
           <h2 id="agent-boundary-title" className="text-2xl font-semibold text-white">
-            Boundary
+            {t("Boundary")}
           </h2>
         </div>
         <ul className="mt-5 grid gap-3">
           {boundary.map((item) => (
             <li key={item} className="flex gap-3 rounded-[8px] border border-slate-700 bg-white/[0.045] p-3 text-sm leading-6 text-slate-300">
               <CheckCircle2 className="mt-1 shrink-0 text-sky-100" size={16} aria-hidden />
-              <span>{item}</span>
+              <span>{t(item)}</span>
             </li>
           ))}
         </ul>
@@ -865,12 +945,15 @@ function CoverageAndBoundary({
 function HandoffsAndQueue({
   activeAgent,
   handoffs,
-  reviewQueue
+  reviewQueue,
+  locale
 }: {
   activeAgent: PrivateAgent;
   handoffs: readonly PrivateAgentHandoff[];
   reviewQueue: readonly ReviewQueuePreviewItem[];
+  locale: SiteLocale;
 }) {
+  const t = (value: string | undefined) => agentText(value, locale);
   const relatedHandoffs = handoffs.filter(
     (handoff) => handoff.fromAgentId === activeAgent.id || handoff.toAgentId === activeAgent.id
   );
@@ -883,15 +966,14 @@ function HandoffsAndQueue({
             <div className="flex items-center gap-2 text-sky-100">
               <Radio size={22} aria-hidden />
               <h2 id="agent-handoff-title" className="text-2xl font-semibold text-white">
-                Handoffs
+                {t("Handoffs")}
               </h2>
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-              Recent coordination chain for the selected agent. Empty states are explicit when no direct handoff has
-              been recorded for this slice.
+              {t("Recent coordination chain for the selected agent. Empty states are explicit when no direct handoff has been recorded for this slice.")}
             </p>
           </div>
-          <StatusBadge tone="private">No dispatch</StatusBadge>
+          <StatusBadge tone="private">{t("No dispatch")}</StatusBadge>
         </div>
 
         {relatedHandoffs.length > 0 ? (
@@ -899,22 +981,21 @@ function HandoffsAndQueue({
             {relatedHandoffs.map((handoff) => (
               <article key={`${handoff.time}-${handoff.from}-${handoff.to}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-sm font-semibold text-white">{handoff.time}</h3>
-                  <StatusBadge tone={handoff.tone}>{handoff.state}</StatusBadge>
+                  <h3 className="text-sm font-semibold text-white">{t(handoff.time)}</h3>
+                  <StatusBadge tone={handoff.tone}>{t(handoff.state)}</StatusBadge>
                 </div>
                 <p className="mt-2 text-xs font-bold uppercase text-yellow-100">
-                  {handoff.from} to {handoff.to}
+                  {locale === "zh" ? `${t(handoff.from)} → ${t(handoff.to)}` : `${handoff.from} to ${handoff.to}`}
                 </p>
-                <p className="mt-3 text-sm leading-6 text-slate-300">{handoff.summary}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-300">{t(handoff.summary)}</p>
               </article>
             ))}
           </div>
         ) : (
           <div className="mt-5 rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
-            <p className="text-sm font-semibold text-white">No direct handoff recorded.</p>
+            <p className="text-sm font-semibold text-white">{t("No direct handoff recorded.")}</p>
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              This agent has no direct handoff in the current slice evidence. Keep the lease visible, but do not invent a
-              coordination chain.
+              {t("This agent has no direct handoff in the current slice evidence. Keep the lease visible, but do not invent a coordination chain.")}
             </p>
           </div>
         )}
@@ -924,25 +1005,25 @@ function HandoffsAndQueue({
         <div className="flex items-center gap-2 text-yellow-100">
           <ClipboardCheck size={22} aria-hidden />
           <h2 id="agent-review-title" className="text-2xl font-semibold text-white">
-            Review queue
+            {t("Review queue")}
           </h2>
         </div>
         <div className="mt-5 grid gap-3">
           {reviewQueue.slice(0, REVIEW_QUEUE_PREVIEW_LIMIT).map((item) => (
             <article key={item.title} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <h3 className="text-sm font-semibold text-white">{item.title}</h3>
-                <StatusBadge tone={item.tone}>{item.decision}</StatusBadge>
+                <h3 className="text-sm font-semibold text-white">{t(item.title)}</h3>
+                <StatusBadge tone={item.tone}>{t(item.decision)}</StatusBadge>
               </div>
               <p className="mt-2 text-xs font-bold uppercase text-slate-400">
-                {item.urgency} - {item.agent}
+                {t(item.urgency)} - {t(item.agent)}
               </p>
-              <p className="mt-2 text-xs leading-5 text-slate-400">{item.note}</p>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{t(item.note)}</p>
             </article>
           ))}
         </div>
         <Link href="/app/review" className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100 hover:text-white">
-          Open Review Queue
+          {t("Open Review Queue")}
           <LineChart size={15} aria-hidden />
         </Link>
       </aside>
@@ -958,6 +1039,8 @@ export function PrivateAgentsSurface({
   handoffs,
   reviewQueue
 }: PrivateAgentsSurfaceProps) {
+  const { locale } = useLanguage();
+  const t = (value: string | undefined) => agentText(value, locale);
   const [activeAgentId, setActiveAgentId] = useState(agents[0]?.id ?? "");
   const [postureChoices, setPostureChoices] = useState<Partial<Record<PrivateAgent["id"], string>>>({});
   const activeAgent = useMemo(
@@ -969,8 +1052,8 @@ export function PrivateAgentsSurface({
     return null;
   }
 
-  const activePostures = ownerPosturesForAgent(activeAgent);
-  const postureChoice = postureChoices[activeAgent.id] ?? activePostures[0]?.label ?? "";
+  const activePostures = ownerPosturesForAgent(activeAgent, locale);
+  const postureChoice = postureChoices[activeAgent.id] ?? activePostures[0]?.key ?? "";
 
   function handlePostureChoice(choice: string) {
     setPostureChoices((current) => ({
@@ -980,8 +1063,8 @@ export function PrivateAgentsSurface({
   }
 
   return (
-    <div className="grid gap-5">
-      <HeroPanel activeAgent={activeAgent} metrics={metrics} />
+    <div className="grid gap-5" data-i18n-skip>
+      <HeroPanel activeAgent={activeAgent} metrics={metrics} locale={locale} />
 
       <section className="panel-quiet p-4" aria-labelledby="minidora-roster-title">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3 px-1">
@@ -989,14 +1072,14 @@ export function PrivateAgentsSurface({
             <div className="flex items-center gap-2 text-sky-100">
               <Bot size={22} aria-hidden />
               <h2 id="minidora-roster-title" className="text-2xl font-semibold text-white">
-                MiniDora roster
+                {t("MiniDora roster")}
               </h2>
             </div>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
-              Select an agent to inspect its lease, recent history, inputs, outputs, source posture, and guardrail.
+              {t("Select an agent to inspect its lease, recent history, inputs, outputs, source posture, and guardrail.")}
             </p>
           </div>
-          <StatusBadge tone="info">Interactive inspector</StatusBadge>
+          <StatusBadge tone="info">{t("Interactive inspector")}</StatusBadge>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {agents.map((agent) => (
@@ -1005,21 +1088,23 @@ export function PrivateAgentsSurface({
               agent={agent}
               active={agent.id === activeAgent.id}
               onSelect={() => setActiveAgentId(agent.id)}
+              locale={locale}
             />
           ))}
         </div>
       </section>
 
-      <AgentOperationsMap agents={agents} activeAgent={activeAgent} />
+      <AgentOperationsMap agents={agents} activeAgent={activeAgent} locale={locale} />
       <AgentReviewDrilldown
         agent={activeAgent}
         ownerPostures={activePostures}
         postureChoice={postureChoice}
         onPostureChoice={handlePostureChoice}
+        locale={locale}
       />
-      <AgentDetail agent={activeAgent} />
-      <CoverageAndBoundary coverage={coverage} boundary={boundary} />
-      <HandoffsAndQueue activeAgent={activeAgent} handoffs={handoffs} reviewQueue={reviewQueue} />
+      <AgentDetail agent={activeAgent} locale={locale} />
+      <CoverageAndBoundary coverage={coverage} boundary={boundary} locale={locale} />
+      <HandoffsAndQueue activeAgent={activeAgent} handoffs={handoffs} reviewQueue={reviewQueue} locale={locale} />
     </div>
   );
 }

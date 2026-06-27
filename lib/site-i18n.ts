@@ -742,6 +742,375 @@ const exactZhTranslations = {
   "Evidence checks": "证据检查",
   "Required before PR/deploy": "PR / 部署前必须具备",
   "No dispatch in this slice": "此切片不派发",
+
+  "Agent operations": "智能体运行",
+  "Read-only roster": "只读花名册",
+  "Private MiniDora roster": "私密 MiniDora 花名册",
+  "MiniDora Agents": "MiniDora 智能体",
+  "Inspect the team behind the Personal OS: current leases, source health, recent outputs, handoffs, and guardrails. Intelligence without execution. You approve the work.":
+    "检查 Personal OS 背后的团队：当前 lease、来源健康、近期输出、交接和护栏。智能可以可见，但不执行；工作由你批准。",
+  "Doraemon coordinates": "Doraemon 统筹",
+  "MiniDoras prepare": "MiniDoras 准备",
+  "Owner decides": "本人决策",
+  "Active selection": "当前选择",
+  "Current lease": "当前 lease",
+  "Last output": "最近输出",
+  "Guardrail": "护栏",
+  "Lease": "Lease",
+  "Agent detail": "智能体详情",
+  "State history": "状态历史",
+  "Inputs watched": "观察输入",
+  "Outputs prepared": "准备输出",
+  "Capabilities": "能力",
+  "Lease map": "Lease 地图",
+  "A scan-first view of who is active, who needs review, and which lanes are intentionally queued.":
+    "一眼扫描谁在活跃、谁需要审核，以及哪些通道被有意排队。",
+  "Owner controlled": "本人控制",
+  "Review paths": "审核路径",
+  "Prepare a mission packet for the selected agent lane.":
+    "为选中的智能体通道准备任务包。",
+  "Open Review Queue": "打开审核队列",
+  "Review owner-gated work before any future action path exists.":
+    "在任何未来动作路径存在前，先审核需要本人把关的工作。",
+  "Owner review drilldown": "本人审核下钻",
+  "Decide how to read the selected agent lane. This inspector is local-only: it does not dispatch agents, create tasks, publish notes, or promote leases.":
+    "决定如何阅读选中的智能体通道。这个检查器仅本地生效：不派发智能体、不创建任务、不发布笔记，也不推进 lease。",
+  "Selected lane": "选中通道",
+  "Lease posture": "Lease 状态",
+  "History trail": "历史轨迹",
+  "Recent state history is visible for owner review.":
+    "近期状态历史可供本人审核。",
+  "No history is available for this agent.": "此智能体暂无历史。",
+  "Owner posture": "本人阅读姿态",
+  "Choose a local reading posture for this agent. The choice is not saved or sent.":
+    "为这个智能体选择一个本地阅读姿态；选择不会保存或发送。",
+  "posture": "姿态",
+  "If selected": "如果选择",
+  "Safe outputs": "安全输出",
+  "Owner brief": "本人简报",
+  "Allowed": "允许",
+  "Review queue": "审核队列",
+  "Review queue note": "审核队列备注",
+  "A decision packet can point to the Review Queue after explicit owner review.":
+    "经过明确本人审核后，决策包可以指向审核队列。",
+  "Dispatch": "派发",
+  "This page has no execute, approve, publish, trade, or dispatch control.":
+    "此页没有执行、批准、发布、交易或派发控制。",
+  "Coverage lanes": "覆盖通道",
+  "The roster is useful only when every lane says who owns the next review and what evidence is missing.":
+    "只有每个通道都说明下一次审核由谁负责、缺少什么证据，花名册才真正有用。",
+  "Review map": "审核地图",
+  "Recent coordination chain for the selected agent. Empty states are explicit when no direct handoff has been recorded for this slice.":
+    "选中智能体的近期协同链。如果当前切片没有直接交接，会明确显示空状态。",
+  "No direct handoff recorded.": "暂无直接交接记录。",
+  "This agent has no direct handoff in the current slice evidence. Keep the lease visible, but do not invent a coordination chain.":
+    "当前切片证据中没有这个智能体的直接交接。保持 lease 可见，但不编造协同链。",
+  "MiniDora roster": "MiniDora 花名册",
+  "Select an agent to inspect its lease, recent history, inputs, outputs, source posture, and guardrail.":
+    "选择一个智能体，检查它的 lease、近期历史、输入、输出、来源状态和护栏。",
+  "Interactive inspector": "交互式检查器",
+  "Good": "良好",
+  "Degraded": "降级",
+  "Active lease": "活跃 lease",
+  "Review lease": "审核 lease",
+  "Queued lease": "排队 lease",
+  "Idle lease": "空闲 lease",
+  "Implementation": "实现",
+  "Reviewing": "审核中",
+  "Idle": "空闲",
+  "Roster": "花名册",
+  "Doraemon plus MiniDoras": "Doraemon 加 MiniDoras",
+  "Active leases": "活跃 lease",
+  "Active or review leases": "活跃或审核中的 lease",
+  "Owner gates": "本人门禁",
+  "Owner-gated agent leases": "需要本人把关的智能体 lease",
+  "Executions": "执行",
+  "No dispatch path in this surface": "此界面没有派发路径",
+  "Direction": "方向",
+  "Keeps the rollout, scope, and review loop coherent.":
+    "保持落地节奏、范围和审核循环一致。",
+  "Turns approved slices into native, verified web surfaces.":
+    "把已批准的切片变成原生、经过验证的网页界面。",
+  "Collects proof, gaps, and boundary risks before PR/deploy.":
+    "在 PR / 部署前收集证据、缺口和边界风险。",
+  "Keeps market work research-only and evidence-first.":
+    "让市场工作保持仅研究、证据优先。",
+  "Owner-only route protected before the private shell renders.":
+    "私密外壳渲染前，Owner-only 路由已被保护。",
+  "Agent data is curated private mock state until authenticated APIs exist.":
+    "在认证 API 存在前，智能体数据是精选的私密 mock 状态。",
+  "Public Doraemon pages must continue to use sanitized public schemas only.":
+    "公开 Doraemon 页面必须继续只使用脱敏后的公开 schema。",
+  "Rollout conductor": "落地指挥",
+  "Keep Personal OS implementation moving one reviewed slice at a time.":
+    "让 Personal OS 按一次一个已审核切片持续推进。",
+  "Translate owner intent into bounded work, route it to the right MiniDora, and keep review gates visible.":
+    "把本人意图转成有边界的工作，路由给合适的 MiniDora，并保持审核门禁可见。",
+  "Plan slicing": "计划拆片",
+  "handoff design": "交接设计",
+  "review summaries": "审核摘要",
+  "boundary memory": "边界记忆",
+  "Kept the rollout moving slice by slice with Opus review after each step.":
+    "每一步都经过 Opus review 后，持续按切片推进落地。",
+  "Docs, local build output, browser checks, and review packets are available.":
+    "文档、本地构建输出、浏览器检查和 review 包都可用。",
+  "Just now": "刚刚",
+  "Confirm the current Agents slice after local evidence and Opus review.":
+    "在本地证据和 Opus review 后确认当前 Agents 切片。",
+  "Owner instruction": "本人指令",
+  "Personal OS docs": "Personal OS 文档",
+  "previous review findings": "此前 review 发现",
+  "slice brief": "切片简报",
+  "handoff packet": "交接包",
+  "risk notes": "风险记录",
+  "Cannot approve its own work or bypass owner review.":
+    "不能批准自己的工作，也不能绕过本人审核。",
+  "Agents slice in motion": "Agents 切片推进中",
+  "Routing this owner-only roster through implementation, verification, and Opus review.":
+    "正在让这个仅本人可见的花名册完成实现、验证和 Opus review。",
+  "Command surface closed": "Command 界面已收口",
+  "Merged the owner command surface after local QA and Claude review.":
+    "在本地 QA 和 Claude review 后合入了私密 Command 界面。",
+  "Trading boundary held": "交易边界保持住",
+  "Kept market research inside a research-only cockpit with no execution path.":
+    "把市场研究保持在仅研究驾驶舱内，没有执行路径。",
+  "Frontend surface polish": "前端界面打磨",
+  "Turn the private Agents page into a useful team operations surface.":
+    "把私密 Agents 页面打磨成有用的团队运行界面。",
+  "Build native Next.js interfaces that preserve auth, public/private boundaries, and deployability.":
+    "构建原生 Next.js 界面，同时保留认证、公开 / 私密边界和可部署性。",
+  "Next.js surfaces": "Next.js 界面",
+  "route wiring": "路由接线",
+  "browser QA": "浏览器 QA",
+  "production smoke": "生产 smoke",
+  "Built native Doraemon Office, Owner Today, Trading Team, and Command surfaces.":
+    "已构建原生 Doraemon Office、Owner Today、Trading Team 和 Command 界面。",
+  "Code and verification artifacts are local to the protected worktree.":
+    "代码和验证产物都位于受保护的本地工作区。",
+  "This session": "本轮会话",
+  "Attach build, route, leak, and visual evidence before merge.":
+    "合并前附上构建、路由、泄漏探针和视觉证据。",
+  "repo state": "仓库状态",
+  "design docs": "设计文档",
+  "local QA": "本地 QA",
+  "component diff": "组件 diff",
+  "verification log": "验证日志",
+  "deployment notes": "部署记录",
+  "No hidden write path, dispatch button, or private API is added in UI-only slices.":
+    "UI-only 切片不会加入隐藏写入路径、派发按钮或私密 API。",
+  "Roster interface polish": "花名册界面打磨",
+  "Building the private MiniDora roster into a scan-first team control panel.":
+    "正在把私密 MiniDora 花名册打磨成可快速扫描的团队控制面板。",
+  "Command QA packet": "Command QA 包",
+  "Produced build, route, browser, and leak evidence for the command surface.":
+    "为 Command 界面产出了构建、路由、浏览器和泄漏探针证据。",
+  "Owner Today surface": "Owner Today 界面",
+  "Connected daily priorities, review pressure, and command shortcuts.":
+    "连接了每日优先级、审核压力和指挥快捷入口。",
+  "Experience coherence": "体验一致性",
+  "Keep the private cockpit consistent with the public Doraemon story and Owner Cockpit IA.":
+    "让私密驾驶舱与公开 Doraemon 故事和 Owner Cockpit 信息架构保持一致。",
+  "Translate the Personal OS blueprint into page responsibilities, acceptance checks, and interface hierarchy.":
+    "把 Personal OS 蓝图转成页面职责、验收检查和界面层级。",
+  "IA alignment": "IA 对齐",
+  "copy clarity": "文案清晰度",
+  "acceptance gates": "验收门禁",
+  "scope control": "范围控制",
+  "Kept Command, Today, Trading, and Agents aligned with the source-of-truth docs.":
+    "让 Command、Today、Trading 和 Agents 与 source-of-truth 文档保持一致。",
+  "Product docs and implementation evidence are available for this slice.":
+    "这个切片已有产品文档和实现证据。",
+  "Check whether the Agents page now answers roster, lease, source-health, and handoff questions.":
+    "检查 Agents 页面是否已经回答花名册、lease、来源健康和交接问题。",
+  "IA": "IA",
+  "design brief": "设计简报",
+  "auth spec": "认证规格",
+  "page intent": "页面意图",
+  "copy constraints": "文案约束",
+  "review checklist": "review 清单",
+  "Cannot expand a slice into execution, publishing, or broker behavior.":
+    "不能把一个切片扩展成执行、发布或券商行为。",
+  "Team surface acceptance": "团队界面验收",
+  "Checking that roster, history, capabilities, leases, and source health are all visible.":
+    "正在检查花名册、历史、能力、lease 和来源健康是否都可见。",
+  "Command hierarchy review": "Command 层级审核",
+  "Kept mission drafting separate from hidden execution.":
+    "保持任务起草与隐藏执行分离。",
+  "Public Office alignment": "公开 Office 对齐",
+  "Made the public Doraemon story line up with private cockpit vocabulary.":
+    "让公开 Doraemon 故事与私密驾驶舱词汇对齐。",
+  "Spec alignment": "规格对齐",
+  "Trace every private Agents field back to a documented purpose or a safe mock source.":
+    "把每个私密 Agents 字段追溯到文档目的或安全 mock 来源。",
+  "Collect evidence, compare it with the design contract, and flag missing proof before owner decisions.":
+    "收集证据、对照设计契约，并在本人决策前标出缺失证明。",
+  "Design-doc traceability": "设计文档追溯",
+  "boundary review": "边界审核",
+  "source synthesis": "来源综合",
+  "evidence summaries": "证据摘要",
+  "Mapped each private surface back to Personal OS docs before implementation.":
+    "实现前已把每个私密界面映射回 Personal OS 文档。",
+  "Current docs are complete enough for scaffolds; live sources are not connected.":
+    "当前文档足以支撑脚手架；实时来源尚未连接。",
+  "Verify the page says what evidence exists and what remains mocked.":
+    "验证页面是否说明了哪些证据存在、哪些仍是 mock。",
+  "docs": "文档",
+  "review notes": "review 记录",
+  "route smoke": "路由 smoke",
+  "evidence packet": "证据包",
+  "gap list": "缺口清单",
+  "source posture": "来源状态",
+  "No private source documents or raw memory records are rendered.":
+    "不渲染私密来源文档或原始记忆记录。",
+  "Evidence posture check": "证据状态检查",
+  "Separating verified local evidence from intentionally mocked cockpit state.":
+    "区分已验证的本地证据和有意 mock 的驾驶舱状态。",
+  "Leak probe reviewed": "泄漏探针已审核",
+  "Confirmed private command copy did not appear on unauthenticated login routes.":
+    "确认私密 Command 文案不会出现在未认证登录路由。",
+  "Research-only claim traced": "仅研究声明已追溯",
+  "Matched trading copy to the research-only contract.":
+    "已把交易文案与仅研究契约对齐。",
+  "Research-only console": "仅研究控制台",
+  "Keep market research visible without creating order, broker, or recommendation paths.":
+    "让市场研究可见，但不创建订单、券商或建议路径。",
+  "Organize signals, disagreement, source degradation, and replay evidence for owner interpretation.":
+    "整理信号、分歧、来源降级和回放证据，供本人解读。",
+  "Evidence gates": "证据门禁",
+  "desk disagreement": "研究台分歧",
+  "source degradation": "来源降级",
+  "research replay": "研究回放",
+  "Upgraded trading into a research cockpit with no execution affordance.":
+    "把交易研究升级为研究驾驶舱，不提供执行入口。",
+  "Market data and broker connections are intentionally absent from this web surface.":
+    "此网页界面有意不连接市场数据和券商。",
+  "Recent slice": "近期切片",
+  "Keep the research-only disclaimer visible wherever trading appears.":
+    "凡是出现交易研究，都保持仅研究免责声明可见。",
+  "curated signal mocks": "精选信号 mock",
+  "research boundary": "研究边界",
+  "source-health notes": "来源健康记录",
+  "research posture": "研究状态",
+  "evidence gate": "证据门禁",
+  "risk summary": "风险摘要",
+  "Owner-gated market lane": "本人把关的市场通道",
+  "Visible in the roster, but intentionally separated from broker or order workflows.":
+    "在花名册中可见，但有意与券商或订单工作流分离。",
+  "Research cockpit passed": "研究驾驶舱已通过",
+  "Evidence, disagreement, and replay stayed research-only.":
+    "证据、分歧和回放都保持仅研究。",
+  "Live data deferred": "实时数据暂缓",
+  "Market and broker connections remain absent from this web surface.":
+    "此网页界面仍不包含市场和券商连接。",
+  "Schedule and health surfaces": "日程和健康界面",
+  "Prepare the future Schedules and System Health cockpit slices.":
+    "准备未来的 Schedules 和 System Health 驾驶舱切片。",
+  "Turn recurring rhythms and system status into calm, reviewable owner dashboards.":
+    "把周期节奏和系统状态转成冷静、可审核的本人仪表盘。",
+  "schedule rhythm": "日程节奏",
+  "system posture": "系统状态",
+  "health summaries": "健康摘要",
+  "runbook notes": "运行手册记录",
+  "Outlined where schedules, system health, and route smokes belong in the Owner Cockpit.":
+    "已梳理日程、系统健康和路由 smoke 在 Owner Cockpit 中的位置。",
+  "Cron and runtime sources are intentionally not connected to this page yet.":
+    "cron 和运行时来源尚未连接到此页面，这是有意的。",
+  "Define read-only schedule evidence before any private endpoint exists.":
+    "在任何私密端点存在前，先定义只读日程证据。",
+  "operating rhythm": "运行节奏",
+  "system health mocks": "系统健康 mock",
+  "acceptance checks": "验收检查",
+  "schedule view": "日程视图",
+  "health view": "健康视图",
+  "ops handoff": "运维交接",
+  "No cron command strings, ports, local paths, or restart controls are displayed.":
+    "不展示 cron 命令字符串、端口、本地路径或重启控制。",
+  "Schedules slice waiting": "Schedules 切片等待中",
+  "Needs a read-only evidence plan before runtime sources are connected.":
+    "连接运行时来源前，需要只读证据计划。",
+  "System health preview": "系统健康预览",
+  "Kept owner cockpit status calm and route-protected.":
+    "保持 Owner Cockpit 状态冷静且受路由保护。",
+  "Future": "未来",
+  "Operational endpoints not wired": "运维端点未接线",
+  "No restart controls, cron commands, ports, or local paths are rendered.":
+    "不渲染重启控制、cron 命令、端口或本地路径。",
+  "Context preservation": "上下文保存",
+  "Keep future Knowledge Vault work separate from public pages and owner-only notes.":
+    "让未来 Knowledge Vault 工作与公开页面、仅本人笔记保持分离。",
+  "Preserve context, decisions, and reusable knowledge without leaking private memory into public bundles.":
+    "保存上下文、决策和可复用知识，同时不把私密记忆泄漏进公开 bundle。",
+  "context retrieval": "上下文检索",
+  "decision history": "决策历史",
+  "knowledge synthesis": "知识综合",
+  "privacy checks": "隐私检查",
+  "Defined that public Knowledge pages show only curated synthesis, not raw vault material.":
+    "已定义公开 Knowledge 页面只展示精选综合，不展示原始 vault 材料。",
+  "Private vault content is not exposed through this static cockpit slice.":
+    "私密 vault 内容不会通过这个静态驾驶舱切片暴露。",
+  "Design Knowledge Vault evidence before connecting private sources.":
+    "连接私密来源前，先设计 Knowledge Vault 证据。",
+  "curated notes": "精选笔记",
+  "decision logs": "决策日志",
+  "public/private contract": "公开 / 私密契约",
+  "context brief": "上下文简报",
+  "memory boundary": "记忆边界",
+  "knowledge checklist": "知识清单",
+  "No raw private vault pages, source files, or memory records appear in the UI.":
+    "UI 中不出现原始私密 vault 页面、源文件或记忆记录。",
+  "Knowledge Vault deferred": "Knowledge Vault 暂缓",
+  "Waiting for a dedicated private knowledge slice.":
+    "等待专门的私密知识切片。",
+  "Public boundary defined": "公开边界已定义",
+  "Public knowledge pages stay curated and never expose raw vault material.":
+    "公开知识页面保持精选，永不暴露原始 vault 材料。",
+  "Memory sources not connected": "记忆来源未连接",
+  "Private memory records are not available through this static cockpit.":
+    "私密记忆记录不会通过这个静态驾驶舱提供。",
+  "Visual asset strategy": "视觉资产策略",
+  "Prepare a future asset pass for the Apple-like Personal OS and Doraemon Office visuals.":
+    "为未来苹果式 Personal OS 和 Doraemon Office 视觉资产打样做准备。",
+  "Create public-safe visuals that feel alive while keeping source asset collections replaceable and private.":
+    "创建有生命力的公开安全视觉，同时让源资产集合保持私密且可替换。",
+  "Image workflows": "图像工作流",
+  "story assets": "叙事资产",
+  "public-safe presentation": "公开安全呈现",
+  "asset replacement": "资产替换",
+  "Waiting for a future visual asset pass after the core cockpit surfaces stabilize.":
+    "等待核心驾驶舱界面稳定后再进行未来视觉资产打样。",
+  "No source asset library is exposed through the web app.":
+    "网页应用不暴露源资产库。",
+  "Generate and review assets only when the target page direction is fixed.":
+    "仅在目标页面方向固定后再生成并审核资产。",
+  "visual brief": "视觉简报",
+  "approved references": "已批准参考",
+  "asset policy": "资产策略",
+  "concept frames": "概念画面",
+  "runtime assets": "运行时资产",
+  "replacement notes": "替换记录",
+  "Raw/source asset collections stay private and takedown-friendly.":
+    "原始 / 源资产集合保持私密，并便于下架。",
+  "Asset pass waiting": "资产打样等待中",
+  "Visual exploration waits until the target surface is stable enough to judge.":
+    "视觉探索会等到目标界面足够稳定、可以判断时再开始。",
+  "Apple-like direction captured": "苹果式方向已记录",
+  "Personal site direction moved toward premium, minimal, alive interfaces.":
+    "个人网站方向已转向高级、简约、有生命力的界面。",
+  "Raw assets remain private": "原始资产保持私密",
+  "Runtime visuals should stay replaceable and source collections stay outside public repos.":
+    "运行时视觉应保持可替换，源集合留在公开仓库之外。",
+  "Doraemon Office first screen passed review after P2 fixes.":
+    "Doraemon Office 第一屏在 P2 修复后通过 review。",
+  "Codex": "Codex",
+  "Opus": "Opus",
+  "Owner Today passed after the complete packet proved auth and routes.":
+    "完整证据包证明认证和路由后，Owner Today 通过 review。",
+  "Trading Team passed as research-only with no execution controls.":
+    "Trading Team 以仅研究且无执行控制的状态通过 review。",
+  "Command Surface passed after removing the accessibility textbox role.":
+    "移除可访问性 textbox role 后，Command Surface 通过 review。",
+  "Private Agents and Review Queue are being shaped into cockpit surfaces.":
+    "Private Agents 和 Review Queue 正在被塑造成驾驶舱界面。",
   "Weiyu AI": "Weiyu AI",
   "A personal AI lab where one human sets direction and a coordinated agent system supports research, building, and review.":
     "一个个人 AI 实验室：由一个人设定方向，协同智能体系统支持研究、构建与复盘。",
