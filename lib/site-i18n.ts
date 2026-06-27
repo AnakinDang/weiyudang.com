@@ -557,6 +557,191 @@ const exactZhTranslations = {
     "打开仅研究控制台，查看门禁、证据和来源降级。",
   "Review private synthesis layers before anything is curated for public publishing.":
     "任何内容进入公开精选前，先审核私密综合层。",
+  "Draft-only": "仅草稿",
+  "No dispatch": "不派发",
+  "Not connected": "未连接运行时",
+  "Authenticated private surface": "已认证的私密界面",
+  "Owner Command": "私密指挥",
+  "Draft a mission before anything moves. Command is the owner-level surface for shaping intent, previewing a plan, and preparing the exact review packet that must pass before implementation, publishing, or runtime work happens.":
+    "在任何动作发生前先起草任务。Command 是本人级指挥界面，用来塑造意图、预览计划，并准备实施、发布或运行时工作开始前必须通过的审核包。",
+  "Draft pad": "草稿板",
+  "Owner command draft": "私密指挥草稿",
+  "Describe intent, constraints, evidence needed, and review gates.":
+    "描述意图、约束、所需证据和审核门禁。",
+  "Prepare packet": "准备审核包",
+  "Reset": "重置",
+  "Dispatch unavailable": "派发不可用",
+  "Command context lens selector": "指挥上下文视角选择器",
+  "Active lens": "当前视角",
+  "Plan preview": "计划预览",
+  "Five gates before work moves.": "工作推进前有五道门禁。",
+  "A command becomes a staged plan before it becomes implementation. Interpretation, design, implementation, verification, and review stay separate.":
+    "一条指令先变成分阶段计划，再进入实现。理解、设计、实现、验证和审核保持分离。",
+  "Owner checkpoints": "本人检查点",
+  "The command surface separates allowed review from blocked execution so the next decision is obvious.":
+    "指挥界面把可做的审核和被阻止的执行分开，让下一步决策清清楚楚。",
+  "No command execution": "不执行指令",
+  "This cockpit can prepare a command packet only. It cannot dispatch tools, mutate files, publish, or approve itself.":
+    "这个驾驶舱只能准备指令审核包。它不能派发工具、修改文件、发布内容，也不能自我批准。",
+  "Agent routing": "智能体路由",
+  "The command surface shows who owns the next decision instead of hiding responsibility behind a single assistant response.":
+    "指挥界面展示下一步由谁负责，而不是把责任藏在一次助手回复后面。",
+  "Visible responsibility": "责任可见",
+  "Evidence required": "需要证据",
+  "A command cannot move to PR/deploy without evidence that matches the scope of the requested slice.":
+    "一条指令没有匹配当前切片范围的证据，就不能进入 PR 或部署。",
+  "Output shelf": "输出架",
+  "Audit boundary": "审计边界",
+  "These rules keep the command surface useful now while leaving future execution APIs explicit and auditable.":
+    "这些规则让当前指挥界面有用，同时把未来执行 API 保持为显式、可审计的设计。",
+  "No hidden execution": "没有隐藏执行",
+  "Redesign Weiyu Personal OS in safe implementation slices":
+    "以安全切片重设计 Weiyu Personal OS",
+  "Turn the product blueprint into native website, Doraemon Office, Owner Cockpit, and research console surfaces. Validate each slice and request Opus review before moving on.":
+    "把产品蓝图落成原生网站、Doraemon Office、私密驾驶舱和研究控制台界面。每个切片先验证并请求 Opus review，再继续下一步。",
+  "No command is sent. This page prepares intent, plan, evidence, and review packets only.":
+    "不会发送任何指令。此页只准备意图、计划、证据和审核包。",
+  "Review packet": "审核包",
+  "Audit": "审计",
+  "Implementation slice packet": "实现切片审核包",
+  "A useful command becomes a bounded slice, a verification checklist, and an Opus review brief before PR/deploy.":
+    "一条有用指令会在 PR / 部署前变成边界清晰的切片、验证清单和 Opus review 简报。",
+  "Intent": "意图",
+  "What owner wants changed": "本人想改变什么",
+  "What must not happen": "什么绝不能发生",
+  "Build, auth, browser, leak probes": "构建、认证、浏览器和泄漏探针",
+  "Claude Opus GO before merge": "合并前需要 Claude Opus GO",
+  "Owner intent": "本人意图",
+  "Captured": "已捕获",
+  "The draft pad has explicit outcome, constraints, and taste notes.":
+    "草稿板已经包含明确结果、约束和品味备注。",
+  "Execution path": "执行路径",
+  "No runtime dispatch, file mutation, publish, or workflow trigger exists here.":
+    "这里不存在运行时派发、文件修改、发布或工作流触发。",
+  "Review gate": "审核门禁",
+  "A slice cannot move forward without local evidence and Opus review.":
+    "没有本地证据和 Opus review，切片不能继续推进。",
+  "Capture owner intent without dispatch": "捕获本人意图，但不派发",
+  "The draft pad can hold direction, constraints, and taste notes. It stays browser-local in this draft slice and never calls a runtime API.":
+    "草稿板可以承载方向、约束和品味备注。在这个草稿切片中它只停留在浏览器本地，永不调用运行时 API。",
+  "Local only": "仅本地",
+  "Separate thinking from execution": "把思考和执行分开",
+  "Doraemon turns intent into a staged plan with owners, gates, and verification. Every step is visible before implementation begins.":
+    "Doraemon 会把意图转成带负责人、门禁和验证的分阶段计划。实现开始前，每一步都可见。",
+  "Claude review before the next slice": "进入下个切片前先做 Claude review",
+  "The review packet captures changed files, local checks, browser evidence, and explicit safety boundaries for Opus review.":
+    "审核包会记录改动文件、本地检查、浏览器证据和明确安全边界，供 Opus review。",
+  "Proof first, confidence second": "先证明，再自信",
+  "Build, browser, auth, screenshot, data-boundary, and production-smoke evidence must exist before work moves forward.":
+    "继续推进前必须有构建、浏览器、认证、截图、数据边界和生产 smoke 证据。",
+  "Execution APIs remain out of scope": "执行 API 仍不在范围内",
+  "Future command APIs need authentication, audit logs, rollback posture, error handling, and explicit owner action.":
+    "未来的指令 API 需要认证、审计日志、回滚姿态、错误处理和明确的本人动作。",
+  "Complete": "完成",
+  "Interpret": "理解",
+  "Restate the requested outcome, source docs, public/private boundary, and active slice.":
+    "复述目标结果、来源文档、公开 / 私密边界和当前切片。",
+  "Owner intent and source docs identified.": "本人意图和来源文档已识别。",
+  "Translate the product blueprint into an implementation-ready surface and interaction model.":
+    "把产品蓝图转成可实现的界面和交互模型。",
+  "Surface responsibility and non-goals are visible.":
+    "界面职责和非目标清晰可见。",
+  "Implement": "实现",
+  "Ship a narrow, native UI slice with local state, route wiring, and no hidden write path.":
+    "交付一个范围窄、原生的 UI 切片，包含本地状态和路由接线，但没有隐藏写入路径。",
+  "Changed files remain scoped to the slice.": "改动文件保持在当前切片范围内。",
+  "Verify": "验证",
+  "Run build, diff check, route protection, browser QA, responsive checks, and safety scans.":
+    "运行构建、diff 检查、路由保护、浏览器 QA、响应式检查和安全扫描。",
+  "Evidence packet exists before review.": "审核前必须存在证据包。",
+  "Claude Opus reviews product, safety, privacy, a11y, and regression risk before PR/deploy.":
+    "PR / 部署前由 Claude Opus 审核产品、安全、隐私、可访问性和回归风险。",
+  "P1/P2 findings are fixed before merge.": "合并前修复 P1 / P2 问题。",
+  "Proceed to next slice": "进入下一个切片",
+  "Advance only after local checks and Opus review are clean.":
+    "只有本地检查和 Opus review 清楚后才继续推进。",
+  "Allowed only after evidence is attached.": "只有证据附上后才允许推进。",
+  "Expose a new private API": "暴露新的私密 API",
+  "Needs auth, audit, error, permission, and rollback design before any write path exists.":
+    "任何写入路径存在前，都需要认证、审计、错误、权限和回滚设计。",
+  "No API work in this slice.": "这个切片不做 API 工作。",
+  "Publish private knowledge": "发布私密知识",
+  "Requires explicit curation and public/private contract review.":
+    "需要明确精选和公开 / 私密契约审核。",
+  "No publishing controls are rendered.": "不渲染发布控制。",
+  "Run autonomous workflow": "运行自主工作流",
+  "This surface can describe a workflow, but cannot dispatch tools or mutate systems.":
+    "这个界面可以描述工作流，但不能派发工具或改变系统。",
+  "No dispatch affordance exists.": "不存在派发入口。",
+  "Routing": "路由中",
+  "Keeps intent, plan, evidence, and review boundaries aligned.":
+    "保持意图、计划、证据和审核边界一致。",
+  "Draft the mission shape and ask for owner review when ambiguity matters.":
+    "起草任务形状，并在存在关键歧义时请求本人审核。",
+  "Shaping": "塑形中",
+  "Turns the Personal OS blueprint into page responsibility, hierarchy, and interaction rules.":
+    "把 Personal OS 蓝图转成页面职责、层级和交互规则。",
+  "Keep the surface useful without making it look like a fake assistant demo.":
+    "让界面真的有用，而不是看起来像假的助手演示。",
+  "Ships small slices and verifies build/browser/auth behavior.":
+    "交付小切片，并验证构建、浏览器和认证行为。",
+  "Implement only after the slice boundary is clear.":
+    "只有切片边界清楚后才实现。",
+  "Evidence MiniDora": "证据 MiniDora",
+  "Connects decisions back to docs, code, browser screenshots, and production smoke.":
+    "把决策连接回文档、代码、浏览器截图和生产 smoke。",
+  "Attach the evidence packet before review closes.":
+    "review 关闭前附上证据包。",
+  "Guarded": "受保护",
+  "Maintains market research boundaries without execution.":
+    "维护市场研究边界，不做执行。",
+  "Keep trading work research-only, no broker writes, no order flow.":
+    "交易相关工作保持仅研究，不写入券商，不产生订单流。",
+  "Build proof": "构建证据",
+  "Production build and TypeScript must pass before Opus review.":
+    "Opus review 前必须通过生产构建和 TypeScript。",
+  "Browser proof": "浏览器证据",
+  "Desktop/mobile route checks, interaction state, console health, and overflow checks.":
+    "桌面 / 移动端路由检查、交互状态、控制台健康和溢出检查。",
+  "Auth proof": "认证证据",
+  "Unauthenticated /app/* requests must redirect to the owner gate without private shell render.":
+    "未认证的 /app/* 请求必须重定向到本人门禁，不渲染私密 shell。",
+  "Data-boundary proof": "数据边界证据",
+  "No sensitive values, raw private paths, prompts, credentials, or execution affordances in the rendered UI.":
+    "渲染后的 UI 中不能出现敏感值、原始私密路径、prompt、凭证或执行入口。",
+  "Local build": "本地构建",
+  "Production build and static checks before review.": "review 前完成生产构建和静态检查。",
+  "Browser QA": "浏览器 QA",
+  "Desktop/mobile screenshots, console, overflow, and route checks.":
+    "桌面 / 移动端截图、控制台、溢出和路由检查。",
+  "Opus review": "Opus review",
+  "GO/NO-GO with P1/P2 findings before the next slice.":
+    "进入下一切片前给出 GO / NO-GO 和 P1 / P2 问题。",
+  "Production smoke": "生产 smoke",
+  "Post-deploy auth, bundle, and public/private boundary checks.":
+    "部署后检查认证、bundle 和公开 / 私密边界。",
+  "Runtime dispatch": "运行时派发",
+  "Tool execution": "工具执行",
+  "File mutation": "文件修改",
+  "Public publish": "公开发布",
+  "Private API write": "私密 API 写入",
+  "Autonomous approval": "自主批准",
+  "No write or execution action appears until an authenticated API and audit trail are designed.":
+    "在认证 API 和审计轨迹设计完成前，不出现任何写入或执行动作。",
+  "Draft, plan, approval, execution, review, and deploy are separate product states.":
+    "草稿、计划、批准、执行、审核和部署是分离的产品状态。",
+  "Public pages never import this private command scaffold.":
+    "公开页面绝不导入这个私密指挥脚手架。",
+  "Failed auth should not render command content.":
+    "认证失败不应渲染指挥内容。",
+  "Every implementation slice gets local evidence and Claude Opus review before PR/deploy.":
+    "每个实现切片在 PR / 部署前都要有本地证据和 Claude Opus review。",
+  "Plan gates": "计划门禁",
+  "Visible before work moves": "工作推进前可见",
+  "Review states, not execution": "审核状态，而不是执行",
+  "Evidence checks": "证据检查",
+  "Required before PR/deploy": "PR / 部署前必须具备",
+  "No dispatch in this slice": "此切片不派发",
   "Weiyu AI": "Weiyu AI",
   "A personal AI lab where one human sets direction and a coordinated agent system supports research, building, and review.":
     "一个个人 AI 实验室：由一个人设定方向，协同智能体系统支持研究、构建与复盘。",
