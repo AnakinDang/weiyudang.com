@@ -1110,7 +1110,296 @@ const exactZhTranslations = {
   "Command Surface passed after removing the accessibility textbox role.":
     "移除可访问性 textbox role 后，Command Surface 通过 review。",
   "Private Agents and Review Queue are being shaped into cockpit surfaces.":
-    "Private Agents 和 Review Queue 正在被塑造成驾驶舱界面。",
+    "Private Agents 和审核队列正在被塑造成驾驶舱界面。",
+
+  "Owner Review Queue": "本人审核队列",
+  "Decisions stay explicit before anything moves.": "任何事情推进前，决策都必须保持显式。",
+  "Decision packets prepared by Doraemon and MiniDoras. Review evidence, blockers, allowed next steps, and missing proof without approving, dispatching, or silently promoting work.":
+    "Doraemon 和 MiniDoras 准备的决策包。你可以查看证据、阻塞项、允许的下一步和缺失证明，但不会批准、派发或静默推进工作。",
+  "Read-only packets": "只读审核包",
+  "Decision flow": "决策流程",
+  "Packet created": "审核包已创建",
+  "Prepared by agent": "由智能体准备",
+  "Evidence collected": "证据已收集",
+  "Proof and gaps named": "证明与缺口已命名",
+  "You inspect here": "你在这里审核",
+  "Next step stays explicit": "下一步保持显式",
+  "Implementation later": "稍后再实现",
+  "Only after gates open": "只有门禁打开后才可继续",
+  "Current packet": "当前审核包",
+  "Recommended handling": "建议处理方式",
+  "Allowed next": "允许的下一步",
+  "Blockers": "阻塞项",
+  "All lanes": "全部通道",
+  "Review queue lane filters": "审核队列通道筛选",
+  "Lane": "通道",
+  "Proof": "证明",
+  "Due": "到期",
+  "Evidence workbench": "证据工作台",
+  "Inspect the selected packet in detail. All information is read-only; missing proof is visible instead of being papered over.":
+    "详细检查选中的审核包。所有信息都是只读的；缺失证明会明确显示，而不是被掩盖。",
+  "Decision packets": "决策包",
+  "Selected packet": "选中审核包",
+  "Requested decision": "请求决策",
+  "Agent note": "智能体备注",
+  "Evidence requested": "请求的证据",
+  "Owner decision draft": "本人决策草稿",
+  "Choose a local review posture for this packet. No API call, approval, publish, or dispatch is sent.":
+    "为这个审核包选择一个本地审核姿态。不会发送 API 调用、批准、发布或派发。",
+  "Owner note draft": "本人备注草稿",
+  "Private note for this review packet": "这个审核包的私密备注",
+  "This note stays in this browser session. It is not saved, sent, or treated as approval.":
+    "这条备注只留在本次浏览器会话中。它不会保存、发送，也不会被视为批准。",
+  "Gates before merge": "合并前门禁",
+  "Still unavailable": "仍不可用",
+  "Decision lanes": "决策通道",
+  "Each lane says who owns the review, why the item exists, and whether the next step is current, deferred, or blocked.":
+    "每个通道说明谁负责审核、这个条目为什么存在，以及下一步是当前处理、暂缓还是阻塞。",
+  "Review rules": "审核规则",
+  "The queue represents decisions as states only. It can clarify what is allowed next, but it cannot perform the next step.":
+    "这个队列只把决策表示为状态。它可以说明下一步允许什么，但不能执行下一步。",
+  "Review queue continuation paths": "审核队列后续路径",
+  "Continue from review": "从审核继续",
+  "Review Queue does not mutate work. When a decision is clear, move to the relevant private surface and keep the next step explicit.":
+    "审核队列不会修改工作。当决策清晰后，进入对应的私密界面，并保持下一步显式可见。",
+  "Draft a mission packet after review is understood.": "理解审核后再起草任务包。",
+  "See Agents": "查看智能体",
+  "Inspect the MiniDora lane responsible for the packet.": "查看负责此审核包的 MiniDora 通道。",
+  "Review Queue is clear": "审核队列已清空",
+  "No owner decision packets are waiting right now. The surface stays read-only and will show evidence, blockers, and allowed next steps when Doraemon prepares a packet.":
+    "现在没有等待本人的决策包。这个界面保持只读；当 Doraemon 准备好审核包时，会显示证据、阻塞项和允许的下一步。",
+  "Clear": "清空",
+  "Evidence cards": "证据卡片",
+  "Needs current attention": "需要当前关注",
+  "Review needed": "需要审核",
+  "Safe hold": "安全暂停",
+  "No action path allowed": "不允许动作路径",
+  "Publish": "发布",
+  "Local evidence and external review must be clean before PR/deploy.":
+    "PR / 部署前，本地证据和外部 review 必须干净。",
+  "Depth work waits for a real source instead of invented history.":
+    "深度工作等待真实来源，而不是编造历史。",
+  "The surface says it is not an order, recommendation, or execution system.":
+    "界面说明它不是订单、建议或执行系统。",
+  "Trading stays research-only and evidence-first.":
+    "交易保持仅研究、证据优先。",
+  "Write APIs need audit and rollback design before controls exist.":
+    "写入 API 需要先有审计和回滚设计，才能出现控制项。",
+
+  "Actions": "动作",
+  "After local proof": "本地证明之后",
+  "Auth": "认证",
+  "Audit log": "审计日志",
+  "Audit model": "审计模型",
+  "Auth model": "认证模型",
+  "Auth/session spec": "认证 / 会话规格",
+  "Baseline": "基线",
+  "Build output": "构建输出",
+  "Defer": "暂缓",
+  "Deferred": "已暂缓",
+  "Disclaimer": "免责声明",
+  "History": "历史",
+  "Known": "已知",
+  "Missing": "缺失",
+  "No ship": "不发版",
+  "Open decisions": "未决事项",
+  "Owner revisit": "本人复查",
+  "Owner wording": "本人措辞",
+  "Owner wording choice": "本人措辞选择",
+  "Owner-visible review items": "本人可见审核项",
+  "Private route gate": "私密路由门禁",
+  "Private schema": "私密 schema",
+  "Product depth": "产品深度",
+  "Proof or gap rows": "证明或缺口行",
+  "Real source": "真实来源",
+  "Recommended": "推荐",
+  "Research-only disclaimer": "仅研究免责声明",
+  "Runtime": "运行时",
+  "Safe default": "安全默认",
+  "Safety design": "安全设计",
+  "Ship gate": "发版门禁",
+  "Source needed": "需要来源",
+  "Source posture": "来源状态",
+  "Spec first": "先写规格",
+  "Step review history": "步骤审核历史",
+  "Visible": "可见",
+  "Write APIs": "写入 API",
+  "Write endpoint": "写入端点",
+
+  "Confirm Review Queue cockpit surface": "确认审核队列驾驶舱界面",
+  "Decide agent history depth": "决定智能体历史深度",
+  "Review trading research boundary copy": "审核交易研究边界文案",
+  "Prepare future private API audit design": "准备未来私密 API 审计设计",
+  "Decide whether this review surface is clear enough to enter PR after Opus review.":
+    "决定这个审核界面是否足够清晰，可以在 Opus review 后进入 PR。",
+  "Check local evidence, read the Opus finding list, then allow merge only if P1/P2 are closed.":
+    "检查本地证据，阅读 Opus 问题列表；只有 P1/P2 都关闭后才允许合并。",
+  "Production build and TypeScript must pass after the final diff.":
+    "最终 diff 之后，生产构建和 TypeScript 必须通过。",
+  "Unauthenticated /app/review must redirect before private shell content renders.":
+    "未认证访问 /app/review 必须在私密外壳内容渲染前重定向。",
+  "Claude Opus must return no open P1/P2 before PR/deploy.":
+    "PR / 部署前，Claude Opus 必须返回没有开放 P1/P2。",
+  "Claude Opus must return no open P1/P2 before PR, merge, or deploy.":
+    "PR、合并或部署前，Claude Opus 必须返回没有开放 P1/P2。",
+  "No approve button": "没有批准按钮",
+  "Evidence visible": "证据可见",
+  "Send to Opus review": "送去 Opus review",
+  "Use only after build, auth, browser, and boundary evidence are attached.":
+    "只有在构建、认证、浏览器和边界证据都附上后才能使用。",
+  "Prepare the Claude Opus review packet. PR waits for a clean P1/P2 result.":
+    "准备 Claude Opus review 包。PR 等待干净的 P1/P2 结果。",
+  "Request more evidence": "要求更多证据",
+  "Keep the packet open and ask for missing screenshots, route smoke, or leak probes.":
+    "保持审核包打开，并要求补齐截图、路由 smoke 或泄漏探针。",
+  "Do not open the PR. Attach the missing proof to this review item first.":
+    "不要打开 PR。先把缺失证明附到这个审核项。",
+  "Defer this slice": "暂缓这个切片",
+  "Keep the route private and leave implementation paused until scope changes.":
+    "保持路由私密，并在范围变化前暂停实现。",
+  "Return to Command with a revised mission packet instead of promoting this work.":
+    "带着修改后的任务包回到 Command，而不是推进这项工作。",
+  "Desktop and narrow viewports must show the decision loop without overflow.":
+    "桌面和窄屏视口必须展示决策循环且没有溢出。",
+  "No live private review API exists in this slice.": "这个切片没有实时私密 review API。",
+  "The page must remain a decision register, not a workflow runner.":
+    "这个页面必须保持为决策登记簿，而不是工作流运行器。",
+  "Prepare PR only after local verification and Opus review are clean.":
+    "只有本地验证和 Opus review 都干净后才准备 PR。",
+  "Approve and execute": "批准并执行",
+  "Reject and run": "拒绝并运行",
+  "Dispatch tools": "派发工具",
+  "No private API or execution action should appear in this slice.":
+    "这个切片中不应出现私密 API 或执行动作。",
+
+  "Decide whether the next Agents pass needs a full per-agent timeline or the current snapshot is enough.":
+    "决定下一轮 Agents 是否需要完整的每智能体时间线，还是当前快照已经足够。",
+  "Keep the current roster shipped, then revisit history depth when a private event source exists.":
+    "先保留并发布当前花名册，等有私密事件来源后再复查历史深度。",
+  "The current Agents surface shows leases, source health, handoffs, and boundary.":
+    "当前 Agents 界面展示 lease、来源健康、交接和边界。",
+  "True per-agent history needs a private timeline source, not invented UI rows.":
+    "真实的每智能体历史需要私密时间线来源，而不是编造 UI 行。",
+  "No fake history": "不编造历史",
+  "Keep snapshot depth": "保持快照深度",
+  "Keep the current roster and source-health view until private history data exists.":
+    "在私密历史数据存在前，保持当前花名册和来源健康视图。",
+  "Track agent history as a later Events or Agents depth slice.":
+    "把智能体历史作为后续 Events 或 Agents 深度切片跟进。",
+  "Request source design": "请求来源设计",
+  "Ask for a private timeline source design before expanding the UI.":
+    "扩展 UI 前，先要求私密时间线来源设计。",
+  "Draft schema, retention, auth, and redaction rules before implementation.":
+    "实现前先起草 schema、保留、认证和脱敏规则。",
+  "Defer history": "暂缓历史",
+  "Leave the Agents page as a live roster and avoid invented activity rows.":
+    "让 Agents 页面保持为实时花名册，避免编造活动行。",
+  "Return when a private event source can supply real per-agent history.":
+    "当私密事件来源能提供真实每智能体历史时再回来处理。",
+  "No authenticated per-agent timeline source is available yet.":
+    "目前还没有认证后的每智能体时间线来源。",
+  "No invented rows": "不编造行",
+  "The UI must not create fake history to make the page feel busy.":
+    "UI 不能为了显得忙碌而创建假历史。",
+  "Timeline depth needs an owner-only schema and retention policy.":
+    "时间线深度需要仅本人可见的 schema 和保留策略。",
+  "No authenticated agent timeline source is connected yet.":
+    "尚未连接认证后的智能体时间线来源。",
+  "Track as a future Agents or Events depth slice.":
+    "作为未来 Agents 或 Events 深度切片跟进。",
+  "Invent history": "编造历史",
+  "Expose raw runtime events": "暴露原始运行时事件",
+  "Add a private API without audit design": "在没有审计设计时新增私密 API",
+  "Each cockpit surface should continue landing as a reviewed, coherent slice.":
+    "每个驾驶舱界面都应继续以经过审核、边界清晰的切片落地。",
+
+  "Decide whether the research-only disclaimer is strong enough for the private trading cockpit.":
+    "决定仅研究免责声明对于私密交易驾驶舱是否足够有力。",
+  "Keep the disclaimer visible until the owner explicitly revises it.":
+    "在本人明确修改前，保持免责声明可见。",
+  "Trading Team states that it is research-only and not an order, recommendation, or execution system.":
+    "Trading Team 声明它仅用于研究，不是订单、建议或执行系统。",
+  "Market data and broker connections are intentionally absent from the web surface.":
+    "网页界面有意不包含市场数据和券商连接。",
+  "No broker, paper trading, live order, or auto-promotion path exists.":
+    "不存在券商、纸面交易、实盘订单或自动推进路径。",
+  "Keep current wording": "保持当前措辞",
+  "Keep the fixed research-only disclaimer visible on the private trading cockpit.":
+    "在私密交易驾驶舱保持固定的仅研究免责声明可见。",
+  "Continue building evidence-first research surfaces with no execution affordance.":
+    "继续构建证据优先且无执行入口的研究界面。",
+  "Revise owner copy": "修改本人文案",
+  "Update the human-readable disclaimer without weakening the research-only boundary.":
+    "更新人类可读免责声明，但不削弱仅研究边界。",
+  "Review against the Public/Private Data Contract before shipping.":
+    "发布前按 Public/Private Data Contract 审核。",
+  "Hold trading changes": "暂停交易改动",
+  "Pause new Trading Team UI until boundary language is settled.":
+    "在边界语言确定前，暂停新的 Trading Team UI。",
+  "Return to Command with a narrower copy-only review packet.":
+    "带着更窄的纯文案审核包回到 Command。",
+  "No broker path": "无券商路径",
+  "Signals must link to evidence or show that evidence is missing.":
+    "信号必须连接到证据，或显示证据缺失。",
+  "No trading execution authorization exists.": "不存在交易执行授权。",
+  "Any future data connection must preserve research-only framing.":
+    "任何未来数据连接都必须保留仅研究框架。",
+  "Owner may revise copy, but not authorize execution from this page.":
+    "本人可以修改文案，但不能从此页授权执行。",
+  "Position sizing": "仓位规模",
+  "Recommendation wording": "建议性措辞",
+  "The console remains research-only and has no order, paper, live, or broker path.":
+    "控制台保持仅研究，没有订单、纸面交易、实盘或券商路径。",
+
+  "Decide when the team is ready to design audited write APIs.":
+    "决定团队何时准备好设计可审计写入 API。",
+  "Keep all command surfaces read-only until auth, audit, rollback, and error handling are designed.":
+    "在认证、审计、回滚和错误处理设计完成前，保持所有 Command 界面只读。",
+  "The current owner token gate is acceptable for read-only v0 dashboards.":
+    "当前 owner token 门禁对只读 v0 dashboard 是可接受的。",
+  "No audit log, rollback model, or write permission system exists yet.":
+    "目前还没有审计日志、回滚模型或写入权限系统。",
+  "No command or workflow dispatch endpoint is rendered in the cockpit.":
+    "驾驶舱中没有渲染命令或工作流派发端点。",
+  "Write audit spec": "编写审计规格",
+  "Design auth, audit log, rollback, error, and permission behavior before any write API exists.":
+    "任何写入 API 存在前，先设计认证、审计日志、回滚、错误和权限行为。",
+  "Produce an implementation spec and review packet, not an endpoint.":
+    "产出实现规格和审核包，而不是端点。",
+  "Keep read-only": "保持只读",
+  "Leave Command and Review Queue as planning and review surfaces only.":
+    "让 Command 和审核队列仅作为计划与审核界面。",
+  "Continue read-only cockpit slices without adding hidden execution paths.":
+    "继续只读驾驶舱切片，不新增隐藏执行路径。",
+  "Block write work": "阻塞写入工作",
+  "Do not add action buttons or private APIs until the audit model is approved.":
+    "审计模型批准前，不添加动作按钮或私密 API。",
+  "Revisit only after the owner accepts the audit and rollback design.":
+    "只有本人接受审计和回滚设计后再复查。",
+  "No append-only action log, actor model, or rollback record exists.":
+    "不存在 append-only 动作日志、actor 模型或回滚记录。",
+  "No command or workflow dispatch endpoint should be rendered in this cockpit.":
+    "这个驾驶舱不应渲染命令或工作流派发端点。",
+  "No audited write API design exists.": "不存在已审计的写入 API 设计。",
+  "No rollback behavior exists.": "不存在回滚行为。",
+  "No owner action confirmation model exists.": "不存在本人动作确认模型。",
+  "Write an implementation spec before any action button appears.":
+    "任何动作按钮出现前，先写实现规格。",
+  "Hidden execution": "隐藏执行",
+  "One-click approve": "一键批准",
+  "Silent retry": "静默重试",
+  "Unaudited mutation": "未审计变更",
+  "No write endpoint should be added until audit, rollback, and error handling are designed.":
+    "在审计、回滚和错误处理设计完成前，不应添加写入端点。",
+
+  "Approvals, rejects, notes, and deferrals are represented as review states only.":
+    "批准、拒绝、备注和暂缓只表示为审核状态。",
+  "This page has no approve, reject, publish, execute, or dispatch button.":
+    "此页没有批准、拒绝、发布、执行或派发按钮。",
+  "Every decision item must show evidence or say what evidence is missing.":
+    "每个决策项都必须显示证据，或说明缺少什么证据。",
+  "No silent auto-promotion from review state to execution state.":
+    "不会从审核状态静默自动推进到执行状态。",
   "Weiyu AI": "Weiyu AI",
   "A personal AI lab where one human sets direction and a coordinated agent system supports research, building, and review.":
     "一个个人 AI 实验室：由一个人设定方向，协同智能体系统支持研究、构建与复盘。",
