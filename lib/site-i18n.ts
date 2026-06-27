@@ -577,6 +577,165 @@ const exactZhTranslations = {
   "Games & Apps": "游戏与应用",
   "Small games, utilities, and lightweight software products built as experiments in AI-assisted execution.":
     "作为 AI 辅助执行实验而构建的小型游戏、工具和轻量软件产品。",
+  "Project archive public boundary": "项目归档公开边界",
+  "Project filters": "项目筛选",
+  "Search projects": "搜索项目",
+  "Project": "项目",
+  "Category": "类别",
+  "Visibility": "可见性",
+  "Selected artifact": "选中的成果",
+  "Selected project preview": "选中项目预览",
+  "Next routes": "后续入口",
+  "Read public overview": "阅读公开概览",
+  "Open Doraemon office": "打开 Doraemon Office",
+  "Open project": "打开项目",
+  "Project dossier": "项目档案",
+  "Project links": "项目链接",
+  "Back to Projects": "返回项目",
+  "View all projects": "查看全部项目",
+  "Boundary": "边界",
+  "High-level view only.": "仅展示高层摘要。",
+  "No execution.": "不执行。",
+  "Authenticated.": "已认证。",
+  "This project is a private summary.": "这个项目是私密摘要。",
+  "This project is research-only.": "这个项目仅用于研究。",
+  "This project is public.": "这个项目是公开项目。",
+  "Public-safe page": "公开安全页面",
+  "Public concept, private implementation details.": "公开概念，私密实现细节。",
+  "No execution, no broker routing, no orders.": "不执行、不路由券商、不创建订单。",
+  "Safe to share. Explains the what and why.": "可安全分享，用来解释是什么以及为什么。",
+  "Public page explains the concept only.": "公开页面只解释概念。",
+  "Private tasks, prompts, and runtime details stay out.": "私密任务、prompt 和运行时细节不进入公开页。",
+  "App links require owner authentication.": "App 链接需要本人认证。",
+  "No raw IDs, paths, accounts, or internal state.": "不展示 raw ID、路径、账户或内部状态。",
+  "No trading execution or brokerage integration.": "不进行交易执行或券商集成。",
+  "No account data, positions, PnL, or order state.": "不展示账户数据、持仓、PnL 或订单状态。",
+  "Claims require evidence and source links.": "任何主张都需要证据和来源链接。",
+  "Owner review remains required before any next step.": "任何下一步之前都仍需本人审核。",
+  "Curated public story and project context.": "经过精选的公开叙事和项目背景。",
+  "No private memory or source notes.": "不展示私密记忆或原始来源笔记。",
+  "Links route only to public-safe destinations unless gated.": "链接只指向公开安全目的地，除非有门禁保护。",
+  "Public/private boundary remains explicit.": "公开 / 私密边界始终明确。",
+  "Doraemon Visualizer": "Doraemon Visualizer",
+  "The public-safe visual bridge that turns Doraemon and MiniDora activity into an understandable command-room view.":
+    "把 Doraemon 与 MiniDora 活动转成可理解指挥室视图的公开安全视觉桥梁。",
+  "Native Office": "原生 Office",
+  "Activity Timeline": "活动时间线",
+  "Public Visualizer": "公开 Visualizer",
+  "Doraemon Visualizer makes the agent system legible.": "Doraemon Visualizer 让智能体系统变得可理解。",
+  "The long-term direction is native weiyudang.com routes under Doraemon Office. The visualizer remains useful as a public bridge: it can show sanitized activity, agent presence, a command-room stage, and safe system posture without revealing private work.":
+    "长期方向是 Doraemon Office 下的 weiyudang.com 原生路由。Visualizer 仍然是有用的公开桥梁：它可以展示脱敏活动、智能体在线状态、指挥室舞台和安全系统状态，同时不暴露私密工作。",
+  "What It Shows": "它展示什么",
+  "Doraemon and MiniDora presence.": "Doraemon 与 MiniDora 的在线状态。",
+  "Public-safe event labels.": "公开安全事件标签。",
+  "Current office posture.": "当前 Office 状态。",
+  "Recent activity and handoffs at a safe summary level.": "安全摘要级别的近期活动和交接。",
+  "Demo fallback when live relay data is unavailable.": "实时中继不可用时的演示回退。",
+  "What It Does Not Show": "它不展示什么",
+  "Raw run IDs or task IDs.": "raw run ID 或 task ID。",
+  "Private task titles or prompt bodies.": "私密任务标题或 prompt 正文。",
+  "Tool payloads, artifacts, memory records, accounts, or local paths.": "工具 payload、产物、记忆记录、账户或本地路径。",
+  "Execution controls or owner-only actions.": "执行控制或仅限本人的动作。",
+  "Product Direction": "产品方向",
+  "The visualizer should increasingly feel like part of Doraemon Office rather than a separate iframe-style portal. The public page should explain motion, not expose internals.":
+    "Visualizer 应该越来越像 Doraemon Office 的一部分，而不是独立的 iframe 门户。公开页面应该解释运行状态，而不是暴露内部细节。",
+  "Knowledge Vault is the memory and synthesis layer for the Personal OS.":
+    "Knowledge Vault 是 Personal OS 的记忆与综合层。",
+  "A private memory and synthesis layer that turns source material into owner-reviewed, public-safe outputs.":
+    "把来源材料转成经过本人审核、公开安全输出的私密记忆与综合层。",
+  "Public Knowledge": "公开知识",
+  "Private Knowledge Cockpit": "私密知识驾驶舱",
+  "Its job is to help preserve context, organize source material, and prepare public-safe summaries without treating private notes as public content. The public website can show the shape of the system and curated outputs; private source pages remain behind the owner boundary.":
+    "它的职责是保存上下文、组织来源材料，并准备公开安全的摘要，同时不把私密笔记当成公开内容。公开网站可以展示系统形状和精选输出；私密来源页面仍留在本人边界之后。",
+  "Public Version": "公开版本",
+  "The public Knowledge route explains the workflow:": "公开 Knowledge 路由解释工作流：",
+  "capture source material privately": "私下捕获来源材料",
+  "synthesize it into a candidate output": "综合成候选输出",
+  "keep owner review visible": "保持本人审核可见",
+  "publish only curated, public-safe pages": "只发布精选且公开安全的页面",
+  "Private Version": "私密版本",
+  "The private cockpit can organize sources, synthesis candidates, evidence rows, rewrite steps, and publish gates. It remains authenticated and read-only until a separate audited write path exists.":
+    "私密驾驶舱可以组织来源、综合候选、证据行、重写步骤和发布门禁。在独立审计过的写入路径存在前，它保持认证和只读。",
+  "Raw private vault pages, memory records, unpublished drafts, private source files, and owner notes do not become public page data. Public outputs must be curated and reviewed.":
+    "原始私密 vault 页面、记忆记录、未发布草稿、私密来源文件和本人笔记不会变成公开页面数据。公开输出必须经过精选和审核。",
+  "OpenClaw Runtime": "OpenClaw Runtime",
+  "The private runtime and monitoring substrate that supports Doraemon, MiniDoras, health checks, and owner-visible operational posture.":
+    "支撑 Doraemon、MiniDoras、健康检查和本人可见运行状态的私密运行时与监控底座。",
+  "Public System Posture": "公开系统状态",
+  "OpenClaw Runtime is the private operating substrate beneath the Personal OS.":
+    "OpenClaw Runtime 是 Personal OS 底层的私密运行底座。",
+  "Public visitors do not need runtime internals. They need to know that Doraemon Office has a safe system posture, a public schema boundary, and a graceful fallback. The owner cockpit can show deeper health and review queues without turning public pages into an operations console.":
+    "公开访客不需要运行时内部细节。他们只需要知道 Doraemon Office 有安全系统状态、公开 schema 边界和优雅回退。私密驾驶舱可以展示更深层的健康状态和审核队列，但不会把公开页面变成运维控制台。",
+  "The public System route shows coarse, safe posture:": "公开 System 路由展示粗粒度、安全的状态：",
+  "live or demo mode": "实时或演示模式",
+  "public schema status": "公开 schema 状态",
+  "event freshness at a safe abstraction level": "安全抽象级别的事件新鲜度",
+  "read-only fallback behavior": "只读回退行为",
+  "The owner system surface can summarize service posture, review gaps, degraded sources, and boundary checks for Weiyu. It should remain diagnostic and owner-gated.":
+    "私密系统界面可以为 Weiyu 汇总服务状态、审核缺口、降级来源和边界检查。它应该保持诊断性质，并由本人门禁保护。",
+  "Public pages must not show local paths, private service labels, tokens, internal hostnames, raw logs, or repair controls. System health should reassure without exposing the control plane.":
+    "公开页面不得展示本地路径、私密服务标签、令牌、内部主机名、原始日志或修复控制。系统健康应该让人安心，而不暴露控制面。",
+  "Weiyu Personal OS": "Weiyu Personal OS",
+  "The integrated website, Doraemon Office, owner cockpit, and research surfaces that make Weiyu's work visible without collapsing public and private boundaries.":
+    "整合网站、Doraemon Office、私密驾驶舱和研究界面，让 Weiyu 的工作可被理解，同时不压塌公开与私密边界。",
+  "Weiyu Personal OS is the product shape behind this website.":
+    "Weiyu Personal OS 是这个网站背后的产品形态。",
+  "It is not just a portfolio. It is a public studio, a Doraemon command room, a private owner cockpit, and a set of research surfaces that share one language: public things should be understandable, private things should stay bounded, and important work should leave evidence.":
+    "它不只是作品集。它是公开工作室、Doraemon 指挥室、私密驾驶舱，以及一组研究界面；它们共享同一种语言：公开内容应当可理解，私密内容应当有边界，重要工作应当留下证据。",
+  "Surfaces": "界面层",
+  "The public site explains projects, notes, and the operating philosophy.":
+    "公开站解释项目、笔记和运行哲学。",
+  "Doraemon Office shows sanitized agent activity, team presence, schedules, tasks, knowledge, and system posture.":
+    "Doraemon Office 展示脱敏的智能体活动、团队在线、日程、任务、知识和系统状态。",
+  "The owner cockpit keeps priorities, approvals, private knowledge work, schedules, and system health behind authentication.":
+    "私密驾驶舱把优先级、审批、私密知识工作、日程和系统健康留在认证之后。",
+  "Research surfaces such as MiniDora Trading stay evidence-first and execution-free.":
+    "MiniDora Trading 这样的研究界面保持证据优先、无执行。",
+  "The public side can show concepts, public-safe state, and curated outputs. It does not expose private prompts, raw task names, private memory, credentials, account data, orders, local paths, or execution controls.":
+    "公开侧可以展示概念、公开安全状态和精选输出。它不暴露私密 prompts、raw 任务名、私密记忆、凭证、账户数据、订单、本地路径或执行控制。",
+  "Current Shape": "当前形态",
+  "The v1 system is being built slice by slice. Each slice should improve the real product surface, preserve the public/private contract, and leave enough verification evidence that the next agent can continue safely.":
+    "v1 系统正在一片一片地构建。每个切片都应改进真实产品界面，保留公开 / 私密契约，并留下足够验证证据，让下一个智能体能安全接手。",
+  "Doraemon Agent System is the coordination layer for Weiyu's personal AI lab.":
+    "Doraemon Agent System 是 Weiyu 个人 AI 实验室的协调层。",
+  "It helps translate intent into concrete plans, route work to specialized MiniDora agents, collect results, and bring decisions back to Weiyu when judgment is required.":
+    "它帮助把意图转成具体计划，把工作路由给专门化 MiniDora，收集结果，并在需要判断时把决策带回给 Weiyu。",
+  "The current owner decision allows non-commercial public Doraemon display on weiyudang.com, while raw/source assets remain private, minimal, replaceable, and takedown-friendly.":
+    "当前本人决策允许在 weiyudang.com 上进行非商业的公开 Doraemon 展示，同时原始 / 源素材保持私密、最小化、可替换且便于下架。",
+  "The public Doraemon page is an informational guide. It cannot read private memory, trading data, credentials, local files, email, calendar, or internal agent runtimes.":
+    "公开 Doraemon 页面是信息导览。它不能读取私密记忆、交易数据、凭证、本地文件、邮件、日历或内部智能体运行时。",
+  "AI Media Lab explores repeatable creative systems.": "AI Media Lab 探索可复用的创意系统。",
+  "The focus is not just making one image or one clip. The focus is building workflows that can produce, revise, and organize creative assets with taste and consistency.":
+    "重点不只是生成一张图或一段视频，而是构建能以品味和一致性生产、修改、组织创意素材的工作流。",
+  "Future notes will cover video pipelines, visual systems, character development, and production memory.":
+    "未来笔记会覆盖视频流水线、视觉系统、角色开发和生产记忆。",
+  "Games & Apps is the playground for compact software products.":
+    "Games & Apps 是小型软件产品的实验场。",
+  "These projects are intentionally small enough to ship, test, and learn from quickly. The long-term pattern is to use the personal AI lab to move from idea to artifact with less drag.":
+    "这些项目刻意保持足够小，便于快速发布、测试和学习。长期模式是用个人 AI 实验室更顺畅地从想法推进到成果。",
+  "Weiyu AI is the personal AI lab inside this website.":
+    "Weiyu AI 是这个网站里的个人 AI 实验室。",
+  "The goal is not to replace human judgment. The goal is to give one curious builder a larger surface area for research, engineering, writing, media production, and decision support.":
+    "目标不是取代人类判断，而是给一个好奇的建造者更大的研究、工程、写作、媒体生产和决策支持界面。",
+  "The public side explains the ideas and projects. The private side will eventually connect to the command center, agent review queue, and owner-facing decision surfaces that help Weiyu decide what should happen next.":
+    "公开侧解释想法和项目。私密侧最终会连接指挥中心、智能体审核队列和面向本人的决策界面，帮助 Weiyu 决定下一步该发生什么。",
+  "Operating Principles": "运行原则",
+  "Weiyu keeps final approval.": "Weiyu 保留最终批准权。",
+  "Agents expand speed and memory, not authority.": "智能体扩展速度和记忆，而不是权力。",
+  "Every important output should leave an artifact.": "每个重要输出都应该留下产物。",
+  "Public pages explain concepts; private systems hold execution detail.": "公开页面解释概念；私密系统保存执行细节。",
+  "MiniDora Trading is a research desk, not an autonomous trading bot.":
+    "MiniDora Trading 是研究台，不是自主交易机器人。",
+  "It observes markets, gathers evidence, validates assumptions, and prepares artifacts for owner review. Weiyu keeps final approval.":
+    "它观察市场、收集证据、验证假设，并准备给本人审核的产物。Weiyu 保留最终批准权。",
+  "The public page intentionally avoids account data, live signals, strategy parameters, broker state, API keys, and real-time PnL.":
+    "公开页面有意避开账户数据、实时信号、策略参数、券商状态、API keys 和实时 PnL。",
+  "Current Safety Posture": "当前安全状态",
+  "Broker write is disabled.": "券商写入已禁用。",
+  "Paper submit is disabled.": "纸面提交已禁用。",
+  "Live submit is disabled.": "实时提交已禁用。",
+  "Phase auto-promotion is disabled.": "阶段自动推进已禁用。",
+  "The MVP dashboard is read-only and has no order buttons.": "MVP 仪表盘是只读的，没有订单按钮。",
   "Building a Personal AI Research Studio": "构建个人 AI 研究工作室",
   "A first public note on turning personal AI workflows into a small operating system.":
     "第一篇公开笔记：如何把个人 AI 工作流变成一个小型操作系统。",

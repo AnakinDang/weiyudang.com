@@ -25,6 +25,19 @@ function isExternalProjectHref(href: string) {
   return href.startsWith("https://");
 }
 
+function boundaryStatementForLabel(label: string) {
+  switch (label) {
+    case "Research-only":
+      return "This project is research-only.";
+    case "Private Summary":
+      return "This project is a private summary.";
+    case "Public":
+      return "This project is public.";
+    default:
+      throw new Error(`[projects] Unknown project boundary label: ${label}`);
+  }
+}
+
 export function generateStaticParams() {
   return getProjects().map((project) => ({ slug: project.slug }));
 }
@@ -52,6 +65,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   }
 
   const boundary = boundaryForProject(project);
+  const boundaryStatement = boundaryStatementForLabel(boundary.label);
   const visual = visualForProject(project.slug);
 
   return (
@@ -84,7 +98,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
               <div className="project-boundary-callout">
                 <ShieldCheck size={20} aria-hidden />
                 <div>
-                  <strong>This project is {boundary.label.toLowerCase()}.</strong>
+                  <strong>{boundaryStatement}</strong>
                   <span>{boundary.summary}</span>
                 </div>
               </div>
