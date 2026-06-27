@@ -1400,6 +1400,322 @@ const exactZhTranslations = {
     "每个决策项都必须显示证据，或说明缺少什么证据。",
   "No silent auto-promotion from review state to execution state.":
     "不会从审核状态静默自动推进到执行状态。",
+
+  "Owner Schedules": "本人日程",
+  "Read-only register": "只读登记簿",
+  "No scheduler controls": "没有调度器控制",
+  "Authenticated private rhythm": "已认证的私密节奏",
+  "Time awareness and operating windows for Doraemon, MiniDoras, and owner review. The page shows rhythm, evidence, and gates without becoming a scheduler.":
+    "Doraemon、MiniDoras 和本人审核的时间感知与运行窗口。这个页面展示节奏、证据和门禁，但不会变成调度器。",
+  "Next operating window": "下一个运行窗口",
+  "Rhythm map": "节奏地图",
+  "Rhythm workbench": "节奏工作台",
+  "Inspect one recurring loop at a time. The browser can show cadence, evidence, and owner gates, but it cannot create or mutate scheduler jobs.":
+    "一次检查一个循环。浏览器可以展示节奏、证据和本人门禁，但不能创建或修改调度任务。",
+  "Schedule cadence filters": "日程节奏筛选",
+  "Selected schedule": "选中日程",
+  "Reading steps": "阅读步骤",
+  "Owner window plan": "本人窗口计划",
+  "Pick a local reading posture for this schedule window. No schedule job, delivery, or runtime action is sent.":
+    "为这个日程窗口选择本地阅读姿态。不会发送日程任务、投递或运行时动作。",
+  "Operating rhythm": "运行节奏",
+  "A compact map of when context should become readable and which agent owns the loop.":
+    "一张紧凑地图，说明上下文何时应变得可读，以及哪个智能体负责该循环。",
+  "Owner visible": "本人可见",
+  "Scheduler boundary": "调度器边界",
+  "This page can explain cadence and owner gates. It cannot create, pause, resume, delete, edit, or dispatch recurring jobs.":
+    "这个页面可以解释节奏和本人门禁。它不能创建、暂停、恢复、删除、编辑或派发循环任务。",
+  "Schedules continuation paths": "日程后续路径",
+  "Continue from schedules": "从日程继续",
+  "Schedule review stays descriptive here. Use adjacent private surfaces to draft work or inspect system posture without exposing scheduler commands.":
+    "这里的日程审核保持描述性。使用相邻私密界面起草工作或检查系统状态，同时不暴露调度器命令。",
+  "Draft schedule-related owner instructions after review.":
+    "审核后起草与日程相关的本人指令。",
+  "Inspect posture before trusting recurring loops.":
+    "信任循环任务前先检查状态。",
+  "Register empty": "登记簿为空",
+  "No owner-visible recurring schedules are available in this private mock source. The page remains read-only and does not expose scheduler commands or mutation controls.":
+    "这个私密 mock 来源中没有本人可见的循环日程。页面保持只读，不暴露调度器命令或变更控制。",
+  "Private schedules rhythm register": "私密日程节奏登记簿",
+  "Cadence": "节奏",
+  "No-go": "禁止项",
+  "No-go actions": "禁止动作",
+  "Last run": "上次运行",
+  "Dependencies": "依赖",
+  "Summary": "摘要",
+  "Purpose": "目的",
+  "All": "全部",
+  "Daily": "每日",
+  "Morning review": "晨间审核",
+  "Next morning": "下个早晨",
+  "Before work starts": "工作开始前",
+  "Designed to be read before the first work block.": "设计为在第一个工作块前阅读。",
+  "Market day": "市场日",
+  "Market days": "市场日",
+  "Market": "市场",
+  "Next market day": "下一个市场日",
+  "Next market session": "下一个市场时段",
+  "During market sessions": "市场时段内",
+  "Runs as research preparation, not trading instruction.":
+    "作为研究准备运行，而不是交易指令。",
+  "Evening": "夜间",
+  "Evening check": "夜间检查",
+  "Before overnight work": "夜间工作前",
+  "Designed to reveal attention areas before overnight work.":
+    "设计为在夜间工作前揭示需要关注的区域。",
+  "Health check": "健康检查",
+  "Weekly": "每周",
+  "Weekly close": "每周收口",
+  "Runs as a review packet, not an automatic planning mutation.":
+    "作为复盘包运行，而不是自动规划变更。",
+  "Planning close": "规划收口",
+  "Pending owner review": "等待本人审核",
+  "Recurring loops": "循环任务",
+  "Owner-visible operating rhythms": "本人可见运行节奏",
+  "Schedules preparing context": "正在准备上下文的日程",
+  "Needs explicit owner read": "需要本人明确阅读",
+  "Tracked rows": "追踪行",
+  "Proof, gaps, or blocked actions": "证明、缺口或被阻塞动作",
+  "Next action": "下一步动作",
+  "Window": "窗口",
+  "Tracked off-page": "在页面外追踪",
+  "No schedules match this filter.": "没有日程匹配当前筛选。",
+  "Collected": "已收集",
+  "Readable": "可读",
+  "Prepare a concise daily operating brief for priorities, approvals, and watch items.":
+    "为优先级、审批和关注项准备一份简洁的每日运行简报。",
+  "Turn overnight context into a short owner-facing operating plan before the day starts.":
+    "在一天开始前，把夜间上下文转成一份面向本人的简短运行计划。",
+  "Review priority stack, approvals, schedule pressure, and systems that need attention.":
+    "审核优先级栈、审批、日程压力和需要关注的系统。",
+  "No command string or local path is rendered.": "不会渲染命令字符串或本地路径。",
+  "Priority inputs": "优先级输入",
+  "Uses curated priorities and review queue state, not raw private prompts.":
+    "使用精选优先级和审核队列状态，而不是原始私密 prompt。",
+  "Items that need owner decisions stay in review state.":
+    "需要本人决策的事项保持审核状态。",
+  "Delivery": "投递",
+  "This page does not send messages or trigger delivery.":
+    "这个页面不会发送消息或触发投递。",
+  "Scan priorities": "扫描优先级",
+  "Start with priorities, review queue pressure, and schedule constraints.":
+    "从优先级、审核队列压力和日程约束开始。",
+  "Check owner gates": "检查本人门禁",
+  "Identify decisions that need explicit owner action before the day moves.":
+    "识别当天推进前需要本人明确动作的决策。",
+  "Hold delivery": "保持不投递",
+  "No message is sent and no reminder is triggered from this page.":
+    "此页面不会发送消息，也不会触发提醒。",
+  "Operating brief": "运行简报",
+  "A short owner-readable plan with priorities, watch items, and review queue links.":
+    "一份本人可读的简短计划，包含优先级、关注项和审核队列链接。",
+  "Decision items can be summarized for Review Queue without becoming execution state.":
+    "决策项可以汇总到审核队列，但不会变成执行状态。",
+  "Runtime action": "运行时动作",
+  "Tool dispatch, delivery, or schedule mutation remains outside this surface.":
+    "工具派发、投递或日程变更都留在此界面之外。",
+  "Read now": "现在阅读",
+  "Treat this loop as the next item to inspect in the cockpit.":
+    "把这个循环作为驾驶舱中下一项要检查的内容。",
+  "Read the brief, then move any decision into Review Queue or Command.":
+    "阅读简报，然后把任何决策移动到审核队列或指挥界面。",
+  "Defer window": "暂缓窗口",
+  "Leave the loop visible but do not promote it into today's work.":
+    "保持该循环可见，但不要推进到今天的工作。",
+  "Keep the schedule unchanged and revisit at the next owner review window.":
+    "保持日程不变，并在下一个本人审核窗口复查。",
+  "Need more evidence": "需要更多证据",
+  "Ask for more proof before trusting this recurring loop.":
+    "信任这个循环任务前要求更多证明。",
+  "Open System Health or Review Queue; do not send or mutate the schedule.":
+    "打开系统健康或审核队列；不要发送或修改日程。",
+  "Owner reads and decides what moves into the day.":
+    "本人阅读并决定什么进入当天工作。",
+  "No auto-send": "不自动发送",
+  "No tool dispatch": "不派发工具",
+  "No hidden task promotion": "不隐藏推进任务",
+  "Collect market-research context and source-health notes without broker execution.":
+    "收集市场研究上下文和来源健康记录，不进行券商执行。",
+  "No account, position, order, or broker credential data is shown.":
+    "不展示账户、仓位、订单或券商凭证数据。",
+  "Keep the trading research desk aware of market context while preserving the research-only boundary.":
+    "让交易研究台了解市场上下文，同时保留仅研究边界。",
+  "Collect signals, source health, disagreement notes, and evidence gaps for owner reading.":
+    "收集信号、来源健康、分歧记录和证据缺口，供本人阅读。",
+  "Research posture": "研究姿态",
+  "The schedule can prepare evidence, but cannot recommend or execute trades.":
+    "日程可以准备证据，但不能推荐或执行交易。",
+  "Market data health is summarized without showing accounts or broker details.":
+    "市场数据健康以摘要呈现，不展示账户或券商细节。",
+  "Execution": "执行",
+  "No broker, paper, live, or order path exists in the web cockpit.":
+    "网页驾驶舱中不存在券商、纸面、实盘或订单路径。",
+  "Read context": "阅读上下文",
+  "Scan market context as evidence, not as advice or instruction.":
+    "把市场上下文作为证据阅读，而不是建议或指令。",
+  "Check source health": "检查来源健康",
+  "Treat degraded sources as a blocker, not something to smooth over.":
+    "把降级来源视为阻塞项，而不是需要抹平的东西。",
+  "Hold execution": "保持不执行",
+  "No broker write, paper trade, live order, or recommendation can emerge here.":
+    "这里不会产生券商写入、纸面交易、实盘订单或建议。",
+  "A private evidence note for owner reading, clearly marked research-only.":
+    "一条供本人阅读的私密证据记录，并清楚标注为仅研究。",
+  "Evidence gap": "证据缺口",
+  "A visible missing-source or disagreement row for future review.":
+    "一行可见的缺失来源或分歧，供未来审核。",
+  "Trade instruction": "交易指令",
+  "No order, recommendation, position sizing, or account action is rendered.":
+    "不会渲染订单、建议、仓位规模或账户动作。",
+  "Read research": "阅读研究",
+  "Use the schedule as a private research context scan.":
+    "把这个日程作为私密研究上下文扫描。",
+  "Open Trading Team for evidence and gates; do not treat this as a trade action.":
+    "打开交易研究团队查看证据和门禁；不要把它视为交易动作。",
+  "Hold for sources": "等待来源",
+  "Pause interpretation when source health is incomplete.":
+    "当来源健康不完整时暂停解读。",
+  "Keep the loop visible and require source evidence before summary.":
+    "保持循环可见，并在摘要前要求来源证据。",
+  "Defer trading": "暂缓交易研究",
+  "Leave research untouched for this window.": "在这个窗口保持研究不动。",
+  "No schedule mutation, order path, or recommendation is created.":
+    "不会创建日程变更、订单路径或建议。",
+  "Owner may read research; the page cannot act on it.":
+    "本人可以阅读研究；页面不能据此行动。",
+  "No order placement": "不下单",
+  "No position sizing": "不做仓位规模",
+  "Summarize service posture, event freshness, and queue health for owner review.":
+    "为本人审核汇总服务状态、事件新鲜度和队列健康。",
+  "No internal hostnames, ports, filesystem paths, or credential material is rendered.":
+    "不会渲染内部主机名、端口、文件系统路径或凭证材料。",
+  "Keep the Personal OS observable without turning the web page into a repair console.":
+    "保持 Personal OS 可观察，但不把网页变成维修控制台。",
+  "Summarize public boundary, private auth posture, event freshness, and queue health.":
+    "汇总公开边界、私密认证状态、事件新鲜度和队列健康。",
+  "Auth gate": "认证门禁",
+  "Private routes must redirect before owner-only shell content renders.":
+    "私密路由必须在仅本人可见的 shell 内容渲染前重定向。",
+  "Public Doraemon status stays separate from private diagnostics.":
+    "公开 Doraemon 状态与私密诊断保持分离。",
+  "Repair controls": "维修控制",
+  "Restart, deploy, purge, and raw log actions are not rendered.":
+    "不会渲染重启、部署、清理或原始日志动作。",
+  "Check boundary": "检查边界",
+  "Confirm public and private health views stay separate.":
+    "确认公开与私密健康视图保持分离。",
+  "Read posture": "阅读状态",
+  "Summarize route gates, event freshness, and attention areas.":
+    "汇总路由门禁、事件新鲜度和关注区域。",
+  "Hold repair": "保持不维修",
+  "No restart, deploy, log, or purge affordance belongs in this surface.":
+    "此界面不应有重启、部署、日志或清理入口。",
+  "Health note": "健康记录",
+  "A private summary of posture and attention areas.":
+    "一份私密的状态和关注区域摘要。",
+  "Review item": "审核项",
+  "A future Review Queue packet can be created after separate implementation.":
+    "单独实现后，可以创建未来的审核队列包。",
+  "Repair command": "维修命令",
+  "No operational command or raw service detail is exposed here.":
+    "这里不暴露运维命令或原始服务细节。",
+  "Read health": "阅读健康状态",
+  "Use this window to inspect safe service posture.":
+    "使用这个窗口检查安全的服务状态。",
+  "Open System Health for details; keep repair work outside the schedule surface.":
+    "打开系统健康查看详情；把维修工作留在日程界面之外。",
+  "Escalate review": "升级审核",
+  "Treat an attention area as a future Review Queue item.":
+    "把关注区域视为未来审核队列项。",
+  "Draft a reviewed packet; do not add repair controls to schedules.":
+    "起草经过审核的包；不要把维修控制加入日程。",
+  "Hold repairs": "保持不维修",
+  "Keep operations read-only until audit and rollback design exists.":
+    "在审计和回滚设计存在前，保持运维只读。",
+  "No restart, deploy, purge, or raw log action is created.":
+    "不会创建重启、部署、清理或原始日志动作。",
+  "Doraemon public boundary": "Doraemon 公开边界",
+  "Owner can inspect posture; repair design is a separate future slice.":
+    "本人可以检查状态；维修设计是单独的未来切片。",
+  "No raw logs": "不展示原始日志",
+  "No restart control": "没有重启控制",
+  "No deployment trigger": "没有部署触发",
+  "Create a review loop for what shipped, what was deferred, and what needs owner decisions.":
+    "为已发布、已暂缓和需要本人决策的内容创建复盘循环。",
+  "No auto-promotion from review notes into execution.":
+    "复盘记录不会自动推进为执行。",
+  "Turn shipped work, deferred work, and owner decisions into an explicit weekly review packet.":
+    "把已发布工作、暂缓工作和本人决策转成明确的每周复盘包。",
+  "Collect shipped slices, review findings, deferred decisions, and next-week candidate work.":
+    "收集已发布切片、review 发现、暂缓决策和下周候选工作。",
+  "Shipped work": "已发布工作",
+  "Summaries should link to reviewed PRs or deployment evidence.":
+    "摘要应链接到已审核 PR 或部署证据。",
+  "Deferred work": "暂缓工作",
+  "Open decisions stay visible instead of silently becoming tasks.":
+    "开放决策保持可见，而不是静默变成任务。",
+  "Promotion": "推进",
+  "Review notes cannot become execution state from this page.":
+    "复盘记录不能从此页变成执行状态。",
+  "Collect shipped work": "收集已发布工作",
+  "Review shipped PRs, deployments, and verification evidence.":
+    "审核已发布 PR、部署和验证证据。",
+  "Name deferrals": "点名暂缓项",
+  "Keep postponed work explicit instead of letting it vanish.":
+    "保持延期工作明确可见，而不是让它消失。",
+  "Hold promotion": "保持不推进",
+  "Review notes cannot become next-week execution without owner approval.":
+    "没有本人批准，复盘记录不能变成下周执行。",
+  "Weekly packet": "每周复盘包",
+  "A private review packet of shipped, deferred, blocked, and candidate work.":
+    "一份包含已发布、暂缓、阻塞和候选工作的私密复盘包。",
+  "Next-slice shortlist": "下一切片候选清单",
+  "Candidate work stays reviewable until the owner chooses the next slice.":
+    "候选工作保持可审核，直到本人选择下一切片。",
+  "Auto-plan": "自动规划",
+  "No automatic planning mutation or task promotion is rendered.":
+    "不会渲染自动规划变更或任务推进。",
+  "Review now": "现在复盘",
+  "Use this loop to choose what should shape the next week.":
+    "用这个循环选择下周应由什么来塑形。",
+  "Move chosen items into Command or Review Queue after owner decision.":
+    "本人决策后，把选中的事项移动到指挥或审核队列。",
+  "Defer close": "暂缓收口",
+  "Keep the weekly packet open until evidence is complete.":
+    "在证据完整前保持每周复盘包打开。",
+  "Do not auto-promote postponed work.": "不要自动推进延期工作。",
+  "Need proof": "需要证明",
+  "Ask for PR, deployment, or review evidence before closing the week.":
+    "收口本周前要求 PR、部署或 review 证据。",
+  "Attach evidence first; leave execution unavailable.":
+    "先附上证据；执行保持不可用。",
+  "Deploy evidence": "部署证据",
+  "Owner chooses what becomes next-week work.":
+    "本人选择什么成为下周工作。",
+  "No auto-plan": "不自动规划",
+  "No silent promotion": "不静默推进",
+  "No execution queue mutation": "不修改执行队列",
+  "Priorities, approvals, schedule pressure, and attention items become a short owner brief.":
+    "优先级、审批、日程压力和关注项会成为一份简短的本人简报。",
+  "Market context is gathered for reading only; no order, recommendation, or execution path exists.":
+    "市场上下文仅为阅读而收集；不存在订单、建议或执行路径。",
+  "System posture is summarized without exposing raw service internals or repair controls.":
+    "系统状态会被汇总，但不暴露原始服务内部信息或维修控制。",
+  "Shipped, deferred, and blocked work becomes a review packet before next-week planning.":
+    "已发布、暂缓和阻塞工作会在下周规划前成为复盘包。",
+  "The web page is a schedule register, not a scheduler.":
+    "网页是日程登记簿，不是调度器。",
+  "Scheduler command strings, shell paths, and private prompts stay outside the web bundle.":
+    "调度器命令字符串、shell 路径和私密 prompt 都留在网页 bundle 之外。",
+  "Research schedules can prepare evidence only; they cannot submit orders or mutate accounts.":
+    "研究日程只能准备证据；不能提交订单或修改账户。",
+  "Owner review remains the boundary before future schedule mutation exists.":
+    "在未来日程变更存在前，本人审核仍是边界。",
+  "Create job": "创建任务",
+  "Pause job": "暂停任务",
+  "Resume job": "恢复任务",
+  "Delete job": "删除任务",
+  "Edit command": "编辑命令",
   "Weiyu AI": "Weiyu AI",
   "A personal AI lab where one human sets direction and a coordinated agent system supports research, building, and review.":
     "一个个人 AI 实验室：由一个人设定方向，协同智能体系统支持研究、构建与复盘。",
