@@ -17,17 +17,14 @@ import {
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
-import { DoraTeamSignals } from "@/components/DoraTeamSignals";
+import { DoraTeamLiveProvider, DoraTeamRoster, DoraTeamSelectedAgentCard, DoraTeamSignals } from "@/components/DoraTeamSignals";
 import { SiteChrome } from "@/components/SiteChrome";
 import { StatusBadge } from "@/components/StatusBadge";
 import {
-  formatPublicEventTime,
-  getPublicAgentTone,
   getRecentPublicDoraEvents,
-  latestAgentEvent,
   toPublicDoraEventClientView
 } from "@/lib/dora-office";
-import { getPublicAgents, type PublicAgent } from "@/lib/public-agents";
+import { getPublicAgents } from "@/lib/public-agents";
 
 export const metadata: Metadata = {
   title: "Doraemon Team Agents",
@@ -131,38 +128,8 @@ const commandRoutes = [
   }
 ] as const;
 
-const stateToneClass = {
-  idle: "is-info",
-  planning: "is-info",
-  researching: "is-normal",
-  coding: "is-normal",
-  writing: "is-normal",
-  tool_call: "is-info",
-  handoff: "is-info",
-  waiting_user: "is-warning",
-  error: "is-danger",
-  done: "is-normal",
-  offline: "is-private",
-  demo: "is-info"
-} as const satisfies Record<PublicAgent["state"], string>;
-
 function orbitClass(index: number) {
   return `dora-team-landing-orbit-agent dora-team-landing-orbit-agent-${index + 1}`;
-}
-
-function AgentAvatar({ agent }: { agent: PublicAgent }) {
-  const isDoraemon = agent.publicId === "agent_dora";
-
-  return (
-    <span className={`dora-team-avatar ${isDoraemon ? "is-doraemon" : "is-minidora"}`} role="img" aria-label={`${agent.stageName} public avatar`}>
-      <DoraemonMark />
-      {isDoraemon ? null : (
-        <span className="dora-team-avatar-role" aria-hidden>
-          {agent.stageName.slice(0, 1)}
-        </span>
-      )}
-    </span>
-  );
 }
 
 export default function DoraTeamPage() {
@@ -170,168 +137,148 @@ export default function DoraTeamPage() {
   const doraemon = agents.find((agent) => agent.publicId === "agent_dora") ?? agents[0];
   const minidoras = agents.filter((agent) => agent.publicId !== doraemon.publicId);
   const selectedAgent = minidoras.find((agent) => agent.publicId === "agent_research") ?? minidoras[0] ?? doraemon;
-  const selectedAgentEvent = latestAgentEvent(selectedAgent);
-  const signalEvents = getRecentPublicDoraEvents(5).map(toPublicDoraEventClientView);
+  const signalEvents = getRecentPublicDoraEvents().map(toPublicDoraEventClientView);
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
-      <div className="dora-team-landing">
-        <div className="dora-office-route-dock-wrap">
-          <DoraOfficeRouteDock active="/dora/team" />
-        </div>
-        <section className="dora-team-landing-hero" aria-labelledby="dora-team-title">
-          <div className="container dora-team-landing-hero-grid">
-            <div className="dora-team-landing-copy">
-              <h1 id="dora-team-title">
-                <span>MiniDora</span>
-                {" "}
-                Team Agents
-              </h1>
-              <p>Doraemon leads. MiniDoras specialize across research, product, engineering, memory, media, operations, and market research.</p>
-              <div className="dora-team-landing-rule" aria-hidden />
-              <div className="dora-team-landing-actions">
-                <a href="#agent-roster" className="link-focus dora-office-primary-cta">
-                  Meet the MiniDoras
-                  <ArrowRight size={19} aria-hidden />
-                </a>
-                <div className="dora-office-secondary-actions">
-                  <Link href="/dora/office" className="link-focus dora-office-text-link">
-                    Enter Doraemon Office
-                    <ArrowRight size={15} aria-hidden />
-                  </Link>
-                  <Link href="/dora/activity" className="link-focus dora-office-text-link">
-                    View public activity
-                    <ArrowRight size={15} aria-hidden />
-                  </Link>
-                </div>
-              </div>
-              <div className="dora-team-hero-signal-strip" aria-label="Public team safety posture">
-                {heroSafetySignals.map((signal) => {
-                  const Icon = signal.icon;
-
-                  return (
-                    <div key={signal.title}>
-                      <Icon size={17} aria-hidden />
-                      <strong>{signal.title}</strong>
-                      <span>{signal.summary}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="dora-team-landing-visual">
-              <section className="dora-team-command-stage" aria-label="Public MiniDora team constellation">
-                <div className="dora-team-command-room" aria-hidden="true">
-                  <Image
-                    src="/visuals/doraemon-office-command-room-v2.png"
-                    alt=""
-                    width={1536}
-                    height={1024}
-                    priority
-                    quality={94}
-                    sizes="(max-width: 900px) 100vw, 58vw"
-                  />
-                </div>
-
-                <div className="dora-team-stage-boundary">
-                  <strong>Doraemon Team</strong>
-                  <p>Public-safe profiles. Demo-safe posture. No private work exposed.</p>
-                  <div>
-                    <Eye size={17} aria-hidden />
-                    <span>Public window</span>
-                  </div>
-                  <div>
-                    <LockKeyhole size={17} aria-hidden />
-                    <span>Private area</span>
-                  </div>
-                </div>
-
-                <div className="dora-team-orbit-system">
-                  <span className="dora-team-orbit-ring dora-team-orbit-ring-1" aria-hidden />
-                  <span className="dora-team-orbit-ring dora-team-orbit-ring-2" aria-hidden />
-                  <article className="dora-team-landing-core">
-                    <DoraemonMark />
-                    <strong>{doraemon.stageName}</strong>
-                    <small>{doraemon.role}</small>
-                  </article>
-                  {minidoras.map((agent, index) => (
-                    <article key={agent.publicId} className={orbitClass(index)}>
-                      <span>
-                        <DoraemonMark />
-                      </span>
-                      <strong>{agent.stageName}</strong>
-                      <small>{agent.role}</small>
-                    </article>
-                  ))}
-                </div>
-              </section>
-
-              <DoraTeamSignals fallbackSignals={signalEvents} />
-            </div>
-
-            <aside className="dora-team-hero-side" aria-label="MiniDora public team context">
-              <section className="dora-team-hero-side-card dora-team-selected-agent-card">
-                <div className="dora-team-selected-agent-head">
-                  <AgentAvatar agent={selectedAgent} />
-                  <div>
-                    <h2>{selectedAgent.displayName}</h2>
-                    <p>{selectedAgent.role}</p>
-                  </div>
-                  <StatusBadge tone={getPublicAgentTone(selectedAgent)}>{selectedAgent.stateLabel}</StatusBadge>
-                </div>
-                <p>{selectedAgent.summary}</p>
-                <dl>
-                  <div>
-                    <dt>Latest label</dt>
-                    <dd>{selectedAgentEvent?.title ?? "Demo state"}</dd>
-                  </div>
-                  <div>
-                    <dt>Updated</dt>
-                    <dd>{selectedAgentEvent ? formatPublicEventTime(selectedAgentEvent.created_at) : "Demo"}</dd>
-                  </div>
-                </dl>
-              </section>
-
-              <section className="dora-team-hero-side-card dora-team-operating-lanes-card">
-                <div className="dora-team-hero-side-head">
-                  <Layers3 size={20} aria-hidden />
-                  <h2>Operating lanes</h2>
-                </div>
-                <ol className="dora-team-hero-lane-list">
-                  {teamLanes.map((lane) => (
-                    <li key={lane.title}>
-                      <strong>{lane.title}</strong>
-                      <span>{lane.summary}</span>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-
-              <section className="dora-team-hero-side-card dora-team-public-boundary-card">
-                <div className="dora-team-hero-side-head">
-                  <ShieldCheck size={20} aria-hidden />
-                  <h2>Public boundary</h2>
-                </div>
-                <ul className="dora-team-hero-boundary-list">
-                  {publicWindowItems.slice(0, 3).map((item) => (
-                    <li key={item}>
-                      <CheckCircle2 size={14} aria-hidden />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p className="dora-team-research-boundary">
-                  Research-only. Not an order, recommendation, or execution system.
-                </p>
-                <Link href="/dora/system" className="link-focus dora-office-text-link">
-                  Boundary details
-                  <ArrowRight size={15} aria-hidden />
-                </Link>
-              </section>
-            </aside>
+      <DoraTeamLiveProvider fallbackSignals={signalEvents}>
+        <div className="dora-team-landing">
+          <div className="dora-office-route-dock-wrap">
+            <DoraOfficeRouteDock active="/dora/team" />
           </div>
-        </section>
+          <section className="dora-team-landing-hero" aria-labelledby="dora-team-title">
+            <div className="container dora-team-landing-hero-grid">
+              <div className="dora-team-landing-copy">
+                <h1 id="dora-team-title">
+                  <span>MiniDora</span>
+                  {" "}
+                  Team Agents
+                </h1>
+                <p>Doraemon leads. MiniDoras specialize across research, product, engineering, memory, media, operations, and market research.</p>
+                <div className="dora-team-landing-rule" aria-hidden />
+                <div className="dora-team-landing-actions">
+                  <a href="#agent-roster" className="link-focus dora-office-primary-cta">
+                    Meet the MiniDoras
+                    <ArrowRight size={19} aria-hidden />
+                  </a>
+                  <div className="dora-office-secondary-actions">
+                    <Link href="/dora/office" className="link-focus dora-office-text-link">
+                      Enter Doraemon Office
+                      <ArrowRight size={15} aria-hidden />
+                    </Link>
+                    <Link href="/dora/activity" className="link-focus dora-office-text-link">
+                      View public activity
+                      <ArrowRight size={15} aria-hidden />
+                    </Link>
+                  </div>
+                </div>
+                <div className="dora-team-hero-signal-strip" aria-label="Public team safety posture">
+                  {heroSafetySignals.map((signal) => {
+                    const Icon = signal.icon;
+
+                    return (
+                      <div key={signal.title}>
+                        <Icon size={17} aria-hidden />
+                        <strong>{signal.title}</strong>
+                        <span>{signal.summary}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="dora-team-landing-visual">
+                <section className="dora-team-command-stage" aria-label="Public MiniDora team constellation">
+                  <div className="dora-team-command-room" aria-hidden="true">
+                    <Image
+                      src="/visuals/doraemon-office-command-room-v2.png"
+                      alt=""
+                      width={1536}
+                      height={1024}
+                      priority
+                      quality={94}
+                      sizes="(max-width: 900px) 100vw, 58vw"
+                    />
+                  </div>
+
+                  <div className="dora-team-stage-boundary">
+                    <strong>Doraemon Team</strong>
+                    <p>Public-safe profiles. Demo-safe posture. No private work exposed.</p>
+                    <div>
+                      <Eye size={17} aria-hidden />
+                      <span>Public window</span>
+                    </div>
+                    <div>
+                      <LockKeyhole size={17} aria-hidden />
+                      <span>Private area</span>
+                    </div>
+                  </div>
+
+                  <div className="dora-team-orbit-system">
+                    <span className="dora-team-orbit-ring dora-team-orbit-ring-1" aria-hidden />
+                    <span className="dora-team-orbit-ring dora-team-orbit-ring-2" aria-hidden />
+                    <article className="dora-team-landing-core">
+                      <DoraemonMark />
+                      <strong>{doraemon.stageName}</strong>
+                      <small>{doraemon.role}</small>
+                    </article>
+                    {minidoras.map((agent, index) => (
+                      <article key={agent.publicId} className={orbitClass(index)}>
+                        <span>
+                          <DoraemonMark />
+                        </span>
+                        <strong>{agent.stageName}</strong>
+                        <small>{agent.role}</small>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+                <DoraTeamSignals />
+              </div>
+
+              <aside className="dora-team-hero-side" aria-label="MiniDora public team context">
+                <DoraTeamSelectedAgentCard agent={selectedAgent} />
+
+                <section className="dora-team-hero-side-card dora-team-operating-lanes-card">
+                  <div className="dora-team-hero-side-head">
+                    <Layers3 size={20} aria-hidden />
+                    <h2>Operating lanes</h2>
+                  </div>
+                  <ol className="dora-team-hero-lane-list">
+                    {teamLanes.map((lane) => (
+                      <li key={lane.title}>
+                        <strong>{lane.title}</strong>
+                        <span>{lane.summary}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+
+                <section className="dora-team-hero-side-card dora-team-public-boundary-card">
+                  <div className="dora-team-hero-side-head">
+                    <ShieldCheck size={20} aria-hidden />
+                    <h2>Public boundary</h2>
+                  </div>
+                  <ul className="dora-team-hero-boundary-list">
+                    {publicWindowItems.slice(0, 3).map((item) => (
+                      <li key={item}>
+                        <CheckCircle2 size={14} aria-hidden />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="dora-team-research-boundary">
+                    Research-only. Not an order, recommendation, or execution system.
+                  </p>
+                  <Link href="/dora/system" className="link-focus dora-office-text-link">
+                    Boundary details
+                    <ArrowRight size={15} aria-hidden />
+                  </Link>
+                </section>
+              </aside>
+            </div>
+          </section>
 
         <section className="dora-team-landing-section dora-team-principles-section" aria-label="Public-safe MiniDora team principles">
           <div className="container dora-team-principle-strip">
@@ -364,41 +311,7 @@ export default function DoraTeamPage() {
               </div>
             </div>
 
-            <div className="dora-team-roster">
-              {agents.map((agent) => {
-                const event = latestAgentEvent(agent);
-
-                return (
-                  <article key={agent.publicId} className={`dora-team-card dora-team-card-${agent.colorToken}`}>
-                    <div className="dora-team-card-top">
-                      <AgentAvatar agent={agent} />
-                      <span className={`dora-team-state-dot ${stateToneClass[agent.state]}`} aria-hidden />
-                    </div>
-                    <div className="dora-team-card-title">
-                      <h3>{agent.displayName}</h3>
-                      <StatusBadge tone={getPublicAgentTone(agent)}>{agent.stateLabel}</StatusBadge>
-                    </div>
-                    <p className="dora-team-role">{agent.role}</p>
-                    <p>{agent.summary}</p>
-                    {agent.publicId === "agent_trading" ? (
-                      <p className="dora-team-research-boundary">
-                        Research-only. Not an order, recommendation, or execution system.
-                      </p>
-                    ) : null}
-                    <div className="dora-team-event">
-                      <Activity size={15} aria-hidden />
-                      <span>Latest public label</span>
-                      <strong>{event ? event.title : "No public event yet"}</strong>
-                      {event ? (
-                        <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
-                      ) : (
-                        <span className="dora-team-event-time">Demo state</span>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
+            <DoraTeamRoster agents={agents} />
           </div>
         </section>
 
@@ -502,7 +415,8 @@ export default function DoraTeamPage() {
             </div>
           </div>
         </section>
-      </div>
+        </div>
+      </DoraTeamLiveProvider>
     </SiteChrome>
   );
 }
