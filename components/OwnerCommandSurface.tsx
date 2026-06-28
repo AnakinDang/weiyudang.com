@@ -8,6 +8,7 @@ import {
   Boxes,
   CheckCircle2,
   ClipboardCheck,
+  Copy,
   FileSearch,
   GitBranch,
   LockKeyhole,
@@ -38,6 +39,7 @@ type LocalReviewPacket = {
   characters: number;
   createdAt: number;
   draftIntent: string | null;
+  draftText: string;
   evidenceCount: number;
   lensState: string;
   lensTitle: string;
@@ -173,7 +175,16 @@ const commandZhOverrides: Partial<Record<string, string>> = {
   "Ask Opus to review product fit, privacy boundary, auth behavior, browser QA, and P1/P2 blockers before PR/deploy.":
     "请 Opus 在 PR / 部署前审核产品贴合度、隐私边界、认证行为、浏览器 QA 和 P1 / P2 阻塞项。",
   "Browser-local only. This packet is a snapshot, not an approval record.":
-    "仅浏览器本地。这个审核包只是快照，不是审批记录。"
+    "仅浏览器本地。这个审核包只是快照，不是审批记录。",
+  "Copy review brief": "复制审核简报",
+  "Copied": "已复制",
+  "Copy failed": "复制失败",
+  "Review brief text": "审核简报文本",
+  "Exact text prepared for clipboard copy": "准备复制到剪贴板的完整文本",
+  "Copies the frozen packet into your browser clipboard. No network request, save, approval, or dispatch occurs.":
+    "把冻结的审核包复制到浏览器剪贴板。不会发起网络请求、保存、审批或派发。",
+  "Clipboard unavailable. Nothing was sent; copy the visible packet manually if needed.":
+    "剪贴板不可用。没有发送任何内容；如需要，可手动复制可见审核包。"
 };
 
 function commandText(value: string | undefined, locale: SiteLocale) {
@@ -219,6 +230,31 @@ function formattedPacketTime(timestamp: number, locale: SiteLocale) {
   }).format(new Date(timestamp));
 }
 
+function packetMetricLabel(packet: LocalReviewPacket) {
+  const lineLabel = packet.lines === 1 ? "active line" : "active lines";
+  return `${packet.words} words / ${packet.characters} characters / ${packet.lines} ${lineLabel}`;
+}
+
+function reviewBriefForPacket(packet: LocalReviewPacket) {
+  return [
+    "# Command Review Brief",
+    "",
+    `Prepared at: ${new Date(packet.createdAt).toISOString()}`,
+    `Scope lens: ${packet.lensTitle} (${packet.lensState})`,
+    `Draft size: ${packetMetricLabel(packet)}`,
+    `Plan gates: ${packet.planGateCount}`,
+    `Evidence checks: ${packet.evidenceCount}`,
+    "",
+    "Draft:",
+    packet.draftText || "No draft text yet.",
+    "",
+    `Boundary: ${packet.boundary}`,
+    "",
+    "Reviewer ask: Review product fit, privacy boundary, auth behavior, browser QA, and P1/P2 blockers before PR/deploy.",
+    "Safety: Browser-local copy only. Not saved, sent, approved, or dispatched."
+  ].join("\n");
+}
+
 function safeTone(tone: string): Tone {
   if (tone === "normal" || tone === "warning" || tone === "private") {
     return tone;
@@ -258,6 +294,7 @@ function CommandWorkspace({
   const [draft, setDraft] = useState<string>(defaultDraft);
   const [draftWasEdited, setDraftWasEdited] = useState(false);
   const [preparedPacket, setPreparedPacket] = useState<LocalReviewPacket | null>(null);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
   const fallbackMode = data.modeTabs[0]?.key ?? data.reviewPacketModeKey;
   const activePanel = data.modePanels[activeMode] ?? data.modePanels[fallbackMode];
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
@@ -299,6 +336,20 @@ function CommandWorkspace({
       ? { value: preparedPacket.characters, label: "字符" }
       : { value: preparedPacket.words, label: "words" }
     : null;
+  const preparedReviewBrief = useMemo(() => preparedPacket ? reviewBriefForPacket(preparedPacket) : "", [preparedPacket]);
+
+  async function copyPreparedReviewBrief() {
+    if (!preparedReviewBrief) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(preparedReviewBrief);
+      setCopyStatus("copied");
+    } catch {
+      setCopyStatus("failed");
+    }
+  }
 
   useEffect(() => {
     if (!draftWasEdited) {
@@ -407,6 +458,7 @@ function CommandWorkspace({
                       characters: draftCharacters,
                       createdAt: Date.now(),
                       draftIntent: draftExcerpt(draft),
+                      draftText: draft.trim(),
                       evidenceCount: data.evidenceRequirements.length,
                       lensState: packetPanel.state,
                       lensTitle: packetPanel.title,
@@ -414,6 +466,7 @@ function CommandWorkspace({
                       planGateCount: data.planStages.length,
                       words: draftWords
                     });
+                    setCopyStatus("idle");
                     setActiveMode(data.reviewPacketModeKey);
                   }}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-sky-300 px-3 py-2 text-sm font-semibold text-slate-950 shadow-[0_16px_36px_rgba(14,165,233,0.18)] transition hover:bg-sky-200"
@@ -427,6 +480,7 @@ function CommandWorkspace({
                     setDraftWasEdited(false);
                     setDraft(defaultDraft);
                     setPreparedPacket(null);
+                    setCopyStatus("idle");
                   }}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
                 >
@@ -579,6 +633,36 @@ function CommandWorkspace({
                     <p className="text-xs font-bold uppercase text-emerald-100">{t("Reviewer brief")}</p>
                     <p className="mt-2 text-sm font-semibold leading-6 text-emerald-50">
                       {t("Ask Opus to review product fit, privacy boundary, auth behavior, browser QA, and P1/P2 blockers before PR/deploy.")}
+                    </p>
+                  </div>
+                  <div className="rounded-[8px] border border-sky-200/25 bg-[#07111f]/70 p-3">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <p className="text-xs font-semibold leading-5 text-slate-300">
+                        {t("Copies the frozen packet into your browser clipboard. No network request, save, approval, or dispatch occurs.")}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={copyPreparedReviewBrief}
+                        className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-sky-200/35 bg-sky-300/14 px-3 py-2 text-sm font-semibold text-sky-50 transition hover:border-sky-100/60 hover:bg-sky-300/20"
+                      >
+                        {copyStatus === "copied" ? <CheckCircle2 size={15} aria-hidden /> : <Copy size={15} aria-hidden />}
+                        {t(copyStatus === "copied" ? "Copied" : "Copy review brief")}
+                      </button>
+                    </div>
+                    <label className="mt-3 block text-xs font-bold uppercase text-slate-400" htmlFor="command-review-brief-text">
+                      {t("Exact text prepared for clipboard copy")}
+                    </label>
+                    <textarea
+                      id="command-review-brief-text"
+                      aria-label={t("Review brief text")}
+                      readOnly
+                      value={preparedReviewBrief}
+                      className="mt-2 min-h-36 w-full resize-y rounded-[8px] border border-slate-700 bg-black/20 p-3 font-mono text-xs leading-5 text-slate-200"
+                    />
+                    <p className={`mt-3 text-xs font-semibold uppercase ${copyStatus === "failed" ? "text-yellow-100" : "text-slate-400"}`} aria-live="polite">
+                      {copyStatus === "failed"
+                        ? t("Clipboard unavailable. Nothing was sent; copy the visible packet manually if needed.")
+                        : t("Browser-local only. This packet is a snapshot, not an approval record.")}
                     </p>
                   </div>
                 </div>
