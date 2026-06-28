@@ -23,9 +23,20 @@ export async function generateMetadata({ params }: LabNotePageProps): Promise<Me
     return {};
   }
 
+  const url = `/lab/${note.slug}`;
+
   return {
     title: note.title,
-    description: note.summary
+    description: note.summary,
+    alternates: {
+      canonical: url
+    },
+    openGraph: {
+      title: note.title,
+      description: note.summary,
+      url,
+      type: "article"
+    }
   };
 }
 

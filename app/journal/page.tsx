@@ -8,7 +8,22 @@ import { getJournalEntries } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Journal",
-  description: "Photography, life notes, and personal field observations from Weiyu Dang."
+  description: "Photography, life notes, and personal field observations from Weiyu Dang.",
+  alternates: {
+    canonical: "/journal"
+  },
+  openGraph: {
+    title: "Journal",
+    description: "Photography, life notes, and personal field observations from Weiyu Dang.",
+    url: "/journal",
+    type: "website",
+    images: [
+      {
+        url: "/visuals/journal-triptych.png",
+        alt: "Photography and life journal triptych."
+      }
+    ]
+  }
 };
 
 const journalPillars = [
@@ -22,7 +37,7 @@ export default function JournalPage() {
   const [featured, ...rest] = entries;
 
   return (
-    <SiteChrome>
+    <SiteChrome headerVariant="doraemon" headerActiveHref="/journal">
       <section className="section">
         <div className="container">
           <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">

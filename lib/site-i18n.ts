@@ -2626,6 +2626,41 @@ const exactZhTranslations = {
   "Places": "地点",
   "Travel fragments, daily walks, and field observations.":
     "旅行片段、日常散步和现场观察。",
+  "Read entry": "阅读条目",
+  "Back to Journal": "返回日志",
+  "Journal Entry": "日志条目",
+  "Journal entry": "日志正文",
+  "Journal entry context": "日志条目上下文",
+  "Field notes": "现场笔记",
+  "Entry dossier": "条目档案",
+  "Entry type": "条目类型",
+  "Entry location": "条目地点",
+  "Entry date": "条目日期",
+  "Entry visibility": "条目可见性",
+  "More journal": "更多日志",
+  "This entry is public and personal.": "这是一篇公开的个人日志。",
+  "No private tasks, prompts, accounts, raw logs, or owner-only notes are included.":
+    "不包含私密任务、提示词、账户、原始日志或仅本人可见的笔记。",
+  "Share observations and images that are safe to publish.":
+    "分享可安全发布的观察和图片。",
+  "Keep private owner work out of public journal entries.":
+    "不要把私密本人工作放进公开日志。",
+  "Let the human side sit beside the technical studio.":
+    "让人的一面和技术工作室并排存在。",
+  "Avoid turning personal notes into a feed or operations log.":
+    "避免把个人笔记变成信息流或操作日志。",
+  "Photography can become a second notebook: less about explaining a thought, more about noticing what was already there.":
+    "摄影可以成为第二本笔记：它少一点解释想法，多一点注意已经在那里发生的东西。",
+  "This section will eventually hold real photo essays, small galleries, and a few lines about where the image came from.":
+    "这一栏未来会放真实的摄影短文、小画廊，以及几句关于照片来处的说明。",
+  "The website should not only show what is being built. It should also leave room for the life around the building.":
+    "这个网站不应该只展示正在构建什么，也应该给构建之外的生活留出空间。",
+  "These notes can stay small and personal: a walk, a book, a desk setup, a city, a meal, a photograph, or a sentence worth keeping.":
+    "这些笔记可以保持小而个人：一次散步、一本书、一张书桌、一座城市、一顿饭、一张照片，或一句值得留下的话。",
+  "Some ideas begin as technical questions. Others begin as a feeling from a place, a visual pattern, or a small detail that keeps returning.":
+    "有些想法从技术问题开始，另一些则从一个地方的感觉、一种视觉纹理，或一个不断回来的小细节开始。",
+  "Field observations are for those fragments before they become anything more formal.":
+    "现场观察就是给这些片段一个位置，在它们变成更正式的东西之前先被保存下来。",
   "Public research notes, system sketches, design decisions, and experiments from Weiyu Dang's personal research studio.":
     "来自 Weiyu Dang 个人研究工作室的公开研究笔记、系统草图、设计决策和实验。",
   "Research notes.": "研究笔记。",
