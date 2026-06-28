@@ -140,13 +140,51 @@ const modeIcons = {
 } as const satisfies Record<CommandModeIcon, typeof Radio>;
 
 const commandZhOverrides: Partial<Record<string, string>> = {
-  "Required before execution APIs": "执行类 API 上线前的前置条件"
+  "Required before execution APIs": "执行类 API 上线前的前置条件",
+  "Local mission packet": "本地任务包",
+  "Browser-local preview": "浏览器本地预览",
+  "This preview turns the current draft into a reviewable packet without saving, sending, approving, or dispatching work.":
+    "这个预览把当前草稿整理成可审核任务包，但不会保存、发送、审批或派发工作。",
+  "Draft intent": "草稿意图",
+  "Selected lens": "当前视角",
+  "Draft size": "草稿体量",
+  "No draft text yet.": "还没有草稿内容。",
+  "Not saved, sent, approved, or dispatched.": "不会保存、发送、审批或派发。"
 };
 
 function commandText(value: string | undefined, locale: SiteLocale) {
   if (!value) return "";
   if (locale !== "zh") return value;
   return commandZhOverrides[value] ?? translateToZh(value) ?? value;
+}
+
+function draftExcerpt(value: string) {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  const characters = Array.from(normalized);
+
+  if (characters.length === 0) {
+    return null;
+  }
+
+  const clipped = characters.slice(0, 220).join("");
+  return characters.length > 220 ? `${clipped}...` : clipped;
+}
+
+function draftSizeLabel({
+  lines,
+  locale,
+  primary
+}: {
+  lines: number;
+  locale: SiteLocale;
+  primary: {
+    label: string;
+    value: number;
+  };
+}) {
+  const lineLabel = locale === "zh" ? "行有效内容" : lines === 1 ? "active line" : "active lines";
+
+  return `${primary.value} ${primary.label} · ${lines} ${lineLabel}`;
 }
 
 function safeTone(tone: string): Tone {
@@ -192,6 +230,7 @@ function CommandWorkspace({
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
   const draftCharacters = useMemo(() => Array.from(draft.replace(/\s/g, "")).length, [draft]);
   const draftLines = useMemo(() => draft.split(/\n/).filter((line) => line.trim().length > 0).length, [draft]);
+  const localDraftExcerpt = useMemo(() => draftExcerpt(draft), [draft]);
   const commandMetrics = [
     {
       label: "Plan gates",
@@ -221,7 +260,7 @@ function CommandWorkspace({
   const primaryDraftMetric = locale === "zh"
     ? { value: draftCharacters, label: "字符" }
     : { value: draftWords, label: "words" };
-  const lineMetricLabel = locale === "zh" ? "行有效内容" : "active lines";
+  const lineMetricLabel = locale === "zh" ? "行有效内容" : draftLines === 1 ? "active line" : "active lines";
 
   useEffect(() => {
     if (!draftWasEdited) {
@@ -419,6 +458,51 @@ function CommandWorkspace({
                 </div>
               ))}
             </div>
+          </section>
+
+          <section
+            className="relative mt-4 rounded-[8px] border border-sky-200/25 bg-sky-300/10 p-5"
+            aria-labelledby="command-local-packet-title"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase text-sky-100">{t("Browser-local preview")}</p>
+                <h3 id="command-local-packet-title" className="mt-1 text-xl font-semibold text-white">
+                  {t("Local mission packet")}
+                </h3>
+              </div>
+              <CommandStatusBadge tone="private">{t(data.surfaceStatus.dispatch)}</CommandStatusBadge>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-slate-300">
+              {t("This preview turns the current draft into a reviewable packet without saving, sending, approving, or dispatching work.")}
+            </p>
+            <div className="mt-4 grid gap-3">
+              <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                <p className="text-xs font-bold uppercase text-slate-400">{t("Draft intent")}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-white">
+                  {localDraftExcerpt ?? t("No draft text yet.")}
+                </p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                  <p className="text-xs font-bold uppercase text-slate-400">{t("Selected lens")}</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-white">{t(activePanel.title)}</p>
+                </div>
+                <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                  <p className="text-xs font-bold uppercase text-slate-400">{t("Draft size")}</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-white">
+                    {draftSizeLabel({ lines: draftLines, locale, primary: primaryDraftMetric })}
+                  </p>
+                </div>
+              </div>
+              <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-3">
+                <p className="text-xs font-bold uppercase text-yellow-100">{t("Boundary")}</p>
+                <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{t(data.draft.boundary)}</p>
+              </div>
+            </div>
+            <p className="mt-4 text-xs font-semibold uppercase text-slate-400">
+              {t("Not saved, sent, approved, or dispatched.")}
+            </p>
           </section>
 
           <div className="relative mt-4 grid gap-3">
