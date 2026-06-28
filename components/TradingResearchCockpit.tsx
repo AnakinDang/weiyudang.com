@@ -71,6 +71,18 @@ const ALL_DESK_FILTER = "All desks";
 const ALL_INSTRUMENT_FILTER = "All instruments";
 const ALL_EVIDENCE_FILTER = "All evidence";
 const DEFAULT_TRADING_VIEW: TradingView = "Today";
+const EVIDENCE_SIGNAL_PARAM = "signal";
+const EVIDENCE_STATE_PARAM = "evidence_state";
+const REPLAY_DESK_PARAM = "replay_desk";
+const REPLAY_INSTRUMENT_PARAM = "instrument";
+const REPLAY_EVIDENCE_PARAM = "replay_evidence";
+const tradingTraceParams = [
+  EVIDENCE_SIGNAL_PARAM,
+  EVIDENCE_STATE_PARAM,
+  REPLAY_DESK_PARAM,
+  REPLAY_INSTRUMENT_PARAM,
+  REPLAY_EVIDENCE_PARAM
+] as const;
 
 const viewZhLabels = {
   Today: "今日",
@@ -201,7 +213,47 @@ function tradingViewFromLocation() {
   return tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
 }
 
-function tradingViewUrl(view: TradingView) {
+type TradingSearchUpdater = (params: URLSearchParams) => void;
+
+function clearTradingTraceParams(params: URLSearchParams) {
+  tradingTraceParams.forEach((param) => params.delete(param));
+}
+
+function setOptionalTradingParam(params: URLSearchParams, key: string, value: string, defaultValue: string) {
+  if (value === defaultValue) {
+    params.delete(key);
+    return;
+  }
+
+  params.set(key, value);
+}
+
+function evidenceSearchUpdater(signalFilter: string, stateFilter: string): TradingSearchUpdater {
+  return (params) => {
+    setOptionalTradingParam(params, EVIDENCE_SIGNAL_PARAM, signalFilter, ALL_SIGNAL_FILTER);
+    setOptionalTradingParam(params, EVIDENCE_STATE_PARAM, stateFilter, ALL_STATE_FILTER);
+  };
+}
+
+function replaySearchUpdater(deskFilter: string, instrumentFilter: string, evidenceFilter: string): TradingSearchUpdater {
+  return (params) => {
+    setOptionalTradingParam(params, REPLAY_DESK_PARAM, deskFilter, ALL_DESK_FILTER);
+    setOptionalTradingParam(params, REPLAY_INSTRUMENT_PARAM, instrumentFilter, ALL_INSTRUMENT_FILTER);
+    setOptionalTradingParam(params, REPLAY_EVIDENCE_PARAM, evidenceFilter, ALL_EVIDENCE_FILTER);
+  };
+}
+
+function validFilterParam(params: URLSearchParams, key: string, allowedValues: ReadonlySet<string>, fallback: string) {
+  const value = params.get(key);
+
+  if (!value || !allowedValues.has(value)) {
+    return fallback;
+  }
+
+  return value;
+}
+
+function tradingViewUrl(view: TradingView, updateSearch?: TradingSearchUpdater) {
   const url = new URL(window.location.href);
 
   if (view === DEFAULT_TRADING_VIEW) {
@@ -209,6 +261,9 @@ function tradingViewUrl(view: TradingView) {
   } else {
     url.searchParams.set("view", tradingViewSlugs[view]);
   }
+
+  clearTradingTraceParams(url.searchParams);
+  updateSearch?.(url.searchParams);
 
   return `${url.pathname}${url.search}${url.hash}`;
 }
@@ -227,26 +282,35 @@ function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
     return () => window.removeEventListener("popstate", syncFromLocation);
   }, []);
 
-  const navigateTradingView = useCallback(
-    (view: TradingView) => {
+  const writeTradingViewRoute = useCallback(
+    (view: TradingView, updateSearch: TradingSearchUpdater | undefined, mode: "push" | "replace") => {
       setActiveView(view);
 
       if (typeof window === "undefined") {
         return;
       }
 
-      const nextUrl = tradingViewUrl(view);
+      const nextUrl = tradingViewUrl(view, updateSearch);
       const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
 
       if (nextUrl !== currentUrl) {
         // Keep research view changes in browser history so Back returns to the previously inspected desk view.
-        window.history.pushState(null, "", nextUrl);
+        window.history[mode === "push" ? "pushState" : "replaceState"](null, "", nextUrl);
       }
     },
     []
   );
 
-  return [activeView, navigateTradingView] as const;
+  const navigateTradingView = useCallback(
+    (view: TradingView, updateSearch?: TradingSearchUpdater) => writeTradingViewRoute(view, updateSearch, "push"),
+    [writeTradingViewRoute]
+  );
+  const replaceTradingView = useCallback(
+    (view: TradingView, updateSearch?: TradingSearchUpdater) => writeTradingViewRoute(view, updateSearch, "replace"),
+    [writeTradingViewRoute]
+  );
+
+  return [activeView, navigateTradingView, replaceTradingView] as const;
 }
 
 function sourceTone(state: string) {
@@ -1356,6 +1420,7 @@ function EvidenceView({
   onSignalFilterChange,
   stateFilter,
   onStateFilterChange,
+  onClearFilters,
   onOpenReplayTrace
 }: {
   gates: readonly TradingGate[];
@@ -1367,6 +1432,7 @@ function EvidenceView({
   onSignalFilterChange: (value: string) => void;
   stateFilter: string;
   onStateFilterChange: (value: string) => void;
+  onClearFilters: () => void;
   onOpenReplayTrace: (instrument: string, evidenceState?: string) => void;
 }) {
   const { locale } = useLanguage();
@@ -1406,11 +1472,6 @@ function EvidenceView({
   const openGateBlockers = gates.filter((gate) => ["Blocked", "Incomplete", "Required"].includes(gate.value));
   const hasFilters = signalFilter !== ALL_SIGNAL_FILTER || stateFilter !== ALL_STATE_FILTER;
   const evidenceSummaryKey = `${signalFilter}:${stateFilter}:${filteredEvidence.length}:${hasFilters ? "filtered" : "full"}`;
-
-  function clearEvidenceFilters() {
-    onSignalFilterChange(ALL_SIGNAL_FILTER);
-    onStateFilterChange(ALL_STATE_FILTER);
-  }
 
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
@@ -1476,7 +1537,7 @@ function EvidenceView({
             </label>
             <button
               type="button"
-              onClick={clearEvidenceFilters}
+              onClick={onClearFilters}
               disabled={!hasFilters}
               className="link-focus self-end rounded-[8px] border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 transition enabled:hover:border-sky-200/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
             >
@@ -1682,7 +1743,8 @@ function ReplayView({
   instrumentFilter,
   onInstrumentFilterChange,
   evidenceFilter,
-  onEvidenceFilterChange
+  onEvidenceFilterChange,
+  onClearFilters
 }: {
   replay: readonly TradingReplayEvent[];
   openQuestions: readonly string[];
@@ -1693,6 +1755,7 @@ function ReplayView({
   onInstrumentFilterChange: (value: string) => void;
   evidenceFilter: string;
   onEvidenceFilterChange: (value: string) => void;
+  onClearFilters: () => void;
 }) {
   const { locale } = useLanguage();
 
@@ -1720,12 +1783,6 @@ function ReplayView({
   );
   const hasFilters =
     deskFilter !== ALL_DESK_FILTER || instrumentFilter !== ALL_INSTRUMENT_FILTER || evidenceFilter !== ALL_EVIDENCE_FILTER;
-
-  function clearReplayFilters() {
-    onDeskFilterChange(ALL_DESK_FILTER);
-    onInstrumentFilterChange(ALL_INSTRUMENT_FILTER);
-    onEvidenceFilterChange(ALL_EVIDENCE_FILTER);
-  }
 
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
@@ -1787,7 +1844,7 @@ function ReplayView({
           </label>
           <button
             type="button"
-            onClick={clearReplayFilters}
+            onClick={onClearFilters}
             disabled={!hasFilters}
             className="link-focus self-end rounded-[8px] border border-slate-700 px-3 py-2 text-sm font-semibold text-slate-300 transition enabled:hover:border-sky-200/30 enabled:hover:text-white disabled:cursor-not-allowed disabled:opacity-45"
           >
@@ -2082,7 +2139,7 @@ export function TradingResearchCockpit({
   initialView?: TradingView;
 }) {
   const { locale } = useLanguage();
-  const [activeView, navigateTradingView] = useTradingViewRoute(initialView);
+  const [activeView, navigateTradingView, replaceTradingView] = useTradingViewRoute(initialView);
   const activeViewButtonRef = useRef<HTMLButtonElement>(null);
   const [activeDesk, setActiveDesk] = useState(ALL_DESK_FILTER);
   const [activeInstrumentSymbol, setActiveInstrumentSymbol] = useState(data.instruments[0]?.symbol ?? "");
@@ -2093,6 +2150,23 @@ export function TradingResearchCockpit({
   const [replayEvidenceFilter, setReplayEvidenceFilter] = useState(ALL_EVIDENCE_FILTER);
 
   const deskFilters = useMemo(() => [ALL_DESK_FILTER, ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
+  const evidenceSignalFilters = useMemo(
+    () => new Set([ALL_SIGNAL_FILTER, ...data.signals.map((signal) => signal.instrument)]),
+    [data.signals]
+  );
+  const evidenceStateFilters = useMemo(
+    () => new Set([ALL_STATE_FILTER, ...data.evidencePackets.map((packet) => packet.state)]),
+    [data.evidencePackets]
+  );
+  const replayDeskFilters = useMemo(() => new Set([ALL_DESK_FILTER, ...data.replay.map((event) => event.desk)]), [data.replay]);
+  const replayInstrumentFilters = useMemo(
+    () => new Set([ALL_INSTRUMENT_FILTER, ...data.replay.map((event) => event.instrument)]),
+    [data.replay]
+  );
+  const replayEvidenceFilters = useMemo(
+    () => new Set([ALL_EVIDENCE_FILTER, ...data.replay.map((event) => event.evidenceState)]),
+    [data.replay]
+  );
   const filteredSignals = useMemo(
     () => (activeDesk === ALL_DESK_FILTER ? data.signals : data.signals.filter((signal) => signal.desk === activeDesk)),
     [activeDesk, data.signals]
@@ -2121,6 +2195,34 @@ export function TradingResearchCockpit({
     }
   }, [activeView]);
 
+  useEffect(() => {
+    function syncTraceFiltersFromLocation() {
+      const params = new URLSearchParams(window.location.search);
+      const nextView = tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
+
+      if (nextView === "Evidence") {
+        setEvidenceSignalFilter(
+          validFilterParam(params, EVIDENCE_SIGNAL_PARAM, evidenceSignalFilters, ALL_SIGNAL_FILTER)
+        );
+        setEvidenceStateFilter(validFilterParam(params, EVIDENCE_STATE_PARAM, evidenceStateFilters, ALL_STATE_FILTER));
+      }
+
+      if (nextView === "Replay") {
+        setReplayDeskFilter(validFilterParam(params, REPLAY_DESK_PARAM, replayDeskFilters, ALL_DESK_FILTER));
+        setReplayInstrumentFilter(
+          validFilterParam(params, REPLAY_INSTRUMENT_PARAM, replayInstrumentFilters, ALL_INSTRUMENT_FILTER)
+        );
+        setReplayEvidenceFilter(
+          validFilterParam(params, REPLAY_EVIDENCE_PARAM, replayEvidenceFilters, ALL_EVIDENCE_FILTER)
+        );
+      }
+    }
+
+    syncTraceFiltersFromLocation();
+    window.addEventListener("popstate", syncTraceFiltersFromLocation);
+    return () => window.removeEventListener("popstate", syncTraceFiltersFromLocation);
+  }, [evidenceSignalFilters, evidenceStateFilters, replayDeskFilters, replayEvidenceFilters, replayInstrumentFilters]);
+
   function openEvidenceCenter() {
     setEvidenceSignalFilter(ALL_SIGNAL_FILTER);
     setEvidenceStateFilter(ALL_STATE_FILTER);
@@ -2130,34 +2232,100 @@ export function TradingResearchCockpit({
   function traceEvidenceForSignal(instrument: string) {
     setEvidenceSignalFilter(instrument);
     setEvidenceStateFilter(ALL_STATE_FILTER);
-    navigateTradingView("Evidence");
+    navigateTradingView("Evidence", evidenceSearchUpdater(instrument, ALL_STATE_FILTER));
   }
 
   function traceReplayForInstrument(instrument: string, evidenceState = ALL_EVIDENCE_FILTER) {
+    const nextInstrument = instrument === "ALL" ? ALL_INSTRUMENT_FILTER : instrument;
     setReplayDeskFilter(ALL_DESK_FILTER);
-    setReplayInstrumentFilter(instrument === "ALL" ? ALL_INSTRUMENT_FILTER : instrument);
+    setReplayInstrumentFilter(nextInstrument);
     setReplayEvidenceFilter(evidenceState);
-    navigateTradingView("Replay");
+    navigateTradingView("Replay", replaySearchUpdater(ALL_DESK_FILTER, nextInstrument, evidenceState));
   }
 
   function openReviewQueueItem(item: TradingReviewQueueItem) {
     if (item.action === "evidence") {
-      setEvidenceSignalFilter(item.signalFilter ?? ALL_SIGNAL_FILTER);
-      setEvidenceStateFilter(item.evidenceStateFilter ?? ALL_STATE_FILTER);
-      navigateTradingView("Evidence");
+      const nextSignalFilter = item.signalFilter ?? ALL_SIGNAL_FILTER;
+      const nextEvidenceState = item.evidenceStateFilter ?? ALL_STATE_FILTER;
+
+      setEvidenceSignalFilter(nextSignalFilter);
+      setEvidenceStateFilter(nextEvidenceState);
+      navigateTradingView("Evidence", evidenceSearchUpdater(nextSignalFilter, nextEvidenceState));
       return;
     }
 
     if (item.action === "replay") {
+      const nextInstrument = item.replayInstrumentFilter ?? ALL_INSTRUMENT_FILTER;
+      const nextEvidenceState = item.replayEvidenceFilter ?? ALL_EVIDENCE_FILTER;
+
       setReplayDeskFilter(ALL_DESK_FILTER);
-      setReplayInstrumentFilter(item.replayInstrumentFilter ?? ALL_INSTRUMENT_FILTER);
-      setReplayEvidenceFilter(item.replayEvidenceFilter ?? ALL_EVIDENCE_FILTER);
-      navigateTradingView("Replay");
+      setReplayInstrumentFilter(nextInstrument);
+      setReplayEvidenceFilter(nextEvidenceState);
+      navigateTradingView("Replay", replaySearchUpdater(ALL_DESK_FILTER, nextInstrument, nextEvidenceState));
       return;
     }
 
     if (activeView !== "System") {
       navigateTradingView("System");
+    }
+  }
+
+  function changeEvidenceSignalFilter(value: string) {
+    setEvidenceSignalFilter(value);
+
+    if (activeView === "Evidence") {
+      replaceTradingView("Evidence", evidenceSearchUpdater(value, evidenceStateFilter));
+    }
+  }
+
+  function changeEvidenceStateFilter(value: string) {
+    setEvidenceStateFilter(value);
+
+    if (activeView === "Evidence") {
+      replaceTradingView("Evidence", evidenceSearchUpdater(evidenceSignalFilter, value));
+    }
+  }
+
+  function clearEvidenceFilters() {
+    setEvidenceSignalFilter(ALL_SIGNAL_FILTER);
+    setEvidenceStateFilter(ALL_STATE_FILTER);
+
+    if (activeView === "Evidence") {
+      replaceTradingView("Evidence");
+    }
+  }
+
+  function changeReplayDeskFilter(value: string) {
+    setReplayDeskFilter(value);
+
+    if (activeView === "Replay") {
+      replaceTradingView("Replay", replaySearchUpdater(value, replayInstrumentFilter, replayEvidenceFilter));
+    }
+  }
+
+  function changeReplayInstrumentFilter(value: string) {
+    setReplayInstrumentFilter(value);
+
+    if (activeView === "Replay") {
+      replaceTradingView("Replay", replaySearchUpdater(replayDeskFilter, value, replayEvidenceFilter));
+    }
+  }
+
+  function changeReplayEvidenceFilter(value: string) {
+    setReplayEvidenceFilter(value);
+
+    if (activeView === "Replay") {
+      replaceTradingView("Replay", replaySearchUpdater(replayDeskFilter, replayInstrumentFilter, value));
+    }
+  }
+
+  function clearReplayFilters() {
+    setReplayDeskFilter(ALL_DESK_FILTER);
+    setReplayInstrumentFilter(ALL_INSTRUMENT_FILTER);
+    setReplayEvidenceFilter(ALL_EVIDENCE_FILTER);
+
+    if (activeView === "Replay") {
+      replaceTradingView("Replay");
     }
   }
 
@@ -2224,7 +2392,8 @@ export function TradingResearchCockpit({
       <section className="trading-cockpit-boundary-banner" aria-label="Trading research boundary">
         <ShieldCheck size={22} aria-hidden />
         <div>
-          <strong>{data.disclaimer}</strong>
+          {/* Fixed compliance wording stays in English across locales. */}
+          <strong data-i18n-skip>{data.disclaimer}</strong>
           <p>MiniDora Trading provides research artifacts for owner review. No broker connectivity. No accounts. No auto-execution.</p>
         </div>
         <button type="button" onClick={openEvidenceCenter}>
@@ -2340,9 +2509,10 @@ export function TradingResearchCockpit({
           signals={data.signals}
           unavailableActions={data.unavailableActions}
           signalFilter={evidenceSignalFilter}
-          onSignalFilterChange={setEvidenceSignalFilter}
+          onSignalFilterChange={changeEvidenceSignalFilter}
           stateFilter={evidenceStateFilter}
-          onStateFilterChange={setEvidenceStateFilter}
+          onStateFilterChange={changeEvidenceStateFilter}
+          onClearFilters={clearEvidenceFilters}
           onOpenReplayTrace={traceReplayForInstrument}
         />
       ) : null}
@@ -2352,11 +2522,12 @@ export function TradingResearchCockpit({
           openQuestions={data.openQuestions}
           disclaimer={data.disclaimer}
           deskFilter={replayDeskFilter}
-          onDeskFilterChange={setReplayDeskFilter}
+          onDeskFilterChange={changeReplayDeskFilter}
           instrumentFilter={replayInstrumentFilter}
-          onInstrumentFilterChange={setReplayInstrumentFilter}
+          onInstrumentFilterChange={changeReplayInstrumentFilter}
           evidenceFilter={replayEvidenceFilter}
-          onEvidenceFilterChange={setReplayEvidenceFilter}
+          onEvidenceFilterChange={changeReplayEvidenceFilter}
+          onClearFilters={clearReplayFilters}
         />
       ) : null}
       {activeView === "System" ? (

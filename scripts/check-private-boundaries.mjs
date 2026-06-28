@@ -14,6 +14,7 @@ const doraOfficeRuntimeImportPattern =
   /import\s+(?!type\b)[^;]*\s+from\s+["']@\/lib\/dora-office["']\s*;?|import\s*\(\s*["']@\/lib\/dora-office["']\s*\)|require\s*\(\s*["']@\/lib\/dora-office["']\s*\)/g;
 const fullPublicDoraEventTypePattern = /\bPublicDoraEvent\b/;
 const publicToolNamePattern = /\btool_name\b/;
+const fixedTradingDisclaimerPattern = /<strong\s+data-i18n-skip>\s*\{\s*data\.disclaimer\s*\}\s*<\/strong>/;
 
 // These scan source tokens, not rendered copy, so labels such as "No-go actions"
 // remain valid while actual JSX/Router/form affordances stay blocked.
@@ -146,6 +147,13 @@ for (const file of files) {
       );
     }
   }
+}
+
+const tradingCockpitSource = readFileSync(join(root, "components/TradingResearchCockpit.tsx"), "utf8");
+if (!fixedTradingDisclaimerPattern.test(tradingCockpitSource)) {
+  violations.push(
+    "components/TradingResearchCockpit.tsx must render the fixed trading disclaimer with data-i18n-skip so the English compliance sentence stays exact across locales"
+  );
 }
 
 if (violations.length > 0) {
