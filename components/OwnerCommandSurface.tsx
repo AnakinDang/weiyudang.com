@@ -33,6 +33,18 @@ type CommandStatusItem = {
   tone: string;
   detail: string;
 };
+type LocalReviewPacket = {
+  boundary: string;
+  characters: number;
+  createdAt: number;
+  draftIntent: string | null;
+  evidenceCount: number;
+  lensState: string;
+  lensTitle: string;
+  lines: number;
+  planGateCount: number;
+  words: number;
+};
 
 export type OwnerCommandSurfaceData = {
   surfaceStatus: {
@@ -149,7 +161,19 @@ const commandZhOverrides: Partial<Record<string, string>> = {
   "Selected lens": "当前视角",
   "Draft size": "草稿体量",
   "No draft text yet.": "还没有草稿内容。",
-  "Not saved, sent, approved, or dispatched.": "不会保存、发送、审批或派发。"
+  "Not saved, sent, approved, or dispatched.": "不会保存、发送、审批或派发。",
+  "Prepared review packet": "已准备审核包",
+  "Generated locally": "本地生成",
+  "Not prepared yet": "尚未准备",
+  "Click Prepare packet to freeze the current draft into a local review brief. Nothing is saved or dispatched.":
+    "点击“准备审核包”会把当前草稿冻结成本地审核简报。不会保存，也不会派发。",
+  "Prepared": "准备时间",
+  "Scope lens": "范围视角",
+  "Reviewer brief": "审核简报",
+  "Ask Opus to review product fit, privacy boundary, auth behavior, browser QA, and P1/P2 blockers before PR/deploy.":
+    "请 Opus 在 PR / 部署前审核产品贴合度、隐私边界、认证行为、浏览器 QA 和 P1 / P2 阻塞项。",
+  "Browser-local only. This packet is a snapshot, not an approval record.":
+    "仅浏览器本地。这个审核包只是快照，不是审批记录。"
 };
 
 function commandText(value: string | undefined, locale: SiteLocale) {
@@ -185,6 +209,14 @@ function draftSizeLabel({
   const lineLabel = locale === "zh" ? "行有效内容" : lines === 1 ? "active line" : "active lines";
 
   return `${primary.value} ${primary.label} · ${lines} ${lineLabel}`;
+}
+
+function formattedPacketTime(timestamp: number, locale: SiteLocale) {
+  return new Intl.DateTimeFormat(locale === "zh" ? "zh-CN" : "en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  }).format(new Date(timestamp));
 }
 
 function safeTone(tone: string): Tone {
@@ -225,6 +257,7 @@ function CommandWorkspace({
   const defaultDraft = useMemo(() => t(data.draft.prompt), [data.draft.prompt, locale]);
   const [draft, setDraft] = useState<string>(defaultDraft);
   const [draftWasEdited, setDraftWasEdited] = useState(false);
+  const [preparedPacket, setPreparedPacket] = useState<LocalReviewPacket | null>(null);
   const fallbackMode = data.modeTabs[0]?.key ?? data.reviewPacketModeKey;
   const activePanel = data.modePanels[activeMode] ?? data.modePanels[fallbackMode];
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
@@ -261,6 +294,11 @@ function CommandWorkspace({
     ? { value: draftCharacters, label: "字符" }
     : { value: draftWords, label: "words" };
   const lineMetricLabel = locale === "zh" ? "行有效内容" : draftLines === 1 ? "active line" : "active lines";
+  const preparedPacketPrimaryMetric = preparedPacket
+    ? locale === "zh"
+      ? { value: preparedPacket.characters, label: "字符" }
+      : { value: preparedPacket.words, label: "words" }
+    : null;
 
   useEffect(() => {
     if (!draftWasEdited) {
@@ -361,7 +399,23 @@ function CommandWorkspace({
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => setActiveMode(data.reviewPacketModeKey)}
+                  onClick={() => {
+                    const packetPanel = data.modePanels[data.reviewPacketModeKey] ?? activePanel;
+
+                    setPreparedPacket({
+                      boundary: data.draft.boundary,
+                      characters: draftCharacters,
+                      createdAt: Date.now(),
+                      draftIntent: draftExcerpt(draft),
+                      evidenceCount: data.evidenceRequirements.length,
+                      lensState: packetPanel.state,
+                      lensTitle: packetPanel.title,
+                      lines: draftLines,
+                      planGateCount: data.planStages.length,
+                      words: draftWords
+                    });
+                    setActiveMode(data.reviewPacketModeKey);
+                  }}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-sky-300 px-3 py-2 text-sm font-semibold text-slate-950 shadow-[0_16px_36px_rgba(14,165,233,0.18)] transition hover:bg-sky-200"
                 >
                   {t(data.copy.preparePacketAction)}
@@ -372,6 +426,7 @@ function CommandWorkspace({
                   onClick={() => {
                     setDraftWasEdited(false);
                     setDraft(defaultDraft);
+                    setPreparedPacket(null);
                   }}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
                 >
@@ -457,6 +512,84 @@ function CommandWorkspace({
                   <span className="text-sm font-semibold text-white">{t(section.value)}</span>
                 </div>
               ))}
+            </div>
+            <div
+              className="mt-4 rounded-[8px] border border-sky-200/25 bg-sky-300/10 p-4"
+              aria-live="polite"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-xs font-bold uppercase text-sky-100">
+                    {t(preparedPacket ? "Generated locally" : "Not prepared yet")}
+                  </p>
+                  <h4 className="mt-1 text-base font-semibold text-white">{t("Prepared review packet")}</h4>
+                </div>
+                <CommandStatusBadge tone={preparedPacket ? "info" : "private"}>
+                  {t(data.surfaceStatus.dispatch)}
+                </CommandStatusBadge>
+              </div>
+
+              {preparedPacket && preparedPacketPrimaryMetric ? (
+                <div className="mt-4 grid gap-3">
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                      <p className="text-xs font-bold uppercase text-slate-400">{t("Prepared")}</p>
+                      <p className="mt-2 text-sm font-semibold leading-6 text-white">
+                        {formattedPacketTime(preparedPacket.createdAt, locale)}
+                      </p>
+                    </div>
+                    <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                      <p className="text-xs font-bold uppercase text-slate-400">{t("Scope lens")}</p>
+                      <p className="mt-2 text-sm font-semibold leading-6 text-white">
+                        {t(preparedPacket.lensTitle)} · {t(preparedPacket.lensState)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                      <p className="text-xs font-bold uppercase text-slate-400">{t("Draft size")}</p>
+                      <p className="mt-2 text-sm font-semibold leading-6 text-white">
+                        {draftSizeLabel({
+                          lines: preparedPacket.lines,
+                          locale,
+                          primary: preparedPacketPrimaryMetric
+                        })}
+                      </p>
+                    </div>
+                    <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                      <p className="text-xs font-bold uppercase text-slate-400">{t("Plan gates")}</p>
+                      <p className="mt-2 text-sm font-semibold leading-6 text-white">{preparedPacket.planGateCount}</p>
+                    </div>
+                    <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                      <p className="text-xs font-bold uppercase text-slate-400">{t("Evidence checks")}</p>
+                      <p className="mt-2 text-sm font-semibold leading-6 text-white">{preparedPacket.evidenceCount}</p>
+                    </div>
+                  </div>
+                  <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
+                    <p className="text-xs font-bold uppercase text-slate-400">{t("Draft intent")}</p>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-white">
+                      {preparedPacket.draftIntent ?? t("No draft text yet.")}
+                    </p>
+                  </div>
+                  <div className="rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 p-3">
+                    <p className="text-xs font-bold uppercase text-yellow-100">{t("Boundary")}</p>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-yellow-50">{t(preparedPacket.boundary)}</p>
+                  </div>
+                  <div className="rounded-[8px] border border-emerald-200/25 bg-emerald-300/10 p-3">
+                    <p className="text-xs font-bold uppercase text-emerald-100">{t("Reviewer brief")}</p>
+                    <p className="mt-2 text-sm font-semibold leading-6 text-emerald-50">
+                      {t("Ask Opus to review product fit, privacy boundary, auth behavior, browser QA, and P1/P2 blockers before PR/deploy.")}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  {t("Click Prepare packet to freeze the current draft into a local review brief. Nothing is saved or dispatched.")}
+                </p>
+              )}
+              <p className="mt-4 text-xs font-semibold uppercase text-slate-400">
+                {t("Browser-local only. This packet is a snapshot, not an approval record.")}
+              </p>
             </div>
           </section>
 
