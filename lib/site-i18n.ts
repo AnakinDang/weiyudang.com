@@ -928,6 +928,34 @@ const exactZhTranslations = {
   "System boundary": "系统边界",
   "Review the public/private data contract.": "查看公开 / 私密数据契约。",
   "Continue through Doraemon Office": "继续浏览 Doraemon Office",
+  "Research bridge": "研究桥接",
+  "From public identity to private evidence.": "从公开身份到私密证据。",
+  "Trading MiniDora is the public face of a private research desk. The public site can explain the method; the owner console can inspect evidence, gates, and replay after authentication.":
+    "Trading MiniDora 是私密研究台的公开身份。公开站解释方法；本人控制台在认证后检查证据、门禁和回放。",
+  "Public profile": "公开档案",
+  "One visible team identity": "一个可见团队身份",
+  "Trading MiniDora stays the public roster member for market research.":
+    "Trading MiniDora 保持为市场研究的公开花名册成员。",
+  "Public project": "公开项目",
+  "Method before metrics": "方法先于指标",
+  "The project page explains desks, evidence, replay, and safety boundaries.":
+    "项目页解释研究台、证据、回放和安全边界。",
+  "Private console": "私密控制台",
+  "Owner-gated evidence review": "本人门禁下的证据审核",
+  "The cockpit opens only after owner auth and remains read-only.":
+    "驾驶舱只在本人认证后打开，并保持只读。",
+  "Trading MiniDora route path": "Trading MiniDora 路由路径",
+  "Trading MiniDora route actions": "Trading MiniDora 路由操作",
+  "Open public project": "打开公开项目",
+  "Open owner console": "打开本人控制台",
+  "Trading MiniDora public safety boundary": "Trading MiniDora 公开安全边界",
+  "Public can show": "公开可展示",
+  "Role, method, desk map, sample evidence shapes.": "角色、方法、研究台地图和样本证据形态。",
+  "Private can inspect": "私密可检查",
+  "Evidence packets, gates, source health, replay.": "证据包、门禁、来源健康和回放。",
+  "Never available": "永不提供",
+  "Accounts, broker writes, orders, execution controls.":
+    "账户、券商写入、订单或执行控制。",
   "Research Lab": "研究实验室",
   "Keep the Personal OS coherent across public pages, owner review, and specialist MiniDoras.":
     "让 Personal OS 在公开页面、本人审核和专门化 MiniDoras 之间保持一致。",

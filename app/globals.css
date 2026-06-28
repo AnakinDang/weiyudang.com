@@ -41701,6 +41701,194 @@ textarea {
   color: #155eef;
 }
 
+.dora-agent-trading-bridge-section {
+  background:
+    linear-gradient(115deg, transparent 0 58%, rgba(239, 246, 255, 0.86) 58.2%, transparent 78%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 251, 255, 0.9));
+}
+
+.dora-agent-trading-bridge {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.dora-agent-trading-bridge-copy {
+  display: grid;
+  gap: 1rem;
+}
+
+.dora-agent-trading-bridge-copy h2 {
+  margin: 0;
+  max-width: 11ch;
+  color: #07111f;
+  font-size: 3.55rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 0.96;
+}
+
+.dora-agent-trading-bridge-copy > p:not(.dora-office-kicker) {
+  max-width: 35rem;
+  margin: 0;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.66;
+}
+
+.dora-agent-trading-bridge-disclaimer {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  max-width: 35rem;
+  border: 1px solid rgba(244, 183, 64, 0.44);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 248, 229, 0.9), rgba(255, 255, 255, 0.86));
+  padding: 0.88rem;
+  color: #a16207;
+}
+
+.dora-agent-trading-bridge-disclaimer svg {
+  flex: 0 0 auto;
+  color: #d97706;
+}
+
+.dora-agent-trading-bridge-disclaimer strong {
+  color: #713f12;
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.dora-agent-trading-bridge-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 26px 78px rgba(37, 99, 235, 0.08);
+}
+
+.dora-agent-trading-bridge-path article {
+  display: grid;
+  align-content: end;
+  gap: 0.55rem;
+  min-height: 15.2rem;
+  min-width: 0;
+  border-left: 1px solid rgba(221, 231, 240, 0.9);
+  padding: 1.05rem;
+}
+
+.dora-agent-trading-bridge-path article:first-child {
+  border-left: 0;
+}
+
+.dora-agent-trading-bridge-path article > span {
+  width: fit-content;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.86);
+  padding: 0.22rem 0.42rem;
+  color: #155eef;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.dora-agent-trading-bridge-path article small {
+  color: #155eef;
+  font-size: 0.72rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.dora-agent-trading-bridge-path article strong {
+  color: #07111f;
+  font-size: 1.02rem;
+  font-weight: 850;
+  line-height: 1.18;
+}
+
+.dora-agent-trading-bridge-path article p {
+  margin: 0;
+  color: #526178;
+  font-size: 0.82rem;
+  font-weight: 680;
+  line-height: 1.5;
+}
+
+.dora-agent-trading-bridge-actions,
+.dora-agent-trading-bridge-boundary {
+  grid-column: 2;
+}
+
+.dora-agent-trading-bridge-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: -0.15rem;
+}
+
+.dora-agent-trading-bridge-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  min-height: 2.75rem;
+  border-radius: 8px;
+  padding: 0.72rem 0.92rem;
+  font-size: 0.88rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.dora-agent-trading-bridge-actions a:first-child {
+  background: #155eef;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.16);
+}
+
+.dora-agent-trading-bridge-actions a:last-child {
+  border: 1px solid rgba(191, 219, 254, 0.96);
+  background: rgba(255, 255, 255, 0.9);
+  color: #155eef;
+}
+
+.dora-agent-trading-bridge-boundary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.72rem;
+}
+
+.dora-agent-trading-bridge-boundary div {
+  display: grid;
+  gap: 0.38rem;
+  min-width: 0;
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.86rem;
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.045);
+}
+
+.dora-agent-trading-bridge-boundary svg {
+  color: #155eef;
+}
+
+.dora-agent-trading-bridge-boundary strong {
+  color: #07111f;
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.dora-agent-trading-bridge-boundary span {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.42;
+}
+
 .dora-agent-profile-signal-list {
   display: grid;
   gap: 0.6rem;
@@ -41882,6 +42070,20 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .dora-agent-trading-bridge {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-agent-trading-bridge-copy h2 {
+    max-width: 14ch;
+    font-size: 3rem;
+  }
+
+  .dora-agent-trading-bridge-actions,
+  .dora-agent-trading-bridge-boundary {
+    grid-column: auto;
+  }
+
   .dora-agent-profile-copy {
     grid-column: 1 / -1;
   }
@@ -41902,10 +42104,36 @@ textarea {
 
   .dora-agent-profile-hero-grid,
   .dora-agent-profile-grid,
+  .dora-agent-trading-bridge,
+  .dora-agent-trading-bridge-path,
+  .dora-agent-trading-bridge-boundary,
   .dora-agent-profile-peer-shell,
   .dora-agent-profile-peer-grid,
   .dora-agent-profile-command-shell {
     grid-template-columns: 1fr;
+  }
+
+  .dora-agent-trading-bridge-copy h2 {
+    max-width: 12ch;
+    font-size: 2.45rem;
+  }
+
+  .dora-agent-trading-bridge-path article {
+    min-height: 0;
+    border-top: 1px solid rgba(221, 231, 240, 0.9);
+    border-left: 0;
+  }
+
+  .dora-agent-trading-bridge-path article:first-child {
+    border-top: 0;
+  }
+
+  .dora-agent-trading-bridge-actions {
+    display: grid;
+  }
+
+  .dora-agent-trading-bridge-actions a {
+    width: 100%;
   }
 
   .dora-agent-profile-copy h1 {
