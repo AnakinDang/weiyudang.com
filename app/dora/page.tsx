@@ -9,7 +9,6 @@ import {
   FileText,
   Globe2,
   LockKeyhole,
-  Mail,
   RefreshCw,
   ShieldCheck,
   Sparkles,
@@ -152,10 +151,6 @@ export default function DoraPage() {
                 <Link href="/projects/doraemon-agent-system" className="link-focus doraemon-quiet-action">
                   Read the project
                   <ArrowRight size={15} aria-hidden />
-                </Link>
-                <Link href="/contact" className="link-focus doraemon-quiet-action">
-                  Contact Weiyu
-                  <Mail size={15} aria-hidden />
                 </Link>
               </div>
             </div>

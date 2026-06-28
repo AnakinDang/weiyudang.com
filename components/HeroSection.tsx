@@ -61,15 +61,15 @@ export function HeroSection() {
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
           <h1 className="premium-hero-title">
-            <span className="premium-hero-name">Weiyu Dang</span>
-            <span className="premium-hero-os">Personal OS</span>
+            <span className="premium-hero-name">Build the systems</span>
+            <span className="premium-hero-os">that help thought</span>
             <span className="premium-hero-line">
-              for research, writing, and <em>Doraemon.</em>
+              <em>compound.</em>
             </span>
           </h1>
           <p className="premium-hero-support">
-            A public studio for essays and systems, Doraemon Office for public-safe agent activity,
-            and an owner-only cockpit for private review.
+            Exploring physics. Building AI systems. Designing research tools. Doraemon Office is
+            the public-safe entry to my Personal OS for long-term impact.
           </p>
           <div
             className="premium-hero-statusline"
@@ -101,12 +101,11 @@ export function HeroSection() {
               Explore the system
               <ArrowRight size={16} aria-hidden />
             </Link>
+            <Link href="/projects" className="link-focus premium-text-link">
+              See what&apos;s public
+              <ArrowRight size={16} aria-hidden />
+            </Link>
           </div>
-          <Link href="/app" prefetch={false} className="link-focus premium-owner-inline">
-            <LockKeyhole size={15} aria-hidden />
-            Owner Cockpit
-            <ArrowRight size={14} aria-hidden />
-          </Link>
         </div>
 
         <aside className="premium-office-capsule" aria-label="Public-safe Doraemon Office status">

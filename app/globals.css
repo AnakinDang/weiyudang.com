@@ -39305,3 +39305,410 @@ textarea {
   line-height: 1.04;
   letter-spacing: 0;
 }
+
+/* ===== Step 62: Apple-like Personal OS and Doraemon entry polish ===== */
+.premium-hero {
+  --home-hero-portal-scale: 1.075;
+  --home-hero-portal-scale-peak: 1.082;
+  min-height: min(800px, calc(100svh - 4.55rem));
+  padding-top: 3.15rem;
+  background:
+    linear-gradient(90deg, #ffffff 0%, #ffffff 36%, rgba(255, 255, 255, 0.88) 52%, rgba(255, 255, 255, 0.18) 82%, transparent 100%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 80%, #f8fbff 100%),
+    #ffffff;
+}
+
+.premium-hero-grid {
+  max-width: min(1420px, calc(100vw - 5.5rem));
+  grid-template-columns: minmax(40rem, 0.47fr) minmax(41rem, 0.53fr);
+  grid-template-rows: minmax(30.5rem, 1fr) auto;
+  min-height: calc(min(800px, calc(100svh - 4.55rem)) - 3.9rem);
+  gap: 0.95rem 3rem;
+}
+
+.premium-hero-copy {
+  max-width: 42rem;
+  padding-bottom: 4rem;
+}
+
+.premium-hero .premium-hero-title {
+  max-width: 42rem;
+  gap: 0.2rem;
+}
+
+.premium-hero .premium-hero-title .premium-hero-name,
+.premium-hero .premium-hero-title .premium-hero-os,
+.premium-hero .premium-hero-title .premium-hero-line {
+  line-height: 0.96;
+  letter-spacing: 0;
+  white-space: normal;
+}
+
+.premium-hero .premium-hero-title .premium-hero-name,
+.premium-hero .premium-hero-title .premium-hero-os {
+  color: #05070a;
+  font-size: 4.35rem;
+  font-weight: 850;
+}
+
+.premium-hero .premium-hero-title .premium-hero-line {
+  max-width: none;
+  color: #155eef;
+  font-size: 4.75rem;
+  font-weight: 850;
+}
+
+.premium-hero .premium-hero-title em {
+  color: inherit;
+}
+
+.premium-hero-support {
+  max-width: 31.5rem;
+  margin-top: 1.42rem;
+  color: #374151;
+  font-size: 1.12rem;
+  line-height: 1.58;
+}
+
+.premium-hero-statusline {
+  margin-top: 1.35rem;
+  color: #475569;
+}
+
+.premium-hero-actions {
+  gap: 0.82rem 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.premium-primary-link {
+  min-width: 16.4rem;
+  padding-inline: 1.16rem 1.05rem;
+  background: linear-gradient(180deg, #246bfe 0%, #155eef 100%);
+}
+
+.premium-text-link {
+  min-width: auto;
+  border: 0;
+  border-bottom-color: rgba(21, 94, 239, 0.36);
+  border-radius: 0;
+  background: transparent;
+  padding: 0.7rem 0;
+  color: #155eef;
+  box-shadow: none;
+}
+
+.premium-hero-backdrop img {
+  object-position: 72% 48%;
+  opacity: 0.96;
+  filter:
+    saturate(1.06)
+    contrast(1.02)
+    drop-shadow(0 36px 104px rgba(37, 99, 235, 0.12));
+  mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 18%, rgba(0, 0, 0, 0.76) 38%, #000 93%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.02) 18%, rgba(0, 0, 0, 0.76) 38%, #000 93%, transparent 100%);
+}
+
+.premium-office-capsule {
+  width: min(20.2rem, 40%);
+  margin-right: 2.25rem;
+  transform: translateY(-1.15rem);
+}
+
+.premium-hero-bottom-deck {
+  position: relative;
+  z-index: 4;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px);
+}
+
+.doraemon-doorway {
+  min-height: min(760px, calc(100svh - 7rem));
+  padding-top: 2.55rem;
+  background:
+    linear-gradient(90deg, #ffffff 0%, #ffffff 34%, rgba(255, 255, 255, 0.82) 52%, rgba(255, 255, 255, 0.08) 77%, transparent 100%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 78%, #f8fbff 100%),
+    #ffffff;
+}
+
+.doraemon-doorway-grid {
+  width: min(1420px, calc(100% - 5.5rem));
+  grid-template-columns: minmax(31rem, 0.42fr) minmax(49rem, 0.58fr);
+  min-height: calc(min(760px, calc(100svh - 7rem)) - 2.95rem);
+}
+
+.doraemon-doorway-copy {
+  max-width: 34rem;
+  padding-bottom: 3.2rem;
+}
+
+.doraemon-doorway-copy h1 {
+  max-width: 8ch;
+  font-size: 6.55rem;
+  line-height: 0.91;
+  letter-spacing: 0;
+}
+
+.doraemon-doorway-lede {
+  max-width: 28rem;
+  margin-top: 2.1rem;
+  color: #354154;
+  font-size: 1.22rem;
+  line-height: 1.5;
+}
+
+.doraemon-doorway-actions {
+  max-width: 34rem;
+  gap: 0.82rem 1.6rem;
+  margin-top: 2.25rem;
+}
+
+.doraemon-primary-action {
+  min-width: 18rem;
+  background: linear-gradient(180deg, #246bfe 0%, #155eef 100%);
+}
+
+.doraemon-command-preview {
+  min-height: 38.8rem;
+  transform: translateX(0.35rem);
+}
+
+.doraemon-portal-stage {
+  inset: -2.6rem -2.2rem 5.35rem -3.65rem;
+}
+
+.doraemon-portal-stage > img {
+  --dora-office-portal-scale: 1.115;
+  --dora-office-portal-scale-peak: 1.123;
+  --dora-office-portal-x: -1.8%;
+  object-position: 55% 50%;
+  opacity: 0.98;
+}
+
+.doraemon-portal-panel {
+  top: 27%;
+  right: 7.5%;
+  width: min(15.5rem, 27%);
+}
+
+.doraemon-stage-floor {
+  right: 10.2%;
+  bottom: 6.65rem;
+  left: 17.6%;
+}
+
+.doraemon-activity-preview {
+  right: clamp(2.4rem, 4vw, 4rem);
+  bottom: 0.38rem;
+  left: 0.4rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(26px);
+}
+
+@media (max-width: 1320px) {
+  .premium-hero {
+    min-height: min(740px, calc(100svh - 4.55rem));
+  }
+
+  .premium-hero-grid {
+    grid-template-columns: minmax(33rem, 0.48fr) minmax(34rem, 0.52fr);
+    grid-template-rows: minmax(27.2rem, 1fr) auto;
+    min-height: calc(min(740px, calc(100svh - 4.55rem)) - 3.5rem);
+    gap: 0.9rem 1.25rem;
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-name,
+  .premium-hero .premium-hero-title .premium-hero-os {
+    font-size: 3.75rem;
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-line {
+    font-size: 4.1rem;
+  }
+
+  .doraemon-doorway {
+    min-height: min(720px, calc(100svh - 6.5rem));
+  }
+
+  .doraemon-doorway-grid {
+    grid-template-columns: minmax(27rem, 0.43fr) minmax(40rem, 0.57fr);
+    min-height: calc(min(720px, calc(100svh - 6.5rem)) - 3rem);
+  }
+
+  .doraemon-doorway-copy h1 {
+    font-size: 5.75rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 39.5rem;
+  }
+}
+
+@media (max-width: 1180px) {
+  .premium-hero-grid,
+  .doraemon-doorway-grid {
+    max-width: min(100%, 44rem);
+    width: min(100%, 44rem);
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .premium-hero {
+    min-height: auto;
+    padding-top: 2.05rem;
+  }
+
+  .premium-hero-copy {
+    max-width: 40rem;
+    padding-bottom: 5.25rem;
+  }
+
+  .premium-office-capsule {
+    width: min(26rem, 100%);
+    margin-top: -4.2rem;
+    margin-right: 0;
+    transform: none;
+  }
+
+  .doraemon-doorway {
+    min-height: auto;
+    padding-top: 2.25rem;
+  }
+
+  .doraemon-doorway-copy {
+    max-width: 40rem;
+    padding-bottom: 1.8rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 38rem;
+    transform: none;
+  }
+
+  .doraemon-portal-stage {
+    inset: -1.5rem -2.5rem 5.2rem -2.8rem;
+  }
+
+  .doraemon-activity-preview {
+    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .premium-hero {
+    padding: 1.25rem 1rem 0.75rem;
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-name,
+  .premium-hero .premium-hero-title .premium-hero-os {
+    font-size: 3.08rem;
+    line-height: 0.98;
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-line {
+    font-size: 3.35rem;
+    line-height: 0.98;
+  }
+
+  .premium-hero-support {
+    max-width: 23rem;
+    font-size: 1rem;
+  }
+
+  .premium-hero-actions {
+    grid-template-columns: repeat(2, max-content);
+    align-items: center;
+    gap: 0.72rem 1.45rem;
+  }
+
+  .premium-hero-actions .premium-primary-link {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .premium-text-link {
+    width: fit-content;
+  }
+
+  .premium-office-capsule {
+    margin-top: -5.25rem;
+  }
+
+  .doraemon-doorway {
+    padding: 1.35rem 1rem 0.85rem;
+  }
+
+  .doraemon-doorway-copy h1 {
+    font-size: 4.45rem;
+  }
+
+  .doraemon-doorway-lede {
+    margin-top: 1.28rem;
+    font-size: 1.04rem;
+  }
+
+  .doraemon-doorway-actions {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 0.72rem 1.55rem;
+    margin-top: 1.65rem;
+  }
+
+  .doraemon-doorway-actions::before {
+    width: 2.2rem;
+  }
+
+  .doraemon-primary-action {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .doraemon-command-preview {
+    min-height: 21.5rem;
+    margin-top: -0.85rem;
+  }
+
+  .doraemon-portal-stage {
+    inset: -1rem -3rem 5rem -3rem;
+  }
+
+  .doraemon-portal-stage > img {
+    --dora-office-portal-scale: 1.22;
+    --dora-office-portal-scale-peak: 1.226;
+    --dora-office-portal-x: 0%;
+    opacity: 0.8;
+  }
+
+  .doraemon-portal-panel,
+  .doraemon-stage-floor {
+    display: none;
+  }
+
+  .doraemon-activity-preview {
+    bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-hero .premium-hero-title .premium-hero-name,
+  .premium-hero .premium-hero-title .premium-hero-os {
+    font-size: 2.56rem;
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-line {
+    font-size: 2.8rem;
+  }
+
+  .premium-office-capsule {
+    margin-top: -5.7rem;
+  }
+
+  .doraemon-doorway-copy h1 {
+    font-size: 3.75rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 21rem;
+  }
+}
