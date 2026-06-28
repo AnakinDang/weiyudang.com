@@ -7,9 +7,11 @@ import {
   ArrowRight,
   CheckCircle2,
   CircleDashed,
+  ClipboardCheck,
   FileSearch,
   Gauge,
   GitBranch,
+  History,
   Layers3,
   LockKeyhole,
   Radio,
@@ -18,6 +20,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Sparkles,
+  UsersRound,
   Waypoints,
   XCircle
 } from "lucide-react";
@@ -84,12 +87,23 @@ type PrivateSystemDiagnosticLane = {
   detail: string;
 };
 
+type PrivateSystemContextLink = {
+  id: string;
+  label: string;
+  href: string;
+  scope: string;
+  tone: SystemTone;
+  detail: string;
+  boundary: string;
+};
+
 export type OwnerSystemHealthData = {
   services: readonly PrivateSystemService[];
   signals: readonly PrivateSystemSignal[];
   gaps: readonly PrivateSystemGap[];
   metrics: readonly PrivateSystemMetric[];
   lanes: readonly PrivateSystemDiagnosticLane[];
+  contextLinks: readonly PrivateSystemContextLink[];
   diagnostics: readonly string[];
 };
 
@@ -129,6 +143,7 @@ const postureCopy = {
 } as const satisfies Record<PrivateSystemPosture, { label: string; detail: string; icon: LucideIcon }>;
 
 const constellationIcons = [LockKeyhole, ShieldCheck, Radio, FileSearch, Waypoints, XCircle] as const;
+const contextLinkIcons = [History, UsersRound, ClipboardCheck] as const;
 
 const systemZhOverrides: Partial<Record<string, string>> = {
   "Owner cockpit": "私密驾驶舱",
@@ -162,7 +177,27 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   "Diagnostic boundary": "诊断边界",
   "This page can summarize posture and gaps. It cannot expose internals or mutate runtime state.":
     "本页可以总结姿态和缺口。它不能暴露内部信息，也不能变更运行时状态。",
+  "Read-only": "只读",
+  Unavailable: "不可用",
   "Review schedules": "查看日程",
+  "Owner context bridge": "本人上下文桥",
+  "Move from system posture into the owner-only surfaces that explain what happened. These links expose curated context only; they do not open repair, dispatch, or execution paths.":
+    "从系统姿态进入仅本人可见的上下文页面，理解发生了什么。这些入口只暴露精选上下文，不打开修复、派发或执行路径。",
+  "Context route": "上下文路由",
+  "Open Events": "打开事件",
+  "Open Agents": "打开智能体",
+  "Open Review Queue": "打开审核队列",
+  "Curated context": "精选上下文",
+  "Agent roster": "智能体花名册",
+  "Read owner-readable history, handoffs, review signals, source posture, and boundary packets.":
+    "阅读本人可见的历史、交接、审核信号、来源姿态和边界包。",
+  "Inspect MiniDora lanes, source health, leases, and handoffs.":
+    "查看 MiniDora 通道、来源健康、租约和交接。",
+  "Review owner-gated work before any future action path exists.":
+    "在任何未来动作路径存在前，先审核本人门禁下的工作。",
+  "No dispatch controls": "无派发控制",
+  "No queue mutation": "无队列变更",
+  "No raw runtime payloads": "无原始运行时载荷",
   "Diagnostics empty": "诊断为空",
   "No owner-visible diagnostics are available in this private source. The surface remains read-only and avoids exposing runtime internals or repair controls.":
     "这个私密数据源中没有本人可见的诊断。界面保持只读，并避免暴露运行时内部信息或修复控制。",
@@ -203,24 +238,29 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   "No owner controls": "不提供本人控制项",
 
   "Signal posture": "信号姿态",
-  "Mock source": "模拟来源",
-  "The private cockpit has no live internal event source connected yet.":
-    "私密驾驶舱尚未连接实时内部事件源。",
-  "No live private event feed is attached to this page yet.": "本页尚未接入实时私密事件 feed。",
-  "Use summary freshness only until a private source exists.": "在私密来源存在前，只使用摘要新鲜度。",
-  "Owner can see the absence of a private feed without seeing runtime records.":
-    "本人可以看到私密 feed 缺失，而不看到运行时记录。",
+  "Context ready": "上下文已就绪",
+  "Owner Events is available for curated history, handoffs, review signals, and source posture; live private ingestion remains future work.":
+    "Owner Events 已可提供精选历史、交接、审核信号和来源姿态；实时私密接入仍是未来工作。",
+  "Use Events context as curated owner history while live event ingestion remains future work.":
+    "把 Events 上下文作为精选本人历史使用；实时事件接入仍是未来工作。",
+  "Use Events context for owner-readable history, handoffs, and review signals; keep live event ingestion as a separate future design.":
+    "使用 Events 上下文阅读本人可见的历史、交接和审核信号；实时事件接入保留为单独的未来设计。",
+  "Owner can inspect curated cockpit packets without raw runtime payloads or feed addresses.":
+    "本人可以查看精选驾驶舱包，但不会看到原始运行时载荷或 feed 地址。",
+  Available: "可用",
+  Future: "未来",
+  "Events context": "Events 上下文",
+  "The owner-only Events page reconstructs a curated timeline from cockpit packets.":
+    "仅本人可见的 Events 页面会从驾驶舱包重建精选时间线。",
   "Live source": "实时来源",
-  "No private event feed is attached to this web page.": "这个网页没有接入私密事件 feed。",
+  "A true live per-agent source still needs schema, retention, and audit design.":
+    "真正的每智能体实时来源仍需要 schema、保留策略和审计设计。",
   "Public relay health should not become private runtime evidence.":
     "公开 relay 健康状态不应变成私密运行时证据。",
-  Fallback: "后备",
-  "The UI shows safe posture instead of raw runtime records.": "界面展示安全姿态，而不是原始运行时记录。",
-  "Freshness can look more precise than it is if mock wording is too confident.":
-    "如果模拟文案过于肯定，新鲜度会显得比实际更精确。",
+  "Curated context must not be described as a raw live runtime feed.":
+    "精选上下文不得被描述成原始实时运行时 feed。",
   "No event payload": "不显示事件 payload",
   "No internal feed address": "不显示内部 feed 地址",
-  "No implementation label": "不显示实现标签",
 
   "Review queue health": "审核队列健康",
   "Owner decisions": "本人决策",
@@ -286,12 +326,12 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   "Release gate": "发布门禁",
   "Build artifact": "构建产物",
   "Before merge": "合并前",
-  "Private event source not connected": "私密事件源未连接",
+  "Live private event source not connected": "实时私密事件源未连接",
   "Known gap": "已知缺口",
-  "The page is intentionally honest about missing private telemetry rather than inventing precision.":
-    "页面刻意诚实呈现私密遥测缺失，而不是虚构精确度。",
+  "Events is a curated owner-only context, not a raw live runtime feed.":
+    "Events 是精选的仅本人上下文，不是原始实时运行时 feed。",
   "Current slice": "当前切片",
-  "When a private source is designed": "当私密来源完成设计时",
+  "When live ingestion has schema, retention, and audit design": "当实时接入具备 schema、保留策略和审计设计时",
   "Repair API not designed": "修复 API 尚未设计",
   "Repair, release, queue mutation, recovery, and runtime-detail access require separate auth and audit design.":
     "修复、发布、队列变更、恢复和运行时详情访问都需要单独的认证与审计设计。",
@@ -304,8 +344,8 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   Telemetry: "遥测",
   "Owner auth is the first diagnostic boundary: private shell must not render before login.":
     "本人认证是第一条诊断边界：登录前不得渲染私密 shell。",
-  "Event freshness and failure feed are shown as posture until a private source is connected.":
-    "在私密来源接入前，事件新鲜度和故障 feed 都以姿态展示。",
+  "Events context is available for review, while live private ingestion stays behind a future schema and audit design.":
+    "Events 上下文已经可用于审核；实时私密接入仍等待未来的 schema 和审计设计。",
   "Review Queue and schedules stay visible, but this page cannot promote work.":
     "Review Queue 和日程保持可见，但本页不能推进工作。",
   "Repair, command, trading, and broker paths stay unavailable without audit design.":
@@ -313,6 +353,8 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   "Diagnostics are summary-level only.": "诊断只保持摘要级别。",
   "No implementation address, credential value, local machine label, or runtime record line is rendered.":
     "不渲染实现地址、凭据值、本机标签或运行时记录行。",
+  "Owner Events is curated context only; it is not a raw runtime feed.":
+    "Owner Events 只是精选上下文，不是原始运行时 feed。",
   "Bundle boundary checks are a release gate for credential values, machine paths, and runtime records.":
     "bundle 边界检查是凭据值、机器路径和运行时记录的发布门禁。",
   "Repair, release, and recovery workflows need separate authenticated APIs.":
@@ -822,6 +864,62 @@ function DiagnosticLanes({ lanes }: { lanes: readonly PrivateSystemDiagnosticLan
   );
 }
 
+function ContextBridge({ links }: { links: readonly PrivateSystemContextLink[] }) {
+  const { locale } = useLanguage();
+  const t = (value: string | undefined) => systemText(value, locale);
+
+  if (links.length === 0) {
+    return null;
+  }
+
+  return (
+    <section className="panel p-5" aria-labelledby="owner-context-bridge-title">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-sky-100">
+            <Route size={22} aria-hidden />
+            <h2 id="owner-context-bridge-title" className="text-2xl font-semibold text-white">
+              {t("Owner context bridge")}
+            </h2>
+          </div>
+          <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-300">
+            {t("Move from system posture into the owner-only surfaces that explain what happened. These links expose curated context only; they do not open repair, dispatch, or execution paths.")}
+          </p>
+        </div>
+        <SystemBadge tone="info">{t("Context route")}</SystemBadge>
+      </div>
+
+      <div className="mt-5 grid gap-3 md:grid-cols-3">
+        {links.map((link, index) => {
+          const Icon = contextLinkIcons[index % contextLinkIcons.length] ?? Route;
+
+          return (
+            <Link
+              key={link.id}
+              href={link.href}
+              prefetch={false}
+              className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-[8px] border border-sky-200/30 bg-sky-300/12 text-sky-100">
+                  <Icon size={18} aria-hidden />
+                </span>
+                <SystemBadge tone={link.tone}>{link.scope}</SystemBadge>
+              </div>
+              <div className="mt-4 flex items-center justify-between gap-3">
+                <h3 className="text-base font-semibold text-white">{t(link.label)}</h3>
+                <ArrowRight className="shrink-0 text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />
+              </div>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{t(link.detail)}</p>
+              <p className="mt-4 text-xs font-bold uppercase text-yellow-100">{t(link.boundary)}</p>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function SignalsAndBoundary({ data }: { data: OwnerSystemHealthData }) {
   const { locale } = useLanguage();
   const t = (value: string | undefined) => systemText(value, locale);
@@ -1004,6 +1102,7 @@ export function OwnerSystemHealthSurface({ data }: { data: OwnerSystemHealthData
         <ServiceInspector service={selectedService} />
       </section>
       <DiagnosticLanes lanes={data.lanes} />
+      <ContextBridge links={data.contextLinks} />
       <SignalsAndBoundary data={data} />
       <BoundaryAndControls diagnostics={data.diagnostics} />
     </div>

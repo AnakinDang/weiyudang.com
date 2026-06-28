@@ -61,6 +61,16 @@ export type PrivateSystemDiagnosticLane = {
   detail: string;
 };
 
+export type PrivateSystemContextLink = {
+  id: string;
+  label: string;
+  href: string;
+  scope: string;
+  tone: SystemTone;
+  detail: string;
+  boundary: string;
+};
+
 export const privateSystemServices = [
   {
     id: "owner-auth-gate",
@@ -133,17 +143,17 @@ export const privateSystemServices = [
     label: "Event freshness",
     domain: "Signal posture",
     posture: "watch",
-    state: "Mock source",
-    tone: "warning",
-    detail: "The private cockpit has no live internal event source connected yet.",
-    visibleSignal: "Use summary freshness only until a private source exists.",
-    ownerGate: "Owner can see the absence of a private feed without seeing runtime records.",
+    state: "Context ready",
+    tone: "info",
+    detail: "Owner Events is available for curated history, handoffs, review signals, and source posture; live private ingestion remains future work.",
+    visibleSignal: "Use Events context as curated owner history while live event ingestion remains future work.",
+    ownerGate: "Owner can inspect curated cockpit packets without raw runtime payloads or feed addresses.",
     evidence: [
       {
-        label: "Live source",
-        state: "Missing",
-        tone: "warning",
-        detail: "No private event feed is attached to this web page."
+        label: "Events context",
+        state: "Available",
+        tone: "info",
+        detail: "The owner-only Events page reconstructs a curated timeline from cockpit packets."
       },
       {
         label: "Public relay",
@@ -152,14 +162,14 @@ export const privateSystemServices = [
         detail: "Public relay health should not become private runtime evidence."
       },
       {
-        label: "Fallback",
-        state: "Summary",
+        label: "Live source",
+        state: "Future",
         tone: "private",
-        detail: "The UI shows safe posture instead of raw runtime records."
+        detail: "A true live per-agent source still needs schema, retention, and audit design."
       }
     ],
-    risks: ["Freshness can look more precise than it is if mock wording is too confident."],
-    noGo: ["No event payload", "No internal feed address", "No implementation label"]
+    risks: ["Curated context must not be described as a raw live runtime feed."],
+    noGo: ["No event payload", "No raw runtime payloads", "No internal feed address"]
   },
   {
     id: "review-queue-health",
@@ -266,11 +276,11 @@ export const privateSystemSignals = [
   {
     id: "event-freshness",
     label: "Event freshness",
-    value: "Mock source",
-    tone: "warning",
+    value: "Context ready",
+    tone: "info",
     scope: "Private cockpit",
-    detail: "No live private event feed is attached to this page yet.",
-    lastChecked: "This session"
+    detail: "Use Events context for owner-readable history, handoffs, and review signals; keep live event ingestion as a separate future design.",
+    lastChecked: "Current slice"
   },
   {
     id: "queue-health",
@@ -301,15 +311,45 @@ export const privateSystemSignals = [
   }
 ] as const satisfies readonly PrivateSystemSignal[];
 
+export const privateSystemContextLinks = [
+  {
+    id: "owner-events-context",
+    label: "Open Events",
+    href: "/app/events",
+    scope: "Curated context",
+    tone: "info",
+    detail: "Read owner-readable history, handoffs, review signals, source posture, and boundary packets.",
+    boundary: "No raw runtime payloads"
+  },
+  {
+    id: "agent-roster-context",
+    label: "Open Agents",
+    href: "/app/agents",
+    scope: "Agent roster",
+    tone: "normal",
+    detail: "Inspect MiniDora lanes, source health, leases, and handoffs.",
+    boundary: "No dispatch controls"
+  },
+  {
+    id: "review-queue-context",
+    label: "Open Review Queue",
+    href: "/app/review",
+    scope: "Owner decisions",
+    tone: "warning",
+    detail: "Review owner-gated work before any future action path exists.",
+    boundary: "No queue mutation"
+  }
+] as const satisfies readonly PrivateSystemContextLink[];
+
 export const privateSystemGaps = [
   {
     id: "no-private-feed",
-    label: "Private event source not connected",
+    label: "Live private event source not connected",
     state: "Known gap",
     tone: "warning",
-    detail: "The page is intentionally honest about missing private telemetry rather than inventing precision.",
+    detail: "Events is a curated owner-only context, not a raw live runtime feed.",
     notedAt: "Current slice",
-    revisitWhen: "When a private source is designed"
+    revisitWhen: "When live ingestion has schema, retention, and audit design"
   },
   {
     id: "repair-api-not-designed",
@@ -356,7 +396,7 @@ export const privateSystemDiagnosticLanes = [
     owner: "Dev MiniDora",
     state: "Watch",
     tone: "warning",
-    detail: "Event freshness and failure feed are shown as posture until a private source is connected."
+    detail: "Events context is available for review, while live private ingestion stays behind a future schema and audit design."
   },
   {
     label: "Review",
@@ -377,6 +417,7 @@ export const privateSystemDiagnosticLanes = [
 export const privateSystemDiagnostics = [
   "Diagnostics are summary-level only.",
   "No implementation address, credential value, local machine label, or runtime record line is rendered.",
+  "Owner Events is curated context only; it is not a raw runtime feed.",
   "Bundle boundary checks are a release gate for credential values, machine paths, and runtime records.",
   "Repair, release, and recovery workflows need separate authenticated APIs.",
   "Public Doraemon status and private Owner Cockpit status stay separated."
