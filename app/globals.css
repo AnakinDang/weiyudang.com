@@ -31449,6 +31449,32 @@ textarea {
   padding-inline: 0.52rem;
 }
 
+.doraemon-entry-page .doraemon-entry-route-dock {
+  width: min(100% - 3.5rem, 1420px);
+  margin-top: clamp(-1.85rem, -2.4vw, -0.75rem);
+  margin-bottom: clamp(1.55rem, 2.8vw, 2.7rem);
+}
+
+.doraemon-entry-page .doraemon-entry-route-dock + .doraemon-entry-section {
+  border-top-color: rgba(221, 231, 240, 0.56);
+  padding-top: clamp(2.6rem, 4.4vw, 4.5rem);
+}
+
+@media (max-width: 900px) {
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    width: min(100% - 2rem, 43rem);
+    margin-top: 0.25rem;
+  }
+}
+
+@media (max-width: 620px) {
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    width: min(100% - 1.35rem, 42rem);
+    margin-top: 0.15rem;
+    margin-bottom: 1.3rem;
+  }
+}
+
 .dora-office-product-hero {
   min-height: min(704px, calc(100svh - 4.25rem));
   background:

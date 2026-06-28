@@ -15,6 +15,7 @@ import {
   Users
 } from "lucide-react";
 import { DoraEntryActivityPreview } from "@/components/DoraEntryActivityPreview";
+import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { SiteChrome } from "@/components/SiteChrome";
 import { getRecentPublicDoraEvents, toPublicDoraEventClientView } from "@/lib/dora-office";
@@ -203,6 +204,10 @@ export default function DoraPage() {
             </div>
           </div>
         </section>
+
+        <div className="dora-office-route-dock-wrap doraemon-entry-route-dock">
+          <DoraOfficeRouteDock active="/dora" />
+        </div>
 
         <section id="what-doraemon-does" className="doraemon-entry-section">
           <div className="container doraemon-capability-grid">
