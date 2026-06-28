@@ -38571,7 +38571,7 @@ textarea {
 .trading-today-source-card,
 .trading-today-evidence-card,
 .trading-today-replay-card,
-.trading-today-snapshot-card {
+.trading-today-review-card {
   padding: 1rem;
 }
 
@@ -38587,7 +38587,7 @@ textarea {
   grid-column: span 1;
 }
 
-.trading-today-snapshot-card {
+.trading-today-review-card {
   grid-column: span 1;
 }
 
@@ -38658,7 +38658,7 @@ textarea {
 .trading-today-desk-list,
 .trading-today-source-list,
 .trading-today-gate-list,
-.trading-today-snapshot-list {
+.trading-today-review-list {
   display: grid;
   gap: 0.45rem;
 }
@@ -38666,7 +38666,7 @@ textarea {
 .trading-today-desk-list article,
 .trading-today-source-list article,
 .trading-today-gate-list article,
-.trading-today-snapshot-list article {
+.trading-today-review-list article {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -38683,8 +38683,7 @@ textarea {
 }
 
 .trading-today-desk-list strong,
-.trading-today-source-list strong,
-.trading-today-snapshot-list strong {
+.trading-today-source-list strong {
   color: #0f172a;
   font-weight: 820;
 }
@@ -38734,16 +38733,84 @@ textarea {
   box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.13);
 }
 
-.trading-today-source-list article,
-.trading-today-snapshot-list article {
+.trading-today-source-list article {
   grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
-.trading-today-source-list article > span:last-child,
-.trading-today-snapshot-list small {
+.trading-today-source-list article > span:last-child {
   color: #475569;
   font-size: 0.72rem;
   font-weight: 760;
+}
+
+.trading-today-review-list article {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+}
+
+.trading-today-review-list article .trading-cockpit-link {
+  grid-column: 1 / -1;
+  justify-self: start;
+  margin-top: 0.15rem;
+}
+
+.trading-today-review-list small {
+  display: block;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.trading-today-review-list strong {
+  display: block;
+  margin-top: 0.18rem;
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1.3;
+}
+
+.trading-today-review-empty {
+  margin: 0;
+  border-top: 1px solid rgba(221, 231, 240, 0.78);
+  padding-top: 0.6rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 720;
+  line-height: 1.45;
+}
+
+.trading-today-open-questions {
+  margin-top: 0.75rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.78);
+  padding-top: 0.7rem;
+}
+
+.trading-today-open-questions p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.68rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.trading-today-open-questions ul {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.55rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trading-today-open-questions li {
+  border-radius: 7px;
+  background: rgba(248, 250, 252, 0.92);
+  padding: 0.45rem 0.55rem;
+  color: #475569;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .trading-today-replay-line {
@@ -38806,7 +38873,7 @@ textarea {
   .trading-today-source-card,
   .trading-today-evidence-card,
   .trading-today-replay-card,
-  .trading-today-snapshot-card {
+  .trading-today-review-card {
     grid-column: span 3;
   }
 
@@ -38865,7 +38932,7 @@ textarea {
   .trading-today-source-card,
   .trading-today-evidence-card,
   .trading-today-replay-card,
-  .trading-today-snapshot-card {
+  .trading-today-review-card {
     grid-column: span 1;
   }
 

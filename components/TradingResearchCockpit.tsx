@@ -46,7 +46,7 @@ type TradingReviewQueueItem = {
   state: string;
   source: string;
   detail: string;
-  actionLabel: string;
+  actionLabel: "Open evidence" | "Review gate" | "Open system" | "Open replay";
   action: "evidence" | "replay" | "system";
   signalFilter?: string;
   evidenceStateFilter?: string;
@@ -158,6 +158,17 @@ function reviewActionAriaLabel(item: TradingReviewQueueItem, locale: SiteLocale)
   }
 
   return `${item.actionLabel}: ${item.title}`;
+}
+
+function reviewSourceLabel(source: string, locale: SiteLocale) {
+  if (locale !== "zh") {
+    return source;
+  }
+
+  return source
+    .split(" · ")
+    .map((part) => translateToZh(part) ?? part)
+    .join(" · ");
 }
 
 function replayTraceAriaLabel(packet: TradingEvidencePacket, locale: SiteLocale) {
@@ -344,7 +355,7 @@ function buildTradingReviewQueue(data: TradingResearchCockpitData): TradingRevie
     state: packet.state,
     source: `${packet.linkedSignal} · ${packet.source}`,
     detail: packet.blocker,
-    actionLabel: "Open evidence",
+    actionLabel: "Open evidence" as const,
     action: "evidence" as const,
     signalFilter: signalNames.has(packet.linkedSignal) ? packet.linkedSignal : ALL_SIGNAL_FILTER,
     evidenceStateFilter: packet.state,
@@ -358,7 +369,7 @@ function buildTradingReviewQueue(data: TradingResearchCockpitData): TradingRevie
     state: gate.value,
     source: "Gate status",
     detail: gate.detail,
-    actionLabel: "Review gate",
+    actionLabel: "Review gate" as const,
     action: "evidence" as const,
     evidenceStateFilter: ALL_STATE_FILTER
   }));
@@ -369,7 +380,7 @@ function buildTradingReviewQueue(data: TradingResearchCockpitData): TradingRevie
     state: source.state,
     source: "Source health",
     detail: source.detail,
-    actionLabel: "Open system",
+    actionLabel: "Open system" as const,
     action: "system" as const
   }));
 
@@ -379,7 +390,7 @@ function buildTradingReviewQueue(data: TradingResearchCockpitData): TradingRevie
     state: item.state,
     source: "System status",
     detail: item.detail,
-    actionLabel: "Open system",
+    actionLabel: "Open system" as const,
     action: "system" as const
   }));
 
@@ -392,7 +403,7 @@ function buildTradingReviewQueue(data: TradingResearchCockpitData): TradingRevie
       state: event.evidenceState,
       source: `${event.time} · ${event.desk}`,
       detail: event.note,
-      actionLabel: "Open replay",
+      actionLabel: "Open replay" as const,
       action: "replay" as const,
       replayInstrumentFilter: event.instrument === "ALL" ? ALL_INSTRUMENT_FILTER : event.instrument,
       replayEvidenceFilter: event.evidenceState
@@ -702,10 +713,12 @@ function TradingTodayCockpit({
   evidencePackets,
   gates,
   replay,
-  systemStatus,
+  openQuestions,
+  reviewQueue,
   unavailableActions,
   deskScope,
   onOpenEvidenceQueue,
+  onOpenReviewItem,
   onSelectView,
   onTraceEvidence
 }: {
@@ -716,10 +729,12 @@ function TradingTodayCockpit({
   evidencePackets: readonly TradingEvidencePacket[];
   gates: readonly TradingGate[];
   replay: readonly TradingReplayEvent[];
-  systemStatus: readonly TradingSystemStatusItem[];
+  openQuestions: readonly string[];
+  reviewQueue: readonly TradingReviewQueueItem[];
   unavailableActions: readonly string[];
   deskScope: string;
   onOpenEvidenceQueue: () => void;
+  onOpenReviewItem: (item: TradingReviewQueueItem) => void;
   onSelectView: (view: TradingView) => void;
   onTraceEvidence: (instrument: string) => void;
 }) {
@@ -730,6 +745,8 @@ function TradingTodayCockpit({
   const topSignals = signals.slice(0, 5);
   const disagreementDesks = desks.slice(0, 5);
   const replayEvents = replay.slice(-5);
+  const reviewItems = reviewQueue.slice(0, 3);
+  const visibleOpenQuestions = openQuestions.slice(0, 3);
 
   const metrics = [
     {
@@ -970,21 +987,56 @@ function TradingTodayCockpit({
         </button>
       </section>
 
-      <section className="trading-today-snapshot-card" aria-labelledby="trading-today-snapshot-title">
+      <section className="trading-today-review-card" aria-labelledby="trading-today-review-title">
         <div className="trading-today-card-head">
           <div>
-            <p>Snapshot</p>
-            <h2 id="trading-today-snapshot-title">System posture</h2>
+            <p>Owner review</p>
+            <h2 id="trading-today-review-title">Review queue</h2>
           </div>
+          <StatusBadge tone={reviewQueue.length > 0 ? "warning" : "normal"}>
+            <span data-i18n-skip>{locale === "zh" ? `${reviewQueue.length} 个待审` : `${reviewQueue.length} review items`}</span>
+          </StatusBadge>
         </div>
-        <div className="trading-today-snapshot-list">
-          {systemStatus.map((item) => (
-            <article key={item.label}>
-              <span className={`trading-today-source-dot ${sourceDotClass(item.state)}`} aria-hidden />
-              <strong>{item.label}</strong>
-              <small data-i18n-skip>{stateLabel(item.state, locale)}</small>
+
+        <div className="trading-today-review-list">
+          {reviewItems.map((item) => (
+            <article key={item.id}>
+              <div>
+                <small data-i18n-skip>{reviewSourceLabel(item.source, locale)}</small>
+                <strong>{item.title}</strong>
+              </div>
+              <StatusBadge tone={sourceTone(item.state)}>
+                <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+              </StatusBadge>
+              <button
+                type="button"
+                className="trading-cockpit-link"
+                onClick={() => onOpenReviewItem(item)}
+                aria-label={reviewActionAriaLabel(item, locale)}
+                data-i18n-skip
+              >
+                {labelForLocale(item.actionLabel, locale, {})}
+              </button>
             </article>
           ))}
+          {reviewItems.length === 0 ? (
+            <p className="trading-today-review-empty" data-i18n-skip>
+              {locale === "zh"
+                ? "当前仅本人可见的模拟会话中没有开放的审核项。"
+                : "No review items are open in this owner-only mock session."}
+            </p>
+          ) : null}
+        </div>
+
+        <div className="trading-today-open-questions">
+          <p>Open questions</p>
+          <ul>
+            {visibleOpenQuestions.map((question) => (
+              <li key={question} data-i18n-skip>
+                {labelForLocale(question, locale, {})}
+              </li>
+            ))}
+          </ul>
         </div>
         <button type="button" className="trading-cockpit-link" onClick={() => onSelectView("System")}>
           View system health
@@ -1263,7 +1315,9 @@ function ReviewQueuePanel({
           <article key={item.id} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase text-slate-400">{item.source}</p>
+                <p className="text-xs font-bold uppercase text-slate-400" data-i18n-skip>
+                  {reviewSourceLabel(item.source, locale)}
+                </p>
                 <h3 className="mt-1 font-semibold text-white">{item.title}</h3>
               </div>
               <StatusBadge tone={sourceTone(item.state)}>
@@ -2237,10 +2291,12 @@ export function TradingResearchCockpit({
           evidencePackets={data.evidencePackets}
           gates={data.gates}
           replay={data.replay}
-          systemStatus={data.systemStatus}
+          openQuestions={data.openQuestions}
+          reviewQueue={reviewQueue}
           unavailableActions={data.unavailableActions}
           deskScope={activeDesk}
           onOpenEvidenceQueue={openEvidenceCenter}
+          onOpenReviewItem={openReviewQueueItem}
           onSelectView={navigateTradingView}
           onTraceEvidence={traceEvidenceForSignal}
         />
