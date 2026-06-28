@@ -196,7 +196,7 @@ export default function DoraTeamPage() {
                       width={1536}
                       height={1024}
                       priority
-                      quality={94}
+                      quality={95}
                       sizes="(max-width: 900px) 100vw, 58vw"
                     />
                   </div>

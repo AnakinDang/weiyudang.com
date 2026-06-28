@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useMemo } from "react";
+import Link from "next/link";
 import { Activity } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -171,7 +172,13 @@ export function DoraTeamSignals() {
   );
 }
 
-export function DoraTeamSelectedAgentCard({ agent }: { agent: PublicAgent }) {
+export function DoraTeamSelectedAgentCard({
+  agent,
+  showProfileLink = true
+}: {
+  agent: PublicAgent;
+  showProfileLink?: boolean;
+}) {
   const { hasVisibleLiveActivity, latestEventForAgent } = useDoraTeamLive();
   const event = latestEventForAgent(agent);
   const stateLabel = event?.state ?? agent.stateLabel;
@@ -204,6 +211,48 @@ export function DoraTeamSelectedAgentCard({ agent }: { agent: PublicAgent }) {
           <dd>{sourceLabel}</dd>
         </div>
       </dl>
+      {showProfileLink ? (
+        <Link href={`/dora/team/${agent.slug}`} className="link-focus dora-team-profile-link">
+          View profile
+        </Link>
+      ) : null}
+    </section>
+  );
+}
+
+export function DoraTeamAgentSignalPanel({
+  agent,
+  limit = 4
+}: {
+  agent: PublicAgent;
+  limit?: number;
+}) {
+  const { hasVisibleLiveActivity, signalEvents } = useDoraTeamLive();
+  const keys = publicAgentKeys(agent);
+  const matchingSignals = signalEvents.filter((event) => keys.includes(event.agent)).slice(0, limit);
+
+  return (
+    <section className="dora-agent-profile-panel dora-agent-profile-signal-panel">
+      <div className="dora-agent-profile-panel-head">
+        <Activity size={18} aria-hidden />
+        <div>
+          <h2>Recent public signals</h2>
+          <p>{hasVisibleLiveActivity ? "Live public labels for this profile." : "Demo-safe labels for this profile."}</p>
+        </div>
+      </div>
+      {matchingSignals.length ? (
+        <ol className="dora-agent-profile-signal-list">
+          {matchingSignals.map((event) => (
+            <li key={event.event_id}>
+              <time dateTime={event.created_at}>{formatPublicEventTime(event.created_at)}</time>
+              <strong>{event.title}</strong>
+              <span>{event.state}</span>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p className="dora-agent-profile-empty">No matching public event yet</p>
+      )}
     </section>
   );
 }
@@ -247,6 +296,9 @@ export function DoraTeamRoster({ agents }: { agents: PublicAgent[] }) {
                 <span className="dora-team-event-time">Demo state</span>
               )}
             </div>
+            <Link href={`/dora/team/${agent.slug}`} className="link-focus dora-team-profile-link">
+              View public profile
+            </Link>
           </article>
         );
       })}

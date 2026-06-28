@@ -40095,3 +40095,555 @@ textarea {
     min-height: 21rem;
   }
 }
+
+.dora-team-profile-link {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(21, 94, 239, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.74);
+  padding: 0.55rem 0.78rem;
+  color: #155eef;
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.dora-team-profile-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(21, 94, 239, 0.34);
+  background: #ffffff;
+}
+
+.dora-agent-profile-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(240, 247, 255, 0.9), rgba(255, 255, 255, 0.98) 38%, #ffffff 100%),
+    #ffffff;
+  color: #07111f;
+}
+
+.dora-agent-profile-page .dora-office-route-dock-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 0.85rem 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72));
+  backdrop-filter: blur(20px);
+}
+
+.dora-agent-profile-hero {
+  padding: 5.25rem 0 4rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.dora-agent-profile-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(18rem, 0.74fr) minmax(18rem, 0.7fr);
+  gap: 1.45rem;
+  align-items: stretch;
+}
+
+.dora-agent-profile-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.dora-agent-profile-back {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.42rem;
+  margin-bottom: 1.2rem;
+  color: #155eef;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.dora-agent-profile-copy h1 {
+  margin: 0;
+  max-width: 11ch;
+  color: #07111f;
+  font-size: 6.2rem;
+  font-weight: 860;
+  letter-spacing: 0;
+  line-height: 0.92;
+}
+
+.dora-agent-profile-copy > p:not(.dora-office-kicker) {
+  max-width: 44rem;
+  margin: 1.15rem 0 0;
+  color: #475569;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.dora-agent-profile-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.35rem;
+}
+
+.dora-agent-profile-visual {
+  position: relative;
+  display: grid;
+  min-height: 24rem;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.9);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(219, 234, 254, 0.72), rgba(255, 255, 255, 0.9) 48%, rgba(254, 243, 199, 0.52)),
+    #ffffff;
+  box-shadow: 0 28px 90px rgba(37, 99, 235, 0.12);
+}
+
+.dora-agent-profile-halo {
+  position: absolute;
+  inset: 2.1rem;
+  border: 1px solid rgba(37, 99, 235, 0.16);
+  border-radius: 999px;
+}
+
+.dora-agent-profile-halo::before,
+.dora-agent-profile-halo::after {
+  content: "";
+  position: absolute;
+  inset: 2.3rem;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 999px;
+}
+
+.dora-agent-profile-halo::after {
+  inset: 4.8rem;
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.dora-agent-profile-emblem {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(14rem, 64%);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 1.2rem;
+  text-align: center;
+  box-shadow: 0 22px 70px rgba(15, 23, 42, 0.08);
+}
+
+.dora-agent-profile-emblem svg {
+  width: 4.2rem;
+  height: 4.2rem;
+}
+
+.dora-agent-profile-emblem-initial {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  display: grid;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 8px;
+  background: rgba(239, 246, 255, 0.86);
+  color: #155eef;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.dora-agent-profile-emblem strong {
+  margin-top: 0.7rem;
+  color: #07111f;
+  font-size: 1rem;
+  font-weight: 850;
+}
+
+.dora-agent-profile-emblem small,
+.dora-agent-profile-asset-note {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 760;
+}
+
+.dora-agent-profile-asset-note {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  max-width: calc(100% - 2rem);
+  align-items: center;
+  gap: 0.42rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.45rem 0.58rem;
+}
+
+.dora-agent-profile-live-card .dora-team-selected-agent-card {
+  height: 100%;
+}
+
+.dora-agent-profile-section {
+  padding: 4.4rem 0;
+}
+
+.dora-agent-profile-section + .dora-agent-profile-section {
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.dora-agent-profile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.dora-agent-profile-panel {
+  min-width: 0;
+  border: 1px solid rgba(191, 219, 254, 0.7);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  padding: 1.1rem;
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.05);
+}
+
+.dora-agent-profile-panel-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.dora-agent-profile-panel-head > svg {
+  flex: 0 0 auto;
+  color: #155eef;
+}
+
+.dora-agent-profile-panel h2 {
+  margin: 0;
+  color: #07111f;
+  font-size: 1rem;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.dora-agent-profile-panel p {
+  margin: 0.35rem 0 0;
+  color: #64748b;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.dora-agent-profile-panel ul {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-agent-profile-panel li {
+  display: flex;
+  gap: 0.52rem;
+  color: #334155;
+  font-size: 0.86rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.dora-agent-profile-panel li svg {
+  flex: 0 0 auto;
+  margin-top: 0.08rem;
+  color: #155eef;
+}
+
+.dora-agent-profile-rhythm-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.05rem;
+}
+
+.dora-agent-profile-rhythm-list span {
+  border: 1px solid rgba(37, 99, 235, 0.15);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.84);
+  padding: 0.42rem 0.58rem;
+  color: #155eef;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.dora-agent-profile-review-gate {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 1.05rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  padding-top: 0.85rem;
+  color: #0f172a;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.dora-agent-profile-review-gate svg {
+  flex: 0 0 auto;
+  color: #155eef;
+}
+
+.dora-agent-profile-signal-list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dora-agent-profile-signal-list li {
+  display: grid;
+  grid-template-columns: 3.3rem minmax(0, 1fr) auto;
+  gap: 0.65rem;
+  align-items: center;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.84);
+  padding: 0.58rem;
+}
+
+.dora-agent-profile-signal-list time,
+.dora-agent-profile-signal-list span,
+.dora-agent-profile-empty {
+  color: #64748b;
+  font-size: 0.73rem;
+  font-weight: 800;
+}
+
+.dora-agent-profile-signal-list strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #0f172a;
+  font-size: 0.82rem;
+  font-weight: 840;
+}
+
+.dora-agent-profile-empty {
+  margin-top: 1rem;
+}
+
+.dora-agent-profile-peer-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.dora-agent-profile-section-copy h2 {
+  margin: 0.35rem 0 0;
+  color: #07111f;
+  font-size: 3.2rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 0.96;
+}
+
+.dora-agent-profile-section-copy > p:not(.dora-office-kicker) {
+  max-width: 33rem;
+  margin: 0.9rem 0 1.1rem;
+  color: #475569;
+  line-height: 1.65;
+}
+
+.dora-agent-profile-peer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: 0.8rem;
+}
+
+.dora-agent-profile-peer-card,
+.dora-agent-profile-route-card {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.9rem;
+  color: #0f172a;
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.dora-agent-profile-peer-card:hover,
+.dora-agent-profile-route-card:hover {
+  transform: translateY(-1px);
+  border-color: rgba(37, 99, 235, 0.34);
+  box-shadow: 0 18px 44px rgba(37, 99, 235, 0.08);
+}
+
+.dora-agent-profile-peer-mark {
+  position: relative;
+  display: grid;
+  width: 2.25rem;
+  aspect-ratio: 1;
+  flex: 0 0 auto;
+  place-items: center;
+}
+
+.dora-agent-profile-peer-mark svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.dora-agent-profile-peer-mark span {
+  position: absolute;
+  right: -0.15rem;
+  bottom: -0.12rem;
+  display: grid;
+  width: 1rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  border-radius: 6px;
+  background: #155eef;
+  color: #ffffff;
+  font-size: 0.54rem;
+  font-weight: 900;
+}
+
+.dora-agent-profile-peer-card span,
+.dora-agent-profile-route-card span {
+  display: grid;
+  min-width: 0;
+  gap: 0.18rem;
+}
+
+.dora-agent-profile-peer-card strong,
+.dora-agent-profile-route-card strong {
+  overflow-wrap: anywhere;
+  color: #07111f;
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.dora-agent-profile-peer-card small,
+.dora-agent-profile-route-card small {
+  color: #64748b;
+  font-size: 0.76rem;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.dora-agent-profile-peer-card > svg:last-child,
+.dora-agent-profile-route-card > svg:last-child {
+  margin-left: auto;
+  flex: 0 0 auto;
+  color: #155eef;
+}
+
+.dora-agent-profile-command-section {
+  padding-top: 0;
+}
+
+.dora-agent-profile-command-shell {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.dora-agent-profile-route-card > svg:first-child {
+  flex: 0 0 auto;
+  color: #155eef;
+}
+
+.dora-agent-profile-warning .dora-agent-profile-emblem,
+.dora-agent-profile-bell-yellow .dora-agent-profile-emblem {
+  border-color: rgba(245, 158, 11, 0.24);
+}
+
+.dora-agent-profile-warning .dora-agent-profile-panel-head > svg,
+.dora-agent-profile-bell-yellow .dora-agent-profile-panel-head > svg {
+  color: #d97706;
+}
+
+@media (max-width: 1180px) {
+  .dora-agent-profile-hero-grid,
+  .dora-agent-profile-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dora-agent-profile-copy {
+    grid-column: 1 / -1;
+  }
+
+  .dora-agent-profile-copy h1 {
+    font-size: 5rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .dora-agent-profile-page .dora-office-route-dock-wrap {
+    position: static;
+  }
+
+  .dora-agent-profile-hero {
+    padding: 3.1rem 0 2.7rem;
+  }
+
+  .dora-agent-profile-hero-grid,
+  .dora-agent-profile-grid,
+  .dora-agent-profile-peer-shell,
+  .dora-agent-profile-peer-grid,
+  .dora-agent-profile-command-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .dora-agent-profile-copy h1 {
+    max-width: 12ch;
+    font-size: 3.65rem;
+  }
+
+  .dora-agent-profile-section-copy h2 {
+    font-size: 2.45rem;
+  }
+
+  .dora-agent-profile-visual {
+    min-height: 19rem;
+  }
+
+  .dora-agent-profile-section {
+    padding: 3rem 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .dora-agent-profile-copy h1 {
+    font-size: 2.68rem;
+  }
+
+  .dora-agent-profile-badges {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dora-agent-profile-signal-list li {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .dora-agent-profile-emblem {
+    width: min(12rem, 72%);
+  }
+}

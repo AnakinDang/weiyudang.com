@@ -608,6 +608,126 @@ const exactZhTranslations = {
   "No matching public event yet": "暂无匹配的公开事件",
   "Source": "来源",
   "Demo state": "演示状态",
+  "View profile": "查看档案",
+  "View public profile": "查看公开档案",
+  "Back to Team Agents": "返回智能体团队",
+  "Public Agent Profile": "公开智能体档案",
+  "Public profile mark": "公开档案标记",
+  "Current public state": "当前公开状态",
+  "Curated public profile mark": "精选公开档案标记",
+  "Public responsibilities": "公开职责",
+  "What this profile is allowed to explain in public.": "这个档案允许在公开侧解释的内容。",
+  "Recent public signals": "最近公开信号",
+  "Live public labels for this profile.": "这个档案的实时公开标签。",
+  "Demo-safe labels for this profile.": "这个档案的演示安全标签。",
+  "This page is a curated profile, not a control panel.": "这个页面是精选档案，不是控制面板。",
+  "Public profile copy only.": "只展示公开档案文案。",
+  "No private prompts, tools, or runtime IDs.": "不展示私密 prompt、工具或运行时 ID。",
+  "No accounts, credentials, orders, or owner-only controls.":
+    "不展示账户、凭据、订单或仅本人控制项。",
+  "Collaboration map": "协作地图",
+  "Works with": "协作对象",
+  "Profiles stay public-safe while showing how MiniDoras coordinate across the Doraemon Office.":
+    "档案保持公开安全，同时展示 MiniDoras 如何在 Doraemon Office 中协同。",
+  "Return to the full public MiniDora roster.": "返回完整公开 MiniDora 花名册。",
+  "Read the sanitized public timeline.": "阅读脱敏后的公开时间线。",
+  "System boundary": "系统边界",
+  "Review the public/private data contract.": "查看公开 / 私密数据契约。",
+  "Continue through Doraemon Office": "继续浏览 Doraemon Office",
+  "Research Lab": "研究实验室",
+  "Keep the Personal OS coherent across public pages, owner review, and specialist MiniDoras.":
+    "让 Personal OS 在公开页面、本人审核和专门化 MiniDoras 之间保持一致。",
+  "Continuously summarizes public-safe posture and routes work into review checkpoints.":
+    "持续总结公开安全状态，并把工作路由到审核检查点。",
+  "Weiyu keeps final judgment before private work becomes action.":
+    "私密工作变成行动前，Weiyu 保留最终判断。",
+  "Turn vague intent into scoped plans and visible next steps.":
+    "把模糊意图转成有范围的计划和可见下一步。",
+  "Coordinate specialist MiniDoras without exposing private task detail.":
+    "协调专门化 MiniDoras，同时不暴露私密任务细节。",
+  "Bring decisions back to the owner when judgment or approval is required.":
+    "当需要判断或批准时，把决策带回本人。",
+  "Read broadly, compare sources, and turn messy questions into public-safe evidence briefs.":
+    "广泛阅读、比较来源，并把复杂问题转成公开安全的证据简报。",
+  "Works in source-backed passes: collect, compare, summarize, and mark what is still missing.":
+    "按有来源支撑的流程工作：收集、比较、总结，并标出仍然缺失的内容。",
+  "Public summaries stay curated; private notes and raw source excerpts remain out of the page.":
+    "公开摘要保持精选；私密笔记和原始来源摘录不进入页面。",
+  "Frame research questions before conclusions harden.": "在结论固化前先框定研究问题。",
+  "Separate evidence, counter-evidence, and open questions.":
+    "分离证据、反证和开放问题。",
+  "Prepare concise briefs for Doraemon and the owner review loop.":
+    "为 Doraemon 和本人审核循环准备简明简报。",
+  "Move scoped product slices into tested, reviewable web surfaces.":
+    "把有范围的产品切片推进为经过测试、可审核的网页界面。",
+  "Builds in thin vertical slices, verifies locally, and keeps release evidence attached.":
+    "按薄的纵向切片构建，本地验证，并保留发布证据。",
+  "No deploy is treated as shipped until build, boundary checks, and browser smoke pass.":
+    "在构建、边界检查和浏览器 smoke 通过前，不把部署视为已交付。",
+  "Implement Next.js routes and components from the product blueprint.":
+    "根据产品蓝图实现 Next.js 路由和组件。",
+  "Preserve public/private boundaries while adding visible capability.":
+    "在增加可见能力时保留公开 / 私密边界。",
+  "Leave enough verification evidence for the next agent to continue.":
+    "留下足够验证证据，让下一个智能体继续推进。",
+  "Turn broad Personal OS ambition into coherent surfaces that can be shipped and reviewed.":
+    "把宏大的 Personal OS 目标转成可交付、可审核的一致界面。",
+  "Maintains scope, acceptance checks, and product language before implementation drifts.":
+    "在实现漂移前维护范围、验收检查和产品语言。",
+  "Every public surface must be understandable without revealing private operations.":
+    "每个公开界面都必须可理解，同时不揭示私密运行细节。",
+  "Translate design documents into concrete page responsibilities.":
+    "把设计文档转成具体页面职责。",
+  "Keep each slice small enough to verify but meaningful enough to compound.":
+    "让每个切片小到可验证，同时有足够意义可以复利。",
+  "Catch wording that overclaims live access, authority, or execution.":
+    "捕捉那些过度声称实时访问、权限或执行能力的文案。",
+  "Keep the public operating posture legible while private control-plane detail stays hidden.":
+    "让公开运行状态可读，同时隐藏私密控制平面细节。",
+  "Summarizes coarse health, schedule rhythm, and fallback state without exposing internals.":
+    "总结粗粒度健康、日程节奏和回退状态，而不暴露内部细节。",
+  "Public pages can reassure; private repair controls stay behind the owner cockpit.":
+    "公开页面可以让人安心；私密修复控制留在本人驾驶舱之后。",
+  "Watch public-safe heartbeat and freshness labels.":
+    "观察公开安全的心跳和新鲜度标签。",
+  "Keep schedules readable without cron strings or prompt bodies.":
+    "让日程可读，但不展示 cron 字符串或 prompt 正文。",
+  "Route attention to the owner only when a safe summary is enough.":
+    "只有安全摘要足够时，才把注意力路由给本人。",
+  "Preserve context in curated summaries so public pages can explain the work without dumping private notes.":
+    "用精选摘要保存上下文，让公开页面能解释工作，而不是倾倒私密笔记。",
+  "Condenses handoffs, decisions, and durable project context after meaningful work completes.":
+    "在有意义的工作完成后，压缩交接、决策和持久项目上下文。",
+  "Private memory is never copied directly into public content.":
+    "私密记忆绝不直接复制到公开内容中。",
+  "Maintain summaries that help future agents continue safely.":
+    "维护能帮助未来智能体安全继续的摘要。",
+  "Separate public project context from private source material.":
+    "把公开项目上下文和私密来源材料分开。",
+  "Keep knowledge hygiene visible as a process, not as a raw database.":
+    "把知识卫生作为过程展示，而不是展示原始数据库。",
+  "Organize market research questions, evidence gates, and uncertainty without execution.":
+    "组织市场研究问题、证据门禁和不确定性，不进行执行。",
+  "Builds research packets with source health, blockers, and owner-review posture.":
+    "构建包含来源健康、阻塞点和本人审核状态的研究包。",
+  "Keep market work framed as research packets, not instructions.":
+    "把市场工作保持为研究包，而不是指令。",
+  "Separate evidence, counter-evidence, missing proof, and owner review.":
+    "分离证据、反证、缺失证明和本人审核。",
+  "Avoid accounts, positions, orders, PnL, broker state, or live private signals.":
+    "避开账户、持仓、订单、PnL、券商状态或实时私密信号。",
+  "Turn visual experiments into reusable public-safe creative systems.":
+    "把视觉实验转成可复用、公开安全的创意系统。",
+  "Explores, selects, refines, and packages story assets without exposing private production notes.":
+    "探索、选择、打磨并打包叙事素材，同时不暴露私密生产笔记。",
+  "Public visuals stay curated, replaceable, and takedown-friendly.":
+    "公开视觉保持精选、可替换且便于下架。",
+  "Shape images, video concepts, and story assets into coherent systems.":
+    "把图片、视频概念和叙事素材塑造成一致系统。",
+  "Keep public creative work separate from private source prompts and drafts.":
+    "让公开创意工作与私密来源 prompt 和草稿分离。",
+  "Support Doraemon Office with visuals that feel warm and precise.":
+    "用温暖且精准的视觉支持 Doraemon Office。",
 
   "Doraemon System": "Doraemon 系统",
   "Public health signal without private infrastructure.": "不暴露私有基础设施的公开健康信号。",
