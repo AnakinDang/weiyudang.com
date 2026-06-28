@@ -40994,3 +40994,201 @@ textarea {
     min-height: 17.2rem;
   }
 }
+
+/* Step 63: Homepage Personal OS first-viewport fit */
+@media (min-width: 1181px) and (max-height: 760px) {
+  .premium-hero {
+    min-height: calc(100svh - 8.15rem);
+    padding-top: 0.7rem;
+    padding-bottom: 0.42rem;
+  }
+
+  .premium-hero-grid {
+    max-width: min(1230px, calc(100vw - 4rem));
+    grid-template-columns: minmax(25rem, 0.43fr) minmax(34rem, 0.57fr);
+    grid-template-rows: minmax(22.2rem, 1fr) auto;
+    min-height: calc(100svh - 10.65rem);
+    gap: 0.52rem 2rem;
+  }
+
+  .premium-hero-kicker {
+    margin-bottom: 0.56rem;
+    padding: 0.28rem 0.42rem;
+  }
+
+  .premium-hero-kicker span {
+    min-height: 1.28rem;
+    padding-inline: 0.46rem;
+    font-size: 0.67rem;
+  }
+
+  .premium-hero-copy {
+    max-width: 34.5rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .premium-hero .premium-hero-title {
+    gap: 0.18rem;
+    max-width: 34.5rem;
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-name {
+    font-size: clamp(4.48rem, 5.45vw, 5.05rem);
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-os {
+    font-size: clamp(3.05rem, 3.85vw, 3.55rem);
+  }
+
+  .premium-hero .premium-hero-title .premium-hero-line {
+    font-size: clamp(1.92rem, 2.45vw, 2.18rem);
+  }
+
+  .premium-hero-support {
+    max-width: 28.5rem;
+    margin-top: 0.82rem;
+    font-size: 0.95rem;
+    line-height: 1.48;
+  }
+
+  .premium-hero-statusline {
+    gap: 0.42rem 0.52rem;
+    margin-top: 0.76rem;
+  }
+
+  .premium-hero-signal {
+    font-size: 0.74rem;
+  }
+
+  .premium-hero-signal-divider {
+    width: 1.05rem;
+  }
+
+  .premium-hero-actions {
+    gap: 0.6rem 1.05rem;
+    margin-top: 0.9rem;
+  }
+
+  .premium-primary-link {
+    min-width: 14.4rem;
+    padding: 0.74rem 0.9rem;
+    font-size: 0.86rem;
+  }
+
+  .premium-text-link {
+    padding-block: 0.56rem;
+    font-size: 0.84rem;
+  }
+
+  .premium-office-capsule {
+    width: min(18rem, 43%);
+    margin-right: 0.45rem;
+    transform: translateY(-0.35rem);
+  }
+
+  .premium-office-capsule-head {
+    padding: 0.7rem 0.78rem 0.55rem;
+  }
+
+  .premium-office-capsule-head span {
+    font-size: 0.62rem;
+  }
+
+  .premium-office-capsule-head strong {
+    font-size: 0.95rem;
+    line-height: 1.22;
+  }
+
+  .premium-office-status-pill {
+    padding: 0.28rem 0.44rem;
+    font-size: 0.62rem;
+  }
+
+  .premium-office-capsule-copy {
+    padding: 0.66rem 0.78rem 0;
+    font-size: 0.78rem;
+    line-height: 1.42;
+  }
+
+  .premium-office-boundary {
+    margin: 0.48rem 0.78rem 0.66rem;
+  }
+
+  .premium-office-boundary-row {
+    min-height: 2.82rem;
+    gap: 0.5rem;
+    padding: 0.46rem 0;
+  }
+
+  .premium-office-boundary-row strong {
+    font-size: 0.68rem;
+  }
+
+  .premium-office-boundary-row small {
+    font-size: 0.62rem;
+  }
+
+  .premium-hero-backdrop img {
+    object-position: 70% 46%;
+    transform: translateY(-0.15rem) scale(1.035);
+  }
+
+  .premium-hero .premium-hero-lightfield {
+    bottom: 7.25rem;
+  }
+
+  .premium-hero-bottom-deck {
+    width: min(100%, calc(100vw - 6.2rem), 1180px);
+    grid-template-columns: minmax(0, 0.56fr) minmax(21.5rem, 0.44fr);
+  }
+
+  .premium-hero-bottom-deck .premium-hero-demo-strip {
+    padding: 0.52rem 0.64rem;
+  }
+
+  .premium-hero-demo-strip .premium-office-events-head {
+    font-size: 0.72rem;
+  }
+
+  .premium-hero-demo-strip ol {
+    margin-top: 0.36rem;
+  }
+
+  .premium-hero-demo-strip li {
+    min-height: 3.12rem;
+    padding: 0.26rem 0.48rem 0.18rem 0.72rem;
+  }
+
+  .premium-hero-demo-strip li:nth-child(n + 5) {
+    display: none;
+  }
+
+  .premium-hero-demo-strip time {
+    font-size: 0.62rem;
+  }
+
+  .premium-hero-demo-strip strong {
+    font-size: 0.66rem;
+  }
+
+  .premium-hero-demo-strip li span {
+    font-size: 0.61rem;
+  }
+
+  .premium-hero-bottom-deck .premium-surface-link {
+    gap: 0.16rem;
+    padding: 0.58rem 0.42rem;
+  }
+
+  .premium-hero-bottom-deck .premium-surface-link strong {
+    font-size: 0.68rem;
+  }
+
+  .premium-hero-bottom-deck .premium-surface-state {
+    font-size: 0.56rem;
+  }
+
+  #os-layers.home-os-section {
+    padding-top: 0.78rem;
+  }
+}
