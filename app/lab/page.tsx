@@ -8,7 +8,17 @@ import { getNotes } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Research",
   description:
-    "Public research notes, system sketches, design decisions, and experiments from Weiyu Dang's personal research studio."
+    "Public research notes, system sketches, design decisions, and experiments from Weiyu Dang's personal research studio.",
+  alternates: {
+    canonical: "/lab"
+  },
+  openGraph: {
+    title: "Research",
+    description:
+      "Public research notes, system sketches, design decisions, and experiments from Weiyu Dang's personal research studio.",
+    url: "/lab",
+    type: "website"
+  }
 };
 
 const labSignals = [

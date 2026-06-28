@@ -260,11 +260,36 @@ export function getNotes(): Note[] {
     .map((file) => readMdx<RawNote>("notes", file))
     .map((note) => normalizeNote(note, projectSlugs))
     .filter((note) => isPublicVisibility(note.visibility))
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
 }
 
 export function getNoteBySlug(slug: string): Note | undefined {
   return getNotes().find((note) => note.slug === slug);
+}
+
+export function getNotesForProject(projectSlug: string, limit = 3): Note[] {
+  return getNotes()
+    .filter((note) => note.relatedProject === projectSlug)
+    .slice(0, limit);
+}
+
+export function getRelatedNotes(note: Note, limit = 2): Note[] {
+  return getNotes()
+    .filter((candidate) => candidate.slug !== note.slug)
+    .sort((left, right) => {
+      const leftProjectMatch = note.relatedProject && left.relatedProject === note.relatedProject ? 0 : 1;
+      const rightProjectMatch = note.relatedProject && right.relatedProject === note.relatedProject ? 0 : 1;
+      const leftCategoryMatch = left.category === note.category ? 0 : 1;
+      const rightCategoryMatch = right.category === note.category ? 0 : 1;
+
+      return (
+        leftProjectMatch - rightProjectMatch ||
+        leftCategoryMatch - rightCategoryMatch ||
+        right.date.localeCompare(left.date) ||
+        left.slug.localeCompare(right.slug)
+      );
+    })
+    .slice(0, limit);
 }
 
 export function getLatestNotes(limit = 3): Note[] {
