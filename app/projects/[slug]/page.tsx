@@ -5,13 +5,17 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  Ban,
   Bot,
   CheckCircle2,
   CircleHelp,
   Compass,
+  Database,
   FileText,
+  GitCompareArrows,
   Layers3,
   LockKeyhole,
+  Radio,
   ShieldCheck
 } from "lucide-react";
 import { MarkdownBody } from "@/components/MarkdownBody";
@@ -19,6 +23,7 @@ import { SiteChrome } from "@/components/SiteChrome";
 import { TradingProjectShowcase } from "@/components/TradingProjectShowcase";
 import { getNotesForProject, getProjectBySlug, getProjects } from "@/lib/content";
 import { boundaryForProject, visualForProject } from "@/lib/projectPresentation";
+import { tradingConsoleHref, tradingResearchDisclaimer } from "@/lib/trading-team";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -92,6 +97,112 @@ function nextQuestionsForProject(project: ReturnType<typeof getProjects>[number]
   ];
 }
 
+const tradingHeroFlow = [
+  {
+    label: "Question",
+    detail: "Market context enters as research, not a trade idea."
+  },
+  {
+    label: "Evidence",
+    detail: "Packets name proof, blockers, and counter-evidence."
+  },
+  {
+    label: "Desk review",
+    detail: "Macro, equity, options, news, and risk can disagree."
+  },
+  {
+    label: "Owner gate",
+    detail: "Private review stays authenticated and read-only."
+  }
+] as const;
+
+const tradingHeroStats = [
+  { label: "Desks", value: "7" },
+  { label: "Views", value: "8" },
+  { label: "Execution", value: "0" }
+] as const;
+
+function TradingProjectLandingHero() {
+  return (
+    <section className="trading-project-landing-hero" aria-labelledby="trading-project-landing-title">
+      <div className="trading-project-landing-copy">
+        <div className="trading-project-landing-lockup" aria-hidden>
+          <span>Research</span>
+          <span>Evidence</span>
+          <span>Owner review</span>
+        </div>
+        <h1 id="trading-project-landing-title">MiniDora Trading Research</h1>
+        <p>
+          A public-safe window into the research desks behind Trading MiniDora: questions, evidence, desk
+          disagreement, replay, and owner review. It explains how thinking forms without turning the site into a
+          trading terminal.
+        </p>
+        <div className="trading-project-landing-actions">
+          <Link href={tradingConsoleHref()} prefetch={false} className="link-focus">
+            <LockKeyhole size={17} aria-hidden />
+            Open read-only console
+            <ArrowRight size={17} aria-hidden />
+          </Link>
+          <Link href="/dora/team/trading" className="link-focus">
+            Meet Trading MiniDora
+            <ArrowRight size={16} aria-hidden />
+          </Link>
+        </div>
+        <div className="trading-project-landing-boundary" role="note" aria-label="Trading research disclaimer">
+          <ShieldCheck size={18} aria-hidden />
+          <strong>{tradingResearchDisclaimer}</strong>
+        </div>
+      </div>
+
+      <div className="trading-project-landing-visual" aria-label="Public trading research workflow preview">
+        <div className="trading-project-landing-window">
+          <div className="trading-project-window-head">
+            <span>
+              <Radio size={15} aria-hidden />
+              Trading MiniDora
+            </span>
+            <small>public-safe method</small>
+          </div>
+          <div className="trading-project-window-grid">
+            {tradingHeroFlow.map((item, index) => (
+              <article key={item.label}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{item.label}</strong>
+                <p>{item.detail}</p>
+              </article>
+            ))}
+          </div>
+          <div className="trading-project-window-stats" aria-label="Trading research console summary">
+            {tradingHeroStats.map((stat) => (
+              <div key={stat.label}>
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="trading-project-landing-split">
+          <article>
+            <Database size={17} aria-hidden />
+            <strong>Public page</strong>
+            <span>Desks, method, evidence shapes, sample blockers.</span>
+          </article>
+          <article>
+            <GitCompareArrows size={17} aria-hidden />
+            <strong>Private console</strong>
+            <span>Evidence packets, replay, gates, source health.</span>
+          </article>
+          <article>
+            <Ban size={17} aria-hidden />
+            <strong>Never here</strong>
+            <span>Accounts, orders, broker writes, private signals.</span>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function generateStaticParams() {
   return getProjects().map((project) => ({ slug: project.slug }));
 }
@@ -134,6 +245,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const visual = visualForProject(project.slug);
   const relatedNotes = getNotesForProject(project.slug);
   const hasPrivateLinks = project.links.some((link) => link.private);
+  const isTradingProject = project.slug === "minidora-trading";
   const dossierCards = [
     {
       title: "Project context",
@@ -183,7 +295,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/projects">
-      <section className="project-dossier-page">
+      <section className={`project-dossier-page${isTradingProject ? " project-dossier-page--trading" : ""}`}>
         <div className="container">
           <Link href="/projects" className="link-focus project-back-link">
             <ArrowLeft size={16} aria-hidden />
@@ -192,72 +304,82 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
           <div className="project-dossier-grid">
             <article className="project-dossier-main">
-              <div className="project-dossier-hero">
-                <span className={`project-dossier-visual projects-artifact-visual-${visual}`} aria-hidden="true">
-                  <span />
-                </span>
-                <div>
-                  <h1>{project.title}</h1>
-                  <p>{project.summary}</p>
-                  <div className="project-dossier-badges">
-                    <span>{project.categoryLabel}</span>
-                    <span className={boundary.className}>{boundary.label}</span>
-                    <span>{project.statusLabel}</span>
-                    <span>Public-safe page</span>
+              {isTradingProject ? (
+                <>
+                  <TradingProjectLandingHero />
+                  <div className="project-dossier-body project-dossier-body--trading">
+                    <TradingProjectShowcase />
                   </div>
-                </div>
-              </div>
+                </>
+              ) : (
+                <>
+                  <div className="project-dossier-hero">
+                    <span className={`project-dossier-visual projects-artifact-visual-${visual}`} aria-hidden="true">
+                      <span />
+                    </span>
+                    <div>
+                      <h1>{project.title}</h1>
+                      <p>{project.summary}</p>
+                      <div className="project-dossier-badges">
+                        <span>{project.categoryLabel}</span>
+                        <span className={boundary.className}>{boundary.label}</span>
+                        <span>{project.statusLabel}</span>
+                        <span>Public-safe page</span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div className="project-boundary-callout">
-                <ShieldCheck size={20} aria-hidden />
-                <div>
-                  <strong>{boundaryStatement}</strong>
-                  <span>{boundary.summary}</span>
-                </div>
-              </div>
+                  <div className="project-boundary-callout">
+                    <ShieldCheck size={20} aria-hidden />
+                    <div>
+                      <strong>{boundaryStatement}</strong>
+                      <span>{boundary.summary}</span>
+                    </div>
+                  </div>
 
-              <section className="project-public-dossier" aria-labelledby="project-public-dossier-title">
-                <div className="project-public-dossier-head">
-                  <p className="projects-kicker">Public dossier</p>
-                  <h2 id="project-public-dossier-title">Context, evidence, and next questions</h2>
-                  <p>
-                    Project pages should explain the public story, name the evidence a visitor can inspect, and keep
-                    the next unknowns visible without exposing private work.
-                  </p>
-                </div>
-                <div className="project-public-dossier-grid">
-                  {dossierCards.map((card) => {
-                    const Icon = card.icon;
-                    return (
-                      <article key={card.title} className="project-public-dossier-card">
-                        <div className="project-public-dossier-card-head">
-                          <span aria-hidden>
-                            <Icon size={18} />
-                          </span>
-                          <div>
-                            <h3>{card.title}</h3>
-                            <p>{card.summary}</p>
-                          </div>
-                        </div>
-                        <dl>
-                          {card.items.map((item) => (
-                            <div key={`${card.title}-${item.label}-${item.detail}`}>
-                              <dt>{item.label}</dt>
-                              <dd>{item.detail}</dd>
+                  <section className="project-public-dossier" aria-labelledby="project-public-dossier-title">
+                    <div className="project-public-dossier-head">
+                      <p className="projects-kicker">Public dossier</p>
+                      <h2 id="project-public-dossier-title">Context, evidence, and next questions</h2>
+                      <p>
+                        Project pages should explain the public story, name the evidence a visitor can inspect, and keep
+                        the next unknowns visible without exposing private work.
+                      </p>
+                    </div>
+                    <div className="project-public-dossier-grid">
+                      {dossierCards.map((card) => {
+                        const Icon = card.icon;
+                        return (
+                          <article key={card.title} className="project-public-dossier-card">
+                            <div className="project-public-dossier-card-head">
+                              <span aria-hidden>
+                                <Icon size={18} />
+                              </span>
+                              <div>
+                                <h3>{card.title}</h3>
+                                <p>{card.summary}</p>
+                              </div>
                             </div>
-                          ))}
-                        </dl>
-                      </article>
-                    );
-                  })}
-                </div>
-              </section>
+                            <dl>
+                              {card.items.map((item) => (
+                                <div key={`${card.title}-${item.label}-${item.detail}`}>
+                                  <dt>{item.label}</dt>
+                                  <dd>{item.detail}</dd>
+                                </div>
+                              ))}
+                            </dl>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </section>
 
-              <div className="project-dossier-body">
-                <h2>Overview</h2>
-                <MarkdownBody body={project.body} />
-                {project.slug === "minidora-trading" ? <TradingProjectShowcase /> : null}
-              </div>
+                  <div className="project-dossier-body">
+                    <h2>Overview</h2>
+                    <MarkdownBody body={project.body} />
+                  </div>
+                </>
+              )}
             </article>
 
             <div className="project-dossier-rail" aria-label="Project dossier metadata">

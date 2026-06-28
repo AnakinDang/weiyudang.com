@@ -3386,7 +3386,7 @@ textarea {
   line-height: 1.5;
 }
 
-.trading-project-console-preview a {
+.trading-project-console-preview > a {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -3399,6 +3399,400 @@ textarea {
   font-weight: 820;
   white-space: nowrap;
   justify-self: start;
+}
+
+/* MiniDora Trading public project landing */
+.project-dossier-page--trading {
+  padding-top: 3.15rem;
+  background:
+    linear-gradient(118deg, #ffffff 0%, #ffffff 54%, rgba(239, 246, 255, 0.82) 54.2%, #ffffff 76%),
+    linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.project-dossier-page--trading .project-dossier-grid {
+  grid-template-columns: minmax(0, 1fr) 21.5rem;
+  gap: 1.35rem;
+}
+
+.project-dossier-page--trading .project-dossier-main {
+  overflow: visible;
+}
+
+.project-dossier-body--trading {
+  padding: 0 0 2.4rem;
+}
+
+.project-dossier-body--trading .trading-project-showcase {
+  margin-top: 0;
+  border-top: 0;
+  padding: 1.25rem 0 0;
+}
+
+.trading-project-landing-hero {
+  display: grid;
+  grid-template-columns: minmax(20rem, 0.8fr) minmax(0, 1fr);
+  gap: 1.35rem;
+  align-items: center;
+  min-height: min(690px, calc(100svh - 8.2rem));
+  border-bottom: 1px solid rgba(221, 231, 240, 0.9);
+  padding: 1.45rem 0 1.2rem;
+}
+
+.trading-project-landing-copy {
+  display: grid;
+  gap: 1.05rem;
+  align-content: center;
+  min-width: 0;
+}
+
+.trading-project-landing-lockup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+}
+
+.trading-project-landing-lockup span {
+  border: 1px solid rgba(191, 219, 254, 0.86);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.78);
+  padding: 0.44rem 0.62rem;
+  color: #1d4ed8;
+  font-size: 0.74rem;
+  font-weight: 850;
+}
+
+.trading-project-landing-copy h1 {
+  max-width: 9ch;
+  color: #05070a;
+  font-size: 5.35rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 0.94;
+}
+
+.trading-project-landing-copy p {
+  max-width: 32rem;
+  color: #334155;
+  font-size: 1.05rem;
+  line-height: 1.62;
+}
+
+.trading-project-landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.trading-project-landing-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  min-height: 2.85rem;
+  border-radius: 8px;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.92rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.trading-project-landing-actions a:first-child {
+  background: #155eef;
+  color: #ffffff;
+  box-shadow: 0 18px 40px rgba(37, 99, 235, 0.2);
+}
+
+.trading-project-landing-actions a:last-child {
+  border: 1px solid rgba(191, 219, 254, 0.96);
+  background: rgba(255, 255, 255, 0.82);
+  color: #155eef;
+}
+
+.trading-project-landing-boundary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: start;
+  max-width: 32rem;
+  border: 1px solid rgba(244, 183, 64, 0.42);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(255, 248, 229, 0.92), rgba(255, 255, 255, 0.9));
+  padding: 0.88rem;
+  color: #a16207;
+}
+
+.trading-project-landing-boundary strong {
+  color: #713f12;
+  font-size: 0.86rem;
+  font-weight: 850;
+  line-height: 1.46;
+}
+
+.trading-project-landing-visual {
+  display: grid;
+  gap: 0.72rem;
+  min-width: 0;
+}
+
+.trading-project-landing-window {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.92);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.84)),
+    #ffffff;
+  box-shadow:
+    0 26px 82px rgba(37, 99, 235, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.trading-project-landing-window::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(37, 99, 235, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.06) 1px, transparent 1px);
+  background-size: 3.25rem 3.25rem;
+  content: "";
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 72%);
+}
+
+.trading-project-window-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(221, 231, 240, 0.86);
+  padding: 0.92rem 1rem;
+}
+
+.trading-project-window-head span {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: #155eef;
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.trading-project-window-head small {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 780;
+}
+
+.trading-project-window-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-height: 18.5rem;
+}
+
+.trading-project-window-grid article {
+  display: grid;
+  align-content: end;
+  gap: 0.55rem;
+  min-width: 0;
+  border-left: 1px solid rgba(221, 231, 240, 0.84);
+  padding: 1rem;
+}
+
+.trading-project-window-grid article:first-child {
+  border-left: 0;
+}
+
+.trading-project-window-grid article span {
+  width: fit-content;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  border-radius: 999px;
+  background: rgba(239, 246, 255, 0.86);
+  padding: 0.22rem 0.42rem;
+  color: #155eef;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.trading-project-window-grid article strong {
+  color: #05070a;
+  font-size: 1rem;
+  font-weight: 850;
+  line-height: 1.16;
+}
+
+.trading-project-window-grid article p {
+  color: #526178;
+  font-size: 0.8rem;
+  font-weight: 680;
+  line-height: 1.44;
+}
+
+.trading-project-window-stats {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(221, 231, 240, 0.86);
+}
+
+.trading-project-window-stats div {
+  display: grid;
+  gap: 0.14rem;
+  border-left: 1px solid rgba(221, 231, 240, 0.86);
+  padding: 0.88rem 1rem;
+}
+
+.trading-project-window-stats div:first-child {
+  border-left: 0;
+}
+
+.trading-project-window-stats strong {
+  color: #155eef;
+  font-size: 1.55rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.trading-project-window-stats span {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 780;
+  text-transform: uppercase;
+}
+
+.trading-project-landing-split {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.72rem;
+}
+
+.trading-project-landing-split article {
+  display: grid;
+  gap: 0.38rem;
+  min-width: 0;
+  border: 1px solid rgba(191, 219, 254, 0.76);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  padding: 0.84rem;
+  box-shadow: 0 16px 42px rgba(15, 23, 42, 0.045);
+}
+
+.trading-project-landing-split svg {
+  color: #155eef;
+}
+
+.trading-project-landing-split strong {
+  color: #0f172a;
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.trading-project-landing-split span {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.42;
+}
+
+.project-dossier-page--trading .project-dossier-rail {
+  padding-top: 1.75rem;
+}
+
+@media (max-width: 1180px) {
+  .project-dossier-page--trading .project-dossier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trading-project-landing-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .trading-project-landing-copy h1 {
+    max-width: 11ch;
+    font-size: 4.75rem;
+  }
+
+  .project-dossier-page--trading .project-dossier-rail {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .project-dossier-page--trading {
+    padding-top: 2.2rem;
+  }
+
+  .trading-project-landing-hero {
+    gap: 1rem;
+    padding: 0.5rem 0 1rem;
+  }
+
+  .trading-project-landing-copy {
+    gap: 0.82rem;
+  }
+
+  .trading-project-landing-copy h1 {
+    max-width: 10ch;
+    font-size: 3.05rem;
+    line-height: 0.98;
+  }
+
+  .trading-project-landing-copy p {
+    font-size: 0.95rem;
+    line-height: 1.56;
+  }
+
+  .trading-project-landing-actions {
+    display: grid;
+  }
+
+  .trading-project-landing-actions a {
+    width: 100%;
+  }
+
+  .trading-project-window-head {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .trading-project-window-grid {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .trading-project-window-grid article {
+    border-top: 1px solid rgba(221, 231, 240, 0.84);
+    border-left: 0;
+    padding: 0.88rem;
+  }
+
+  .trading-project-window-grid article:first-child {
+    border-top: 0;
+  }
+
+  .trading-project-window-stats,
+  .trading-project-landing-split {
+    grid-template-columns: 1fr;
+  }
+
+  .trading-project-window-stats div {
+    border-top: 1px solid rgba(221, 231, 240, 0.86);
+    border-left: 0;
+  }
+
+  .trading-project-window-stats div:first-child {
+    border-top: 0;
+  }
+
+  .project-dossier-body--trading {
+    padding-bottom: 1.5rem;
+  }
 }
 
 .project-dossier-rail {
@@ -5821,7 +6215,7 @@ textarea {
     grid-template-columns: 1fr;
   }
 
-  .trading-project-console-preview a {
+  .trading-project-console-preview > a {
     width: 100%;
     justify-content: center;
     white-space: normal;
