@@ -4799,7 +4799,7 @@ textarea {
 
 .journal-entry-hero {
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(22rem, 0.58fr);
+  grid-template-columns: 1fr;
   gap: clamp(1.2rem, 3vw, 2.2rem);
   align-items: stretch;
   border-bottom: 1px solid rgba(221, 231, 240, 0.92);
@@ -4827,6 +4827,8 @@ textarea {
   font-size: clamp(3rem, 6.2vw, 5.6rem);
   font-weight: 830;
   line-height: 0.96;
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 .journal-entry-hero p {
@@ -4898,6 +4900,145 @@ textarea {
   color: #526178;
   font-size: 0.86rem;
   line-height: 1.5;
+}
+
+.journal-field-dossier {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 2rem 0;
+  border: 1px solid rgba(221, 231, 240, 0.92);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(248, 251, 255, 0.9)),
+    radial-gradient(circle at 90% 2%, rgba(250, 204, 21, 0.14), transparent 30%),
+    radial-gradient(circle at 8% 100%, rgba(191, 219, 254, 0.26), transparent 34%);
+  padding: 1.15rem;
+}
+
+.journal-field-dossier-head {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 50rem;
+}
+
+.journal-field-dossier-head p {
+  margin: 0;
+  color: #2563eb;
+  font-size: 0.72rem;
+  font-weight: 860;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.journal-field-dossier-head h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.35rem;
+  font-weight: 840;
+  line-height: 1.15;
+}
+
+.journal-field-dossier-head span {
+  color: #526178;
+  font-size: 0.9rem;
+  line-height: 1.58;
+}
+
+.journal-field-dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.journal-field-dossier-card {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+  min-width: 0;
+  border: 1px solid rgba(191, 219, 254, 0.76);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 0.92rem;
+  box-shadow: 0 16px 42px rgba(37, 99, 235, 0.055);
+}
+
+.journal-field-dossier-card-head {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  color: #2563eb;
+}
+
+.journal-field-dossier-card-head svg {
+  flex: 0 0 auto;
+  margin-top: 0.12rem;
+}
+
+.journal-field-dossier-card-head span {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.journal-field-dossier-card-head strong {
+  color: #0f172a;
+  font-size: 0.92rem;
+  font-weight: 840;
+  line-height: 1.25;
+}
+
+.journal-field-dossier-card-head small {
+  color: #64748b;
+  font-size: 0.76rem;
+  font-weight: 680;
+  line-height: 1.42;
+}
+
+.journal-field-dossier-list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+}
+
+.journal-field-dossier-list div {
+  display: grid;
+  gap: 0.24rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.9);
+  padding-top: 0.68rem;
+}
+
+.journal-field-dossier-list div:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.journal-field-dossier-list dt {
+  color: #9a6a08;
+  font-size: 0.68rem;
+  font-weight: 840;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.journal-field-dossier-list dd {
+  display: grid;
+  gap: 0.34rem;
+  margin: 0;
+  color: #334155;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.journal-field-dossier-list dd strong {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid rgba(221, 231, 240, 0.92);
+  border-radius: 7px;
+  background: rgba(248, 250, 252, 0.94);
+  padding: 0.3rem 0.48rem;
+  color: #0f172a;
+  font-size: 0.76rem;
+  font-weight: 780;
+  line-height: 1.2;
 }
 
 .journal-entry-body {
@@ -5003,6 +5144,16 @@ textarea {
 .journal-entry-related-list small {
   color: #64748b;
   font-size: 0.76rem;
+}
+
+@media (max-width: 1320px) and (min-width: 1181px) {
+  .journal-entry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-entry-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 1180px) {
@@ -5907,6 +6058,20 @@ textarea {
 
   .journal-entry-boundary-callout {
     margin: 1rem 1.1rem 0;
+  }
+
+  .journal-field-dossier {
+    margin: 1rem 1.1rem 0;
+    padding: 1rem;
+  }
+
+  .journal-field-dossier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .journal-field-dossier-head h2 {
+    font-size: 1.12rem;
+    line-height: 1.22;
   }
 
   .journal-entry-body {
