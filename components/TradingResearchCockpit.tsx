@@ -40,6 +40,19 @@ type TradingGate = TradingResearchCockpitData["gates"][number];
 type TradingOptionsScenario = TradingResearchCockpitData["optionsLab"][number];
 type TradingReplayEvent = TradingResearchCockpitData["replay"][number];
 type TradingSystemStatusItem = TradingResearchCockpitData["systemStatus"][number];
+type TradingReviewQueueItem = {
+  id: string;
+  title: string;
+  state: string;
+  source: string;
+  detail: string;
+  actionLabel: string;
+  action: "evidence" | "replay" | "system";
+  signalFilter?: string;
+  evidenceStateFilter?: string;
+  replayInstrumentFilter?: string;
+  replayEvidenceFilter?: string;
+};
 
 const viewIcons = {
   Today: Gauge,
@@ -54,6 +67,9 @@ const viewIcons = {
 
 const ALL_SIGNAL_FILTER = "__all_signals__";
 const ALL_STATE_FILTER = "All states";
+const ALL_DESK_FILTER = "All desks";
+const ALL_INSTRUMENT_FILTER = "All instruments";
+const ALL_EVIDENCE_FILTER = "All evidence";
 const DEFAULT_TRADING_VIEW: TradingView = "Today";
 
 const viewZhLabels = {
@@ -134,6 +150,22 @@ function actionLabel(action: string, locale: SiteLocale) {
 
 function gateLabel(gate: string, locale: SiteLocale) {
   return labelForLocale(gate, locale, {});
+}
+
+function reviewActionAriaLabel(item: TradingReviewQueueItem, locale: SiteLocale) {
+  if (locale === "zh") {
+    return `${translateToZh(item.actionLabel) ?? item.actionLabel}：${translateToZh(item.title) ?? item.title}`;
+  }
+
+  return `${item.actionLabel}: ${item.title}`;
+}
+
+function replayTraceAriaLabel(packet: TradingEvidencePacket, locale: SiteLocale) {
+  if (locale === "zh") {
+    return `打开 ${translateToZh(packet.title) ?? packet.title} 的回放追踪`;
+  }
+
+  return `Open replay trace for ${packet.title}`;
 }
 
 function evidenceCountLabel(visible: number, total: number, locale: SiteLocale) {
@@ -293,6 +325,87 @@ function tradingPosture(data: TradingResearchCockpitData) {
     detail: `${degradedSourceCount}/${data.sourceHealth.length} sources need review · ${gateBlockerCount} gates unavailable`,
     tone: hasDanger ? ("danger" as const) : ("warning" as const)
   };
+}
+
+function replayInstrumentFilterForEvidence(packet: TradingEvidencePacket) {
+  return packet.instrument === "ALL" ? ALL_INSTRUMENT_FILTER : packet.instrument;
+}
+
+function buildTradingReviewQueue(data: TradingResearchCockpitData): TradingReviewQueueItem[] {
+  const signalNames = new Set(data.signals.map((signal) => signal.instrument));
+  const evidenceItems = data.evidencePackets.filter((packet) => isOpenEvidenceState(packet.state)).map((packet) => ({
+    id: `evidence-${packet.id}`,
+    title: packet.title,
+    state: packet.state,
+    source: `${packet.linkedSignal} · ${packet.source}`,
+    detail: packet.blocker,
+    actionLabel: "Open evidence",
+    action: "evidence" as const,
+    signalFilter: signalNames.has(packet.linkedSignal) ? packet.linkedSignal : ALL_SIGNAL_FILTER,
+    evidenceStateFilter: packet.state,
+    replayInstrumentFilter: replayInstrumentFilterForEvidence(packet),
+    replayEvidenceFilter: packet.state
+  }));
+
+  const gateItems = data.gates.filter(isGateBlocker).map((gate) => ({
+    id: `gate-${gate.label}`,
+    title: gate.label,
+    state: gate.value,
+    source: "Gate status",
+    detail: gate.detail,
+    actionLabel: "Review gate",
+    action: "evidence" as const,
+    evidenceStateFilter: ALL_STATE_FILTER
+  }));
+
+  const sourceItems = data.sourceHealth.filter((source) => isDegradedSourceState(source.state)).map((source) => ({
+    id: `source-${source.source}`,
+    title: source.source,
+    state: source.state,
+    source: "Source health",
+    detail: source.detail,
+    actionLabel: "Open system",
+    action: "system" as const
+  }));
+
+  const systemItems = data.systemStatus.filter((item) => isDegradedSourceState(item.state)).map((item) => ({
+    id: `system-${item.label}`,
+    title: item.label,
+    state: item.state,
+    source: "System status",
+    detail: item.detail,
+    actionLabel: "Open system",
+    action: "system" as const
+  }));
+
+  const replayItems = data.replay
+    .filter((event) => isOpenEvidenceState(event.evidenceState) || sourceTone(event.state) !== "info")
+    .slice(-2)
+    .map((event) => ({
+      id: `replay-${event.time}-${event.desk}-${event.instrument}`,
+      title: event.change,
+      state: event.evidenceState,
+      source: `${event.time} · ${event.desk}`,
+      detail: event.note,
+      actionLabel: "Open replay",
+      action: "replay" as const,
+      replayInstrumentFilter: event.instrument === "ALL" ? ALL_INSTRUMENT_FILTER : event.instrument,
+      replayEvidenceFilter: event.evidenceState
+    }));
+
+  const balancedItems = [
+    ...evidenceItems.slice(0, 4),
+    ...gateItems.slice(0, 2),
+    ...sourceItems.slice(0, 1),
+    ...systemItems.slice(0, 1),
+    ...replayItems.slice(0, 2)
+  ];
+  const selectedIds = new Set(balancedItems.map((item) => item.id));
+  const overflowItems = [...evidenceItems, ...gateItems, ...sourceItems, ...systemItems, ...replayItems].filter(
+    (item) => !selectedIds.has(item.id)
+  );
+
+  return [...balancedItems, ...overflowItems].slice(0, 9);
 }
 
 function SignalCard({
@@ -1108,6 +1221,69 @@ function OptionsLab({ scenarios }: { scenarios: readonly TradingOptionsScenario[
   );
 }
 
+function ReviewQueuePanel({
+  items,
+  onOpenItem
+}: {
+  items: readonly TradingReviewQueueItem[];
+  onOpenItem: (item: TradingReviewQueueItem) => void;
+}) {
+  const { locale } = useLanguage();
+
+  return (
+    <section className="panel p-5" aria-labelledby="trading-review-queue-title">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-yellow-100">
+            <AlertTriangle size={22} aria-hidden />
+            <h2 id="trading-review-queue-title" className="text-2xl font-semibold text-white">
+              Review queue
+            </h2>
+          </div>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+            Owner attention stays attached to evidence, gates, sources, and replay traces. Nothing here can create an
+            order or recommendation.
+          </p>
+        </div>
+        <StatusBadge tone={items.length > 0 ? "warning" : "normal"}>
+          <span data-i18n-skip>{locale === "zh" ? `${items.length} 个待审` : `${items.length} review items`}</span>
+        </StatusBadge>
+      </div>
+
+      <div className="mt-5 grid gap-3">
+        {items.map((item) => (
+          <article key={item.id} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase text-slate-400">{item.source}</p>
+                <h3 className="mt-1 font-semibold text-white">{item.title}</h3>
+              </div>
+              <StatusBadge tone={sourceTone(item.state)}>
+                <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+              </StatusBadge>
+            </div>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
+            <button
+              type="button"
+              className="trading-cockpit-link mt-4"
+              onClick={() => onOpenItem(item)}
+              aria-label={reviewActionAriaLabel(item, locale)}
+              data-i18n-skip
+            >
+              {labelForLocale(item.actionLabel, locale, {})}
+            </button>
+          </article>
+        ))}
+        {items.length === 0 ? (
+          <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 text-sm leading-6 text-slate-300">
+            No review items are open in this owner-only mock session.
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
 function EvidenceView({
   gates,
   evidencePackets,
@@ -1117,7 +1293,8 @@ function EvidenceView({
   signalFilter,
   onSignalFilterChange,
   stateFilter,
-  onStateFilterChange
+  onStateFilterChange,
+  onOpenReplayTrace
 }: {
   gates: readonly TradingGate[];
   evidencePackets: readonly TradingEvidencePacket[];
@@ -1128,6 +1305,7 @@ function EvidenceView({
   onSignalFilterChange: (value: string) => void;
   stateFilter: string;
   onStateFilterChange: (value: string) => void;
+  onOpenReplayTrace: (instrument: string, evidenceState?: string) => void;
 }) {
   const { locale } = useLanguage();
   const signalOptions = useMemo(
@@ -1299,6 +1477,15 @@ function EvidenceView({
                   <div className="rounded-[8px] border border-yellow-200/20 bg-yellow-300/10 p-3">
                     <p className="text-xs font-bold uppercase text-yellow-100">Blocker</p>
                     <p className="mt-2 text-sm leading-6 text-slate-200">{packet.blocker}</p>
+                    <button
+                      type="button"
+                      className="trading-cockpit-link mt-3"
+                      onClick={() => onOpenReplayTrace(replayInstrumentFilterForEvidence(packet), packet.state)}
+                      aria-label={replayTraceAriaLabel(packet, locale)}
+                      data-i18n-skip
+                    >
+                      {labelForLocale("Open replay trace", locale, {})}
+                    </button>
                   </div>
                   <div className="grid gap-2">
                     {packet.checks.map((check) => (
@@ -1427,32 +1614,41 @@ function EvidenceView({
 function ReplayView({
   replay,
   openQuestions,
-  disclaimer
+  disclaimer,
+  deskFilter,
+  onDeskFilterChange,
+  instrumentFilter,
+  onInstrumentFilterChange,
+  evidenceFilter,
+  onEvidenceFilterChange
 }: {
   replay: readonly TradingReplayEvent[];
   openQuestions: readonly string[];
   disclaimer: string;
+  deskFilter: string;
+  onDeskFilterChange: (value: string) => void;
+  instrumentFilter: string;
+  onInstrumentFilterChange: (value: string) => void;
+  evidenceFilter: string;
+  onEvidenceFilterChange: (value: string) => void;
 }) {
   const { locale } = useLanguage();
-  const [deskFilter, setDeskFilter] = useState("All desks");
-  const [instrumentFilter, setInstrumentFilter] = useState("All instruments");
-  const [evidenceFilter, setEvidenceFilter] = useState("All evidence");
 
-  const deskOptions = useMemo(() => ["All desks", ...new Set(replay.map((event) => event.desk))], [replay]);
-  const instrumentOptions = useMemo(() => ["All instruments", ...new Set(replay.map((event) => event.instrument))], [replay]);
-  const evidenceOptions = useMemo(() => ["All evidence", ...new Set(replay.map((event) => event.evidenceState))], [replay]);
+  const deskOptions = useMemo(() => [ALL_DESK_FILTER, ...new Set(replay.map((event) => event.desk))], [replay]);
+  const instrumentOptions = useMemo(() => [ALL_INSTRUMENT_FILTER, ...new Set(replay.map((event) => event.instrument))], [replay]);
+  const evidenceOptions = useMemo(() => [ALL_EVIDENCE_FILTER, ...new Set(replay.map((event) => event.evidenceState))], [replay]);
   const filteredReplay = useMemo(
     () =>
       replay.filter((event) => {
-        if (deskFilter !== "All desks" && event.desk !== deskFilter) {
+        if (deskFilter !== ALL_DESK_FILTER && event.desk !== deskFilter) {
           return false;
         }
 
-        if (instrumentFilter !== "All instruments" && event.instrument !== instrumentFilter) {
+        if (instrumentFilter !== ALL_INSTRUMENT_FILTER && event.instrument !== instrumentFilter) {
           return false;
         }
 
-        if (evidenceFilter !== "All evidence" && event.evidenceState !== evidenceFilter) {
+        if (evidenceFilter !== ALL_EVIDENCE_FILTER && event.evidenceState !== evidenceFilter) {
           return false;
         }
 
@@ -1461,12 +1657,12 @@ function ReplayView({
     [deskFilter, evidenceFilter, instrumentFilter, replay]
   );
   const hasFilters =
-    deskFilter !== "All desks" || instrumentFilter !== "All instruments" || evidenceFilter !== "All evidence";
+    deskFilter !== ALL_DESK_FILTER || instrumentFilter !== ALL_INSTRUMENT_FILTER || evidenceFilter !== ALL_EVIDENCE_FILTER;
 
   function clearReplayFilters() {
-    setDeskFilter("All desks");
-    setInstrumentFilter("All instruments");
-    setEvidenceFilter("All evidence");
+    onDeskFilterChange(ALL_DESK_FILTER);
+    onInstrumentFilterChange(ALL_INSTRUMENT_FILTER);
+    onEvidenceFilterChange(ALL_EVIDENCE_FILTER);
   }
 
   return (
@@ -1489,7 +1685,7 @@ function ReplayView({
             <span className="text-xs font-bold uppercase text-slate-400">Desk</span>
             <select
               value={deskFilter}
-              onChange={(event) => setDeskFilter(event.target.value)}
+              onChange={(event) => onDeskFilterChange(event.target.value)}
               className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
             >
               {deskOptions.map((desk) => (
@@ -1503,12 +1699,12 @@ function ReplayView({
             <span className="text-xs font-bold uppercase text-slate-400">Instrument</span>
             <select
               value={instrumentFilter}
-              onChange={(event) => setInstrumentFilter(event.target.value)}
+              onChange={(event) => onInstrumentFilterChange(event.target.value)}
               className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
             >
               {instrumentOptions.map((instrument) => (
                 <option key={instrument} value={instrument}>
-                  {locale === "zh" && instrument === "All instruments" ? "全部标的" : instrument}
+                  {locale === "zh" && instrument === ALL_INSTRUMENT_FILTER ? "全部标的" : instrument}
                 </option>
               ))}
             </select>
@@ -1517,12 +1713,12 @@ function ReplayView({
             <span className="text-xs font-bold uppercase text-slate-400">Evidence</span>
             <select
               value={evidenceFilter}
-              onChange={(event) => setEvidenceFilter(event.target.value)}
+              onChange={(event) => onEvidenceFilterChange(event.target.value)}
               className="link-focus rounded-[8px] border border-slate-700 bg-[#08111f] px-3 py-2 text-sm font-semibold text-slate-100"
             >
               {evidenceOptions.map((evidence) => (
                 <option key={evidence} value={evidence}>
-                  {locale === "zh" && evidence === "All evidence" ? "全部证据" : stateLabel(evidence, locale)}
+                  {locale === "zh" && evidence === ALL_EVIDENCE_FILTER ? "全部证据" : stateLabel(evidence, locale)}
                 </option>
               ))}
             </select>
@@ -1640,23 +1836,178 @@ function ReplayView({
   );
 }
 
-function SystemView({ systemStatus }: { systemStatus: readonly TradingSystemStatusItem[] }) {
+function SystemView({
+  systemStatus,
+  sourceHealth,
+  gates,
+  evidencePackets,
+  replay,
+  unavailableActions,
+  reviewQueue,
+  onOpenEvidenceQueue,
+  onOpenReplayCenter,
+  onOpenReviewItem
+}: {
+  systemStatus: readonly TradingSystemStatusItem[];
+  sourceHealth: readonly TradingSource[];
+  gates: readonly TradingGate[];
+  evidencePackets: readonly TradingEvidencePacket[];
+  replay: readonly TradingReplayEvent[];
+  unavailableActions: readonly string[];
+  reviewQueue: readonly TradingReviewQueueItem[];
+  onOpenEvidenceQueue: () => void;
+  onOpenReplayCenter: () => void;
+  onOpenReviewItem: (item: TradingReviewQueueItem) => void;
+}) {
   const { locale } = useLanguage();
+  const degradedSources = sourceHealth.filter((source) => isDegradedSourceState(source.state));
+  const gateBlockers = gates.filter(isGateBlocker);
+  const openEvidencePackets = evidencePackets.filter((packet) => isOpenEvidenceState(packet.state));
+  const latestReplay = replay.slice(-4).reverse();
+  const systemMetrics = [
+    {
+      label: "Open evidence",
+      value: openEvidencePackets.length.toString(),
+      detail: "Packets with missing, degraded, pending, or required evidence."
+    },
+    {
+      label: "Source issues",
+      value: `${degradedSources.length}/${sourceHealth.length}`,
+      detail: "Source health that must stay visible before confidence rises."
+    },
+    {
+      label: "Gate blockers",
+      value: gateBlockers.length.toString(),
+      detail: "Disabled, incomplete, or required gates still blocking promotion."
+    },
+    {
+      label: "Replay coverage",
+      value: replay.length.toString(),
+      detail: "Trace events available for reconstructing the research day."
+    }
+  ];
 
   return (
-    <section className="grid gap-5 lg:grid-cols-3">
-      {systemStatus.map((item) => (
-        <article key={item.label} className="panel p-5">
-          <div className="flex items-start justify-between gap-3">
-            <Gauge className="text-sky-100" size={22} aria-hidden />
-            <StatusBadge tone={sourceTone(item.state)}>
-              <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+    <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
+      <div className="grid gap-5">
+        <article className="panel p-5" aria-labelledby="trading-system-title">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2 text-sky-100">
+                <Radio size={22} aria-hidden />
+                <h2 id="trading-system-title" className="text-2xl font-semibold text-white">
+                  System Status
+                </h2>
+              </div>
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+                Private system posture summarizes source health, artifact availability, gates, and replay coverage.
+                It stays diagnostic and read-only.
+              </p>
+            </div>
+            <StatusBadge tone={reviewQueue.length > 0 ? "warning" : "normal"}>
+              <span data-i18n-skip>{locale === "zh" ? `${reviewQueue.length} 个待审` : `${reviewQueue.length} review items`}</span>
             </StatusBadge>
           </div>
-          <h2 className="mt-5 text-xl font-semibold text-white">{item.label}</h2>
-          <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {systemMetrics.map((metric) => (
+              <article key={metric.label} className="rounded-[8px] border border-slate-700 bg-black/15 p-4">
+                <p className="text-xs font-bold uppercase text-slate-400">{metric.label}</p>
+                <strong className="mt-2 block text-2xl font-semibold text-white">{metric.value}</strong>
+                <span className="mt-2 block text-xs leading-5 text-slate-400">{metric.detail}</span>
+              </article>
+            ))}
+          </div>
         </article>
-      ))}
+
+        <section className="grid gap-5 lg:grid-cols-3">
+          {systemStatus.map((item) => (
+            <article key={item.label} className="panel p-5">
+              <div className="flex items-start justify-between gap-3">
+                <Gauge className="text-sky-100" size={22} aria-hidden />
+                <StatusBadge tone={sourceTone(item.state)}>
+                  <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+                </StatusBadge>
+              </div>
+              <h3 className="mt-5 text-xl font-semibold text-white">{item.label}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{item.detail}</p>
+            </article>
+          ))}
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <article className="panel p-5" aria-labelledby="trading-system-source-title">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="text-yellow-100" size={22} aria-hidden />
+              <div>
+                <p className="eyebrow">Source health</p>
+                <h2 id="trading-system-source-title" className="mt-1 text-2xl font-semibold text-white">
+                  Degraded sources stay visible
+                </h2>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-3">
+              {sourceHealth.map((source) => (
+                <article key={source.source} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <strong className="text-white">{source.source}</strong>
+                    <StatusBadge tone={sourceTone(source.state)}>
+                      <span data-i18n-skip>{stateLabel(source.state, locale)}</span>
+                    </StatusBadge>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{source.detail}</p>
+                </article>
+              ))}
+            </div>
+            <button type="button" className="trading-cockpit-link mt-5" onClick={onOpenEvidenceQueue}>
+              Open evidence queue
+            </button>
+          </article>
+
+          <article className="panel p-5" aria-labelledby="trading-system-replay-title">
+            <div className="flex items-center gap-2">
+              <Clock3 className="text-sky-100" size={22} aria-hidden />
+              <div>
+                <p className="eyebrow">Replay coverage</p>
+                <h2 id="trading-system-replay-title" className="mt-1 text-2xl font-semibold text-white">
+                  Latest research state changes
+                </h2>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-3">
+              {latestReplay.map((event) => (
+                <article key={`${event.time}-${event.desk}-${event.instrument}`} className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <p className="mono text-xs text-yellow-100">{event.time}</p>
+                    <StatusBadge tone={sourceTone(event.evidenceState)}>
+                      <span data-i18n-skip>{stateLabel(event.evidenceState, locale)}</span>
+                    </StatusBadge>
+                  </div>
+                  <h3 className="mt-2 font-semibold text-white">{event.change}</h3>
+                  <p className="mt-1 text-xs font-bold uppercase text-slate-400" data-i18n-skip>
+                    {deskLabel(event.desk, locale)} · {event.instrument}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{event.note}</p>
+                </article>
+              ))}
+            </div>
+            <button type="button" className="trading-cockpit-link mt-5" onClick={onOpenReplayCenter}>
+              Open replay center
+            </button>
+          </article>
+        </section>
+      </div>
+
+      <aside className="grid content-start gap-4">
+        <ReviewQueuePanel items={reviewQueue} onOpenItem={onOpenReviewItem} />
+
+        <UnavailableControlsPanel
+          eyebrow="Blocked actions"
+          title="Execution remains unavailable"
+          items={unavailableActions}
+          note="System status is diagnostic only. It does not expose accounts, positions, broker writes, paper submits, live submits, or order controls."
+        />
+      </aside>
     </section>
   );
 }
@@ -1671,14 +2022,17 @@ export function TradingResearchCockpit({
   const { locale } = useLanguage();
   const [activeView, navigateTradingView] = useTradingViewRoute(initialView);
   const activeViewButtonRef = useRef<HTMLButtonElement>(null);
-  const [activeDesk, setActiveDesk] = useState("All desks");
+  const [activeDesk, setActiveDesk] = useState(ALL_DESK_FILTER);
   const [activeInstrumentSymbol, setActiveInstrumentSymbol] = useState(data.instruments[0]?.symbol ?? "");
   const [evidenceSignalFilter, setEvidenceSignalFilter] = useState(ALL_SIGNAL_FILTER);
   const [evidenceStateFilter, setEvidenceStateFilter] = useState(ALL_STATE_FILTER);
+  const [replayDeskFilter, setReplayDeskFilter] = useState(ALL_DESK_FILTER);
+  const [replayInstrumentFilter, setReplayInstrumentFilter] = useState(ALL_INSTRUMENT_FILTER);
+  const [replayEvidenceFilter, setReplayEvidenceFilter] = useState(ALL_EVIDENCE_FILTER);
 
-  const deskFilters = useMemo(() => ["All desks", ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
+  const deskFilters = useMemo(() => [ALL_DESK_FILTER, ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
   const filteredSignals = useMemo(
-    () => (activeDesk === "All desks" ? data.signals : data.signals.filter((signal) => signal.desk === activeDesk)),
+    () => (activeDesk === ALL_DESK_FILTER ? data.signals : data.signals.filter((signal) => signal.desk === activeDesk)),
     [activeDesk, data.signals]
   );
   const activeInstrument = useMemo(
@@ -1686,6 +2040,7 @@ export function TradingResearchCockpit({
     [activeInstrumentSymbol, data.instruments]
   );
   const posture = useMemo(() => tradingPosture(data), [data]);
+  const reviewQueue = useMemo(() => buildTradingReviewQueue(data), [data]);
 
   useEffect(() => {
     const activeButton = activeViewButtonRef.current;
@@ -1714,6 +2069,34 @@ export function TradingResearchCockpit({
     setEvidenceSignalFilter(instrument);
     setEvidenceStateFilter(ALL_STATE_FILTER);
     navigateTradingView("Evidence");
+  }
+
+  function traceReplayForInstrument(instrument: string, evidenceState = ALL_EVIDENCE_FILTER) {
+    setReplayDeskFilter(ALL_DESK_FILTER);
+    setReplayInstrumentFilter(instrument === "ALL" ? ALL_INSTRUMENT_FILTER : instrument);
+    setReplayEvidenceFilter(evidenceState);
+    navigateTradingView("Replay");
+  }
+
+  function openReviewQueueItem(item: TradingReviewQueueItem) {
+    if (item.action === "evidence") {
+      setEvidenceSignalFilter(item.signalFilter ?? ALL_SIGNAL_FILTER);
+      setEvidenceStateFilter(item.evidenceStateFilter ?? ALL_STATE_FILTER);
+      navigateTradingView("Evidence");
+      return;
+    }
+
+    if (item.action === "replay") {
+      setReplayDeskFilter(ALL_DESK_FILTER);
+      setReplayInstrumentFilter(item.replayInstrumentFilter ?? ALL_INSTRUMENT_FILTER);
+      setReplayEvidenceFilter(item.replayEvidenceFilter ?? ALL_EVIDENCE_FILTER);
+      navigateTradingView("Replay");
+      return;
+    }
+
+    if (activeView !== "System") {
+      navigateTradingView("System");
+    }
   }
 
   return (
@@ -1896,10 +2279,36 @@ export function TradingResearchCockpit({
           onSignalFilterChange={setEvidenceSignalFilter}
           stateFilter={evidenceStateFilter}
           onStateFilterChange={setEvidenceStateFilter}
+          onOpenReplayTrace={traceReplayForInstrument}
         />
       ) : null}
-      {activeView === "Replay" ? <ReplayView replay={data.replay} openQuestions={data.openQuestions} disclaimer={data.disclaimer} /> : null}
-      {activeView === "System" ? <SystemView systemStatus={data.systemStatus} /> : null}
+      {activeView === "Replay" ? (
+        <ReplayView
+          replay={data.replay}
+          openQuestions={data.openQuestions}
+          disclaimer={data.disclaimer}
+          deskFilter={replayDeskFilter}
+          onDeskFilterChange={setReplayDeskFilter}
+          instrumentFilter={replayInstrumentFilter}
+          onInstrumentFilterChange={setReplayInstrumentFilter}
+          evidenceFilter={replayEvidenceFilter}
+          onEvidenceFilterChange={setReplayEvidenceFilter}
+        />
+      ) : null}
+      {activeView === "System" ? (
+        <SystemView
+          systemStatus={data.systemStatus}
+          sourceHealth={data.sourceHealth}
+          gates={data.gates}
+          evidencePackets={data.evidencePackets}
+          replay={data.replay}
+          unavailableActions={data.unavailableActions}
+          reviewQueue={reviewQueue}
+          onOpenEvidenceQueue={openEvidenceCenter}
+          onOpenReplayCenter={() => traceReplayForInstrument(ALL_INSTRUMENT_FILTER)}
+          onOpenReviewItem={openReviewQueueItem}
+        />
+      ) : null}
     </div>
   );
 }
