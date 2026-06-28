@@ -1226,6 +1226,266 @@ const exactZhTranslations = {
   "Write APIs": "写入 API",
   "Write endpoint": "写入端点",
 
+  "Owner Knowledge Vault": "私密知识库",
+  "Private synthesis, public-safe memory.": "私密综合，公开安全的记忆。",
+  "A read-only cockpit for turning owner context, design notes, research method, and release evidence into reviewed knowledge without letting raw source material cross the public boundary.":
+    "一个只读驾驶舱，用来把本人语境、设计笔记、研究方法和发布证据转化为已审核知识，同时不让原始来源材料跨过公开边界。",
+  "Research-only boundary": "仅研究边界",
+  "Candidates": "候选",
+  "Sources": "来源",
+  "Active controls; publish, sync, trade, and source exposure remain unavailable":
+    "可用控制；发布、同步、交易和来源暴露仍不可用",
+  "Ready checks across the queue": "队列中的就绪检查",
+  "Private-to-public bridge": "私密到公开桥接",
+  "Gated": "受控",
+  "Private source": "私密来源",
+  "Synthesis": "综合",
+  "Public-safe output": "公开安全输出",
+  "Raw notes, memory, prompts, and unpublished reports stay private.":
+    "原始笔记、记忆、prompt 和未发布报告保持私密。",
+  "Doraemon and MiniDoras turn inputs into reviewable conclusions.":
+    "Doraemon 和 MiniDoras 将输入转化为可审核结论。",
+  "Weiyu approves wording, destination, and public safety before release.":
+    "发布前由 Weiyu 批准措辞、去向和公开安全性。",
+  "Visitors see rewritten pages and sanitized dashboard state only.":
+    "访客只能看到重写后的页面和脱敏的 dashboard 状态。",
+  "The vault can classify source lanes and review signals, but it never renders raw private source text into the owner cockpit or public routes.":
+    "知识库可以分类来源通道和审核信号，但绝不把原始私密来源文本渲染进私密驾驶舱或公开路由。",
+  "Source text hidden": "来源文本隐藏",
+  "Operating posture": "运行姿态",
+  "The vault is deliberately useful before it becomes write-capable.":
+    "知识库在具备写入能力之前，就要先以只读方式变得有用。",
+  "Source inbox": "来源收件箱",
+  "Synthesis briefs": "综合简报",
+  "Public candidates": "公开候选",
+  "Memory context": "记忆语境",
+  "Owner-only captures": "仅本人捕获",
+  "Private summaries": "私密摘要",
+  "Curated outputs": "策划输出",
+  "Owner context": "本人语境",
+  "Triage lane": "分诊通道",
+  "Decision queue": "决策队列",
+  "Rewrite path": "重写路径",
+  "Private guide": "私密指引",
+  "Incoming notes and evidence are triaged before they become synthesis material.":
+    "进入的笔记和证据会先被分诊，然后才成为综合材料。",
+  "Raw captures stay outside the web UI.": "原始捕获内容留在网页界面之外。",
+  "Draft conclusions and decisions wait for explicit owner review before publication.":
+    "草稿结论和决策在发布前等待明确的本人审核。",
+  "Only rewritten conclusions can move forward.": "只有重写后的结论可以继续推进。",
+  "Candidate project, lab, and journal updates are rewritten into public-safe form.":
+    "候选项目、实验室和日志更新会被重写成公开安全形式。",
+  "Public pages receive curated text, never raw source.": "公开页面接收策划后的文本，而不是原始来源。",
+  "Personal context can guide prioritization, but raw memory records stay out of the UI.":
+    "个人语境可以指导优先级，但原始记忆记录不进入界面。",
+  "Context can shape priority without becoming content.": "语境可以影响优先级，但不会变成内容。",
+  "Private sources": "私密来源",
+  "Review gates": "审核门",
+  "Public bridge": "公开桥接",
+  "Explicit": "显式",
+  "Curated": "策划后",
+  "Protected inputs can inform the cockpit, but source text is not rendered.":
+    "受保护输入可以影响驾驶舱，但来源文本不会被渲染。",
+  "Publication requires owner review, public rewrite, and boundary pass.":
+    "发布需要本人审核、公开重写和边界检查。",
+  "Only safe project pages, notes, and dashboard summaries cross out.":
+    "只有安全的项目页、笔记和 dashboard 摘要可以对外。",
+  "Owner review workbench": "本人审核工作台",
+  "Inspect one synthesis candidate at a time. The controls below only change the local reading posture; they do not publish, sync, expose sources, or create a public page.":
+    "一次检查一个综合候选。下面的控件只改变本地阅读姿态；不会发布、同步、暴露来源或创建公开页面。",
+  "Local state": "本地状态",
+  "Synthesis candidates": "综合候选",
+  "Selected synthesis candidate": "已选择综合候选",
+  "Selected candidate": "已选择候选",
+  "Candidate": "候选",
+  "Destination": "去向",
+  "Risk": "风险",
+  "State": "状态",
+  "Review summary": "审核摘要",
+  "Evidence readiness": "证据就绪度",
+  "Owner review posture": "本人审核姿态",
+  "Choose how to read this candidate locally. This does not publish, sync, or expose source material.":
+    "选择如何在本地阅读这个候选。这不会发布、同步或暴露来源材料。",
+  "No publish": "不发布",
+  "Synthesis queue": "综合队列",
+  "Candidate outputs are visible as review work, not as publishable source material.":
+    "候选输出作为审核工作可见，而不是可直接发布的来源材料。",
+  "Shows the public Knowledge page narrative, not private queue items or source records.":
+    "展示公开 Knowledge 页叙事，而不是私密队列项或来源记录。",
+  "Open the visitor-facing knowledge page. It stays sanitized and does not expose source material from this owner cockpit.":
+    "打开面向访客的知识页面。它保持脱敏，并且不会暴露这个私密驾驶舱中的来源材料。",
+  "New public text still needs explicit owner review before it becomes a shipped route.":
+    "新的公开文本在成为已发布路由前仍需要明确的本人审核。",
+  "Open public bridge": "打开公开桥接",
+  "Policy": "策略",
+  "No publish controls": "没有发布控制",
+  "Future publishing needs authenticated APIs, preview, audit logging, explicit owner action, and rollback behavior.":
+    "未来发布需要认证 API、预览、审计日志、明确的本人动作和回滚行为。",
+  "Unavailable until designed": "设计完成前不可用",
+  "Personal OS design memory": "Personal OS 设计记忆",
+  "Doraemon Office release notes": "Doraemon Office 发布笔记",
+  "Trading research glossary": "交易研究术语表",
+  "Product blueprint": "产品蓝图",
+  "Product decision summary": "产品决策摘要",
+  "Lab note": "实验室笔记",
+  "Public lab note candidate": "公开实验室笔记候选",
+  "Research explainer": "研究说明",
+  "Research-only public explainer": "仅研究的公开说明",
+  "Needs public/private boundary pass": "需要公开 / 私密边界检查",
+  "Must avoid runtime details": "必须避免运行时细节",
+  "No positions, orders, accounts, or recommendations": "没有仓位、订单、账户或建议",
+  "Docs cross-check": "文档交叉检查",
+  "Owner decision": "本人决策",
+  "Public rewrite": "公开重写",
+  "Read source context": "读取来源语境",
+  "Rewrite conclusion": "重写结论",
+  "Boundary signoff": "边界签核",
+  "Decision summary": "决策摘要",
+  "Blueprint update": "蓝图更新",
+  "Raw memory": "原始记忆",
+  "Defer rewrite": "暂缓重写",
+  "Need boundary pass": "需要边界检查",
+  "PR summary": "PR 摘要",
+  "Deployment smoke": "部署 smoke",
+  "Safe wording": "安全措辞",
+  "Collect reviewed work": "收集已审核工作",
+  "Remove internals": "移除内部细节",
+  "Draft lab note": "起草实验室笔记",
+  "Release note": "发布笔记",
+  "Verification summary": "验证摘要",
+  "Runtime detail": "运行时细节",
+  "Draft note": "起草笔记",
+  "Hold wording": "暂缓措辞",
+  "Archive private": "私密归档",
+  "Research disclaimer": "研究免责声明",
+  "Account data": "账户数据",
+  "No execution path": "没有执行路径",
+  "Define terms": "定义术语",
+  "Remove signals": "移除信号",
+  "Attach disclaimer": "附加免责声明",
+  "Glossary explainer": "术语说明",
+  "Boundary note": "边界说明",
+  "Review explainer": "审核说明",
+  "Tighten boundary": "收紧边界",
+  "Do not publish": "不要发布",
+  "Absent": "不存在",
+  "Needed": "需要",
+  "Needs rewrite": "需要重写",
+  "Needs wording": "需要措辞",
+  "Owner read": "本人阅读",
+  "No raw memory, private transcript, prompt, or unpublished source text can be copied into public pages.":
+    "原始记忆、私密转录、prompt 或未发布来源文本都不能复制进公开页面。",
+  "Public blueprint and data contract are available as the source of truth.":
+    "公开蓝图和数据契约可作为事实源。",
+  "Weiyu must choose what becomes public product language.":
+    "Weiyu 必须选择哪些内容成为公开产品语言。",
+  "Turn private design context into a public-safe product decision summary.":
+    "把私密设计语境转化为公开安全的产品决策摘要。",
+  "Private context needs a curated rewrite before leaving the cockpit.":
+    "私密语境离开驾驶舱前需要策划重写。",
+  "Use private context as input without rendering raw material.":
+    "把私密语境作为输入使用，但不渲染原始材料。",
+  "Create public product wording from the documented blueprint.":
+    "从已记录的蓝图中创建公开产品措辞。",
+  "Run the public/private boundary pass before publishing.":
+    "发布前运行公开 / 私密边界检查。",
+  "A rewritten product decision summary can be reviewed for public use.":
+    "重写后的产品决策摘要可以进入公开使用审核。",
+  "Documentation changes need explicit owner review.":
+    "文档变更需要明确的本人审核。",
+  "Private memory records are not displayable outputs.":
+    "私密记忆记录不是可显示输出。",
+  "Treat this candidate as the next public-language decision.":
+    "把这个候选视为下一项公开语言决策。",
+  "Read the summary, choose public wording, then keep any edits inside Review Queue until approved.":
+    "阅读摘要，选择公开措辞，然后在批准前把所有编辑留在审核队列中。",
+  "Leave the candidate visible without moving it toward publication.":
+    "保持候选可见，但不把它推向发布。",
+  "Keep the source private and revisit after the current Personal OS slice closes.":
+    "保持来源私密，在当前 Personal OS 切片关闭后再复查。",
+  "Require another privacy review before trusting the candidate.":
+    "信任这个候选前，需要再做一次隐私审核。",
+  "Check the Data Contract and remove any private-memory-shaped wording first.":
+    "先检查数据契约，并移除任何类似私密记忆的措辞。",
+  "Prepare a public build note from reviewed PR and deployment evidence.":
+    "从已审核 PR 和部署证据准备公开构建笔记。",
+  "No internal runtime labels, local service details, raw logs, or operational commands can be shown.":
+    "不能展示内部运行时标签、本地服务细节、原始日志或运维命令。",
+  "Reviewed product changes are safe inputs for a public build note.":
+    "已审核的产品变更可作为公开构建笔记的安全输入。",
+  "Public route checks can support the release story.":
+    "公开路由检查可以支撑发布叙事。",
+  "Runtime and ops language still needs a public rewrite.":
+    "运行时和运维语言仍需公开化重写。",
+  "Start from merged PRs and production smoke evidence.":
+    "从已合并 PR 和生产 smoke 证据开始。",
+  "Strip service internals, commands, hostnames, ports, and private traces.":
+    "移除服务内部细节、命令、主机名、端口和私密痕迹。",
+  "Write a public note about product behavior and design intent.":
+    "围绕产品行为和设计意图撰写公开笔记。",
+  "A public note can describe shipped user-visible improvements.":
+    "公开笔记可以描述已发布的用户可见改进。",
+  "Route and privacy smoke checks can be summarized safely.":
+    "路由和隐私 smoke 检查可以被安全总结。",
+  "Raw logs, shell commands, and private infrastructure details stay out.":
+    "原始日志、shell 命令和私密基础设施细节保持不外露。",
+  "Use the candidate as a starting point for a public lab note.":
+    "用这个候选作为公开实验室笔记的起点。",
+  "Write from product impact and verification evidence, not from raw runtime detail.":
+    "从产品影响和验证证据出发，而不是从原始运行时细节出发。",
+  "Pause until the public wording is less operational.":
+    "暂停，直到公开措辞不那么偏运维。",
+  "Rewrite toward visitor-facing product behavior before publication.":
+    "发布前重写为面向访客的产品行为叙事。",
+  "Keep the evidence private and do not create public content.":
+    "保持证据私密，不创建公开内容。",
+  "Leave the candidate in the vault; no public page or lab note is created.":
+    "把候选留在知识库中；不会创建公开页面或实验室笔记。",
+  "Trading language must remain research-only and cannot become advice, recommendation, order, account, or position content.":
+    "交易语言必须保持仅研究，不能变成建议、推荐、订单、账户或仓位内容。",
+  "The fixed research-only disclaimer is required wherever trading appears.":
+    "凡出现交易内容，都必须带固定的仅研究免责声明。",
+  "No account, position, broker, or credential detail is part of this candidate.":
+    "这个候选不包含账户、仓位、券商或凭据细节。",
+  "No order, recommendation, sizing, or execution workflow exists.":
+    "不存在订单、建议、规模或执行工作流。",
+  "Create a public explainer for research vocabulary without market instructions.":
+    "创建一个不含市场指令的研究术语公开说明。",
+  "Explain vocabulary as learning context, not as market instruction.":
+    "把术语作为学习语境解释，而不是市场指令。",
+  "Do not include live signals, symbols, positions, or tactical calls.":
+    "不要包含实时信号、标的、仓位或战术判断。",
+  "Keep the research-only boundary visible in the final public output.":
+    "在最终公开输出中保持仅研究边界可见。",
+  "A methodology explainer is safe when it contains no actionable market instruction.":
+    "只要不包含可执行市场指令，方法论说明就是安全的。",
+  "The research-only disclaimer must stay attached.":
+    "仅研究免责声明必须保留。",
+  "Read the glossary as methodology content only.":
+    "只把术语表作为方法论内容阅读。",
+  "Open the Trading Team for research context; do not treat the glossary as a signal.":
+    "打开交易研究团队查看研究语境；不要把术语表当作信号。",
+  "Strengthen language if any phrase sounds like advice.":
+    "如果任何措辞听起来像建议，就加强边界语言。",
+  "Remove tactical verbs and keep the fixed research-only disclaimer visible.":
+    "移除战术动词，并保持固定的仅研究免责声明可见。",
+  "Leave the glossary private until the owner approves the boundary.":
+    "在本人批准边界前，让术语表保持私密。",
+  "No public route, recommendation, order, or execution path is created.":
+    "不会创建公开路由、建议、订单或执行路径。",
+  "Raw vault pages are never mounted directly into public routes.":
+    "原始知识库页面绝不直接挂载到公开路由。",
+  "Public publishing requires an explicit owner-reviewed rewrite.":
+    "公开发布需要明确的本人审核重写。",
+  "Private memory can inform prioritization but must not appear as source text.":
+    "私密记忆可以影响优先级，但不能作为来源文本出现。",
+  "Trading-related synthesis stays research-only and cannot become an execution workflow.":
+    "交易相关综合保持仅研究，不能变成执行工作流。",
+  "Publish candidate": "发布候选",
+  "Expose source": "暴露来源",
+  "Sync private vault": "同步私密知识库",
+  "Create trading execution path": "创建交易执行路径",
+
   "Confirm Review Queue cockpit surface": "确认审核队列驾驶舱界面",
   "Decide agent history depth": "决定智能体历史深度",
   "Review trading research boundary copy": "审核交易研究边界文案",
