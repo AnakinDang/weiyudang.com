@@ -55,6 +55,7 @@ type PrivateAgentsSurfaceProps = {
   boundary: readonly string[];
   handoffs: readonly PrivateAgentHandoff[];
   reviewQueue: readonly ReviewQueuePreviewItem[];
+  initialAgentId?: PrivateAgent["id"];
 };
 
 const roleIcons = {
@@ -699,7 +700,7 @@ function AgentOperationsMap({
             </h2>
           </div>
           <div className="mt-5 grid gap-3">
-            <Link href="/app/command" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
+            <Link href="/app/command" prefetch={false} className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2 text-sm font-semibold text-white">
                   <UserCheck size={17} aria-hidden />
@@ -709,7 +710,7 @@ function AgentOperationsMap({
               </div>
               <p className="mt-2 text-xs leading-5 text-slate-400">{t("Prepare a mission packet for the selected agent lane.")}</p>
             </Link>
-            <Link href="/app/review" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
+            <Link href="/app/review" prefetch={false} className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2 text-sm font-semibold text-white">
                   <ClipboardCheck size={17} aria-hidden />
@@ -718,6 +719,20 @@ function AgentOperationsMap({
                 <ArrowRight className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />
               </div>
               <p className="mt-2 text-xs leading-5 text-slate-400">{t("Review owner-gated work before any future action path exists.")}</p>
+            </Link>
+            <Link
+              href={`/app/events?agent=${activeAgent.id}`}
+              prefetch={false}
+              className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex items-center gap-2 text-sm font-semibold text-white">
+                  <History size={17} aria-hidden />
+                  {t("Open Events")}
+                </span>
+                <ArrowRight className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />
+              </div>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{t("Read the curated private event trail for this agent lane.")}</p>
             </Link>
           </div>
         </section>
@@ -1037,11 +1052,12 @@ export function PrivateAgentsSurface({
   coverage,
   boundary,
   handoffs,
-  reviewQueue
+  reviewQueue,
+  initialAgentId
 }: PrivateAgentsSurfaceProps) {
   const { locale } = useLanguage();
   const t = (value: string | undefined) => agentText(value, locale);
-  const [activeAgentId, setActiveAgentId] = useState(agents[0]?.id ?? "");
+  const [activeAgentId, setActiveAgentId] = useState(initialAgentId ?? agents[0]?.id ?? "");
   const [postureChoices, setPostureChoices] = useState<Partial<Record<PrivateAgent["id"], string>>>({});
   const activeAgent = useMemo(
     () => agents.find((agent) => agent.id === activeAgentId) ?? agents[0],

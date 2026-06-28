@@ -2060,6 +2060,49 @@ const exactZhTranslations = {
   "Add a private API without audit design": "在没有审计设计时新增私密 API",
   "Each cockpit surface should continue landing as a reviewed, coherent slice.":
     "每个驾驶舱界面都应继续以经过审核、边界清晰的切片落地。",
+  "Context ready": "上下文已就绪",
+  "Decide whether the curated Events context is enough before designing a live private timeline source.":
+    "在设计实时私密时间线来源前，先判断精选 Events 上下文是否足够。",
+  "Use /app/events for owner-readable history, handoffs, and review signals; keep live event ingestion as a separate future design.":
+    "使用 /app/events 阅读本人可见的历史、交接和审核信号；实时事件接入保留为单独的未来设计。",
+  "Owner Events context": "Owner Events 上下文",
+  "Events context": "Events 上下文",
+  "The owner-only Events page now reconstructs a curated timeline from cockpit packets.":
+    "仅本人可见的 Events 页面现在会从驾驶舱包重建精选时间线。",
+  "Live source": "实时来源",
+  "A true live per-agent source still needs schema, retention, and audit design.":
+    "真正的每智能体实时来源仍需要 schema、保留策略和审计设计。",
+  "No raw runtime payloads": "无原始运行时载荷",
+  "Curated context": "精选上下文",
+  "Use Events context": "使用 Events 上下文",
+  "Use the curated owner-only timeline for current review and context hops.":
+    "使用精选的仅本人时间线进行当前审核和上下文跳转。",
+  "Open /app/events when the owner needs history, handoffs, review signals, or source posture.":
+    "当本人需要历史、交接、审核信号或来源状态时，打开 /app/events。",
+  "Hold live ingestion": "暂停实时接入",
+  "Keep the live private source disconnected until audit design exists.":
+    "在审计设计存在前，保持实时私密来源未连接。",
+  "Do not connect raw runtime events to the owner UI from this slice.":
+    "这个切片不把原始运行时事件接入本人 UI。",
+  "Curated source": "精选来源",
+  "Events reads curated roster, handoff, review, source, and boundary packets.":
+    "Events 读取精选的花名册、交接、审核、来源和边界包。",
+  "No authenticated live per-agent event source is connected yet.":
+    "尚未连接认证后的每智能体实时事件来源。",
+  "No raw payloads": "无原始载荷",
+  "The UI uses curated cockpit state and never renders raw runtime payloads.":
+    "UI 使用精选驾驶舱状态，绝不渲染原始运行时载荷。",
+  "No authenticated live private event source is connected yet.":
+    "尚未连接认证后的实时私密事件来源。",
+  "Use /app/events as a curated owner context while live event ingestion remains future work.":
+    "在实时事件接入仍属未来工作的同时，把 /app/events 作为精选的本人上下文。",
+  "Dispatch agents from history": "从历史中派发智能体",
+  "Current slice": "当前切片",
+  "Events is a curated owner-only context, not a raw live runtime feed.":
+    "Events 是精选的仅本人上下文，不是原始实时运行时 feed。",
+  "Open Events": "打开事件",
+  "Read the curated private event trail for this agent lane.":
+    "阅读这个智能体通道的精选私密事件轨迹。",
 
   "Decide whether the research-only disclaimer is strong enough for the private trading cockpit.":
     "决定仅研究免责声明对于私密交易驾驶舱是否足够有力。",

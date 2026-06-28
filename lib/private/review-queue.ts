@@ -184,12 +184,12 @@ export const privateReviewQueue = [
     agent: "Doraemon",
     lane: "Product depth",
     surface: "/app/agents",
-    decision: "Defer",
-    tone: "private",
+    decision: "Context ready",
+    tone: "info",
     urgency: "Next",
-    requestedDecision: "Decide whether the next Agents pass needs a full per-agent timeline or the current snapshot is enough.",
-    recommendedHandling: "Keep the current roster shipped, then revisit history depth when a private event source exists.",
-    evidence: ["Step review history", "current slice summary"],
+    requestedDecision: "Decide whether the curated Events context is enough before designing a live private timeline source.",
+    recommendedHandling: "Use /app/events for owner-readable history, handoffs, and review signals; keep live event ingestion as a separate future design.",
+    evidence: ["Step review history", "current slice summary", "Owner Events context"],
     evidenceCards: [
       {
         label: "Roster",
@@ -199,25 +199,32 @@ export const privateReviewQueue = [
         detail: "The current Agents surface shows leases, source health, handoffs, and boundary."
       },
       {
-        label: "History",
-        state: "Deferred",
+        label: "Events context",
+        state: "Ready",
+        tone: "info",
+        ready: true,
+        detail: "The owner-only Events page now reconstructs a curated timeline from cockpit packets."
+      },
+      {
+        label: "Live source",
+        state: "Future",
         tone: "private",
         ready: false,
-        detail: "True per-agent history needs a private timeline source, not invented UI rows."
+        detail: "A true live per-agent source still needs schema, retention, and audit design."
       }
     ],
     checkpoints: [
-      { label: "No fake history", state: "Held", tone: "normal" },
-      { label: "Source needed", state: "Deferred", tone: "private" },
+      { label: "No raw runtime payloads", state: "Held", tone: "normal" },
+      { label: "Curated context", state: "Ready", tone: "info" },
       { label: "Owner revisit", state: "Next", tone: "info" }
     ],
     decisionOptions: [
       {
-        label: "Keep snapshot depth",
+        label: "Use Events context",
         state: "Recommended",
         tone: "info",
-        detail: "Keep the current roster and source-health view until private history data exists.",
-        next: "Track agent history as a later Events or Agents depth slice."
+        detail: "Use the curated owner-only timeline for current review and context hops.",
+        next: "Open /app/events when the owner needs history, handoffs, review signals, or source posture."
       },
       {
         label: "Request source design",
@@ -227,42 +234,42 @@ export const privateReviewQueue = [
         next: "Draft schema, retention, auth, and redaction rules before implementation."
       },
       {
-        label: "Defer history",
+        label: "Hold live ingestion",
         state: "Safe hold",
         tone: "private",
-        detail: "Leave the Agents page as a live roster and avoid invented activity rows.",
-        next: "Return when a private event source can supply real per-agent history."
+        detail: "Keep the live private source disconnected until audit design exists.",
+        next: "Do not connect raw runtime events to the owner UI from this slice."
       }
     ],
     reviewGates: [
       {
-        label: "Real source",
-        state: "Missing",
-        tone: "private",
-        detail: "No authenticated per-agent timeline source is available yet."
+        label: "Curated source",
+        state: "Ready",
+        tone: "info",
+        detail: "Events reads curated roster, handoff, review, source, and boundary packets."
       },
       {
-        label: "No invented rows",
+        label: "Live source",
+        state: "Future",
+        tone: "private",
+        detail: "No authenticated live per-agent event source is connected yet."
+      },
+      {
+        label: "No raw payloads",
         state: "Held",
         tone: "normal",
-        detail: "The UI must not create fake history to make the page feel busy."
-      },
-      {
-        label: "Private schema",
-        state: "Future",
-        tone: "info",
-        detail: "Timeline depth needs an owner-only schema and retention policy."
+        detail: "The UI uses curated cockpit state and never renders raw runtime payloads."
       }
     ],
-    blockers: ["No authenticated agent timeline source is connected yet."],
-    allowedNext: "Track as a future Agents or Events depth slice.",
-    disallowedActions: ["Invent history", "Expose raw runtime events", "Add a private API without audit design"],
-    primaryHref: "/app/agents",
+    blockers: ["No authenticated live private event source is connected yet."],
+    allowedNext: "Use /app/events as a curated owner context while live event ingestion remains future work.",
+    disallowedActions: ["Expose raw runtime events", "Add a private API without audit design", "Dispatch agents from history"],
+    primaryHref: "/app/agents?agent=doraemon",
     primaryLabel: "Open agents context",
-    secondaryHref: "/app/events",
+    secondaryHref: "/app/events?agent=doraemon",
     secondaryLabel: "Open event context",
-    updated: "Recent slice",
-    note: "Each cockpit surface should continue landing as a reviewed, coherent slice."
+    updated: "Current slice",
+    note: "Events is a curated owner-only context, not a raw live runtime feed."
   },
   {
     id: "review-trading-boundary-copy",
