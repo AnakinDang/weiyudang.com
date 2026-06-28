@@ -15,12 +15,22 @@ import { requireOwnerSession } from "@/lib/private/owner-session";
 export const dynamic = "force-dynamic";
 
 function shanghaiToday() {
-  return new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    month: "short",
-    day: "numeric",
-    timeZone: "Asia/Shanghai"
-  }).format(new Date());
+  const now = new Date();
+
+  return {
+    en: new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+      timeZone: "Asia/Shanghai"
+    }).format(now),
+    zh: new Intl.DateTimeFormat("zh-CN", {
+      weekday: "long",
+      month: "short",
+      day: "numeric",
+      timeZone: "Asia/Shanghai"
+    }).format(now)
+  };
 }
 
 export default async function PrivateAppPage() {
