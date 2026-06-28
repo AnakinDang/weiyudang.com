@@ -40794,3 +40794,203 @@ textarea {
     flex-basis: 100%;
   }
 }
+
+/* Step 61: Doraemon entry first-viewport fit */
+.doraemon-command-preview {
+  overflow: clip;
+}
+
+@media (min-width: 1181px) {
+  .doraemon-doorway {
+    min-height: min(704px, calc(100svh - 6.05rem));
+    padding-top: clamp(1.25rem, 2vw, 2.15rem);
+  }
+
+  .doraemon-doorway-grid {
+    min-height: calc(min(704px, calc(100svh - 6.05rem)) - 2.15rem);
+  }
+
+  .doraemon-command-preview {
+    min-height: clamp(35.2rem, calc(100svh - 9.2rem), 39.2rem);
+  }
+
+  .doraemon-portal-stage {
+    inset: -2.2rem -1.9rem 5rem -2.2rem;
+  }
+
+  .doraemon-stage-floor {
+    bottom: 5.9rem;
+  }
+
+  .doraemon-activity-preview {
+    bottom: 0.15rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    margin-top: -0.5rem;
+    margin-bottom: clamp(0.75rem, 1.4vw, 1.35rem);
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock + .doraemon-entry-section {
+    padding-top: clamp(1.8rem, 2.8vw, 2.8rem);
+  }
+}
+
+@media (min-width: 1181px) and (max-height: 760px) {
+  .doraemon-doorway {
+    min-height: calc(100svh - 9rem);
+    padding-top: 0.7rem;
+  }
+
+  .doraemon-doorway-grid {
+    min-height: calc(100svh - 10.7rem);
+  }
+
+  .doraemon-doorway-copy {
+    padding-bottom: 2rem;
+  }
+
+  .doraemon-doorway-copy h1 {
+    font-size: clamp(4.8rem, 7vw, 5.65rem);
+  }
+
+  .doraemon-doorway-lede {
+    margin-top: 1.2rem;
+    font-size: 1.08rem;
+  }
+
+  .doraemon-doorway-actions {
+    margin-top: 1.25rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 29.5rem;
+  }
+
+  .doraemon-portal-stage {
+    inset: -1rem -1.2rem 3.75rem -1.5rem;
+  }
+
+  .doraemon-portal-panel {
+    top: 24%;
+    width: min(12.5rem, 25%);
+  }
+
+  .doraemon-stage-floor {
+    bottom: 4rem;
+    height: 7rem;
+    opacity: 0.86;
+  }
+
+  .doraemon-agent-node {
+    min-width: 4.9rem;
+  }
+
+  .doraemon-agent-node-mark {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .doraemon-agent-node small {
+    font-size: 0.65rem;
+  }
+
+  /* The preview frame clips these offsets; they keep the activity strip visually tied to the left copy on short laptops. */
+  .doraemon-activity-preview {
+    right: 0.6rem;
+    bottom: 4.2rem;
+    left: clamp(-12rem, -12vw, -5.5rem);
+  }
+
+  .doraemon-activity-preview-head {
+    padding: 0.56rem 0.82rem 0.48rem;
+  }
+
+  .doraemon-activity-ticks div {
+    padding: 0.58rem 0.68rem 0.68rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    /* The dock climbs into the preview tail on short laptops so the next section remains visible. */
+    margin-top: -3.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock .dora-office-route-dock-brand,
+  .doraemon-entry-page .doraemon-entry-route-dock .dora-office-route-dock-posture {
+    min-height: 2.76rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock .dora-office-route-dock-link {
+    min-height: 2rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .doraemon-doorway {
+    padding-bottom: 0.45rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 18.3rem;
+    margin-top: 0.65rem;
+  }
+
+  .doraemon-portal-stage {
+    inset: -0.2rem -1.55rem 7.2rem -1.55rem;
+  }
+
+  .doraemon-stage-floor {
+    bottom: 7.25rem;
+    height: 6.1rem;
+  }
+
+  .doraemon-activity-preview-head {
+    padding: 0.6rem 0.8rem 0.48rem;
+  }
+
+  .doraemon-activity-ticks div {
+    padding: 0.68rem 0.75rem 0.78rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    margin-top: 0.25rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock .dora-office-route-dock {
+    grid-template-columns: 1fr;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock .dora-office-route-dock-posture {
+    display: none;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock .dora-office-route-dock-links {
+    padding-block: 0.32rem;
+    padding-inline: 0.5rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock .dora-office-route-dock-link {
+    min-height: 2.05rem;
+    font-size: 0.72rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock + .doraemon-entry-section {
+    padding-top: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .doraemon-doorway-copy h1 {
+    font-size: clamp(3.45rem, 15.2vw, 3.85rem);
+  }
+
+  .doraemon-doorway-lede {
+    font-size: 0.98rem;
+  }
+
+  .doraemon-command-preview {
+    min-height: 17.2rem;
+  }
+}
