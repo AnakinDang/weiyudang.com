@@ -89,7 +89,11 @@ export const ownerReviewQueue = [
     state: "In review",
     tone: "warning",
     decision: "Accept, revise, or narrow the next private route slice.",
-    evidence: "Build, auth redirect, screenshot, leak probe, and Opus review."
+    evidence: "Build, auth redirect, screenshot, leak probe, and Opus review.",
+    href: "/app/review",
+    hrefLabel: "Open review packet",
+    contextHref: "/app/command",
+    contextLabel: "Open command context"
   },
   {
     title: "Decide next private cockpit slice",
@@ -98,7 +102,11 @@ export const ownerReviewQueue = [
     state: "Waiting",
     tone: "warning",
     decision: "Pick Command, Agents, or Trading evidence depth.",
-    evidence: "Docs define the route map; implementation should stay read-only."
+    evidence: "Docs define the route map; implementation should stay read-only.",
+    href: "/app/review",
+    hrefLabel: "Open review packet",
+    contextHref: "/app/agents",
+    contextLabel: "Open agent context"
   },
   {
     title: "Define Trading Team evidence bridge",
@@ -107,7 +115,46 @@ export const ownerReviewQueue = [
     state: "Draft",
     tone: "info",
     decision: "Choose what private research evidence becomes owner-scannable.",
-    evidence: "Research-only boundary remains fixed; no broker writes."
+    evidence: "Research-only boundary remains fixed; no broker writes.",
+    href: "/app/trading?view=system",
+    hrefLabel: "Open trading system",
+    contextHref: "/app/trading?view=evidence",
+    contextLabel: "Open evidence center"
+  }
+] as const;
+
+export const ownerDecisionHub = [
+  {
+    title: "Review Queue",
+    href: "/app/review",
+    state: "Decision packets",
+    tone: "warning",
+    summary: "Owner decisions, missing evidence, safe deferrals, and merge gates stay in one read-only queue.",
+    proof: "No approve, reject, publish, execute, or dispatch action is available."
+  },
+  {
+    title: "Trading Evidence",
+    href: "/app/trading?view=system",
+    state: "Research-only",
+    tone: "private",
+    summary: "Trading review items open the evidence, source health, gate, and replay surfaces without execution.",
+    proof: "Research-only. Not an order, recommendation, or execution system."
+  },
+  {
+    title: "Command Context",
+    href: "/app/command",
+    state: "Draft only",
+    tone: "info",
+    summary: "Command stays a planning surface for owner review until audited write APIs exist.",
+    proof: "No runtime dispatch endpoint is exposed from Today."
+  },
+  {
+    title: "System Health",
+    href: "/app/system",
+    state: "Diagnostics",
+    tone: "normal",
+    summary: "System posture remains visible at owner depth while public health stays sanitized.",
+    proof: "Private auth gate is required before diagnostics render."
   }
 ] as const;
 
@@ -152,9 +199,14 @@ export const ownerCommandShortcuts = [
     summary: "Draft plans, review owner checkpoints, and inspect current mission shape."
   },
   {
+    title: "Review Queue",
+    href: "/app/review",
+    summary: "Inspect owner decisions, evidence cards, gates, blockers, and allowed next steps."
+  },
+  {
     title: "Trading Team",
-    href: "/app/trading",
-    summary: "Open the research-only console with gates, evidence, and source degradation."
+    href: "/app/trading?view=system",
+    summary: "Open the research-only console at source health, gates, evidence, and replay coverage."
   },
   {
     title: "Knowledge Vault",

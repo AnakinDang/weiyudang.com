@@ -1,6 +1,7 @@
 import { OwnerTodaySurface, type OwnerTodaySurfaceData } from "@/components/OwnerTodaySurface";
 import {
   ownerCommandShortcuts,
+  ownerDecisionHub,
   ownerMarketAlerts,
   ownerOperatingMap,
   ownerReviewQueue,
@@ -31,6 +32,7 @@ export default async function PrivateAppPage() {
     priorities: ownerTodayPriorities,
     operatingMap: ownerOperatingMap,
     reviewQueue: ownerReviewQueue,
+    decisionHub: ownerDecisionHub,
     marketAlerts: ownerMarketAlerts,
     schedulePressure: ownerSchedulePressure,
     systemHealth: ownerSystemHealth,

@@ -129,6 +129,40 @@ const exactZhTranslations = {
   "Prepare": "准备",
   "MiniDoras prepare evidence and next steps without hidden execution.":
     "MiniDoras 准备证据和下一步，但没有隐藏执行。",
+  "Decision hub": "决策中枢",
+  "Open the right private context.": "打开正确的私密上下文。",
+  "Today links decisions to their owner-only surfaces. These are routing shortcuts only; they do not approve, publish, dispatch, or execute work.":
+    "今日界面把决策连接到对应的仅本人可见界面。这些只是路由入口；不会审批、发布、派发或执行工作。",
+  "Read-only routing": "只读路由",
+  "Open context": "打开上下文",
+  "Open review packet": "打开审核包",
+  "Open command context": "打开指挥上下文",
+  "Open agent context": "打开智能体上下文",
+  "Open trading system": "打开交易系统",
+  "Owner decisions, missing evidence, safe deferrals, and merge gates stay in one read-only queue.":
+    "本人决策、缺失证据、安全延期和合并门禁都留在同一个只读队列里。",
+  "No approve, reject, publish, execute, or dispatch action is available.":
+    "这里没有审批、驳回、发布、执行或派发动作用。",
+  "Trading Evidence": "交易证据",
+  "Trading review items open the evidence, source health, gate, and replay surfaces without execution.":
+    "交易审核项只打开证据、源健康、门禁和回放界面，不执行任何动作。",
+  "Command Context": "指挥上下文",
+  "Draft only": "仅草稿",
+  "Command stays a planning surface for owner review until audited write APIs exist.":
+    "在具备审计后的写入 API 前，Command 保持为给本人审核的规划界面。",
+  "No runtime dispatch endpoint is exposed from Today.": "Today 不暴露运行时派发端点。",
+  "Diagnostics": "诊断",
+  "System posture remains visible at owner depth while public health stays sanitized.":
+    "系统状态在私密深度可见；公开健康信息仍保持脱敏。",
+  "Private auth gate is required before diagnostics render.":
+    "诊断内容渲染前必须先通过私密认证门。",
+  "Linked private context": "关联的私密上下文",
+  "Open the related owner-only surface for evidence, history, or system posture. These links do not send an approval or dispatch work.":
+    "打开相关的仅本人可见界面查看证据、历史或系统状态。这些链接不会发送审批，也不会派发工作。",
+  "Stay in review queue": "留在审核队列",
+  "Open agents context": "打开智能体上下文",
+  "Open event context": "打开事件上下文",
+  "Open system health": "打开系统健康",
 
   "Owner Settings": "本人设置",
   "Settings describe posture. They do not become controls.": "设置描述姿态。它们不会变成控制项。",
@@ -1005,6 +1039,10 @@ const exactZhTranslations = {
     "起草计划、审核检查点，并查看当前任务形状。",
   "Open the research-only console with gates, evidence, and source degradation.":
     "打开仅研究控制台，查看门禁、证据和来源降级。",
+  "Inspect owner decisions, evidence cards, gates, blockers, and allowed next steps.":
+    "检查本人决策、证据卡、门禁、阻塞项和允许的下一步。",
+  "Open the research-only console at source health, gates, evidence, and replay coverage.":
+    "打开仅研究控制台中的来源健康、门禁、证据和回放覆盖。",
   "Review private synthesis layers before anything is curated for public publishing.":
     "任何内容进入公开精选前，先审核私密综合层。",
   "Draft-only": "仅草稿",

@@ -53,6 +53,10 @@ export type PrivateReviewQueueItem = {
   blockers: readonly string[];
   allowedNext: string;
   disallowedActions: readonly string[];
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref: string;
+  secondaryLabel: string;
   updated: string;
   note: string;
 };
@@ -166,6 +170,10 @@ export const privateReviewQueue = [
     blockers: ["No live private review API exists in this slice.", "The page must remain a decision register, not a workflow runner."],
     allowedNext: "Prepare PR only after local verification and Opus review are clean.",
     disallowedActions: ["Approve and execute", "Reject and run", "Publish", "Dispatch tools"],
+    primaryHref: "/app/review",
+    primaryLabel: "Stay in review queue",
+    secondaryHref: "/app/command",
+    secondaryLabel: "Open command context",
     updated: "This session",
     note: "No private API or execution action should appear in this slice."
   },
@@ -249,6 +257,10 @@ export const privateReviewQueue = [
     blockers: ["No authenticated agent timeline source is connected yet."],
     allowedNext: "Track as a future Agents or Events depth slice.",
     disallowedActions: ["Invent history", "Expose raw runtime events", "Add a private API without audit design"],
+    primaryHref: "/app/agents",
+    primaryLabel: "Open agents context",
+    secondaryHref: "/app/events",
+    secondaryLabel: "Open event context",
     updated: "Recent slice",
     note: "Each cockpit surface should continue landing as a reviewed, coherent slice."
   },
@@ -339,6 +351,10 @@ export const privateReviewQueue = [
     blockers: ["No trading execution authorization exists.", "Any future data connection must preserve research-only framing."],
     allowedNext: "Owner may revise copy, but not authorize execution from this page.",
     disallowedActions: ["Order placement", "Broker write", "Position sizing", "Recommendation wording"],
+    primaryHref: "/app/trading?view=system",
+    primaryLabel: "Open trading system",
+    secondaryHref: "/app/trading?view=evidence",
+    secondaryLabel: "Open evidence center",
     updated: "Recent slice",
     note: "The console remains research-only and has no order, paper, live, or broker path."
   },
@@ -429,6 +445,10 @@ export const privateReviewQueue = [
     blockers: ["No audited write API design exists.", "No rollback behavior exists.", "No owner action confirmation model exists."],
     allowedNext: "Write an implementation spec before any action button appears.",
     disallowedActions: ["Hidden execution", "One-click approve", "Silent retry", "Unaudited mutation"],
+    primaryHref: "/app/command",
+    primaryLabel: "Open command context",
+    secondaryHref: "/app/system",
+    secondaryLabel: "Open system health",
     updated: "Future",
     note: "No write endpoint should be added until audit, rollback, and error handling are designed."
   }
