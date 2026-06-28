@@ -48,7 +48,8 @@ export function HeroSection() {
           src="/visuals/personal-os-portal-v2.png"
           alt=""
           fill
-          priority
+          loading="eager"
+          fetchPriority="high"
           quality={95}
           sizes="(max-width: 900px) 100vw, 68vw"
         />
@@ -65,7 +66,7 @@ export function HeroSection() {
             <span>Personal OS</span>
             <span>Public studio + Doraemon Office</span>
           </div>
-          <h1 className="premium-hero-title">
+          <h1 className="premium-hero-title" aria-label="Build the systems that help thought compound.">
             <span className="premium-hero-name">Build the systems</span>
             <span className="premium-hero-os">that help thought</span>
             <span className="premium-hero-line">
@@ -194,6 +195,10 @@ export function HeroSection() {
               Public surfaces stay visible. Owner work stays private.
             </span>
           </div>
+        </div>
+        <div className="premium-hero-next-rail" aria-hidden="true">
+          <span>Next</span>
+          <strong>Four clear Personal OS surfaces</strong>
         </div>
       </div>
     </section>
