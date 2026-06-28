@@ -109,7 +109,7 @@ export default function DoraOfficePage() {
                 height={1024}
                 loading="eager"
                 fetchPriority="high"
-                quality={85}
+                quality={95}
                 sizes="(max-width: 720px) 200vw, (max-width: 1180px) 100vw, 62vw"
               />
 
