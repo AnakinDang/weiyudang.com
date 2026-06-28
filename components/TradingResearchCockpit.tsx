@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
   Ban,
@@ -20,6 +20,7 @@ import {
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
+import { tradingViewFromSlug, tradingViewSlugs } from "@/lib/trading-team";
 import type {
   TradingEvidencePacket,
   TradingInstrument,
@@ -50,6 +51,7 @@ const viewIcons = {
 
 const ALL_SIGNAL_FILTER = "__all_signals__";
 const ALL_STATE_FILTER = "All states";
+const DEFAULT_TRADING_VIEW: TradingView = "Today";
 
 const viewZhLabels = {
   Today: "今日",
@@ -137,6 +139,63 @@ function evidenceCountLabel(visible: number, total: number, locale: SiteLocale) 
 
 function eventCountLabel(visible: number, total: number, locale: SiteLocale) {
   return locale === "zh" ? `已显示 ${visible} / ${total} 条事件` : `${visible} of ${total} events shown`;
+}
+
+function tradingViewFromLocation() {
+  if (typeof window === "undefined") {
+    return DEFAULT_TRADING_VIEW;
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  return tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
+}
+
+function tradingViewUrl(view: TradingView) {
+  const url = new URL(window.location.href);
+
+  if (view === DEFAULT_TRADING_VIEW) {
+    url.searchParams.delete("view");
+  } else {
+    url.searchParams.set("view", tradingViewSlugs[view]);
+  }
+
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
+  const [activeView, setActiveView] = useState<TradingView>(initialView);
+
+  useEffect(() => {
+    function syncFromLocation() {
+      const nextView = tradingViewFromLocation();
+      setActiveView((currentView) => (currentView === nextView ? currentView : nextView));
+    }
+
+    syncFromLocation();
+    window.addEventListener("popstate", syncFromLocation);
+    return () => window.removeEventListener("popstate", syncFromLocation);
+  }, []);
+
+  const navigateTradingView = useCallback(
+    (view: TradingView) => {
+      setActiveView(view);
+
+      if (typeof window === "undefined") {
+        return;
+      }
+
+      const nextUrl = tradingViewUrl(view);
+      const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+
+      if (nextUrl !== currentUrl) {
+        // Keep research view changes in browser history so Back returns to the previously inspected desk view.
+        window.history.pushState(null, "", nextUrl);
+      }
+    },
+    []
+  );
+
+  return [activeView, navigateTradingView] as const;
 }
 
 function sourceTone(state: string) {
@@ -1599,9 +1658,16 @@ function SystemView({ systemStatus }: { systemStatus: readonly TradingSystemStat
   );
 }
 
-export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitData }) {
+export function TradingResearchCockpit({
+  data,
+  initialView = DEFAULT_TRADING_VIEW
+}: {
+  data: TradingResearchCockpitData;
+  initialView?: TradingView;
+}) {
   const { locale } = useLanguage();
-  const [activeView, setActiveView] = useState<TradingView>("Today");
+  const [activeView, navigateTradingView] = useTradingViewRoute(initialView);
+  const activeViewButtonRef = useRef<HTMLButtonElement>(null);
   const [activeDesk, setActiveDesk] = useState("All desks");
   const [activeInstrumentSymbol, setActiveInstrumentSymbol] = useState(data.instruments[0]?.symbol ?? "");
   const [evidenceSignalFilter, setEvidenceSignalFilter] = useState(ALL_SIGNAL_FILTER);
@@ -1618,16 +1684,33 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
   );
   const posture = useMemo(() => tradingPosture(data), [data]);
 
+  useEffect(() => {
+    const activeButton = activeViewButtonRef.current;
+    const tabStrip = activeButton?.parentElement;
+
+    if (!activeButton || !tabStrip) {
+      return;
+    }
+
+    const buttonRect = activeButton.getBoundingClientRect();
+    const stripRect = tabStrip.getBoundingClientRect();
+    const isHorizontallyVisible = buttonRect.left >= stripRect.left && buttonRect.right <= stripRect.right;
+
+    if (!isHorizontallyVisible) {
+      activeButton.scrollIntoView({ block: "nearest", inline: "center" });
+    }
+  }, [activeView]);
+
   function openEvidenceCenter() {
     setEvidenceSignalFilter(ALL_SIGNAL_FILTER);
     setEvidenceStateFilter(ALL_STATE_FILTER);
-    setActiveView("Evidence");
+    navigateTradingView("Evidence");
   }
 
   function traceEvidenceForSignal(instrument: string) {
     setEvidenceSignalFilter(instrument);
     setEvidenceStateFilter(ALL_STATE_FILTER);
-    setActiveView("Evidence");
+    navigateTradingView("Evidence");
   }
 
   return (
@@ -1680,8 +1763,9 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
               <button
                 key={view}
                 type="button"
+                ref={isActive ? activeViewButtonRef : undefined}
                 aria-pressed={isActive}
-                onClick={() => setActiveView(view)}
+                onClick={() => navigateTradingView(view)}
                 className={isActive ? "is-active" : ""}
               >
                 <Icon size={16} aria-hidden />
@@ -1732,7 +1816,7 @@ export function TradingResearchCockpit({ data }: { data: TradingResearchCockpitD
           unavailableActions={data.unavailableActions}
           deskScope={activeDesk}
           onOpenEvidenceQueue={openEvidenceCenter}
-          onSelectView={setActiveView}
+          onSelectView={navigateTradingView}
           onTraceEvidence={traceEvidenceForSignal}
         />
       ) : null}
