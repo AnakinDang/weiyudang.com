@@ -42079,6 +42079,158 @@ textarea {
   }
 }
 
+/* Step 66: Doraemon entry hero final quality lock */
+@media (min-width: 1181px) {
+  /* The portal art intentionally bleeds past the preview card on wide viewports. */
+  .doraemon-entry-page .doraemon-command-preview {
+    overflow: visible;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage {
+    inset: -2.7rem -2.3rem 7.35rem -1.35rem;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage img {
+    --dora-office-portal-scale: 1.09;
+    --dora-office-portal-scale-peak: 1.098;
+    --dora-office-portal-x: 0;
+    object-position: 56% 50%;
+  }
+
+  .doraemon-entry-page .doraemon-portal-panel {
+    right: 4.6%;
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+
+  .doraemon-entry-page .doraemon-stage-floor {
+    right: 7.2%;
+    bottom: 10.2rem;
+    left: 7.2%;
+    height: 9.3rem;
+    opacity: 0.82;
+    transform: scale(0.93);
+    transform-origin: center bottom;
+  }
+
+  .doraemon-entry-page .doraemon-agent-node small {
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    padding: 0.18rem 0.42rem;
+    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.08);
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview {
+    right: clamp(2rem, 3vw, 3.2rem);
+    bottom: 0.7rem;
+    left: clamp(0.4rem, 1.2vw, 1.4rem);
+    z-index: 7;
+    border-color: rgba(191, 219, 254, 0.82);
+    background: rgba(255, 255, 255, 0.88);
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    margin-top: 0.25rem;
+  }
+}
+
+@media (min-width: 1181px) and (max-width: 1320px) {
+  .doraemon-entry-page .doraemon-stage-floor {
+    right: 4.8%;
+    bottom: 9.7rem;
+    left: 4.8%;
+    transform: scale(0.88);
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview {
+    right: 0.95rem;
+    left: 0.95rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks div:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (min-width: 1181px) and (max-height: 760px) {
+  .doraemon-entry-page .doraemon-command-preview {
+    min-height: 31.8rem;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage {
+    inset: -1.15rem -1rem 6.2rem -0.6rem;
+  }
+
+  .doraemon-entry-page .doraemon-stage-floor {
+    bottom: 8.2rem;
+    height: 7.2rem;
+    opacity: 0.72;
+  }
+
+  .doraemon-entry-page .doraemon-agent-node-mark {
+    width: 2.42rem;
+    height: 2.42rem;
+  }
+
+  .doraemon-entry-page .doraemon-agent-node small {
+    font-size: 0.58rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview {
+    right: 0.9rem;
+    bottom: 0.35rem;
+    left: 0.9rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview-head {
+    padding-block: 0.56rem 0.5rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks div {
+    padding-block: 0.62rem 0.7rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .doraemon-entry-page .doraemon-command-preview {
+    min-height: 27.2rem;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage {
+    inset: -0.15rem -0.9rem 7.55rem -0.9rem;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage img {
+    --dora-office-portal-scale: 1.05;
+    --dora-office-portal-scale-peak: 1.056;
+    object-position: 52% 50%;
+    opacity: 0.9;
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview {
+    right: 0.1rem;
+    bottom: 0.45rem;
+    left: 0.1rem;
+    background: rgba(255, 255, 255, 0.9);
+  }
+}
+
 @media (min-width: 721px) and (max-width: 900px) {
   .premium-hero-copy {
     padding-bottom: clamp(2.6rem, 6vw, 4.1rem);
