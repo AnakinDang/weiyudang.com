@@ -4,7 +4,7 @@ import { tradingViewSlugFromParam } from "@/lib/trading-team";
 
 function ownerNextPath(request: NextRequest) {
   if (request.nextUrl.pathname !== "/app/trading") {
-    return request.nextUrl.pathname;
+    return `${request.nextUrl.pathname}${request.nextUrl.search}`;
   }
 
   const view = tradingViewSlugFromParam(request.nextUrl.searchParams.get("view"));
@@ -19,12 +19,6 @@ function ownerNextPath(request: NextRequest) {
 export async function proxy(request: NextRequest) {
   if (!request.nextUrl.pathname.startsWith("/app")) {
     return NextResponse.next();
-  }
-
-  if (request.nextUrl.pathname === "/app/events") {
-    const reviewUrl = new URL("/app/review", request.url);
-    reviewUrl.search = request.nextUrl.search;
-    return NextResponse.redirect(reviewUrl, 308);
   }
 
   const isAuthed = await verifyOwnerSession(
