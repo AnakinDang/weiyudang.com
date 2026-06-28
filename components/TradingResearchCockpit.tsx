@@ -40,6 +40,7 @@ type TradingGate = TradingResearchCockpitData["gates"][number];
 type TradingOptionsScenario = TradingResearchCockpitData["optionsLab"][number];
 type TradingReplayEvent = TradingResearchCockpitData["replay"][number];
 type TradingSystemStatusItem = TradingResearchCockpitData["systemStatus"][number];
+type StatusTone = "normal" | "info" | "warning" | "private" | "danger";
 type TradingReviewQueueItem = {
   id: string;
   title: string;
@@ -204,6 +205,14 @@ function evidenceCountLabel(visible: number, total: number, locale: SiteLocale) 
 
 function eventCountLabel(visible: number, total: number, locale: SiteLocale) {
   return locale === "zh" ? `已显示 ${visible} / ${total} 条事件` : `${visible} of ${total} events shown`;
+}
+
+function reviewItemCountLabel(count: number, locale: SiteLocale) {
+  if (locale === "zh") {
+    return `${count} 个待审`;
+  }
+
+  return `${count} review ${count === 1 ? "item" : "items"}`;
 }
 
 function tradingViewFromLocation() {
@@ -490,7 +499,7 @@ function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
   return [activeView, navigateTradingView, replaceTradingView] as const;
 }
 
-function sourceTone(state: string) {
+function sourceTone(state: string): StatusTone {
   if (state === "Disabled") {
     return "private";
   }
@@ -506,7 +515,7 @@ function sourceTone(state: string) {
   return "info";
 }
 
-function gateTone(value: string) {
+function gateTone(value: string): StatusTone {
   if (value === "Disabled") {
     return "private";
   }
@@ -518,7 +527,7 @@ function gateTone(value: string) {
   return "normal";
 }
 
-function qualityTone(quality: string) {
+function qualityTone(quality: string): StatusTone {
   if (quality === "Low" || quality === "Medium-low" || quality === "Required") {
     return "warning";
   }
@@ -538,7 +547,7 @@ function isGateBlocker(gate: TradingGate) {
   return gate.value !== "Clear" && gate.value !== "Working" && gate.value !== "Healthy";
 }
 
-function confidenceTone(confidence: string) {
+function confidenceTone(confidence: string): StatusTone {
   if (confidence === "Low" || confidence === "Medium-low") {
     return "warning";
   }
@@ -988,6 +997,81 @@ function TradingTodayCockpit({
   const replayEvents = replay.slice(-5);
   const reviewItems = reviewQueue.slice(0, 3);
   const visibleOpenQuestions = openQuestions.slice(0, 3);
+  const primaryReviewItem = reviewQueue[0];
+  const primaryEvidencePacket = openEvidencePackets[0];
+  const primaryGateBlocker = gateBlockers[0];
+  const primarySource = degradedSources[0] ?? sourceHealth[0];
+  const primaryQuestion = visibleOpenQuestions[0];
+  const evidencePressure = openEvidencePackets.length;
+  const primarySourceState = primarySource ? primarySource.state : "Empty";
+  const primaryQuestionDetail =
+    locale === "zh"
+      ? primaryQuestion
+        ? "先查看最新回放追踪，再改变任何研究姿态。"
+        : "当前没有未解决的开放问题；最新回放仅用于保持研究上下文。"
+      : primaryQuestion
+        ? "Review the latest replay trace before changing any research posture."
+        : "No open questions are unresolved in this research session.";
+  const runwayCards = [
+    {
+      key: "review",
+      eyebrow: "Owner review",
+      value: reviewQueue.length.toString(),
+      title: primaryReviewItem?.title ?? "Review queue clear",
+      detail: primaryReviewItem?.detail ?? "No owner-only review blockers are open in this session.",
+      state: primaryReviewItem?.state ?? "Clear",
+      tone: reviewQueue.length > 0 ? ("warning" as const) : ("normal" as const),
+      actionLabel: primaryReviewItem?.actionLabel ?? "Open evidence",
+      actionAriaLabel: primaryReviewItem
+        ? reviewActionAriaLabel(primaryReviewItem, locale)
+        : locale === "zh"
+          ? "打开证据队列"
+          : "Open evidence queue",
+      onClick: primaryReviewItem ? () => onOpenReviewItem(primaryReviewItem) : onOpenEvidenceQueue
+    },
+    {
+      key: "evidence",
+      eyebrow: "Evidence blockers",
+      value: evidencePressure.toString(),
+      title: primaryEvidencePacket?.title ?? "Evidence runway clear",
+      detail:
+        primaryEvidencePacket?.blocker ??
+        (primaryGateBlocker
+          ? locale === "zh"
+            ? `门禁仍阻塞：${gateLabel(primaryGateBlocker.label, locale)}。`
+            : `Gate still blocked: ${primaryGateBlocker.label}.`
+          : "No open evidence blockers in the owner-only research queue."),
+      state: primaryEvidencePacket?.state ?? "Clear",
+      tone: evidencePressure > 0 ? ("warning" as const) : ("normal" as const),
+      actionLabel: "Open evidence center",
+      actionAriaLabel: locale === "zh" ? "打开证据中心" : "Open evidence center",
+      onClick: onOpenEvidenceQueue
+    },
+    {
+      key: "sources",
+      eyebrow: "Source posture",
+      value: sourceHealth.length > 0 ? `${degradedSources.length}/${sourceHealth.length}` : "0",
+      title: primarySource?.source ?? "Source model empty",
+      detail: primarySource?.detail ?? "No source health rows are attached to this owner-only session.",
+      state: primarySourceState,
+      tone: primarySource ? sourceTone(primarySource.state) : ("info" as const),
+      actionLabel: "Review source health",
+      actionAriaLabel: locale === "zh" ? "查看来源健康" : "Review source health",
+      onClick: () => onSelectView("System")
+    },
+    {
+      key: "question",
+      eyebrow: "Next question",
+      value: visibleOpenQuestions.length.toString(),
+      title: primaryQuestion ?? "No open question",
+      detail: primaryQuestionDetail,
+      state: visibleOpenQuestions.length > 0 ? "Owner review" : "Clear",
+      tone: visibleOpenQuestions.length > 0 ? ("warning" as const) : ("normal" as const),
+      actionLabel: "Open replay center",
+      actionAriaLabel: locale === "zh" ? "打开回放中心" : "Open replay center",
+      onClick: () => onSelectView("Replay")
+    }
+  ];
 
   const metrics = [
     {
@@ -1055,6 +1139,57 @@ function TradingTodayCockpit({
         <button type="button" className="trading-cockpit-link" onClick={onOpenEvidenceQueue}>
           Open evidence queue
         </button>
+      </section>
+
+      <section className="trading-today-review-runway" aria-labelledby="trading-today-runway-title">
+        <div className="trading-today-card-head">
+          <div>
+            <p>Owner review runway</p>
+            <h2 id="trading-today-runway-title">Next research decisions</h2>
+          </div>
+          <StatusBadge tone={reviewQueue.length > 0 ? "warning" : "normal"}>
+            <span data-i18n-skip>{reviewItemCountLabel(reviewQueue.length, locale)}</span>
+          </StatusBadge>
+        </div>
+        <div className="trading-today-runway-grid">
+          {runwayCards.map((item) => {
+            const itemTitleId = `trading-today-runway-${item.key}-title`;
+            const itemTitle = labelForLocale(item.title, locale, {});
+            const itemDetail = labelForLocale(item.detail, locale, {});
+
+            return (
+              <article key={item.key} aria-labelledby={itemTitleId}>
+                <div className="trading-today-runway-topline">
+                  <span>{item.eyebrow}</span>
+                  <strong>{item.value}</strong>
+                </div>
+                <h3 id={itemTitleId} title={itemTitle} data-i18n-skip>
+                  {itemTitle}
+                </h3>
+                <p title={itemDetail} data-i18n-skip>
+                  {itemDetail}
+                </p>
+                <div className="trading-today-runway-actions">
+                  <StatusBadge tone={item.tone}>
+                    <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
+                  </StatusBadge>
+                  <button
+                    type="button"
+                    className="trading-cockpit-link"
+                    onClick={item.onClick}
+                    aria-label={item.actionAriaLabel}
+                    data-i18n-skip
+                  >
+                    {labelForLocale(item.actionLabel, locale, {})}
+                  </button>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+        <p className="trading-today-runway-boundary">
+          Review opens evidence only. No orders, recommendations, broker writes, or execution controls exist here.
+        </p>
       </section>
 
       <section className="trading-today-metrics" aria-label="Trading research cockpit summary">
@@ -1235,7 +1370,7 @@ function TradingTodayCockpit({
             <h2 id="trading-today-review-title">Review queue</h2>
           </div>
           <StatusBadge tone={reviewQueue.length > 0 ? "warning" : "normal"}>
-            <span data-i18n-skip>{locale === "zh" ? `${reviewQueue.length} 个待审` : `${reviewQueue.length} review items`}</span>
+            <span data-i18n-skip>{reviewItemCountLabel(reviewQueue.length, locale)}</span>
           </StatusBadge>
         </div>
 
@@ -1547,7 +1682,7 @@ function ReviewQueuePanel({
           </p>
         </div>
         <StatusBadge tone={items.length > 0 ? "warning" : "normal"}>
-          <span data-i18n-skip>{locale === "zh" ? `${items.length} 个待审` : `${items.length} review items`}</span>
+          <span data-i18n-skip>{reviewItemCountLabel(items.length, locale)}</span>
         </StatusBadge>
       </div>
 
@@ -2201,7 +2336,7 @@ function SystemView({
               </p>
             </div>
             <StatusBadge tone={reviewQueue.length > 0 ? "warning" : "normal"}>
-              <span data-i18n-skip>{locale === "zh" ? `${reviewQueue.length} 个待审` : `${reviewQueue.length} review items`}</span>
+              <span data-i18n-skip>{reviewItemCountLabel(reviewQueue.length, locale)}</span>
             </StatusBadge>
           </div>
 
