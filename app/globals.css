@@ -25460,9 +25460,9 @@ textarea {
   color: #0f172a;
   font-size: 0.68rem;
   font-weight: 900;
-  line-height: 1.1;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.06;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .dora-office-product-status-strip small {
@@ -25471,8 +25471,8 @@ textarea {
   font-size: 0.62rem;
   font-weight: 700;
   line-height: 1.18;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .dora-office-product-livebar-head span.is-connected {
@@ -42228,6 +42228,233 @@ textarea {
     bottom: 0.45rem;
     left: 0.1rem;
     background: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Step 67: Doraemon Office dashboard first-viewport fit */
+@media (min-width: 1181px) {
+  .dora-office-product-hero {
+    min-height: 0;
+  }
+
+  .dora-office-product-shell {
+    grid-template-columns: minmax(23rem, 0.52fr) minmax(34rem, 1.16fr) minmax(15.5rem, 0.42fr);
+    gap: 0.82rem 1rem;
+    min-height: min(704px, calc(100svh - 7.15rem));
+    padding-block: 0.95rem 0.86rem;
+  }
+
+  .dora-office-product-copy {
+    gap: 0.74rem;
+    padding: 0.3rem 0 3.15rem;
+  }
+
+  .dora-office-product-copy h1 {
+    font-size: clamp(3.55rem, 4.72vw, 5.65rem);
+  }
+
+  .dora-office-product-copy p {
+    max-width: 27rem;
+    font-size: clamp(0.96rem, 1vw, 1.05rem);
+    line-height: 1.52;
+  }
+
+  .dora-office-product-status-strip span {
+    min-height: 2.92rem;
+    padding-block: 0.48rem;
+  }
+
+  .dora-office-product-stage > img {
+    inset: auto;
+    top: -3.4%;
+    left: -6%;
+    width: 110%;
+    height: 110%;
+  }
+
+  .dora-office-product-panel {
+    top: 10%;
+    width: min(15rem, 31%);
+    padding: 0.92rem;
+  }
+
+  .dora-office-product-focus {
+    top: 0.86rem;
+    left: 0.86rem;
+    padding: 0.56rem 0.66rem;
+  }
+
+  .dora-office-product-agent-ring {
+    bottom: 3.7rem;
+  }
+
+  .dora-office-product-command-rail {
+    align-content: start;
+    align-self: start;
+    grid-template-rows: auto auto auto;
+    gap: 0.62rem;
+  }
+
+  .dora-office-product-command-card {
+    gap: 0.38rem;
+    padding: 0.72rem;
+  }
+
+  .dora-office-product-command-card h2 {
+    font-size: 0.84rem;
+  }
+
+  .dora-office-product-command-card > strong {
+    font-size: 0.8rem;
+  }
+
+  .dora-office-product-command-card p {
+    font-size: 0.7rem;
+    line-height: 1.42;
+  }
+
+  .dora-office-product-command-card dl,
+  .dora-office-product-command-card ul {
+    gap: 0.34rem;
+  }
+
+  .dora-office-product-command-card dl div {
+    padding-top: 0.36rem;
+  }
+
+  .dora-office-product-command-card li {
+    font-size: 0.72rem;
+    line-height: 1.32;
+  }
+
+  .dora-office-product-bridge-inline {
+    font-size: 0.72rem;
+  }
+
+  .dora-office-product-livebar {
+    grid-template-columns: 11.6rem minmax(0, 1fr) 5.8rem;
+  }
+
+  .dora-office-product-livebar-head {
+    padding: 0.62rem 0.74rem;
+  }
+
+  .dora-office-product-livebar li {
+    min-height: 3.72rem;
+    padding: 0.5rem 0.64rem;
+  }
+}
+
+@media (min-width: 1181px) and (max-width: 1280px) {
+  .dora-office-product-shell {
+    grid-template-columns: minmax(18.6rem, 0.5fr) minmax(30rem, 1.12fr) minmax(14.2rem, 0.42fr);
+    min-height: min(660px, calc(100svh - 7.2rem));
+  }
+
+  .dora-office-product-copy h1 {
+    font-size: clamp(3.18rem, 4.25vw, 4.72rem);
+  }
+
+  .dora-office-product-copy p {
+    max-width: 24.5rem;
+  }
+
+  .dora-office-product-command-card {
+    padding: 0.66rem;
+  }
+
+}
+
+@media (min-width: 1181px) and (max-height: 760px) {
+  .dora-office-product-shell {
+    min-height: calc(100svh - 8.7rem);
+    padding-block: 0.68rem 0.72rem;
+  }
+
+  .dora-office-product-copy {
+    gap: 0.62rem;
+    padding-bottom: 2.1rem;
+  }
+
+  .dora-office-product-copy h1 {
+    font-size: clamp(3.05rem, 4vw, 4.45rem);
+  }
+
+  .dora-office-product-copy p {
+    font-size: 0.92rem;
+    line-height: 1.42;
+  }
+
+  .dora-office-product-status-strip {
+    display: none;
+  }
+
+  .dora-office-product-primary,
+  .dora-office-product-secondary {
+    min-height: 2.42rem;
+  }
+
+  .dora-office-product-panel {
+    top: 8.5%;
+    width: min(13.6rem, 31%);
+    padding: 0.76rem;
+  }
+
+  .dora-office-product-stage {
+    min-height: 28.05rem;
+  }
+
+  .dora-office-product-panel p {
+    display: none;
+  }
+
+  .dora-office-product-command-card {
+    gap: 0.24rem;
+    padding: 0.5rem;
+  }
+
+  .dora-office-product-command-card h2 {
+    font-size: 0.78rem;
+  }
+
+  .dora-office-product-command-card > strong {
+    font-size: 0.75rem;
+  }
+
+  .dora-office-product-command-card p {
+    display: none;
+  }
+
+  .dora-office-product-command-card dl,
+  .dora-office-product-command-card ul {
+    gap: 0.24rem;
+  }
+
+  .dora-office-product-command-card dl div {
+    padding-top: 0.28rem;
+  }
+
+  .dora-office-product-command-card dt,
+  .dora-office-product-command-card dd {
+    font-size: 0.64rem;
+  }
+
+  .dora-office-product-command-card li {
+    font-size: 0.64rem;
+    line-height: 1.18;
+  }
+
+  .dora-office-product-bridge-inline {
+    display: none;
+  }
+
+  .dora-office-product-livebar-head {
+    padding-block: 0.42rem;
+  }
+
+  .dora-office-product-livebar li {
+    min-height: 2.92rem;
+    padding-block: 0.34rem;
   }
 }
 
