@@ -39095,6 +39095,97 @@ textarea {
   padding: 1rem;
 }
 
+.trading-today-review-runway {
+  grid-column: span 5;
+  padding: 1rem;
+}
+
+.trading-today-runway-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.72rem;
+}
+
+.trading-today-runway-grid article {
+  display: flex;
+  min-width: 0;
+  min-height: 12.2rem;
+  flex-direction: column;
+  border: 1px solid rgba(221, 231, 240, 0.9);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.9)),
+    #ffffff;
+  padding: 0.85rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.trading-today-runway-topline,
+.trading-today-runway-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+}
+
+.trading-today-runway-topline span {
+  color: #475569;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.trading-today-runway-topline strong {
+  color: #2563eb;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.trading-today-runway-grid h3 {
+  margin: 0.75rem 0 0;
+  color: #020617;
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.trading-today-runway-grid p {
+  display: -webkit-box;
+  flex: 1;
+  margin: 0.38rem 0 0;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-clamp: 5;
+  line-height: 1.45;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.trading-today-runway-actions {
+  margin-top: 0.75rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.78);
+  padding-top: 0.65rem;
+}
+
+.trading-today-runway-actions .status-badge {
+  max-width: 58%;
+  white-space: normal;
+}
+
+.trading-today-runway-boundary {
+  margin: 0.85rem 0 0;
+  border-top: 1px solid rgba(221, 231, 240, 0.78);
+  padding-top: 0.7rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
 .trading-today-metrics {
   grid-column: span 5;
   display: grid;
@@ -39526,6 +39617,7 @@ textarea {
   }
 
   .trading-today-focus-card,
+  .trading-today-review-runway,
   .trading-today-metrics,
   .trading-today-signal-table,
   .trading-today-disagreement,
@@ -39538,6 +39630,10 @@ textarea {
 
   .trading-today-metrics {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .trading-today-runway-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .trading-today-focus-card {
@@ -39576,7 +39672,8 @@ textarea {
   }
 
   .trading-today-cockpit,
-  .trading-today-metrics {
+  .trading-today-metrics,
+  .trading-today-runway-grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -39585,6 +39682,7 @@ textarea {
   }
 
   .trading-today-focus-card,
+  .trading-today-review-runway,
   .trading-today-metrics,
   .trading-today-signal-table,
   .trading-today-disagreement,
