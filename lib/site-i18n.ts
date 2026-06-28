@@ -928,7 +928,7 @@ const exactZhTranslations = {
     "公开页面、私密摘要和仅研究界面。",
   "Public by design": "按公开边界设计",
   "No prompts, accounts, raw IDs, orders, or private execution state.":
-    "不包含 prompts、账户、raw IDs、订单或私密执行状态。",
+    "不包含 prompt、账户、原始 ID、订单或私密执行状态。",
   "What stays private": "哪些保持私密",
   "Useful in public. Careful by default.": "公开时有用，默认保持谨慎。",
   "This site can show concepts, public artifacts, sanitized Doraemon surfaces, and research summaries. It should not pretend the private operating layer is public.":
@@ -2530,6 +2530,7 @@ const exactZhTranslations = {
   "Small games, utilities, and lightweight software products built as experiments in AI-assisted execution.":
     "作为 AI 辅助执行实验而构建的小型游戏、工具和轻量软件产品。",
   "Project archive public boundary": "项目归档公开边界",
+  "Project archive": "项目归档",
   "Project filters": "项目筛选",
   "Search projects": "搜索项目",
   "Project": "项目",
@@ -2541,6 +2542,7 @@ const exactZhTranslations = {
   "Read public overview": "阅读公开概览",
   "Open Doraemon office": "打开 Doraemon Office",
   "Open project": "打开项目",
+  "No projects yet.": "还没有项目。",
   "Project dossier": "项目档案",
   "Project links": "项目链接",
   "Back to Projects": "返回项目",
@@ -2816,15 +2818,22 @@ const exactZhTranslations = {
   "Agents are useful when they amplify judgment. They are dangerous when they hide it.":
     "智能体在放大判断时有用，在隐藏判断时危险。",
   "Evidence before confidence": "证据先于信心",
+  "No private tasks, prompts, credentials, accounts, raw IDs, runtime logs, or owner notes on public pages.":
+    "公开页面不展示私密任务、prompt、凭据、账户、原始 ID、运行日志或本人笔记。",
+  "Doraemon can be public as a story and interface; owner work stays behind authentication.":
+    "Doraemon 可以作为故事和界面公开；本人工作留在认证边界之后。",
+  "Trading surfaces are research-only. Not an order, recommendation, or execution system.":
+    "交易研究界面仅用于研究。不是订单、建议或执行系统。",
+  "Projects content model": "项目内容模型",
   "Content model": "内容模型",
   "A living index of systems, tools, experiments, and research.":
     "一个持续生长的系统、工具、实验和研究索引。",
   "Public explains": "公开页负责解释",
   "Public pages explain the work; private execution stays behind the app shell.":
-    "公开页面解释工作；私密执行留在 app shell 之后。",
+    "公开页面解释工作；私密执行留在应用外壳之后。",
   "No raw internals": "不暴露原始内部信息",
   "No prompts, raw IDs, accounts, orders, or execution.":
-    "不展示 prompts、raw IDs、账户、订单或执行。",
+    "不展示 prompt、原始 ID、账户、订单或执行。",
   "Trading content is research-only. No execution.": "交易内容仅研究用途，不执行。",
   "Field notes from life outside the lab.": "实验室之外的生活现场笔记。",
   "Photography, everyday observations, places, and personal fragments. A softer shelf beside the technical work.":
@@ -3067,16 +3076,31 @@ const exactZhTranslations = {
   "Timeline Posture": "时间线状态",
   "Newest public labels first, with event groups and review labels visible at a safe level.":
     "最新公开标签优先展示，并以安全层级显示事件分组和审核标签。",
+  "No raw IDs": "不展示原始 ID",
+  "No accounts or execution": "不展示账户或执行",
   "Public Boundary": "公开边界",
   "The activity surface explains motion without exposing the private work behind it.":
     "活动界面解释运行动态，但不暴露背后的私密工作。",
   "Filter Surface": "筛选界面",
   "Code-native controls filter sanitized event labels, not private payloads.":
     "原生控件只筛选脱敏事件标签，不筛选私密 payload。",
+  "Activity filters": "活动筛选",
+  "Filter public stream": "筛选公开流",
+  "All controls operate on sanitized event labels only.": "所有控件只作用于脱敏事件标签。",
+  "Event kind filters": "事件类型筛选",
   "Kind": "类型",
   "Agent": "智能体",
   "Severity": "严重性",
   "Time window": "时间窗口",
+  "Time range": "时间范围",
+  "All kinds": "全部类型",
+  "All agents": "全部智能体",
+  "All severity": "全部严重性",
+  "All time": "全部时间",
+  "Current window": "当前窗口",
+  "Latest 5": "最新 5 条",
+  "Normal": "正常",
+  "Warning": "警告",
   "Events": "事件",
   "Groups": "分组",
   "Order": "顺序",
@@ -3085,6 +3109,36 @@ const exactZhTranslations = {
   "review labels": "审核标签",
   "Filter the sanitized timeline by event kind, agent, severity, and safe time window.":
     "按事件类型、智能体、严重性和安全时间窗口筛选脱敏时间线。",
+  "Current activity filters": "当前活动筛选",
+  "Public event timeline": "公开事件时间线",
+  "Doraemon activity is showing live public events.": "Doraemon 活动正在展示实时公开事件。",
+  "Doraemon activity is showing a public-safe demo snapshot.":
+    "Doraemon 活动正在展示公开安全的演示快照。",
+  "No public events match these filters.": "没有公开事件匹配这些筛选。",
+  "Clear filters": "清除筛选",
+  "Public activity side rail": "公开活动侧栏",
+  "Public activity is grouped into readable lanes without exposing run internals.":
+    "公开活动被整理成可读通道，同时不暴露运行内部信息。",
+  "Event lanes": "事件通道",
+  "Work": "工作",
+  "Visible public progress and sanitized tool labels.": "可见的公开进展和脱敏工具标签。",
+  "Coordination": "协同",
+  "Handoffs and owner checkpoints without private task names.":
+    "交接和本人检查点可见，但不展示私密任务名。",
+  "Health": "健康",
+  "Attention and system posture at a safe abstraction level.":
+    "以安全抽象层级展示注意事项和系统状态。",
+  "Doraemon Office is public, read-only, and sanitized before rendering.":
+    "Doraemon Office 在渲染前保持公开、只读且脱敏。",
+  "Opaque IDs": "不透明 ID",
+  "No prompts": "不展示 prompt",
+  "No paths": "不展示路径",
+  "Open the public command room view when the stage is more useful than the feed.":
+    "当舞台比信息流更有用时，打开公开指挥室视图。",
+  "Office bridge": "Office 桥接",
+  "Boundary check": "边界检查",
+  "Visible activity never includes raw IDs, prompts, artifacts, private paths, accounts, orders, or execution controls.":
+    "可见活动绝不包含原始 ID、prompt、产物、私密路径、账户、订单或执行控制。",
   "Activity closes the public operating loop": "活动页闭合公开运行循环",
   "The public log above gives schedule, task, and system signals their surrounding story without exposing private work.":
     "上方公开日志为日程、任务和系统信号提供上下文，同时不暴露私密工作。",
@@ -3094,6 +3148,16 @@ const exactZhTranslations = {
   "See the MiniDora roster behind the public event labels.": "查看公开事件标签背后的 MiniDora 花名册。",
   "Review public-safe task state without private titles or prompts.":
     "查看公开安全任务状态，不暴露私密标题或 prompt。",
+  "A concise public rhythm for priorities, review points, and watch items.":
+    "一段简洁的公开节奏，用来呈现优先级、审核点和观察项。",
+  "No precise automation detail or private source material renders publicly.":
+    "不公开渲染精确自动化细节或私密来源材料。",
+  "No internal identifiers, payloads, artifacts, or raw run state appear.":
+    "不显示内部标识符、payload、产物或原始运行状态。",
+  "display-only": "仅展示",
+  "alert": "提醒",
+  "System check": "系统检查",
+  "system check": "系统检查",
   "Read how the Personal OS experiment is designed to compound.":
     "阅读 Personal OS 实验如何被设计成可复利系统。",
   "Open office": "打开 Office",
@@ -3794,4 +3858,8 @@ export function translateToZh(value: string) {
   }
 
   return translated === normalized ? null : translated;
+}
+
+export function localizeSiteText(value: string, locale: SiteLocale) {
+  return locale === "zh" ? translateToZh(value) ?? value : value;
 }
