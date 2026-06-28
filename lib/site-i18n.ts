@@ -353,6 +353,13 @@ const exactZhTranslations = {
   "View all": "查看全部",
   "Attention needed": "需要注意",
   "Public surfaces stay visible. Owner work stays private.": "公开界面保持可见；私密工作留在边界内。",
+  "Show sanitized activity": "展示脱敏活动",
+  "Render agent presence": "呈现智能体在线状态",
+  "Keep owner state private": "保持本人状态私密",
+  "Curated public guide. No prompts, credentials, private memory, or execution controls.":
+    "精选公开导览。不展示 prompt、凭据、私密记忆或执行控制。",
+  "This site is a personal home base. Collaboration can start small: a research question, an interface idea, or a workflow that deserves a better tool.":
+    "这个网站是一个个人主基地。合作可以从很小的地方开始：一个研究问题、一个界面想法，或一个值得拥有更好工具的工作流。",
   "A few systems and artifacts from the studio. Public pages explain the work; private execution stays behind the app shell.":
     "工作室中的一些系统和成果。公开页面解释工作，私密执行留在 app shell 后面。",
   "All projects": "所有项目",
@@ -410,11 +417,41 @@ const exactZhTranslations = {
   "No prompts or workflows": "不公开 prompt 或工作流",
   "No accounts or credentials": "不公开账户或凭证",
   "No trading or execution": "不进行交易或执行",
+  "No private tasks or notes.": "不公开私密任务或笔记。",
+  "No prompts or workflows.": "不公开 prompt 或工作流。",
+  "No accounts or credentials.": "不公开账户或凭证。",
+  "No live trading, no order placement, or broker credentials.":
+    "不展示实时交易、下单或券商凭据。",
+  "Public Doraemon Office is read-only and sanitized. It does not expose private tasks, prompts, memory, credentials, trading data, or owner-only controls.":
+    "公开 Doraemon Office 是只读且脱敏的。它不暴露私密任务、prompt、记忆、凭据、交易数据或仅本人控制项。",
+  "Sanitized activity": "脱敏活动",
+  "High-level state": "高层状态",
+  "Agent presence": "智能体在线状态",
+  "Owner tasks and notes": "本人任务和笔记",
+  "Strategies and playbooks": "策略和运行手册",
+  "Knowledge and data": "知识与数据",
+  "Accounts and integrations": "账户与集成",
   "Research-only. Not an order, recommendation, or execution system.":
     "仅研究用途。不是订单、建议或执行系统。",
   "Project Context": "项目背景",
+  "Project context": "项目背景",
   "This is a long-term personal OS experiment. Built in public. Designed to compound.":
     "这是一个长期 Personal OS 实验。公开构建，目标是持续复利。",
+  "This is a long-term Personal OS experiment. Built in public. Designed to compound.":
+    "这是一个长期 Personal OS 实验。公开构建，目标是持续复利。",
+  "Doraemon Office is the operating layer of Weiyu's work and thinking.":
+    "Doraemon Office 是 Weiyu 工作与思考的操作层。",
+  "Built with Discipline": "以纪律构建",
+  "Strong privacy boundary, clean architecture, and clear principles.":
+    "强隐私边界、清晰架构和明确原则。",
+  "Open in the Right Way": "以正确方式公开",
+  "The public window exists to inspire and build trust, not to expose internals.":
+    "公开窗口用于启发和建立信任，而不是暴露内部信息。",
+  "Long-Term Vision": "长期愿景",
+  "Better thinking, better work, and more impact over time.":
+    "随着时间推移，让思考更好、工作更好、影响更大。",
+  "Public preview": "公开预览",
+  "Open Doraemon Office": "打开 Doraemon Office",
 
   "Doraemon Team Agents": "Doraemon 智能体团队",
   "MiniDora Team Agents": "MiniDora 团队",
@@ -519,6 +556,66 @@ const exactZhTranslations = {
   "Safe counters": "安全计数",
   "Live/demo posture, closed schema, and safe counters only.":
     "只展示实时 / 演示状态、封闭 schema 和安全计数。",
+  "Public Signal": "公开信号",
+  "Public checks": "公开检查",
+  "Owner controls": "本人控制",
+  "Private internals": "私密内部信息",
+  "Only": "仅限",
+  "Info": "信息",
+  "Relay bridge + demo fallback": "中继桥接 + 演示回退",
+  "Events and registry fields are rebuilt from explicit public fields before rendering.":
+    "事件和注册表字段会先从明确公开字段重建，然后才渲染。",
+  "This public slice uses a fixed demo-safe snapshot until a sanitized age is available.":
+    "在脱敏时间可用前，这个公开切片使用固定演示安全快照。",
+  "Replay buffers contain public events and dedupe by opaque public event ID.":
+    "回放缓冲只包含公开事件，并按不透明公开事件 ID 去重。",
+  "Fixed labels for safe system posture, not operational detail.":
+    "使用固定标签展示安全系统状态，不展示运维细节。",
+  "Relay health probe": "中继健康探针",
+  "Only explicit public fields are rendered.": "只渲染明确公开字段。",
+  "Replay entries stay sanitized and keyed by opaque public event labels.":
+    "回放条目保持脱敏，并由不透明公开事件标签标识。",
+  "Operations boundary": "运维边界",
+  "Health is public. Operations stay private.": "健康状态可以公开，运维保持私密。",
+  "This page is display-only and cannot change public or private systems.":
+    "本页仅展示，不能改变公开或私密系统。",
+  "No private operational detail or owner-only operations render.":
+    "不渲染私密运维细节或仅本人操作。",
+  "Safe signal": "安全信号",
+  "Only coarse public health posture crosses the boundary.":
+    "只有粗粒度公开健康状态可以跨过边界。",
+  "Explicit public fields render; surprise fields stay out.":
+    "只渲染明确的公开字段；意外字段留在外面。",
+  "Visitors can inspect status, never change public or private systems.":
+    "访客可以查看状态，但永远不能改变公开或私密系统。",
+  "Graceful fallback": "优雅回退",
+  "A demo snapshot keeps the public window useful if live health is unavailable.":
+    "实时健康不可用时，演示快照让公开窗口仍然有用。",
+  "Diagnostics hidden": "诊断隐藏",
+  "Owner actions hidden": "本人操作隐藏",
+  "Infrastructure hidden": "基础设施隐藏",
+  "Private data hidden": "私密数据隐藏",
+  "Public System Boundary": "公开系统边界",
+  "A strict boundary keeps Weiyu's private systems private while still showing whether the public window is healthy.":
+    "严格边界让 Weiyu 的私密系统保持私密，同时仍能显示公开窗口是否健康。",
+  "Public signal and private operations boundary": "公开信号与私密运维边界",
+  "Public system health principles": "公开系统健康原则",
+  "System health closes the public readiness loop": "系统健康闭合公开就绪循环",
+  "The public dashboard can say whether the office window is healthy without becoming an operations console.":
+    "公开仪表盘可以说明 Office 窗口是否健康，但不会变成运维控制台。",
+  "Explore the public-safe windows inside Weiyu's personal AI command room.":
+    "探索 Weiyu 个人 AI 指挥室里的公开安全窗口。",
+  "Return to the public command-room overview.": "返回公开指挥室总览。",
+  "Read sanitized event labels around system posture.": "阅读围绕系统状态的脱敏事件标签。",
+  "See the MiniDora roles behind public health signals.":
+    "查看公开健康信号背后的 MiniDora 角色。",
+  "Pair attention states with public task posture.": "把注意力状态与公开任务状态配对。",
+  "See the operating rhythm behind system checks.": "查看系统检查背后的运行节奏。",
+  "Understand curated outputs without private source material.":
+    "理解精选输出，不暴露私密来源材料。",
+  "Meet team": "认识团队",
+  "View schedules": "查看日程",
+  "Open knowledge": "打开知识",
   "Public events": "公开事件",
   "View public health": "查看公开健康",
   "Public Health Register": "公开健康登记",
@@ -2311,6 +2408,95 @@ const exactZhTranslations = {
     "它观察市场、收集证据、验证假设，并准备给本人审核的产物。Weiyu 保留最终批准权。",
   "The public page intentionally avoids account data, live signals, strategy parameters, broker state, API keys, and real-time PnL.":
     "公开页面有意避开账户数据、实时信号、策略参数、券商状态、API keys 和实时 PnL。",
+  "Research desk, not trading terminal": "研究台，不是交易终端",
+  "MiniDora Trading is a public-safe view of a private research workflow. It explains how desks form questions, attach evidence, expose uncertainty, and hold decisions for owner review.":
+    "MiniDora Trading 是私密研究流程的公开安全视图。它解释各研究台如何形成问题、附上证据、暴露不确定性，并把决策留给本人审核。",
+  "Meet the desks": "认识研究台",
+  "Specialized research desks compare context, evidence, scenarios, and risk gates.":
+    "专门研究台会比较背景、证据、情景和风险门禁。",
+  "Rates, index context, breadth, calendar risk": "利率、指数背景、广度和日历风险",
+  "Frames the market backdrop and marks where source confirmation is still thin.":
+    "勾勒市场背景，并标出来源确认仍然薄弱的位置。",
+  "Keeps company-level context separate from momentum claims and public summaries.":
+    "让公司级背景与动量主张和公开摘要保持分离。",
+  "Volatility scenarios, skew, liquidity": "波动率情景、偏斜和流动性",
+  "Turns volatility notes into research artifacts without suggesting strategy execution.":
+    "把波动率备注转成研究成果，但不暗示策略执行。",
+  "Stops weak packets from becoming conclusions when sources degrade or evidence is missing.":
+    "当来源降级或证据缺失时，阻止薄弱包变成结论。",
+  "Catalyst watch, source freshness, event windows": "催化因素观察、来源新鲜度和事件窗口",
+  "Separates event context from urgency so public examples do not imply live private signals.":
+    "将事件背景与紧急性分开，让公开示例不暗示实时私密信号。",
+  "Digital asset samples, regime context, liquidity checks": "数字资产样本、状态背景和流动性检查",
+  "Keeps crypto research in the same evidence-first lane without account or wallet context.":
+    "让加密资产研究留在证据优先通道，不带账户或钱包语境。",
+  "Provenance, blockers, replay trace": "来源、阻塞点和回放追踪",
+  "Links every important claim to a packet, a missing proof item, or a counter-evidence note.":
+    "把每个重要主张连接到研究包、缺失证明项或反证备注。",
+  "How a signal forms": "信号如何形成",
+  "Signals are treated as review packets with blockers, not executable instructions.":
+    "信号被视为带阻塞点的审核包，而不是可执行指令。",
+  "Market context enters as a question": "市场背景先作为问题进入",
+  "A signal starts as a research prompt, not as a trade idea.":
+    "信号始于研究问题，而不是交易想法。",
+  "Attach": "附加",
+  "Evidence and counter-evidence are named": "证据与反证被明确命名",
+  "The useful part is the visible proof, the contradiction, and what is still missing.":
+    "真正有用的是可见证明、矛盾之处，以及仍然缺失的东西。",
+  "Desks disagree before confidence rises": "置信度提升前，研究台先保留分歧",
+  "Macro, equity, options, news, and risk lenses can disagree in public-safe sample form.":
+    "宏观、股票、期权、新闻和风险视角可以在公开安全样本中保留分歧。",
+  "Hold": "暂缓",
+  "Owner review stays the gate": "本人审核保持门禁",
+  "The public page describes the workflow; the private console remains owner-only.":
+    "公开页面描述工作流；私密控制台仍仅限本人访问。",
+  "Evidence and counter-evidence": "证据与反证",
+  "Public examples show the shape of research without exposing private source artifacts.":
+    "公开示例展示研究形态，但不暴露私密来源成果。",
+  "Evidence packet": "证据包",
+  "Breadth sample plus second-source calendar check": "广度样本加二次来源日历检查",
+  "Useful context, not enough for promotion.": "有用的背景，但不足以推进。",
+  "Valuation, source quality, or event-window contradiction": "估值、来源质量或事件窗口矛盾",
+  "A strong claim needs explicit contradiction before owner review.":
+    "强主张在本人审核前需要明确矛盾项。",
+  "Pending, degraded, partial, or verified": "待处理、降级、部分完成或已验证",
+  "Missing or weak sources stay visible instead of hiding behind a score.":
+    "缺失或薄弱来源保持可见，而不是藏在分数后面。",
+  "Replay and review": "回放与审核",
+  "A research day can be reconstructed without publishing private logs.":
+    "研究日可以被重建，而不发布私密日志。",
+  "A desk opens a research packet.": "研究台打开一个研究包。",
+  "Evidence Desk marks missing proof.": "证据研究台标记缺失证明。",
+  "Risk Desk keeps execution disabled.": "风险研究台保持执行禁用。",
+  "Owner reviews the packet in the private cockpit.": "本人在私密驾驶舱审核该包。",
+  "The public page demonstrates methodology. The private console remains authenticated and read-only.":
+    "公开页面展示方法论。私密控制台保持认证且只读。",
+  "Public page can show": "公开页面可以展示",
+  "Never shown here": "这里永不展示",
+  "Desk roles, method, sample workflow": "研究台角色、方法和样本工作流",
+  "Accounts, positions, orders, PnL": "账户、持仓、订单和 PnL",
+  "Evidence shapes and blocker language": "证据形态和阻塞点语言",
+  "Private watchlists or live private signals": "私密观察列表或实时私密信号",
+  "Research-only safety boundary": "仅研究安全边界",
+  "Broker, paper, live, or order controls": "券商、纸面、实盘或订单控制",
+  "Private console preview": "私密控制台预览",
+  "The owner cockpit organizes sample signals, desks, evidence gates, options scenarios, replay, and source health. Access is gated by the private owner session.":
+    "私密驾驶舱组织样本信号、研究台、证据门禁、期权情景、回放和来源健康。访问由私密本人会话保护。",
+  "Owner review needs, source health, open questions": "本人审核需求、来源健康和开放问题",
+  "Thesis, confidence band, evidence and counter-evidence counts":
+    "观点、置信区间、证据和反证数量",
+  "Macro, equity, options, risk, news, crypto, evidence disagreement":
+    "宏观、股票、期权、风险、新闻、加密资产和证据分歧",
+  "Instrument-level summaries, history, source quality, risk flags":
+    "标的级摘要、历史、来源质量和风险标记",
+  "Volatility and scenario notes without strategy execution":
+    "不带策略执行的波动率和情景备注",
+  "Gate status, missing proof, provenance, blockers": "门禁状态、缺失证明、来源和阻塞点",
+  "How desks formed or revised a research view": "研究台如何形成或修订研究视角",
+  "Data freshness, run health, degraded-mode explanation":
+    "数据新鲜度、运行健康和降级模式说明",
+  "Compare": "比较",
+  "Open read-only dashboard": "打开只读仪表盘",
   "Current Safety Posture": "当前安全状态",
   "Broker write is disabled.": "券商写入已禁用。",
   "Paper submit is disabled.": "纸面提交已禁用。",
@@ -2471,6 +2657,27 @@ const exactZhTranslations = {
   "Email": "邮箱",
   "Use the domain mailbox once it is configured in Cloudflare or your preferred mail provider.":
     "域名邮箱在 Cloudflare 或你偏好的邮件服务商配置好后即可使用。",
+  "Public contact should stay separate from private command, trading, and credential systems.":
+    "公开联系入口应与私密指挥、交易研究和凭据系统保持分离。",
+  "Ask Doraemon about public projects": "向 Doraemon 了解公开项目",
+  "Safe to browse. Curated and sanitized.": "可安全浏览。内容经过精选和脱敏。",
+  "Safe to share.": "可安全分享。",
+  "High-level overview only. Internals stay private.": "仅展示高层概览。内部细节保持私密。",
+  "For research and learning. Not for execution.": "用于研究和学习，不用于执行。",
+  "Enter the personal AI command room.": "进入个人 AI 指挥室。",
+  "No prompts, accounts, orders, IDs, or paths.": "不展示 prompts、账户、订单、ID 或路径。",
+  "Research notes, trading work, and product decisions should keep assumptions inspectable.":
+    "研究笔记、交易研究和产品决策都应让假设保持可检查。",
+  "A personal AI operating layer with public-safe visibility and owner-only control surfaces.":
+    "一个具备公开安全可见性和仅本人控制界面的个人 AI 操作层。",
+  "Public sketches of systems, experiments, design choices, and durable lessons from building.":
+    "系统、实验、设计选择和构建经验的公开草图。",
+  "A curated index of tools, interfaces, and systems with clear public/private boundaries.":
+    "一个精选的工具、界面和系统索引，并保持清晰的公开 / 私密边界。",
+  "Market work is framed as evidence, disagreement, and gates. It is never execution.":
+    "市场研究被组织成证据、分歧和门禁；它永远不是执行。",
+  "Doraemon and MiniDoras": "Doraemon 与 MiniDoras",
+  "Research and lab notes": "研究与实验笔记",
 
   "The native public office overview: sanitized activity, MiniDora presence, operating rhythm, and system posture inside weiyudang.com.":
     "weiyudang.com 内的原生公开 Office 总览：脱敏活动、MiniDora 在线状态、运行节奏和系统状态。",
@@ -2488,12 +2695,100 @@ const exactZhTranslations = {
   "Private area hidden": "私密区域隐藏",
   "Public event stream": "公开事件流",
   "Sanitized public schema sample": "脱敏公开 schema 样本",
+  "Newest first by creation time. Fixed labels only.": "按创建时间最新优先。只使用固定标签。",
+  "Fixed public label": "固定公开标签",
+  "Fixed titles": "固定标题",
+  "A public-safe review checkpoint is waiting for Weiyu. The private task name and prompt stay hidden.":
+    "一个公开安全的审核节点正在等待 Weiyu。私密任务名和 prompt 保持隐藏。",
+  "Coordinator": "协调者",
+  "No private task names, owner notes, source material, or controls appear.":
+    "不显示私密任务名、本人笔记、来源材料或控制项。",
+  "Ops MiniDora emitted a fixed public alert label.":
+    "Ops MiniDora 发出一个固定公开提醒标签。",
+  "Current view": "当前视图",
+  "Doraemon Activity public context": "Doraemon 活动公开上下文",
+  "Timeline Posture": "时间线状态",
+  "Newest public labels first, with event groups and review labels visible at a safe level.":
+    "最新公开标签优先展示，并以安全层级显示事件分组和审核标签。",
+  "Public Boundary": "公开边界",
+  "The activity surface explains motion without exposing the private work behind it.":
+    "活动界面解释运行动态，但不暴露背后的私密工作。",
+  "Filter Surface": "筛选界面",
+  "Code-native controls filter sanitized event labels, not private payloads.":
+    "原生控件只筛选脱敏事件标签，不筛选私密 payload。",
+  "Kind": "类型",
+  "Agent": "智能体",
+  "Severity": "严重性",
+  "Time window": "时间窗口",
+  "Events": "事件",
+  "Groups": "分组",
+  "Order": "顺序",
+  "events": "事件",
+  "groups": "分组",
+  "review labels": "审核标签",
+  "Filter the sanitized timeline by event kind, agent, severity, and safe time window.":
+    "按事件类型、智能体、严重性和安全时间窗口筛选脱敏时间线。",
+  "Activity closes the public operating loop": "活动页闭合公开运行循环",
+  "The public log above gives schedule, task, and system signals their surrounding story without exposing private work.":
+    "上方公开日志为日程、任务和系统信号提供上下文，同时不暴露私密工作。",
+  "Move from the public log into the surrounding read-only command surfaces.":
+    "从公开日志进入周边只读指挥界面。",
+  "Return to the public command-room overview and stage.": "返回公开指挥室总览和舞台。",
+  "See the MiniDora roster behind the public event labels.": "查看公开事件标签背后的 MiniDora 花名册。",
+  "Review public-safe task state without private titles or prompts.":
+    "查看公开安全任务状态，不暴露私密标题或 prompt。",
+  "Read how the Personal OS experiment is designed to compound.":
+    "阅读 Personal OS 实验如何被设计成可复利系统。",
+  "Open office": "打开 Office",
+  "Meet the team": "认识团队",
+  "View tasks": "查看任务",
+  "Read project": "阅读项目",
   "Doraemon leads. MiniDoras specialize across research, product, engineering, memory, media, operations, and market research.":
     "Doraemon 负责统筹。MiniDoras 分工覆盖研究、产品、工程、记忆、媒体、运营和市场研究。",
+  "8 public profiles": "8 个公开档案",
+  "Doraemon and seven MiniDoras, each with a clear public-safe role.":
+    "Doraemon 和七个 MiniDoras，每个都有清晰的公开安全角色。",
+  "Demo-safe posture": "演示安全状态",
+  "Stable labels such as planning, working, handoff, owner review, and attention.":
+    "使用规划中、工作中、交接、本人审核和注意等稳定标签。",
+  "Owner boundary": "本人边界",
+  "No prompts, accounts, private task names, paths, or private controls.":
+    "不展示 prompts、账户、私密任务名、路径或私密控制。",
+  "Prompts and workflows": "Prompt 与工作流",
+  "Accounts and credentials": "账户与凭据",
+  "Research-only markets": "仅研究的市场工作",
+  "Trading MiniDora organizes market research; it never executes orders.":
+    "Trading MiniDora 组织市场研究；它永不执行订单。",
+  "Research + Memory + Trading": "研究 + 记忆 + 交易研究",
+  "Dev + Product": "开发 + 产品",
+  "Ops + Media": "运营 + 媒体",
+  "fixed labels": "固定标签",
+  "privacy first": "隐私优先",
+  "built in public": "公开构建",
+  "Public MiniDora team constellation": "公开 MiniDora 团队星图",
+  "Public MiniDora team context": "MiniDora 公开团队上下文",
+  "Public team safety posture": "公开团队安全状态",
+  "Public-safe MiniDora team principles": "公开安全 MiniDora 团队原则",
+  "Each public profile shows role, state, and the latest fixed public event label. The private work stays behind the owner boundary.":
+    "每个公开档案展示角色、状态和最新固定公开事件标签。私密工作留在本人边界之后。",
+  "The team can be understood from the outside without exposing the owner's private work, prompts, accounts, or execution systems.":
+    "外部访客可以理解团队如何运作，同时不暴露本人的私密工作、prompts、账户或执行系统。",
+  "No private task titles, prompts, paths, or payloads.":
+    "不展示私密任务标题、prompts、路径或 payload。",
+  "No accounts, credentials, positions, orders, or execution controls.":
+    "不展示账户、凭据、持仓、订单或执行控制。",
+  "Trading MiniDora is research-only. Not an order, recommendation, or execution system.":
+    "Trading MiniDora 仅用于研究。不是订单、建议或执行系统。",
+  "Owner tasks": "本人任务",
+  "Private knowledge": "私密知识",
+  "Read the full sanitized public event timeline.": "阅读完整脱敏公开事件时间线。",
+  "Review what can and cannot cross into public surfaces.":
+    "查看哪些内容可以、哪些内容不能进入公开界面。",
+  "See the long-term Personal OS project behind the team.":
+    "了解团队背后的长期 Personal OS 项目。",
   "Product Quality": "产品质量",
   "Orchestrator": "编排者",
   "Dedupe by opaque ID": "按不透明 ID 去重",
-  "Owner controls": "私密控制",
   "Hidden": "隐藏",
   "Signals": "信号",
   "Desks": "研究台",
@@ -2887,12 +3182,12 @@ const exactZhTranslations = {
   "Back to public site": "返回公开站",
   "Private owner area": "私密区域",
   "This gate protects owner-only routes. Private app content is not rendered until the owner session is valid.":
-    "这个入口保护私密路由。只有会话有效后，私密 app 内容才会渲染。",
+    "这个入口保护私密路由。只有会话有效后，私密应用内容才会渲染。",
   "Access token": "访问令牌",
   "Access token did not match.": "访问令牌不匹配。",
   "APP_ACCESS_TOKEN is missing in this environment.": "当前环境缺少 APP_ACCESS_TOKEN。",
   "Enter private token": "输入私密令牌",
-  "Enter app": "进入 app",
+  "Enter app": "进入私密区",
   "Local development accepts demo-access when APP_ACCESS_TOKEN is not set.":
     "本地开发中，如果未设置 APP_ACCESS_TOKEN，可使用 demo-access。",
   "Production access requires a configured owner token.": "生产访问需要配置私密访问令牌。",
