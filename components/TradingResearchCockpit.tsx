@@ -75,12 +75,14 @@ const EVIDENCE_SIGNAL_PARAM = "signal";
 const EVIDENCE_STATE_PARAM = "evidence_state";
 const REPLAY_DESK_PARAM = "replay_desk";
 const REPLAY_INSTRUMENT_PARAM = "instrument";
+const REPLAY_INSTRUMENT_LEGACY_PARAM = "replay_instrument";
 const REPLAY_EVIDENCE_PARAM = "replay_evidence";
 const tradingTraceParams = [
   EVIDENCE_SIGNAL_PARAM,
   EVIDENCE_STATE_PARAM,
   REPLAY_DESK_PARAM,
   REPLAY_INSTRUMENT_PARAM,
+  REPLAY_INSTRUMENT_LEGACY_PARAM,
   REPLAY_EVIDENCE_PARAM
 ] as const;
 
@@ -219,6 +221,16 @@ type TradingTraceTokenLookup = {
   readonly valueToToken: ReadonlyMap<string, string>;
   readonly values: ReadonlySet<string>;
 };
+type TradingTraceParamStatus = "missing" | "token" | "legacy" | "invalid";
+type TradingTraceParamResolution = {
+  readonly status: TradingTraceParamStatus;
+  readonly value: string;
+};
+type TradingTraceNoticeKind = "normalized" | "stale" | "removed";
+type TradingTraceNotice = {
+  readonly kind: TradingTraceNoticeKind;
+  readonly view: TradingView;
+};
 
 function clearTradingTraceParams(params: URLSearchParams) {
   tradingTraceParams.forEach((param) => params.delete(param));
@@ -310,14 +322,89 @@ function replaySearchUpdater(
   };
 }
 
-function validFilterParam(params: URLSearchParams, key: string, lookup: TradingTraceTokenLookup, fallback: string) {
-  const value = params.get(key);
+function traceParamResolution(
+  params: URLSearchParams,
+  key: string,
+  lookup: TradingTraceTokenLookup,
+  fallback: string,
+  legacyKeys: readonly string[] = []
+): TradingTraceParamResolution {
+  const paramKeys = [key, ...legacyKeys];
+  const sourceKey = paramKeys.find((paramKey) => params.has(paramKey));
+  const value = sourceKey ? params.get(sourceKey) : null;
 
   if (!value) {
-    return fallback;
+    return { status: "missing", value: fallback };
   }
 
-  return lookup.tokenToValue.get(value) ?? (lookup.values.has(value) ? value : fallback);
+  const tokenValue = lookup.tokenToValue.get(value);
+  if (tokenValue) {
+    return { status: sourceKey === key ? "token" : "legacy", value: tokenValue };
+  }
+
+  if (lookup.values.has(value)) {
+    return { status: "legacy", value };
+  }
+
+  return { status: "invalid", value: fallback };
+}
+
+function traceNoticeForResolutions(
+  view: TradingView,
+  resolutions: readonly TradingTraceParamResolution[],
+  hadCrossViewParams = false
+): TradingTraceNotice | null {
+  if (resolutions.some((resolution) => resolution.status === "invalid")) {
+    return { kind: "stale", view };
+  }
+
+  if (resolutions.some((resolution) => resolution.status === "legacy")) {
+    return { kind: "normalized", view };
+  }
+
+  if (hadCrossViewParams) {
+    return { kind: "removed", view };
+  }
+
+  return null;
+}
+
+function traceNoticeTitle(notice: TradingTraceNotice, locale: SiteLocale) {
+  if (locale === "zh") {
+    if (notice.kind === "stale") return "追踪链接已更新";
+    if (notice.kind === "removed") return "已移除无关追踪参数";
+    return "追踪链接已标准化";
+  }
+
+  if (notice.kind === "stale") return "Trace link updated";
+  if (notice.kind === "removed") return "Out-of-view trace filters removed";
+  return "Trace link normalized";
+}
+
+function traceNoticeDetail(notice: TradingTraceNotice, locale: SiteLocale) {
+  const view = viewLabel(notice.view, locale);
+
+  if (locale === "zh") {
+    if (notice.kind === "stale") {
+      return `${view} 中不可用或过期的追踪筛选已被忽略；可用筛选仍保留，链接未显示原始私密值。`;
+    }
+
+    if (notice.kind === "removed") {
+      return `${view} 不使用的追踪筛选已被清理，避免地址栏保留无关研究上下文。`;
+    }
+
+    return `${view} 已读取旧格式追踪链接，并替换为当前的私密短 token。`;
+  }
+
+  if (notice.kind === "stale") {
+    return `${view} ignored unavailable or expired trace filters; available filters stayed applied and raw private values are not shown in the URL.`;
+  }
+
+  if (notice.kind === "removed") {
+    return `${view} removed trace filters that do not apply to this view, keeping unrelated research context out of the address bar.`;
+  }
+
+  return `${view} read an older trace link and replaced it with current private short tokens.`;
 }
 
 function tradingViewUrl(view: TradingView, updateSearch?: TradingSearchUpdater) {
@@ -345,14 +432,17 @@ function currentTradingUrl() {
 
 function replaceTradingUrlIfChanged(view: TradingView, updateSearch?: TradingSearchUpdater) {
   if (typeof window === "undefined") {
-    return;
+    return false;
   }
 
   const nextUrl = tradingViewUrl(view, updateSearch);
 
   if (nextUrl !== currentTradingUrl()) {
     window.history.replaceState(null, "", nextUrl);
+    return true;
   }
+
+  return false;
 }
 
 function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
@@ -2235,6 +2325,7 @@ export function TradingResearchCockpit({
   const [replayDeskFilter, setReplayDeskFilter] = useState(ALL_DESK_FILTER);
   const [replayInstrumentFilter, setReplayInstrumentFilter] = useState(ALL_INSTRUMENT_FILTER);
   const [replayEvidenceFilter, setReplayEvidenceFilter] = useState(ALL_EVIDENCE_FILTER);
+  const [traceNotice, setTraceNotice] = useState<TradingTraceNotice | null>(null);
 
   const deskFilters = useMemo(() => [ALL_DESK_FILTER, ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
   const evidenceSignalLookup = useMemo(
@@ -2310,35 +2401,60 @@ export function TradingResearchCockpit({
       const nextView = tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
 
       if (nextView === "Evidence") {
-        const nextSignalFilter = validFilterParam(params, EVIDENCE_SIGNAL_PARAM, evidenceSignalLookup, ALL_SIGNAL_FILTER);
-        const nextEvidenceState = validFilterParam(params, EVIDENCE_STATE_PARAM, evidenceStateLookup, ALL_STATE_FILTER);
+        const signalResolution = traceParamResolution(params, EVIDENCE_SIGNAL_PARAM, evidenceSignalLookup, ALL_SIGNAL_FILTER);
+        const evidenceStateResolution = traceParamResolution(params, EVIDENCE_STATE_PARAM, evidenceStateLookup, ALL_STATE_FILTER);
+        const hadCrossViewParams =
+          params.has(REPLAY_DESK_PARAM) ||
+          params.has(REPLAY_INSTRUMENT_PARAM) ||
+          params.has(REPLAY_INSTRUMENT_LEGACY_PARAM) ||
+          params.has(REPLAY_EVIDENCE_PARAM);
+        const nextSignalFilter = signalResolution.value;
+        const nextEvidenceState = evidenceStateResolution.value;
 
         setEvidenceSignalFilter(nextSignalFilter);
         setEvidenceStateFilter(nextEvidenceState);
         replaceTradingUrlIfChanged("Evidence", evidenceUrlUpdater(nextSignalFilter, nextEvidenceState));
+        setTraceNotice(traceNoticeForResolutions("Evidence", [signalResolution, evidenceStateResolution], hadCrossViewParams));
         return;
       }
 
       if (nextView === "Replay") {
-        const nextDeskFilter = validFilterParam(params, REPLAY_DESK_PARAM, replayDeskLookup, ALL_DESK_FILTER);
-        const nextInstrumentFilter = validFilterParam(
+        const deskResolution = traceParamResolution(params, REPLAY_DESK_PARAM, replayDeskLookup, ALL_DESK_FILTER);
+        const instrumentResolution = traceParamResolution(
           params,
           REPLAY_INSTRUMENT_PARAM,
           replayInstrumentLookup,
-          ALL_INSTRUMENT_FILTER
+          ALL_INSTRUMENT_FILTER,
+          [REPLAY_INSTRUMENT_LEGACY_PARAM]
         );
-        const nextEvidenceFilter = validFilterParam(params, REPLAY_EVIDENCE_PARAM, replayEvidenceLookup, ALL_EVIDENCE_FILTER);
+        const replayEvidenceResolution = traceParamResolution(
+          params,
+          REPLAY_EVIDENCE_PARAM,
+          replayEvidenceLookup,
+          ALL_EVIDENCE_FILTER
+        );
+        const hadCrossViewParams = params.has(EVIDENCE_SIGNAL_PARAM) || params.has(EVIDENCE_STATE_PARAM);
+        const nextDeskFilter = deskResolution.value;
+        const nextInstrumentFilter = instrumentResolution.value;
+        const nextEvidenceFilter = replayEvidenceResolution.value;
 
         setReplayDeskFilter(nextDeskFilter);
         setReplayInstrumentFilter(nextInstrumentFilter);
         setReplayEvidenceFilter(nextEvidenceFilter);
         replaceTradingUrlIfChanged("Replay", replayUrlUpdater(nextDeskFilter, nextInstrumentFilter, nextEvidenceFilter));
+        setTraceNotice(
+          traceNoticeForResolutions("Replay", [deskResolution, instrumentResolution, replayEvidenceResolution], hadCrossViewParams)
+        );
         return;
       }
 
       if (tradingTraceParams.some((param) => params.has(param))) {
         replaceTradingUrlIfChanged(nextView);
+        setTraceNotice({ kind: "removed", view: nextView });
+        return;
       }
+
+      setTraceNotice(null);
     }
 
     syncTraceFiltersFromLocation();
@@ -2347,18 +2463,26 @@ export function TradingResearchCockpit({
   }, [evidenceSignalLookup, evidenceStateLookup, evidenceUrlUpdater, replayDeskLookup, replayEvidenceLookup, replayInstrumentLookup, replayUrlUpdater]);
 
   function openEvidenceCenter() {
+    setTraceNotice(null);
     setEvidenceSignalFilter(ALL_SIGNAL_FILTER);
     setEvidenceStateFilter(ALL_STATE_FILTER);
     navigateTradingView("Evidence");
   }
 
+  function selectTradingView(view: TradingView) {
+    setTraceNotice(null);
+    navigateTradingView(view);
+  }
+
   function traceEvidenceForSignal(instrument: string) {
+    setTraceNotice(null);
     setEvidenceSignalFilter(instrument);
     setEvidenceStateFilter(ALL_STATE_FILTER);
     navigateTradingView("Evidence", evidenceUrlUpdater(instrument, ALL_STATE_FILTER));
   }
 
   function traceReplayForInstrument(instrument: string, evidenceState = ALL_EVIDENCE_FILTER) {
+    setTraceNotice(null);
     const nextInstrument = instrument === "ALL" || instrument === ALL_INSTRUMENT_FILTER ? ALL_INSTRUMENT_FILTER : instrument;
     setReplayDeskFilter(ALL_DESK_FILTER);
     setReplayInstrumentFilter(nextInstrument);
@@ -2367,6 +2491,8 @@ export function TradingResearchCockpit({
   }
 
   function openReviewQueueItem(item: TradingReviewQueueItem) {
+    setTraceNotice(null);
+
     if (item.action === "evidence") {
       const nextSignalFilter = item.signalFilter ?? ALL_SIGNAL_FILTER;
       const nextEvidenceState = item.evidenceStateFilter ?? ALL_STATE_FILTER;
@@ -2394,6 +2520,7 @@ export function TradingResearchCockpit({
   }
 
   function changeEvidenceSignalFilter(value: string) {
+    setTraceNotice(null);
     setEvidenceSignalFilter(value);
 
     if (activeView === "Evidence") {
@@ -2402,6 +2529,7 @@ export function TradingResearchCockpit({
   }
 
   function changeEvidenceStateFilter(value: string) {
+    setTraceNotice(null);
     setEvidenceStateFilter(value);
 
     if (activeView === "Evidence") {
@@ -2410,6 +2538,7 @@ export function TradingResearchCockpit({
   }
 
   function clearEvidenceFilters() {
+    setTraceNotice(null);
     setEvidenceSignalFilter(ALL_SIGNAL_FILTER);
     setEvidenceStateFilter(ALL_STATE_FILTER);
 
@@ -2419,6 +2548,7 @@ export function TradingResearchCockpit({
   }
 
   function changeReplayDeskFilter(value: string) {
+    setTraceNotice(null);
     setReplayDeskFilter(value);
 
     if (activeView === "Replay") {
@@ -2427,6 +2557,7 @@ export function TradingResearchCockpit({
   }
 
   function changeReplayInstrumentFilter(value: string) {
+    setTraceNotice(null);
     setReplayInstrumentFilter(value);
 
     if (activeView === "Replay") {
@@ -2435,6 +2566,7 @@ export function TradingResearchCockpit({
   }
 
   function changeReplayEvidenceFilter(value: string) {
+    setTraceNotice(null);
     setReplayEvidenceFilter(value);
 
     if (activeView === "Replay") {
@@ -2443,6 +2575,7 @@ export function TradingResearchCockpit({
   }
 
   function clearReplayFilters() {
+    setTraceNotice(null);
     setReplayDeskFilter(ALL_DESK_FILTER);
     setReplayInstrumentFilter(ALL_INSTRUMENT_FILTER);
     setReplayEvidenceFilter(ALL_EVIDENCE_FILTER);
@@ -2485,7 +2618,7 @@ export function TradingResearchCockpit({
         </Link>
         <button
           type="button"
-          onClick={() => navigateTradingView("Evidence")}
+          onClick={() => selectTradingView("Evidence")}
           aria-label="Open private Evidence research view"
         >
           <FileSearch size={16} aria-hidden />
@@ -2524,6 +2657,27 @@ export function TradingResearchCockpit({
         </button>
       </section>
 
+      {traceNotice ? (
+        <section
+          className="rounded-[8px] border border-yellow-200/25 bg-yellow-300/10 p-4 text-sm text-slate-200"
+          role="note"
+          data-trace-notice
+        >
+          <div className="flex gap-3">
+            <AlertTriangle className="mt-0.5 shrink-0 text-yellow-100" size={20} aria-hidden />
+            <div>
+              <strong className="text-yellow-50" data-i18n-skip>
+                {traceNoticeTitle(traceNotice, locale)}
+              </strong>
+              {" "}
+              <p className="mt-1 leading-6 text-slate-300" data-i18n-skip>
+                {traceNoticeDetail(traceNotice, locale)}
+              </p>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="trading-cockpit-tabs" aria-label="Trading research views">
         <div>
           {data.views.map((view) => {
@@ -2536,7 +2690,7 @@ export function TradingResearchCockpit({
                 type="button"
                 ref={isActive ? activeViewButtonRef : undefined}
                 aria-pressed={isActive}
-                onClick={() => navigateTradingView(view)}
+                onClick={() => selectTradingView(view)}
                 className={isActive ? "is-active" : ""}
               >
                 <Icon size={16} aria-hidden />
@@ -2589,7 +2743,7 @@ export function TradingResearchCockpit({
           deskScope={activeDesk}
           onOpenEvidenceQueue={openEvidenceCenter}
           onOpenReviewItem={openReviewQueueItem}
-          onSelectView={navigateTradingView}
+          onSelectView={selectTradingView}
           onTraceEvidence={traceEvidenceForSignal}
         />
       ) : null}
