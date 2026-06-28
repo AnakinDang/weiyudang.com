@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
   ArrowRight,
@@ -179,10 +179,10 @@ const commandZhOverrides: Partial<Record<string, string>> = {
   "Copy review brief": "复制审核简报",
   "Copied": "已复制",
   "Copy failed": "复制失败",
-  "Review brief text": "审核简报文本",
   "Exact text prepared for clipboard copy": "准备复制到剪贴板的完整文本",
   "Copies the frozen packet into your browser clipboard. No network request, save, approval, or dispatch occurs.":
     "把冻结的审核包复制到浏览器剪贴板。不会发起网络请求、保存、审批或派发。",
+  "Copied to clipboard. Nothing was sent.": "已复制到剪贴板。没有发送任何内容。",
   "Clipboard unavailable. Nothing was sent; copy the visible packet manually if needed.":
     "剪贴板不可用。没有发送任何内容；如需要，可手动复制可见审核包。"
 };
@@ -295,6 +295,7 @@ function CommandWorkspace({
   const [draftWasEdited, setDraftWasEdited] = useState(false);
   const [preparedPacket, setPreparedPacket] = useState<LocalReviewPacket | null>(null);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
+  const copyStatusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fallbackMode = data.modeTabs[0]?.key ?? data.reviewPacketModeKey;
   const activePanel = data.modePanels[activeMode] ?? data.modePanels[fallbackMode];
   const draftWords = useMemo(() => draft.trim().split(/\s+/).filter(Boolean).length, [draft]);
@@ -337,15 +338,43 @@ function CommandWorkspace({
       : { value: preparedPacket.words, label: "words" }
     : null;
   const preparedReviewBrief = useMemo(() => preparedPacket ? reviewBriefForPacket(preparedPacket) : "", [preparedPacket]);
+  const copyButtonClassName = copyStatus === "failed"
+    ? "link-focus inline-flex items-center gap-2 rounded-[8px] border border-yellow-200/45 bg-yellow-300/14 px-3 py-2 text-sm font-semibold text-yellow-50 transition hover:border-yellow-100/60 hover:bg-yellow-300/20"
+    : copyStatus === "copied"
+      ? "link-focus inline-flex items-center gap-2 rounded-[8px] border border-emerald-200/35 bg-emerald-300/14 px-3 py-2 text-sm font-semibold text-emerald-50 transition hover:border-emerald-100/60 hover:bg-emerald-300/20"
+      : "link-focus inline-flex items-center gap-2 rounded-[8px] border border-sky-200/35 bg-sky-300/14 px-3 py-2 text-sm font-semibold text-sky-50 transition hover:border-sky-100/60 hover:bg-sky-300/20";
+  const copyStatusMessage = copyStatus === "failed"
+    ? "Clipboard unavailable. Nothing was sent; copy the visible packet manually if needed."
+    : copyStatus === "copied"
+      ? "Copied to clipboard. Nothing was sent."
+      : "Browser-local only. This packet is a snapshot, not an approval record.";
+  const copyStatusClassName = copyStatus === "failed"
+    ? "text-yellow-100"
+    : copyStatus === "copied"
+      ? "text-emerald-100"
+      : "text-slate-400";
+
+  function clearCopyStatusTimer() {
+    if (copyStatusTimerRef.current) {
+      clearTimeout(copyStatusTimerRef.current);
+      copyStatusTimerRef.current = null;
+    }
+  }
 
   async function copyPreparedReviewBrief() {
     if (!preparedReviewBrief) {
       return;
     }
 
+    clearCopyStatusTimer();
+
     try {
       await navigator.clipboard.writeText(preparedReviewBrief);
       setCopyStatus("copied");
+      copyStatusTimerRef.current = setTimeout(() => {
+        setCopyStatus("idle");
+        copyStatusTimerRef.current = null;
+      }, 2000);
     } catch {
       setCopyStatus("failed");
     }
@@ -356,6 +385,12 @@ function CommandWorkspace({
       setDraft(defaultDraft);
     }
   }, [defaultDraft, draftWasEdited]);
+
+  useEffect(() => {
+    return () => {
+      clearCopyStatusTimer();
+    };
+  }, []);
 
   return (
     <section
@@ -466,6 +501,7 @@ function CommandWorkspace({
                       planGateCount: data.planStages.length,
                       words: draftWords
                     });
+                    clearCopyStatusTimer();
                     setCopyStatus("idle");
                     setActiveMode(data.reviewPacketModeKey);
                   }}
@@ -480,6 +516,7 @@ function CommandWorkspace({
                     setDraftWasEdited(false);
                     setDraft(defaultDraft);
                     setPreparedPacket(null);
+                    clearCopyStatusTimer();
                     setCopyStatus("idle");
                   }}
                   className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-sm font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
@@ -643,10 +680,16 @@ function CommandWorkspace({
                       <button
                         type="button"
                         onClick={copyPreparedReviewBrief}
-                        className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-sky-200/35 bg-sky-300/14 px-3 py-2 text-sm font-semibold text-sky-50 transition hover:border-sky-100/60 hover:bg-sky-300/20"
+                        className={copyButtonClassName}
                       >
-                        {copyStatus === "copied" ? <CheckCircle2 size={15} aria-hidden /> : <Copy size={15} aria-hidden />}
-                        {t(copyStatus === "copied" ? "Copied" : "Copy review brief")}
+                        {copyStatus === "copied" ? (
+                          <CheckCircle2 size={15} aria-hidden />
+                        ) : copyStatus === "failed" ? (
+                          <AlertTriangle size={15} aria-hidden />
+                        ) : (
+                          <Copy size={15} aria-hidden />
+                        )}
+                        {t(copyStatus === "copied" ? "Copied" : copyStatus === "failed" ? "Copy failed" : "Copy review brief")}
                       </button>
                     </div>
                     <label className="mt-3 block text-xs font-bold uppercase text-slate-400" htmlFor="command-review-brief-text">
@@ -654,15 +697,12 @@ function CommandWorkspace({
                     </label>
                     <textarea
                       id="command-review-brief-text"
-                      aria-label={t("Review brief text")}
                       readOnly
                       value={preparedReviewBrief}
                       className="mt-2 min-h-36 w-full resize-y rounded-[8px] border border-slate-700 bg-black/20 p-3 font-mono text-xs leading-5 text-slate-200"
                     />
-                    <p className={`mt-3 text-xs font-semibold uppercase ${copyStatus === "failed" ? "text-yellow-100" : "text-slate-400"}`} aria-live="polite">
-                      {copyStatus === "failed"
-                        ? t("Clipboard unavailable. Nothing was sent; copy the visible packet manually if needed.")
-                        : t("Browser-local only. This packet is a snapshot, not an approval record.")}
+                    <p className={`mt-3 text-xs font-semibold uppercase ${copyStatusClassName}`} aria-live="polite">
+                      {t(copyStatusMessage)}
                     </p>
                   </div>
                 </div>
