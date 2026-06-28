@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, LockKeyhole, ShieldCheck } from "lucide-react";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 export const metadata: Metadata = {
   title: "Private Owner Area",
@@ -25,10 +26,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#08111f] px-5 py-12 text-slate-100">
       <section className="panel w-full max-w-md p-6">
-        <Link href="/" className="link-focus inline-flex items-center gap-2 text-sm font-semibold text-sky-100 hover:text-sky-50">
-          <ArrowLeft size={16} aria-hidden />
-          Back to public site
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link href="/" className="link-focus inline-flex items-center gap-2 text-sm font-semibold text-sky-100 hover:text-sky-50">
+            <ArrowLeft size={16} aria-hidden />
+            Back to public site
+          </Link>
+          <LanguageToggle tone="dark" compact />
+        </div>
         <div className="mt-8 flex size-14 items-center justify-center rounded-[8px] border border-yellow-200/30 bg-yellow-300/10 text-yellow-100">
           <LockKeyhole size={28} aria-hidden />
         </div>
