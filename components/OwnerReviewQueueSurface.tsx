@@ -131,7 +131,12 @@ const reviewQueueZhOverrides: Partial<Record<string, string>> = {
   Owner: "本人",
   "Owner-gated": "本人把关",
   Now: "现在",
-  Next: "下一步"
+  Next: "下一步",
+  "authenticated browser screenshots": "已认证浏览器截图",
+  "blocked action list": "阻塞动作清单",
+  "command audit rules": "命令审计规则",
+  "current slice summary": "当前切片摘要",
+  "source degradation panel": "来源降级面板"
 };
 
 function reviewText(value: string | undefined, locale: SiteLocale) {
