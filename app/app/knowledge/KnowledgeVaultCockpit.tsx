@@ -21,8 +21,10 @@ import {
   ShieldCheck,
   Sparkles
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
+import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 
 type KnowledgeTone = "normal" | "info" | "warning" | "private" | "danger";
 
@@ -101,6 +103,9 @@ const sourceIcons: Record<string, LucideIcon> = {
   "Memory context": LockKeyhole
 };
 
+const sourceIconFallbacks = [BookOpen, BrainCircuit, FileText, LockKeyhole] as const;
+const untranslatedKnowledgeKeys = new Set(["id", "tone"]);
+
 const metricToneClass = {
   normal: "border-emerald-200/25 bg-emerald-300/10 text-emerald-100",
   info: "border-sky-200/25 bg-sky-300/10 text-sky-100",
@@ -109,9 +114,38 @@ const metricToneClass = {
   danger: "border-red-200/30 bg-red-400/10 text-red-100"
 } as const;
 
-function readinessLabel(rows: readonly KnowledgeReviewRow[]) {
+function knowledgeText(value: string | undefined, locale: SiteLocale) {
+  if (!value) return "";
+  return locale === "zh" ? translateToZh(value) ?? value : value;
+}
+
+function localizeKnowledgeData<T>(value: T, locale: SiteLocale): T {
+  if (locale !== "zh") return value;
+  if (typeof value === "string") return knowledgeText(value, locale) as T;
+  if (Array.isArray(value)) return value.map((item) => localizeKnowledgeData(item, locale)) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [
+        key,
+        untranslatedKnowledgeKeys.has(key) ? item : localizeKnowledgeData(item, locale)
+      ])
+    ) as T;
+  }
+  return value;
+}
+
+function readinessLabel(rows: readonly KnowledgeReviewRow[], locale: SiteLocale) {
   const ready = rows.filter((row) => row.ready).length;
+  if (locale === "zh") return `${ready}/${rows.length} 项就绪`;
   return `${ready} of ${rows.length} ready`;
+}
+
+function candidateCountLabel(count: number, locale: SiteLocale) {
+  return locale === "zh" ? `${count} 个候选` : `${count} candidates`;
+}
+
+function priorityLabel(priority: string, locale: SiteLocale) {
+  return locale === "zh" ? `优先级 ${knowledgeText(priority, locale)}` : `Priority ${priority}`;
 }
 
 function readyCount(rows: readonly KnowledgeReviewRow[]) {
@@ -143,27 +177,33 @@ function MetricCard({
   detail: string;
   tone?: KnowledgeTone;
 }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => knowledgeText(value, locale);
+
   return (
     <article className={`rounded-[8px] border p-4 ${metricToneClass[tone]}`}>
       <div className="flex items-center justify-between gap-3">
-        <p className="text-xs font-bold uppercase text-current">{label}</p>
+        <p className="text-xs font-bold uppercase text-current">{t(label)}</p>
         <Icon size={17} aria-hidden />
       </div>
-      <p className="mt-3 text-2xl font-semibold text-white">{value}</p>
-      <p className="mt-2 text-xs leading-5 text-slate-200/85">{detail}</p>
+      <p className="mt-3 text-2xl font-semibold text-white">{t(value)}</p>
+      <p className="mt-2 text-xs leading-5 text-slate-200/85">{t(detail)}</p>
     </article>
   );
 }
 
 function BridgeRail({ steps }: { steps: readonly KnowledgeBridgeStep[] }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => knowledgeText(value, locale);
+
   return (
     <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-4">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-sky-100">
           <GitBranch size={18} aria-hidden />
-          <h3 className="text-sm font-semibold text-white">Private-to-public bridge</h3>
+          <h3 className="text-sm font-semibold text-white">{t("Private-to-public bridge")}</h3>
         </div>
-        <StatusBadge tone="warning">Gated</StatusBadge>
+        <StatusBadge tone="warning">{t("Gated")}</StatusBadge>
       </div>
       <div className="mt-4 grid gap-3">
         {steps.map((step, index) => (
@@ -191,18 +231,19 @@ function BridgeRail({ steps }: { steps: readonly KnowledgeBridgeStep[] }) {
 function KnowledgeReviewWorkbench({
   candidates,
   selectedCandidate,
-  postureChoice,
+  postureChoiceIndex,
   onCandidateSelect,
   onPostureChoice
 }: {
   candidates: readonly KnowledgeQueueItem[];
   selectedCandidate: KnowledgeQueueItem;
-  postureChoice: string;
+  postureChoiceIndex: number;
   onCandidateSelect: (candidateId: string) => void;
-  onPostureChoice: (choice: string) => void;
+  onPostureChoice: (choiceIndex: number) => void;
 }) {
-  const selectedPosture =
-    selectedCandidate.ownerPostures.find((posture) => posture.label === postureChoice) ?? selectedCandidate.ownerPostures[0];
+  const { locale } = useLanguage();
+  const t = (value: string) => knowledgeText(value, locale);
+  const selectedPosture = selectedCandidate.ownerPostures[postureChoiceIndex] ?? selectedCandidate.ownerPostures[0];
 
   return (
     <section className="panel overflow-hidden" aria-labelledby="knowledge-review-workbench-title">
@@ -212,26 +253,25 @@ function KnowledgeReviewWorkbench({
             <div className="flex items-center gap-2 text-yellow-100">
               <BrainCircuit size={22} aria-hidden />
               <h2 id="knowledge-review-workbench-title" className="text-2xl font-semibold text-white">
-                Owner review workbench
+                {t("Owner review workbench")}
               </h2>
             </div>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-              Inspect one synthesis candidate at a time. The controls below only change the local reading posture; they do
-              not publish, sync, expose sources, or create a public page.
+              {t("Inspect one synthesis candidate at a time. The controls below only change the local reading posture; they do not publish, sync, expose sources, or create a public page.")}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <StatusBadge tone="private">Local state</StatusBadge>
-            <StatusBadge tone="warning">Owner review</StatusBadge>
+            <StatusBadge tone="private">{t("Local state")}</StatusBadge>
+            <StatusBadge tone="warning">{t("Owner review")}</StatusBadge>
           </div>
         </div>
       </div>
 
       <div className="grid min-w-0 xl:grid-cols-[19rem_minmax(0,1fr)] 2xl:grid-cols-[19rem_minmax(0,1fr)_23rem]">
-        <aside className="border-b border-slate-700/70 bg-white/[0.025] p-4 xl:border-b-0 xl:border-r" aria-label="Synthesis candidates">
+        <aside className="border-b border-slate-700/70 bg-white/[0.025] p-4 xl:border-b-0 xl:border-r" aria-label={t("Synthesis candidates")}>
           <div className="flex items-center justify-between gap-3">
-            <h3 className="text-xs font-bold uppercase text-slate-400">Review queue</h3>
-            <span className="text-xs font-semibold text-slate-500">{candidates.length} candidates</span>
+            <h3 className="text-xs font-bold uppercase text-slate-400">{t("Review queue")}</h3>
+            <span className="text-xs font-semibold text-slate-500">{candidateCountLabel(candidates.length, locale)}</span>
           </div>
           <div className="mt-4 grid gap-3">
             {candidates.map((candidate) => {
@@ -259,10 +299,10 @@ function KnowledgeReviewWorkbench({
                   </div>
                   <div className="mt-3 grid gap-2 text-xs text-slate-400 sm:grid-cols-2 xl:grid-cols-1">
                     <span>
-                      <strong className="text-slate-300">Evidence:</strong> {ready}/{candidate.readiness.length}
+                      <strong className="text-slate-300">{t("Evidence")}:</strong> {ready}/{candidate.readiness.length}
                     </span>
                     <span>
-                      <strong className="text-slate-300">Destination:</strong> {candidate.destination}
+                      <strong className="text-slate-300">{t("Destination")}:</strong> {candidate.destination}
                     </span>
                   </div>
                 </button>
@@ -273,16 +313,16 @@ function KnowledgeReviewWorkbench({
 
         <article className="min-w-0 p-5 md:p-6" aria-labelledby="selected-knowledge-candidate-title">
           <p className="sr-only" aria-live="polite">
-            Selected synthesis candidate: {selectedCandidate.title}. {selectedCandidate.state}.
+            {t("Selected synthesis candidate")}: {selectedCandidate.title}. {selectedCandidate.state}.
           </p>
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase text-yellow-100">Selected candidate</p>
+              <p className="text-xs font-bold uppercase text-yellow-100">{t("Selected candidate")}</p>
               <h3 id="selected-knowledge-candidate-title" className="mt-2 text-2xl font-semibold text-white">
                 {selectedCandidate.title}
               </h3>
               <p className="mt-2 text-xs font-bold uppercase text-slate-400">
-                {selectedCandidate.owner} / {selectedCandidate.output} / Priority {selectedCandidate.priority}
+                {selectedCandidate.owner} / {selectedCandidate.output} / {priorityLabel(selectedCandidate.priority, locale)}
               </p>
             </div>
             <StatusBadge tone={selectedCandidate.tone}>{selectedCandidate.state}</StatusBadge>
@@ -290,26 +330,26 @@ function KnowledgeReviewWorkbench({
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
-              <p className="text-xs font-bold uppercase text-slate-400">Destination</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Destination")}</p>
               <p className="mt-2 text-sm font-semibold text-white">{selectedCandidate.destination}</p>
             </div>
             <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
-              <p className="text-xs font-bold uppercase text-slate-400">Evidence</p>
-              <p className="mt-2 text-sm font-semibold text-white">{readinessLabel(selectedCandidate.readiness)}</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Evidence")}</p>
+              <p className="mt-2 text-sm font-semibold text-white">{readinessLabel(selectedCandidate.readiness, locale)}</p>
             </div>
             <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-3">
-              <p className="text-xs font-bold uppercase text-slate-400">Risk</p>
+              <p className="text-xs font-bold uppercase text-slate-400">{t("Risk")}</p>
               <p className="mt-2 text-sm font-semibold text-white">{selectedCandidate.risk}</p>
             </div>
           </div>
 
           <div className="mt-4 grid gap-4 2xl:grid-cols-2">
             <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
-              <h4 className="text-xs font-bold uppercase text-slate-400">Review summary</h4>
+              <h4 className="text-xs font-bold uppercase text-slate-400">{t("Review summary")}</h4>
               <p className="mt-2 text-sm leading-6 text-slate-300">{selectedCandidate.reviewSummary}</p>
             </div>
             <div className="rounded-[8px] border border-red-300/30 bg-red-400/10 p-4">
-              <h4 className="text-xs font-bold uppercase text-red-100">Boundary</h4>
+              <h4 className="text-xs font-bold uppercase text-red-100">{t("Boundary")}</h4>
               <p className="mt-2 text-sm leading-6 text-slate-300">{selectedCandidate.boundary}</p>
             </div>
           </div>
@@ -317,7 +357,7 @@ function KnowledgeReviewWorkbench({
           <div className="mt-4 grid gap-4 xl:grid-cols-2">
             <section className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4" aria-labelledby="knowledge-evidence-title">
               <h4 id="knowledge-evidence-title" className="text-sm font-semibold text-sky-100">
-                Evidence readiness
+                {t("Evidence readiness")}
               </h4>
               <div className="mt-3 grid gap-3">
                 {selectedCandidate.readiness.map((row) => (
@@ -334,7 +374,7 @@ function KnowledgeReviewWorkbench({
 
             <section className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4" aria-labelledby="knowledge-rewrite-title">
               <h4 id="knowledge-rewrite-title" className="text-sm font-semibold text-sky-100">
-                Rewrite path
+                {t("Rewrite path")}
               </h4>
               <div className="mt-3 grid gap-3">
                 {selectedCandidate.transformSteps.map((step, index) => (
@@ -359,31 +399,31 @@ function KnowledgeReviewWorkbench({
                 <div className="flex items-center gap-2 text-yellow-100">
                   <ShieldCheck size={17} aria-hidden />
                   <h3 id="knowledge-owner-posture-title" className="text-sm font-semibold text-white">
-                    Owner review posture
+                    {t("Owner review posture")}
                   </h3>
                 </div>
                 <p className="mt-2 text-xs leading-5 text-yellow-50/80">
-                  Choose how to read this candidate locally. This does not publish, sync, or expose source material.
+                  {t("Choose how to read this candidate locally. This does not publish, sync, or expose source material.")}
                 </p>
               </div>
-              <StatusBadge tone="private">No publish</StatusBadge>
+              <StatusBadge tone="private">{t("No publish")}</StatusBadge>
             </div>
             {selectedPosture ? (
               <p className="sr-only" aria-live="polite">
-                Posture: {selectedPosture.label}. {selectedPosture.next}
+                {t("Posture")}: {selectedPosture.label}. {selectedPosture.next}
               </p>
             ) : null}
 
             <div className="mt-4 grid gap-2">
-              {selectedCandidate.ownerPostures.map((posture) => {
-                const active = posture.label === selectedPosture?.label;
+              {selectedCandidate.ownerPostures.map((posture, index) => {
+                const active = index === postureChoiceIndex;
 
                 return (
                   <button
                     key={postureKey(selectedCandidate.id, posture.label)}
                     type="button"
                     aria-pressed={active}
-                    onClick={() => onPostureChoice(posture.label)}
+                    onClick={() => onPostureChoice(index)}
                     className={`link-focus rounded-[8px] border p-3 text-left transition ${
                       active
                         ? "border-yellow-100/65 bg-yellow-200/14 text-white"
@@ -402,7 +442,7 @@ function KnowledgeReviewWorkbench({
 
             {selectedPosture ? (
               <div className="mt-4 rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-3">
-                <h4 className="text-xs font-bold uppercase text-slate-400">If selected</h4>
+                <h4 className="text-xs font-bold uppercase text-slate-400">{t("If selected")}</h4>
                 <p className="mt-2 text-sm leading-6 text-slate-300">{selectedPosture.next}</p>
               </div>
             ) : null}
@@ -412,7 +452,7 @@ function KnowledgeReviewWorkbench({
             <div className="flex items-center gap-2 text-emerald-100">
               <ClipboardCheck size={17} aria-hidden />
               <h3 id="knowledge-safe-outputs-title" className="text-sm font-semibold text-white">
-                Safe outputs
+                {t("Safe outputs")}
               </h3>
             </div>
             <div className="mt-3 grid gap-2">
@@ -436,35 +476,36 @@ function KnowledgeReviewWorkbench({
   );
 }
 
-export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
+export function KnowledgeVaultCockpit({ data: rawData }: { data: KnowledgeVaultData }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => knowledgeText(value, locale);
+  const data = useMemo(() => localizeKnowledgeData(rawData, locale), [rawData, locale]);
   const [selectedCandidateId, setSelectedCandidateId] = useState(data.queue[0]?.id ?? "");
-  const [postureChoices, setPostureChoices] = useState<Record<string, string>>({});
+  const [postureChoices, setPostureChoices] = useState<Record<string, number>>({});
 
   const selectedCandidate = useMemo(() => {
     return data.queue.find((item) => item.id === selectedCandidateId) ?? data.queue[0];
   }, [data.queue, selectedCandidateId]);
 
-  const postureChoice = selectedCandidate
-    ? postureChoices[selectedCandidate.id] ?? selectedCandidate.ownerPostures[0]?.label ?? ""
-    : "";
+  const postureChoiceIndex = selectedCandidate ? postureChoices[selectedCandidate.id] ?? 0 : 0;
   const readyEvidence = totalReadyCount(data.queue);
   const totalEvidence = totalReadinessCount(data.queue);
-  const ownerReviewCount = data.queue.filter((item) => item.state === "Owner review").length;
-  const privateSourceCount = data.sources.filter((source) => source.tone === "private").length;
+  const ownerReviewCount = rawData.queue.filter((item) => item.state === "Owner review").length;
+  const privateSourceCount = rawData.sources.filter((source) => source.tone === "private").length;
 
-  function handlePostureChoice(choice: string) {
+  function handlePostureChoice(choiceIndex: number) {
     if (!selectedCandidate) {
       return;
     }
 
     setPostureChoices((current) => ({
       ...current,
-      [selectedCandidate.id]: choice
+      [selectedCandidate.id]: choiceIndex
     }));
   }
 
   return (
-    <div className="grid gap-5">
+    <div className="grid gap-5" data-i18n-skip>
       <section className="panel relative isolate overflow-hidden p-0" aria-labelledby="knowledge-vault-hero-title">
         <div
           className="pointer-events-none absolute inset-y-0 right-0 -z-10 w-2/3 bg-[radial-gradient(circle_at_62%_20%,rgba(56,189,248,0.22),transparent_32%),radial-gradient(circle_at_82%_68%,rgba(250,204,21,0.14),transparent_30%),linear-gradient(135deg,transparent,rgba(59,130,246,0.10))]"
@@ -474,26 +515,25 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
           <div className="p-6 md:p-7">
             <div className="inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-bold uppercase text-sky-100">
               <Sparkles size={14} aria-hidden />
-              Owner Knowledge Vault
+              {t("Owner Knowledge Vault")}
             </div>
             <h2 id="knowledge-vault-hero-title" className="mt-5 max-w-4xl text-3xl font-semibold text-white md:text-5xl">
-              Private synthesis, public-safe memory.
+              {t("Private synthesis, public-safe memory.")}
             </h2>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-              A read-only cockpit for turning owner context, design notes, research method, and release evidence into
-              reviewed knowledge without letting raw source material cross the public boundary.
+              {t("A read-only cockpit for turning owner context, design notes, research method, and release evidence into reviewed knowledge without letting raw source material cross the public boundary.")}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <StatusBadge tone="private">Authenticated</StatusBadge>
-              <StatusBadge tone="warning">Owner-gated</StatusBadge>
-              <StatusBadge tone="normal">Research-only boundary</StatusBadge>
+              <StatusBadge tone="private">{t("Authenticated")}</StatusBadge>
+              <StatusBadge tone="warning">{t("Owner-gated")}</StatusBadge>
+              <StatusBadge tone="normal">{t("Research-only boundary")}</StatusBadge>
             </div>
             <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               <MetricCard
                 icon={Archive}
                 label="Candidates"
                 value={String(data.queue.length)}
-                detail={`${ownerReviewCount} in owner review`}
+                detail={locale === "zh" ? `${ownerReviewCount} 个待本人审核` : `${ownerReviewCount} in owner review`}
                 tone="warning"
               />
               <MetricCard
@@ -507,7 +547,7 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
                 icon={Database}
                 label="Sources"
                 value={String(data.sources.length)}
-                detail={`Private source lanes: ${privateSourceCount}`}
+                detail={locale === "zh" ? `私密来源通道：${privateSourceCount}` : `Private source lanes: ${privateSourceCount}`}
                 tone="private"
               />
               <MetricCard
@@ -533,20 +573,20 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
               <div className="flex items-center gap-2 text-sky-100">
                 <Layers size={22} aria-hidden />
                 <h2 id="knowledge-source-posture" className="text-2xl font-semibold text-white">
-                  Source posture
+                  {t("Source posture")}
                 </h2>
               </div>
               <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-                The vault can classify source lanes and review signals, but it never renders raw private source text into the
-                owner cockpit or public routes.
+                {t("The vault can classify source lanes and review signals, but it never renders raw private source text into the owner cockpit or public routes.")}
               </p>
             </div>
-            <StatusBadge tone="private">Source text hidden</StatusBadge>
+            <StatusBadge tone="private">{t("Source text hidden")}</StatusBadge>
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2 2xl:grid-cols-4">
-            {data.sources.map((source) => {
-              const Icon = sourceIcons[source.title] ?? BookOpen;
+            {data.sources.map((source, index) => {
+              const sourceIconKey = rawData.sources[index]?.title ?? source.title;
+              const Icon = sourceIcons[sourceIconKey] ?? sourceIconFallbacks[index] ?? BookOpen;
 
               return (
                 <article key={source.title} className="rounded-[8px] border border-slate-700 bg-white/[0.04] p-4">
@@ -573,11 +613,11 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
           <div className="flex items-center gap-2 text-yellow-100">
             <ShieldCheck size={20} aria-hidden />
             <h2 id="knowledge-operating-posture-title" className="text-xl font-semibold text-white">
-              Operating posture
+              {t("Operating posture")}
             </h2>
           </div>
           <p className="mt-3 text-sm leading-6 text-slate-300">
-            The vault is deliberately useful before it becomes write-capable.
+            {t("The vault is deliberately useful before it becomes write-capable.")}
           </p>
           <div className="mt-5 grid gap-3">
             {data.posture.map((item) => (
@@ -597,7 +637,7 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
         <KnowledgeReviewWorkbench
           candidates={data.queue}
           selectedCandidate={selectedCandidate}
-          postureChoice={postureChoice}
+          postureChoiceIndex={postureChoiceIndex}
           onCandidateSelect={setSelectedCandidateId}
           onPostureChoice={handlePostureChoice}
         />
@@ -611,14 +651,14 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
                 <div className="flex items-center gap-2 text-yellow-100">
                   <BrainCircuit size={22} aria-hidden />
                   <h2 id="knowledge-synthesis-queue-title" className="text-2xl font-semibold text-white">
-                    Synthesis queue
+                    {t("Synthesis queue")}
                   </h2>
                 </div>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-                  Candidate outputs are visible as review work, not as publishable source material.
+                  {t("Candidate outputs are visible as review work, not as publishable source material.")}
                 </p>
               </div>
-              <StatusBadge tone="warning">Owner review required</StatusBadge>
+              <StatusBadge tone="warning">{t("Owner review required")}</StatusBadge>
             </div>
           </div>
 
@@ -634,16 +674,16 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
                 </div>
                 <dl className="mt-4 grid gap-3 text-sm">
                   <div>
-                    <dt className="text-xs font-bold uppercase text-slate-400">Owner</dt>
+                    <dt className="text-xs font-bold uppercase text-slate-400">{t("Owner")}</dt>
                     <dd className="mt-1 font-semibold text-slate-200">{item.owner}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs font-bold uppercase text-slate-400">Destination</dt>
+                    <dt className="text-xs font-bold uppercase text-slate-400">{t("Destination")}</dt>
                     <dd className="mt-1 font-semibold text-white">{item.destination}</dd>
-                    <dd className="mt-1 text-xs text-slate-400">Priority {item.priority}</dd>
+                    <dd className="mt-1 text-xs text-slate-400">{priorityLabel(item.priority, locale)}</dd>
                   </div>
                   <div>
-                    <dt className="text-xs font-bold uppercase text-slate-400">Risk</dt>
+                    <dt className="text-xs font-bold uppercase text-slate-400">{t("Risk")}</dt>
                     <dd className="mt-1 leading-6 text-slate-300">{item.risk}</dd>
                   </div>
                 </dl>
@@ -663,19 +703,19 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
               <thead>
                 <tr className="border-b border-slate-700/70 text-xs font-bold uppercase text-slate-400">
                   <th scope="col" className="px-4 py-3">
-                    Candidate
+                    {t("Candidate")}
                   </th>
                   <th scope="col" className="px-4 py-3">
-                    Owner
+                    {t("Owner")}
                   </th>
                   <th scope="col" className="px-4 py-3">
-                    Destination
+                    {t("Destination")}
                   </th>
                   <th scope="col" className="px-4 py-3">
-                    Risk
+                    {t("Risk")}
                   </th>
                   <th scope="col" className="px-4 py-3">
-                    State
+                    {t("State")}
                   </th>
                 </tr>
               </thead>
@@ -696,7 +736,7 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
                     <td className="px-4 py-4 align-top text-sm font-semibold text-slate-200">{item.owner}</td>
                     <td className="px-4 py-4 align-top">
                       <p className="text-sm font-semibold text-white">{item.destination}</p>
-                      <p className="mt-1 text-xs text-slate-400">Priority {item.priority}</p>
+                      <p className="mt-1 text-xs text-slate-400">{priorityLabel(item.priority, locale)}</p>
                     </td>
                     <td className="max-w-[13rem] px-4 py-4 align-top text-sm leading-6 text-slate-300">{item.risk}</td>
                     <td className="px-4 py-4 align-top">
@@ -716,37 +756,36 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
                 <div className="flex items-center gap-2 text-sky-100">
                   <GitBranch size={21} aria-hidden />
                   <h2 id="knowledge-public-bridge-title" className="text-2xl font-semibold text-white">
-                    Public bridge
+                    {t("Public bridge")}
                   </h2>
                 </div>
                 <p className="mt-3 text-sm leading-6 text-slate-300">
-                  Open the visitor-facing knowledge page. It stays sanitized and does not expose source material from this
-                  owner cockpit.
+                  {t("Open the visitor-facing knowledge page. It stays sanitized and does not expose source material from this owner cockpit.")}
                 </p>
               </div>
             </div>
             <div className="mt-5 grid gap-3">
               <div className="rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-white">Public-safe page</p>
-                  <StatusBadge tone="normal">Curated</StatusBadge>
+                  <p className="text-sm font-semibold text-white">{t("Public-safe page")}</p>
+                  <StatusBadge tone="normal">{t("Curated")}</StatusBadge>
                 </div>
                 <p className="mt-2 text-xs leading-5 text-slate-400">
-                  Shows the public Knowledge page narrative, not private queue items or source records.
+                  {t("Shows the public Knowledge page narrative, not private queue items or source records.")}
                 </p>
               </div>
               <div className="rounded-[8px] border border-yellow-200/25 bg-yellow-300/10 p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="text-sm font-semibold text-white">Owner gate</p>
-                  <StatusBadge tone="warning">Required</StatusBadge>
+                  <p className="text-sm font-semibold text-white">{t("Owner gate")}</p>
+                  <StatusBadge tone="warning">{t("Required")}</StatusBadge>
                 </div>
                 <p className="mt-2 text-xs leading-5 text-yellow-50/75">
-                  New public text still needs explicit owner review before it becomes a shipped route.
+                  {t("New public text still needs explicit owner review before it becomes a shipped route.")}
                 </p>
               </div>
             </div>
             <Link href="/dora/knowledge" className="link-focus mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100">
-              Open public bridge
+              {t("Open public bridge")}
               <ArrowRight size={15} aria-hidden />
             </Link>
           </section>
@@ -754,7 +793,7 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
           <section className="panel p-5">
             <div className="flex items-center gap-2 text-yellow-100">
               <Radio size={19} aria-hidden />
-              <h2 className="text-xl font-semibold text-white">Policy</h2>
+              <h2 className="text-xl font-semibold text-white">{t("Policy")}</h2>
             </div>
             <div className="mt-4 grid gap-3">
               {data.policy.map((rule) => (
@@ -767,9 +806,11 @@ export function KnowledgeVaultCockpit({ data }: { data: KnowledgeVaultData }) {
           </section>
 
           <UnavailableControlsPanel
-            title="No publish controls"
+            title={t("No publish controls")}
             items={data.unavailableControls}
-            note="Future publishing needs authenticated APIs, preview, audit logging, explicit owner action, and rollback behavior."
+            note={t("Future publishing needs authenticated APIs, preview, audit logging, explicit owner action, and rollback behavior.")}
+            eyebrow={t("Unavailable until designed")}
+            unavailableLabel={t("unavailable")}
           />
         </aside>
       </section>
