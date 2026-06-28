@@ -2651,6 +2651,51 @@ const exactZhTranslations = {
   "Evidence attached": "证据已附加",
   "Counter-evidence required": "需要反证",
   "Counter-evidence visible": "反证可见",
+  "Macro and breadth packets disagree. Keep this as context until a second-source calendar check lands.":
+    "宏观和广度包存在分歧。在二次来源日历检查完成前，只将其作为背景。",
+  "Momentum context is visible, but company packets and valuation counter-evidence are incomplete.":
+    "动量背景可见，但公司包和估值反证尚不完整。",
+  "Options scenarios are useful for discussion, but skew, term-structure, and liquidity checks are not complete.":
+    "期权情景可用于讨论，但偏斜、期限结构和流动性检查尚未完成。",
+  "Breadth packet": "广度包",
+  "Enough for context, not enough for signal promotion.": "足够用于理解背景，但不足以推进信号。",
+  "Calendar cross-check": "日历交叉检查",
+  "Needs second-source confirmation before thesis language can tighten.":
+    "观点语言变得更确定前，需要二次来源确认。",
+  "Counter-evidence": "反证",
+  "Conflicting market breadth remains visible in the packet.": "冲突的市场广度仍在包内保持可见。",
+  "Macro calendar": "宏观日历",
+  "Second-source check required.": "需要二次来源检查。",
+  "Breadth sample": "广度样本",
+  "Useful but incomplete.": "有用但不完整。",
+  "News provenance": "新闻来源可信度",
+  "Treat as unavailable for confidence scoring.": "在置信度评分中视为不可用。",
+  "Company filings": "公司披露",
+  "Not attached in this mock session.": "此模拟会话中尚未附加。",
+  "News feed": "新闻流",
+  "Provenance is not strong enough.": "来源可信度还不够强。",
+  "Sector context": "行业背景",
+  "Context only.": "仅作背景。",
+  "Options chain sample": "期权链样本",
+  "Scenario-only context.": "仅用于情景背景。",
+  "Liquidity packet": "流动性包",
+  "Not attached yet.": "尚未附加。",
+  "Event notes": "事件备注",
+  "Needs owner review.": "需要本人审核。",
+  "Momentum context": "动量背景",
+  "Visible but not sufficient on its own.": "可见，但单独不足以支撑结论。",
+  "Company packet": "公司包",
+  "Valuation and news checks weakened the packet.": "估值和新闻检查削弱了该包。",
+  "Risk Desk requires a clearer contradiction note.": "风险研究台需要更清晰的矛盾备注。",
+  "Term structure": "期限结构",
+  "Enough to discuss shape, not enough for conclusion.": "足够讨论形态，但不足以得出结论。",
+  "Skew check": "偏斜检查",
+  "Counter-evidence and source quality note required.": "需要反证和来源质量备注。",
+  "Event-window ambiguity": "事件窗口不明确",
+  "Breadth conflict": "广度冲突",
+  "No confidence promotion": "不提升置信度",
+  "Counter-evidence imbalance": "反证不平衡",
+  "Skew missing": "缺少偏斜检查",
   "All instruments": "全部标的",
   "All evidence": "全部证据",
   "events shown": "条事件已显示",
@@ -2659,6 +2704,182 @@ const exactZhTranslations = {
   "A private posture room for Doraemon and the MiniDoras: service status, review gates, boundary checks, and known gaps without turning diagnostics into an operations console.":
     "Doraemon 和 MiniDoras 的私密状态室：展示服务状态、审核门禁、边界检查和已知缺口，但不把诊断变成运维控制台。",
   "Boundaries currently held": "当前边界保持成立",
+  "MiniDora Trading Research": "MiniDora Trading 研究",
+  "Signal": "信号",
+  "View all signals": "查看全部信号",
+  "Full desk view": "查看全部研究台",
+  "Review source health": "查看来源健康",
+  "Open replay center": "打开回放中心",
+  "View system health": "查看系统健康",
+  "Snapshot": "快照",
+  "Today surface": "今日界面",
+
+  "Research packets are useful for context, but source coverage is not complete enough to raise confidence.":
+    "研究包可用于理解背景，但来源覆盖还不足以提升置信度。",
+  "Candidate signals need evidence, counter-evidence, and owner review before any public summary.":
+    "候选信号需要证据、反证和本人审核，之后才可以形成公开摘要。",
+  "Macro, equity, and options desks disagree on source quality and event-window interpretation.":
+    "宏观、股票和期权研究台对来源质量和事件窗口解读仍有分歧。",
+  "Missing source packets and counter-evidence stay visible instead of hiding behind a confidence score.":
+    "缺失的来源包和反证会保持可见，而不是藏在置信度分数后面。",
+
+  "Macro and breadth evidence are mixed; hold for source confirmation before forming a view.":
+    "宏观与广度证据互相混杂；形成观点前先等待来源确认。",
+  "Momentum is visible, but valuation and news-source checks are not complete.":
+    "动量可见，但估值和新闻来源检查尚未完成。",
+  "Options scenarios need skew and liquidity evidence before any strategy discussion.":
+    "期权情景在讨论任何策略前，需要偏斜和流动性证据。",
+  "Narrative and liquidity signals diverge; treat the packet as context until provenance improves.":
+    "叙事和流动性信号分歧明显；在来源可信度改善前，只把该包作为背景。",
+  "Intraday to swing": "日内到波段",
+  "Multi-day": "多日",
+  "Event window": "事件窗口",
+  "Index basket": "指数篮子",
+  "Large-cap AI basket": "大盘 AI 篮子",
+  "Volatility surface sample": "波动率曲面样本",
+  "Digital asset sample": "数字资产样本",
+  "Macro calendar and breadth packet need a second-source check.":
+    "宏观日历和广度包需要二次来源校验。",
+  "Company-level source packet and counter-evidence are incomplete.":
+    "公司级来源包和反证尚不完整。",
+  "Skew, term-structure, and liquidity checks are not attached.":
+    "偏斜、期限结构和流动性检查尚未附加。",
+  "Provenance and venue-quality notes are pending.": "来源可信度和交易场所质量备注仍待补齐。",
+
+  "Rates, index context, breadth, macro calendar": "利率、指数背景、广度、宏观日历",
+  "Company and sector evidence packets": "公司与行业证据包",
+  "Volatility scenarios, skew, term structure": "波动率情景、偏斜、期限结构",
+  "Gates, missing evidence, forbidden actions": "门禁、缺失证据、禁用动作",
+  "Source provenance, news freshness, conflict checks": "来源可信度、新闻新鲜度、冲突检查",
+  "Digital asset context, liquidity, venue quality": "数字资产背景、流动性、场所质量",
+  "Evidence links, counter-evidence, replay trace": "证据链接、反证、回放追踪",
+  "Needs confirmation from News Desk before any signal is promoted.":
+    "任何信号推进前都需要新闻研究台确认。",
+  "Momentum evidence conflicts with valuation and source coverage.":
+    "动量证据与估值和来源覆盖存在冲突。",
+  "Scenario notes are useful, but liquidity evidence is incomplete.":
+    "情景笔记有参考价值，但流动性证据不完整。",
+  "No signal can move forward while source health is degraded.":
+    "来源健康降级时，任何信号都不能继续推进。",
+  "News provenance is not strong enough to support a confidence increase.":
+    "新闻来源可信度不足，不能支持提高置信度。",
+  "Narrative evidence is weaker than liquidity and provenance blockers.":
+    "叙事证据弱于流动性和来源可信度阻塞点。",
+  "Every signal needs traceable evidence before it can leave review.":
+    "每个信号离开审核前都需要可追溯证据。",
+  "Second-source macro calendar and breadth context.": "二次来源宏观日历和广度背景。",
+  "Company packet, valuation note, and counter-evidence.": "公司包、估值备注和反证。",
+  "Skew, term structure, and liquidity checks.": "偏斜、期限结构和流动性检查。",
+  "Visible blockers and owner review.": "可见阻塞点和本人审核。",
+  "Freshness and provenance audit.": "新鲜度和来源可信度审计。",
+  "Venue-quality and source-origin notes.": "场所质量和来源源头备注。",
+  "Artifact links, counter-evidence, and replay coverage.": "成果链接、反证和回放覆盖。",
+
+  "Market context": "市场背景",
+  "Fundamental evidence": "基本面证据",
+  "Options evidence": "期权证据",
+  "Social/news feed": "社交 / 新闻流",
+  "Enough for summary, not enough for promotion.": "足够用于摘要，但不足以推进。",
+  "Company-level source packet is not attached.": "公司级来源包尚未附加。",
+  "Scenario notes exist; liquidity checks are missing.": "已有情景笔记，但缺少流动性检查。",
+  "Treat as unavailable until provenance is verified.": "来源可信度验证前视为不可用。",
+
+  "Breadth and calendar cross-check": "广度与日历交叉检查",
+  "Breadth sample plus second-source macro calendar": "广度样本加二次来源宏观日历",
+  "Calendar confirmation is still pending before confidence can rise.":
+    "置信度提升前仍需完成日历确认。",
+  "Company evidence packet": "公司证据包",
+  "Company filings, sector context, and valuation counter-evidence":
+    "公司披露、行业背景和估值反证",
+  "Company-level source coverage is missing, so the signal remains blocked.":
+    "公司级来源覆盖缺失，因此该信号保持阻塞。",
+  "Volatility liquidity and skew packet": "波动率流动性与偏斜包",
+  "Options chain sample, skew note, and liquidity packet": "期权链样本、偏斜备注和流动性包",
+  "Liquidity evidence is not attached, so scenarios stay research-only.":
+    "流动性证据尚未附加，因此情景保持仅研究。",
+  "Digital asset provenance audit": "数字资产来源可信度审计",
+  "News freshness, venue-quality notes, and source-origin check":
+    "新闻新鲜度、场所质量备注和来源源头检查",
+  "Provenance is weak; treat the packet as context only.":
+    "来源可信度较弱；该包仅作为背景使用。",
+  "Counter-evidence reconciliation": "反证核对",
+  "Cross-desk contradiction log and owner review queue": "跨研究台矛盾记录和本人审核队列",
+  "Cross-desk evidence": "跨研究台证据",
+  "Every promoted conclusion needs explicit counter-evidence before leaving review.":
+    "任何被推进的结论离开审核前都需要明确反证。",
+  "Breadth attached": "广度已附加",
+  "Second-source calendar pending": "二次来源日历待确认",
+  "Momentum context attached": "动量背景已附加",
+  "Company packet missing": "公司包缺失",
+  "Term structure partial": "期限结构部分完成",
+  "Skew incomplete": "偏斜不完整",
+  "Liquidity packet pending": "流动性包待处理",
+  "Source origin pending": "来源源头待确认",
+  "Venue-quality note missing": "场所质量备注缺失",
+
+  "No broker write path exists in this web surface.": "这个网页界面不存在券商写入路径。",
+  "Paper submit is not modeled, linked, or available.": "纸面提交未建模、未链接，也不可用。",
+  "Live submit remains outside product scope.": "实盘提交仍在产品范围之外。",
+  "No signal can promote itself without explicit owner review.":
+    "未经本人明确审核，任何信号都不能自我推进。",
+  "Missing evidence is shown as a blocker.": "缺失证据会显示为阻塞点。",
+  "The owner remains the final decision gate for research conclusions.":
+    "本人仍是研究结论的最终决策门禁。",
+
+  "Volatility term structure": "波动率期限结构",
+  "Term-structure notes are visible, but the packet is not complete enough for a scenario conclusion.":
+    "期限结构备注可见，但该包尚不足以形成情景结论。",
+  "Skew scenario": "偏斜情景",
+  "Skew research needs counter-evidence and a source-quality note before confidence can rise.":
+    "偏斜研究需要反证和来源质量备注，置信度才可以提升。",
+  "Liquidity check": "流动性检查",
+  "Liquidity context is treated as unavailable until source provenance is confirmed.":
+    "来源可信度确认前，流动性背景视为不可用。",
+  "No sizing": "无仓位规模",
+  "No recommendation": "无建议",
+  "Event window only": "仅事件窗口",
+  "Liquidity pending": "流动性检查待处理",
+  "Scenario-only": "仅情景研究",
+
+  "Initial context showed mixed breadth and event risk.": "初始背景显示广度和事件风险混杂。",
+  "Macro calendar packet did not match breadth timing strongly enough.":
+    "宏观日历包与广度时点的匹配度不够强。",
+  "Research packet can be reviewed, but confidence cannot rise yet.":
+    "研究包可以审核，但置信度暂不能提升。",
+  "Flagged missing company evidence and counter-evidence imbalance.":
+    "标记了公司证据缺失和反证不平衡。",
+  "Remain in research-only review until source coverage improves.":
+    "在来源覆盖改善前，保持仅研究审核。",
+  "Volatility notes moved into scenario research.": "波动率备注已移入情景研究。",
+  "Skew and liquidity evidence are still missing.": "偏斜和流动性证据仍缺失。",
+  "Research packet is reviewable without any strategy execution path.":
+    "研究包可供审核，但不存在任何策略执行路径。",
+  "Opened market context with mixed breadth and event risk.":
+    "打开了广度和事件风险混杂的市场背景。",
+  "Kept all gates owner-reviewed and execution-disabled.":
+    "所有门禁保持本人审核，执行保持禁用。",
+  "Marked missing source packets as blockers instead of hiding them behind confidence labels.":
+    "把缺失来源包标为阻塞点，而不是藏在置信度标签后面。",
+  "Moved volatility notes into scenario research without creating any execution workflow.":
+    "把波动率备注移入情景研究，但不创建任何执行工作流。",
+  "Prepared a review question because the calendar packet still needed second-source confirmation.":
+    "由于日历包仍需二次来源确认，已准备审核问题。",
+  "Kept volatility scenario confidence capped while liquidity evidence remained pending.":
+    "流动性证据待处理时，波动率情景置信度保持封顶。",
+
+  "Sample packets are present for UI review; live private research artifacts are not mounted into this build.":
+    "样本包可用于界面审核；实时私密研究成果未挂载到这个构建中。",
+  "Signals surface degraded and pending sources directly instead of compressing them into a single score.":
+    "信号会直接显示降级和待处理来源，而不是压缩成单一分数。",
+  "No broker, paper, live, sizing, order, or recommendation controls are present.":
+    "没有券商、纸面、实盘、仓位规模、订单或建议控制项。",
+
+  "Which source packets are missing or degraded?": "哪些来源包缺失或降级？",
+  "What counter-evidence would invalidate the thesis?": "什么反证会推翻该观点？",
+  "Which desk disagrees, and why?": "哪个研究台不同意，为什么？",
+  "Has the owner reviewed the evidence chain?": "本人是否已经审核证据链？",
+  "Can the public summary be written without private watchlists, accounts, or raw artifacts?":
+    "能否在不使用私密观察列表、账户或原始成果的情况下撰写公开摘要？",
 
   "Login": "登录",
   "Private Owner Area": "私密区域",
@@ -2739,7 +2960,10 @@ const phraseZhTranslations = [
   ["Recommendation workflow", "推荐工作流"],
   ["unavailable", "不可用"],
   ["desks", "研究台"],
+  ["Counter-evidence", "反证"],
+  ["counter-evidence", "反证"],
   ["counter", "反证"],
+  ["Needs:", "需要："],
   ["required", "需要处理"],
   ["Owner Today", "今日驾驶舱"],
   ["Owner checkpoints of", "审核检查点，共"],
