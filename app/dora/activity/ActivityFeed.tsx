@@ -15,9 +15,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { formatPublicEventTime } from "@/lib/dora-public-format";
 import type { PublicDoraEventClientView } from "@/lib/dora-public-client";
+import { localizeSiteText } from "@/lib/site-i18n";
 import { activityModeLabel, displayEvents, useDoraLiveEvents, visibleLiveEvents } from "@/lib/use-dora-live";
 
 const kindLabels = {
@@ -85,6 +87,8 @@ function countBy<T extends string>(items: ActivityFeedEvent[], read: (event: Act
 }
 
 export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedEvent[] }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const [kind, setKind] = useState<KindFilter>("all");
   const [agent, setAgent] = useState("all");
   const [severity, setSeverity] = useState<SeverityFilter>("all");
@@ -125,10 +129,10 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
 
   const hasActiveFilters = kind !== "all" || agent !== "all" || severity !== "all" || timeRange !== "all";
   const activeFilterLabels = [
-    { key: "kind", label: kind === "all" ? "All kinds" : kindLabels[kind] },
-    { key: "agent", label: agent === "all" ? "All agents" : agent },
-    { key: "severity", label: severity === "all" ? "All severity" : severityLabels[severity] },
-    { key: "time", label: timeFilters.find((item) => item.value === timeRange)?.label ?? "All time" }
+    { key: "kind", label: kind === "all" ? t("All kinds") : t(kindLabels[kind]) },
+    { key: "agent", label: agent === "all" ? t("All agents") : t(agent) },
+    { key: "severity", label: severity === "all" ? t("All severity") : t(severityLabels[severity]) },
+    { key: "time", label: t(timeFilters.find((item) => item.value === timeRange)?.label ?? "All time") }
   ];
 
   function clearFilters() {
@@ -140,15 +144,15 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
 
   return (
     <div className="dora-activity">
-      <section className="dora-activity-controls" aria-label="Activity filters">
+      <section className="dora-activity-controls" aria-label={t("Activity filters")}>
         <div className="dora-activity-controls-head">
           <div>
-            <strong>Filter public stream</strong>
-            <p>All controls operate on sanitized event labels only.</p>
+            <strong>{t("Filter public stream")}</strong>
+            <p>{t("All controls operate on sanitized event labels only.")}</p>
           </div>
-          <span>{filteredEvents.length} shown</span>
+          <span>{locale === "zh" ? `显示 ${filteredEvents.length} 条` : `${filteredEvents.length} shown`}</span>
         </div>
-        <div className="dora-activity-kind-filters" role="group" aria-label="Event kind filters">
+        <div className="dora-activity-kind-filters" role="group" aria-label={t("Event kind filters")}>
           {kindFilters.map((item) => (
             <button
               key={item.value}
@@ -157,49 +161,49 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
               aria-pressed={kind === item.value}
               onClick={() => setKind(item.value)}
             >
-              {item.label}
+              {t(item.label)}
             </button>
           ))}
         </div>
 
         <div className="dora-activity-selects">
           <label>
-            <span>Agent</span>
+            <span>{t("Agent")}</span>
             <select value={agent} onChange={(event) => setAgent(event.target.value)}>
-              <option value="all">All agents</option>
+              <option value="all">{t("All agents")}</option>
               {agents.map((agentName) => (
                 <option key={agentName} value={agentName}>
-                  {agentName}
+                  {t(agentName)}
                 </option>
               ))}
             </select>
           </label>
           <label>
-            <span>Severity</span>
+            <span>{t("Severity")}</span>
             <select value={severity} onChange={(event) => setSeverity(event.target.value as SeverityFilter)}>
-              <option value="all">All severity</option>
+              <option value="all">{t("All severity")}</option>
               {Object.entries(severityLabels).map(([value, label]) => (
                 <option key={value} value={value}>
-                  {label}
+                  {t(label)}
                 </option>
               ))}
             </select>
           </label>
           <label>
-            <span>Time range</span>
+            <span>{t("Time range")}</span>
             <select value={timeRange} onChange={(event) => setTimeRange(event.target.value as TimeFilter)}>
               {timeFilters.map((item) => (
                 <option key={item.value} value={item.value}>
-                  {item.label}
+                  {t(item.label)}
                 </option>
               ))}
             </select>
           </label>
           <button type="button" onClick={clearFilters} disabled={!hasActiveFilters}>
-            Clear
+            {t("Clear")}
           </button>
         </div>
-        <div className="dora-activity-active-filters" aria-label="Current activity filters">
+        <div className="dora-activity-active-filters" aria-label={t("Current activity filters")}>
           {activeFilterLabels.map((filter) => (
             <span key={filter.key}>{filter.label}</span>
           ))}
@@ -210,21 +214,21 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
         <section className="dora-activity-feed" aria-labelledby="dora-activity-feed-title">
           <div className="dora-activity-feed-heading">
             <div>
-              <h2 id="dora-activity-feed-title">Public event timeline</h2>
-              <p>Newest first by creation time. Fixed labels only.</p>
+              <h2 id="dora-activity-feed-title">{t("Public event timeline")}</h2>
+              <p>{t("Newest first by creation time. Fixed labels only.")}</p>
             </div>
             <div className="dora-activity-feed-mode">
               <span
                 className={hasVisibleLiveActivity ? "dora-activity-live-dot is-live" : "dora-activity-live-dot"}
                 aria-hidden
               />
-              <strong>{activityMode}</strong>
+              <strong>{t(activityMode)}</strong>
             </div>
           </div>
           <div className="sr-only" aria-live="polite">
             {hasVisibleLiveActivity
-              ? "Doraemon activity is showing live public events."
-              : "Doraemon activity is showing a public-safe demo snapshot."}
+              ? t("Doraemon activity is showing live public events.")
+              : t("Doraemon activity is showing a public-safe demo snapshot.")}
           </div>
 
           <div className="dora-activity-timeline">
@@ -241,15 +245,15 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
                   </span>
                   <div className="dora-activity-event-main">
                     <div>
-                      <strong>{event.title}</strong>
-                      <StatusBadge tone={event.severity}>{event.state}</StatusBadge>
+                      <strong>{t(event.title)}</strong>
+                      <StatusBadge tone={event.severity}>{t(event.state)}</StatusBadge>
                     </div>
                     <p>
-                      {event.agent} · {kindLabels[event.event_type]}
+                      {t(event.agent)} · {t(kindLabels[event.event_type])}
                     </p>
                   </div>
                   <div className="dora-activity-event-meta">
-                    <span>Fixed public label</span>
+                    <span>{t("Fixed public label")}</span>
                   </div>
                 </article>
               );
@@ -259,21 +263,21 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
           {filteredEvents.length === 0 ? (
             <div className="dora-activity-empty">
               <Filter size={18} aria-hidden />
-              <strong>No public events match these filters.</strong>
+              <strong>{t("No public events match these filters.")}</strong>
               <button type="button" onClick={clearFilters}>
-                Clear filters
+                {t("Clear filters")}
               </button>
             </div>
           ) : null}
         </section>
 
-        <aside className="dora-activity-side" aria-label="Public activity side rail">
+        <aside className="dora-activity-side" aria-label={t("Public activity side rail")}>
           <section>
             <div className="dora-activity-side-title">
               <GitBranch size={20} aria-hidden />
-              <h2>Event lanes</h2>
+              <h2>{t("Event lanes")}</h2>
             </div>
-            <p>Public activity is grouped into readable lanes without exposing run internals.</p>
+            <p>{t("Public activity is grouped into readable lanes without exposing run internals.")}</p>
             <div className="dora-activity-lane-list">
               {activityLanes.map((lane) => {
                 const count = lane.kinds.reduce((total, laneKind) => total + (kindCounts[laneKind] ?? 0), 0);
@@ -284,9 +288,9 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
                       <Layers3 size={15} aria-hidden />
                     </span>
                     <div>
-                      <strong>{lane.title}</strong>
-                      <small>{count} public labels</small>
-                      <p>{lane.summary}</p>
+                      <strong>{t(lane.title)}</strong>
+                      <small>{locale === "zh" ? `${count} 个公开标签` : `${count} public labels`}</small>
+                      <p>{t(lane.summary)}</p>
                     </div>
                   </article>
                 );
@@ -297,25 +301,25 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
           <section>
             <div className="dora-activity-side-title">
               <ShieldCheck size={20} aria-hidden />
-              <h2>Public schema</h2>
+              <h2>{t("Public schema")}</h2>
             </div>
-            <p>Doraemon Office is public, read-only, and sanitized before rendering.</p>
+            <p>{t("Doraemon Office is public, read-only, and sanitized before rendering.")}</p>
             <ul>
               <li>
                 <Eye size={16} aria-hidden />
-                <span>Opaque IDs</span>
+                <span>{t("Opaque IDs")}</span>
               </li>
               <li>
                 <CalendarClock size={16} aria-hidden />
-                <span>Fixed titles</span>
+                <span>{t("Fixed titles")}</span>
               </li>
               <li>
                 <LockKeyhole size={16} aria-hidden />
-                <span>No prompts</span>
+                <span>{t("No prompts")}</span>
               </li>
               <li>
                 <ShieldCheck size={16} aria-hidden />
-                <span>No paths</span>
+                <span>{t("No paths")}</span>
               </li>
             </ul>
           </section>
@@ -323,11 +327,11 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
           <section>
             <div className="dora-activity-side-title">
               <ScanLine size={20} aria-hidden />
-              <h2>Office bridge</h2>
+              <h2>{t("Office bridge")}</h2>
             </div>
-            <p>Open the public command room view when the stage is more useful than the feed.</p>
+            <p>{t("Open the public command room view when the stage is more useful than the feed.")}</p>
             <Link href="/dora/office" className="link-focus">
-              Open Doraemon Office
+              {t("Open Doraemon Office")}
               <ArrowRight size={15} aria-hidden />
             </Link>
           </section>
@@ -335,9 +339,9 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
           <section>
             <div className="dora-activity-side-title">
               <CheckCircle2 size={20} aria-hidden />
-              <h2>Boundary check</h2>
+              <h2>{t("Boundary check")}</h2>
             </div>
-            <p>Visible activity never includes raw IDs, prompts, artifacts, private paths, accounts, orders, or execution controls.</p>
+            <p>{t("Visible activity never includes raw IDs, prompts, artifacts, private paths, accounts, orders, or execution controls.")}</p>
           </section>
         </aside>
       </div>

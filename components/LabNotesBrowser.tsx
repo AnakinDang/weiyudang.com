@@ -7,7 +7,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { TradingResearchBoundary } from "@/components/TradingResearchBoundary";
 import type { Note } from "@/lib/content";
 import { labCategories, type LabCategory } from "@/lib/content-model";
-import type { SiteLocale } from "@/lib/site-i18n";
+import { localizeSiteText, translateToZh, type SiteLocale } from "@/lib/site-i18n";
 
 type LabFilter = {
   key: "all" | LabCategory;
@@ -78,6 +78,7 @@ function emptyMessageForNotes({
 
 export function LabNotesBrowser({ notes }: { notes: Note[] }) {
   const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const [activeFilter, setActiveFilter] = useState<LabFilter["key"]>("all");
   const [query, setQuery] = useState("");
   const [selectedSlug, setSelectedSlug] = useState(notes[0]?.slug ?? "");
@@ -87,7 +88,19 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
     const normalizedQuery = query.trim().toLowerCase();
 
     return notes.filter((note) => {
-      const searchable = `${note.title} ${note.categoryLabel} ${note.summary} ${note.dateLabel}`.toLowerCase();
+      const searchable = [
+        note.title,
+        note.categoryLabel,
+        note.summary,
+        note.dateLabel,
+        translateToZh(note.title),
+        translateToZh(note.categoryLabel),
+        translateToZh(note.summary),
+        translateToZh(note.dateLabel)
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
       const matchesFilter = filter.key === "all" || note.category === filter.key;
       return matchesFilter && (normalizedQuery ? searchable.includes(normalizedQuery) : true);
     });
@@ -102,10 +115,10 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
 
   return (
     <div className="lab-browser-grid">
-      <aside className="lab-model-rail" aria-label="Research model">
+      <aside className="lab-model-rail" aria-label={t("Research model")}>
         <div className="lab-model-panel">
-          <p className="lab-model-kicker">How we organize notes</p>
-          <h2>Research model</h2>
+          <p className="lab-model-kicker">{t("How we organize notes")}</p>
+          <h2>{t("Research model")}</h2>
           {[
             ["Build logs", "Ship, test, learn."],
             ["Design notes", "Decisions and tradeoffs."],
@@ -115,17 +128,17 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
             <div key={title} className="lab-model-item">
               <FlaskConical size={17} aria-hidden />
               <span>
-                <strong>{title}</strong>
-                <small>{summary}</small>
+                <strong>{t(title)}</strong>
+                <small>{t(summary)}</small>
               </span>
             </div>
           ))}
         </div>
       </aside>
 
-      <section className="lab-notes-panel" aria-label="Public research notes">
+      <section className="lab-notes-panel" aria-label={t("Public research notes")}>
         <div className="lab-notes-toolbar">
-          <div className="lab-filter-group" aria-label="Research note filters">
+          <div className="lab-filter-group" aria-label={t("Research note filters")}>
             {filters.map((filter) => {
               const isActive = activeFilter === filter.key;
               return (
@@ -137,7 +150,7 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
                   onClick={() => setActiveFilter(filter.key)}
                 >
                   <Filter size={13} aria-hidden />
-                  {filter.label}
+                  {t(filter.label)}
                 </button>
               );
             })}
@@ -148,8 +161,8 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              aria-label="Search research notes"
-              placeholder="Search notes"
+              aria-label={t("Search research notes")}
+              placeholder={t("Search notes")}
             />
           </label>
         </div>
@@ -166,14 +179,14 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
                     <span />
                   </span>
                   <span className="lab-note-main">
-                    <small>{note.featured ? "Featured note" : "Research note"}</small>
-                    <strong>{note.title}</strong>
-                    <span>{note.summary}</span>
+                    <small>{note.featured ? t("Featured note") : t("Research note")}</small>
+                    <strong>{t(note.title)}</strong>
+                    <span>{t(note.summary)}</span>
                   </span>
-                  <span className="lab-note-chip">{note.categoryLabel}</span>
-                  <span className="lab-note-date">{note.dateLabel}</span>
+                  <span className="lab-note-chip">{t(note.categoryLabel)}</span>
+                  <span className="lab-note-date">{t(note.dateLabel)}</span>
                 </button>
-                <Link href={`/lab/${note.slug}`} className="link-focus lab-note-open" aria-label={`Read ${note.title}`}>
+                <Link href={`/lab/${note.slug}`} className="link-focus lab-note-open" aria-label={locale === "zh" ? `阅读 ${t(note.title)}` : `Read ${note.title}`}>
                   <ArrowRight size={17} aria-hidden />
                 </Link>
               </li>
@@ -194,23 +207,23 @@ export function LabNotesBrowser({ notes }: { notes: Note[] }) {
         ) : null}
 
         {selectedNote ? (
-          <div className="lab-selected-note" aria-label="Selected research note">
+          <div className="lab-selected-note" aria-label={t("Selected research note")}>
             <div>
-              <p>Selected note</p>
-              <h2>{selectedNote.title}</h2>
+              <p>{t("Selected note")}</p>
+              <h2>{t(selectedNote.title)}</h2>
               <div className="lab-selected-meta">
-                <span>{selectedNote.categoryLabel}</span>
-                <span>{selectedNote.dateLabel}</span>
-                <span>{selectedNote.visibilityLabel}</span>
+                <span>{t(selectedNote.categoryLabel)}</span>
+                <span>{t(selectedNote.dateLabel)}</span>
+                <span>{t(selectedNote.visibilityLabel)}</span>
               </div>
-              <p>{selectedNote.summary}</p>
+              <p>{t(selectedNote.summary)}</p>
               <div className="lab-selected-actions">
                 <Link href={`/lab/${selectedNote.slug}`} className="link-focus lab-selected-primary">
-                  Read note
+                  {t("Read note")}
                   <ArrowRight size={15} aria-hidden />
                 </Link>
                 <Link href={relatedProjectHref(selectedNote)} className="link-focus">
-                  {selectedNote.relatedProject ? "Related project" : "Browse projects"}
+                  {selectedNote.relatedProject ? t("Related project") : t("Browse projects")}
                   <Link2 size={15} aria-hidden />
                 </Link>
               </div>

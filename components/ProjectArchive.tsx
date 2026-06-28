@@ -12,8 +12,10 @@ import {
   Search,
   ShieldCheck
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import type { Project } from "@/lib/content";
 import { boundaryForProject, visualForProject } from "@/lib/projectPresentation";
+import { localizeSiteText, translateToZh } from "@/lib/site-i18n";
 
 type ArchiveFilter = {
   label: string;
@@ -28,6 +30,8 @@ const filters = [
 ] satisfies ArchiveFilter[];
 
 export function ProjectArchive({ projects }: { projects: Project[] }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const [activeFilter, setActiveFilter] = useState(filters[0].label);
   const [query, setQuery] = useState("");
   const [selectedSlug, setSelectedSlug] = useState(
@@ -39,7 +43,21 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
     const normalizedQuery = query.trim().toLowerCase();
 
     return projects.filter((project) => {
-      const searchable = `${project.title} ${project.categoryLabel} ${project.summary} ${project.statusLabel} ${project.visibilityLabel}`.toLowerCase();
+      const searchable = [
+        project.title,
+        project.categoryLabel,
+        project.summary,
+        project.statusLabel,
+        project.visibilityLabel,
+        translateToZh(project.title),
+        translateToZh(project.categoryLabel),
+        translateToZh(project.summary),
+        translateToZh(project.statusLabel),
+        translateToZh(project.visibilityLabel)
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
       return filter.match(project) && (normalizedQuery ? searchable.includes(normalizedQuery) : true);
     });
   }, [activeFilter, projects, query]);
@@ -49,41 +67,41 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
 
   return (
     <div className="projects-archive-grid">
-      <aside className="projects-context-rail" aria-label="Projects content model">
+      <aside className="projects-context-rail" aria-label={t("Projects content model")}>
         <div className="projects-rail-panel">
-          <p className="projects-kicker">Content model</p>
+          <p className="projects-kicker">{t("Content model")}</p>
           <div className="projects-rail-item">
             <Boxes size={18} aria-hidden />
             <div>
-              <strong>Projects as artifacts</strong>
-              <span>A living index of systems, tools, experiments, and research.</span>
+              <strong>{t("Projects as artifacts")}</strong>
+              <span>{t("A living index of systems, tools, experiments, and research.")}</span>
             </div>
           </div>
           <div className="projects-rail-item">
             <ShieldCheck size={18} aria-hidden />
             <div>
-              <strong>Public explains</strong>
-              <span>Public pages explain the work; private execution stays behind the app shell.</span>
+              <strong>{t("Public explains")}</strong>
+              <span>{t("Public pages explain the work; private execution stays behind the app shell.")}</span>
             </div>
           </div>
           <div className="projects-rail-item">
             <LockKeyhole size={18} aria-hidden />
             <div>
-              <strong>No raw internals</strong>
-              <span>No prompts, raw IDs, accounts, orders, or execution.</span>
+              <strong>{t("No raw internals")}</strong>
+              <span>{t("No prompts, raw IDs, accounts, orders, or execution.")}</span>
             </div>
           </div>
           <div className="projects-rail-item">
             <FileSearch size={18} aria-hidden />
             <div>
-              <strong>Research-only trading</strong>
-              <span>Trading content is research-only. No execution.</span>
+              <strong>{t("Research-only trading")}</strong>
+              <span>{t("Trading content is research-only. No execution.")}</span>
             </div>
           </div>
         </div>
 
         <div className="projects-rail-panel projects-boundary-panel">
-          <p className="projects-kicker">Public boundary</p>
+          <p className="projects-kicker">{t("Public boundary")}</p>
           {[
             ["Public", "Safe to share."],
             ["Private Summary", "High-level view only."],
@@ -91,8 +109,8 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
             ["Owner-only", "Authenticated."]
           ].map(([label, summary]) => (
             <div key={label} className="projects-boundary-token">
-              <strong>{label}</strong>
-              <span>{summary}</span>
+              <strong>{t(label)}</strong>
+              <span>{t(summary)}</span>
             </div>
           ))}
         </div>
@@ -100,16 +118,16 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
         <Link href="/dora" className="link-focus projects-dora-card">
           <Bot size={28} aria-hidden />
           <span>
-            <strong>Meet Doraemon</strong>
-            <small>Enter the personal AI command room.</small>
+            <strong>{t("Meet Doraemon")}</strong>
+            <small>{t("Enter the personal AI command room.")}</small>
           </span>
           <ArrowRight size={16} aria-hidden />
         </Link>
       </aside>
 
-      <section className="projects-browser-panel" aria-label="Project archive">
+      <section className="projects-browser-panel" aria-label={t("Project archive")}>
         <div className="projects-browser-toolbar">
-          <div className="projects-browser-filters" aria-label="Project filters">
+          <div className="projects-browser-filters" aria-label={t("Project filters")}>
             {filters.map((filter) => {
               const isActive = filter.label === activeFilter;
               return (
@@ -121,7 +139,7 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
                   onClick={() => setActiveFilter(filter.label)}
                 >
                   <Filter size={14} aria-hidden />
-                  {filter.label}
+                  {t(filter.label)}
                 </button>
               );
             })}
@@ -131,17 +149,17 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              aria-label="Search projects"
-              placeholder="Search projects"
+              aria-label={t("Search projects")}
+              placeholder={t("Search projects")}
             />
           </label>
         </div>
 
         <div className="projects-table-head" aria-hidden="true">
-          <span>Project</span>
-          <span>Category</span>
-          <span>Visibility</span>
-          <span>Status</span>
+          <span>{t("Project")}</span>
+          <span>{t("Category")}</span>
+          <span>{t("Visibility")}</span>
+          <span>{t("Status")}</span>
           <span />
         </div>
 
@@ -153,17 +171,17 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
               <li key={project.slug} className={`projects-artifact-row${isSelected ? " is-selected" : ""}`}>
                 <button type="button" aria-pressed={isSelected} onClick={() => setSelectedSlug(project.slug)}>
                   <span className={`projects-artifact-visual projects-artifact-visual-${visualForProject(project.slug)}`} aria-hidden="true">
-                    <span />
+                  <span />
+                </span>
+                <span className="projects-artifact-main">
+                    <strong>{t(project.title)}</strong>
+                    <small>{t(project.summary)}</small>
                   </span>
-                  <span className="projects-artifact-main">
-                    <strong>{project.title}</strong>
-                    <small>{project.summary}</small>
-                  </span>
-                  <span className="projects-artifact-chip">{project.categoryLabel}</span>
-                  <span className={`projects-artifact-boundary ${boundary.className}`}>{boundary.label}</span>
-                  <span className="projects-artifact-status">{project.statusLabel}</span>
+                  <span className="projects-artifact-chip">{t(project.categoryLabel)}</span>
+                  <span className={`projects-artifact-boundary ${boundary.className}`}>{t(boundary.label)}</span>
+                  <span className="projects-artifact-status">{t(project.statusLabel)}</span>
                 </button>
-                <Link href={`/projects/${project.slug}`} className="link-focus projects-artifact-open" aria-label={`Open ${project.title}`}>
+                <Link href={`/projects/${project.slug}`} className="link-focus projects-artifact-open" aria-label={locale === "zh" ? `打开 ${t(project.title)}` : `Open ${project.title}`}>
                   <ArrowRight size={17} aria-hidden />
                 </Link>
               </li>
@@ -176,46 +194,50 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
             <FileSearch size={22} aria-hidden />
             <span>
               {query.trim()
-                ? `No ${activeFilter} projects matching "${query.trim()}".`
+                ? locale === "zh"
+                  ? `没有匹配“${query.trim()}”的${t(activeFilter)}项目。`
+                  : `No ${activeFilter} projects matching "${query.trim()}".`
                 : activeFilter === "All"
-                  ? "No projects yet."
-                  : `No ${activeFilter} projects yet.`}
+                  ? t("No projects yet.")
+                  : locale === "zh"
+                    ? `还没有${t(activeFilter)}项目。`
+                    : `No ${activeFilter} projects yet.`}
             </span>
             {query.trim() ? (
               <button type="button" onClick={() => setQuery("")}>
-                Clear search
+                {t("Clear search")}
               </button>
             ) : null}
           </div>
         ) : null}
 
         {selectedProject && selectedBoundary ? (
-          <div className="projects-selected-artifact" aria-label="Selected project preview">
+          <div className="projects-selected-artifact" aria-label={t("Selected project preview")}>
             <span className={`projects-selected-visual projects-artifact-visual-${visualForProject(selectedProject.slug)}`} aria-hidden="true">
               <span />
             </span>
             <div>
-              <p className="projects-kicker">Selected artifact</p>
-              <h2>{selectedProject.title}</h2>
-              <p>{selectedProject.summary}</p>
+              <p className="projects-kicker">{t("Selected artifact")}</p>
+              <h2>{t(selectedProject.title)}</h2>
+              <p>{t(selectedProject.summary)}</p>
               <div className="projects-selected-meta">
-                <span>{selectedProject.categoryLabel}</span>
-                <span>{selectedBoundary.label}</span>
-                <span>{selectedProject.statusLabel}</span>
+                <span>{t(selectedProject.categoryLabel)}</span>
+                <span>{t(selectedBoundary.label)}</span>
+                <span>{t(selectedProject.statusLabel)}</span>
               </div>
             </div>
             <div className="projects-selected-routes">
-              <p className="projects-kicker">Next routes</p>
+              <p className="projects-kicker">{t("Next routes")}</p>
               <Link href={`/projects/${selectedProject.slug}`} className="link-focus">
-                Read public overview
+                {t("Read public overview")}
                 <ArrowRight size={15} aria-hidden />
               </Link>
               <Link href="/dora" className="link-focus">
-                Open Doraemon office
+                {t("Open Doraemon Office")}
                 <ArrowRight size={15} aria-hidden />
               </Link>
               <Link href={`/projects/${selectedProject.slug}`} className="link-focus projects-selected-primary">
-                Open project
+                {t("Open project")}
                 <ArrowRight size={15} aria-hidden />
               </Link>
             </div>
