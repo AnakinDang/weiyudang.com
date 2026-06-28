@@ -162,10 +162,15 @@ function reviewActionAriaLabel(item: TradingReviewQueueItem, locale: SiteLocale)
 
 function replayTraceAriaLabel(packet: TradingEvidencePacket, locale: SiteLocale) {
   if (locale === "zh") {
-    return `打开 ${translateToZh(packet.title) ?? packet.title} 的回放追踪`;
+    return `打开“${translateToZh(packet.title) ?? packet.title}”的回放追踪`;
   }
 
   return `Open replay trace for ${packet.title}`;
+}
+
+function traceEvidenceAriaLabel(signal: Pick<TradingSignal, "instrument">, locale: SiteLocale) {
+  const instrument = locale === "zh" ? translateToZh(signal.instrument) ?? signal.instrument : signal.instrument;
+  return locale === "zh" ? `追溯${instrument}的证据` : `Trace evidence for ${signal.instrument}`;
 }
 
 function evidenceCountLabel(visible: number, total: number, locale: SiteLocale) {
@@ -460,10 +465,11 @@ function SignalCard({
       <button
         type="button"
         className="trading-cockpit-link mt-4"
-        aria-label={`Trace evidence for ${signal.instrument}`}
+        aria-label={traceEvidenceAriaLabel(signal, locale)}
         onClick={() => onTraceEvidence(signal.instrument)}
+        data-i18n-skip
       >
-        Trace evidence
+        {actionLabel("Trace evidence", locale)}
       </button>
     </article>
   );
@@ -556,10 +562,11 @@ function SignalTable({
                   <button
                     type="button"
                     className="trading-cockpit-link mt-3"
-                    aria-label={`Trace evidence for ${signal.instrument}`}
+                    aria-label={traceEvidenceAriaLabel(signal, locale)}
                     onClick={() => onTraceEvidence(signal.instrument)}
+                    data-i18n-skip
                   >
-                    Trace evidence
+                    {actionLabel("Trace evidence", locale)}
                   </button>
                 </td>
                 <td className="px-4 py-4 align-top text-sm text-slate-300">
@@ -854,10 +861,11 @@ function TradingTodayCockpit({
                     <button
                       type="button"
                       className="trading-cockpit-link mt-2"
-                      aria-label={`Trace evidence for ${signal.instrument}`}
+                      aria-label={traceEvidenceAriaLabel(signal, locale)}
                       onClick={() => onTraceEvidence(signal.instrument)}
+                      data-i18n-skip
                     >
-                      Trace evidence
+                      {actionLabel("Trace evidence", locale)}
                     </button>
                   </td>
                 </tr>
