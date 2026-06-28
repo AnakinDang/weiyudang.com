@@ -65,7 +65,15 @@ const publicAgentRegistry = {
       "Bring decisions back to the owner when judgment or approval is required."
     ],
     publicSignals: ["Planning", "Handoff", "Owner review", "Completed"],
-    collaboratesWith: ["Research MiniDora", "Dev MiniDora", "Product MiniDora"],
+    collaboratesWith: [
+      "Research MiniDora",
+      "Dev MiniDora",
+      "Product MiniDora",
+      "Ops MiniDora",
+      "Memory MiniDora",
+      "Trading MiniDora",
+      "Media MiniDora"
+    ],
     projectHref: "/projects/doraemon-agent-system",
     projectLabel: "Doraemon Agent System"
   },
@@ -88,7 +96,7 @@ const publicAgentRegistry = {
       "Prepare concise briefs for Doraemon and the owner review loop."
     ],
     publicSignals: ["Working", "Completed", "Owner review"],
-    collaboratesWith: ["Memory MiniDora", "Trading MiniDora", "Product MiniDora"],
+    collaboratesWith: ["Memory MiniDora", "Trading MiniDora", "Product MiniDora", "Doraemon", "Media MiniDora"],
     projectHref: "/lab",
     projectLabel: "Research Lab"
   },
@@ -134,7 +142,7 @@ const publicAgentRegistry = {
       "Catch wording that overclaims live access, authority, or execution."
     ],
     publicSignals: ["Planning", "Handoff", "Owner review"],
-    collaboratesWith: ["Dev MiniDora", "Research MiniDora", "Doraemon"],
+    collaboratesWith: ["Dev MiniDora", "Research MiniDora", "Doraemon", "Media MiniDora"],
     projectHref: "/projects/weiyu-personal-os",
     projectLabel: "Weiyu Personal OS"
   },
@@ -180,7 +188,7 @@ const publicAgentRegistry = {
       "Keep knowledge hygiene visible as a process, not as a raw database."
     ],
     publicSignals: ["Working", "Handoff", "Completed"],
-    collaboratesWith: ["Research MiniDora", "Ops MiniDora", "Doraemon"],
+    collaboratesWith: ["Research MiniDora", "Ops MiniDora", "Doraemon", "Trading MiniDora"],
     projectHref: "/projects/knowledge-vault",
     projectLabel: "Knowledge Vault"
   },
@@ -282,4 +290,11 @@ export function getPublicAgents(): PublicAgent[] {
 
 export function getPublicAgentBySlug(slug: string): PublicAgent | undefined {
   return getPublicAgents().find((agent) => agent.slug === slug);
+}
+
+export function publicAgentProfileInitial(agent: Pick<PublicAgent, "profileAsset" | "stageName">) {
+  const assetParts = agent.profileAsset.split("-");
+  const assetRole = assetParts[0] === "minidora" ? assetParts[1] : assetParts[0];
+
+  return (assetRole ?? agent.stageName).slice(0, 1).toUpperCase();
 }
