@@ -572,10 +572,247 @@ const exactZhTranslations = {
   "Safe by design": "按安全边界设计",
   "Privacy first": "隐私优先",
   "All tasks are read-only in the public window.": "公开窗口中的所有任务都保持只读。",
+  "Doraemon Tasks": "Doraemon 任务",
+  "Public-safe Doraemon Office task aggregation with opaque IDs, fixed titles, and no execution controls.":
+    "Doraemon Office 的公开安全任务聚合：不透明 ID、固定标题、无执行控制。",
   "Public task posture": "公开任务状态",
+  "Public task posture without private task content.": "公开任务状态，不展示私密任务内容。",
+  "Explore public queue": "探索公开队列",
+  "Public keys remain stable without revealing internal run or task names.":
+    "公开 key 保持稳定，同时不泄露内部 run 或任务名称。",
+  "Fixed labels": "固定标签",
+  "Visible task titles use the canonical public vocabulary only.":
+    "可见任务标题只使用标准公开词汇。",
+  "Review signals can appear without exposing task bodies or notes.":
+    "审核信号可以出现，但不暴露任务正文或备注。",
+  "No approve, retry, submit, mutation, or execution controls are public.":
+    "审批、重试、提交、变更或执行控制都不会公开。",
+  "Opaque task keys": "不透明任务 key",
+  "Fixed public titles": "固定公开标题",
+  "Updated posture": "更新状态",
+  "Task names": "任务名称",
+  "Prompts and notes": "Prompt 与备注",
+  "Project paths": "项目路径",
+  "Execution controls": "执行控制",
+  "Read the surrounding public-safe event stream.": "阅读周围的公开安全事件流。",
+  "See the MiniDora roles behind each public task posture.": "查看每个公开任务状态背后的 MiniDora 角色。",
+  "Read how Doraemon fits into the Personal OS experiment.": "阅读 Doraemon 如何嵌入 Personal OS 实验。",
+  "Queue Posture": "队列状态",
+  "Aggregated public task state, with fixed titles and opaque keys.":
+    "聚合后的公开任务状态，使用固定标题和不透明 key。",
+  "The public queue shows posture, not task content.": "公开队列展示状态，不展示任务内容。",
+  "No task names": "无任务名称",
+  "No prompts or notes": "无 prompt 或备注",
+  "No project paths": "无项目路径",
+  "Public visitors can inspect state but cannot mutate work.":
+    "公开访客可以查看状态，但不能修改工作。",
+  "No approve control": "无审批控制",
+  "No retry control": "无重试控制",
+  "Task Posture": "任务状态",
+  "Aggregated state counts. No private task body.": "聚合状态计数。不展示私密任务正文。",
+  "Public Doraemon task posture preview": "公开 Doraemon 任务状态预览",
+  "Recent public task posture preview": "最近公开任务状态预览",
+  "Doraemon Tasks public context": "Doraemon 任务公开上下文",
+  "Public queue": "公开队列",
+  "Private work hidden": "私密工作已隐藏",
+  "coordinates": "协调",
+  "Recent": "最近",
+  "Earlier today": "今天早些时候",
+  "Trading research": "交易研究",
+  "Research-only context is being prepared without account data or execution detail.":
+    "正在准备仅研究上下文，不包含账户数据或执行细节。",
+  "A sanitized operating item completed and is safe to display as an aggregate public state.":
+    "一个脱敏运行项已完成，可以作为聚合公开状态安全展示。",
+  "A public-safe attention state is visible while private operational detail and owner actions stay hidden.":
+    "公开安全的注意状态可见，同时私密运维细节和本人操作保持隐藏。",
+  "sanitized task groups": "个脱敏任务分组",
+  "Public Task Queue": "公开任务队列",
+  "Filter sanitized groups by public state. Every row uses fixed labels, opaque keys, and coarse timing.":
+    "按公开状态筛选脱敏分组。每一行都使用固定标签、不透明 key 和粗粒度时间。",
+  "Public task state counts": "公开任务状态计数",
+  "Filter public queue": "筛选公开队列",
+  "Every control operates on sanitized task posture only.":
+    "每个控件只作用于脱敏后的任务状态。",
+  "Task filters": "任务筛选",
+  "Task state filters": "任务状态筛选",
+  "Current task filters": "当前任务筛选",
+  "All public states": "全部公开状态",
+  "No private task names": "无私密任务名称",
+  "Sanitized task groups": "脱敏任务分组",
+  "Fixed public titles, coarse timing, and opaque task keys only.":
+    "只展示固定公开标题、粗粒度时间和不透明任务 key。",
+  "No public tasks match this filter.": "没有公开任务匹配这个筛选。",
+  "Show all": "显示全部",
+  "Owner review and public boundary": "本人审核与公开边界",
+  "Queue lanes": "队列通道",
+  "Public posture grouped by what a visitor can safely understand.":
+    "按访客可安全理解的内容对公开状态分组。",
+  "Needs owner": "需要本人",
+  "Review and attention labels stay visible while private details stay hidden.":
+    "审核和注意标签保持可见，私密细节保持隐藏。",
+  "In motion": "进行中",
+  "Active work appears as coarse posture, not raw task names or prompts.":
+    "活跃工作以粗粒度状态出现，而不是原始任务名或 prompt。",
+  "Closed": "已关闭",
+  "Completed public states show outcome posture without artifacts.":
+    "已完成的公开状态只展示结果姿态，不展示产物。",
+  "public labels": "个公开标签",
+  "Owner review lane": "本人审核通道",
+  "Shows only that attention is needed, not the private task body.":
+    "只显示需要注意，不显示私密任务正文。",
+  "No public owner-review checkpoint is visible.": "当前没有可见的公开本人审核检查点。",
+  "Public task boundary": "公开任务边界",
+  "This page is an aggregation surface, not an action console.":
+    "这个页面是聚合界面，不是操作控制台。",
+  "Opaque public keys": "不透明公开 key",
+  "No execution controls": "无执行控制",
+  "See public activity": "查看公开活动",
+  "Public visitors can inspect state, not mutate work.": "公开访客可以查看状态，不能修改工作。",
+  "Public Task Boundary": "公开任务边界",
+  "The public queue is useful because it is intentionally incomplete. It shows posture, not private work.":
+    "公开队列有用，正因为它刻意不完整。它展示状态，而不是私密工作。",
+  "No prompts or owner notes": "无 prompt 或本人备注",
+  "No local paths or raw task names": "无本地路径或原始任务名",
+  "No approve, retry, submit, or execution path": "无审批、重试、提交或执行路径",
+  "Public queue and private work boundary": "公开队列与私密工作边界",
+  "Public Queue": "公开队列",
+  "Private Work": "私密工作",
+  "Public task principles": "公开任务原则",
+  "Tasks are one signal in the operating loop": "任务是运行循环中的一个信号",
+  "Schedules create cadence, tasks expose public posture, system health proves readiness, and activity gives the timeline around it.":
+    "日程创造节奏，任务暴露公开状态，系统健康证明就绪，活动流给出围绕它的时间线。",
+  "Doraemon Tasks continuation routes": "Doraemon 任务后续路线",
+  "Move from task posture into the surrounding read-only surfaces.":
+    "从任务状态进入周围的只读界面。",
+  "Operating rhythm safety posture": "运行节奏安全状态",
+  "Public operating signal chain": "公开运行信号链",
+  "View activity": "查看活动",
   "Next public operating rhythm": "下一段公开运行节奏",
   "Next rhythm": "下一段节奏",
   "Public cadence only. No cron strings or prompt bodies.": "只展示公开节奏，不展示 cron 字符串或 prompt 正文。",
+  "Doraemon Schedules": "Doraemon 日程",
+  "Public-safe Doraemon Office schedule rhythm with no private internals or controls.":
+    "Doraemon Office 的公开安全日程节奏，不展示私密内部信息或控制项。",
+  "Public operating rhythm without private automation internals.":
+    "公开运行节奏，不展示私密自动化内部信息。",
+  "View public rhythm": "查看公开节奏",
+  "Public rhythms": "公开节奏",
+  "Cadence windows": "节奏窗口",
+  "Review window": "审核窗口",
+  "Private controls": "私密控制",
+  "Operate with consistency": "保持一致运行",
+  "Stable cadence builds trust without exposing implementation.":
+    "稳定节奏建立信任，同时不暴露实现。",
+  "Share the why, not the how": "展示原因，不展示实现",
+  "Purpose, public name, and coarse window replace command details.":
+    "用目的、公开名称和粗粒度窗口替代命令细节。",
+  "Public rhythms are display-only and cannot mutate private systems.":
+    "公开节奏仅用于展示，不能变更私密系统。",
+  "Better over time": "持续变好",
+  "The rhythm page can grow with public synthesis and owner review.":
+    "节奏页面可以随着公开综合和本人审核逐步成长。",
+  "Schedule name": "日程名称",
+  "Rhythm category": "节奏类别",
+  "Last run window": "上次运行窗口",
+  "Next window": "下次窗口",
+  "Public state": "公开状态",
+  "Automation internals": "自动化内部信息",
+  "Exact triggers": "精确触发条件",
+  "Last contents": "上次内容",
+  "Execution details": "执行细节",
+  "Private data": "私密数据",
+  "Read the full public-safe event stream around each rhythm.":
+    "阅读围绕每个节奏的完整公开安全事件流。",
+  "Pair cadence with public task posture and owner-review labels.":
+    "将节奏与公开任务状态和本人审核标签配对。",
+  "Meet the MiniDoras behind the recurring operating loops.":
+    "认识循环运行背后的 MiniDoras。",
+  "Public cadence": "公开节奏",
+  "Coarse rhythm windows. Automation details stay private.":
+    "粗粒度节奏窗口。自动化细节保持私密。",
+  "Public rhythm": "公开节奏",
+  "Private automation": "私密自动化",
+  "rhythm": "节奏",
+  "Public rhythm preview": "公开节奏预览",
+  "sanitized windows": "个脱敏窗口",
+  "Rhythm Posture": "节奏状态",
+  "Coarse public cadence windows, without automation internals.":
+    "粗粒度公开节奏窗口，不展示自动化内部信息。",
+  "Windows": "窗口",
+  "Cadences": "节奏",
+  "Visitors can understand rhythm without seeing how it runs.":
+    "访客可以理解节奏，而不看到它如何运行。",
+  "No private automation": "无私密自动化",
+  "No precise trigger times": "无精确触发时间",
+  "No private prompts": "无私密 prompt",
+  "Window Buckets": "窗口分组",
+  "Coarse labels show timing shape, not live schedule data.":
+    "粗粒度标签展示时间形态，而不是实时日程数据。",
+  "Morning bucket": "早晨分组",
+  "Session bucket": "会话分组",
+  "Weekly bucket": "每周分组",
+  "Public Rhythm Register": "公开节奏登记",
+  "Filter sanitized schedule windows by public state and coarse cadence. No private automation details render.":
+    "按公开状态和粗粒度节奏筛选脱敏日程窗口。不渲染私密自动化细节。",
+  "Public schedule summary": "公开日程摘要",
+  "Public Schedule Boundary": "公开日程边界",
+  "Your trust matters. Schedules are visible only as rhythm: name, category, coarse windows, and public state.":
+    "信任很重要。日程只以节奏形式可见：名称、类别、粗粒度窗口和公开状态。",
+  "Public rhythm and private automation boundary": "公开节奏与私密自动化边界",
+  "Public schedule principles": "公开日程原则",
+  "Schedules set the rhythm for the public office": "日程为公开 Office 设定节奏",
+  "A public schedule is not an implementation viewer. It is the first safe signal in a chain that ends in task posture, health, and activity.":
+    "公开日程不是实现查看器。它是安全信号链的第一环，后面连接任务状态、健康状态和活动流。",
+  "Doraemon Schedules continuation routes": "Doraemon 日程后续路线",
+  "Move from operating rhythm into the surrounding read-only surfaces.":
+    "从运行节奏进入周围的只读界面。",
+  "Schedule filters": "日程筛选",
+  "Filter public rhythm": "筛选公开节奏",
+  "Every control filters sanitized cadence posture only.":
+    "每个控件只筛选脱敏后的节奏状态。",
+  "Schedule state filters": "日程状态筛选",
+  "All cadence": "全部节奏",
+  "All cadence windows": "全部节奏窗口",
+  "Filter posture and guarantees": "筛选状态与保证",
+  "Recurring operating windows": "循环运行窗口",
+  "Public names, coarse last/next windows, and safe status only.":
+    "只展示公开名称、粗粒度上次 / 下次窗口和安全状态。",
+  "No public rhythm matches these filters": "没有公开节奏匹配这些筛选",
+  "Try a broader state or cadence view. Private automation details remain hidden.":
+    "试试更宽的状态或节奏视图。私密自动化细节仍保持隐藏。",
+  "Rhythm lanes": "节奏通道",
+  "Public cadence grouped by what a visitor can safely understand.":
+    "按访客可安全理解的内容对公开节奏分组。",
+  "Daily loops": "每日循环",
+  "Briefs and health checks stay readable as rhythm, not commands.":
+    "简报和健康检查以节奏形式可读，而不是命令。",
+  "Research loops": "研究循环",
+  "Market schedules show research-only posture and coarse windows.":
+    "市场日程展示仅研究状态和粗粒度窗口。",
+  "Review loops": "审核循环",
+  "Slower owner-review cadence stays public without private notes.":
+    "较慢的本人审核节奏保持公开，但不带私密备注。",
+  "Schedule boundary": "日程边界",
+  "Rhythm is public. Implementation remains private.": "节奏可以公开，实现保持私密。",
+  "Owner loop": "本人循环",
+  "Private instructions stay hidden.": "私密指令保持隐藏。",
+  "Activity bridge": "活动桥接",
+  "Open the public activity feed for surrounding fixed labels.":
+    "打开公开活动流，查看周围的固定标签。",
+  "Recent session": "最近会话",
+  "Next session": "下个会话",
+  "Research-only market context with coarse public status and no private execution path.":
+    "仅研究的市场上下文，带粗粒度公开状态，无私密执行路径。",
+  "A safe abstraction of freshness, queue posture, and public relay state.":
+    "新鲜度、队列状态和公开中继状态的安全抽象。",
+  "A slower review loop for shipped work, deferred decisions, and public-safe outcomes.":
+    "用于已交付工作、延期决策和公开安全结果的较慢审核循环。",
+  "Only coarse cadence and next-window labels are public.":
+    "只有粗粒度节奏和下个窗口标签可公开。",
+  "No private automation details, source material, or controls are rendered.":
+    "不渲染私密自动化细节、来源材料或控制项。",
+  "Research schedules remain read-only and cannot change private systems.":
+    "研究日程保持只读，不能改变私密系统。",
   "Doraemon Office public status contract": "Doraemon Office 公开状态契约",
   "Sanitized state only": "仅展示脱敏状态",
   "Explicit allowlist": "显式白名单",
@@ -3855,6 +4092,18 @@ const phraseZhTranslations = [
   ["Public health", "公开健康"],
   ["Health rail", "健康栏"],
   ["public checks", "项公开检查"],
+  ["public owner-review checkpoint is visible", "个公开本人审核检查点可见"],
+  ["public owner-review checkpoints are visible", "个公开本人审核检查点可见"],
+  ["public review window is visible", "个公开审核窗口可见"],
+  ["public review windows are visible", "个公开审核窗口可见"],
+  ["review window is public", "个审核窗口是公开的"],
+  ["review windows are public", "个审核窗口是公开的"],
+  ["public windows", "公开窗口"],
+  ["public window", "公开窗口"],
+  ["sanitized windows", "个脱敏窗口"],
+  ["sanitized window", "个脱敏窗口"],
+  ["sanitized task groups", "个脱敏任务分组"],
+  ["shown", "已显示"],
   ["Public relay", "公开中继"],
   ["public profiles", "公开档案"],
   ["Full-screen bridge", "全屏桥接"],

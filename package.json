@@ -6,8 +6,9 @@
     "dev": "next dev",
     "check:private-boundaries": "node scripts/check-private-boundaries.mjs",
     "check:private-i18n": "node scripts/check-private-i18n.mjs",
+    "check:public-dora-i18n": "node scripts/check-public-dora-i18n.mjs",
     "check:public-agents": "node scripts/check-public-agents.mjs",
-    "build": "npm run check:private-boundaries && npm run check:private-i18n && npm run check:public-agents && next build",
+    "build": "npm run check:private-boundaries && npm run check:private-i18n && npm run check:public-dora-i18n && npm run check:public-agents && next build",
     "start": "next start"
   },
   "dependencies": {
