@@ -130,6 +130,8 @@ const privateAgentZhOverrides: Partial<Record<string, string>> = {
 function agentText(value: string | undefined, locale: SiteLocale) {
   if (!value) return "";
   if (locale !== "zh") return value;
+  const stepMatch = value.match(/^Step (\d+)$/);
+  if (stepMatch) return `第 ${stepMatch[1]} 步`;
   return privateAgentZhOverrides[value] ?? translateToZh(value) ?? value;
 }
 
