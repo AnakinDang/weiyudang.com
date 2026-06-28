@@ -58,6 +58,10 @@ type ReviewItem = {
   tone: Tone;
   decision: string;
   evidence: string;
+  href: string;
+  hrefLabel: string;
+  contextHref: string;
+  contextLabel: string;
 };
 
 type MarketAlert = {
@@ -85,12 +89,22 @@ type CommandShortcut = {
   summary: string;
 };
 
+type DecisionHubItem = {
+  title: string;
+  href: string;
+  state: string;
+  tone: Tone;
+  summary: string;
+  proof: string;
+};
+
 export type OwnerTodaySurfaceData = {
   dateLabel: string;
   brief: TodayBrief;
   priorities: readonly TodayPriority[];
   operatingMap: readonly OperatingSurface[];
   reviewQueue: readonly ReviewItem[];
+  decisionHub: readonly DecisionHubItem[];
   marketAlerts: readonly MarketAlert[];
   schedulePressure: readonly SchedulePressure[];
   systemHealth: readonly SystemHealth[];
@@ -136,6 +150,7 @@ const metricToneClasses = [
 ] as const;
 
 const surfaceIcons = [MonitorCheck, LayoutDashboard, LineChart, ClipboardCheck] as const;
+const decisionHubIcons = [ClipboardCheck, LineChart, Bot, MonitorCheck] as const;
 const scheduleIcons = [CalendarClock, LineChart, MonitorCheck, Clock3] as const;
 
 function TodayPill({
@@ -453,6 +468,63 @@ function PriorityPanel({ priorities }: { priorities: readonly TodayPriority[] })
   );
 }
 
+function DecisionHubPanel({ items }: { items: readonly DecisionHubItem[] }) {
+  return (
+    <section className="panel p-5 md:p-6" aria-labelledby="today-decision-hub-title">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="eyebrow">Decision hub</p>
+          <h2 id="today-decision-hub-title" className="mt-2 text-2xl font-semibold text-white">
+            Open the right private context.
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+            Today links decisions to their owner-only surfaces. These are routing shortcuts only; they do not approve,
+            publish, dispatch, or execute work.
+          </p>
+        </div>
+        <TodayPill tone="private" icon={LockKeyhole}>
+          Read-only routing
+        </TodayPill>
+      </div>
+
+      <div className="mt-5 grid gap-3 md:grid-cols-2">
+        {items.map((item, index) => {
+          const Icon = decisionHubIcons[index % decisionHubIcons.length];
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              prefetch={false}
+              className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:-translate-y-0.5 hover:border-sky-200/35 hover:bg-sky-300/10"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex min-w-0 gap-3">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
+                    <Icon size={18} aria-hidden />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="text-base font-semibold text-white">{item.title}</h3>
+                  </div>
+                </div>
+                <StatusBadge tone={item.tone}>{item.state}</StatusBadge>
+              </div>
+              <p className="mt-3 text-sm leading-6 text-slate-300">{item.summary}</p>
+              <p className="mt-4 rounded-[8px] border border-slate-700 bg-black/20 p-3 text-xs leading-5 text-slate-400">
+                {item.proof}
+              </p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-sky-100 transition group-hover:text-white">
+                Open context
+                <ArrowRight size={15} aria-hidden />
+              </span>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 function ReviewQueueRail({ reviewQueue }: { reviewQueue: readonly ReviewItem[] }) {
   return (
     <section className="panel p-5" aria-labelledby="today-review-title">
@@ -479,6 +551,24 @@ function ReviewQueueRail({ reviewQueue }: { reviewQueue: readonly ReviewItem[] }
             <p className="mt-3 rounded-[8px] border border-slate-700 bg-black/20 p-3 text-xs leading-5 text-slate-400">
               {item.evidence}
             </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link
+                href={item.href}
+                prefetch={false}
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-sky-200/25 bg-sky-300/10 px-3 py-2 text-xs font-semibold text-sky-100 transition hover:border-sky-200/45 hover:text-white"
+              >
+                {item.hrefLabel}
+                <ArrowRight size={14} aria-hidden />
+              </Link>
+              <Link
+                href={item.contextHref}
+                prefetch={false}
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-xs font-semibold text-slate-300 transition hover:border-sky-200/30 hover:text-white"
+              >
+                {item.contextLabel}
+                <ArrowRight size={14} aria-hidden />
+              </Link>
+            </div>
           </article>
         ))}
       </div>
@@ -703,6 +793,7 @@ export function OwnerTodaySurface({ data }: { data: OwnerTodaySurfaceData }) {
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(20rem,0.42fr)]">
         <div className="grid gap-5">
           <LoopPanel />
+          <DecisionHubPanel items={data.decisionHub} />
           <PriorityPanel priorities={data.priorities} />
         </div>
         <aside className="grid content-start gap-5">

@@ -74,6 +74,10 @@ type ReviewQueueItem = {
   blockers: readonly string[];
   allowedNext: string;
   disallowedActions: readonly string[];
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref: string;
+  secondaryLabel: string;
   updated: string;
   note: string;
 };
@@ -538,6 +542,31 @@ function EvidenceWorkbench({
             <div className="rounded-[8px] border border-slate-700 bg-[#07111f]/58 p-4">
               <p className="text-xs font-bold uppercase text-slate-400">{t("Updated")}</p>
               <p className="mt-3 text-sm font-semibold text-white">{t(selectedItem.updated)}</p>
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-[8px] border border-sky-200/25 bg-sky-300/10 p-4">
+            <p className="text-xs font-bold uppercase text-sky-100">{t("Linked private context")}</p>
+            <p className="mt-2 text-sm leading-6 text-slate-300">
+              {t("Open the related owner-only surface for evidence, history, or system posture. These links do not send an approval or dispatch work.")}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link
+                href={selectedItem.primaryHref}
+                prefetch={false}
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-sky-300 px-3 py-2 text-xs font-semibold text-slate-950 transition hover:bg-sky-200"
+              >
+                {t(selectedItem.primaryLabel)}
+                <ArrowRight size={14} aria-hidden />
+              </Link>
+              <Link
+                href={selectedItem.secondaryHref}
+                prefetch={false}
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.045] px-3 py-2 text-xs font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
+              >
+                {t(selectedItem.secondaryLabel)}
+                <ArrowRight size={14} aria-hidden />
+              </Link>
             </div>
           </div>
         </article>
