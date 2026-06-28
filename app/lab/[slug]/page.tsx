@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, FileText, FlaskConical, ShieldChec
 import { MarkdownBody } from "@/components/MarkdownBody";
 import { SiteChrome } from "@/components/SiteChrome";
 import { TradingResearchBoundary } from "@/components/TradingResearchBoundary";
-import { formatContentDate, getNoteBySlug, getNotes } from "@/lib/content";
+import { formatContentDate, getNoteBySlug, getNotes, getRelatedNotes } from "@/lib/content";
 
 type LabNotePageProps = {
   params: Promise<{ slug: string }>;
@@ -47,6 +47,8 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
   if (!note) {
     notFound();
   }
+
+  const relatedNotes = getRelatedNotes(note, 2);
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/lab">
@@ -142,6 +144,24 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
                   Related project
                   <ArrowRight size={16} aria-hidden />
                 </Link>
+              ) : null}
+
+              {relatedNotes.length ? (
+                <section className="lab-note-rail-panel">
+                  <p className="lab-rail-kicker">More research</p>
+                  <div className="lab-note-related-list">
+                    {relatedNotes.map((candidate) => (
+                      <Link key={candidate.slug} href={`/lab/${candidate.slug}`} className="link-focus">
+                        <FileText size={16} aria-hidden />
+                        <span>
+                          <strong>{candidate.title}</strong>
+                          <small>{candidate.categoryLabel}</small>
+                        </span>
+                        <ArrowRight size={15} aria-hidden />
+                      </Link>
+                    ))}
+                  </div>
+                </section>
               ) : null}
 
               <Link href="/projects" className="link-focus lab-note-rail-link">

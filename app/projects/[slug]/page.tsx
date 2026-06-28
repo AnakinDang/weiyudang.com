@@ -14,7 +14,7 @@ import {
 import { MarkdownBody } from "@/components/MarkdownBody";
 import { SiteChrome } from "@/components/SiteChrome";
 import { TradingProjectShowcase } from "@/components/TradingProjectShowcase";
-import { getProjectBySlug, getProjects } from "@/lib/content";
+import { getNotesForProject, getProjectBySlug, getProjects } from "@/lib/content";
 import { boundaryForProject, visualForProject } from "@/lib/projectPresentation";
 
 type ProjectPageProps = {
@@ -78,6 +78,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const boundary = boundaryForProject(project);
   const boundaryStatement = boundaryStatementForLabel(boundary.label);
   const visual = visualForProject(project.slug);
+  const relatedNotes = getNotesForProject(project.slug);
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/projects">
@@ -177,6 +178,24 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   </Link>
                 </div>
               </section>
+
+              {relatedNotes.length ? (
+                <section className="project-rail-panel">
+                  <p className="projects-kicker">Related research</p>
+                  <div className="project-related-note-list">
+                    {relatedNotes.map((note) => (
+                      <Link key={note.slug} href={`/lab/${note.slug}`} className="link-focus">
+                        <FileText size={15} aria-hidden />
+                        <span>
+                          <strong>{note.title}</strong>
+                          <small>{note.dateLabel}</small>
+                        </span>
+                        <ArrowRight size={15} aria-hidden />
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
 
               <section className="project-rail-panel">
                 <p className="projects-kicker">Safety boundary</p>

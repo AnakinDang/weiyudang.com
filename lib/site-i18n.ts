@@ -2724,6 +2724,8 @@ const exactZhTranslations = {
   "Selected note": "选中笔记",
   "Read note": "阅读笔记",
   "Related project": "相关项目",
+  "Related research": "相关研究",
+  "More research": "更多研究",
   "Back to Research": "返回研究",
   "Public-safe note": "公开安全笔记",
   "This note is public-safe.": "这篇笔记是公开安全的。",
@@ -2750,6 +2752,45 @@ const exactZhTranslations = {
     "公开笔记应该解释可长期保存的想法、设计决策，以及可以分享的证据。它不应包含原始 prompt、私密草稿、本地路径、账户数据、运行时 ID、凭证、订单细节或私密知识库原文。",
   "That boundary is not a temporary launch constraint. It is part of the product: public enough to build trust, private enough to keep the system honest.":
     "这条边界不是上线初期的临时限制，而是产品的一部分：足够公开以建立信任，也足够私密以保持系统诚实。",
+  "Designing the Doraemon Office Public Boundary": "设计 Doraemon Office 的公开边界",
+  "How the public command room can show motion, rhythm, and agent presence without exposing private work.":
+    "公开指挥室如何展示运行、节奏和智能体在线状态，同时不暴露私密工作。",
+  "Doraemon Office is most useful when it feels alive, but public life needs a boundary.":
+    "Doraemon Office 最有用的时候，是它看起来真的在运转；但公开的生命感需要边界。",
+  "The public surface can show a sanitized rhythm: which MiniDora is active, what kind of event happened, whether review is waiting, and whether the relay is healthy. It should not show the private task title, prompt body, local path, account state, source text, or operational control that produced the signal.":
+    "公开界面可以展示脱敏后的节奏：哪个 MiniDora 正在活跃、发生了哪类事件、是否有审核等待、中继是否健康。它不应该展示产生信号的私密任务标题、prompt 正文、本地路径、账户状态、来源文本或运维控制。",
+  "Design stance": "设计立场",
+  "The command room is a window, not a console. Visitors should understand that a real system exists, but they should not receive the keys to it.":
+    "指挥室是一扇窗口，不是控制台。访客应该能理解真实系统存在，但不应该拿到系统钥匙。",
+  "What can be public": "哪些可以公开",
+  "stable agent names and roles": "稳定的智能体名称和角色",
+  "fixed public event labels": "固定的公开事件标签",
+  "safe timestamps and high-level status": "安全时间戳和高层状态",
+  "public schema health": "公开 schema 健康状态",
+  "links to curated project pages": "指向精选项目页的链接",
+  "raw IDs, prompts, and task titles": "原始 ID、prompt 和任务标题",
+  "private owner notes and memory records": "私密本人笔记和记忆记录",
+  "tool payloads, accounts, and credentials": "工具 payload、账户和凭据",
+  "repair, restart, purge, or deploy controls": "修复、重启、清理或部署控制项",
+  "The long-term product direction is not to hide the system. It is to make the public layer honest enough to be useful and restrained enough to be trusted.":
+    "长期产品方向不是把系统藏起来，而是让公开层足够诚实、因此有用，也足够克制、因此可信。",
+  "Keeping MiniDora Trading Research-Only": "让 MiniDora Trading 保持仅研究",
+  "The trading desk can organize evidence, disagreement, and source quality, but it must never become an execution surface.":
+    "交易研究台可以组织证据、分歧和来源质量，但绝不能变成执行界面。",
+  "MiniDora Trading is useful because it can slow decisions down. It can collect signals, attach evidence, show disagreement, and keep missing proof visible before anything becomes a conclusion.":
+    "MiniDora Trading 的价值在于让决策慢下来。它可以收集信号、附上证据、展示分歧，并在任何内容变成结论前让缺失证明保持可见。",
+  "Useful research behavior": "有用的研究行为",
+  "separate thesis from confidence": "把观点和信心分开",
+  "show evidence and counter-evidence together": "同时展示证据和反证",
+  "mark source degradation clearly": "清楚标记来源降级",
+  "preserve replay for later inspection": "保留回放，方便之后检查",
+  "Hard boundary": "硬边界",
+  "The interface should not include order buttons, broker writes, paper submit, live submit, exact sizing, account values, positions, PnL, or phase auto-promotion.":
+    "界面不应包含订单按钮、券商写入、纸面提交、实盘提交、精确仓位、账户数值、持仓、PnL 或阶段自动推进。",
+  "That boundary is not a lack of ambition. It is the product definition. The trading team is a research team, and the owner remains the only decision point.":
+    "这条边界不是缺少野心，而是产品定义。交易团队是研究团队，本人仍然是唯一决策点。",
+  "Read Designing the Doraemon Office Public Boundary": "阅读《设计 Doraemon Office 的公开边界》",
+  "Read Keeping MiniDora Trading Research-Only": "阅读《让 MiniDora Trading 保持仅研究》",
   "Share what's safe. Protect what's not.": "分享安全的内容，保护不该公开的内容。",
   "Evidence first": "证据优先",
   "Show the why, the how, and the limits.": "展示原因、方法和边界。",

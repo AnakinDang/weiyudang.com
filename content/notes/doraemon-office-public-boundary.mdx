@@ -1,0 +1,36 @@
+---
+title: "Designing the Doraemon Office Public Boundary"
+slug: "doraemon-office-public-boundary"
+publishedAt: "2026-05-16"
+updatedAt: "2026-05-16"
+category: "dora-office"
+visibility: "public"
+featured: true
+relatedProject: "doraemon-visualizer"
+summary: "How the public command room can show motion, rhythm, and agent presence without exposing private work."
+---
+
+Doraemon Office is most useful when it feels alive, but public life needs a boundary.
+
+The public surface can show a sanitized rhythm: which MiniDora is active, what kind of event happened, whether review is waiting, and whether the relay is healthy. It should not show the private task title, prompt body, local path, account state, source text, or operational control that produced the signal.
+
+## Design stance
+
+The command room is a window, not a console. Visitors should understand that a real system exists, but they should not receive the keys to it.
+
+## What can be public
+
+- stable agent names and roles
+- fixed public event labels
+- safe timestamps and high-level status
+- public schema health
+- links to curated project pages
+
+## What stays private
+
+- raw IDs, prompts, and task titles
+- private owner notes and memory records
+- tool payloads, accounts, and credentials
+- repair, restart, purge, or deploy controls
+
+The long-term product direction is not to hide the system. It is to make the public layer honest enough to be useful and restrained enough to be trusted.

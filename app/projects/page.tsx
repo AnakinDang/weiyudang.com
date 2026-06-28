@@ -7,7 +7,16 @@ import { getProjects } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Public project index for Weiyu Dang's AI systems, creative workflows, apps, and research tools."
+  description: "Public project index for Weiyu Dang's AI systems, creative workflows, apps, and research tools.",
+  alternates: {
+    canonical: "/projects"
+  },
+  openGraph: {
+    title: "Projects",
+    description: "Public project index for Weiyu Dang's AI systems, creative workflows, apps, and research tools.",
+    url: "/projects",
+    type: "website"
+  }
 };
 
 export default function ProjectsPage() {
