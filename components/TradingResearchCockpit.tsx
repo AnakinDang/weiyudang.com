@@ -214,43 +214,110 @@ function tradingViewFromLocation() {
 }
 
 type TradingSearchUpdater = (params: URLSearchParams) => void;
+type TradingTraceTokenLookup = {
+  readonly tokenToValue: ReadonlyMap<string, string>;
+  readonly valueToToken: ReadonlyMap<string, string>;
+  readonly values: ReadonlySet<string>;
+};
 
 function clearTradingTraceParams(params: URLSearchParams) {
   tradingTraceParams.forEach((param) => params.delete(param));
 }
 
-function setOptionalTradingParam(params: URLSearchParams, key: string, value: string, defaultValue: string) {
+function tradingTraceToken(scope: string, value: string) {
+  let hash = 0x811c9dc5;
+  const input = `${scope}:${value}`;
+
+  for (let index = 0; index < input.length; index += 1) {
+    hash ^= input.charCodeAt(index);
+    hash = Math.imul(hash, 0x01000193);
+  }
+
+  return `${scope}_${(hash >>> 0).toString(36).padStart(7, "0")}`;
+}
+
+function createTradingTraceTokenLookup(scope: string, values: readonly string[]): TradingTraceTokenLookup {
+  const tokenToValue = new Map<string, string>();
+  const valueToToken = new Map<string, string>();
+  const uniqueValues = [...new Set(values)];
+
+  uniqueValues.forEach((value) => {
+    let token = tradingTraceToken(scope, value);
+    let attempt = 0;
+
+    while (tokenToValue.has(token) && tokenToValue.get(token) !== value) {
+      attempt += 1;
+      token = tradingTraceToken(scope, `${value}:${attempt}`);
+    }
+
+    tokenToValue.set(token, value);
+    valueToToken.set(value, token);
+  });
+
+  return {
+    tokenToValue,
+    valueToToken,
+    values: new Set(uniqueValues)
+  };
+}
+
+function setOptionalTradingParam(
+  params: URLSearchParams,
+  key: string,
+  value: string,
+  defaultValue: string,
+  lookup: TradingTraceTokenLookup
+) {
   if (value === defaultValue) {
     params.delete(key);
     return;
   }
 
-  params.set(key, value);
+  const token = lookup.valueToToken.get(value);
+
+  if (!token) {
+    params.delete(key);
+    return;
+  }
+
+  params.set(key, token);
 }
 
-function evidenceSearchUpdater(signalFilter: string, stateFilter: string): TradingSearchUpdater {
+function evidenceSearchUpdater(
+  signalFilter: string,
+  stateFilter: string,
+  signalLookup: TradingTraceTokenLookup,
+  stateLookup: TradingTraceTokenLookup
+): TradingSearchUpdater {
   return (params) => {
-    setOptionalTradingParam(params, EVIDENCE_SIGNAL_PARAM, signalFilter, ALL_SIGNAL_FILTER);
-    setOptionalTradingParam(params, EVIDENCE_STATE_PARAM, stateFilter, ALL_STATE_FILTER);
+    setOptionalTradingParam(params, EVIDENCE_SIGNAL_PARAM, signalFilter, ALL_SIGNAL_FILTER, signalLookup);
+    setOptionalTradingParam(params, EVIDENCE_STATE_PARAM, stateFilter, ALL_STATE_FILTER, stateLookup);
   };
 }
 
-function replaySearchUpdater(deskFilter: string, instrumentFilter: string, evidenceFilter: string): TradingSearchUpdater {
+function replaySearchUpdater(
+  deskFilter: string,
+  instrumentFilter: string,
+  evidenceFilter: string,
+  deskLookup: TradingTraceTokenLookup,
+  instrumentLookup: TradingTraceTokenLookup,
+  evidenceLookup: TradingTraceTokenLookup
+): TradingSearchUpdater {
   return (params) => {
-    setOptionalTradingParam(params, REPLAY_DESK_PARAM, deskFilter, ALL_DESK_FILTER);
-    setOptionalTradingParam(params, REPLAY_INSTRUMENT_PARAM, instrumentFilter, ALL_INSTRUMENT_FILTER);
-    setOptionalTradingParam(params, REPLAY_EVIDENCE_PARAM, evidenceFilter, ALL_EVIDENCE_FILTER);
+    setOptionalTradingParam(params, REPLAY_DESK_PARAM, deskFilter, ALL_DESK_FILTER, deskLookup);
+    setOptionalTradingParam(params, REPLAY_INSTRUMENT_PARAM, instrumentFilter, ALL_INSTRUMENT_FILTER, instrumentLookup);
+    setOptionalTradingParam(params, REPLAY_EVIDENCE_PARAM, evidenceFilter, ALL_EVIDENCE_FILTER, evidenceLookup);
   };
 }
 
-function validFilterParam(params: URLSearchParams, key: string, allowedValues: ReadonlySet<string>, fallback: string) {
+function validFilterParam(params: URLSearchParams, key: string, lookup: TradingTraceTokenLookup, fallback: string) {
   const value = params.get(key);
 
-  if (!value || !allowedValues.has(value)) {
+  if (!value) {
     return fallback;
   }
 
-  return value;
+  return lookup.tokenToValue.get(value) ?? (lookup.values.has(value) ? value : fallback);
 }
 
 function tradingViewUrl(view: TradingView, updateSearch?: TradingSearchUpdater) {
@@ -266,6 +333,26 @@ function tradingViewUrl(view: TradingView, updateSearch?: TradingSearchUpdater) 
   updateSearch?.(url.searchParams);
 
   return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function currentTradingUrl() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+}
+
+function replaceTradingUrlIfChanged(view: TradingView, updateSearch?: TradingSearchUpdater) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const nextUrl = tradingViewUrl(view, updateSearch);
+
+  if (nextUrl !== currentTradingUrl()) {
+    window.history.replaceState(null, "", nextUrl);
+  }
 }
 
 function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
@@ -291,7 +378,7 @@ function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
       }
 
       const nextUrl = tradingViewUrl(view, updateSearch);
-      const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      const currentUrl = currentTradingUrl();
 
       if (nextUrl !== currentUrl) {
         // Keep research view changes in browser history so Back returns to the previously inspected desk view.
@@ -2150,22 +2237,44 @@ export function TradingResearchCockpit({
   const [replayEvidenceFilter, setReplayEvidenceFilter] = useState(ALL_EVIDENCE_FILTER);
 
   const deskFilters = useMemo(() => [ALL_DESK_FILTER, ...new Set(data.signals.map((signal) => signal.desk))], [data.signals]);
-  const evidenceSignalFilters = useMemo(
-    () => new Set([ALL_SIGNAL_FILTER, ...data.signals.map((signal) => signal.instrument)]),
+  const evidenceSignalLookup = useMemo(
+    () => createTradingTraceTokenLookup("sig", [ALL_SIGNAL_FILTER, ...data.signals.map((signal) => signal.instrument)]),
     [data.signals]
   );
-  const evidenceStateFilters = useMemo(
-    () => new Set([ALL_STATE_FILTER, ...data.evidencePackets.map((packet) => packet.state)]),
+  // Evidence and Replay intentionally share the "state" token scope so a state token can travel across both views.
+  const evidenceStateLookup = useMemo(
+    () => createTradingTraceTokenLookup("state", [ALL_STATE_FILTER, ...data.evidencePackets.map((packet) => packet.state)]),
     [data.evidencePackets]
   );
-  const replayDeskFilters = useMemo(() => new Set([ALL_DESK_FILTER, ...data.replay.map((event) => event.desk)]), [data.replay]);
-  const replayInstrumentFilters = useMemo(
-    () => new Set([ALL_INSTRUMENT_FILTER, ...data.replay.map((event) => event.instrument)]),
+  const replayDeskLookup = useMemo(
+    () => createTradingTraceTokenLookup("desk", [ALL_DESK_FILTER, ...data.replay.map((event) => event.desk)]),
     [data.replay]
   );
-  const replayEvidenceFilters = useMemo(
-    () => new Set([ALL_EVIDENCE_FILTER, ...data.replay.map((event) => event.evidenceState)]),
+  const replayInstrumentLookup = useMemo(
+    () => createTradingTraceTokenLookup("inst", [ALL_INSTRUMENT_FILTER, ...data.replay.map((event) => event.instrument)]),
     [data.replay]
+  );
+  // Keep this scope aligned with evidenceStateLookup; param names still distinguish Evidence vs Replay.
+  const replayEvidenceLookup = useMemo(
+    () => createTradingTraceTokenLookup("state", [ALL_EVIDENCE_FILTER, ...data.replay.map((event) => event.evidenceState)]),
+    [data.replay]
+  );
+  const evidenceUrlUpdater = useCallback(
+    (signalFilter: string, stateFilter: string) =>
+      evidenceSearchUpdater(signalFilter, stateFilter, evidenceSignalLookup, evidenceStateLookup),
+    [evidenceSignalLookup, evidenceStateLookup]
+  );
+  const replayUrlUpdater = useCallback(
+    (deskFilter: string, instrumentFilter: string, evidenceFilter: string) =>
+      replaySearchUpdater(
+        deskFilter,
+        instrumentFilter,
+        evidenceFilter,
+        replayDeskLookup,
+        replayInstrumentLookup,
+        replayEvidenceLookup
+      ),
+    [replayDeskLookup, replayEvidenceLookup, replayInstrumentLookup]
   );
   const filteredSignals = useMemo(
     () => (activeDesk === ALL_DESK_FILTER ? data.signals : data.signals.filter((signal) => signal.desk === activeDesk)),
@@ -2201,27 +2310,41 @@ export function TradingResearchCockpit({
       const nextView = tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
 
       if (nextView === "Evidence") {
-        setEvidenceSignalFilter(
-          validFilterParam(params, EVIDENCE_SIGNAL_PARAM, evidenceSignalFilters, ALL_SIGNAL_FILTER)
-        );
-        setEvidenceStateFilter(validFilterParam(params, EVIDENCE_STATE_PARAM, evidenceStateFilters, ALL_STATE_FILTER));
+        const nextSignalFilter = validFilterParam(params, EVIDENCE_SIGNAL_PARAM, evidenceSignalLookup, ALL_SIGNAL_FILTER);
+        const nextEvidenceState = validFilterParam(params, EVIDENCE_STATE_PARAM, evidenceStateLookup, ALL_STATE_FILTER);
+
+        setEvidenceSignalFilter(nextSignalFilter);
+        setEvidenceStateFilter(nextEvidenceState);
+        replaceTradingUrlIfChanged("Evidence", evidenceUrlUpdater(nextSignalFilter, nextEvidenceState));
+        return;
       }
 
       if (nextView === "Replay") {
-        setReplayDeskFilter(validFilterParam(params, REPLAY_DESK_PARAM, replayDeskFilters, ALL_DESK_FILTER));
-        setReplayInstrumentFilter(
-          validFilterParam(params, REPLAY_INSTRUMENT_PARAM, replayInstrumentFilters, ALL_INSTRUMENT_FILTER)
+        const nextDeskFilter = validFilterParam(params, REPLAY_DESK_PARAM, replayDeskLookup, ALL_DESK_FILTER);
+        const nextInstrumentFilter = validFilterParam(
+          params,
+          REPLAY_INSTRUMENT_PARAM,
+          replayInstrumentLookup,
+          ALL_INSTRUMENT_FILTER
         );
-        setReplayEvidenceFilter(
-          validFilterParam(params, REPLAY_EVIDENCE_PARAM, replayEvidenceFilters, ALL_EVIDENCE_FILTER)
-        );
+        const nextEvidenceFilter = validFilterParam(params, REPLAY_EVIDENCE_PARAM, replayEvidenceLookup, ALL_EVIDENCE_FILTER);
+
+        setReplayDeskFilter(nextDeskFilter);
+        setReplayInstrumentFilter(nextInstrumentFilter);
+        setReplayEvidenceFilter(nextEvidenceFilter);
+        replaceTradingUrlIfChanged("Replay", replayUrlUpdater(nextDeskFilter, nextInstrumentFilter, nextEvidenceFilter));
+        return;
+      }
+
+      if (tradingTraceParams.some((param) => params.has(param))) {
+        replaceTradingUrlIfChanged(nextView);
       }
     }
 
     syncTraceFiltersFromLocation();
     window.addEventListener("popstate", syncTraceFiltersFromLocation);
     return () => window.removeEventListener("popstate", syncTraceFiltersFromLocation);
-  }, [evidenceSignalFilters, evidenceStateFilters, replayDeskFilters, replayEvidenceFilters, replayInstrumentFilters]);
+  }, [evidenceSignalLookup, evidenceStateLookup, evidenceUrlUpdater, replayDeskLookup, replayEvidenceLookup, replayInstrumentLookup, replayUrlUpdater]);
 
   function openEvidenceCenter() {
     setEvidenceSignalFilter(ALL_SIGNAL_FILTER);
@@ -2232,15 +2355,15 @@ export function TradingResearchCockpit({
   function traceEvidenceForSignal(instrument: string) {
     setEvidenceSignalFilter(instrument);
     setEvidenceStateFilter(ALL_STATE_FILTER);
-    navigateTradingView("Evidence", evidenceSearchUpdater(instrument, ALL_STATE_FILTER));
+    navigateTradingView("Evidence", evidenceUrlUpdater(instrument, ALL_STATE_FILTER));
   }
 
   function traceReplayForInstrument(instrument: string, evidenceState = ALL_EVIDENCE_FILTER) {
-    const nextInstrument = instrument === "ALL" ? ALL_INSTRUMENT_FILTER : instrument;
+    const nextInstrument = instrument === "ALL" || instrument === ALL_INSTRUMENT_FILTER ? ALL_INSTRUMENT_FILTER : instrument;
     setReplayDeskFilter(ALL_DESK_FILTER);
     setReplayInstrumentFilter(nextInstrument);
     setReplayEvidenceFilter(evidenceState);
-    navigateTradingView("Replay", replaySearchUpdater(ALL_DESK_FILTER, nextInstrument, evidenceState));
+    navigateTradingView("Replay", replayUrlUpdater(ALL_DESK_FILTER, nextInstrument, evidenceState));
   }
 
   function openReviewQueueItem(item: TradingReviewQueueItem) {
@@ -2250,7 +2373,7 @@ export function TradingResearchCockpit({
 
       setEvidenceSignalFilter(nextSignalFilter);
       setEvidenceStateFilter(nextEvidenceState);
-      navigateTradingView("Evidence", evidenceSearchUpdater(nextSignalFilter, nextEvidenceState));
+      navigateTradingView("Evidence", evidenceUrlUpdater(nextSignalFilter, nextEvidenceState));
       return;
     }
 
@@ -2261,7 +2384,7 @@ export function TradingResearchCockpit({
       setReplayDeskFilter(ALL_DESK_FILTER);
       setReplayInstrumentFilter(nextInstrument);
       setReplayEvidenceFilter(nextEvidenceState);
-      navigateTradingView("Replay", replaySearchUpdater(ALL_DESK_FILTER, nextInstrument, nextEvidenceState));
+      navigateTradingView("Replay", replayUrlUpdater(ALL_DESK_FILTER, nextInstrument, nextEvidenceState));
       return;
     }
 
@@ -2274,7 +2397,7 @@ export function TradingResearchCockpit({
     setEvidenceSignalFilter(value);
 
     if (activeView === "Evidence") {
-      replaceTradingView("Evidence", evidenceSearchUpdater(value, evidenceStateFilter));
+      replaceTradingView("Evidence", evidenceUrlUpdater(value, evidenceStateFilter));
     }
   }
 
@@ -2282,7 +2405,7 @@ export function TradingResearchCockpit({
     setEvidenceStateFilter(value);
 
     if (activeView === "Evidence") {
-      replaceTradingView("Evidence", evidenceSearchUpdater(evidenceSignalFilter, value));
+      replaceTradingView("Evidence", evidenceUrlUpdater(evidenceSignalFilter, value));
     }
   }
 
@@ -2299,7 +2422,7 @@ export function TradingResearchCockpit({
     setReplayDeskFilter(value);
 
     if (activeView === "Replay") {
-      replaceTradingView("Replay", replaySearchUpdater(value, replayInstrumentFilter, replayEvidenceFilter));
+      replaceTradingView("Replay", replayUrlUpdater(value, replayInstrumentFilter, replayEvidenceFilter));
     }
   }
 
@@ -2307,7 +2430,7 @@ export function TradingResearchCockpit({
     setReplayInstrumentFilter(value);
 
     if (activeView === "Replay") {
-      replaceTradingView("Replay", replaySearchUpdater(replayDeskFilter, value, replayEvidenceFilter));
+      replaceTradingView("Replay", replayUrlUpdater(replayDeskFilter, value, replayEvidenceFilter));
     }
   }
 
@@ -2315,7 +2438,7 @@ export function TradingResearchCockpit({
     setReplayEvidenceFilter(value);
 
     if (activeView === "Replay") {
-      replaceTradingView("Replay", replaySearchUpdater(replayDeskFilter, replayInstrumentFilter, value));
+      replaceTradingView("Replay", replayUrlUpdater(replayDeskFilter, replayInstrumentFilter, value));
     }
   }
 
