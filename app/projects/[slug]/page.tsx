@@ -7,7 +7,10 @@ import {
   ArrowUpRight,
   Bot,
   CheckCircle2,
+  CircleHelp,
+  Compass,
   FileText,
+  Layers3,
   LockKeyhole,
   ShieldCheck
 } from "lucide-react";
@@ -36,6 +39,57 @@ function boundaryStatementForLabel(label: string) {
     default:
       throw new Error(`[projects] Unknown project boundary label: ${label}`);
   }
+}
+
+function nextQuestionsForProject(project: ReturnType<typeof getProjects>[number]) {
+  if (project.category === "trading-research") {
+    return [
+      {
+        label: "Evidence gap",
+        detail: "Which evidence is still missing before owner review?"
+      },
+      {
+        label: "Desk disagreement",
+        detail: "Where do the research desks disagree?"
+      },
+      {
+        label: "Source freshness",
+        detail: "Which sources need freshness checks?"
+      }
+    ];
+  }
+
+  if (project.visibility === "private-summary") {
+    return [
+      {
+        label: "Public summary",
+        detail: "What can be safely summarized for the public site?"
+      },
+      {
+        label: "Owner route",
+        detail: "Which routes must stay owner-only?"
+      },
+      {
+        label: "Research note",
+        detail: "What evidence can become a public research note?"
+      }
+    ];
+  }
+
+  return [
+    {
+      label: "Artifact",
+      detail: "What artifact proves the next step?"
+    },
+    {
+      label: "Public route",
+      detail: "Which public route should this connect to?"
+    },
+    {
+      label: "Office feedback",
+      detail: "What should feed back into Doraemon Office?"
+    }
+  ];
 }
 
 export function generateStaticParams() {
@@ -79,6 +133,53 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const boundaryStatement = boundaryStatementForLabel(boundary.label);
   const visual = visualForProject(project.slug);
   const relatedNotes = getNotesForProject(project.slug);
+  const hasPrivateLinks = project.links.some((link) => link.private);
+  const dossierCards = [
+    {
+      title: "Project context",
+      icon: Compass,
+      summary: "Where this artifact sits inside the Personal OS.",
+      items: [
+        {
+          label: "Public role",
+          detail: project.summary
+        },
+        {
+          label: "Operating lane",
+          detail: `${project.categoryLabel} · ${project.statusLabel}`
+        },
+        {
+          label: "Boundary mode",
+          detail: boundary.summary
+        }
+      ]
+    },
+    {
+      title: "Evidence",
+      icon: Layers3,
+      summary: "What a visitor can inspect without crossing the private boundary.",
+      items: [
+        {
+          label: "Curated project body",
+          detail: "Markdown body explains only public-safe context."
+        },
+        {
+          label: "Reviewed routes",
+          detail: hasPrivateLinks ? "Links are either public-safe or owner-gated." : "Links stay on public-safe routes."
+        },
+        {
+          label: "Related research",
+          detail: relatedNotes.length ? "Related public research note attached." : "No public related note yet."
+        }
+      ]
+    },
+    {
+      title: "Next questions",
+      icon: CircleHelp,
+      summary: "Open questions keep the project from becoming a static portfolio card.",
+      items: nextQuestionsForProject(project)
+    }
+  ];
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/projects">
@@ -114,6 +215,43 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                   <span>{boundary.summary}</span>
                 </div>
               </div>
+
+              <section className="project-public-dossier" aria-labelledby="project-public-dossier-title">
+                <div className="project-public-dossier-head">
+                  <p className="projects-kicker">Public dossier</p>
+                  <h2 id="project-public-dossier-title">Context, evidence, and next questions</h2>
+                  <p>
+                    Project pages should explain the public story, name the evidence a visitor can inspect, and keep
+                    the next unknowns visible without exposing private work.
+                  </p>
+                </div>
+                <div className="project-public-dossier-grid">
+                  {dossierCards.map((card) => {
+                    const Icon = card.icon;
+                    return (
+                      <article key={card.title} className="project-public-dossier-card">
+                        <div className="project-public-dossier-card-head">
+                          <span aria-hidden>
+                            <Icon size={18} />
+                          </span>
+                          <div>
+                            <h3>{card.title}</h3>
+                            <p>{card.summary}</p>
+                          </div>
+                        </div>
+                        <dl>
+                          {card.items.map((item) => (
+                            <div key={`${card.title}-${item.label}-${item.detail}`}>
+                              <dt>{item.label}</dt>
+                              <dd>{item.detail}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
 
               <div className="project-dossier-body">
                 <h2>Overview</h2>
