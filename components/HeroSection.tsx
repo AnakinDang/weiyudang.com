@@ -60,6 +60,11 @@ export function HeroSection() {
 
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
+          <div className="premium-hero-kicker">
+            <span>Weiyu Dang</span>
+            <span>Personal OS</span>
+            <span>Public studio + Doraemon Office</span>
+          </div>
           <h1 className="premium-hero-title">
             <span className="premium-hero-name">Build the systems</span>
             <span className="premium-hero-os">that help thought</span>
