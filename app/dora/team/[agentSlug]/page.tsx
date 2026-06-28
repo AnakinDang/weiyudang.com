@@ -4,11 +4,14 @@ import { notFound } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
+  Ban,
   Bot,
   CheckCircle2,
   Clock3,
+  Database,
   Eye,
   FileText,
+  GitCompareArrows,
   LockKeyhole,
   Radio,
   ShieldCheck,
@@ -34,7 +37,7 @@ import {
   publicAgentProfileInitial,
   type PublicAgent
 } from "@/lib/public-agents";
-import { tradingConsoleHref } from "@/lib/trading-team";
+import { tradingConsoleHref, tradingResearchDisclaimer } from "@/lib/trading-team";
 
 type DoraAgentProfilePageProps = {
   params: Promise<{ agentSlug: string }>;
@@ -91,6 +94,24 @@ const tradingContinuationRoutes = [
     private: true
   }
 ] as const satisfies readonly ContinuationRoute[];
+
+const tradingResearchBridgeSteps = [
+  {
+    label: "Public profile",
+    title: "One visible team identity",
+    detail: "Trading MiniDora stays the public roster member for market research."
+  },
+  {
+    label: "Public project",
+    title: "Method before metrics",
+    detail: "The project page explains desks, evidence, replay, and safety boundaries."
+  },
+  {
+    label: "Private console",
+    title: "Owner-gated evidence review",
+    detail: "The cockpit opens only after owner auth and remains read-only."
+  }
+] as const;
 
 function peersFor(agent: PublicAgent, agents: PublicAgent[]) {
   const collaboratorNames = new Set(agent.collaboratesWith);
@@ -250,6 +271,67 @@ export default async function DoraAgentProfilePage({ params }: DoraAgentProfileP
               </article>
             </div>
           </section>
+
+          {isTrading ? (
+            <section className="dora-agent-profile-section dora-agent-trading-bridge-section" aria-labelledby="dora-agent-trading-bridge-title">
+              <div className="container dora-agent-trading-bridge">
+                <div className="dora-agent-trading-bridge-copy">
+                  <p className="dora-office-kicker">Research bridge</p>
+                  <h2 id="dora-agent-trading-bridge-title">From public identity to private evidence.</h2>
+                  <p>
+                    Trading MiniDora is the public face of a private research desk. The public site can explain the
+                    method; the owner console can inspect evidence, gates, and replay after authentication.
+                  </p>
+                  <div className="dora-agent-trading-bridge-disclaimer" role="note" aria-label="Trading research boundary">
+                    <ShieldCheck size={18} aria-hidden />
+                    <strong>{tradingResearchDisclaimer}</strong>
+                  </div>
+                </div>
+
+                <div className="dora-agent-trading-bridge-path" aria-label="Trading MiniDora route path">
+                  {tradingResearchBridgeSteps.map((step, index) => (
+                    <article key={step.label}>
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                      <small>{step.label}</small>
+                      <strong>{step.title}</strong>
+                      <p>{step.detail}</p>
+                    </article>
+                  ))}
+                </div>
+
+                <div className="dora-agent-trading-bridge-actions" aria-label="Trading MiniDora route actions">
+                  <Link href="/projects/minidora-trading" className="link-focus">
+                    <FileText size={18} aria-hidden />
+                    Open public project
+                    <ArrowRight size={16} aria-hidden />
+                  </Link>
+                  <Link href={tradingConsoleHref("Evidence")} prefetch={false} className="link-focus">
+                    <LockKeyhole size={18} aria-hidden />
+                    Open owner console
+                    <ArrowRight size={16} aria-hidden />
+                  </Link>
+                </div>
+
+                <div className="dora-agent-trading-bridge-boundary" aria-label="Trading MiniDora public safety boundary">
+                  <div>
+                    <Database size={18} aria-hidden />
+                    <strong>Public can show</strong>
+                    <span>Role, method, desk map, sample evidence shapes.</span>
+                  </div>
+                  <div>
+                    <GitCompareArrows size={18} aria-hidden />
+                    <strong>Private can inspect</strong>
+                    <span>Evidence packets, gates, source health, replay.</span>
+                  </div>
+                  <div>
+                    <Ban size={18} aria-hidden />
+                    <strong>Never available</strong>
+                    <span>Accounts, broker writes, orders, execution controls.</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          ) : null}
 
           <section className="dora-agent-profile-section" aria-labelledby="dora-agent-profile-peers-title">
             <div className="container dora-agent-profile-peer-shell">
