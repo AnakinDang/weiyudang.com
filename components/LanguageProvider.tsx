@@ -24,9 +24,11 @@ type LanguageContextValue = {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 const originalText = new WeakMap<Text, string>();
+const translatedText = new WeakMap<Text, string>();
 const originalAttributes = new WeakMap<Element, Map<string, string>>();
 const translatedAttributes = ["aria-label", "title", "placeholder", "alt"] as const;
 const skipSelector = "script,style,textarea,pre,code,svg,[data-i18n-skip]";
+const ZH_DYNAMIC_REFRESH_MS = 2500;
 
 function preferredLocale(fallback: SiteLocale) {
   if (typeof window === "undefined") return fallback;
@@ -58,13 +60,21 @@ function translateTextNode(node: Text, locale: SiteLocale) {
   const parent = node.parentElement;
   if (parentShouldSkip(parent)) return;
 
-  if (!originalText.has(node)) {
-    originalText.set(node, node.nodeValue ?? "");
+  const currentValue = node.nodeValue ?? "";
+  const previousSource = originalText.get(node);
+  const previousRendered = translatedText.get(node);
+  if (!previousSource || (currentValue !== previousSource && currentValue !== previousRendered)) {
+    originalText.set(node, currentValue);
   }
 
   const source = originalText.get(node) ?? "";
   const nextValue = locale === "zh" ? translateToZh(source) : source;
   const desired = locale === "zh" && nextValue ? preserveOuterWhitespace(source, nextValue) : source;
+  if (locale === "zh" && nextValue) {
+    translatedText.set(node, desired);
+  } else {
+    translatedText.delete(node);
+  }
 
   if (node.nodeValue !== desired) {
     node.nodeValue = desired;
@@ -166,6 +176,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     applyLocaleToDocument(locale, root);
 
     let frame = 0;
+    let refreshTimer = 0;
     const observer = new MutationObserver((mutations) => {
       window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(() => {
@@ -199,8 +210,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       attributeFilter: [...translatedAttributes]
     });
 
+    if (locale === "zh") {
+      refreshTimer = window.setInterval(() => {
+        if (document.visibilityState === "hidden") return;
+        applyLocaleToDocument(locale, root);
+      }, ZH_DYNAMIC_REFRESH_MS);
+    }
+
     return () => {
       window.cancelAnimationFrame(frame);
+      if (refreshTimer) window.clearInterval(refreshTimer);
       observer.disconnect();
     };
   }, [locale]);

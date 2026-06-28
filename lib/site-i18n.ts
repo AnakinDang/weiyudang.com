@@ -362,6 +362,26 @@ const exactZhTranslations = {
   "Show sanitized activity": "展示脱敏活动",
   "Render agent presence": "呈现智能体在线状态",
   "Keep owner state private": "保持本人状态私密",
+  "A public-safe command room for agent presence, activity, schedules, and system rhythm.":
+    "一个公开安全的指挥室，用来呈现智能体在线、活动、日程和系统节奏。",
+  "Visitors can understand the operating system without seeing private tasks, prompts, or owner notes.":
+    "访客可以理解这套操作系统，而不会看到私密任务、prompt 或本人笔记。",
+  "Agent team": "智能体团队",
+  "Specialized MiniDoras make research, engineering, product, ops, memory, media, and trading research legible.":
+    "专门化的 MiniDoras 让研究、工程、产品、运营、记忆、媒体和交易研究都变得可理解。",
+  "Agents appear as teammates with roles and audit trails, not anonymous automation.":
+    "智能体以有角色、有审计轨迹的队友出现，而不是匿名自动化。",
+  "Coordinate handoffs": "协调交接",
+  "Surface public roles": "呈现公开角色",
+  "Separate research from execution": "把研究与执行分开",
+  "Personal AI studio": "个人 AI 工作室",
+  "The umbrella for experiments in AI workflows, creative systems, and research tools.":
+    "承载 AI 工作流、创意系统和研究工具实验的总入口。",
+  "Keep the company idea as one studio inside a personal website until weiyudang.ai exists.":
+    "在 weiyudang.ai 成形前，把公司想法先作为个人网站内的一个工作室呈现。",
+  "Map project boundary": "映射项目边界",
+  "Keep private app separate": "保持私密应用分离",
+  "active layer": "当前层",
   "Curated public guide. No prompts, credentials, private memory, or execution controls.":
     "精选公开导览。不展示 prompt、凭据、私密记忆或执行控制。",
   "This site is a personal home base. Collaboration can start small: a research question, an interface idea, or a workflow that deserves a better tool.":
@@ -380,6 +400,15 @@ const exactZhTranslations = {
   "Open journal": "打开日志",
   "Latest notes": "最新笔记",
   "Thoughts, research, and updates from the desk.": "来自书桌的想法、研究和更新。",
+  "A light shelf for experiments, architecture decisions, research fragments, and the evolution of the Personal OS.":
+    "一个轻量书架，存放实验、架构决策、研究片段，以及 Personal OS 的演进记录。",
+  "Notes, projects, or a focused conversation.": "笔记、项目，或者一场聚焦的对话。",
+  "Open notes": "打开笔记",
+  "research feed": "研究动态",
+  "drafting": "起草中",
+  "annotating": "标注中",
+  "connecting": "连接中",
+  "publishing": "发布中",
 
   "The public Doraemon entry for Weiyu Dang's personal AI operating system.":
     "Weiyu Dang 个人 AI 操作系统的公开 Doraemon 入口。",
@@ -458,6 +487,42 @@ const exactZhTranslations = {
     "随着时间推移，让思考更好、工作更好、影响更大。",
   "Public preview": "公开预览",
   "Open Doraemon Office": "打开 Doraemon Office",
+
+  "View Activity": "查看活动",
+  "Current Focus": "当前重点",
+  "Live public relay event mapped through the native site allowlist.":
+    "实时公开中继事件已经通过原生站点白名单映射。",
+  "Public-safe activity snapshot with live relay heartbeat shown below.":
+    "公开安全的活动快照，下方显示实时中继心跳。",
+  "Led by": "负责人",
+  "System Heartbeat": "系统心跳",
+  "Full-screen bridge": "全屏桥接",
+  "The native routes are primary. The visualizer remains available when the stage needs more room.":
+    "原生路由是主要入口；当舞台需要更大空间时，visualizer 仍可打开。",
+  "Recent public activity": "最近公开活动",
+  "Live relay · demo activity · Newest first": "实时中继 · 演示活动 · 最新优先",
+  "Live relay · Newest first": "实时中继 · 最新优先",
+  "Checking relay · Newest first": "检查中继 · 最新优先",
+  "Demo replay · Newest first": "演示回放 · 最新优先",
+  "Demo replay · relay reconnecting · Newest first": "演示回放 · 中继重连中 · 最新优先",
+  "Doraemon Office public relay mode": "Doraemon Office 公开中继模式",
+  "Doraemon Office public relay mode:": "Doraemon Office 公开中继模式：",
+  "Live relay · awaiting events": "实时中继 · 等待事件",
+  "Demo replay · relay reconnecting": "演示回放 · 中继重连中",
+  "Demo snapshot": "演示快照",
+  "Sanitized only": "仅脱敏内容",
+  "Public relay idle": "公开中继空闲",
+  "Last event": "最新事件",
+  "Public operating view": "公开运行视图",
+  "The office now starts inside the site. Activity feed, team presence, cadence summary, schedules, and system posture stay public-safe and read-only.":
+    "Office 已经从站内原生开始：活动流、团队在线、节奏摘要、日程和系统状态都保持公开安全与只读。",
+  "Sanitized view": "脱敏视图",
+  "Fixed snapshot": "固定快照",
+  "Safe by design": "按安全边界设计",
+  "Privacy first": "隐私优先",
+  "All tasks are read-only in the public window.": "公开窗口中的所有任务都保持只读。",
+  "Next rhythm": "下一段节奏",
+  "Public cadence only. No cron strings or prompt bodies.": "只展示公开节奏，不展示 cron 字符串或 prompt 正文。",
 
   "Doraemon Team Agents": "Doraemon 智能体团队",
   "MiniDora Team Agents": "MiniDora 团队",
@@ -3272,6 +3337,7 @@ const phraseZhTranslations = [
   ["Current focus", "当前重点"],
   ["Private status", "私密状态"],
   ["Next review", "下次审核"],
+  ["Last event", "最新事件"],
   ["Priority lanes", "优先级通道"],
   ["Waiting approvals", "等待审批"],
   ["Schedule pressure", "日程压力"],
@@ -3305,6 +3371,7 @@ const phraseZhTranslations = [
   ["View", "查看"],
   ["All", "全部"],
   ["Latest", "最新"],
+  ["Newest first", "最新优先"],
   ["Selected", "精选"],
   ["curated artifacts", "精选成果"],
   ["Today", "今日"],
