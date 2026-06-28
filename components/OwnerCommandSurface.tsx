@@ -139,9 +139,14 @@ const modeIcons = {
   shield: ShieldCheck
 } as const satisfies Record<CommandModeIcon, typeof Radio>;
 
+const commandZhOverrides: Partial<Record<string, string>> = {
+  "Required before execution APIs": "执行类 API 上线前的前置条件"
+};
+
 function commandText(value: string | undefined, locale: SiteLocale) {
   if (!value) return "";
-  return locale === "zh" ? translateToZh(value) ?? value : value;
+  if (locale !== "zh") return value;
+  return commandZhOverrides[value] ?? translateToZh(value) ?? value;
 }
 
 function safeTone(tone: string): Tone {
