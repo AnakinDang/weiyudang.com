@@ -130,6 +130,168 @@ const exactZhTranslations = {
   "MiniDoras prepare evidence and next steps without hidden execution.":
     "MiniDoras 准备证据和下一步，但没有隐藏执行。",
 
+  "Owner Settings": "本人设置",
+  "Settings describe posture. They do not become controls.": "设置描述姿态。它们不会变成控制项。",
+  "Settings show profile posture, session status, display modes, and notification intent. They do not reveal token material, connect accounts, send notifications, edit schedules, or write preferences.":
+    "设置展示个人资料姿态、会话状态、显示模式和通知意图。它们不会显示令牌材料、连接账户、发送通知、编辑日程或写入偏好。",
+  "No secret display": "不显示秘密",
+  "Primary boundary": "主要边界",
+  "Owner gated": "本人门禁",
+  "Visible value": "可见值",
+  "Settings lanes": "设置通道",
+  "Each lane describes a preference surface and the boundary that keeps settings from becoming a credential, account, notification, or runtime control panel.":
+    "每个通道描述一个偏好界面，以及让设置不变成凭据、账户、通知或运行时控制面板的边界。",
+  "Watch items": "观察项",
+  "Profile posture": "个人资料姿态",
+  "Profile fields identify the owner and public posture without exposing private channels or account details.":
+    "个人资料字段用于识别本人和公开姿态，不暴露私密渠道或账户细节。",
+  "Notification intent": "通知意图",
+  "Settings boundary": "设置边界",
+  "This page can summarize current preference posture. It cannot reveal credentials, mutate accounts, save preferences, or send notifications.":
+    "本页可以总结当前偏好姿态。它不能显示凭据、修改账户、保存偏好或发送通知。",
+  "Settings register empty": "设置登记表为空",
+  "No owner-visible settings packets are available in this private mock source. The page remains read-only and never exposes credentials, account details, provider secrets, or mutation controls.":
+    "这个私密模拟数据源中没有本人可见的设置包。页面保持只读，绝不暴露凭据、账户细节、服务商秘密或变更控制。",
+  "Private settings register": "私密设置登记表",
+  "Settings packets": "设置包",
+  "Each packet describes visible preference posture, owner gate, evidence, watch items, and actions that must remain unavailable.":
+    "每个包描述可见的偏好姿态、本人门禁、证据、观察项，以及必须保持不可用的动作。",
+  "No mutation path": "没有变更路径",
+  "Reveal credential": "显示凭据",
+  "Copy credential": "复制凭据",
+  "Rotate token": "轮换令牌",
+  "Connect account": "连接账户",
+  "Save preference": "保存偏好",
+  "Send notification": "发送通知",
+  "Owner identity": "本人身份",
+  "Weiyu": "维宇",
+  "Public identity can be named; private credentials and contact channels stay outside the UI.":
+    "公开身份可以被命名；私密凭据和联系渠道留在界面之外。",
+  "Workspace mode": "工作区模式",
+  "Owner Cockpit preferences are private by default and only summarize safe state.":
+    "Owner Cockpit 偏好默认私密，只总结安全状态。",
+  "Public posture": "公开姿态",
+  "Curated only": "仅精选",
+  "Public site copy and private runtime access stay separated.": "公开站文案和私密运行时访问保持分离。",
+  "Personal OS": "Personal OS",
+  "Auth status": "认证状态",
+  "Status-only": "仅状态",
+  "Planned": "计划中",
+  "Preview": "预览",
+  "held - Active": "保持 - 活跃",
+  "blocked - Hidden": "阻塞 - 隐藏",
+  "status-only - Preview": "仅状态 - 预览",
+  "planned - Planned": "计划中 - 计划中",
+  "Private routes require a signed owner session before the cockpit shell renders.":
+    "私密路由必须先具备已签名的本人会话，驾驶舱 shell 才会渲染。",
+  "Authenticated owner session": "已认证的本人会话",
+  "Token material stays server-side and is exchanged for a scoped session cookie.":
+    "令牌材料留在服务端，并换取有作用域的会话 cookie。",
+  "Route guard": "路由守卫",
+  "Unauthenticated /app routes redirect before private content renders.":
+    "未认证的 /app 路由会在私密内容渲染前重定向。",
+  "Cookie": "Cookie",
+  "HttpOnly": "HttpOnly",
+  "Session material is not readable by browser JavaScript.": "会话材料不能被浏览器 JavaScript 读取。",
+  "Expiry": "过期",
+  "Finite": "有限",
+  "The session model requires expiration and logout behavior.": "会话模型需要过期和退出登录行为。",
+  "Future auth upgrades must preserve server-side verification.": "未来认证升级必须保留服务端验证。",
+  "Owner gate copy must never hint at token values.": "本人门禁文案绝不能暗示令牌值。",
+  "No token display": "不显示令牌",
+  "No localStorage session": "不使用 localStorage 会话",
+  "No private shell before auth": "认证前不渲染私密 shell",
+  "Access credential": "访问凭据",
+  "Credential boundary": "凭据边界",
+  "Credential material is represented only as posture, never as a visible field.":
+    "凭据材料只以姿态表示，绝不作为可见字段出现。",
+  "Stored outside UI": "存放在界面之外",
+  "Any credential rotation flow needs a separate audited design before controls exist.":
+    "任何凭据轮换流程在出现控制项前，都需要单独审计过的设计。",
+  "Raw value": "原始值",
+  "Settings cannot display, copy, echo, or partially reveal credential material.":
+    "设置不能显示、复制、回显或部分泄露凭据材料。",
+  "Rotation": "轮换",
+  "No rotate, reset, copy, or reveal action exists in the cockpit.":
+    "驾驶舱中不存在轮换、重置、复制或显示动作。",
+  "Environment": "环境",
+  "Server-only": "仅服务端",
+  "Environment names and raw values stay outside browser output.": "环境名称和原始值留在浏览器输出之外。",
+  "A future settings form could accidentally echo submitted credential text.":
+    "未来的设置表单可能意外回显提交的凭据文本。",
+  "No reveal credential": "不显示凭据",
+  "No copy credential": "不复制凭据",
+  "No reset credential": "不重置凭据",
+  "Display modes": "显示模式",
+  "Presentation": "呈现",
+  "Display preferences explain the current visual posture for private and public surfaces.":
+    "显示偏好说明私密和公开界面的当前视觉姿态。",
+  "Dense cockpit / warm office / research studio": "高密度驾驶舱 / 温暖办公室 / 研究工作室",
+  "Future display changes should be stored as preferences only after settings mutation is designed.":
+    "未来显示变更只有在设置变更流程设计完成后，才应作为偏好保存。",
+  "Dense": "高密度",
+  "Private work surfaces prioritize scannable compact information.": "私密工作界面优先呈现可扫读的紧凑信息。",
+  "Warm": "温暖",
+  "Public command room surfaces stay friendly and safe.": "公开指挥室界面保持友好且安全。",
+  "Public site": "公开站",
+  "Studio": "工作室",
+  "Public content uses curated research studio framing.": "公开内容采用精选研究工作室框架。",
+  "Visual preferences can drift if public/private modes are edited separately.":
+    "如果公开和私密模式分开编辑，视觉偏好可能漂移。",
+  "No public/private merge": "不合并公开/私密",
+  "No raw runtime theme switch": "不暴露原始运行时主题开关",
+  "No unaudited preference write": "不写入未经审计的偏好",
+  "Notification preferences": "通知偏好",
+  "Owner attention": "本人注意力",
+  "Notification preferences are shown as intent, not as a delivery control surface.":
+    "通知偏好以意图展示，而不是投递控制界面。",
+  "Daily brief / review / health watch": "每日简报 / 审核 / 健康观察",
+  "Delivery channels and schedules need explicit consent, audit, and rollback before mutation.":
+    "投递渠道和时间表在变更前需要明确同意、审计和回滚能力。",
+  "Cadence can be described without exposing scheduler internals.": "可以描述节奏，而不暴露调度器内部。",
+  "Important": "重要",
+  "Review prompts must stay explicit before action moves forward.": "行动推进前，审核提示必须保持明确。",
+  "Health alerts summarize posture, not raw logs.": "健康提醒总结姿态，而不是原始日志。",
+  "Delivery preferences can become send controls if mutation is added too early.":
+    "如果过早加入变更能力，投递偏好可能变成发送控制。",
+  "No send now": "不提供立即发送",
+  "No channel token display": "不显示渠道令牌",
+  "No scheduler mutation": "不修改调度器",
+  "Future preference controls should expose cadence labels only.": "未来偏好控制只应暴露节奏标签。",
+  "No scheduler command strings or prompt bodies.": "不显示调度器命令字符串或提示正文。",
+  "As needed": "按需",
+  "Review prompts should stay explicit and auditable before any action moves forward.":
+    "任何行动推进前，审核提示都应保持明确且可审计。",
+  "No silent auto-promotion.": "不静默自动升级。",
+  "Health notifications should summarize posture without raw logs or service internals.":
+    "健康通知应总结姿态，不带原始日志或服务内部信息。",
+  "No repair control from notification settings.": "通知设置不提供修复控制。",
+  "Boundaries currently active": "当前活跃边界",
+  "Preference previews only": "仅偏好预览",
+  "Needs mutation design": "需要变更设计",
+  "No control path allowed": "不允许控制路径",
+  "Identity": "身份",
+  "Profile state can identify the owner and public posture without exposing private channels.":
+    "个人资料状态可以识别本人和公开姿态，不暴露私密渠道。",
+  "Access": "访问",
+  "Server-gated": "服务端门禁",
+  "Auth status can be summarized; credential material stays server-side.":
+    "可以总结认证状态；凭据材料留在服务端。",
+  "Display": "显示",
+  "Visual posture is shown as current preference, not edited from this page.":
+    "视觉姿态作为当前偏好展示，不在本页编辑。",
+  "Notifications": "通知",
+  "Attention preferences are documented, but delivery controls are unavailable.":
+    "注意力偏好被记录，但投递控制不可用。",
+  "No raw credential values are displayed in settings.": "设置中不显示原始凭据值。",
+  "Provider access, broker access, mail, calendar, and file integrations are status-only until audited controls exist.":
+    "在审计过的控制项存在前，服务商访问、券商访问、邮件、日历和文件集成都只展示状态。",
+  "Future settings mutations need owner authentication, explicit confirmation, audit logging, and rollback behavior.":
+    "未来设置变更需要本人认证、明确确认、审计日志和回滚行为。",
+  "Public display choices and private runtime access stay separated.": "公开显示选择和私密运行时访问保持分离。",
+  "Notification settings can describe cadence, but cannot send, schedule, or mutate delivery channels.":
+    "通知设置可以描述节奏，但不能发送、调度或变更投递渠道。",
+
   "Weiyu Dang": "党维宇",
   "Physics, AI, research tools": "物理、AI 与研究工具",
   "Physics, quantum computing, AI systems, and research tools.":
