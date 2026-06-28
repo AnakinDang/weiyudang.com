@@ -14,9 +14,11 @@ import {
   ShieldCheck,
   Sparkles
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
 import { publicDoraScheduleToneClasses } from "@/lib/dora-public-client";
+import type { SiteLocale } from "@/lib/site-i18n";
 import type { publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
 
 type PublicSchedule = (typeof publicSchedules)[number];
@@ -71,6 +73,14 @@ function scheduleToneClass(schedule: Pick<PublicSchedule, "state">) {
   return publicDoraScheduleToneClasses[schedule.state];
 }
 
+function publicWindowCountLabel(count: number, locale: SiteLocale) {
+  if (locale === "zh") {
+    return `${count} 个公开窗口`;
+  }
+
+  return `${count} public ${count === 1 ? "window" : "windows"}`;
+}
+
 export function ScheduleBoard({
   schedules,
   boundaries
@@ -78,6 +88,7 @@ export function ScheduleBoard({
   schedules: readonly PublicSchedule[];
   boundaries: readonly PublicScheduleBoundary[];
 }) {
+  const { locale } = useLanguage();
   const [stateFilter, setStateFilter] = useState<StateFilter>("all");
   const [cadenceFilter, setCadenceFilter] = useState<CadenceFilter>("all");
 
@@ -251,11 +262,7 @@ export function ScheduleBoard({
                     <div>
                       <h4>{lane.title}</h4>
                       <small>
-                        {count}
-                        {" "}
-                        public
-                        {" "}
-                        {count === 1 ? "window" : "windows"}
+                        <span data-i18n-skip>{publicWindowCountLabel(count, locale)}</span>
                       </small>
                       <p>{lane.summary}</p>
                     </div>
