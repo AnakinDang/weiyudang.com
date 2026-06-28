@@ -205,6 +205,7 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   "Interactive system health workspace": "可交互系统健康工作区",
 
   "Private gate": "私密门禁",
+  "Private routes redirect before owner-only UI renders.": "私密路由会在仅本人 UI 渲染前完成重定向。",
   "The route guard must redirect before private UI is sent.": "路由守卫必须在私密 UI 发出前完成重定向。",
   "Session material": "会话材料",
   "The page never renders credential values or cookie contents.": "页面绝不渲染凭据值或 cookie 内容。",
@@ -325,6 +326,8 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   "Bundle boundary": "bundle 边界",
   "Release gate": "发布门禁",
   "Build artifact": "构建产物",
+  "Private strings must stay out of public/static bundles before release.":
+    "发布前，私密字符串必须留在公开 / 静态 bundle 之外。",
   "Before merge": "合并前",
   "Live private event source not connected": "实时私密事件源未连接",
   "Known gap": "已知缺口",
@@ -336,9 +339,11 @@ const systemZhOverrides: Partial<Record<string, string>> = {
   "Repair, release, queue mutation, recovery, and runtime-detail access require separate auth and audit design.":
     "修复、发布、队列变更、恢复和运行时详情访问都需要单独的认证与审计设计。",
   "Before any repair control appears": "任何修复控制出现之前",
+  "Public/private import risk": "公开 / 私密导入风险",
   "Private operations data should not be imported by public routes or public bundles.":
     "私密运维数据不应被公开路由或公开 bundle 导入。",
   "Release review": "发布审核",
+  "Every PR touching owner-only diagnostics data": "每个涉及仅本人诊断数据的 PR",
   "Summary gaps or weak signals": "摘要缺口或弱信号",
   "Evidence, gaps, or controls": "证据、缺口或控制项",
   Telemetry: "遥测",
