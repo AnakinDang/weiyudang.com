@@ -2674,6 +2674,8 @@ const exactZhTranslations = {
   "The owner cockpit organizes sample signals, desks, evidence gates, options scenarios, replay, and source health. Access is gated by the private owner session.":
     "私密驾驶舱组织样本信号、研究台、证据门禁、期权情景、回放和来源健康。访问由私密本人会话保护。",
   "Owner review needs, source health, open questions": "本人审核需求、来源健康和开放问题",
+  "Research sample": "研究样本",
+  "Evidence trace": "证据追踪",
   "Thesis, confidence band, evidence and counter-evidence counts":
     "观点、置信区间、证据和反证数量",
   "Macro, equity, options, risk, news, crypto, evidence disagreement":
@@ -2686,8 +2688,13 @@ const exactZhTranslations = {
   "How desks formed or revised a research view": "研究台如何形成或修订研究视角",
   "Data freshness, run health, degraded-mode explanation":
     "数据新鲜度、运行健康和降级模式说明",
+  "Run health": "运行健康",
   "Compare": "比较",
   "Open read-only dashboard": "打开只读仪表盘",
+  "Trading project": "交易研究项目",
+  "Read the public research-method page.": "阅读公开研究方法页面。",
+  "Owner research console": "本人研究控制台",
+  "Open the private evidence and gates view.": "打开私密证据与门禁视图。",
   "Current Safety Posture": "当前安全状态",
   "Broker write is disabled.": "券商写入已禁用。",
   "Paper submit is disabled.": "纸面提交已禁用。",
@@ -3064,6 +3071,14 @@ const exactZhTranslations = {
   "Replay": "回放",
   "Evidence-first research cockpit for market understanding, desk disagreement, gates, and replay.":
     "证据优先的研究驾驶舱，用于市场理解、研究台分歧、门禁和回放。",
+  "Public agent profile": "公开智能体档案",
+  "Trading MiniDora stays the single public team identity.":
+    "Trading MiniDora 保持为唯一公开团队身份。",
+  "Public methodology": "公开方法论",
+  "Research workflow, desks, and safety boundary.": "研究工作流、研究台和安全边界。",
+  "Owner evidence view": "本人证据视图",
+  "Private gates, source health, and blockers.": "私密门禁、来源健康和阻塞点。",
+  "Open private Evidence research view": "打开私密证据研究视图",
   "MiniDora Trading provides research artifacts for owner review. No broker connectivity. No accounts. No auto-execution.":
     "MiniDora Trading 为本人审核提供研究成果。不连接券商，不展示账户，不自动执行。",
   "Private research console": "私密研究控制台",
