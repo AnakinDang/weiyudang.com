@@ -79,6 +79,23 @@ export default function DoraOfficePage() {
                 <StatusBadge tone="info">Live/demo relay</StatusBadge>
                 <StatusBadge tone="private">Read-only</StatusBadge>
               </div>
+              <div className="dora-office-product-status-strip" aria-label="Doraemon Office public status contract">
+                <span>
+                  <Eye size={14} aria-hidden />
+                  <strong>Public window</strong>
+                  <small>Sanitized state only</small>
+                </span>
+                <span>
+                  <ShieldCheck size={14} aria-hidden />
+                  <strong>Closed schema</strong>
+                  <small>Explicit allowlist</small>
+                </span>
+                <span>
+                  <LockKeyhole size={14} aria-hidden />
+                  <strong>Owner controls</strong>
+                  <small>Kept private</small>
+                </span>
+              </div>
             </div>
 
             <div
@@ -90,7 +107,8 @@ export default function DoraOfficePage() {
                 alt=""
                 width={1536}
                 height={1024}
-                priority
+                loading="eager"
+                fetchPriority="high"
                 quality={85}
                 sizes="(max-width: 720px) 200vw, (max-width: 1180px) 100vw, 62vw"
               />

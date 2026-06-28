@@ -169,9 +169,9 @@ export function focusEvent(events: PublicDoraEventClientView[]) {
 
 export function modeLabel(connection: DoraConnectionState, liveEvents: PublicDoraEventClientView[]) {
   if (connection === "live") return "Live relay";
-  if (connection === "connected") return "Live relay · awaiting events";
+  if (connection === "connected") return "Relay connected · awaiting public events";
   if (connection === "checking") return "Checking relay";
-  if (liveEvents.length > 0) return "Demo replay · relay reconnecting";
+  if (liveEvents.length > 0) return "Demo snapshot · relay reconnecting";
   return "Demo replay";
 }
 
@@ -181,8 +181,8 @@ export function activityModeLabel(
   hasVisibleLiveActivity: boolean
 ) {
   if (connection === "live" && hasVisibleLiveActivity) return "Live relay";
-  if (connection === "live" || connection === "connected") return "Live relay · demo activity";
-  if (liveEvents.length > 0) return "Demo replay · relay reconnecting";
+  if (connection === "live" || connection === "connected") return "Relay connected · demo snapshot";
+  if (liveEvents.length > 0) return "Demo snapshot · relay reconnecting";
   if (connection === "checking") return "Checking relay";
   return "Demo replay";
 }

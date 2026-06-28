@@ -29,7 +29,13 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
   const bridgeHost = DORA_LIVE_BRIDGE_URL.replace(/^https?:\/\//, "");
   const currentMode = modeLabel(live.connection, live.events);
   const activityMode = activityModeLabel(live.connection, live.events, hasVisibleLiveActivity);
-  const isLive = live.connection === "live" || live.connection === "connected";
+  const hasLiveTransport = live.connection === "live" || live.connection === "connected";
+  const isLiveActivity = live.connection === "live" && hasVisibleLiveActivity;
+  const focusDescription = hasVisibleLiveActivity
+    ? "Live public relay event mapped through the native site allowlist."
+    : hasLiveTransport
+      ? "Relay is connected; the visible feed keeps the demo-safe snapshot until a public event arrives."
+      : "Public-safe activity snapshot with relay health shown below.";
   const heartbeatRows = [
     { label: "Relay mode", value: currentMode },
     { label: "Public schema", value: "Closed allowlist" },
@@ -47,7 +53,7 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
           <Target size={20} aria-hidden />
           <h2>Current Focus</h2>
           <strong>{currentFocus?.title ?? "Demo snapshot"}</strong>
-          <p>{hasVisibleLiveActivity ? "Live public relay event mapped through the native site allowlist." : "Public-safe activity snapshot with live relay heartbeat shown below."}</p>
+          <p>{focusDescription}</p>
           <dl>
             <div>
               <dt>Led by</dt>
@@ -99,7 +105,10 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
 
       <section className="dora-office-product-livebar" aria-label="Recent public-safe Doraemon Office activity">
         <div className="dora-office-product-livebar-head">
-          <span aria-hidden className={isLive ? "is-live" : undefined} />
+          <span
+            aria-hidden
+            className={isLiveActivity ? "is-live" : hasLiveTransport ? "is-connected" : undefined}
+          />
           <strong>Recent public activity</strong>
           <small>{activityMode} · Newest first</small>
         </div>
