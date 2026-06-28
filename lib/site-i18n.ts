@@ -3222,6 +3222,32 @@ const exactZhTranslations = {
   "Research artifact availability": "研究成果可用性",
   "Source health model": "来源健康模型",
   "Execution boundary": "执行边界",
+  "Owner attention stays attached to evidence, gates, sources, and replay traces. Nothing here can create an order or recommendation.":
+    "本人注意力始终绑定到证据、门禁、来源和回放追踪。这里没有任何内容可以创建订单或建议。",
+  "Open evidence": "打开证据",
+  "Open system": "打开系统",
+  "Open replay": "打开回放",
+  "Open replay trace": "打开回放追踪",
+  "No review items are open in this owner-only mock session.":
+    "当前仅本人可见的模拟会话中没有开放的审核项。",
+  "System Status": "系统状态",
+  "Private system posture summarizes source health, artifact availability, gates, and replay coverage. It stays diagnostic and read-only.":
+    "私密系统状态汇总来源健康、成果可用性、门禁和回放覆盖。它保持诊断用途和只读状态。",
+  "Source issues": "来源问题",
+  "Packets with missing, degraded, pending, or required evidence.":
+    "缺失、降级、待处理或必需证据的包。",
+  "Source health that must stay visible before confidence rises.":
+    "置信度上升前必须保持可见的来源健康。",
+  "Disabled, incomplete, or required gates still blocking promotion.":
+    "仍在阻止推进的禁用、不完整或必需门禁。",
+  "Replay coverage": "回放覆盖",
+  "Trace events available for reconstructing the research day.":
+    "可用于重建研究日的追踪事件。",
+  "Degraded sources stay visible": "降级来源保持可见",
+  "Latest research state changes": "最新研究状态变化",
+  "Execution remains unavailable": "执行仍不可用",
+  "System status is diagnostic only. It does not expose accounts, positions, broker writes, paper submits, live submits, or order controls.":
+    "系统状态仅用于诊断。它不暴露账户、仓位、券商写入、纸面提交、实盘提交或订单控制。",
   "This cockpit can prepare evidence and questions only. It cannot place, submit, replace, cancel, or produce trading recommendations.":
     "这个驾驶舱只能准备证据和问题。它不能下单、提交、替换、取消，也不能生成交易建议。",
   "No public summary yet": "暂不生成公开摘要",
