@@ -339,10 +339,16 @@ const exactZhTranslations = {
   "Private review and approvals": "私密审核与批准",
   "Research Desk": "研究台",
   "Long-form research notes": "长篇研究笔记",
+  "Build the systems": "构建系统",
+  "that help thought": "让思考",
+  "compound.": "持续累积。",
   "for research, writing, and": "用于研究、写作和",
+  "Exploring physics. Building AI systems. Designing research tools. Doraemon Office is the public-safe entry to my Personal OS for long-term impact.":
+    "探索物理，构建 AI 系统，设计研究工具。Doraemon Office 是我 Personal OS 的公开安全入口。",
   "A public studio for essays and systems, Doraemon Office for public-safe agent activity, and an owner-only cockpit for private review.":
     "公开工作室承载文章和系统；Doraemon Office 展示公开安全的智能体活动；私密驾驶舱负责审核与复盘。",
   "Explore the system": "探索系统",
+  "See what's public": "查看公开内容",
   "Public-safe agent layer": "公开安全智能体层",
   "Doraemon is the entry personality for the public-safe layer of the Personal OS: agent presence, research rhythm, schedules, and review moments.":
     "Doraemon 是 Personal OS 公开安全层的入口人格：展示智能体在线状态、研究节奏、日程和审核节点。",
