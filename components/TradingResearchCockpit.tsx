@@ -1,13 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
+  ArrowRight,
   Ban,
   BarChart3,
   CheckCircle2,
   Clock3,
   Database,
+  ExternalLink,
   FileSearch,
   Gauge,
   GitCompareArrows,
@@ -1725,6 +1728,37 @@ export function TradingResearchCockpit({
           <strong>{posture.label}</strong>
           <small>{posture.detail}</small>
         </div>
+      </section>
+
+      <section className="trading-cockpit-continuity" aria-label="Trading research continuity">
+        <Link href="/dora/team/trading" className="link-focus">
+          <ExternalLink size={16} aria-hidden />
+          <span>
+            <strong>Public agent profile</strong>
+            <small>Trading MiniDora stays the single public team identity.</small>
+          </span>
+          <ArrowRight size={15} aria-hidden />
+        </Link>
+        <Link href="/projects/minidora-trading" className="link-focus">
+          <ExternalLink size={16} aria-hidden />
+          <span>
+            <strong>Public methodology</strong>
+            <small>Research workflow, desks, and safety boundary.</small>
+          </span>
+          <ArrowRight size={15} aria-hidden />
+        </Link>
+        <button
+          type="button"
+          onClick={() => navigateTradingView("Evidence")}
+          aria-label="Open private Evidence research view"
+        >
+          <FileSearch size={16} aria-hidden />
+          <span>
+            <strong>Owner evidence view</strong>
+            <small>Private gates, source health, and blockers.</small>
+          </span>
+          <ArrowRight size={15} aria-hidden />
+        </button>
       </section>
 
       <section className="trading-cockpit-chip-row" aria-label="Trading research posture">

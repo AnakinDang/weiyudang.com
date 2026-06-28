@@ -12,7 +12,8 @@ import {
   LockKeyhole,
   Radio,
   ShieldCheck,
-  Users
+  Users,
+  type LucideIcon
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
@@ -33,6 +34,7 @@ import {
   publicAgentProfileInitial,
   type PublicAgent
 } from "@/lib/public-agents";
+import { tradingConsoleHref } from "@/lib/trading-team";
 
 type DoraAgentProfilePageProps = {
   params: Promise<{ agentSlug: string }>;
@@ -43,6 +45,14 @@ const publicRules = [
   "No private prompts, tools, or runtime IDs.",
   "No accounts, credentials, orders, or owner-only controls."
 ] as const;
+
+type ContinuationRoute = {
+  title: string;
+  summary: string;
+  href: string;
+  icon: LucideIcon;
+  private?: boolean;
+};
 
 const profileRoutes = [
   {
@@ -63,7 +73,24 @@ const profileRoutes = [
     href: "/dora/system",
     icon: ShieldCheck
   }
-] as const;
+] as const satisfies readonly ContinuationRoute[];
+
+const tradingContinuationRoutes = [
+  {
+    title: "Trading project",
+    summary: "Read the public research-method page.",
+    href: "/projects/minidora-trading",
+    icon: FileText,
+    private: false
+  },
+  {
+    title: "Owner research console",
+    summary: "Open the private evidence and gates view.",
+    href: tradingConsoleHref("Evidence"),
+    icon: LockKeyhole,
+    private: true
+  }
+] as const satisfies readonly ContinuationRoute[];
 
 function peersFor(agent: PublicAgent, agents: PublicAgent[]) {
   const collaboratorNames = new Set(agent.collaboratesWith);
@@ -112,6 +139,9 @@ export default async function DoraAgentProfilePage({ params }: DoraAgentProfileP
   const signalEvents = getRecentPublicDoraEvents().map(toPublicDoraEventClientView);
   const peers = peersFor(agent, agents);
   const isTrading = agent.slug === "trading";
+  const continuationRoutes: readonly ContinuationRoute[] = isTrading
+    ? [...tradingContinuationRoutes, ...profileRoutes]
+    : profileRoutes;
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/dora">
@@ -253,11 +283,16 @@ export default async function DoraAgentProfilePage({ params }: DoraAgentProfileP
 
           <section className="dora-agent-profile-section dora-agent-profile-command-section" aria-label="Continue through Doraemon Office">
             <div className="container dora-agent-profile-command-shell">
-              {profileRoutes.map((route) => {
+              {continuationRoutes.map((route) => {
                 const Icon = route.icon;
 
                 return (
-                  <Link key={route.href} href={route.href} className="link-focus dora-agent-profile-route-card">
+                  <Link
+                    key={route.href}
+                    href={route.href}
+                    prefetch={route.private ? false : undefined}
+                    className="link-focus dora-agent-profile-route-card"
+                  >
                     <Icon size={22} aria-hidden />
                     <span>
                       <strong>{route.title}</strong>

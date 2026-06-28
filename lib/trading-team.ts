@@ -52,6 +52,13 @@ export function tradingViewSlugFromParam(value: string | null | undefined) {
   return view ? tradingViewSlugs[view] : undefined;
 }
 
+export function tradingConsoleHref(view: TradingView = "Today") {
+  const slug = tradingViewSlugs[view];
+  const query = view === "Today" ? "" : `?view=${slug}`;
+
+  return `/app/trading${query}`;
+}
+
 export type TradingSignal = {
   instrument: string;
   thesis: string;

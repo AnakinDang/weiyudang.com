@@ -10,13 +10,13 @@ import {
   LockKeyhole,
   ShieldCheck
 } from "lucide-react";
-import { tradingResearchDisclaimer } from "@/lib/trading-team";
+import { tradingConsoleHref, tradingResearchDisclaimer, type TradingView } from "@/lib/trading-team";
 
 const desks = [
   {
     name: "Macro Desk",
     focus: "Rates, index context, breadth, calendar risk",
-    state: "Context",
+    state: "Market context",
     detail: "Frames the market backdrop and marks where source confirmation is still thin."
   },
   {
@@ -46,13 +46,13 @@ const desks = [
   {
     name: "Crypto Desk",
     focus: "Digital asset samples, regime context, liquidity checks",
-    state: "Sample",
+    state: "Research sample",
     detail: "Keeps crypto research in the same evidence-first lane without account or wallet context."
   },
   {
     name: "Evidence Desk",
     focus: "Provenance, blockers, replay trace",
-    state: "Trace",
+    state: "Evidence trace",
     detail: "Links every important claim to a packet, a missing proof item, or a counter-evidence note."
   }
 ] as const;
@@ -137,7 +137,7 @@ const consolePreview = [
   {
     view: "Evidence",
     detail: "Gate status, missing proof, provenance, blockers",
-    state: "Trace"
+    state: "Evidence trace"
   },
   {
     view: "Replay",
@@ -147,9 +147,13 @@ const consolePreview = [
   {
     view: "System",
     detail: "Data freshness, run health, degraded-mode explanation",
-    state: "Health"
+    state: "Run health"
   }
-] as const;
+] as const satisfies readonly {
+  view: TradingView;
+  detail: string;
+  state: string;
+}[];
 
 const publicPrivateRows = [
   {
@@ -313,14 +317,19 @@ export function TradingProjectShowcase() {
         </div>
         <div className="trading-project-console-map" aria-label="Private trading console view map">
           {consolePreview.map((item) => (
-            <article key={item.view}>
+            <Link
+              key={item.view}
+              href={tradingConsoleHref(item.view)}
+              prefetch={false}
+              className="link-focus"
+            >
               <span>{item.state}</span>
               <strong>{item.view}</strong>
               <p>{item.detail}</p>
-            </article>
+            </Link>
           ))}
         </div>
-        <Link href="/app/trading" prefetch={false} className="link-focus">
+        <Link href={tradingConsoleHref()} prefetch={false} className="link-focus">
           <LockKeyhole size={16} aria-hidden />
           Open read-only dashboard
           <ArrowRight size={16} aria-hidden />
