@@ -84,20 +84,14 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
               </div>
             ))}
           </dl>
-        </section>
-
-        <section className="dora-office-product-command-card dora-office-product-bridge-card">
-          <ArrowUpRight size={20} aria-hidden />
-          <h2>Full-screen bridge</h2>
-          <p>The native routes are primary. The visualizer remains available when the stage needs more room.</p>
           <a
             href={DORA_LIVE_BRIDGE_URL}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Open full-screen visualizer ${bridgeHost} in a new tab`}
-            className="link-focus"
+            className="link-focus dora-office-product-bridge-inline"
           >
-            {bridgeHost}
+            Full-screen bridge · {bridgeHost}
             <ArrowUpRight size={13} aria-hidden />
           </a>
         </section>

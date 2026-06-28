@@ -37697,7 +37697,7 @@ textarea {
   display: grid;
   align-content: stretch;
   align-self: stretch;
-  grid-template-rows: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: 0.72rem;
   min-width: 0;
 }
@@ -37715,15 +37715,18 @@ textarea {
   backdrop-filter: blur(18px) saturate(1.08);
 }
 
-.dora-office-product-bridge-card a {
+.dora-office-product-bridge-inline {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   width: fit-content;
+  max-width: 100%;
   color: #2563eb;
   font-size: 0.72rem;
   font-weight: 800;
+  line-height: 1.35;
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
 .dora-office-product-livebar {
