@@ -1,6 +1,56 @@
 export const tradingResearchDisclaimer = "Research-only. Not an order, recommendation, or execution system.";
 
-export type TradingView = "Today" | "Signals" | "Desks" | "Instruments" | "Options Lab" | "Evidence" | "Replay" | "System";
+export const tradingResearchViews = [
+  "Today",
+  "Signals",
+  "Desks",
+  "Instruments",
+  "Options Lab",
+  "Evidence",
+  "Replay",
+  "System"
+] as const;
+
+export type TradingView = (typeof tradingResearchViews)[number];
+
+export const tradingViewSlugs = {
+  Today: "today",
+  Signals: "signals",
+  Desks: "desks",
+  Instruments: "instruments",
+  "Options Lab": "options",
+  Evidence: "evidence",
+  Replay: "replay",
+  System: "system"
+} as const satisfies Record<TradingView, string>;
+
+const tradingViewSlugAliases: Record<string, TradingView> = {
+  today: "Today",
+  signals: "Signals",
+  desks: "Desks",
+  instruments: "Instruments",
+  options: "Options Lab",
+  "options-lab": "Options Lab",
+  evidence: "Evidence",
+  gates: "Evidence",
+  "gates-evidence": "Evidence",
+  replay: "Replay",
+  system: "System",
+  "system-status": "System"
+};
+
+export function tradingViewFromSlug(value: string | null | undefined): TradingView | undefined {
+  if (!value) {
+    return undefined;
+  }
+
+  return tradingViewSlugAliases[value.trim().toLowerCase()];
+}
+
+export function tradingViewSlugFromParam(value: string | null | undefined) {
+  const view = tradingViewFromSlug(value);
+  return view ? tradingViewSlugs[view] : undefined;
+}
 
 export type TradingSignal = {
   instrument: string;

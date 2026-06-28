@@ -2,9 +2,7 @@ import "server-only";
 
 // Owner-only MiniDora Trading research data. Public modules may import only types/disclaimer from "@/lib/trading-team".
 
-import { tradingResearchDisclaimer, type TradingResearchCockpitData } from "@/lib/trading-team";
-
-const tradingViews = ["Today", "Signals", "Desks", "Instruments", "Options Lab", "Evidence", "Replay", "System"] as const;
+import { tradingResearchDisclaimer, tradingResearchViews, type TradingResearchCockpitData } from "@/lib/trading-team";
 
 const tradingTeamStatus = {
   mode: "Private research console",
@@ -491,7 +489,7 @@ const tradingUnavailableActions = [
 
 export const privateTradingResearchData = {
   disclaimer: tradingResearchDisclaimer,
-  views: tradingViews,
+  views: tradingResearchViews,
   status: tradingTeamStatus,
   todayFocus: tradingTodayFocus,
   signals: tradingSignals,
