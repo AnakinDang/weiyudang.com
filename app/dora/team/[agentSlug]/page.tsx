@@ -27,7 +27,12 @@ import {
   getRecentPublicDoraEvents,
   toPublicDoraEventClientView
 } from "@/lib/dora-office";
-import { getPublicAgentBySlug, getPublicAgents, type PublicAgent } from "@/lib/public-agents";
+import {
+  getPublicAgentBySlug,
+  getPublicAgents,
+  publicAgentProfileInitial,
+  type PublicAgent
+} from "@/lib/public-agents";
 
 type DoraAgentProfilePageProps = {
   params: Promise<{ agentSlug: string }>;
@@ -63,14 +68,7 @@ const profileRoutes = [
 function peersFor(agent: PublicAgent, agents: PublicAgent[]) {
   const collaboratorNames = new Set(agent.collaboratesWith);
 
-  return agents.filter((candidate) => collaboratorNames.has(candidate.displayName)).slice(0, 4);
-}
-
-function profileAssetInitial(agent: PublicAgent) {
-  const assetParts = agent.profileAsset.split("-");
-  const assetRole = assetParts[0] === "minidora" ? assetParts[1] : assetParts[0];
-
-  return (assetRole ?? agent.stageName).slice(0, 1).toUpperCase();
+  return agents.filter((candidate) => collaboratorNames.has(candidate.displayName));
 }
 
 export function generateStaticParams() {
@@ -145,7 +143,7 @@ export default async function DoraAgentProfilePage({ params }: DoraAgentProfileP
                 <div className="dora-agent-profile-emblem">
                   <DoraemonMark />
                   <span className="dora-agent-profile-emblem-initial" aria-hidden>
-                    {profileAssetInitial(agent)}
+                    {publicAgentProfileInitial(agent)}
                   </span>
                   <strong>{agent.stageName}</strong>
                   <small>{agent.role}</small>
@@ -240,7 +238,7 @@ export default async function DoraAgentProfilePage({ params }: DoraAgentProfileP
                   <Link key={peer.slug} href={`/dora/team/${peer.slug}`} className="link-focus dora-agent-profile-peer-card">
                     <span className="dora-agent-profile-peer-mark" aria-hidden>
                       <DoraemonMark />
-                      <span>{profileAssetInitial(peer)}</span>
+                      <span>{publicAgentProfileInitial(peer)}</span>
                     </span>
                     <span>
                       <strong>{peer.displayName}</strong>
