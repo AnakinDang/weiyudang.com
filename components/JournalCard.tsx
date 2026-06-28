@@ -39,10 +39,10 @@ export function JournalCard({ entry, featured = false }: { entry: JournalEntry; 
           <p className="mt-3 text-sm leading-6 text-slate-600">{entry.summary}</p>
         </div>
         <Link
-          href="/journal"
+          href={`/journal/${entry.slug}`}
           className="link-focus mt-6 inline-flex w-fit items-center gap-2 rounded-[8px] border border-[#dde7f0] bg-white px-3 py-2 text-sm font-bold text-slate-800 transition hover:border-[#bfdbfe] hover:bg-[#f1f7fb]"
         >
-          Open journal
+          Read entry
           <ArrowUpRight size={15} aria-hidden />
         </Link>
       </div>

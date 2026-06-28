@@ -50,9 +50,20 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     return {};
   }
 
+  const url = `/projects/${project.slug}`;
+
   return {
     title: project.title,
-    description: project.summary
+    description: project.summary,
+    alternates: {
+      canonical: url
+    },
+    openGraph: {
+      title: project.title,
+      description: project.summary,
+      url,
+      type: "article"
+    }
   };
 }
 

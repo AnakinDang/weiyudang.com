@@ -285,3 +285,7 @@ export function getJournalEntries(): JournalEntry[] {
 export function getLatestJournalEntries(limit = 3): JournalEntry[] {
   return getJournalEntries().slice(0, limit);
 }
+
+export function getJournalEntryBySlug(slug: string): JournalEntry | undefined {
+  return getJournalEntries().find((entry) => entry.slug === slug);
+}
