@@ -1,6 +1,7 @@
 import { OwnerSystemHealthSurface } from "@/components/OwnerSystemHealthSurface";
 import { requireOwnerSession } from "@/lib/private/owner-session";
 import {
+  privateSystemContextLinks,
   privateSystemDiagnosticLanes,
   privateSystemDiagnostics,
   privateSystemGaps,
@@ -22,6 +23,7 @@ export default async function SystemPage() {
         gaps: privateSystemGaps,
         metrics: privateSystemMetrics,
         lanes: privateSystemDiagnosticLanes,
+        contextLinks: privateSystemContextLinks,
         diagnostics: privateSystemDiagnostics
       }}
     />
