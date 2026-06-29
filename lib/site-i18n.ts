@@ -3401,6 +3401,30 @@ const exactZhTranslations = {
   "No prompts, raw IDs, accounts, orders, or execution.":
     "不展示 prompt、原始 ID、账户、订单或执行。",
   "Trading content is research-only. No execution.": "交易内容仅研究用途，不执行。",
+  "Journal as a second notebook.": "日志是第二本笔记。",
+  "Photography, places, routines, and field observations around the Personal OS. Less operational than the lab, still part of the work.":
+    "围绕 Personal OS 的摄影、地点、日常和现场观察。它比研究实验室更少操作性，但仍然是工作的一部分。",
+  "Read the latest entry": "阅读最新条目",
+  "Open research notes": "打开研究笔记",
+  "Journal public boundary": "日志公开边界",
+  "Public and personal": "公开且个人",
+  "No owner operations": "无本人操作",
+  "Journal visual surface": "日志视觉界面",
+  "Public journal": "公开日志",
+  "public journal entries": "篇公开日志",
+  "Photography, life notes, places": "摄影、生活笔记、地点",
+  "Journal lanes": "日志通道",
+  "Public Journal": "公开日志",
+  "Photos, places, observations, and personal notes that are safe to share.":
+    "可以安全分享的照片、地点、观察和个人笔记。",
+  "Experiments and system notes stay structured in the research surface.":
+    "实验和系统笔记留在结构化的研究界面中。",
+  "Owner tasks, prompts, raw memory, and private operations stay out of public entries.":
+    "本人任务、prompt、原始记忆和私密操作都不会进入公开日志。",
+  "Journal and Personal OS boundary": "日志与 Personal OS 边界",
+  "Latest public field notes.": "最新公开现场笔记。",
+  "A quiet shelf for the human layer around the technical work: images, observations, and fragments before they become projects or research notes.":
+    "技术工作周围的人味书架：图片、观察，以及变成项目或研究笔记之前的片段。",
   "Field notes from life outside the lab.": "实验室之外的生活现场笔记。",
   "Photography, everyday observations, places, and personal fragments. A softer shelf beside the technical work.":
     "摄影、日常观察、地点和个人片段。技术工作旁边更柔软的一层。",
