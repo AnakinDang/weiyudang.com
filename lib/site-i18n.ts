@@ -3539,22 +3539,53 @@ const exactZhTranslations = {
   "Public research notes, system sketches, design decisions, and experiments from Weiyu Dang's personal research studio.":
     "来自 Weiyu Dang 个人研究工作室的公开研究笔记、系统草图、设计决策和实验。",
   "Research notes.": "研究笔记。",
+  "Research that can be inspected.": "可以被检视的研究。",
   "Public experiments, system sketches, design decisions, and research fragments from Weiyu's personal research studio. Public by design.":
     "来自 Weiyu 个人研究工作室的公开实验、系统草图、设计决策和研究片段。按公开边界设计。",
+  "A public notebook for system sketches, design decisions, build logs, and research fragments around the Personal OS. It shows the method and the evidence without exposing the private operating layer.":
+    "这是围绕 Personal OS 的公开笔记本，存放系统草图、设计决策、构建日志和研究片段。它展示方法和证据，但不暴露私密操作层。",
   "Read the latest note": "阅读最新笔记",
   "Browse projects": "浏览项目",
+  "Research studio summary": "研究工作室摘要",
+  "public notes": "公开笔记",
+  "research lanes": "研究通道",
+  "execution controls": "执行控制",
   "Research principles": "研究原则",
   "Linked to work": "连接到真实工作",
   "Every note connects to projects and artifacts.": "每篇笔记都连接到项目和产物。",
+  "Public research studio preview": "公开研究工作室预览",
+  "A bright research desk with an open notebook, a Doraemon Office portal, and public-safe research system visuals.":
+    "一张明亮的研究书桌，包含打开的笔记本、Doraemon Office 门户，以及公开安全的研究系统视觉。",
+  "Public summaries, evidence, and design decisions.": "公开摘要、证据和设计决策。",
+  "Research studio route map": "研究工作室路线图",
   "Public research surface sketch": "公开研究界面草图",
   "RESEARCH SURFACE": "研究界面",
   "Observe": "观察",
+  "Experiment": "实验",
+  "Publish safely": "安全发布",
+  "Research safety boundary": "研究安全边界",
+  "Private vault stays private. Public notes carry only curated evidence.":
+    "私密知识库保持私密。公开笔记只承载精选证据。",
   "Watch, collect, and question.": "观察、收集、追问。",
   "Prototype, test, and document.": "原型、测试、记录。",
   "Reflect, decide, and refine.": "反思、决策、打磨。",
   "Private boundary": "私密边界",
   "Research protocol": "研究发布协议",
+  "Publishing protocol": "发布协议",
+  "From private signal to public artifact.": "从私密信号到公开成果。",
   "Public publishing protocol": "公开发布协议",
+  "Capture privately": "私密捕捉",
+  "Raw notes, prompts, and source material stay inside the private vault.":
+    "原始笔记、prompt 和来源材料留在私密知识库内。",
+  "Distill safely": "安全提炼",
+  "Turn the useful idea into a principle, method, or public sketch.":
+    "把有用的想法转化为原则、方法或公开草图。",
+  "Attach evidence": "附上证据",
+  "Link only public artifacts, screenshots, project pages, or durable summaries.":
+    "只链接公开成果、截图、项目页或可长期保存的摘要。",
+  "Publish with boundary": "带边界发布",
+  "Keep the note useful without exposing accounts, paths, raw logs, or controls.":
+    "让笔记有用，同时不暴露账户、路径、原始日志或控制项。",
   "Draft privately": "先私密起草",
   "Capture raw ideas and evidence.": "收集原始想法和证据。",
   "Rewrite safely": "安全改写",
@@ -3574,9 +3605,14 @@ const exactZhTranslations = {
   "Account and system state": "账户和系统状态",
   "We publish what is safe, useful, and durable. The rest stays private by default.":
     "我们只发布安全、有用、可长期保存的内容。其余内容默认保持私密。",
+  "We publish what is safe, useful, and durable. Raw prompts, private source notes, credentials, accounts, runtime identifiers, and execution controls stay private by default.":
+    "我们只发布安全、有用、可长期保存的内容。原始 prompt、私密来源笔记、凭据、账户、运行时标识和执行控制默认保持私密。",
   "This is living research.": "这是持续生长的研究。",
+  "This is a living research shelf.": "这是持续生长的研究书架。",
   "New notes land when experiments evolve. Follow along, learn from the process, and build with care.":
     "实验推进时，新的笔记会继续补上。你可以沿着过程阅读、学习，并更谨慎地构建。",
+  "New notes land when experiments evolve. The point is not volume; it is a durable trail of decisions, evidence, and useful boundaries.":
+    "实验推进时，新的笔记会继续补上。重点不是数量，而是一条可长期追踪的决策、证据和有用边界记录。",
   "How we organize notes": "我们如何组织笔记",
   "Research model": "研究模型",
   "Build logs": "构建日志",
