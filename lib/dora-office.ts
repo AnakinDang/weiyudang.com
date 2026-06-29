@@ -370,7 +370,7 @@ export const publicDoraOperatingRhythm = [
     tone: primaryPublicEvent.severity,
     window: primaryPublicEventKind,
     signal: `${primaryPublicEvent.agent} emitted a fixed public ${primaryPublicEventKind} label.`,
-    boundary: "No internal identifiers, payloads, artifacts, or raw run state appear."
+    boundary: "No internal identifiers, private details, artifacts, or run internals appear."
   }
 ] as const satisfies readonly PublicDoraOperatingRhythmStep[];
 
