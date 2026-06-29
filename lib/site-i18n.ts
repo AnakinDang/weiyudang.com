@@ -344,6 +344,7 @@ const exactZhTranslations = {
     "物理、量子计算、AI 系统与研究工具。",
   "Physics, quantum computing, and personal AI systems.": "物理、量子计算与个人 AI 系统。",
   "One operating system. Four clear surfaces.": "一个个人操作系统，四个清晰界面。",
+  "Four clear Personal OS surfaces": "四个清晰的 Personal OS 界面",
   "The public site explains the work. Doraemon Office makes agent activity visible. The owner cockpit stays private. Research stays public-safe, evidence-first, and execution-free.":
     "公开站解释工作本身。Doraemon Office 让智能体活动可见。私密驾驶舱保持关闭。研究界面坚持公开安全、证据优先、无执行。",
   "Weiyu Personal OS connected surfaces": "Weiyu Personal OS 的连接界面",
@@ -379,6 +380,8 @@ const exactZhTranslations = {
   "Boundaries by design": "边界来自设计",
   "Public, private, research.": "公开、私密、研究。",
   "Selected systems": "精选系统",
+  "Selected project artifacts": "精选项目成果",
+  "Selected work public safety boundaries": "精选工作的公开安全边界",
   "Public Studio": "公开工作室",
   "Essays, ideas, projects": "文章、想法、项目",
   "Main command-room entrance": "主指挥室入口",

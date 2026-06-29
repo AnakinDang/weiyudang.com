@@ -107,7 +107,7 @@ function buildJournalDossier(entry: JournalEntry): JournalDossierCard[] {
         {
           label: "Time marker",
           detail: "Published",
-          value: entry.date
+          value: entry.dateLabel
         },
         {
           label: "Human texture",
@@ -215,7 +215,7 @@ export default async function JournalEntryPage({ params }: JournalEntryPageProps
                     </span>
                     <span>
                       <CalendarDays size={15} aria-hidden />
-                      {entry.date}
+                      {entry.dateLabel}
                     </span>
                   </div>
                 </div>
@@ -299,7 +299,7 @@ export default async function JournalEntryPage({ params }: JournalEntryPageProps
                   </div>
                   <div>
                     <dt>Entry date</dt>
-                    <dd>{entry.date}</dd>
+                    <dd>{entry.dateLabel}</dd>
                   </div>
                   <div>
                     <dt>Entry visibility</dt>

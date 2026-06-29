@@ -57,6 +57,7 @@ export type JournalEntry = {
   title: string;
   slug: string;
   date: string;
+  dateLabel: string;
   type: string;
   visibility: ContentVisibility;
   visibilityLabel: string;
@@ -231,6 +232,7 @@ function normalizeJournalEntry(raw: RawJournalEntry & { body: string }): Journal
 
   return {
     ...raw,
+    dateLabel: formatContentDate(raw.date),
     visibility,
     visibilityLabel: visibilityLabels[visibility]
   };
