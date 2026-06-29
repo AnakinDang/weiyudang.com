@@ -935,7 +935,7 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
   if (!selectedSchedule) {
     return (
       <div className="grid gap-5" data-i18n-skip>
-        <h1 className="sr-only">{scheduleText("Private schedules rhythm register", locale)}</h1>
+        <p className="sr-only">{scheduleText("Private schedules rhythm register", locale)}</p>
         <EmptyScheduleRegister locale={locale} />
       </div>
     );
@@ -961,7 +961,7 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
 
   return (
     <div className="grid gap-5" data-i18n-skip>
-      <h1 className="sr-only">{scheduleText("Private schedules rhythm register", locale)}</h1>
+      <p className="sr-only">{scheduleText("Private schedules rhythm register", locale)}</p>
       <SchedulesHero data={data} selectedSchedule={selectedSchedule} locale={locale} />
       <RhythmWorkbench
         schedules={visibleSchedules}

@@ -1090,7 +1090,7 @@ export function OwnerSystemHealthSurface({ data }: { data: OwnerSystemHealthData
   if (!selectedService) {
     return (
       <div className="grid gap-5" data-i18n-skip>
-        <h1 className="sr-only">{t("Private system health diagnostics")}</h1>
+        <p className="sr-only">{t("Private system health diagnostics")}</p>
         <EmptySystemHealthSurface />
       </div>
     );
@@ -1098,7 +1098,7 @@ export function OwnerSystemHealthSurface({ data }: { data: OwnerSystemHealthData
 
   return (
     <div className="grid gap-5" data-i18n-skip>
-      <h1 className="sr-only">{t("Private system health diagnostics")}</h1>
+      <p className="sr-only">{t("Private system health diagnostics")}</p>
       <SystemHero data={data} selectedService={selectedService} />
       <FilterTabs activeFilter={activeFilter} counts={counts} onSelect={setActiveFilter} />
       <section className="grid gap-5 2xl:grid-cols-[20rem_minmax(0,1fr)_26rem]" aria-label={t("Interactive system health workspace")}>

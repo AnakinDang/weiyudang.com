@@ -619,7 +619,7 @@ export function OwnerSettingsSurface({ data }: { data: OwnerSettingsSurfaceData 
   if (!primaryPacket) {
     return (
       <div className="grid gap-5" data-i18n-skip>
-        <h1 className="sr-only">{t("Private settings register")}</h1>
+        <p className="sr-only">{t("Private settings register")}</p>
         <EmptySettingsRegister />
       </div>
     );
@@ -627,7 +627,7 @@ export function OwnerSettingsSurface({ data }: { data: OwnerSettingsSurfaceData 
 
   return (
     <div className="grid gap-5" data-i18n-skip>
-      <h1 className="sr-only">{t("Private settings register")}</h1>
+      <p className="sr-only">{t("Private settings register")}</p>
       <SettingsHero data={data} primaryPacket={primaryPacket} />
       <SettingsLanes lanes={data.lanes} />
       <SettingsContextBridge />
