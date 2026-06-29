@@ -45,8 +45,8 @@ type DoraAgentProfilePageProps = {
 
 const publicRules = [
   "Public profile copy only.",
-  "No private prompts, tools, or runtime IDs.",
-  "No accounts, credentials, orders, or owner-only controls."
+  "No private prompts, tool detail, or internal run state.",
+  "No financial state, orders, or owner-only controls."
 ] as const;
 
 type ContinuationRoute = {
@@ -326,7 +326,7 @@ export default async function DoraAgentProfilePage({ params }: DoraAgentProfileP
                   <div>
                     <Ban size={18} aria-hidden />
                     <strong>Never available</strong>
-                    <span>Accounts, broker writes, orders, execution controls.</span>
+                    <span>Financial state, order flow, execution controls.</span>
                   </div>
                 </div>
               </div>

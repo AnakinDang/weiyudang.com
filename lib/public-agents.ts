@@ -208,7 +208,7 @@ const publicAgentRegistry = {
     responsibilities: [
       "Keep market work framed as research packets, not instructions.",
       "Separate evidence, counter-evidence, missing proof, and owner review.",
-      "Avoid accounts, positions, orders, PnL, broker state, or live private signals."
+      "Avoid financial state, position detail, execution channels, or live private signals."
     ],
     publicSignals: ["Working", "Owner review", "Attention"],
     collaboratesWith: ["Research MiniDora", "Memory MiniDora", "Doraemon"],

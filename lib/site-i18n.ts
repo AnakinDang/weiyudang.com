@@ -934,9 +934,10 @@ const exactZhTranslations = {
   "Demo-safe labels for this profile.": "这个档案的演示安全标签。",
   "This page is a curated profile, not a control panel.": "这个页面是精选档案，不是控制面板。",
   "Public profile copy only.": "只展示公开档案文案。",
-  "No private prompts, tools, or runtime IDs.": "不展示私密 prompt、工具或运行时 ID。",
-  "No accounts, credentials, orders, or owner-only controls.":
-    "不展示账户、凭据、订单或仅本人控制项。",
+  "No private prompts, tool detail, or internal run state.":
+    "不展示私密 prompt、工具细节或内部运行状态。",
+  "No financial state, orders, or owner-only controls.":
+    "不展示财务状态、订单或仅本人控制项。",
   "Collaboration map": "协作地图",
   "Works with": "协作对象",
   "Profiles stay public-safe while showing how MiniDoras coordinate across the Doraemon Office.":
@@ -972,8 +973,8 @@ const exactZhTranslations = {
   "Private can inspect": "私密可检查",
   "Evidence packets, gates, source health, replay.": "证据包、门禁、来源健康和回放。",
   "Never available": "永不提供",
-  "Accounts, broker writes, orders, execution controls.":
-    "账户、券商写入、订单或执行控制。",
+  "Financial state, order flow, execution controls.":
+    "财务状态、订单流或执行控制。",
   "Research Lab": "研究实验室",
   "Keep the Personal OS coherent across public pages, owner review, and specialist MiniDoras.":
     "让 Personal OS 在公开页面、本人审核和专门化 MiniDoras 之间保持一致。",
@@ -1054,8 +1055,8 @@ const exactZhTranslations = {
     "把市场工作保持为研究包，而不是指令。",
   "Separate evidence, counter-evidence, missing proof, and owner review.":
     "分离证据、反证、缺失证明和本人审核。",
-  "Avoid accounts, positions, orders, PnL, broker state, or live private signals.":
-    "避开账户、持仓、订单、PnL、券商状态或实时私密信号。",
+  "Avoid financial state, position detail, execution channels, or live private signals.":
+    "避开财务状态、持仓细节、执行通道或实时私密信号。",
   "Turn visual experiments into reusable public-safe creative systems.":
     "把视觉实验转成可复用、公开安全的创意系统。",
   "Explores, selects, refines, and packages story assets without exposing private production notes.":
@@ -3803,7 +3804,7 @@ const exactZhTranslations = {
   "No prompts, accounts, private task names, paths, or private controls.":
     "不展示 prompts、账户、私密任务名、路径或私密控制。",
   "Prompts and workflows": "Prompt 与工作流",
-  "Accounts and credentials": "账户与凭据",
+  "Owner integrations": "本人集成",
   "Research-only markets": "仅研究的市场工作",
   "Trading MiniDora organizes market research; it never executes orders.":
     "Trading MiniDora 组织市场研究；它永不执行订单。",
@@ -3821,10 +3822,10 @@ const exactZhTranslations = {
     "每个公开档案展示角色、状态和最新固定公开事件标签。私密工作留在本人边界之后。",
   "The team can be understood from the outside without exposing the owner's private work, prompts, accounts, or execution systems.":
     "外部访客可以理解团队如何运作，同时不暴露本人的私密工作、prompts、账户或执行系统。",
-  "No private task titles, prompts, paths, or payloads.":
-    "不展示私密任务标题、prompts、路径或 payload。",
-  "No accounts, credentials, positions, orders, or execution controls.":
-    "不展示账户、凭据、持仓、订单或执行控制。",
+  "No private task titles, prompts, paths, or source details.":
+    "不展示私密任务标题、prompts、路径或来源细节。",
+  "No financial state, positions, orders, or execution controls.":
+    "不展示财务状态、持仓、订单或执行控制。",
   "Trading MiniDora is research-only. Not an order, recommendation, or execution system.":
     "Trading MiniDora 仅用于研究。不是订单、建议或执行系统。",
   "Owner tasks": "本人任务",
