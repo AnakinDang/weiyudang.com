@@ -3935,6 +3935,17 @@ const exactZhTranslations = {
   "All states": "全部状态",
   "Filtered evidence": "已筛选证据",
   "Full trace": "完整追踪",
+  "Signal evidence matrix": "信号证据矩阵",
+  "Evidence path by signal": "按信号查看证据路径",
+  "Each signal stays tied to evidence, blockers, source posture, and replay before research language can strengthen.":
+    "每个信号在研究语言变强之前，都必须绑定证据、阻塞点、来源状态和回放。",
+  "Full signal map. Filters above change the packet list below, while this matrix keeps every signal visible.":
+    "完整信号地图。上方筛选只改变下方证据列表；这个矩阵始终保留每个信号。",
+  "Specific evidence": "专属证据",
+  "Shared evidence": "共享证据",
+  "Counter excess": "反证压差",
+  "Focus evidence": "聚焦证据",
+  "No evidence packet attached": "尚未附加证据包",
   "No evidence packets match this filter set. Clear filters to return to the full evidence trace.":
     "没有证据包匹配当前筛选。清除筛选可回到完整证据追踪。",
   "Open evidence queue": "打开证据队列",
