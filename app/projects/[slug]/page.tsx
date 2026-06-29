@@ -99,7 +99,7 @@ function nextQuestionsForProject(project: ReturnType<typeof getProjects>[number]
 
 const tradingHeroFlow = [
   {
-    label: "Question",
+    label: "Research question",
     detail: "Market context enters as research, not a trade idea."
   },
   {
@@ -118,7 +118,7 @@ const tradingHeroFlow = [
 
 const tradingHeroStats = [
   { label: "Desks", value: "7" },
-  { label: "Views", value: "8" },
+  { label: "Console views", value: "8" },
   { label: "Execution", value: "0" }
 ] as const;
 

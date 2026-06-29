@@ -61,6 +61,26 @@ const requiredPublicDoraCopy = {
     "System Heartbeat",
     "Recent public activity",
     "Full-screen bridge"
+  ],
+  knowledge: [
+    "Doraemon Knowledge",
+    "Public synthesis without exposing private source material.",
+    "Public Synthesis",
+    "Curated pages cross the boundary. Source records, drafts, and unreleased reports stay private.",
+    "Public Knowledge Register",
+    "Curated outputs, visible boundaries, and the publish path from private source material to public-safe pages.",
+    "Public Knowledge Vault principles",
+    "Public synthesis outputs",
+    "Curated destinations that can be read without exposing private source material.",
+    "Knowledge boundary",
+    "Source privacy",
+    "No private querying",
+    "No owner context, source records, or unreleased research drafts are rendered.",
+    "Vault lanes",
+    "Owner review gate",
+    "Private source layer",
+    "Publication requires explicit owner-approved rewriting before anything reaches public routes.",
+    "How private source material becomes public-safe site content."
   ]
 };
 
