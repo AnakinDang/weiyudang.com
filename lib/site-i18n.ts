@@ -3748,6 +3748,73 @@ const exactZhTranslations = {
   "Public contact should stay separate from private command, trading, and credential systems.":
     "公开联系入口应与私密指挥、交易研究和凭据系统保持分离。",
   "Ask Doraemon about public projects": "向 Doraemon 了解公开项目",
+  "Public collaboration entry": "公开协作入口",
+  "Contact Weiyu Dang about AI systems, research workflows, creative tools, and public-safe collaboration.":
+    "联系 Weiyu Dang，讨论 AI 系统、研究工作流、创意工具和公开安全协作。",
+  "Public contact path for AI systems, research workflows, creative tools, and Personal OS collaboration.":
+    "用于 AI 系统、研究工作流、创意工具和 Personal OS 协作的公开联系路径。",
+  "Contact is the public front door for research questions, AI systems, creative workflows, and Personal OS collaboration. Share the context that is safe to make public; keep private operations out of the inbox.":
+    "Contact 是研究问题、AI 系统、创意工作流和 Personal OS 协作的公开入口。请分享适合公开阅读的上下文；私密操作不要进入邮箱。",
+  "Meet Doraemon first": "先认识 Doraemon",
+  "Contact safety boundary": "联系入口安全边界",
+  "Public-safe first": "公开安全优先",
+  "Specific context helps": "具体上下文更有帮助",
+  "Public contact route map": "公开联系路线图",
+  "Contact context": "联系上下文",
+  "A bright research desk with notebooks, system sketches, AI workflow diagrams, and research dashboards.":
+    "一张明亮的研究书桌，包含笔记本、系统草图、AI 工作流图和研究仪表盘。",
+  "Contact route": "联系路径",
+  "Public note first. Private systems stay private.": "先发公开说明。私密系统保持私密。",
+  "Good context beats a long pitch.": "好的上下文胜过冗长推介。",
+  "Contact route choices": "联系路径选择",
+  "Good reasons to reach out": "适合联系的方向",
+  "Pick the surface that best matches the conversation.": "选择最适合这次对话的界面。",
+  "Agent systems and Doraemon": "智能体系统与 Doraemon",
+  "Discuss Personal OS ideas, MiniDora team design, public command-room interfaces, or agent workflow architecture.":
+    "讨论 Personal OS 想法、MiniDora 团队设计、公开指挥室界面或智能体工作流架构。",
+  "Research tools and experiments": "研究工具与实验",
+  "Share a research question, interface problem, note, paper, dataset shape, or workflow that deserves a better tool.":
+    "分享一个研究问题、界面问题、笔记、论文、数据集形态，或值得拥有更好工具的工作流。",
+  "Projects and product surfaces": "项目与产品界面",
+  "Talk about a public project, prototype, dashboard, visual system, or collaboration path with clear boundaries.":
+    "讨论一个有清晰边界的公开项目、原型、仪表盘、视觉系统或协作路径。",
+  "Public artifacts": "公开成果",
+  "Writing and creative work": "写作与创意工作",
+  "Start from a note, photo, field observation, or media workflow that could become a small public artifact.":
+    "从一篇笔记、一张照片、一个现场观察或一个可能成为小型公开成果的媒体工作流开始。",
+  "Human layer": "人类协作层",
+  "A useful first message": "一封有用的第一条消息",
+  "Give the work a shape before asking for time.": "在请求时间前，先给工作一个形状。",
+  "The fastest way to start is a short note that makes the question, artifact, and desired next step clear. It does not need to be polished. It does need to be safe to read in a public-contact context.":
+    "最快的开始方式是一封短消息，把问题、成果和希望的下一步说清楚。它不需要完美，但必须适合在公开联系语境中阅读。",
+  "Write the note": "写这封消息",
+  "What are you trying to understand or build?": "你想理解或构建什么？",
+  "Which public project, research note, or workflow does it connect to?":
+    "它连接到哪个公开项目、研究笔记或工作流？",
+  "What artifact can you share safely: link, screenshot, sketch, repo, paper, or short context?":
+    "你可以安全分享什么成果：链接、截图、草图、仓库、论文或简短上下文？",
+  "What would make the first response useful: critique, collaboration, introduction, or a focused call?":
+    "什么样的首次回复对你有用：批评、协作、介绍，还是一次聚焦通话？",
+  "Public contact is not a command channel.": "公开联系不是指挥通道。",
+  "Doraemon Office and the owner cockpit have clear roles. Contact is for starting a conversation, not for sending instructions into the private operating layer.":
+    "Doraemon Office 和私密驾驶舱有清晰职责。Contact 用于开启对话，不用于向私密操作层发送指令。",
+  "Use public summaries. Do not send private tasks, prompts, owner notes, raw logs, or internal IDs.":
+    "请使用公开摘要。不要发送私密任务、prompt、本人笔记、原始日志或内部 ID。",
+  "Do not include credentials, account details, tokens, broker data, or private operational channels.":
+    "不要包含凭据、账户细节、令牌、券商数据或私密运行渠道。",
+  "Trading-related conversations stay research-only: not an order, recommendation, or execution system.":
+    "交易相关对话保持仅研究：不是订单、建议或执行系统。",
+  "What usually works": "通常有效的方式",
+  "Small, specific, public-safe starts compound best.": "小而具体、公开安全的开始最容易复利。",
+  "Research exchange": "研究交流",
+  "A question, paper, note, or experiment that benefits from careful reasoning.":
+    "一个值得仔细推理的问题、论文、笔记或实验。",
+  "Interface collaboration": "界面协作",
+  "A dashboard, workflow, product surface, or agent experience that needs sharper design.":
+    "一个需要更清晰设计的仪表盘、工作流、产品界面或智能体体验。",
+  "Long-term Personal OS": "长期 Personal OS",
+  "A broader conversation about Doraemon, MiniDoras, and human-bounded automation.":
+    "关于 Doraemon、MiniDoras 和人类边界内自动化的更长期对话。",
   "Safe to browse. Curated and sanitized.": "可安全浏览。内容经过精选和脱敏。",
   "Safe to share.": "可安全分享。",
   "High-level overview only. Internals stay private.": "仅展示高层概览。内部细节保持私密。",
