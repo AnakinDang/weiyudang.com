@@ -3,8 +3,10 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, CheckCircle2, Radio, ShieldCheck, Target } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { DORA_LIVE_BRIDGE_URL, type PublicDoraEventClientView } from "@/lib/dora-public-client";
 import { formatPublicEventDateTime } from "@/lib/dora-public-format";
+import { localizeSiteText } from "@/lib/site-i18n";
 import {
   activityModeLabel,
   displayEvents,
@@ -22,6 +24,8 @@ type DoraOfficeLiveBridgeProps = {
 };
 
 export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOfficeLiveBridgeProps) {
+  const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const live = useDoraLiveEvents();
   const events = useMemo(() => displayEvents(live.events, fallbackEvents), [fallbackEvents, live.events]);
   const hasVisibleLiveActivity = useMemo(() => visibleLiveEvents(live.events).length > 0, [live.events]);
@@ -51,29 +55,29 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
       <aside className="dora-office-product-command-rail" aria-label="Office Live public context">
         <section className="dora-office-product-command-card">
           <Target size={20} aria-hidden />
-          <h2>Current Focus</h2>
-          <strong>{currentFocus?.title ?? "Demo snapshot"}</strong>
-          <p>{focusDescription}</p>
+          <h2>{t("Current Focus")}</h2>
+          <strong>{t(currentFocus?.title ?? "Demo snapshot")}</strong>
+          <p>{t(focusDescription)}</p>
           <dl>
             <div>
-              <dt>Led by</dt>
-              <dd>{currentFocus?.agent ?? "Doraemon"}</dd>
+              <dt>{t("Led by")}</dt>
+              <dd>{t(currentFocus?.agent ?? "Doraemon")}</dd>
             </div>
             <div>
-              <dt>Status</dt>
-              <dd>{currentFocus?.state ?? "Demo"}</dd>
+              <dt>{t("Status")}</dt>
+              <dd>{t(currentFocus?.state ?? "Demo")}</dd>
             </div>
           </dl>
         </section>
 
         <section className="dora-office-product-command-card">
           <ShieldCheck size={20} aria-hidden />
-          <h2>Public Boundary</h2>
+          <h2>{t("Public Boundary")}</h2>
           <ul>
             {boundaryItems.slice(0, 4).map((item) => (
               <li key={item}>
                 <CheckCircle2 size={13} aria-hidden />
-                {item}
+                {t(item)}
               </li>
             ))}
           </ul>
@@ -81,12 +85,12 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
 
         <section className="dora-office-product-command-card">
           <Radio size={20} aria-hidden />
-          <h2>System Heartbeat</h2>
+          <h2>{t("System Heartbeat")}</h2>
           <dl>
             {heartbeatRows.map((item) => (
               <div key={item.label}>
-                <dt>{item.label}</dt>
-                <dd>{item.value}</dd>
+                <dt>{t(item.label)}</dt>
+                <dd>{t(item.value)}</dd>
               </div>
             ))}
           </dl>
@@ -97,7 +101,7 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
             aria-label={`Open full-screen visualizer ${bridgeHost} in a new tab`}
             className="link-focus dora-office-product-bridge-inline"
           >
-            Full-screen bridge · {bridgeHost}
+            {t("Full-screen bridge")} · {bridgeHost}
             <ArrowUpRight size={13} aria-hidden />
           </a>
         </section>
@@ -109,26 +113,26 @@ export function DoraOfficeLiveBridge({ fallbackEvents, boundaryItems }: DoraOffi
             aria-hidden
             className={isLiveActivity ? "is-live" : hasLiveTransport ? "is-connected" : undefined}
           />
-          <strong>Recent public activity</strong>
-          <small>{activityMode} · Newest first</small>
+          <strong>{t("Recent public activity")}</strong>
+          <small>{t(activityMode)} · {t("Newest first")}</small>
         </div>
         <ol>
           {events.slice(0, 5).map((event) => (
             <li key={event.event_id}>
               <time dateTime={event.created_at}>{formatPublicEventDateTime(event.created_at)}</time>
-              <strong>{event.agent}</strong>
-              <span>{event.title}</span>
+              <strong>{t(event.agent)}</strong>
+              <span>{t(event.title)}</span>
             </li>
           ))}
         </ol>
         <Link href="/dora/activity" className="link-focus dora-office-product-livebar-link">
-          View all
+          {t("View all")}
           <ArrowRight size={14} aria-hidden />
         </Link>
       </section>
 
       <div className="sr-only" aria-live="polite">
-        Doraemon Office public relay mode: {currentMode}.
+        {t("Doraemon Office public relay mode:")} {t(currentMode)}.
       </div>
     </>
   );

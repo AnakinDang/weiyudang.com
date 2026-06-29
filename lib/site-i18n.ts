@@ -575,6 +575,7 @@ const exactZhTranslations = {
   "Sanitized only": "仅脱敏内容",
   "Public relay idle": "公开中继空闲",
   "Last event": "最新事件",
+  "Demo": "演示",
   "Public operating view": "公开运行视图",
   "The office now starts inside the site. Activity feed, team presence, cadence summary, schedules, and system posture stay public-safe and read-only.":
     "Office 已经从站内原生开始：活动流、团队在线、节奏摘要、日程和系统状态都保持公开安全与只读。",
@@ -788,6 +789,7 @@ const exactZhTranslations = {
   "Recurring operating windows": "循环运行窗口",
   "Public names, coarse last/next windows, and safe status only.":
     "只展示公开名称、粗粒度上次 / 下次窗口和安全状态。",
+  "Last": "上次",
   "No public rhythm matches these filters": "没有公开节奏匹配这些筛选",
   "Try a broader state or cadence view. Private automation details remain hidden.":
     "试试更宽的状态或节奏视图。私密自动化细节仍保持隐藏。",
@@ -806,6 +808,8 @@ const exactZhTranslations = {
   "Schedule boundary": "日程边界",
   "Rhythm is public. Implementation remains private.": "节奏可以公开，实现保持私密。",
   "Owner loop": "本人循环",
+  "1 review window is public.": "1 个公开审核窗口可见。",
+  "1 public review window is visible.": "1 个公开审核窗口可见。",
   "Private instructions stay hidden.": "私密指令保持隐藏。",
   "Activity bridge": "活动桥接",
   "Open the public activity feed for surrounding fixed labels.":
@@ -1145,26 +1149,77 @@ const exactZhTranslations = {
   "Public Health Register": "公开健康登记",
   "Live relay health resolves into safe labels and aggregate counts. Private operations never render.":
     "实时中继健康状态会被解析为安全标签和聚合状态；私密运维永不渲染。",
+  "Filter public health": "筛选公开健康",
+  "Every control filters sanitized health posture only.": "每个控件只筛选脱敏后的健康状态。",
   "Public health checks": "公开健康检查",
   "Coarse relay posture, schema state, freshness, and replay health only.":
     "只展示粗粒度中继状态、schema 状态、新鲜度和回放健康。",
+  "The public relay health endpoint responded with an OK posture and safe aggregate counters.":
+    "公开中继健康端点返回了 OK 状态和安全聚合计数。",
+  "The relay has a sanitized public registry snapshot available.":
+    "中继已有可用的脱敏公开注册表快照。",
+  "The relay is live, but the public registry snapshot is not ready yet.":
+    "中继已在线，但公开注册表快照尚未就绪。",
+  "Freshness is derived from the public event stream without exposing event-rate counters.":
+    "新鲜度来自公开事件流，不暴露事件速率计数。",
+  "Replay and dedupe posture are summarized without publishing raw counter values.":
+    "回放与去重状态只做摘要，不发布原始计数。",
+  "No public health check matches this filter": "没有公开健康检查匹配这个筛选",
+  "Try a broader signal. Private operational detail remains hidden.":
+    "试试更宽的信号视图。私密运维细节仍保持隐藏。",
+  "Public health stream": "公开健康流",
   "Live relay probe": "实时中继探针",
   "Live relay connected": "实时中继已连接",
+  "Fallback active": "回退模式已启用",
   "Reads only the public health summary. Private operational detail is not rendered.":
     "只读取公开健康摘要；私密运维细节不会渲染。",
   "Counters": "计数器",
   "Public relay healthy": "公开中继健康",
+  "Safe snapshot": "安全快照",
   "Registry": "注册表",
   "ready": "就绪",
+  "pending": "待处理",
+  "fallback": "回退",
   "Presence": "在线状态",
   "Public relay active": "公开中继活跃",
+  "not shown": "不显示",
+  "Live": "实时",
+  "Check": "检查",
+  "Fallback": "回退",
+  "Checking": "检查中",
+  "The public health endpoint responded with safe counters only.":
+    "公开健康端点只返回安全计数。",
+  "The browser is checking the public relay health endpoint.":
+    "浏览器正在检查公开中继健康端点。",
+  "Live relay health is unavailable here, so the page keeps its static public snapshot.":
+    "这里无法获得实时中继健康状态，因此页面保留静态公开快照。",
+  "Latest": "最新",
+  "Public schema check": "公开 schema 检查",
+  "Freshness posture": "新鲜度状态",
+  "The page reports a coarse demo-safe snapshot instead of private telemetry.":
+    "页面显示粗粒度演示安全快照，而不是私密遥测。",
+  "Dedupe posture": "去重状态",
+  "Diagnostics and owner actions stay in authenticated owner surfaces.":
+    "诊断和本人操作留在已认证的私密界面中。",
+  "Public visitors can see live/demo posture and public schema health.":
+    "公开访客可以看到实时 / 演示状态和公开 schema 健康状态。",
+  "Private operational detail and owner-only operations stay behind owner access.":
+    "私密运维细节和仅本人操作留在本人访问边界之后。",
   "Relay mode": "中继模式",
   "Registry snapshot OK": "注册表快照正常",
+  "Registry pending": "注册表待就绪",
   "Awaiting public signal": "等待公开信号",
   "Dedupe aligned": "去重已对齐",
+  "Dedupe watching": "去重观察中",
   "Replay buffer": "回放缓冲",
   "Event freshness": "事件新鲜度",
   "Sanitized event age": "脱敏事件时间",
+  "Owner cockpit": "私密驾驶舱",
+  "Owner-only operations stay behind authenticated access.":
+    "仅本人操作留在认证访问之后。",
+  "Open the public activity feed for the latest sanitized system labels.":
+    "打开公开活动流，查看最新脱敏系统标签。",
+  "System readiness": "系统就绪度",
 
   "Doraemon Activity": "Doraemon 活动",
   "Activity": "活动",
