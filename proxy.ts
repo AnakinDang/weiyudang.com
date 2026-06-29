@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getOwnerAccessSecret, OWNER_SESSION_COOKIE, verifyOwnerSession } from "@/lib/auth-session";
 import { isPreservedTradingReviewPacketId } from "@/lib/review-packet-ids";
 import { isOwnerScheduleId, OWNER_SCHEDULE_PARAM, ownerScheduleHref } from "@/lib/schedule-route";
+import { isOwnerSystemServiceId, OWNER_SYSTEM_SERVICE_PARAM, ownerSystemHref } from "@/lib/system-route";
 import { TRADING_REVIEW_PACKET_PARAM } from "@/lib/trading-trace";
 import { tradingViewSlugFromParam } from "@/lib/trading-team";
 
@@ -26,6 +27,11 @@ function ownerNextPath(request: NextRequest) {
   if (request.nextUrl.pathname === "/app/schedules") {
     const scheduleId = request.nextUrl.searchParams.get(OWNER_SCHEDULE_PARAM);
     return ownerScheduleHref(isOwnerScheduleId(scheduleId) ? scheduleId : undefined);
+  }
+
+  if (request.nextUrl.pathname === "/app/system") {
+    const serviceId = request.nextUrl.searchParams.get(OWNER_SYSTEM_SERVICE_PARAM);
+    return ownerSystemHref(isOwnerSystemServiceId(serviceId) ? serviceId : undefined);
   }
 
   return `${request.nextUrl.pathname}${request.nextUrl.search}`;

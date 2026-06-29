@@ -4,6 +4,7 @@ import "server-only";
 
 import { privateTradingEvidenceHref, privateTradingReplayHref } from "@/lib/private/trading-team";
 import { REVIEW_TRADING_BOUNDARY_COPY_ID } from "@/lib/review-packet-ids";
+import { ownerSystemHref } from "@/lib/system-route";
 
 export type ReviewQueueTone = "normal" | "info" | "warning" | "private";
 
@@ -461,7 +462,7 @@ export const privateReviewQueue = [
     disallowedActions: ["Hidden execution", "One-click approve", "Silent retry", "Unaudited mutation"],
     primaryHref: "/app/command",
     primaryLabel: "Open command context",
-    secondaryHref: "/app/system",
+    secondaryHref: ownerSystemHref("command-runtime"),
     secondaryLabel: "Open system health",
     updated: "Future",
     note: "No write endpoint should be added until audit, rollback, and error handling are designed."

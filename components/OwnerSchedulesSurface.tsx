@@ -27,6 +27,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { isOwnerScheduleId, OWNER_SCHEDULE_PARAM, ownerScheduleHref } from "@/lib/schedule-route";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
+import { ownerSystemHref } from "@/lib/system-route";
 
 type ScheduleTone = "normal" | "info" | "warning" | "private" | "danger";
 
@@ -911,7 +912,7 @@ function CommandBridge({ locale }: { locale: SiteLocale }) {
             </div>
             <p className="mt-2 text-xs leading-5 text-slate-400">{t("Draft schedule-related owner instructions after review.")}</p>
           </Link>
-          <Link href="/app/system" className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
+          <Link href={ownerSystemHref("command-runtime")} className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10">
             <div className="flex items-center justify-between gap-3">
               <span className="text-sm font-semibold text-white">{t("System Health")}</span>
               <ArrowRight className="text-slate-500 transition group-hover:translate-x-0.5 group-hover:text-sky-100" size={16} aria-hidden />

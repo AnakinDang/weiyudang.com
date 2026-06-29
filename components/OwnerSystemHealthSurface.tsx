@@ -1,7 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   ArrowRight,
@@ -27,6 +27,7 @@ import {
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
+import { isOwnerSystemServiceId, OWNER_SYSTEM_SERVICE_PARAM, ownerSystemHref } from "@/lib/system-route";
 
 type SystemTone = "normal" | "info" | "warning" | "private" | "danger";
 type PrivateSystemPosture = "healthy" | "watch" | "blocked";
@@ -108,6 +109,7 @@ export type OwnerSystemHealthData = {
 };
 
 type FilterValue = "all" | "attention" | "public" | "owner";
+type SystemRouteMode = "push" | "replace";
 
 type FilterOption = {
   label: string;
@@ -410,6 +412,35 @@ function filterServices(services: readonly PrivateSystemService[], activeFilter:
   }
 
   return [...services];
+}
+
+function serviceIdFromSearch(search: string, services: readonly PrivateSystemService[]) {
+  const params = new URLSearchParams(search);
+  const serviceId = params.get(OWNER_SYSTEM_SERVICE_PARAM);
+  return isOwnerSystemServiceId(serviceId) && services.some((service) => service.id === serviceId) ? serviceId : undefined;
+}
+
+function systemServiceUrl(serviceId: string) {
+  if (!isOwnerSystemServiceId(serviceId)) {
+    return ownerSystemHref();
+  }
+
+  if (typeof window === "undefined") {
+    return ownerSystemHref(serviceId);
+  }
+
+  const url = new URL(window.location.href);
+  const nextHref = ownerSystemHref(serviceId);
+  const nextUrl = new URL(nextHref, url.origin);
+  return `${nextUrl.pathname}${nextUrl.search}${url.hash}`;
+}
+
+function currentSystemUrl() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
 }
 
 function healthSummary(services: readonly PrivateSystemService[]) {
@@ -1067,11 +1098,15 @@ function EmptySystemHealthSurface() {
   );
 }
 
-export function OwnerSystemHealthSurface({ data }: { data: OwnerSystemHealthData }) {
+export function OwnerSystemHealthSurface({ data, initialServiceId }: { data: OwnerSystemHealthData; initialServiceId?: string }) {
   const { locale } = useLanguage();
   const t = (value: string | undefined) => systemText(value, locale);
   const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
-  const [selectedServiceId, setSelectedServiceId] = useState(data.services[0]?.id ?? "");
+  const initialSelectedServiceId =
+    initialServiceId && data.services.some((service) => service.id === initialServiceId)
+      ? initialServiceId
+      : data.services[0]?.id ?? "";
+  const [selectedServiceId, setSelectedServiceId] = useState(initialSelectedServiceId);
 
   const counts = useMemo(
     () => ({
@@ -1087,6 +1122,49 @@ export function OwnerSystemHealthSurface({ data }: { data: OwnerSystemHealthData
   const selectedService =
     visibleServices.find((service) => service.id === selectedServiceId) ?? visibleServices[0] ?? data.services[0];
 
+  function selectService(serviceId: string, mode: SystemRouteMode = "push") {
+    setSelectedServiceId(serviceId);
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const nextUrl = systemServiceUrl(serviceId);
+
+    if (nextUrl !== currentSystemUrl()) {
+      window.history[mode === "push" ? "pushState" : "replaceState"](null, "", nextUrl);
+    }
+  }
+
+  function selectFilter(filter: FilterValue) {
+    setActiveFilter(filter);
+    const nextVisible = filterServices(data.services, filter);
+    const selectedStillVisible = nextVisible.some((service) => service.id === selectedServiceId);
+
+    if (!selectedStillVisible && nextVisible[0]) {
+      selectService(nextVisible[0].id, "replace");
+    }
+  }
+
+  useEffect(() => {
+    function syncFromLocation() {
+      const serviceId = serviceIdFromSearch(window.location.search, data.services) ?? data.services[0]?.id;
+
+      if (serviceId) {
+        const isVisibleInCurrentFilter = filterServices(data.services, activeFilter).some((service) => service.id === serviceId);
+        if (!isVisibleInCurrentFilter) {
+          setActiveFilter("all");
+        }
+
+        setSelectedServiceId((current) => (current === serviceId ? current : serviceId));
+      }
+    }
+
+    syncFromLocation();
+    window.addEventListener("popstate", syncFromLocation);
+    return () => window.removeEventListener("popstate", syncFromLocation);
+  }, [activeFilter, data.services]);
+
   if (!selectedService) {
     return (
       <div className="grid gap-5" data-i18n-skip>
@@ -1100,10 +1178,10 @@ export function OwnerSystemHealthSurface({ data }: { data: OwnerSystemHealthData
     <div className="grid gap-5" data-i18n-skip>
       <p className="sr-only">{t("Private system health diagnostics")}</p>
       <SystemHero data={data} selectedService={selectedService} />
-      <FilterTabs activeFilter={activeFilter} counts={counts} onSelect={setActiveFilter} />
+      <FilterTabs activeFilter={activeFilter} counts={counts} onSelect={selectFilter} />
       <section className="grid gap-5 2xl:grid-cols-[20rem_minmax(0,1fr)_26rem]" aria-label={t("Interactive system health workspace")}>
-        <ServiceRail services={visibleServices} selectedService={selectedService} onSelect={setSelectedServiceId} />
-        <SystemConstellation services={visibleServices} selectedService={selectedService} onSelect={setSelectedServiceId} />
+        <ServiceRail services={visibleServices} selectedService={selectedService} onSelect={selectService} />
+        <SystemConstellation services={visibleServices} selectedService={selectedService} onSelect={selectService} />
         <ServiceInspector service={selectedService} />
       </section>
       <DiagnosticLanes lanes={data.lanes} />

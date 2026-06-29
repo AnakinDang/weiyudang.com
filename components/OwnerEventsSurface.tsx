@@ -21,6 +21,7 @@ import {
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
+import { ownerSystemHref } from "@/lib/system-route";
 
 type EventTone = "normal" | "info" | "warning" | "private";
 
@@ -471,7 +472,7 @@ function ContextBridges({ locale }: { locale: SiteLocale }) {
       icon: UserCheck
     },
     {
-      href: "/app/system",
+      href: ownerSystemHref("event-freshness"),
       label: "Open System Health",
       detail: "Read diagnostics and event freshness at a safe owner-only abstraction.",
       icon: GitBranch
