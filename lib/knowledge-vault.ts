@@ -31,7 +31,7 @@ export const publicKnowledgeOutputs = [
 
 export const publicKnowledgeFlow = [
   {
-    step: "Capture",
+    step: "Knowledge capture",
     shortLabel: "owner-only source",
     summary: "Source material is collected in owner-only systems and is never mounted directly into public routes."
   },
@@ -63,11 +63,11 @@ export const publicKnowledgeStats = [
   },
   {
     label: "Private sources",
-    value: "hidden"
+    value: "Source hidden"
   },
   {
     label: "Source pages",
-    value: "0 public"
+    value: "0 public source pages"
   }
 ] as const;
 

@@ -35,7 +35,7 @@ const outputIcons = {
 } as const satisfies Record<PublicKnowledgeOutput["title"], LucideIcon>;
 
 const flowIcons = {
-  Capture: BookOpen,
+  "Knowledge capture": BookOpen,
   Synthesis: Sparkles,
   "Owner review": ShieldCheck,
   "Public output": FileText
@@ -259,7 +259,7 @@ export function KnowledgeVaultPanel({
                 <span>
                   <Icon size={18} aria-hidden />
                 </span>
-                <small>step {index + 1}</small>
+                <small>Publish step {index + 1}</small>
                 <h3>{item.step}</h3>
                 <p>{item.summary}</p>
               </article>

@@ -3078,6 +3078,32 @@ const exactZhTranslations = {
     "它观察市场、收集证据、验证假设，并准备给本人审核的产物。Weiyu 保留最终批准权。",
   "The public page intentionally avoids account data, live signals, strategy parameters, broker state, API keys, and real-time PnL.":
     "公开页面有意避开账户数据、实时信号、策略参数、券商状态、API keys 和实时 PnL。",
+  "MiniDora Trading Research": "MiniDora Trading 研究",
+  "A public-safe window into the research desks behind Trading MiniDora: questions, evidence, desk disagreement, replay, and owner review. It explains how thinking forms without turning the site into a trading terminal.":
+    "一个公开安全窗口，用来展示 Trading MiniDora 背后的研究台：问题、证据、研究台分歧、回放和本人审核。它解释思考如何形成，而不会把网站变成交易终端。",
+  "Open read-only console": "打开只读研究视图",
+  "Meet Trading MiniDora": "认识 Trading MiniDora",
+  "Trading research disclaimer": "交易研究免责声明",
+  "Trading research console summary": "交易研究控制台摘要",
+  "Public trading research workflow preview": "公开交易研究工作流预览",
+  "public-safe method": "公开安全方法",
+  "Console views": "控制台视图",
+  "Market context enters as research, not a trade idea.":
+    "市场背景以研究形式进入，而不是交易想法。",
+  "Packets name proof, blockers, and counter-evidence.":
+    "研究包会写明证明、阻塞点和反证。",
+  "Desk review": "研究台审核",
+  "Macro, equity, options, news, and risk can disagree.":
+    "宏观、股票、期权、新闻和风险可以彼此保留分歧。",
+  "Private review stays authenticated and read-only.": "私密审核保持认证且只读。",
+  "Public page": "公开页面",
+  "Desks, method, evidence shapes, sample blockers.":
+    "研究台、方法、证据形态和样本阻塞点。",
+  "Evidence packets, replay, gates, source health.":
+    "证据包、回放、门禁和来源健康。",
+  "Never here": "这里永不出现",
+  "Accounts, orders, broker writes, private signals.":
+    "账户、订单、券商写入和私密信号。",
   "Research desk, not trading terminal": "研究台，不是交易终端",
   "MiniDora Trading is a public-safe view of a private research workflow. It explains how desks form questions, attach evidence, expose uncertainty, and hold decisions for owner review.":
     "MiniDora Trading 是私密研究流程的公开安全视图。它解释各研究台如何形成问题、附上证据、暴露不确定性，并把决策留给本人审核。",
@@ -3180,6 +3206,114 @@ const exactZhTranslations = {
   "Live submit is disabled.": "实时提交已禁用。",
   "Phase auto-promotion is disabled.": "阶段自动推进已禁用。",
   "The MVP dashboard is read-only and has no order buttons.": "MVP 仪表盘是只读的，没有订单按钮。",
+
+  "Doraemon Knowledge": "Doraemon 知识",
+  "Public Knowledge Vault explanation with curated outputs and no raw private source material.":
+    "公开 Knowledge Vault 的说明：只展示精选输出，不展示原始私密来源材料。",
+  "Public synthesis without exposing private source material.":
+    "公开综合，不暴露私密来源材料。",
+  "View public outputs": "查看公开输出",
+  "Lab Notes": "Lab 笔记",
+  "Public Doraemon knowledge synthesis preview": "公开 Doraemon 知识综合预览",
+  "Public Synthesis": "公开综合",
+  "Curated pages cross the boundary. Source records, drafts, and unreleased reports stay private.":
+    "精选页面可以跨过边界；来源记录、草稿和未发布报告保持私密。",
+  "Public summaries": "公开摘要",
+  "Sources private": "来源私密",
+  "Curated output": "精选输出",
+  "owner reviewed": "本人已审核",
+  "Public knowledge publish path preview": "公开知识发布路径预览",
+  "Publish path": "发布路径",
+  "public destinations": "个公开目的地",
+  "Knowledge capture": "知识捕获",
+  "owner-only source": "仅本人来源",
+  "curated draft": "精选草稿",
+  "explicit gate": "明确门禁",
+  "Public output": "公开输出",
+  "safe page": "安全页面",
+  "Public Knowledge Register": "公开知识登记表",
+  "Curated outputs, visible boundaries, and the publish path from private source material to public-safe pages.":
+    "精选输出、可见边界，以及私密来源材料转成公开安全页面的发布路径。",
+  "Public Knowledge Vault summary": "公开 Knowledge Vault 摘要",
+  "Every adjacent surface keeps the same public/private boundary: readable public posture, no private control plane.":
+    "每个相邻界面都保持同一条公开 / 私密边界：公开侧可读，不出现私密控制平面。",
+  "Read public-safe activity around synthesis and review.":
+    "阅读围绕综合与审核的公开安全活动。",
+  "Meet the MiniDoras that help shape public outputs.":
+    "认识帮助形成公开输出的 MiniDoras。",
+  "See display-only task posture without private task content.":
+    "查看仅展示的任务状态，不暴露私密任务内容。",
+  "Understand the public operating rhythm behind publication.":
+    "理解发布背后的公开运行节奏。",
+  "View rhythm": "查看节奏",
+  "Check public health posture without infrastructure details.":
+    "查看公开健康状态，不展示基础设施细节。",
+  "View system": "查看系统",
+  "Public Knowledge Vault principles": "公开 Knowledge Vault 原则",
+  "Public pages are curated summaries, not direct mirrors of private sources.":
+    "公开页面是精选摘要，不是私密来源的直接镜像。",
+  "Source privacy": "来源隐私",
+  "Owner notes and source files stay out of public routes.":
+    "本人笔记和来源文件不会进入公开路由。",
+  "Weiyu explicitly approves what becomes visible.": "Weiyu 明确批准哪些内容可以可见。",
+  "No private querying": "不查询私密内容",
+  "Visitors never query hidden sources or owner-only context.":
+    "访问者不能查询隐藏来源或仅本人上下文。",
+  "Public outputs": "公开输出",
+  "Publish gates": "发布门禁",
+  "Source pages": "来源页面",
+  "Human rhythm": "人的节奏",
+  "Public view": "公开视图",
+  "Source hidden": "来源隐藏",
+  "0 public source pages": "0 个公开来源页面",
+  "Publish step": "发布步骤",
+  "Public synthesis outputs": "公开综合输出",
+  "Curated destinations that can be read without exposing private source material.":
+    "这些精选目的地可以被阅读，同时不暴露私密来源材料。",
+  "Curated public pages for systems, research tools, and Doraemon-related work.":
+    "关于系统、研究工具和 Doraemon 相关工作的精选公开页面。",
+  "Experiment logs and design sketches rewritten for public reading.":
+    "为公开阅读重写过的实验日志和设计草图。",
+  "Personal writing that keeps the site from feeling like a machine dashboard.":
+    "让网站不只是机器仪表盘的个人写作。",
+  "A public command-room view built from safe labels, opaque IDs, and display-only state.":
+    "由安全标签、不透明 ID 和仅展示状态构成的公开指挥室视图。",
+  "Knowledge boundary": "知识边界",
+  "Public pages are curated. Source layers stay private.":
+    "公开页面是精选内容；来源层保持私密。",
+  "No owner context, source records, or unreleased research drafts are rendered.":
+    "不渲染本人上下文、来源记录或未发布研究草稿。",
+  "Public links point only to curated site pages.":
+    "公开链接只指向精选网站页面。",
+  "Private research can shape public writing, but source passages do not cross the boundary.":
+    "私密研究可以塑造公开写作，但来源原文不会跨过边界。",
+  "Vault lanes": "知识库通道",
+  "What may move forward, and what stays sealed.": "哪些可以前进，哪些保持封存。",
+  "Curated crossings": "精选跨界",
+  "Only rewritten summaries and public labels cross the boundary.":
+    "只有重写后的摘要和公开标签可以跨过边界。",
+  "Synthesis, rewrite, owner approval, then publish.":
+    "先综合，再重写，经本人批准后发布。",
+  "Private source layer": "私密来源层",
+  "Owner-only records and drafts remain hidden.": "仅本人记录和草稿保持隐藏。",
+  "Owner review gate": "本人审核门禁",
+  "Publication requires explicit owner-approved rewriting before anything reaches public routes.":
+    "任何内容进入公开路由前，都需要本人明确批准的重写。",
+  "Lab bridge": "Lab 桥接",
+  "Open public lab notes for examples of curated synthesis.":
+    "打开公开 Lab 笔记，查看精选综合的例子。",
+  "View Lab": "查看 Lab",
+  "How private source material becomes public-safe site content.":
+    "私密来源材料如何变成公开安全的网站内容。",
+  "Source material is collected in owner-only systems and is never mounted directly into public routes.":
+    "来源材料收集在仅本人系统中，绝不会直接挂载到公开路由。",
+  "Doraemon and MiniDoras turn source material into summaries, decisions, and candidate outputs.":
+    "Doraemon 和 MiniDoras 把来源材料转成摘要、决策和候选输出。",
+  "Weiyu explicitly decides what can become public and what stays private.":
+    "Weiyu 明确决定什么可以公开，什么保持私密。",
+  "Only curated pages, lab notes, journal entries, and safe dashboard text reach visitors.":
+    "只有精选页面、Lab 笔记、日志条目和安全仪表盘文本会到达访问者。",
+
   "Building a Personal AI Research Studio": "构建个人 AI 研究工作室",
   "A first public note on turning personal AI workflows into a small operating system.":
     "第一篇公开笔记：如何把个人 AI 工作流变成一个小型操作系统。",
@@ -3986,7 +4120,6 @@ const exactZhTranslations = {
   "A private posture room for Doraemon and the MiniDoras: service status, review gates, boundary checks, and known gaps without turning diagnostics into an operations console.":
     "Doraemon 和 MiniDoras 的私密状态室：展示服务状态、审核门禁、边界检查和已知缺口，但不把诊断变成运维控制台。",
   "Boundaries currently held": "当前边界保持成立",
-  "MiniDora Trading Research": "MiniDora Trading 研究",
   "Signal": "信号",
   "View all signals": "查看全部信号",
   "Full desk view": "查看全部研究台",

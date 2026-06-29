@@ -32,7 +32,7 @@ type PublicKnowledgeFlow = (typeof publicKnowledgeFlow)[number];
 type PublicKnowledgeStat = (typeof publicKnowledgeStats)[number];
 
 const flowIcons = {
-  Capture: BookOpen,
+  "Knowledge capture": BookOpen,
   Synthesis: Sparkles,
   "Owner review": ShieldCheck,
   "Public output": FileText

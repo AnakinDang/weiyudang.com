@@ -38,6 +38,23 @@ const requiredPublicSiteCopy = {
     "Search projects",
     "Selected artifact"
   ],
+  tradingProject: [
+    "MiniDora Trading Research",
+    "A public-safe window into the research desks behind Trading MiniDora: questions, evidence, desk disagreement, replay, and owner review. It explains how thinking forms without turning the site into a trading terminal.",
+    "Open read-only console",
+    "Trading research disclaimer",
+    "Trading research console summary",
+    "Public trading research workflow preview",
+    "Market context enters as research, not a trade idea.",
+    "Packets name proof, blockers, and counter-evidence.",
+    "Desks, method, evidence shapes, sample blockers.",
+    "Evidence packets, replay, gates, source health.",
+    "Accounts, orders, broker writes, private signals.",
+    "Research desk, not trading terminal",
+    "Public page can show",
+    "Private console preview",
+    "Open read-only dashboard"
+  ],
   research: [
     "Research notes.",
     "Read the latest note",
