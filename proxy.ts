@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOwnerAccessSecret, OWNER_SESSION_COOKIE, verifyOwnerSession } from "@/lib/auth-session";
+import {
+  isOwnerKnowledgeCandidateRouteId,
+  OWNER_KNOWLEDGE_CANDIDATE_PARAM,
+  ownerKnowledgeHrefFromRouteId
+} from "@/lib/knowledge-route";
 import { isPreservedTradingReviewPacketId } from "@/lib/review-packet-ids";
 import { isOwnerScheduleId, OWNER_SCHEDULE_PARAM, ownerScheduleHref } from "@/lib/schedule-route";
 import { isOwnerSystemServiceId, OWNER_SYSTEM_SERVICE_PARAM, ownerSystemHref } from "@/lib/system-route";
@@ -27,6 +32,11 @@ function ownerNextPath(request: NextRequest) {
   if (request.nextUrl.pathname === "/app/schedules") {
     const scheduleId = request.nextUrl.searchParams.get(OWNER_SCHEDULE_PARAM);
     return ownerScheduleHref(isOwnerScheduleId(scheduleId) ? scheduleId : undefined);
+  }
+
+  if (request.nextUrl.pathname === "/app/knowledge") {
+    const routeId = request.nextUrl.searchParams.get(OWNER_KNOWLEDGE_CANDIDATE_PARAM);
+    return ownerKnowledgeHrefFromRouteId(isOwnerKnowledgeCandidateRouteId(routeId) ? routeId : undefined);
   }
 
   if (request.nextUrl.pathname === "/app/system") {

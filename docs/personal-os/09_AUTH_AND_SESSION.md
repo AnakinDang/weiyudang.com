@@ -116,6 +116,12 @@ Default behavior:
 - do not render the private app shell behind it
 - do not fetch private data before auth
 - do not reveal detailed private route names beyond the requested URL
+- preserve only explicitly allowlisted private deep-link parameters in the
+  `next` login target; examples include safe schedule IDs, system service IDs,
+  trading review packet IDs, and Knowledge Vault candidate route tokens such as
+  `kc_01`
+- drop unknown query parameters, raw candidate names, probe strings, local
+  paths, and other values that should not survive into the login URL
 
 Acceptable alternatives for more privacy-sensitive routes:
 
