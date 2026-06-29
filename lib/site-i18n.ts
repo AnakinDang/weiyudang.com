@@ -388,11 +388,15 @@ const exactZhTranslations = {
   "Private review and approvals": "私密审核与批准",
   "Research Desk": "研究台",
   "Long-form research notes": "长篇研究笔记",
+  "Guide and public office": "导览与公开 Office",
   "Public studio + Doraemon Office": "公开工作室 + Doraemon Office",
-  "Build the systems": "构建系统",
-  "that help thought": "让思考",
-  "compound.": "持续累积。",
+  "Weiyu's Personal OS with Doraemon.": "Weiyu 的 Personal OS 与 Doraemon 一起。",
+  "Weiyu's": "Weiyu 的",
+  "with Doraemon.": "与 Doraemon 一起。",
+  "Doraemon coordinates. MiniDoras work. Weiyu decides.": "Doraemon 统筹，MiniDoras 工作，Weiyu 决策。",
   "for research, writing, and": "用于研究、写作和",
+  "A public home for physics, AI systems, research tools, and the agent team behind the work. Doraemon Office makes the Personal OS visible without exposing private tasks, prompts, or controls.":
+    "这是物理、AI 系统、研究工具和背后智能体团队的公开主场。Doraemon Office 让 Personal OS 可见，同时不暴露私密任务、prompt 或控制项。",
   "Exploring physics. Building AI systems. Designing research tools. Doraemon Office is the public-safe entry to my Personal OS for long-term impact.":
     "探索物理，构建 AI 系统，设计研究工具。Doraemon Office 是我 Personal OS 的公开安全入口。",
   "A public studio for essays and systems, Doraemon Office for public-safe agent activity, and an owner-only cockpit for private review.":
@@ -400,6 +404,8 @@ const exactZhTranslations = {
   "Explore the system": "探索系统",
   "See what's public": "查看公开内容",
   "Public-safe agent layer": "公开安全智能体层",
+  "Doraemon is the doorway into the public-safe Personal OS: MiniDora presence, activity, schedules, research rhythm, and system posture, without private task detail.":
+    "Doraemon 是公开安全 Personal OS 的入口：展示 MiniDora 在线状态、活动、日程、研究节奏和系统状态，但不展示私密任务细节。",
   "Doraemon is the entry personality for the public-safe layer of the Personal OS: agent presence, research rhythm, schedules, and review moments.":
     "Doraemon 是 Personal OS 公开安全层的入口人格：展示智能体在线状态、研究节奏、日程和审核节点。",
   "Owner-only cockpit": "私密驾驶舱",

@@ -45640,3 +45640,58 @@ textarea {
     mask-image: linear-gradient(90deg, transparent 0, transparent 3.15rem, #000 4.15rem, #000 calc(100% - 0.75rem), transparent 100%);
   }
 }
+
+/* Step 68: Homepage Personal OS flagship copy fit */
+.premium-hero .premium-hero-lede {
+  max-width: 33rem;
+  margin-top: 1.08rem;
+  color: #155eef;
+  font-size: clamp(1.28rem, 1.55vw, 1.56rem);
+  font-weight: 760;
+  line-height: 1.18;
+}
+
+.premium-hero .premium-hero-support {
+  margin-top: 0.88rem;
+}
+
+.premium-hero .premium-primary-link {
+  min-width: 14.8rem;
+}
+
+@media (min-width: 1181px) and (max-height: 760px) {
+  .premium-hero .premium-hero-lede {
+    max-width: 29rem;
+    margin-top: 0.62rem;
+    font-size: 1rem;
+    line-height: 1.24;
+  }
+
+  .premium-hero .premium-hero-support {
+    margin-top: 0.58rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .premium-hero .premium-hero-lede {
+    max-width: 22rem;
+    margin-top: 0.86rem;
+    font-size: 1.04rem;
+    line-height: 1.28;
+  }
+
+  .premium-hero .premium-hero-support {
+    margin-top: 0.72rem;
+  }
+
+  .premium-hero .premium-office-capsule {
+    /* The capsule tucks into the portal art but keeps a measured gap below the CTA row. */
+    margin-top: -3.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-hero .premium-office-capsule {
+    margin-top: -3.55rem;
+  }
+}
