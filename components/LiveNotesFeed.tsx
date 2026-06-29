@@ -3,13 +3,17 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRight, BookOpen, Lightbulb, NotebookPen, Radio } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import type { Note } from "@/lib/content";
+import { localizeSiteText } from "@/lib/site-i18n";
 
 const pulses = ["drafting", "annotating", "connecting", "publishing"];
 
 const noteIcons = [BookOpen, Lightbulb, NotebookPen];
 
 export function LiveNotesFeed({ notes }: { notes: Note[] }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const [active, setActive] = useState(0);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
 
@@ -48,7 +52,7 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
 
   return (
     <div className="home-notes-feed">
-      <div className="home-notes-list" role="tablist" aria-label="Latest notes">
+      <div className="home-notes-list" role="tablist" aria-label={t("Latest notes")}>
         {notes.map((note, index) => {
           const isActive = index === active;
           const NoteIcon = noteIcons[index % noteIcons.length];
@@ -93,12 +97,12 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
               </span>
               <span className="home-note-row-copy">
                 <span className="home-note-row-title">
-                  <strong>{note.title}</strong>
-                  <span className="home-note-row-tag">{note.categoryLabel}</span>
+                  <strong>{t(note.title)}</strong>
+                  <span className="home-note-row-tag">{t(note.categoryLabel)}</span>
                 </span>
-                <span>{note.summary}</span>
+                <span>{t(note.summary)}</span>
               </span>
-              <time dateTime={note.date}>{note.dateLabel}</time>
+              <time dateTime={note.date}>{t(note.dateLabel)}</time>
             </button>
           );
         })}
@@ -114,21 +118,21 @@ export function LiveNotesFeed({ notes }: { notes: Note[] }) {
           <div className="home-note-preview-head">
             <span className="home-note-feed-label">
               <Radio size={14} aria-hidden />
-              research feed
+              {t("research feed")}
             </span>
             <span className="home-note-pulse">
-              {pulses[active % pulses.length]}
+              {t(pulses[active % pulses.length])}
             </span>
           </div>
           <NotebookPen className="mt-8 text-[#f4b740]" size={28} aria-hidden />
-          <h3 className="mt-4 text-2xl font-semibold text-slate-950">{activeNote.title}</h3>
-          <p className="mt-4 text-sm leading-6 text-slate-600">{activeNote.summary}</p>
+          <h3 className="mt-4 text-2xl font-semibold text-slate-950">{t(activeNote.title)}</h3>
+          <p className="mt-4 text-sm leading-6 text-slate-600">{t(activeNote.summary)}</p>
         </div>
         <Link
           href="/lab"
           className="link-focus home-note-action"
         >
-          Open notes
+          {t("Open notes")}
           <ArrowRight size={16} aria-hidden />
         </Link>
       </div>

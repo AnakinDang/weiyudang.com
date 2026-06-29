@@ -34,7 +34,7 @@ export function JournalCard({ entry, featured = false }: { entry: JournalEntry; 
             </span>
             <span className="rounded-[8px] border border-[#dde7f0] bg-[#f8fafc] px-3 py-1.5 text-slate-500">{entry.location}</span>
           </div>
-          <p className="mono mt-5 text-xs text-slate-500">{entry.date}</p>
+          <p className="mono mt-5 text-xs text-slate-500">{entry.dateLabel}</p>
           <h3 className="mt-2 text-2xl font-semibold text-slate-950">{entry.title}</h3>
           <p className="mt-3 text-sm leading-6 text-slate-600">{entry.summary}</p>
         </div>
