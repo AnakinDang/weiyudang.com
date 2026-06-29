@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Public sanitized Doraemon Office activity timeline."
 };
 
-const activityBoundaryItems = ["No raw IDs", "No prompts or workflows", "No accounts or execution"] as const;
+const activityBoundaryItems = ["Sanitized labels", "No prompts or workflows", "No accounts or execution"] as const;
 const activityFilterItems = ["Kind", "Agent", "Severity", "Time window"] as const;
 
 const activityCommandCardTemplates = [
@@ -26,7 +26,7 @@ const activityCommandCardTemplates = [
   },
   {
     title: "Filter Surface",
-    summary: "Code-native controls filter sanitized event labels, not private payloads.",
+    summary: "Code-native controls filter sanitized event labels, not private details.",
     icon: Filter,
     items: activityFilterItems
   }
@@ -103,7 +103,7 @@ export default function DoraActivityPage() {
 
                 <div className="dora-activity-command-schema">
                   <strong>Public Schema</strong>
-                  <p>Fixed titles. Safe timestamps. No private payloads.</p>
+                  <p>Fixed titles. Safe timestamps. No private details.</p>
                   <div>
                     <Eye size={17} aria-hidden />
                     <span>Public window</span>

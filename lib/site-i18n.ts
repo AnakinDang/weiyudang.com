@@ -3683,8 +3683,8 @@ const exactZhTranslations = {
   "Every public signal, ordered. A readable command log for MiniDora motion without exposing private work.":
     "所有公开信号按序展示。它是 MiniDora 运行的可读指挥日志，但不暴露私密工作。",
   "Explore public log": "探索公开日志",
-  "Fixed titles. Safe timestamps. No private payloads.":
-    "固定标题。安全时间戳。不含私密 payload。",
+  "Fixed titles. Safe timestamps. No private details.":
+    "固定标题。安全时间戳。不含私密细节。",
   "Private area hidden": "私密区域隐藏",
   "Public event stream": "公开事件流",
   "Sanitized public schema sample": "脱敏公开 schema 样本",
@@ -3703,14 +3703,14 @@ const exactZhTranslations = {
   "Timeline Posture": "时间线状态",
   "Newest public labels first, with event groups and review labels visible at a safe level.":
     "最新公开标签优先展示，并以安全层级显示事件分组和审核标签。",
-  "No raw IDs": "不展示原始 ID",
+  "Sanitized labels": "脱敏标签",
   "No accounts or execution": "不展示账户或执行",
   "Public Boundary": "公开边界",
   "The activity surface explains motion without exposing the private work behind it.":
     "活动界面解释运行动态，但不暴露背后的私密工作。",
   "Filter Surface": "筛选界面",
-  "Code-native controls filter sanitized event labels, not private payloads.":
-    "原生控件只筛选脱敏事件标签，不筛选私密 payload。",
+  "Code-native controls filter sanitized event labels, not private details.":
+    "原生控件只筛选脱敏事件标签，不筛选私密细节。",
   "Activity filters": "活动筛选",
   "Filter public stream": "筛选公开流",
   "All controls operate on sanitized event labels only.": "所有控件只作用于脱敏事件标签。",
@@ -3764,8 +3764,8 @@ const exactZhTranslations = {
     "当舞台比信息流更有用时，打开公开指挥室视图。",
   "Office bridge": "Office 桥接",
   "Boundary check": "边界检查",
-  "Visible activity never includes raw IDs, prompts, artifacts, private paths, accounts, orders, or execution controls.":
-    "可见活动绝不包含原始 ID、prompt、产物、私密路径、账户、订单或执行控制。",
+  "Visible activity uses fixed public labels and never includes prompts, artifacts, private paths, accounts, orders, or execution controls.":
+    "可见活动使用固定公开标签，绝不包含 prompt、产物、私密路径、账户、订单或执行控制。",
   "Activity closes the public operating loop": "活动页闭合公开运行循环",
   "The public log above gives schedule, task, and system signals their surrounding story without exposing private work.":
     "上方公开日志为日程、任务和系统信号提供上下文，同时不暴露私密工作。",
@@ -3779,8 +3779,8 @@ const exactZhTranslations = {
     "一段简洁的公开节奏，用来呈现优先级、审核点和观察项。",
   "No precise automation detail or private source material renders publicly.":
     "不公开渲染精确自动化细节或私密来源材料。",
-  "No internal identifiers, payloads, artifacts, or raw run state appear.":
-    "不显示内部标识符、payload、产物或原始运行状态。",
+  "No internal identifiers, private details, artifacts, or run internals appear.":
+    "不显示内部标识符、私密细节、产物或运行内部信息。",
   "display-only": "仅展示",
   "alert": "提醒",
   "System check": "系统检查",

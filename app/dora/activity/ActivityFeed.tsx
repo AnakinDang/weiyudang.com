@@ -341,7 +341,7 @@ export function ActivityFeed({ fallbackEvents }: { fallbackEvents: ActivityFeedE
               <CheckCircle2 size={20} aria-hidden />
               <h2>{t("Boundary check")}</h2>
             </div>
-            <p>{t("Visible activity never includes raw IDs, prompts, artifacts, private paths, accounts, orders, or execution controls.")}</p>
+            <p>{t("Visible activity uses fixed public labels and never includes prompts, artifacts, private paths, accounts, orders, or execution controls.")}</p>
           </section>
         </aside>
       </div>

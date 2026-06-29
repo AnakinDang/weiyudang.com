@@ -2,17 +2,16 @@
 
 import { useEffect } from "react";
 
-// On narrow screens the office route dock is a horizontal rail. Center the
-// active route so visitors always see where they are (IA: active navigation
-// must stay visible when the rail scrolls). Sets scrollLeft directly — so it
-// only moves the rail, never the window.
+// On narrow screens the office route dock is a horizontal rail. Keep the
+// active route visible without forcing it to the center; centering can clip
+// earlier routes and make the rail look broken on first paint.
 export function DoraOfficeRouteScroller({ active }: { active: string }) {
   useEffect(() => {
     let firstFrame = 0;
     let secondFrame = 0;
     let cancelled = false;
 
-    const centerActiveRoute = () => {
+    const revealActiveRoute = () => {
       if (cancelled) return;
       const routeList = document.querySelector<HTMLElement>("[data-dora-office-route-list]");
       const activeLink = routeList?.querySelector<HTMLElement>('[aria-current="page"]');
@@ -26,26 +25,40 @@ export function DoraOfficeRouteScroller({ active }: { active: string }) {
       // border/gap as a constant error).
       const listRect = routeList.getBoundingClientRect();
       const linkRect = activeLink.getBoundingClientRect();
-      const centered =
-        routeList.scrollLeft + (linkRect.left - listRect.left) - (routeList.clientWidth - activeLink.clientWidth) / 2;
-      routeList.scrollLeft = Math.max(0, centered);
+      const gutter = 8;
+
+      if (linkRect.left < listRect.left + gutter) {
+        const nextScrollLeft = Math.max(0, routeList.scrollLeft + (linkRect.left - listRect.left) - gutter);
+        if (nextScrollLeft !== routeList.scrollLeft) {
+          routeList.scrollLeft = nextScrollLeft;
+        }
+        return;
+      }
+
+      if (linkRect.right > listRect.right - gutter) {
+        const maxScrollLeft = routeList.scrollWidth - routeList.clientWidth;
+        const nextScrollLeft = Math.min(maxScrollLeft, routeList.scrollLeft + linkRect.right - listRect.right + gutter);
+        if (nextScrollLeft !== routeList.scrollLeft) {
+          routeList.scrollLeft = nextScrollLeft;
+        }
+      }
     };
 
     firstFrame = window.requestAnimationFrame(() => {
-      secondFrame = window.requestAnimationFrame(centerActiveRoute);
+      secondFrame = window.requestAnimationFrame(revealActiveRoute);
     });
-    // Re-center once web fonts settle: before they load the links are narrower
-    // and the rail is not yet scrollable, so an early center would clamp to 0.
+    // Re-check once web fonts settle: before they load the links are narrower
+    // and the rail is not yet scrollable, so an early reveal can clamp to 0.
     if (typeof document !== "undefined" && document.fonts?.ready) {
-      void document.fonts.ready.then(centerActiveRoute).catch(() => {});
+      void document.fonts.ready.then(revealActiveRoute).catch(() => {});
     }
-    window.addEventListener("resize", centerActiveRoute);
+    window.addEventListener("resize", revealActiveRoute);
 
     return () => {
       cancelled = true;
       window.cancelAnimationFrame(firstFrame);
       window.cancelAnimationFrame(secondFrame);
-      window.removeEventListener("resize", centerActiveRoute);
+      window.removeEventListener("resize", revealActiveRoute);
     };
   }, [active]);
 
