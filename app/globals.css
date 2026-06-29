@@ -43278,3 +43278,178 @@ textarea {
     min-height: 1.08rem;
   }
 }
+
+/* Step 69: Doraemon entry mobile fold continuity */
+@media (max-width: 720px) {
+  .doraemon-entry-page .doraemon-doorway {
+    padding-top: clamp(0.9rem, 3vw, 1.12rem);
+    padding-bottom: 0.15rem;
+  }
+
+  .doraemon-entry-page .doraemon-doorway-copy {
+    padding-bottom: 0.55rem;
+  }
+
+  .doraemon-entry-page .doraemon-doorway-copy h1 {
+    max-width: 7.4ch;
+    font-size: clamp(3.08rem, 13vw, 3.55rem);
+    line-height: 0.9;
+  }
+
+  .doraemon-entry-page .doraemon-doorway-lede {
+    max-width: 21rem;
+    margin-top: 0.85rem;
+    font-size: 0.93rem;
+    line-height: 1.43;
+  }
+
+  .doraemon-entry-page .doraemon-doorway-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.54rem 0.9rem;
+    margin-top: 1rem;
+  }
+
+  .doraemon-entry-page .doraemon-doorway-actions::before {
+    grid-column: 1 / -1;
+    width: 2.1rem;
+    margin-bottom: 0;
+  }
+
+  .doraemon-entry-page .doraemon-primary-action {
+    min-height: 3.02rem;
+    padding: 0.78rem 0.9rem;
+    font-size: 0.88rem;
+  }
+
+  .doraemon-entry-page .doraemon-quiet-action {
+    min-height: 2.5rem;
+    justify-content: flex-start;
+    font-size: 0.83rem;
+  }
+
+  .doraemon-entry-page .doraemon-command-preview {
+    min-height: 20.25rem;
+    margin-top: -0.08rem;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage {
+    inset: -0.36rem -1.15rem 5.9rem -1.15rem;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage img {
+    --dora-office-portal-scale: 1.012;
+    --dora-office-portal-scale-peak: 1.018;
+    opacity: 0.9;
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview {
+    bottom: 0.18rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview-head {
+    flex-wrap: wrap;
+    gap: 0.18rem 0.58rem;
+    padding: 0.48rem 0.66rem 0.38rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-preview-head small {
+    max-width: 100%;
+    padding-right: 0.58rem;
+    font-size: 0.62rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks::-webkit-scrollbar {
+    display: none;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks div {
+    display: block;
+    flex: 0 0 min(7.6rem, 42%);
+    min-height: 4.35rem;
+    padding: 0.5rem 0.56rem 0.58rem;
+    scroll-snap-align: start;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks time {
+    font-size: 0.7rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks strong {
+    margin-block: 0.18rem 0.1rem;
+    font-size: 0.73rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks span {
+    overflow: hidden;
+    font-size: 0.62rem;
+    line-height: 1.18;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock {
+    margin-top: 0.05rem;
+    margin-bottom: 0.38rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock + .doraemon-entry-section {
+    padding-top: 1.25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .doraemon-entry-page .doraemon-doorway-copy h1 {
+    font-size: clamp(2.96rem, 12.8vw, 3.22rem);
+  }
+
+  .doraemon-entry-page .doraemon-command-preview {
+    min-height: 19.2rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks div {
+    min-height: 3.85rem;
+    padding-inline: 0.46rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .doraemon-entry-page .doraemon-doorway-copy h1 {
+    font-size: clamp(2.72rem, 12.2vw, 2.94rem);
+  }
+
+  .doraemon-entry-page .doraemon-doorway-lede {
+    margin-top: 0.72rem;
+    font-size: 0.87rem;
+  }
+
+  .doraemon-entry-page .doraemon-doorway-actions {
+    gap: 0.44rem 0.72rem;
+    margin-top: 0.86rem;
+  }
+
+  .doraemon-entry-page .doraemon-command-preview {
+    min-height: 17.65rem;
+  }
+
+  .doraemon-entry-page .doraemon-portal-stage {
+    bottom: 5.45rem;
+  }
+
+  .doraemon-entry-page .doraemon-activity-ticks div {
+    min-height: 4.12rem;
+  }
+
+  .doraemon-entry-page .doraemon-entry-route-dock + .doraemon-entry-section {
+    padding-top: 1rem;
+  }
+}
