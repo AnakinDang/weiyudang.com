@@ -67,7 +67,7 @@ const ownerSurfaces = [
 // Update these fingerprints only after manually reviewing the private-data diff that changed
 // which owner-only literals rely on global site i18n.
 const expectedGlobalI18nFingerprints = {
-  today: { count: 110, digest: "279ced43c38a2ceaea737cb399ed560d42d8d996c34f578818b46cd83db5194e" },
+  today: { count: 109, digest: "b96b749be75fce87c67a2d73192ee6aaa5fb51548e2b4b17afc4f7076dfee01d" },
   command: { count: 155, digest: "f0ac9ea8e148d7a55b642eb3cc44c8f78a0d9d9d337e47fcfb80ca3701c9f5c7" },
   events: { count: 4, digest: "71fae926bbe4bb0339a872ce343a4083d7141257b37edad672a5a3594104e500" },
   agents: { count: 242, digest: "c002b859fe34d7ee35e900885bae4e3a7601f8fd3aab7b9131bbdf761e8658ae" },

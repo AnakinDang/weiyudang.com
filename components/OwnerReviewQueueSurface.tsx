@@ -1,7 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   AlertTriangle,
   ArrowRight,
@@ -896,11 +896,14 @@ function EmptyQueueState({ locale }: { locale: SiteLocale }) {
   );
 }
 
-export function OwnerReviewQueueSurface({ data }: { data: ReviewQueueData }) {
+export function OwnerReviewQueueSurface({ data, initialPacketId }: { data: ReviewQueueData; initialPacketId?: string }) {
   const { locale } = useLanguage();
   const lanes = useMemo(() => uniqueLanes(data.queue), [data.queue]);
   const [activeLane, setActiveLane] = useState("All lanes");
-  const [selectedItemId, setSelectedItemId] = useState(data.queue[0]?.id ?? "");
+  const [selectedItemId, setSelectedItemId] = useState(() => {
+    const initialItem = data.queue.find((item) => item.id === initialPacketId);
+    return initialItem?.id ?? data.queue[0]?.id ?? "";
+  });
   const [draftChoices, setDraftChoices] = useState<Record<string, string>>({});
   const [draftNotes, setDraftNotes] = useState<Record<string, string>>({});
 
@@ -912,7 +915,23 @@ export function OwnerReviewQueueSurface({ data }: { data: ReviewQueueData }) {
     return data.queue.filter((item) => item.lane === activeLane);
   }, [activeLane, data.queue]);
 
-  const selectedItem = data.queue.find((item) => item.id === selectedItemId) ?? visibleQueue[0] ?? data.queue[0];
+  const selectedItem = visibleQueue.find((item) => item.id === selectedItemId) ?? visibleQueue[0] ?? data.queue[0];
+
+  useEffect(() => {
+    if (!initialPacketId) return;
+
+    const initialItem = data.queue.find((item) => item.id === initialPacketId);
+    if (!initialItem) return;
+
+    setActiveLane("All lanes");
+    setSelectedItemId(initialItem.id);
+  }, [data.queue, initialPacketId]);
+
+  useEffect(() => {
+    if (!selectedItem || selectedItem.id === selectedItemId) return;
+
+    setSelectedItemId(selectedItem.id);
+  }, [selectedItem, selectedItemId]);
 
   if (!selectedItem) {
     return <EmptyQueueState locale={locale} />;

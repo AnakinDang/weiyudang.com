@@ -90,7 +90,7 @@ export const ownerReviewQueue = [
     tone: "warning",
     decision: "Accept, revise, or narrow the next private route slice.",
     evidence: "Build, auth redirect, screenshot, leak probe, and Opus review.",
-    href: "/app/review",
+    href: "/app/review?packet=review-private-events-surface",
     hrefLabel: "Open review packet",
     contextHref: "/app/command",
     contextLabel: "Open command context"
@@ -103,7 +103,7 @@ export const ownerReviewQueue = [
     tone: "warning",
     decision: "Pick Command, Agents, or Trading evidence depth.",
     evidence: "Docs define the route map; implementation should stay read-only.",
-    href: "/app/review",
+    href: "/app/review?packet=review-agent-history-depth",
     hrefLabel: "Open review packet",
     contextHref: "/app/agents",
     contextLabel: "Open agent context"
@@ -116,8 +116,8 @@ export const ownerReviewQueue = [
     tone: "info",
     decision: "Choose what private research evidence becomes owner-scannable.",
     evidence: "Research-only boundary remains fixed; no broker writes.",
-    href: "/app/trading?view=system",
-    hrefLabel: "Open trading system",
+    href: "/app/review?packet=review-trading-boundary-copy",
+    hrefLabel: "Open review packet",
     contextHref: "/app/trading?view=evidence",
     contextLabel: "Open evidence center"
   }
