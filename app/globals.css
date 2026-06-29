@@ -39396,6 +39396,95 @@ textarea {
   transform: translateY(-1px);
 }
 
+.trading-cockpit-link:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+  transform: none;
+}
+
+.trading-evidence-runway {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 1rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(251, 191, 36, 0.24);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(14, 165, 233, 0.06)),
+    rgba(15, 23, 42, 0.26);
+  padding: 1rem;
+}
+
+.trading-evidence-runway__copy {
+  min-width: 0;
+}
+
+.trading-evidence-runway__copy h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.08rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  line-height: 1.18;
+}
+
+.trading-evidence-runway__copy p {
+  margin: 0.65rem 0 0;
+  color: #cbd5e1;
+  font-size: 0.86rem;
+  font-weight: 620;
+  line-height: 1.58;
+}
+
+.trading-evidence-runway__rail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.58rem;
+  min-width: 0;
+}
+
+.trading-evidence-runway__rail article {
+  display: grid;
+  gap: 0.26rem;
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.18);
+  padding: 0.72rem;
+}
+
+.trading-evidence-runway__rail svg {
+  color: #fef3c7;
+}
+
+.trading-evidence-runway__rail span {
+  color: #94a3b8;
+  font-size: 0.66rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.trading-evidence-runway__rail strong {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.trading-evidence-runway__rail small {
+  color: #cbd5e1;
+  font-size: 0.7rem;
+  font-weight: 680;
+  line-height: 1.35;
+}
+
+.trading-evidence-runway__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
 .trading-cockpit-tabs {
   min-width: 0;
   border-bottom: 1px solid rgba(221, 231, 240, 0.9);
@@ -40058,6 +40147,11 @@ textarea {
   }
 
   .trading-cockpit-continuity {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trading-evidence-runway,
+  .trading-evidence-runway__rail {
     grid-template-columns: minmax(0, 1fr);
   }
 

@@ -3702,6 +3702,17 @@ const exactZhTranslations = {
   "Every important signal needs evidence, counter-evidence, source health, and owner review before confidence can rise. Missing packets stay visible as blockers.":
     "每个重要信号都必须具备证据、反证、来源健康和人工审核，置信度才可以提升。缺失证据会继续作为阻塞项可见。",
   "Traceable research only": "仅可追溯研究",
+  "This is the private landing point behind Trading MiniDora. Review evidence packets, source health, gate state, and replay traces before any research language becomes stronger.":
+    "这是 Trading MiniDora 背后的私密落点。在任何研究语言变强之前，先审核证据包、来源健康、门禁状态和回放追踪。",
+  "Evidence review posture": "证据审核状态",
+  "Visible now": "当前可见",
+  "evidence packets in scope": "范围内证据包",
+  "Needs review": "需要审核",
+  "open evidence blockers": "开放证据阻塞点",
+  "Gate pressure": "门禁压力",
+  "blocked or incomplete gates": "阻塞或未完成门禁",
+  "Focus first blocker": "聚焦首个阻塞点",
+  "Show full trace": "显示完整追踪",
   "Linked signal": "关联信号",
   "Evidence state": "证据状态",
   "All signals": "全部信号",

@@ -1733,6 +1733,7 @@ function EvidenceView({
   stateFilter,
   onStateFilterChange,
   onClearFilters,
+  onFocusEvidencePacket,
   onOpenReplayTrace
 }: {
   gates: readonly TradingGate[];
@@ -1745,6 +1746,7 @@ function EvidenceView({
   stateFilter: string;
   onStateFilterChange: (value: string) => void;
   onClearFilters: () => void;
+  onFocusEvidencePacket: (packet: TradingEvidencePacket) => void;
   onOpenReplayTrace: (instrument: string, evidenceState?: string) => void;
 }) {
   const { locale } = useLanguage();
@@ -1784,6 +1786,7 @@ function EvidenceView({
   const openGateBlockers = gates.filter((gate) => ["Blocked", "Incomplete", "Required"].includes(gate.value));
   const hasFilters = signalFilter !== ALL_SIGNAL_FILTER || stateFilter !== ALL_STATE_FILTER;
   const evidenceSummaryKey = `${signalFilter}:${stateFilter}:${filteredEvidence.length}:${hasFilters ? "filtered" : "full"}`;
+  const firstReviewPacket = filteredMissingEvidence[0];
 
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
@@ -1867,6 +1870,51 @@ function EvidenceView({
               </span>
             </StatusBadge>
           </div>
+
+          <section className="trading-evidence-runway" aria-labelledby="trading-evidence-runway-title">
+            <div className="trading-evidence-runway__copy">
+              <div className="flex items-center gap-2 text-yellow-100">
+                <ShieldCheck size={20} aria-hidden />
+                <h3 id="trading-evidence-runway-title">Owner-gated evidence review</h3>
+              </div>
+              <p>
+                This is the private landing point behind Trading MiniDora. Review evidence packets, source health, gate
+                state, and replay traces before any research language becomes stronger.
+              </p>
+            </div>
+
+            <div className="trading-evidence-runway__rail" aria-label="Evidence review posture">
+              <article>
+                <Database size={17} aria-hidden />
+                <span>Visible now</span>
+                <strong>{filteredEvidence.length}</strong>
+                <small>evidence packets in scope</small>
+              </article>
+              <article>
+                <AlertTriangle size={17} aria-hidden />
+                <span>Needs review</span>
+                <strong>{filteredMissingEvidence.length}</strong>
+                <small>open evidence blockers</small>
+              </article>
+              <article>
+                <GitCompareArrows size={17} aria-hidden />
+                <span>Gate pressure</span>
+                <strong>{openGateBlockers.length}</strong>
+                <small>blocked or incomplete gates</small>
+              </article>
+            </div>
+
+            <div className="trading-evidence-runway__actions">
+              {firstReviewPacket ? (
+                <button type="button" className="trading-cockpit-link" onClick={() => onFocusEvidencePacket(firstReviewPacket)}>
+                  Focus first blocker
+                </button>
+              ) : null}
+              <button type="button" className="trading-cockpit-link" onClick={onClearFilters} disabled={!hasFilters}>
+                Show full trace
+              </button>
+            </div>
+          </section>
         </article>
 
         <section className="grid gap-3" aria-label="Evidence trace">
@@ -2616,6 +2664,13 @@ export function TradingResearchCockpit({
     navigateTradingView("Evidence", evidenceUrlUpdater(instrument, ALL_STATE_FILTER));
   }
 
+  function focusEvidencePacket(packet: TradingEvidencePacket) {
+    setTraceNotice(null);
+    setEvidenceSignalFilter(packet.linkedSignal);
+    setEvidenceStateFilter(packet.state);
+    navigateTradingView("Evidence", evidenceUrlUpdater(packet.linkedSignal, packet.state));
+  }
+
   function traceReplayForInstrument(instrument: string, evidenceState = ALL_EVIDENCE_FILTER) {
     setTraceNotice(null);
     const nextInstrument = instrument === "ALL" || instrument === ALL_INSTRUMENT_FILTER ? ALL_INSTRUMENT_FILTER : instrument;
@@ -2925,6 +2980,7 @@ export function TradingResearchCockpit({
           stateFilter={evidenceStateFilter}
           onStateFilterChange={changeEvidenceStateFilter}
           onClearFilters={clearEvidenceFilters}
+          onFocusEvidencePacket={focusEvidencePacket}
           onOpenReplayTrace={traceReplayForInstrument}
         />
       ) : null}
