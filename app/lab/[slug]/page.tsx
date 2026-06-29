@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpenCheck,
   CheckCircle2,
   CircleHelp,
   Compass,
@@ -33,6 +35,25 @@ type ResearchDossierCard = {
   icon: typeof Compass;
   items: ResearchDossierItem[];
 };
+
+const publishingFlow = [
+  {
+    label: "Capture privately",
+    detail: "Raw notes, prompts, sources, and drafts stay in the private working layer."
+  },
+  {
+    label: "Distill safely",
+    detail: "The note turns the useful idea into a principle, method, or public sketch."
+  },
+  {
+    label: "Attach evidence",
+    detail: "Readers get durable public context, related routes, and inspectable artifacts."
+  },
+  {
+    label: "Publish with boundary",
+    detail: "Private source text, credentials, runtime IDs, accounts, and controls stay out."
+  }
+] as const;
 
 function publicationPostureForNote(note: Note): Pick<ResearchDossierItem, "detail" | "value"> {
   if (note.updatedAt && note.updatedAt !== note.publishedAt) {
@@ -271,6 +292,9 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
 
   const relatedNotes = getRelatedNotes(note, 2);
   const dossierCards = buildResearchDossier(note);
+  const relatedProjectHref = note.relatedProject ? `/projects/${note.relatedProject}` : "/projects";
+  const relatedProjectLabel = note.relatedProject ? "Open related project" : "Browse projects";
+  const publicationPosture = publicationPostureForNote(note);
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/lab">
@@ -284,10 +308,8 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
           <div className="lab-note-dossier-grid">
             <article className="lab-note-dossier-main">
               <div className="lab-note-dossier-hero">
-                <span className="lab-note-dossier-icon" aria-hidden>
-                  <FlaskConical size={28} />
-                </span>
-                <div>
+                <div className="lab-note-dossier-hero-copy">
+                  <p className="lab-rail-kicker">Public research dossier</p>
                   <h1>{note.title}</h1>
                   <p>{note.summary}</p>
                   <div className="lab-note-dossier-badges">
@@ -295,10 +317,56 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
                     <span>{note.dateLabel}</span>
                     <span>Public-safe note</span>
                   </div>
+                  <div className="lab-note-hero-actions">
+                    <Link href="#lab-note-body" className="link-focus lab-note-primary-action">
+                      Read note
+                      <ArrowRight size={16} aria-hidden />
+                    </Link>
+                    <Link href={relatedProjectHref} className="link-focus lab-note-secondary-action">
+                      {relatedProjectLabel}
+                      <ArrowRight size={16} aria-hidden />
+                    </Link>
+                  </div>
                 </div>
+
+                <aside className="lab-note-hero-visual" aria-label="Public research studio preview">
+                  <div className="lab-note-image-frame">
+                    <Image
+                      src="/visuals/personal-os-portal-v2.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={1680}
+                      height={945}
+                      quality={90}
+                      sizes="(min-width: 1080px) 34vw, 100vw"
+                      className="lab-note-image"
+                    />
+                    <div className="lab-note-image-card">
+                      <BookOpenCheck size={17} aria-hidden />
+                      <span>
+                        <strong>Public research artifact</strong>
+                        <small>Evidence-first, public-safe, and tied back to the Personal OS.</small>
+                      </span>
+                    </div>
+                  </div>
+                  <div className="lab-note-lens-grid" role="list" aria-label="Research note lens">
+                    <span role="listitem">
+                      <strong>{note.categoryLabel}</strong>
+                      <small>research lane</small>
+                    </span>
+                    <span role="listitem">
+                      <strong>{note.visibilityLabel}</strong>
+                      <small>boundary mode</small>
+                    </span>
+                    <span role="listitem">
+                      <strong>{publicationPosture.value}</strong>
+                      <small>{publicationPosture.detail}</small>
+                    </span>
+                  </div>
+                </aside>
               </div>
 
-              <div className="lab-note-boundary-callout">
+              <div className="lab-note-boundary-callout" role="note">
                 <ShieldCheck size={20} aria-hidden />
                 <div>
                   <strong>This note is public-safe.</strong>
@@ -307,6 +375,23 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
               </div>
 
               {note.category === "trading-research" ? <TradingResearchBoundary /> : null}
+
+              <section className="lab-note-publishing-flow" aria-labelledby="lab-note-publishing-flow-title">
+                <div className="lab-note-publishing-flow-head">
+                  <p className="lab-rail-kicker">Publishing protocol</p>
+                  <h2 id="lab-note-publishing-flow-title">From private signal to public research artifact.</h2>
+                </div>
+                <div className="lab-note-publishing-flow-grid" role="list" aria-label="Research publishing protocol">
+                  {publishingFlow.map((step, index) => (
+                    <article key={step.label} role="listitem">
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                      <FlaskConical size={18} aria-hidden />
+                      <strong>{step.label}</strong>
+                      <p>{step.detail}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
 
               <section className="lab-research-dossier" aria-labelledby="lab-research-dossier-title">
                 <div className="lab-research-dossier-head">
@@ -347,7 +432,7 @@ export default async function LabNotePage({ params }: LabNotePageProps) {
                 </div>
               </section>
 
-              <div className="lab-note-body">
+              <div id="lab-note-body" className="lab-note-body">
                 <h2>Note</h2>
                 <MarkdownBody body={note.body} />
               </div>
