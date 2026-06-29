@@ -13,9 +13,9 @@ const heroSurfaces = [
     icon: FlaskConical
   },
   {
-    title: "Doraemon Office",
-    summary: "Main command-room entrance",
-    href: "/dora/office",
+    title: "Doraemon",
+    summary: "Guide and public office",
+    href: "/dora",
     state: "public-safe",
     stateLabel: "Public-safe",
     icon: Bot
@@ -61,21 +61,17 @@ export function HeroSection() {
 
       <div className="container premium-hero-grid">
         <div className="premium-hero-copy">
-          <div className="premium-hero-kicker">
-            <span>Weiyu Dang</span>
-            <span>Personal OS</span>
-            <span>Public studio + Doraemon Office</span>
-          </div>
-          <h1 className="premium-hero-title" aria-label="Build the systems that help thought compound.">
-            <span className="premium-hero-name">Build the systems</span>
-            <span className="premium-hero-os">that help thought</span>
+          <h1 className="premium-hero-title" aria-label="Weiyu's Personal OS with Doraemon.">
+            <span className="premium-hero-name">Weiyu&apos;s</span>
+            <span className="premium-hero-os">Personal OS</span>
             <span className="premium-hero-line">
-              <em>compound.</em>
+              <em>with Doraemon.</em>
             </span>
           </h1>
+          <p className="premium-hero-lede">Doraemon coordinates. MiniDoras work. Weiyu decides.</p>
           <p className="premium-hero-support">
-            Exploring physics. Building AI systems. Designing research tools. Doraemon Office is
-            the public-safe entry to my Personal OS for long-term impact.
+            A public home for physics, AI systems, research tools, and the agent team behind the work.
+            Doraemon Office makes the Personal OS visible without exposing private tasks, prompts, or controls.
           </p>
           <div
             className="premium-hero-statusline"
@@ -98,9 +94,9 @@ export function HeroSection() {
             </span>
           </div>
           <div className="premium-hero-actions">
-            <Link href="/dora/office" className="link-focus premium-primary-link">
+            <Link href="/dora" className="link-focus premium-primary-link">
               <Bot size={18} aria-hidden />
-              Enter Doraemon Office
+              Enter Doraemon
               <ArrowRight size={16} aria-hidden />
             </Link>
             <Link href="#os-layers" className="link-focus premium-text-link">
@@ -127,8 +123,8 @@ export function HeroSection() {
           </div>
 
           <p className="premium-office-capsule-copy">
-            Doraemon is the entry personality for the public-safe layer of the Personal OS:
-            agent presence, research rhythm, schedules, and review moments.
+            Doraemon is the doorway into the public-safe Personal OS: MiniDora presence,
+            activity, schedules, research rhythm, and system posture, without private task detail.
           </p>
 
           <div className="premium-office-boundary">
