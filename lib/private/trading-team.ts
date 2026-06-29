@@ -14,6 +14,7 @@ import {
   tradingReplayTraceHref,
   tradingSystemTraceHref
 } from "@/lib/trading-trace";
+import type { TradingTraceContext } from "@/lib/trading-trace";
 
 const tradingTeamStatus = {
   mode: "Private research console",
@@ -524,19 +525,25 @@ const privateTradingTraceLookups = {
   replayEvidence: createTradingTraceTokenLookup("state", [ALL_EVIDENCE_FILTER, ...tradingReplay.map((event) => event.evidenceState)])
 } as const;
 
-export function privateTradingEvidenceHref(signalFilter = ALL_SIGNAL_FILTER, stateFilter = ALL_STATE_FILTER) {
+export function privateTradingEvidenceHref(
+  signalFilter = ALL_SIGNAL_FILTER,
+  stateFilter = ALL_STATE_FILTER,
+  context?: TradingTraceContext
+) {
   return tradingEvidenceTraceHref(
     signalFilter,
     stateFilter,
     privateTradingTraceLookups.evidenceSignal,
-    privateTradingTraceLookups.evidenceState
+    privateTradingTraceLookups.evidenceState,
+    context
   );
 }
 
 export function privateTradingReplayHref(
   deskFilter = ALL_DESK_FILTER,
   instrumentFilter = ALL_INSTRUMENT_FILTER,
-  evidenceFilter = ALL_EVIDENCE_FILTER
+  evidenceFilter = ALL_EVIDENCE_FILTER,
+  context?: TradingTraceContext
 ) {
   return tradingReplayTraceHref(
     deskFilter,
@@ -544,10 +551,11 @@ export function privateTradingReplayHref(
     evidenceFilter,
     privateTradingTraceLookups.replayDesk,
     privateTradingTraceLookups.replayInstrument,
-    privateTradingTraceLookups.replayEvidence
+    privateTradingTraceLookups.replayEvidence,
+    context
   );
 }
 
-export function privateTradingSystemHref() {
-  return tradingSystemTraceHref();
+export function privateTradingSystemHref(context?: TradingTraceContext) {
+  return tradingSystemTraceHref(context);
 }

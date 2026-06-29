@@ -12,6 +12,7 @@ export const REPLAY_DESK_PARAM = "replay_desk";
 export const REPLAY_INSTRUMENT_PARAM = "instrument";
 export const REPLAY_INSTRUMENT_LEGACY_PARAM = "replay_instrument";
 export const REPLAY_EVIDENCE_PARAM = "replay_evidence";
+export const TRADING_REVIEW_PACKET_PARAM = "review_packet";
 
 export const tradingTraceParams = [
   EVIDENCE_SIGNAL_PARAM,
@@ -23,6 +24,10 @@ export const tradingTraceParams = [
 ] as const;
 
 export type TradingSearchUpdater = (params: URLSearchParams) => void;
+
+export type TradingTraceContext = {
+  readonly reviewPacketId?: string;
+};
 
 export type TradingTraceTokenLookup = {
   readonly tokenToValue: ReadonlyMap<string, string>;
@@ -194,7 +199,21 @@ export function traceNoticeForResolutions(
   return null;
 }
 
-export function tradingTraceHref(view: TradingView, updateSearch?: TradingSearchUpdater, basePath = "/app/trading") {
+function applyTradingTraceContext(params: URLSearchParams, context?: TradingTraceContext) {
+  if (context?.reviewPacketId) {
+    params.set(TRADING_REVIEW_PACKET_PARAM, context.reviewPacketId);
+    return;
+  }
+
+  params.delete(TRADING_REVIEW_PACKET_PARAM);
+}
+
+export function tradingTraceHref(
+  view: TradingView,
+  updateSearch?: TradingSearchUpdater,
+  basePath = "/app/trading",
+  context?: TradingTraceContext
+) {
   const params = new URLSearchParams();
 
   if (view !== "Today") {
@@ -202,6 +221,7 @@ export function tradingTraceHref(view: TradingView, updateSearch?: TradingSearch
   }
 
   updateSearch?.(params);
+  applyTradingTraceContext(params, context);
 
   const query = params.toString();
   return query ? `${basePath}?${query}` : basePath;
@@ -211,9 +231,10 @@ export function tradingEvidenceTraceHref(
   signalFilter: string,
   stateFilter: string,
   signalLookup: TradingTraceTokenLookup,
-  stateLookup: TradingTraceTokenLookup
+  stateLookup: TradingTraceTokenLookup,
+  context?: TradingTraceContext
 ) {
-  return tradingTraceHref("Evidence", evidenceSearchUpdater(signalFilter, stateFilter, signalLookup, stateLookup));
+  return tradingTraceHref("Evidence", evidenceSearchUpdater(signalFilter, stateFilter, signalLookup, stateLookup), "/app/trading", context);
 }
 
 export function tradingReplayTraceHref(
@@ -222,14 +243,17 @@ export function tradingReplayTraceHref(
   evidenceFilter: string,
   deskLookup: TradingTraceTokenLookup,
   instrumentLookup: TradingTraceTokenLookup,
-  evidenceLookup: TradingTraceTokenLookup
+  evidenceLookup: TradingTraceTokenLookup,
+  context?: TradingTraceContext
 ) {
   return tradingTraceHref(
     "Replay",
-    replaySearchUpdater(deskFilter, instrumentFilter, evidenceFilter, deskLookup, instrumentLookup, evidenceLookup)
+    replaySearchUpdater(deskFilter, instrumentFilter, evidenceFilter, deskLookup, instrumentLookup, evidenceLookup),
+    "/app/trading",
+    context
   );
 }
 
-export function tradingSystemTraceHref() {
-  return tradingTraceHref("System");
+export function tradingSystemTraceHref(context?: TradingTraceContext) {
+  return tradingTraceHref("System", undefined, "/app/trading", context);
 }
