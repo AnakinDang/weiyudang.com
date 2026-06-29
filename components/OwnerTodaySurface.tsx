@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -581,6 +582,120 @@ function DecisionHubPanel({ items, locale }: { items: readonly DecisionHubItem[]
   );
 }
 
+function OwnerHandoffRunwayPanel({ reviewQueue, locale }: { reviewQueue: readonly ReviewItem[]; locale: SiteLocale }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const safeSelectedIndex = reviewQueue[selectedIndex] ? selectedIndex : 0;
+  const selectedItem = reviewQueue[safeSelectedIndex];
+
+  if (!selectedItem) {
+    return (
+      <section className="panel p-5 md:p-6" aria-labelledby="today-handoff-runway-title">
+        <p className="eyebrow">{todayText("Owner decision runway", locale)}</p>
+        <h2 id="today-handoff-runway-title" className="mt-2 text-2xl font-semibold text-white">
+          {todayText("No checkpoint is waiting on this private source.", locale)}
+        </h2>
+      </section>
+    );
+  }
+
+  return (
+    <section className="panel relative overflow-hidden p-5 md:p-6" aria-labelledby="today-handoff-runway-title">
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/2 bg-[radial-gradient(circle_at_75%_18%,rgba(250,204,21,0.14),transparent_34%),radial-gradient(circle_at_82%_82%,rgba(14,165,233,0.13),transparent_36%)]" aria-hidden />
+      <div className="relative flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="eyebrow">{todayText("Owner decision runway", locale)}</p>
+          <h2 id="today-handoff-runway-title" className="mt-2 text-2xl font-semibold text-white">
+            {todayText("Pick the next safe handoff.", locale)}
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
+            {todayText(
+              "Select a checkpoint to see the decision, evidence, and private context before opening the next surface.",
+              locale
+            )}
+          </p>
+        </div>
+        <TodayPill tone="private" icon={ShieldCheck}>
+          {todayText("Stay read-only", locale)}
+        </TodayPill>
+      </div>
+
+      <div className="relative mt-5 grid gap-4 xl:grid-cols-[minmax(17rem,0.58fr)_minmax(0,1fr)]">
+        <div className="grid content-start gap-2" aria-label={todayText("Selected checkpoint", locale)}>
+          {reviewQueue.map((item, index) => {
+            const isSelected = index === safeSelectedIndex;
+
+            return (
+              <button
+                key={`${item.title}-${index}`}
+                type="button"
+                aria-pressed={isSelected}
+                onClick={() => setSelectedIndex(index)}
+                className={`link-focus grid gap-2 rounded-[8px] border p-3 text-left transition ${
+                  isSelected
+                    ? "border-sky-200/40 bg-sky-300/12 text-white shadow-[0_18px_52px_rgba(14,165,233,0.12)]"
+                    : "border-slate-700 bg-white/[0.045] text-slate-300 hover:border-sky-200/30 hover:bg-sky-300/10 hover:text-white"
+                }`}
+              >
+                <span className="flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-xs font-bold uppercase text-sky-100">{todayText(item.urgency, locale)}</span>
+                  <StatusBadge tone={item.tone}>{todayText(item.state, locale)}</StatusBadge>
+                </span>
+                <strong className="text-sm font-semibold leading-5">{todayText(item.title, locale)}</strong>
+                <span className="text-xs leading-5 text-slate-400">{todayText(item.agent, locale)}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <article className="rounded-[8px] border border-slate-700 bg-[#07111f]/70 p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase text-slate-400">{todayText("Selected checkpoint", locale)}</p>
+              <h3 className="mt-2 text-xl font-semibold text-white">{todayText(selectedItem.title, locale)}</h3>
+            </div>
+            <StatusBadge tone={selectedItem.tone}>{todayText(selectedItem.state, locale)}</StatusBadge>
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div className="rounded-[8px] border border-slate-700 bg-black/20 p-3">
+              <p className="text-xs font-bold uppercase text-slate-400">{todayText("Decision request", locale)}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-200">{todayText(selectedItem.decision, locale)}</p>
+            </div>
+            <div className="rounded-[8px] border border-slate-700 bg-black/20 p-3">
+              <p className="text-xs font-bold uppercase text-slate-400">{todayText("Evidence packet", locale)}</p>
+              <p className="mt-2 text-sm leading-6 text-slate-200">{todayText(selectedItem.evidence, locale)}</p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-3 rounded-[8px] border border-yellow-200/20 bg-yellow-300/10 p-3 2xl:grid-cols-[1fr_auto] 2xl:items-center">
+            <p className="text-sm leading-6 text-yellow-50">
+              {todayText("No approve, publish, dispatch, or execute action appears here.", locale)}
+            </p>
+            <div className="flex flex-wrap gap-2 2xl:justify-end">
+              <Link
+                href={selectedItem.href}
+                prefetch={false}
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] bg-sky-300 px-3 py-2 text-xs font-semibold text-slate-950 transition hover:bg-sky-200"
+              >
+                {todayText(selectedItem.hrefLabel, locale)}
+                <ArrowRight size={14} aria-hidden />
+              </Link>
+              <Link
+                href={selectedItem.contextHref}
+                prefetch={false}
+                className="link-focus inline-flex items-center gap-2 rounded-[8px] border border-slate-700 bg-white/[0.06] px-3 py-2 text-xs font-semibold text-slate-200 transition hover:border-sky-200/35 hover:text-white"
+              >
+                {todayText(selectedItem.contextLabel, locale)}
+                <ArrowRight size={14} aria-hidden />
+              </Link>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function ReviewQueueRail({ reviewQueue, locale }: { reviewQueue: readonly ReviewItem[]; locale: SiteLocale }) {
   return (
     <section className="panel p-5" aria-labelledby="today-review-title">
@@ -854,6 +969,7 @@ export function OwnerTodaySurface({ data }: { data: OwnerTodaySurfaceData }) {
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(20rem,0.42fr)]">
         <div className="grid gap-5">
           <LoopPanel locale={locale} />
+          <OwnerHandoffRunwayPanel reviewQueue={data.reviewQueue} locale={locale} />
           <DecisionHubPanel items={data.decisionHub} locale={locale} />
           <PriorityPanel priorities={data.priorities} locale={locale} />
         </div>
