@@ -36,6 +36,7 @@ import {
   REPLAY_EVIDENCE_PARAM,
   REPLAY_INSTRUMENT_LEGACY_PARAM,
   REPLAY_INSTRUMENT_PARAM,
+  TRADING_REVIEW_PACKET_PARAM,
   createTradingTraceTokenLookup,
   evidenceSearchUpdater,
   replaySearchUpdater,
@@ -2445,6 +2446,7 @@ export function TradingResearchCockpit({
     function syncTraceFiltersFromLocation() {
       const params = new URLSearchParams(window.location.search);
       const nextView = tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
+      const hasUnvalidatedReviewContext = params.has(TRADING_REVIEW_PACKET_PARAM) && !traceContext?.reviewPacketId;
 
       if (nextView === "Evidence") {
         const signalResolution = traceParamResolution(params, EVIDENCE_SIGNAL_PARAM, evidenceSignalLookup, ALL_SIGNAL_FILTER);
@@ -2495,6 +2497,12 @@ export function TradingResearchCockpit({
       }
 
       if (tradingTraceParams.some((param) => params.has(param))) {
+        replaceTradingUrlIfChanged(nextView, undefined, traceContext);
+        setTraceNotice({ kind: "removed", view: nextView });
+        return;
+      }
+
+      if (hasUnvalidatedReviewContext) {
         replaceTradingUrlIfChanged(nextView, undefined, traceContext);
         setTraceNotice({ kind: "removed", view: nextView });
         return;
