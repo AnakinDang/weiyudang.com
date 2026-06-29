@@ -3700,10 +3700,27 @@ const exactZhTranslations = {
   "Related research": "相关研究",
   "More research": "更多研究",
   "Back to Research": "返回研究",
+  "Public research dossier": "公开研究档案",
   "Public-safe note": "公开安全笔记",
+  "Open related project": "打开相关项目",
+  "Public research artifact": "公开研究成果",
+  "Evidence-first, public-safe, and tied back to the Personal OS.":
+    "证据优先、公开安全，并连接回 Personal OS。",
+  "Research note lens": "研究笔记镜头",
+  "research lane": "研究通道",
   "This note is public-safe.": "这篇笔记是公开安全的。",
   "Curated summary only. No private prompts, raw notes, credentials, runtime IDs, or account state.":
     "仅展示精选摘要。不包含私密 prompt、原始笔记、凭证、运行时 ID 或账户状态。",
+  "From private signal to public research artifact.": "从私密信号到公开研究成果。",
+  "Research publishing protocol": "研究发布协议",
+  "Raw notes, prompts, sources, and drafts stay in the private working layer.":
+    "原始笔记、prompt、来源和草稿留在私密工作层。",
+  "The note turns the useful idea into a principle, method, or public sketch.":
+    "这篇笔记把有用想法提炼成原则、方法或公开草图。",
+  "Readers get durable public context, related routes, and inspectable artifacts.":
+    "读者获得可长期保存的公开上下文、相关入口和可检查成果。",
+  "Private source text, credentials, runtime IDs, accounts, and controls stay out.":
+    "私密来源文本、凭证、运行时 ID、账户和控制项不进入公开页。",
   "Research dossier": "研究档案",
   "Research context, evidence, and next questions": "研究背景、证据和后续问题",
   "Structured for public reading: enough context to understand the work, enough evidence to inspect it, and enough open questions to keep it honest.":
