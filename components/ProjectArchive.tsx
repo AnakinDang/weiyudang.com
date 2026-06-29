@@ -171,9 +171,9 @@ export function ProjectArchive({ projects }: { projects: Project[] }) {
               <li key={project.slug} className={`projects-artifact-row${isSelected ? " is-selected" : ""}`}>
                 <button type="button" aria-pressed={isSelected} onClick={() => setSelectedSlug(project.slug)}>
                   <span className={`projects-artifact-visual projects-artifact-visual-${visualForProject(project.slug)}`} aria-hidden="true">
-                  <span />
-                </span>
-                <span className="projects-artifact-main">
+                    <span />
+                  </span>
+                  <span className="projects-artifact-main">
                     <strong>{t(project.title)}</strong>
                     <small>{t(project.summary)}</small>
                   </span>
