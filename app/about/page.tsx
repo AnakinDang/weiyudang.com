@@ -1,18 +1,22 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Atom,
   Bot,
+  BookOpenCheck,
   BrainCircuit,
   CheckCircle2,
   Compass,
   FileSearch,
   Globe2,
+  Hammer,
   LineChart,
   LockKeyhole,
   ShieldCheck,
-  Sparkles
+  Sparkles,
+  Telescope
 } from "lucide-react";
 import { SiteChrome } from "@/components/SiteChrome";
 
@@ -34,6 +38,12 @@ const osNodes = [
   { label: "Public Studio", className: "about-os-node-studio", icon: Globe2 }
 ] as const;
 
+const studioSignals = [
+  ["Public studio", "Writing, projects, research notes, and personal field notes."],
+  ["Private OS", "Owner tasks, prompts, memory, and decisions stay behind authentication."],
+  ["Doraemon layer", "A warm public entrance into the agent system, not a decorative mascot."]
+] as const;
+
 const thinkingPrinciples = [
   {
     title: "Physics-first curiosity",
@@ -49,6 +59,24 @@ const thinkingPrinciples = [
     title: "Evidence before confidence",
     summary: "Research notes, trading work, and product decisions should keep assumptions inspectable.",
     icon: ShieldCheck
+  }
+] as const;
+
+const operatingRhythm = [
+  {
+    title: "Study the world",
+    summary: "Physics, markets, tools, and interfaces are treated as systems worth understanding before optimizing.",
+    icon: Telescope
+  },
+  {
+    title: "Build the interface",
+    summary: "Ideas become pages, dashboards, agent workflows, and small tools that can be inspected and improved.",
+    icon: Hammer
+  },
+  {
+    title: "Review the loop",
+    summary: "Doraemon and MiniDoras prepare evidence, but decisions stay reviewable and human-bounded.",
+    icon: BookOpenCheck
   }
 ] as const;
 
@@ -109,16 +137,56 @@ export default function AboutPage() {
                 <ArrowRight size={16} aria-hidden />
               </Link>
             </div>
-            <ul className="about-signal-row" aria-label="About Weiyu signal row">
-              {identitySignals.map(([title, summary]) => (
-                <li key={title}>
-                  <strong>{title}</strong>
-                  <span>{summary}</span>
-                </li>
-              ))}
-            </ul>
           </div>
 
+          <aside className="about-studio-visual" aria-label="Weiyu public research studio">
+            <div className="about-studio-frame">
+              <Image
+                src="/visuals/weiyu-bright-studio.png"
+                alt="A bright research studio desk with notebooks, physics sketches, AI workflow diagrams, and research dashboards."
+                width={1680}
+                height={945}
+                priority
+                sizes="(min-width: 1080px) 42vw, 100vw"
+                className="about-studio-image"
+              />
+              <div className="about-studio-caption">
+                <span>Public research studio</span>
+                <strong>Physics, AI systems, research tools.</strong>
+                <small>Personal enough to be honest. Structured enough to compound.</small>
+              </div>
+            </div>
+            <div className="about-studio-signal-grid" aria-label="About public and private layers">
+              {studioSignals.map(([title, summary]) => (
+                <div key={title} className="about-studio-signal">
+                  <strong>{title}</strong>
+                  <span>{summary}</span>
+                </div>
+              ))}
+            </div>
+          </aside>
+
+          <ul className="about-signal-row" aria-label="About Weiyu signal row">
+            {identitySignals.map(([title, summary]) => (
+              <li key={title}>
+                <strong>{title}</strong>
+                <span>{summary}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section id="personal-os" className="about-section about-map-section">
+        <div className="container about-map-grid">
+          <div className="about-map-copy">
+            <p className="about-section-kicker">Personal OS map</p>
+            <h2>The person, the studio, and the operating layer stay connected.</h2>
+            <p>
+              About is the human layer: where the physics background, product taste, agent systems, and public writing
+              make sense together before you enter Doraemon Office or the private cockpit.
+            </p>
+          </div>
           <aside className="about-os-visual" aria-label="Weiyu Personal OS identity map">
             <div className="about-os-glass">
               <div className="about-os-ring about-os-ring-one" aria-hidden />
@@ -157,7 +225,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="personal-os" className="about-section about-thinking-section">
+      <section className="about-section about-thinking-section">
         <div className="container about-section-grid">
           <div className="about-section-intro">
             <p className="about-section-kicker">How I think</p>
@@ -181,6 +249,32 @@ export default function AboutPage() {
               );
             })}
           </ul>
+        </div>
+      </section>
+
+      <section className="about-section about-rhythm-section">
+        <div className="container about-rhythm-frame">
+          <div className="about-section-intro about-section-intro-wide">
+            <p className="about-section-kicker">Working rhythm</p>
+            <h2>Study, build, review, then make the loop better.</h2>
+            <p>
+              The site should feel alive because the work is alive: notes become interfaces, interfaces become systems,
+              and systems become review loops with clearer boundaries over time.
+            </p>
+          </div>
+          <div className="about-rhythm-grid" aria-label="Weiyu working rhythm">
+            {operatingRhythm.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <article key={item.title} className="about-rhythm-card">
+                  <span className="about-rhythm-index">{String(index + 1).padStart(2, "0")}</span>
+                  <Icon size={24} aria-hidden />
+                  <h3>{item.title}</h3>
+                  <p>{item.summary}</p>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 

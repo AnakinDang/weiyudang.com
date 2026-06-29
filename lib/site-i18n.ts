@@ -342,6 +342,7 @@ const exactZhTranslations = {
   "Physics, AI, research tools": "物理、AI 与研究工具",
   "Physics, quantum computing, AI systems, and research tools.":
     "物理、量子计算、AI 系统与研究工具。",
+  "Physics, AI systems, research tools.": "物理、AI 系统与研究工具。",
   "Physics, quantum computing, and personal AI systems.": "物理、量子计算与个人 AI 系统。",
   "One operating system. Four clear surfaces.": "一个个人操作系统，四个清晰界面。",
   "Four clear Personal OS surfaces": "四个清晰的 Personal OS 界面",
@@ -1270,10 +1271,42 @@ const exactZhTranslations = {
   "Research workflows": "研究工作流",
   "Turn questions, evidence, and review into repeatable loops.":
     "把问题、证据和复盘变成可重复循环。",
+  "Public research studio": "公开研究工作室",
+  "Weiyu public research studio": "Weiyu 的公开研究工作室",
+  "Personal enough to be honest. Structured enough to compound.":
+    "足够个人，才能诚实；足够结构化，才能复利。",
+  "About public and private layers": "关于公开与私密层",
+  "Writing, projects, research notes, and personal field notes.":
+    "写作、项目、研究笔记和个人现场笔记。",
+  "Private OS": "私密 OS",
+  "Owner tasks, prompts, memory, and decisions stay behind authentication.":
+    "本人任务、prompt、记忆和决策都留在认证边界之后。",
+  "Doraemon layer": "Doraemon 层",
+  "A warm public entrance into the agent system, not a decorative mascot.":
+    "通向智能体系统的温暖公开入口，而不是装饰性的吉祥物。",
+  "Personal OS map": "Personal OS 地图",
+  "The person, the studio, and the operating layer stay connected.":
+    "人、工作室和操作层保持连接。",
+  "About is the human layer: where the physics background, product taste, agent systems, and public writing make sense together before you enter Doraemon Office or the private cockpit.":
+    "About 是人的这一层：在进入 Doraemon Office 或私密驾驶舱之前，让物理背景、产品品味、智能体系统和公开写作彼此连起来。",
   "How I think": "我的思考方式",
   "Rigorous when it matters. Playful when it helps.": "该严谨时严谨，该有趣时有趣。",
   "The through-line is a taste for systems that compound: physics intuition, AI tools, research notes, product surfaces, and the private loops that keep work honest.":
     "贯穿其中的是对可复利系统的偏好：物理直觉、AI 工具、研究笔记、产品界面，以及让工作保持诚实的私密循环。",
+  "Working rhythm": "工作节奏",
+  "Study, build, review, then make the loop better.": "学习、构建、复盘，然后让循环变得更好。",
+  "The site should feel alive because the work is alive: notes become interfaces, interfaces become systems, and systems become review loops with clearer boundaries over time.":
+    "这个网站应该有生命力，因为工作本身是活的：笔记变成界面，界面变成系统，系统又逐渐变成边界更清晰的复盘循环。",
+  "Weiyu working rhythm": "Weiyu 的工作节奏",
+  "Study the world": "研究世界",
+  "Physics, markets, tools, and interfaces are treated as systems worth understanding before optimizing.":
+    "物理、市场、工具和界面都被当作系统：先理解，再优化。",
+  "Build the interface": "构建界面",
+  "Ideas become pages, dashboards, agent workflows, and small tools that can be inspected and improved.":
+    "想法变成页面、仪表盘、智能体工作流和可以被检查、改进的小工具。",
+  "Review the loop": "复盘循环",
+  "Doraemon and MiniDoras prepare evidence, but decisions stay reviewable and human-bounded.":
+    "Doraemon 和 MiniDoras 准备证据，但决策保持可复盘，并受人类边界约束。",
   "What I build": "我在构建什么",
   "Public artifacts around a private operating layer.": "围绕私密操作层的公开成果。",
   "The public site explains the work. Doraemon makes the agent system legible. The owner cockpit keeps the actual private state, approvals, and review loops protected.":

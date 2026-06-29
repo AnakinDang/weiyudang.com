@@ -1555,9 +1555,9 @@ textarea {
 .about-hero-grid {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(25rem, 0.78fr);
+  grid-template-columns: minmax(0, 0.86fr) minmax(27rem, 0.86fr);
   align-items: center;
-  gap: clamp(2.5rem, 6vw, 5.5rem);
+  gap: clamp(2.5rem, 5.5vw, 5rem);
 }
 
 .about-hero-copy h1 {
@@ -1650,11 +1650,11 @@ textarea {
 }
 
 .about-signal-row {
+  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
-  max-width: 48rem;
-  margin: 2.4rem 0 0;
+  margin: 0.2rem 0 0;
   padding: 0;
 }
 
@@ -1677,6 +1677,115 @@ textarea {
   color: #64748b;
   font-size: 0.82rem;
   line-height: 1.55;
+}
+
+.about-studio-visual {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.about-studio-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: #eef6ff;
+  box-shadow:
+    0 32px 90px rgba(37, 99, 235, 0.12),
+    0 16px 48px rgba(15, 23, 42, 0.06);
+}
+
+.about-studio-frame::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.82) 0%, transparent 34%, rgba(255, 255, 255, 0.18) 100%),
+    linear-gradient(180deg, transparent 54%, rgba(255, 255, 255, 0.86) 100%);
+  content: "";
+  pointer-events: none;
+}
+
+.about-studio-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.68 / 1;
+  object-fit: cover;
+  object-position: 58% center;
+}
+
+.about-studio-caption {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  display: grid;
+  gap: 0.24rem;
+  width: min(20rem, calc(100% - 2rem));
+  border: 1px solid rgba(191, 219, 254, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  padding: 0.95rem;
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.08);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.about-studio-caption span {
+  color: #155eef;
+  font-size: 0.68rem;
+  font-weight: 880;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.about-studio-caption strong {
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 840;
+  line-height: 1.25;
+}
+
+.about-studio-caption small {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.about-studio-signal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid rgba(221, 231, 240, 0.9);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 52px rgba(15, 23, 42, 0.055);
+}
+
+.about-studio-signal {
+  display: grid;
+  gap: 0.32rem;
+  min-width: 0;
+  border-left: 1px solid rgba(221, 231, 240, 0.9);
+  padding: 0.9rem;
+}
+
+.about-studio-signal:first-child {
+  border-left: 0;
+}
+
+.about-studio-signal strong {
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 820;
+}
+
+.about-studio-signal span {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 690;
+  line-height: 1.45;
 }
 
 .about-os-visual {
@@ -1855,6 +1964,38 @@ textarea {
   background: linear-gradient(180deg, #f8fbff, #ffffff 42%);
 }
 
+.about-map-section {
+  border-bottom: 1px solid rgba(221, 231, 240, 0.86);
+  background:
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 72%),
+    #ffffff;
+}
+
+.about-map-grid {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.54fr) minmax(0, 0.86fr);
+  gap: clamp(2.2rem, 5vw, 4.8rem);
+  align-items: center;
+}
+
+.about-map-copy h2 {
+  max-width: 48rem;
+  margin: 0;
+  color: #07111f;
+  font-size: clamp(2.35rem, 4.8vw, 4.7rem);
+  font-weight: 830;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.about-map-copy p:not(.about-section-kicker) {
+  max-width: 40rem;
+  margin: 1.1rem 0 0;
+  color: #526176;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
 .about-section-grid,
 .about-boundary-grid {
   display: grid;
@@ -1927,6 +2068,73 @@ textarea {
 
 .about-principle-card p {
   margin: 0.85rem 0 0;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.about-rhythm-section {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f8fbff 100%),
+    #ffffff;
+}
+
+.about-rhythm-frame {
+  display: grid;
+  gap: 2rem;
+}
+
+.about-rhythm-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.about-rhythm-card {
+  position: relative;
+  min-height: 17rem;
+  overflow: hidden;
+  border: 1px solid rgba(221, 231, 240, 0.9);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(248, 251, 255, 0.92)),
+    #ffffff;
+  padding: 1.35rem;
+  box-shadow: 0 22px 68px rgba(15, 23, 42, 0.06);
+}
+
+.about-rhythm-card::after {
+  position: absolute;
+  inset: auto -10% -28% auto;
+  width: 9rem;
+  height: 9rem;
+  border: 1px solid rgba(37, 99, 235, 0.13);
+  border-radius: 999px;
+  content: "";
+}
+
+.about-rhythm-index {
+  color: #94a3b8;
+  font-size: 0.78rem;
+  font-weight: 840;
+}
+
+.about-rhythm-card svg {
+  display: block;
+  margin-top: 3.1rem;
+  color: #2563eb;
+}
+
+.about-rhythm-card h3 {
+  margin: 0.95rem 0 0;
+  color: #0f172a;
+  font-size: 1.2rem;
+  font-weight: 820;
+  line-height: 1.2;
+}
+
+.about-rhythm-card p {
+  margin: 0.72rem 0 0;
   color: #64748b;
   font-size: 0.92rem;
   line-height: 1.65;
@@ -2064,6 +2272,7 @@ textarea {
 
 @media (max-width: 1080px) {
   .about-hero-grid,
+  .about-map-grid,
   .about-section-grid,
   .about-boundary-grid {
     grid-template-columns: 1fr;
@@ -2073,14 +2282,15 @@ textarea {
     max-width: 42rem;
   }
 
-  .about-principle-grid {
+  .about-principle-grid,
+  .about-rhythm-grid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 700px) {
   .about-hero {
-    padding-top: 3.6rem;
+    padding-top: 3rem;
   }
 
   .about-hero-copy h1 {
@@ -2092,17 +2302,35 @@ textarea {
   }
 
   .about-hero-subtitle {
-    font-size: clamp(1.55rem, 8vw, 2.15rem);
+    font-size: clamp(1.45rem, 7.5vw, 2rem);
   }
 
-  .about-signal-row,
-  .about-boundary-strip {
+  .about-boundary-strip,
+  .about-studio-signal-grid {
     grid-template-columns: 1fr;
   }
 
-  .about-boundary-strip span + span {
+  .about-signal-row {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  .about-boundary-strip span + span,
+  .about-studio-signal {
     border-left: 0;
     border-top: 1px solid rgba(221, 231, 240, 0.9);
+  }
+
+  .about-studio-signal:first-child {
+    border-top: 0;
+  }
+
+  .about-studio-caption {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    margin: -4.2rem 0.75rem 0.75rem;
   }
 
   .about-os-glass {
