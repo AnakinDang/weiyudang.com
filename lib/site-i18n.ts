@@ -3108,6 +3108,37 @@ const exactZhTranslations = {
   "Research desk, not trading terminal": "研究台，不是交易终端",
   "MiniDora Trading is a public-safe view of a private research workflow. It explains how desks form questions, attach evidence, expose uncertainty, and hold decisions for owner review.":
     "MiniDora Trading 是私密研究流程的公开安全视图。它解释各研究台如何形成问题、附上证据、暴露不确定性，并把决策留给本人审核。",
+  "Evidence-to-review operating map": "证据到审核运行图",
+  "The public page explains the method. The private cockpit preserves the artifacts, gates, and owner-only context.":
+    "公开页面解释方法。私密驾驶舱保留产物、门禁和仅本人可见的上下文。",
+  "Question": "问题",
+  "Evidence matrix": "证据矩阵",
+  "Decision chain": "决策链",
+  "Replay spine": "回放主线",
+  "Start with a research question": "从研究问题开始",
+  "Attach proof and blockers": "附上证明和阻塞点",
+  "Keep confidence explainable": "让置信度可解释",
+  "Reconstruct the research day": "重建研究日",
+  "Visitors can see desk roles and sample question shapes.":
+    "访客可以看到研究台角色和样本问题形态。",
+  "The owner cockpit keeps live context and private watchlists out of public pages.":
+    "私密驾驶舱把实时上下文和私密观察列表留在公开页面之外。",
+  "Question, not recommendation": "问题，而不是建议",
+  "The page can show evidence categories, counter-evidence, and missing-proof language.":
+    "页面可以展示证据类别、反证和缺失证明的表达方式。",
+  "Private packets hold source details, freshness, and owner-only notes.":
+    "私密研究包保存来源细节、新鲜度和仅本人可见的备注。",
+  "The public story can explain how confidence is slowed by gates and disagreement.":
+    "公开叙事可以解释置信度如何被门禁和分歧放慢。",
+  "The console preserves desk disagreements, gates, and review context.":
+    "控制台保留研究台分歧、门禁和审核上下文。",
+  "Visitors can understand the replay pattern without seeing private event logs.":
+    "访客可以理解回放模式，而不看到私密事件日志。",
+  "The private replay shows handoffs, evidence shifts, and state changes.":
+    "私密回放展示交接、证据变化和状态变化。",
+  "Owner review remains the gate": "本人审核仍是门禁",
+  "Private cockpit": "私密驾驶舱",
+  "Safety proof": "安全证明",
   "Meet the desks": "认识研究台",
   "Specialized research desks compare context, evidence, scenarios, and risk gates.":
     "专门研究台会比较背景、证据、情景和风险门禁。",

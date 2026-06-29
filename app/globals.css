@@ -3051,10 +3051,12 @@ textarea {
 }
 
 .trading-project-boundary,
+.trading-project-operating-map,
 .trading-project-panel,
 .trading-project-boundary-table,
 .trading-project-console-preview,
 .trading-project-desk-card,
+.trading-project-operating-map__rail article,
 .trading-project-flow article {
   border: 1px solid rgba(221, 231, 240, 0.95);
   border-radius: 12px;
@@ -3076,6 +3078,91 @@ textarea {
   font-size: 0.88rem;
   font-weight: 850;
   line-height: 1.55;
+}
+
+.trading-project-operating-map {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+  background:
+    linear-gradient(135deg, rgba(239, 246, 255, 0.92), rgba(255, 255, 255, 0.94)),
+    #ffffff;
+  box-shadow: 0 20px 60px rgba(37, 99, 235, 0.07);
+}
+
+.trading-project-operating-map__rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.trading-project-operating-map__rail article {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.72rem;
+  min-width: 0;
+  padding: 0.95rem;
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.04);
+}
+
+.trading-project-operating-map__step {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  align-items: center;
+}
+
+.trading-project-operating-map__step span,
+.trading-project-operating-map__step strong {
+  border: 1px solid rgba(191, 219, 254, 0.95);
+  border-radius: 999px;
+  background: #eff6ff;
+  padding: 0.24rem 0.44rem;
+  color: #1d4ed8;
+  font-size: 0.66rem;
+  font-weight: 850;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.trading-project-operating-map__rail h3 {
+  color: #05070a;
+  font-size: 1rem;
+  line-height: 1.18;
+}
+
+.trading-project-operating-map__rail dl {
+  display: grid;
+  gap: 0.58rem;
+  margin: 0;
+}
+
+.trading-project-operating-map__rail dl div {
+  display: grid;
+  gap: 0.22rem;
+  border-top: 1px solid rgba(221, 231, 240, 0.9);
+  padding-top: 0.58rem;
+}
+
+.trading-project-operating-map__rail dl div:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.trading-project-operating-map__rail dt {
+  color: #1d4ed8;
+  font-size: 0.64rem;
+  font-weight: 860;
+  text-transform: uppercase;
+}
+
+.trading-project-operating-map__rail dd {
+  margin: 0;
+  color: #526178;
+  font-size: 0.76rem;
+  font-weight: 680;
+  line-height: 1.46;
 }
 
 .trading-project-desk-grid {
@@ -5652,6 +5739,10 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .trading-project-operating-map__rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .trading-project-desk-grid,
   .trading-project-flow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -6194,6 +6285,14 @@ textarea {
 
   .trading-project-showcase h2 {
     font-size: 1.55rem;
+  }
+
+  .trading-project-operating-map {
+    padding: 0.9rem;
+  }
+
+  .trading-project-operating-map__rail {
+    grid-template-columns: 1fr;
   }
 
   .trading-project-desk-grid,

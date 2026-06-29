@@ -101,6 +101,37 @@ const evidenceExamples = [
   }
 ] as const;
 
+const evidenceOperatingMap = [
+  {
+    stage: "Question",
+    title: "Start with a research question",
+    publicView: "Visitors can see desk roles and sample question shapes.",
+    privateView: "The owner cockpit keeps live context and private watchlists out of public pages.",
+    proof: "Question, not recommendation"
+  },
+  {
+    stage: "Evidence matrix",
+    title: "Attach proof and blockers",
+    publicView: "The page can show evidence categories, counter-evidence, and missing-proof language.",
+    privateView: "Private packets hold source details, freshness, and owner-only notes.",
+    proof: "Missing evidence stays visible"
+  },
+  {
+    stage: "Decision chain",
+    title: "Keep confidence explainable",
+    publicView: "The public story can explain how confidence is slowed by gates and disagreement.",
+    privateView: "The console preserves desk disagreements, gates, and review context.",
+    proof: "No silent promotion"
+  },
+  {
+    stage: "Replay spine",
+    title: "Reconstruct the research day",
+    publicView: "Visitors can understand the replay pattern without seeing private event logs.",
+    privateView: "The private replay shows handoffs, evidence shifts, and state changes.",
+    proof: "Owner review remains the gate"
+  }
+] as const;
+
 const replaySteps = [
   "A desk opens a research packet.",
   "Evidence Desk marks missing proof.",
@@ -186,6 +217,44 @@ export function TradingProjectShowcase() {
           <strong>{tradingResearchDisclaimer}</strong>
         </aside>
       </div>
+
+      <section className="trading-project-operating-map" aria-labelledby="trading-operating-map-title">
+        <div className="trading-project-section-heading">
+          <FileSearch size={22} aria-hidden />
+          <div>
+            <h2 id="trading-operating-map-title">Evidence-to-review operating map</h2>
+            <p>
+              The public page explains the method. The private cockpit preserves the artifacts, gates, and owner-only
+              context.
+            </p>
+          </div>
+        </div>
+        <div className="trading-project-operating-map__rail">
+          {evidenceOperatingMap.map((item, index) => (
+            <article key={item.stage}>
+              <div className="trading-project-operating-map__step">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{item.stage}</strong>
+              </div>
+              <h3>{item.title}</h3>
+              <dl>
+                <div>
+                  <dt>Public view</dt>
+                  <dd>{item.publicView}</dd>
+                </div>
+                <div>
+                  <dt>Private cockpit</dt>
+                  <dd>{item.privateView}</dd>
+                </div>
+                <div>
+                  <dt>Safety proof</dt>
+                  <dd>{item.proof}</dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="trading-project-workflow" aria-labelledby="trading-desks-title">
         <div className="trading-project-section-heading">
