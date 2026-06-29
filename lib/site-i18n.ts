@@ -130,6 +130,16 @@ const exactZhTranslations = {
   "Prepare": "准备",
   "MiniDoras prepare evidence and next steps without hidden execution.":
     "MiniDoras 准备证据和下一步，但没有隐藏执行。",
+  "Owner decision runway": "本人决策跑道",
+  "Pick the next safe handoff.": "选择下一个安全交接点。",
+  "Select a checkpoint to see the decision, evidence, and private context before opening the next surface.":
+    "先选择一个检查点，查看决策、证据和私密上下文，再打开下一个界面。",
+  "No checkpoint is waiting on this private source.": "当前私密来源没有等待处理的检查点。",
+  "Selected checkpoint": "已选检查点",
+  "Decision request": "决策请求",
+  "Stay read-only": "保持只读",
+  "No approve, publish, dispatch, or execute action appears here.":
+    "这里不会出现审批、发布、派发或执行动作。",
   "Decision hub": "决策中枢",
   "Open the right private context.": "打开正确的私密上下文。",
   "Today links decisions to their owner-only surfaces. These are routing shortcuts only; they do not approve, publish, dispatch, or execute work.":
