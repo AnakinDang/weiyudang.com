@@ -2,6 +2,7 @@ import "server-only";
 
 // Today owns a compact cockpit snapshot. Detailed system diagnostics stay in "@/lib/private/system".
 
+import { ownerKnowledgeHref } from "@/lib/knowledge-route";
 import { privateTradingEvidenceHref, privateTradingSystemHref } from "@/lib/private/trading-team";
 import { ownerScheduleHref } from "@/lib/schedule-route";
 import { ownerSystemHref } from "@/lib/system-route";
@@ -214,7 +215,7 @@ export const ownerCommandShortcuts = [
   },
   {
     title: "Knowledge Vault",
-    href: "/app/knowledge",
+    href: ownerKnowledgeHref("personal-os-memory"),
     summary: "Review private synthesis layers before anything is curated for public publishing."
   }
 ] as const;

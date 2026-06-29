@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Archive,
@@ -24,6 +24,12 @@ import {
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
+import {
+  isOwnerKnowledgeCandidateId,
+  knowledgeCandidateIdFromRoute,
+  OWNER_KNOWLEDGE_CANDIDATE_PARAM,
+  ownerKnowledgeHref
+} from "@/lib/knowledge-route";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 
 type KnowledgeTone = "normal" | "info" | "warning" | "private" | "danger";
@@ -96,6 +102,8 @@ type KnowledgeVaultData = {
   unavailableControls: readonly string[];
 };
 
+type KnowledgeRouteMode = "push" | "replace";
+
 const sourceIcons: Record<string, LucideIcon> = {
   "Source inbox": BookOpen,
   "Synthesis briefs": BrainCircuit,
@@ -158,6 +166,36 @@ function totalReadyCount(queue: readonly KnowledgeQueueItem[]) {
 
 function totalReadinessCount(queue: readonly KnowledgeQueueItem[]) {
   return queue.reduce((sum, item) => sum + item.readiness.length, 0);
+}
+
+function candidateIdFromSearch(search: string, candidates: readonly KnowledgeQueueItem[]) {
+  const params = new URLSearchParams(search);
+  const candidateId = knowledgeCandidateIdFromRoute(params.get(OWNER_KNOWLEDGE_CANDIDATE_PARAM));
+  return candidateId && candidates.some((candidate) => candidate.id === candidateId) ? candidateId : undefined;
+}
+
+function knowledgeCandidateUrl(candidateId: string) {
+  if (!isOwnerKnowledgeCandidateId(candidateId)) {
+    return ownerKnowledgeHref();
+  }
+
+  const nextHref = ownerKnowledgeHref(candidateId);
+
+  if (typeof window === "undefined") {
+    return nextHref;
+  }
+
+  const url = new URL(window.location.href);
+  const nextUrl = new URL(nextHref, url.origin);
+  return `${nextUrl.pathname}${nextUrl.search}${url.hash}`;
+}
+
+function currentKnowledgeUrl() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
 }
 
 function postureKey(candidateId: string, label: string) {
@@ -476,11 +514,21 @@ function KnowledgeReviewWorkbench({
   );
 }
 
-export function KnowledgeVaultCockpit({ data: rawData }: { data: KnowledgeVaultData }) {
+export function KnowledgeVaultCockpit({
+  data: rawData,
+  initialCandidateId
+}: {
+  data: KnowledgeVaultData;
+  initialCandidateId?: string;
+}) {
   const { locale } = useLanguage();
   const t = (value: string) => knowledgeText(value, locale);
   const data = useMemo(() => localizeKnowledgeData(rawData, locale), [rawData, locale]);
-  const [selectedCandidateId, setSelectedCandidateId] = useState(data.queue[0]?.id ?? "");
+  const initialSelectedCandidateId =
+    initialCandidateId && rawData.queue.some((candidate) => candidate.id === initialCandidateId)
+      ? initialCandidateId
+      : rawData.queue[0]?.id ?? "";
+  const [selectedCandidateId, setSelectedCandidateId] = useState(initialSelectedCandidateId);
   const [postureChoices, setPostureChoices] = useState<Record<string, number>>({});
 
   const selectedCandidate = useMemo(() => {
@@ -493,6 +541,20 @@ export function KnowledgeVaultCockpit({ data: rawData }: { data: KnowledgeVaultD
   const ownerReviewCount = rawData.queue.filter((item) => item.state === "Owner review").length;
   const privateSourceCount = rawData.sources.filter((source) => source.tone === "private").length;
 
+  function selectCandidate(candidateId: string, mode: KnowledgeRouteMode = "push") {
+    setSelectedCandidateId(candidateId);
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const nextUrl = knowledgeCandidateUrl(candidateId);
+
+    if (nextUrl !== currentKnowledgeUrl()) {
+      window.history[mode === "push" ? "pushState" : "replaceState"](null, "", nextUrl);
+    }
+  }
+
   function handlePostureChoice(choiceIndex: number) {
     if (!selectedCandidate) {
       return;
@@ -503,6 +565,20 @@ export function KnowledgeVaultCockpit({ data: rawData }: { data: KnowledgeVaultD
       [selectedCandidate.id]: choiceIndex
     }));
   }
+
+  useEffect(() => {
+    function syncFromLocation() {
+      const candidateId = candidateIdFromSearch(window.location.search, rawData.queue) ?? rawData.queue[0]?.id;
+
+      if (candidateId) {
+        setSelectedCandidateId((current) => (current === candidateId ? current : candidateId));
+      }
+    }
+
+    syncFromLocation();
+    window.addEventListener("popstate", syncFromLocation);
+    return () => window.removeEventListener("popstate", syncFromLocation);
+  }, [rawData.queue]);
 
   return (
     <div className="grid gap-5" data-i18n-skip>
@@ -638,7 +714,7 @@ export function KnowledgeVaultCockpit({ data: rawData }: { data: KnowledgeVaultD
           candidates={data.queue}
           selectedCandidate={selectedCandidate}
           postureChoiceIndex={postureChoiceIndex}
-          onCandidateSelect={setSelectedCandidateId}
+          onCandidateSelect={selectCandidate}
           onPostureChoice={handlePostureChoice}
         />
       ) : null}
