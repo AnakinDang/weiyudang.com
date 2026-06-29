@@ -1317,7 +1317,52 @@ const exactZhTranslations = {
     "Weiyu Dang 的 AI 系统、创意工作流、应用和研究工具公开项目索引。",
   "A curated index of public projects across systems, tools, experiments, and research. Choose a project to read the public story, understand the boundary, and explore next steps.":
     "一个精选的公开项目索引，涵盖系统、工具、实验和研究。选择项目即可阅读公开故事、理解边界并继续探索。",
+  "Personal OS systems map": "Personal OS 系统地图",
+  "Projects that connect into one operating system.": "连接成一个操作系统的项目。",
+  "Personal OS systems map for Weiyu Dang's public projects, Doraemon Office surfaces, research tools, and safe project summaries.":
+    "Weiyu Dang 公开项目、Doraemon Office 界面、研究工具和安全项目摘要的 Personal OS 系统地图。",
+  "A curated map of the public systems, private summaries, research lanes, and Doraemon Office surfaces that make the Personal OS legible without exposing the operating layer underneath.":
+    "一张精选地图，展示公开系统、私密摘要、研究通道和 Doraemon Office 界面，让 Personal OS 可理解，同时不暴露底层操作层。",
+  "Explore the system map": "探索系统地图",
   "Browse the archive": "浏览归档",
+  "Projects system summary": "项目系统摘要",
+  "curated projects": "精选项目",
+  "public artifacts": "公开成果",
+  "private summaries": "私密摘要",
+  "research-only lane": "仅研究通道",
+  "research-only projects": "仅研究项目",
+  "Personal OS project map preview": "Personal OS 项目地图预览",
+  "A bright Personal OS studio with a Doraemon Office portal, public system map lights, notebooks, and safe research artifacts.":
+    "明亮的 Personal OS 工作室，包含 Doraemon Office 入口、公开系统地图光点、笔记本和安全研究成果。",
+  "Public map. Private engine.": "公开地图，私密引擎。",
+  "No prompts, accounts, raw IDs, orders, or owner controls.":
+    "不包含 prompt、账户、原始 ID、订单或本人控制项。",
+  "Public private project boundary": "项目公开 / 私密边界",
+  "Public story": "公开叙事",
+  "Curated pages, notes, demos, and safe summaries.": "精选页面、笔记、演示和安全摘要。",
+  "Private execution": "私密执行",
+  "Prompts, tasks, accounts, raw data, and controls stay gated.":
+    "prompt、任务、账户、原始数据和控制项保持门禁保护。",
+  "Important actions remain human-bounded and reviewable.": "重要动作保持人类边界并可复盘。",
+  "System lanes": "系统通道",
+  "Follow the work by operating layer.": "按操作层理解这些工作。",
+  "The archive is not a portfolio shelf. It is the public map of how the site, Doraemon Office, research studio, owner cockpit, and specialist MiniDoras fit together.":
+    "这个归档不是作品集货架，而是一张公开地图，说明网站、Doraemon Office、研究工作室、私密驾驶舱和专门 MiniDoras 如何拼在一起。",
+  "Personal OS project lanes": "Personal OS 项目通道",
+  "Personal OS Core": "Personal OS 核心",
+  "The website, Doraemon Office, owner cockpit, and research surfaces share one public/private contract.":
+    "网站、Doraemon Office、私密驾驶舱和研究界面共享同一份公开 / 私密契约。",
+  "A public-safe command room for agent presence, activity, schedules, knowledge, and system posture.":
+    "一个公开安全的指挥室，用于展示智能体在线状态、活动、日程、知识和系统状态。",
+  "Research Studio": "研究工作室",
+  "Public notes and build logs expose the method and evidence without exposing private source material.":
+    "公开笔记和构建日志展示方法与证据，但不暴露私密源材料。",
+  "Research-only market work: evidence, validation, review, and no execution path.":
+    "仅研究的市场工作：证据、验证、复盘，没有执行路径。",
+  "Inspect layer": "查看这一层",
+  "Projects public boundary": "项目公开边界",
+  "Public project pages explain architecture, evidence, direction, and boundary. Private prompts, raw runtime state, account data, trading execution, and owner-only controls stay outside the public bundle.":
+    "公开项目页解释架构、证据、方向和边界。私密 prompt、原始运行状态、账户数据、交易执行和本人专属控制项不进入公开 bundle。",
   "curated artifacts": "精选成果",
   "Public pages, private summaries, and research-only surfaces.":
     "公开页面、私密摘要和仅研究界面。",
