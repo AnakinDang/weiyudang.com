@@ -39679,8 +39679,8 @@ textarea {
 }
 
 .trading-today-runway-actions .status-badge {
-  max-width: 58%;
-  white-space: normal;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .trading-today-runway-boundary {
@@ -39811,8 +39811,8 @@ textarea {
 .trading-today-focus-list .status-badge {
   grid-column: 2;
   justify-self: start;
+  width: fit-content;
   max-width: 100%;
-  white-space: normal;
 }
 
 .trading-today-signal-table {
@@ -40114,8 +40114,26 @@ textarea {
 }
 
 .trading-today-cockpit .status-badge {
+  flex-shrink: 0;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 1.45rem;
+  overflow: hidden;
   border-radius: 7px;
   font-size: 0.65rem;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trading-today-cockpit .status-badge svg {
+  flex: 0 0 auto;
+}
+
+.trading-today-cockpit .status-badge span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 1280px) {
@@ -40208,6 +40226,14 @@ textarea {
   .trading-today-card-head {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trading-today-runway-actions {
+    align-items: flex-start;
+  }
+
+  .trading-today-cockpit .status-badge {
+    justify-self: start;
   }
 
   .trading-today-filter-note {
