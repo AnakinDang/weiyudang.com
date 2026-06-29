@@ -44,6 +44,7 @@ import {
   tradingTraceHref,
   tradingTraceParams,
   type TradingSearchUpdater,
+  type TradingTraceContext,
   type TradingTraceNotice
 } from "@/lib/trading-trace";
 import type {
@@ -63,6 +64,12 @@ type TradingOptionsScenario = TradingResearchCockpitData["optionsLab"][number];
 type TradingReplayEvent = TradingResearchCockpitData["replay"][number];
 type TradingSystemStatusItem = TradingResearchCockpitData["systemStatus"][number];
 type StatusTone = "normal" | "info" | "warning" | "private" | "danger";
+export type TradingReviewReturnContext = {
+  readonly id: string;
+  readonly title: string;
+  readonly detail: string;
+  readonly href: string;
+};
 type TradingReviewQueueItem = {
   id: string;
   title: string;
@@ -210,6 +217,10 @@ function eventCountLabel(visible: number, total: number, locale: SiteLocale) {
   return locale === "zh" ? `已显示 ${visible} / ${total} 条事件` : `${visible} of ${total} events shown`;
 }
 
+function localizedCopy(value: string, locale: SiteLocale) {
+  return locale === "zh" ? translateToZh(value) ?? value : value;
+}
+
 function reviewItemCountLabel(count: number, locale: SiteLocale) {
   if (locale === "zh") {
     return `${count} 个待审`;
@@ -265,13 +276,13 @@ function traceNoticeDetail(notice: TradingTraceNotice, locale: SiteLocale) {
   return `${view} read an older trace link and replaced it with current private short tokens.`;
 }
 
-function tradingViewUrl(view: TradingView, updateSearch?: TradingSearchUpdater) {
+function tradingViewUrl(view: TradingView, updateSearch?: TradingSearchUpdater, context?: TradingTraceContext) {
   if (typeof window === "undefined") {
-    return tradingTraceHref(view, updateSearch);
+    return tradingTraceHref(view, updateSearch, "/app/trading", context);
   }
 
   const url = new URL(window.location.href);
-  const nextHref = tradingTraceHref(view, updateSearch, url.pathname);
+  const nextHref = tradingTraceHref(view, updateSearch, url.pathname, context);
   const nextUrl = new URL(nextHref, url.origin);
 
   return `${nextUrl.pathname}${nextUrl.search}${url.hash}`;
@@ -285,12 +296,12 @@ function currentTradingUrl() {
   return `${window.location.pathname}${window.location.search}${window.location.hash}`;
 }
 
-function replaceTradingUrlIfChanged(view: TradingView, updateSearch?: TradingSearchUpdater) {
+function replaceTradingUrlIfChanged(view: TradingView, updateSearch?: TradingSearchUpdater, context?: TradingTraceContext) {
   if (typeof window === "undefined") {
     return false;
   }
 
-  const nextUrl = tradingViewUrl(view, updateSearch);
+  const nextUrl = tradingViewUrl(view, updateSearch, context);
 
   if (nextUrl !== currentTradingUrl()) {
     window.history.replaceState(null, "", nextUrl);
@@ -300,7 +311,7 @@ function replaceTradingUrlIfChanged(view: TradingView, updateSearch?: TradingSea
   return false;
 }
 
-function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
+function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW, context?: TradingTraceContext) {
   const [activeView, setActiveView] = useState<TradingView>(initialView);
 
   useEffect(() => {
@@ -322,7 +333,7 @@ function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
         return;
       }
 
-      const nextUrl = tradingViewUrl(view, updateSearch);
+      const nextUrl = tradingViewUrl(view, updateSearch, context);
       const currentUrl = currentTradingUrl();
 
       if (nextUrl !== currentUrl) {
@@ -330,7 +341,7 @@ function useTradingViewRoute(initialView: TradingView = DEFAULT_TRADING_VIEW) {
         window.history[mode === "push" ? "pushState" : "replaceState"](null, "", nextUrl);
       }
     },
-    []
+    [context]
   );
 
   const navigateTradingView = useCallback(
@@ -2339,13 +2350,19 @@ function SystemView({
 
 export function TradingResearchCockpit({
   data,
-  initialView = DEFAULT_TRADING_VIEW
+  initialView = DEFAULT_TRADING_VIEW,
+  reviewReturn
 }: {
   data: TradingResearchCockpitData;
   initialView?: TradingView;
+  reviewReturn?: TradingReviewReturnContext;
 }) {
   const { locale } = useLanguage();
-  const [activeView, navigateTradingView, replaceTradingView] = useTradingViewRoute(initialView);
+  const traceContext = useMemo<TradingTraceContext | undefined>(
+    () => (reviewReturn ? { reviewPacketId: reviewReturn.id } : undefined),
+    [reviewReturn]
+  );
+  const [activeView, navigateTradingView, replaceTradingView] = useTradingViewRoute(initialView, traceContext);
   const activeViewButtonRef = useRef<HTMLButtonElement>(null);
   const [activeDesk, setActiveDesk] = useState(ALL_DESK_FILTER);
   const [activeInstrumentSymbol, setActiveInstrumentSymbol] = useState(data.instruments[0]?.symbol ?? "");
@@ -2442,7 +2459,7 @@ export function TradingResearchCockpit({
 
         setEvidenceSignalFilter(nextSignalFilter);
         setEvidenceStateFilter(nextEvidenceState);
-        replaceTradingUrlIfChanged("Evidence", evidenceUrlUpdater(nextSignalFilter, nextEvidenceState));
+        replaceTradingUrlIfChanged("Evidence", evidenceUrlUpdater(nextSignalFilter, nextEvidenceState), traceContext);
         setTraceNotice(traceNoticeForResolutions("Evidence", [signalResolution, evidenceStateResolution], hadCrossViewParams));
         return;
       }
@@ -2470,7 +2487,7 @@ export function TradingResearchCockpit({
         setReplayDeskFilter(nextDeskFilter);
         setReplayInstrumentFilter(nextInstrumentFilter);
         setReplayEvidenceFilter(nextEvidenceFilter);
-        replaceTradingUrlIfChanged("Replay", replayUrlUpdater(nextDeskFilter, nextInstrumentFilter, nextEvidenceFilter));
+        replaceTradingUrlIfChanged("Replay", replayUrlUpdater(nextDeskFilter, nextInstrumentFilter, nextEvidenceFilter), traceContext);
         setTraceNotice(
           traceNoticeForResolutions("Replay", [deskResolution, instrumentResolution, replayEvidenceResolution], hadCrossViewParams)
         );
@@ -2478,7 +2495,7 @@ export function TradingResearchCockpit({
       }
 
       if (tradingTraceParams.some((param) => params.has(param))) {
-        replaceTradingUrlIfChanged(nextView);
+        replaceTradingUrlIfChanged(nextView, undefined, traceContext);
         setTraceNotice({ kind: "removed", view: nextView });
         return;
       }
@@ -2489,7 +2506,16 @@ export function TradingResearchCockpit({
     syncTraceFiltersFromLocation();
     window.addEventListener("popstate", syncTraceFiltersFromLocation);
     return () => window.removeEventListener("popstate", syncTraceFiltersFromLocation);
-  }, [evidenceSignalLookup, evidenceStateLookup, evidenceUrlUpdater, replayDeskLookup, replayEvidenceLookup, replayInstrumentLookup, replayUrlUpdater]);
+  }, [
+    evidenceSignalLookup,
+    evidenceStateLookup,
+    evidenceUrlUpdater,
+    replayDeskLookup,
+    replayEvidenceLookup,
+    replayInstrumentLookup,
+    replayUrlUpdater,
+    traceContext
+  ]);
 
   function openEvidenceCenter() {
     setTraceNotice(null);
@@ -2665,6 +2691,37 @@ export function TradingResearchCockpit({
           <ArrowRight size={15} aria-hidden />
         </button>
       </section>
+
+      {reviewReturn ? (
+        <section
+          className="rounded-[8px] border border-sky-200/20 bg-sky-400/10 p-4 text-sm text-slate-200"
+          aria-labelledby="trading-review-return-title"
+        >
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <p className="eyebrow">{localizedCopy("Review context", locale)}</p>
+              <h3 id="trading-review-return-title" className="mt-1 text-lg font-semibold text-white">
+                {localizedCopy("Opened from Review Queue", locale)}
+              </h3>
+              <p className="mt-2 leading-6 text-slate-300">{localizedCopy(reviewReturn.title, locale)}</p>
+              <p className="mt-1 leading-6 text-slate-400">{localizedCopy(reviewReturn.detail, locale)}</p>
+            </div>
+            <StatusBadge tone="warning">{localizedCopy("Owner review", locale)}</StatusBadge>
+          </div>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-sky-200/15 pt-4">
+            <p className="max-w-3xl text-xs leading-5 text-slate-400">
+              {localizedCopy(
+                "Return to the owner review packet that opened this trace. This is a routing shortcut only; it does not approve, dispatch, or execute work.",
+                locale
+              )}
+            </p>
+            <Link href={reviewReturn.href} prefetch={false} className="trading-cockpit-link">
+              {localizedCopy("Return to review packet", locale)}
+              <ArrowRight size={15} aria-hidden />
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       <section className="trading-cockpit-chip-row" aria-label="Trading research posture">
         <span>

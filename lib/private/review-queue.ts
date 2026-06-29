@@ -4,6 +4,8 @@ import "server-only";
 
 import { privateTradingEvidenceHref, privateTradingReplayHref } from "@/lib/private/trading-team";
 
+const reviewTradingBoundaryCopyId = "review-trading-boundary-copy";
+
 export type ReviewQueueTone = "normal" | "info" | "warning" | "private";
 
 export type PrivateReviewQueueEvidence = {
@@ -274,7 +276,7 @@ export const privateReviewQueue = [
     note: "Events is a curated owner-only context, not a raw live runtime feed."
   },
   {
-    id: "review-trading-boundary-copy",
+    id: reviewTradingBoundaryCopyId,
     title: "Review trading research boundary copy",
     owner: "Owner",
     agent: "Trading MiniDora",
@@ -360,9 +362,13 @@ export const privateReviewQueue = [
     blockers: ["No trading execution authorization exists.", "Any future data connection must preserve research-only framing."],
     allowedNext: "Owner may revise copy, but not authorize execution from this page.",
     disallowedActions: ["Order placement", "Broker write", "Position sizing", "Recommendation wording"],
-    primaryHref: privateTradingReplayHref("Options Desk", "VOL-SURFACE", "Pending"),
+    primaryHref: privateTradingReplayHref("Options Desk", "VOL-SURFACE", "Pending", {
+      reviewPacketId: reviewTradingBoundaryCopyId
+    }),
     primaryLabel: "Open replay trace",
-    secondaryHref: privateTradingEvidenceHref("Volatility surface sample", "Pending"),
+    secondaryHref: privateTradingEvidenceHref("Volatility surface sample", "Pending", {
+      reviewPacketId: reviewTradingBoundaryCopyId
+    }),
     secondaryLabel: "Open evidence center",
     updated: "Recent slice",
     note: "The console remains research-only and has no order, paper, live, or broker path."

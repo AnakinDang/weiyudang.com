@@ -2439,6 +2439,11 @@ const exactZhTranslations = {
   "Recommendation wording": "建议性措辞",
   "The console remains research-only and has no order, paper, live, or broker path.":
     "控制台保持仅研究，没有订单、纸面交易、实盘或券商路径。",
+  "Review context": "审核上下文",
+  "Opened from Review Queue": "从审核队列打开",
+  "Return to the owner review packet that opened this trace. This is a routing shortcut only; it does not approve, dispatch, or execute work.":
+    "返回打开这条追踪的本人审核包。这只是路由捷径，不会审批、派发或执行工作。",
+  "Return to review packet": "返回审核包",
 
   "Decide when the team is ready to design audited write APIs.":
     "决定团队何时准备好设计可审计写入 API。",
