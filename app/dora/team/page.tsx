@@ -78,7 +78,7 @@ const teamLanes = [
 ] as const;
 
 const publicWindowItems = ["Public-safe profiles", "Sanitized states", "Fixed event labels", "Team presence"] as const;
-const privateAreaItems = ["Owner tasks", "Prompts and workflows", "Accounts and credentials", "Private knowledge"] as const;
+const privateAreaItems = ["Owner tasks", "Prompts and workflows", "Owner integrations", "Private knowledge"] as const;
 const heroSafetySignals = [
   {
     title: "Public-safe",
@@ -280,6 +280,21 @@ export default function DoraTeamPage() {
             </div>
           </section>
 
+        <section className="dora-team-landing-section dora-team-roster-section" id="agent-roster" aria-labelledby="dora-team-roster-title">
+          <div className="container dora-team-roster-layout">
+            <div className="dora-team-section-copy">
+              <h2 id="dora-team-roster-title">Meet the MiniDoras</h2>
+              <p>Each public profile shows role, state, and the latest fixed public event label. The private work stays behind the owner boundary.</p>
+              <div className="dora-team-roster-stat">
+                <strong>{agents.length}</strong>
+                <span>public profiles</span>
+              </div>
+            </div>
+
+            <DoraTeamRoster agents={agents} />
+          </div>
+        </section>
+
         <section className="dora-team-landing-section dora-team-principles-section" aria-label="Public-safe MiniDora team principles">
           <div className="container dora-team-principle-strip">
             {teamPrinciples.map((item) => {
@@ -297,21 +312,6 @@ export default function DoraTeamPage() {
                 </article>
               );
             })}
-          </div>
-        </section>
-
-        <section className="dora-team-landing-section dora-team-roster-section" id="agent-roster" aria-labelledby="dora-team-roster-title">
-          <div className="container dora-team-roster-layout">
-            <div className="dora-team-section-copy">
-              <h2 id="dora-team-roster-title">Meet the MiniDoras</h2>
-              <p>Each public profile shows role, state, and the latest fixed public event label. The private work stays behind the owner boundary.</p>
-              <div className="dora-team-roster-stat">
-                <strong>{agents.length}</strong>
-                <span>public profiles</span>
-              </div>
-            </div>
-
-            <DoraTeamRoster agents={agents} />
           </div>
         </section>
 
@@ -348,11 +348,11 @@ export default function DoraTeamPage() {
               <ul className="dora-office-boundary-list">
                 <li>
                   <CheckCircle2 size={15} aria-hidden />
-                  <span>No private task titles, prompts, paths, or payloads.</span>
+                  <span>No private task titles, prompts, paths, or source details.</span>
                 </li>
                 <li>
                   <CheckCircle2 size={15} aria-hidden />
-                  <span>No accounts, credentials, positions, orders, or execution controls.</span>
+                  <span>No financial state, positions, orders, or execution controls.</span>
                 </li>
                 <li>
                   <CheckCircle2 size={15} aria-hidden />
