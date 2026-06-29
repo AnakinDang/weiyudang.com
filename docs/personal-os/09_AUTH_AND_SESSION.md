@@ -120,6 +120,9 @@ Default behavior:
   `next` login target; examples include safe schedule IDs, system service IDs,
   trading review packet IDs, Owner Agent route tokens such as `ag_01`, and
   Knowledge Vault candidate route tokens such as `kc_01`
+- `/app/events` may also preserve allowlisted event type filters such as
+  `kind=Handoff`; the filter vocabulary must come from the shared route helper
+  and must fail closed for unknown strings
 - drop unknown query parameters, raw candidate names, probe strings, local
   paths, and other values that should not survive into the login URL
 

@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 
 const {
   OWNER_AGENT_ROUTES,
+  OWNER_EVENT_KIND_VALUES,
   isOwnerAgentId,
   isOwnerAgentRouteId,
+  isOwnerEventKind,
   ownerAgentHref,
   ownerAgentIdFromRoute,
   ownerAgentRouteId,
@@ -51,6 +53,12 @@ for (const route of OWNER_AGENT_ROUTES) {
 
 assert.equal(isOwnerAgentRouteId("ag_09"), false, "Route guard must fail closed for future route ids.");
 assert.equal(isOwnerAgentRouteId("AG_01"), false, "Route guard must be case-sensitive.");
-assert.equal(ownerEventsHref(undefined, "Handoff"), "/app/events?kind=Handoff");
+for (const kind of OWNER_EVENT_KIND_VALUES) {
+  assert.ok(isOwnerEventKind(kind), `Event kind guard rejected ${kind}.`);
+  assert.equal(ownerEventsHref(undefined, kind), `/app/events?${new URLSearchParams({ kind }).toString()}`);
+}
 
-console.log(`check-owner-agent-routes: ${OWNER_AGENT_ROUTES.length} route tokens validated`);
+assert.equal(isOwnerEventKind("handoff"), false, "Event kind guard must be case-sensitive.");
+assert.equal(isOwnerEventKind("Raw prompt"), false, "Event kind guard must fail closed for private labels.");
+
+console.log(`check-owner-agent-routes: ${OWNER_AGENT_ROUTES.length} agent tokens and ${OWNER_EVENT_KIND_VALUES.length} event kinds validated`);

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Activity,
   ArrowRight,
@@ -20,6 +20,14 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
+import {
+  isOwnerAgentId,
+  isOwnerEventKind,
+  ownerAgentIdFromRoute,
+  OWNER_AGENT_PARAM,
+  OWNER_EVENT_KIND_PARAM,
+  ownerEventsHref
+} from "@/lib/agent-route";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 import { ownerSystemHref } from "@/lib/system-route";
 
@@ -87,6 +95,8 @@ const metricToneClasses = [
   "border-violet-200/25 bg-violet-300/10 text-violet-100",
   "border-slate-600 bg-white/[0.045] text-slate-200"
 ] as const;
+
+const ALL_FILTER = "all";
 
 const eventZhOverrides: Partial<Record<string, string>> = {
   "Private Events": "私密事件",
@@ -187,6 +197,39 @@ function eventCountLabel(count: number, locale: SiteLocale) {
 
 function filterSummary(count: number, locale: SiteLocale) {
   return locale === "zh" ? `正在显示 ${count} 条事件` : `Showing ${count} ${count === 1 ? "event" : "events"}`;
+}
+
+function agentFilterFromSearch(search: string, agents: readonly OwnerEventAgentOption[]) {
+  const routeId = new URLSearchParams(search).get(OWNER_AGENT_PARAM);
+  const agentId = ownerAgentIdFromRoute(routeId);
+  return agentId && agents.some((agent) => agent.id === agentId) ? agentId : ALL_FILTER;
+}
+
+function kindFilterFromSearch(search: string, kinds: readonly OwnerEventKind[]) {
+  const kind = new URLSearchParams(search).get(OWNER_EVENT_KIND_PARAM);
+  return isOwnerEventKind(kind) && kinds.includes(kind) ? kind : ALL_FILTER;
+}
+
+function eventFilterUrl(agentId: string, kind: string) {
+  const safeAgent = isOwnerAgentId(agentId) ? agentId : undefined;
+  const safeKind = isOwnerEventKind(kind) ? kind : undefined;
+  const nextHref = ownerEventsHref(safeAgent, safeKind);
+
+  if (typeof window === "undefined") {
+    return nextHref;
+  }
+
+  const currentUrl = new URL(window.location.href);
+  const nextUrl = new URL(nextHref, currentUrl.origin);
+  return `${nextUrl.pathname}${nextUrl.search}${currentUrl.hash}`;
+}
+
+function currentFilterUrl() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
 }
 
 function MetricStrip({ metrics, locale }: { metrics: readonly OwnerEventMetric[]; locale: SiteLocale }) {
@@ -542,15 +585,15 @@ export function OwnerEventsSurface({
 }) {
   const { locale } = useLanguage();
   const t = (value: string | undefined) => eventText(value, locale);
-  const [activeAgent, setActiveAgent] = useState(initialFilters.agentId ?? "all");
-  const [activeKind, setActiveKind] = useState<string>(initialFilters.kind ?? "all");
+  const [activeAgent, setActiveAgent] = useState(initialFilters.agentId ?? ALL_FILTER);
+  const [activeKind, setActiveKind] = useState<string>(initialFilters.kind ?? ALL_FILTER);
   const [selectedEventId, setSelectedEventId] = useState(data.events[0]?.id ?? "");
 
   const visibleEvents = useMemo(
     () =>
       data.events.filter((event) => {
-        const agentMatches = activeAgent === "all" || event.agentId === activeAgent;
-        const kindMatches = activeKind === "all" || event.kind === activeKind;
+        const agentMatches = activeAgent === ALL_FILTER || event.agentId === activeAgent;
+        const kindMatches = activeKind === ALL_FILTER || event.kind === activeKind;
         return agentMatches && kindMatches;
       }),
     [activeAgent, activeKind, data.events]
@@ -558,10 +601,37 @@ export function OwnerEventsSurface({
 
   const selectedEvent = visibleEvents.find((event) => event.id === selectedEventId) ?? visibleEvents[0];
 
-  function clearFilters() {
-    setActiveAgent("all");
-    setActiveKind("all");
+  function updateFilters(nextAgent: string, nextKind: string) {
+    setActiveAgent(nextAgent);
+    setActiveKind(nextKind);
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const nextUrl = eventFilterUrl(nextAgent, nextKind);
+    if (nextUrl !== currentFilterUrl()) {
+      window.history.pushState(null, "", nextUrl);
+    }
   }
+
+  function clearFilters() {
+    updateFilters(ALL_FILTER, ALL_FILTER);
+  }
+
+  useEffect(() => {
+    function syncFiltersFromLocation() {
+      const nextAgent = agentFilterFromSearch(window.location.search, data.agents);
+      const nextKind = kindFilterFromSearch(window.location.search, data.kinds);
+
+      setActiveAgent((current) => (current === nextAgent ? current : nextAgent));
+      setActiveKind((current) => (current === nextKind ? current : nextKind));
+    }
+
+    syncFiltersFromLocation();
+    window.addEventListener("popstate", syncFiltersFromLocation);
+    return () => window.removeEventListener("popstate", syncFiltersFromLocation);
+  }, [data.agents, data.kinds]);
 
   return (
     <div className="grid gap-5" data-i18n-skip>
@@ -572,8 +642,8 @@ export function OwnerEventsSurface({
         activeAgent={activeAgent}
         activeKind={activeKind}
         visibleCount={visibleEvents.length}
-        onAgentChange={setActiveAgent}
-        onKindChange={setActiveKind}
+        onAgentChange={(agentId) => updateFilters(agentId, activeKind)}
+        onKindChange={(kind) => updateFilters(activeAgent, kind)}
         onClear={clearFilters}
         locale={locale}
       />
