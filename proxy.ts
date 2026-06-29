@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOwnerAccessSecret, OWNER_SESSION_COOKIE, verifyOwnerSession } from "@/lib/auth-session";
+import { isPreservedTradingReviewPacketId } from "@/lib/review-packet-ids";
+import { TRADING_REVIEW_PACKET_PARAM } from "@/lib/trading-trace";
 import { tradingViewSlugFromParam } from "@/lib/trading-team";
 
 function ownerNextPath(request: NextRequest) {
@@ -8,12 +10,19 @@ function ownerNextPath(request: NextRequest) {
   }
 
   const view = tradingViewSlugFromParam(request.nextUrl.searchParams.get("view"));
+  const reviewPacket = request.nextUrl.searchParams.get(TRADING_REVIEW_PACKET_PARAM);
+  const query = new URLSearchParams();
 
-  if (!view) {
-    return request.nextUrl.pathname;
+  if (view) {
+    query.set("view", view);
   }
 
-  return `${request.nextUrl.pathname}?${new URLSearchParams({ view }).toString()}`;
+  if (isPreservedTradingReviewPacketId(reviewPacket)) {
+    query.set(TRADING_REVIEW_PACKET_PARAM, reviewPacket);
+  }
+
+  const queryString = query.toString();
+  return queryString ? `${request.nextUrl.pathname}?${queryString}` : request.nextUrl.pathname;
 }
 
 export async function proxy(request: NextRequest) {

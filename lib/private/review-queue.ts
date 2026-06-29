@@ -3,8 +3,7 @@ import "server-only";
 // Owner-only review queue data. Do not import this module from public routes or shared client components.
 
 import { privateTradingEvidenceHref, privateTradingReplayHref } from "@/lib/private/trading-team";
-
-const reviewTradingBoundaryCopyId = "review-trading-boundary-copy";
+import { REVIEW_TRADING_BOUNDARY_COPY_ID } from "@/lib/review-packet-ids";
 
 export type ReviewQueueTone = "normal" | "info" | "warning" | "private";
 
@@ -276,7 +275,7 @@ export const privateReviewQueue = [
     note: "Events is a curated owner-only context, not a raw live runtime feed."
   },
   {
-    id: reviewTradingBoundaryCopyId,
+    id: REVIEW_TRADING_BOUNDARY_COPY_ID,
     title: "Review trading research boundary copy",
     owner: "Owner",
     agent: "Trading MiniDora",
@@ -363,11 +362,11 @@ export const privateReviewQueue = [
     allowedNext: "Owner may revise copy, but not authorize execution from this page.",
     disallowedActions: ["Order placement", "Broker write", "Position sizing", "Recommendation wording"],
     primaryHref: privateTradingReplayHref("Options Desk", "VOL-SURFACE", "Pending", {
-      reviewPacketId: reviewTradingBoundaryCopyId
+      reviewPacketId: REVIEW_TRADING_BOUNDARY_COPY_ID
     }),
     primaryLabel: "Open replay trace",
     secondaryHref: privateTradingEvidenceHref("Volatility surface sample", "Pending", {
-      reviewPacketId: reviewTradingBoundaryCopyId
+      reviewPacketId: REVIEW_TRADING_BOUNDARY_COPY_ID
     }),
     secondaryLabel: "Open evidence center",
     updated: "Recent slice",
