@@ -13,7 +13,11 @@ import {
   OWNER_KNOWLEDGE_CANDIDATE_PARAM,
   ownerKnowledgeHrefFromRouteId
 } from "@/lib/knowledge-route";
-import { isPreservedTradingReviewPacketId } from "@/lib/review-packet-ids";
+import {
+  isOwnerReviewPacketRouteId,
+  OWNER_REVIEW_PACKET_PARAM,
+  ownerReviewHrefFromRouteId
+} from "@/lib/review-route-public";
 import { isOwnerScheduleId, OWNER_SCHEDULE_PARAM, ownerScheduleHref } from "@/lib/schedule-route";
 import { isOwnerSystemServiceId, OWNER_SYSTEM_SERVICE_PARAM, ownerSystemHref } from "@/lib/system-route";
 import { TRADING_REVIEW_PACKET_PARAM } from "@/lib/trading-trace";
@@ -29,7 +33,7 @@ function ownerNextPath(request: NextRequest) {
       query.set("view", view);
     }
 
-    if (isPreservedTradingReviewPacketId(reviewPacket)) {
+    if (isOwnerReviewPacketRouteId(reviewPacket)) {
       query.set(TRADING_REVIEW_PACKET_PARAM, reviewPacket);
     }
 
@@ -49,6 +53,11 @@ function ownerNextPath(request: NextRequest) {
       isOwnerAgentRouteId(routeId) ? routeId : undefined,
       isOwnerEventKind(eventKind) ? eventKind : undefined
     );
+  }
+
+  if (request.nextUrl.pathname === "/app/review") {
+    const routeId = request.nextUrl.searchParams.get(OWNER_REVIEW_PACKET_PARAM);
+    return ownerReviewHrefFromRouteId(isOwnerReviewPacketRouteId(routeId) ? routeId : undefined);
   }
 
   if (request.nextUrl.pathname === "/app/schedules") {

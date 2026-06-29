@@ -1,3 +1,4 @@
+import { isOwnerReviewPacketRouteId } from "@/lib/review-route-public";
 import { tradingViewSlugs, type TradingView } from "@/lib/trading-team";
 
 export const ALL_SIGNAL_FILTER = "__all_signals__";
@@ -26,7 +27,7 @@ export const tradingTraceParams = [
 export type TradingSearchUpdater = (params: URLSearchParams) => void;
 
 export type TradingTraceContext = {
-  readonly reviewPacketId?: string;
+  readonly reviewPacketRouteId?: string;
 };
 
 export type TradingTraceTokenLookup = {
@@ -200,8 +201,8 @@ export function traceNoticeForResolutions(
 }
 
 function applyTradingTraceContext(params: URLSearchParams, context?: TradingTraceContext) {
-  if (context?.reviewPacketId) {
-    params.set(TRADING_REVIEW_PACKET_PARAM, context.reviewPacketId);
+  if (isOwnerReviewPacketRouteId(context?.reviewPacketRouteId)) {
+    params.set(TRADING_REVIEW_PACKET_PARAM, context.reviewPacketRouteId);
     return;
   }
 

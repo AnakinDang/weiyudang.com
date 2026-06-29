@@ -67,6 +67,7 @@ type TradingSystemStatusItem = TradingResearchCockpitData["systemStatus"][number
 type StatusTone = "normal" | "info" | "warning" | "private" | "danger";
 export type TradingReviewReturnContext = {
   readonly id: string;
+  readonly routeId: string;
   readonly title: string;
   readonly detail: string;
   readonly href: string;
@@ -2360,7 +2361,7 @@ export function TradingResearchCockpit({
 }) {
   const { locale } = useLanguage();
   const traceContext = useMemo<TradingTraceContext | undefined>(
-    () => (reviewReturn ? { reviewPacketId: reviewReturn.id } : undefined),
+    () => (reviewReturn ? { reviewPacketRouteId: reviewReturn.routeId } : undefined),
     [reviewReturn]
   );
   const [activeView, navigateTradingView, replaceTradingView] = useTradingViewRoute(initialView, traceContext);
@@ -2446,7 +2447,7 @@ export function TradingResearchCockpit({
     function syncTraceFiltersFromLocation() {
       const params = new URLSearchParams(window.location.search);
       const nextView = tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
-      const hasUnvalidatedReviewContext = params.has(TRADING_REVIEW_PACKET_PARAM) && !traceContext?.reviewPacketId;
+      const hasUnvalidatedReviewContext = params.has(TRADING_REVIEW_PACKET_PARAM) && !traceContext?.reviewPacketRouteId;
 
       if (nextView === "Evidence") {
         const signalResolution = traceParamResolution(params, EVIDENCE_SIGNAL_PARAM, evidenceSignalLookup, ALL_SIGNAL_FILTER);

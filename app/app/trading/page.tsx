@@ -3,6 +3,7 @@ import type { TradingReviewReturnContext } from "@/components/TradingResearchCoc
 import { requireOwnerSession } from "@/lib/private/owner-session";
 import { ownerReviewQueueData } from "@/lib/private/review-queue";
 import { privateTradingResearchData } from "@/lib/private/trading-team";
+import { ownerReviewHref, ownerReviewPacketIdFromRoute, ownerReviewPacketRouteId } from "@/lib/review-route";
 import { TRADING_REVIEW_PACKET_PARAM } from "@/lib/trading-trace";
 import { tradingViewFromSlug, tradingViewSlugFromParam } from "@/lib/trading-team";
 import type { TradingView } from "@/lib/trading-team";
@@ -18,7 +19,7 @@ function firstParam(value: string | string[] | undefined) {
 }
 
 function reviewPacketFromSearchParams(params: Record<string, string | string[] | undefined> = {}) {
-  const packetId = firstParam(params[TRADING_REVIEW_PACKET_PARAM]);
+  const packetId = ownerReviewPacketIdFromRoute(firstParam(params[TRADING_REVIEW_PACKET_PARAM]));
   return ownerReviewQueueData.queue.find((item) => item.id === packetId);
 }
 
@@ -33,7 +34,10 @@ function nextPathFromSearchParams(params: Record<string, string | string[] | und
   }
 
   if (reviewPacket) {
-    query.set(TRADING_REVIEW_PACKET_PARAM, reviewPacket.id);
+    const packetRouteId = ownerReviewPacketRouteId(reviewPacket.id);
+    if (packetRouteId) {
+      query.set(TRADING_REVIEW_PACKET_PARAM, packetRouteId);
+    }
   }
 
   const queryString = query.toString();
@@ -54,11 +58,17 @@ function reviewReturnFromSearchParams(
     return undefined;
   }
 
+  const routeId = ownerReviewPacketRouteId(reviewPacket.id);
+  if (!routeId) {
+    return undefined;
+  }
+
   return {
     id: reviewPacket.id,
+    routeId,
     title: reviewPacket.title,
     detail: reviewPacket.requestedDecision,
-    href: `/app/review?packet=${encodeURIComponent(reviewPacket.id)}`
+    href: ownerReviewHref(reviewPacket.id)
   };
 }
 

@@ -118,11 +118,15 @@ Default behavior:
 - do not reveal detailed private route names beyond the requested URL
 - preserve only explicitly allowlisted private deep-link parameters in the
   `next` login target; examples include safe schedule IDs, system service IDs,
-  trading review packet IDs, Owner Agent route tokens such as `ag_01`, and
-  Knowledge Vault candidate route tokens such as `kc_01`
+  Owner Review Queue packet route tokens such as `rq_01`, trading review packet
+  route tokens such as `review_packet=rq_03`, Owner Agent route tokens such as
+  `ag_01`, and Knowledge Vault candidate route tokens such as `kc_01`
 - `/app/events` may also preserve allowlisted event type filters such as
   `kind=Handoff`; the filter vocabulary must come from the shared route helper
   and must fail closed for unknown strings
+- `/app/review` currently owns a packet-only query contract. `packet=rq_XX` is
+  the only preserved Review Queue query parameter; unknown params and raw packet
+  IDs must canonicalize away rather than survive in navigation history.
 - drop unknown query parameters, raw candidate names, probe strings, local
   paths, and other values that should not survive into the login URL
 
