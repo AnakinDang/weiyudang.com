@@ -5,6 +5,7 @@ import "server-only";
 import { ownerAgentHref, ownerEventsHref } from "@/lib/agent-route";
 import { privateTradingEvidenceHref, privateTradingReplayHref } from "@/lib/private/trading-team";
 import { REVIEW_TRADING_BOUNDARY_COPY_ID } from "@/lib/review-packet-ids";
+import { ownerReviewHref, ownerReviewPacketRouteId, type OwnerReviewPacketRouteId } from "@/lib/review-route";
 import { ownerSystemHref } from "@/lib/system-route";
 
 export type ReviewQueueTone = "normal" | "info" | "warning" | "private";
@@ -175,7 +176,7 @@ export const privateReviewQueue = [
     blockers: ["No live private review API exists in this slice.", "The page must remain a decision register, not a workflow runner."],
     allowedNext: "Prepare PR only after local verification and Opus review are clean.",
     disallowedActions: ["Approve and execute", "Reject and run", "Publish", "Dispatch tools"],
-    primaryHref: "/app/review",
+    primaryHref: ownerReviewHref("review-private-events-surface"),
     primaryLabel: "Stay in review queue",
     secondaryHref: "/app/command",
     secondaryLabel: "Open command context",
@@ -364,11 +365,11 @@ export const privateReviewQueue = [
     allowedNext: "Owner may revise copy, but not authorize execution from this page.",
     disallowedActions: ["Order placement", "Broker write", "Position sizing", "Recommendation wording"],
     primaryHref: privateTradingReplayHref("Options Desk", "VOL-SURFACE", "Pending", {
-      reviewPacketId: REVIEW_TRADING_BOUNDARY_COPY_ID
+      reviewPacketRouteId: reviewPacketRouteId(REVIEW_TRADING_BOUNDARY_COPY_ID)
     }),
     primaryLabel: "Open replay trace",
     secondaryHref: privateTradingEvidenceHref("Volatility surface sample", "Pending", {
-      reviewPacketId: REVIEW_TRADING_BOUNDARY_COPY_ID
+      reviewPacketRouteId: reviewPacketRouteId(REVIEW_TRADING_BOUNDARY_COPY_ID)
     }),
     secondaryLabel: "Open evidence center",
     updated: "Recent slice",
@@ -523,8 +524,22 @@ export const reviewQueuePolicy = [
   "No silent auto-promotion from review state to execution state."
 ] as const;
 
+function reviewPacketRouteId(packetId: string): OwnerReviewPacketRouteId {
+  const routeId = ownerReviewPacketRouteId(packetId);
+  if (!routeId) {
+    throw new Error("MISSING_REVIEW_QUEUE_ROUTE_TOKEN");
+  }
+
+  return routeId;
+}
+
+const reviewQueueWithRoutes = privateReviewQueue.map((item) => ({
+  ...item,
+  routeId: reviewPacketRouteId(item.id)
+})) satisfies readonly (PrivateReviewQueueItem & { routeId: OwnerReviewPacketRouteId })[];
+
 export const ownerReviewQueueData = {
-  queue: privateReviewQueue,
+  queue: reviewQueueWithRoutes,
   metrics: reviewQueueMetrics,
   lanes: reviewQueueLanes,
   policy: reviewQueuePolicy

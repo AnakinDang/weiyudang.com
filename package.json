@@ -7,9 +7,10 @@
     "check:private-boundaries": "node scripts/check-private-boundaries.mjs",
     "check:private-i18n": "node scripts/check-private-i18n.mjs",
     "check:owner-agent-routes": "node --no-warnings scripts/check-owner-agent-routes.mjs",
+    "check:owner-review-routes": "node --no-warnings scripts/check-owner-review-routes.mjs",
     "check:public-dora-i18n": "node scripts/check-public-dora-i18n.mjs",
     "check:public-agents": "node scripts/check-public-agents.mjs",
-    "build": "npm run check:private-boundaries && npm run check:private-i18n && npm run check:owner-agent-routes && npm run check:public-dora-i18n && npm run check:public-agents && next build",
+    "build": "npm run check:private-boundaries && npm run check:private-i18n && npm run check:owner-agent-routes && npm run check:owner-review-routes && npm run check:public-dora-i18n && npm run check:public-agents && next build",
     "start": "next start"
   },
   "dependencies": {

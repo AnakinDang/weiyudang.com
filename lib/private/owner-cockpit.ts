@@ -4,6 +4,7 @@ import "server-only";
 
 import { ownerKnowledgeHref } from "@/lib/knowledge-route";
 import { privateTradingEvidenceHref, privateTradingSystemHref } from "@/lib/private/trading-team";
+import { ownerReviewHref } from "@/lib/review-route";
 import { ownerScheduleHref } from "@/lib/schedule-route";
 import { ownerSystemHref } from "@/lib/system-route";
 
@@ -95,7 +96,7 @@ export const ownerReviewQueue = [
     tone: "warning",
     decision: "Accept, revise, or narrow the next private route slice.",
     evidence: "Build, auth redirect, screenshot, leak probe, and Opus review.",
-    href: "/app/review?packet=review-private-events-surface",
+    href: ownerReviewHref("review-private-events-surface"),
     hrefLabel: "Open review packet",
     contextHref: "/app/command",
     contextLabel: "Open command context"
@@ -108,7 +109,7 @@ export const ownerReviewQueue = [
     tone: "warning",
     decision: "Pick Command, Agents, or Trading evidence depth.",
     evidence: "Docs define the route map; implementation should stay read-only.",
-    href: "/app/review?packet=review-agent-history-depth",
+    href: ownerReviewHref("review-agent-history-depth"),
     hrefLabel: "Open review packet",
     contextHref: "/app/agents",
     contextLabel: "Open agent context"
@@ -121,7 +122,7 @@ export const ownerReviewQueue = [
     tone: "info",
     decision: "Choose what private research evidence becomes owner-scannable.",
     evidence: "Research-only boundary remains fixed; no broker writes.",
-    href: "/app/review?packet=review-trading-boundary-copy",
+    href: ownerReviewHref("review-trading-boundary-copy"),
     hrefLabel: "Open review packet",
     contextHref: privateTradingEvidenceHref("Volatility surface sample", "Pending"),
     contextLabel: "Open evidence center"

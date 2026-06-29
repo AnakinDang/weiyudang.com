@@ -1,7 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AlertTriangle,
   ArrowRight,
@@ -21,6 +21,7 @@ import {
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
+import { OWNER_REVIEW_PACKET_PARAM, ownerReviewHrefFromRouteId } from "@/lib/review-route-public";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 
 type ReviewQueueTone = "normal" | "info" | "warning" | "private";
@@ -56,6 +57,7 @@ type ReviewQueueGate = {
 
 type ReviewQueueItem = {
   id: string;
+  routeId: string;
   title: string;
   owner: string;
   agent: string;
@@ -899,6 +901,7 @@ function EmptyQueueState({ locale }: { locale: SiteLocale }) {
 export function OwnerReviewQueueSurface({ data, initialPacketId }: { data: ReviewQueueData; initialPacketId?: string }) {
   const { locale } = useLanguage();
   const lanes = useMemo(() => uniqueLanes(data.queue), [data.queue]);
+  const packetIds = useMemo(() => new Set(data.queue.map((item) => item.id)), [data.queue]);
   const [activeLane, setActiveLane] = useState("All lanes");
   const [selectedItemId, setSelectedItemId] = useState(() => {
     const initialItem = data.queue.find((item) => item.id === initialPacketId);
@@ -906,6 +909,33 @@ export function OwnerReviewQueueSurface({ data, initialPacketId }: { data: Revie
   });
   const [draftChoices, setDraftChoices] = useState<Record<string, string>>({});
   const [draftNotes, setDraftNotes] = useState<Record<string, string>>({});
+  const packetIdFromCurrentUrl = useCallback(() => {
+    const packetRouteId = new URLSearchParams(window.location.search).get(OWNER_REVIEW_PACKET_PARAM);
+    return data.queue.find((item) => item.routeId === packetRouteId)?.id;
+  }, [data.queue]);
+  const writePacketUrl = useCallback(
+    (packetId: string, mode: "push" | "replace" = "push") => {
+      if (!packetIds.has(packetId)) return;
+
+      const packet = data.queue.find((item) => item.id === packetId);
+      if (!packet) return;
+
+      // Review Queue currently owns a packet-only query contract. Canonical writes
+      // intentionally drop unknown params/probes instead of preserving them.
+      const href = ownerReviewHrefFromRouteId(packet.routeId);
+
+      const currentHref = `${window.location.pathname}${window.location.search}`;
+      if (currentHref === href) return;
+
+      if (mode === "replace") {
+        window.history.replaceState({ packetId }, "", href);
+        return;
+      }
+
+      window.history.pushState({ packetId }, "", href);
+    },
+    [data.queue, packetIds]
+  );
 
   const visibleQueue = useMemo(() => {
     if (activeLane === "All lanes") {
@@ -928,6 +958,16 @@ export function OwnerReviewQueueSurface({ data, initialPacketId }: { data: Revie
   }, [data.queue, initialPacketId]);
 
   useEffect(() => {
+    function handlePopState() {
+      setActiveLane("All lanes");
+      setSelectedItemId(packetIdFromCurrentUrl() ?? data.queue[0]?.id ?? "");
+    }
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [data.queue, packetIdFromCurrentUrl]);
+
+  useEffect(() => {
     if (!selectedItem || selectedItem.id === selectedItemId) return;
 
     setSelectedItemId(selectedItem.id);
@@ -942,7 +982,15 @@ export function OwnerReviewQueueSurface({ data, initialPacketId }: { data: Revie
     const nextVisible = lane === "All lanes" ? data.queue : data.queue.filter((item) => item.lane === lane);
     if (nextVisible[0]) {
       setSelectedItemId(nextVisible[0].id);
+      writePacketUrl(nextVisible[0].id, "replace");
     }
+  }
+
+  function handleItemSelect(itemId: string) {
+    if (!packetIds.has(itemId)) return;
+
+    setSelectedItemId(itemId);
+    writePacketUrl(itemId);
   }
 
   const draftChoice = draftChoices[selectedItem.id] ?? selectedItem.decisionOptions[0]?.label ?? "";
@@ -975,7 +1023,7 @@ export function OwnerReviewQueueSurface({ data, initialPacketId }: { data: Revie
         onDraftChoice={handleDraftChoice}
         onDraftNote={handleDraftNote}
         onLaneSelect={handleLaneSelect}
-        onItemSelect={setSelectedItemId}
+        onItemSelect={handleItemSelect}
         locale={locale}
       />
       <DecisionLanes lanes={data.lanes} locale={locale} />

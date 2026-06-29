@@ -1,6 +1,14 @@
 import { OwnerReviewQueueSurface } from "@/components/OwnerReviewQueueSurface";
 import { requireOwnerSession } from "@/lib/private/owner-session";
 import { ownerReviewQueueData } from "@/lib/private/review-queue";
+import {
+  isOwnerReviewPacketRouteId,
+  OWNER_REVIEW_PACKET_PARAM,
+  ownerReviewHref,
+  ownerReviewHrefFromRouteId,
+  ownerReviewPacketIdFromRoute
+} from "@/lib/review-route";
+import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -12,14 +20,17 @@ function firstParam(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-function initialPacketFrom(params: Record<string, string | string[] | undefined>) {
-  const packetId = firstParam(params.packet);
-  return ownerReviewQueueData.queue.some((item) => item.id === packetId) ? packetId : undefined;
-}
-
 export default async function ReviewPage({ searchParams }: ReviewPageProps) {
-  await requireOwnerSession("/app/review");
   const params = await searchParams;
+  const packetRouteId = firstParam(params?.[OWNER_REVIEW_PACKET_PARAM]);
+  const validPacketRouteId = isOwnerReviewPacketRouteId(packetRouteId) ? packetRouteId : undefined;
+  const initialPacketId = ownerReviewPacketIdFromRoute(validPacketRouteId);
 
-  return <OwnerReviewQueueSurface data={ownerReviewQueueData} initialPacketId={initialPacketFrom(params ?? {})} />;
+  await requireOwnerSession(ownerReviewHrefFromRouteId(validPacketRouteId));
+
+  if (packetRouteId && !validPacketRouteId) {
+    redirect(ownerReviewHref());
+  }
+
+  return <OwnerReviewQueueSurface data={ownerReviewQueueData} initialPacketId={initialPacketId} />;
 }
