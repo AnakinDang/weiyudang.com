@@ -210,6 +210,16 @@ function replayTraceAriaLabel(packet: TradingEvidencePacket, locale: SiteLocale)
   return `Open replay trace for ${packet.title}`;
 }
 
+function signalEvidenceAriaLabel(action: "focus" | "replay", signal: TradingSignal, locale: SiteLocale) {
+  const instrument = locale === "zh" ? translateToZh(signal.instrument) ?? signal.instrument : signal.instrument;
+
+  if (locale === "zh") {
+    return action === "focus" ? `聚焦${instrument}的证据包` : `打开${instrument}的回放追踪`;
+  }
+
+  return action === "focus" ? `Focus evidence for ${signal.instrument}` : `Open replay trace for ${signal.instrument}`;
+}
+
 function traceEvidenceAriaLabel(signal: Pick<TradingSignal, "instrument">, locale: SiteLocale) {
   const instrument = locale === "zh" ? translateToZh(signal.instrument) ?? signal.instrument : signal.instrument;
   return locale === "zh" ? `追溯${instrument}的证据` : `Trace evidence for ${signal.instrument}`;
@@ -1684,6 +1694,30 @@ function EvidenceView({
   const hasFilters = signalFilter !== ALL_SIGNAL_FILTER || stateFilter !== ALL_STATE_FILTER;
   const evidenceSummaryKey = `${signalFilter}:${stateFilter}:${filteredEvidence.length}:${hasFilters ? "filtered" : "full"}`;
   const firstReviewPacket = filteredMissingEvidence[0];
+  const signalEvidenceRows = useMemo(
+    () =>
+      signals.map((signal) => {
+        const specificPackets = evidencePackets.filter((packet) => packet.linkedSignal === signal.instrument);
+        const sharedPackets = evidencePackets.filter(
+          (packet) => packet.linkedSignal !== signal.instrument && packet.appliesToSignals.includes(signal.instrument)
+        );
+        const scopedPackets = [...specificPackets, ...sharedPackets];
+        const openPackets = scopedPackets.filter((packet) => isOpenEvidenceState(packet.state));
+        const nextPacket = openPackets[0] ?? specificPackets[0] ?? sharedPackets[0];
+        const counterEvidenceExcess = Math.max(0, signal.counterEvidence - signal.evidence);
+
+        return {
+          signal,
+          specificPackets,
+          sharedPackets,
+          openPackets,
+          nextPacket,
+          counterEvidenceExcess,
+          sourceNeedsReview: isDegradedSourceState(signal.sourceHealth)
+        };
+      }),
+    [evidencePackets, signals]
+  );
 
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
@@ -1767,6 +1801,96 @@ function EvidenceView({
               </span>
             </StatusBadge>
           </div>
+
+          <section className="trading-evidence-matrix" aria-labelledby="trading-evidence-matrix-title">
+            <div className="trading-evidence-matrix__head">
+              <div>
+                <p>{localizedCopy("Signal evidence matrix", locale)}</p>
+                <h3 id="trading-evidence-matrix-title">{localizedCopy("Evidence path by signal", locale)}</h3>
+              </div>
+              <small>
+                {localizedCopy(
+                  "Full signal map. Filters above change the packet list below, while this matrix keeps every signal visible.",
+                  locale
+                )}
+              </small>
+            </div>
+            <div className="trading-evidence-matrix__grid">
+              {signalEvidenceRows.map((row) => {
+                const { signal, specificPackets, sharedPackets, openPackets, nextPacket, counterEvidenceExcess, sourceNeedsReview } = row;
+
+                return (
+                  <article key={signal.instrument} className="trading-evidence-matrix__row">
+                    <div className="trading-evidence-matrix__title">
+                      <div>
+                        <p data-i18n-skip>{deskLabel(signal.desk, locale)}</p>
+                        <h4 data-i18n-skip>{signal.instrument}</h4>
+                      </div>
+                      <StatusBadge tone={openPackets.length > 0 || sourceNeedsReview ? "warning" : "info"}>
+                        <span data-i18n-skip>{stateLabel(signal.state, locale)}</span>
+                      </StatusBadge>
+                    </div>
+
+                    <dl className="trading-evidence-matrix__metrics">
+                      <div>
+                        <dt>{localizedCopy("Specific evidence", locale)}</dt>
+                        <dd data-i18n-skip>{specificPackets.length}</dd>
+                      </div>
+                      <div>
+                        <dt>{localizedCopy("Shared evidence", locale)}</dt>
+                        <dd data-i18n-skip>{sharedPackets.length}</dd>
+                      </div>
+                      <div>
+                        <dt>{localizedCopy("Open blockers", locale)}</dt>
+                        <dd data-i18n-skip>{openPackets.length}</dd>
+                      </div>
+                      <div>
+                        <dt>{localizedCopy("Counter excess", locale)}</dt>
+                        <dd data-i18n-skip>{counterEvidenceExcess}</dd>
+                      </div>
+                    </dl>
+
+                    <div className="trading-evidence-matrix__source">
+                      <span>{localizedCopy("Source posture", locale)}</span>
+                      <strong data-i18n-skip>{stateLabel(signal.sourceHealth, locale)}</strong>
+                    </div>
+
+                    <p>{signal.blocker}</p>
+
+                    <div className="trading-evidence-matrix__actions">
+                      {nextPacket ? (
+                        <button
+                          type="button"
+                          className="trading-cockpit-link"
+                          onClick={() => onFocusEvidencePacket(nextPacket)}
+                          aria-label={signalEvidenceAriaLabel("focus", signal, locale)}
+                          data-i18n-skip
+                        >
+                          {localizedCopy("Focus evidence", locale)}
+                        </button>
+                      ) : (
+                        <span>{localizedCopy("No evidence packet attached", locale)}</span>
+                      )}
+                      <button
+                        type="button"
+                        className="trading-cockpit-link"
+                        onClick={() =>
+                          onOpenReplayTrace(
+                            nextPacket ? replayInstrumentFilterForEvidence(nextPacket) : ALL_INSTRUMENT_FILTER,
+                            nextPacket?.state
+                          )
+                        }
+                        aria-label={signalEvidenceAriaLabel("replay", signal, locale)}
+                        data-i18n-skip
+                      >
+                        {localizedCopy("Open replay trace", locale)}
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
 
           <section className="trading-evidence-runway" aria-labelledby="trading-evidence-runway-title">
             <div className="trading-evidence-runway__copy">
