@@ -1,9 +1,22 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, FilePenLine, Globe2, LockKeyhole, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpenCheck,
+  CheckCircle2,
+  FilePenLine,
+  FlaskConical,
+  Globe2,
+  Layers3,
+  LockKeyhole,
+  Radar,
+  ShieldCheck
+} from "lucide-react";
 import { LabNotesBrowser } from "@/components/LabNotesBrowser";
 import { SiteChrome } from "@/components/SiteChrome";
 import { getNotes } from "@/lib/content";
+import { labCategories } from "@/lib/content-model";
 
 export const metadata: Metadata = {
   title: "Research",
@@ -22,31 +35,34 @@ export const metadata: Metadata = {
 };
 
 const labSignals = [
-  ["Public by design", "Share what's safe. Protect what's not."],
-  ["Evidence first", "Show the why, the how, and the limits."],
-  ["Linked to work", "Every note connects to projects and artifacts."]
-];
+  ["Public by design", "Share what's safe. Protect what's not.", ShieldCheck],
+  ["Evidence first", "Show the why, the how, and the limits.", BookOpenCheck],
+  ["Linked to work", "Every note connects to projects and artifacts.", Layers3]
+] as const;
 
 const protocolSteps = [
-  ["Draft privately", "Capture raw ideas and evidence."],
-  ["Rewrite safely", "Remove sensitive details and reduce to principles."],
-  ["Publish public note", "Share summaries, sketches, and lessons."],
-  ["Link artifact", "Connect to projects, datasets, and code."]
-];
+  ["Capture privately", "Raw notes, prompts, and source material stay inside the private vault."],
+  ["Distill safely", "Turn the useful idea into a principle, method, or public sketch."],
+  ["Attach evidence", "Link only public artifacts, screenshots, project pages, or durable summaries."],
+  ["Publish with boundary", "Keep the note useful without exposing accounts, paths, raw logs, or controls."]
+] as const;
 
 export default function LabPage() {
   const notes = getNotes();
   const latestNote = notes[0];
+  const featuredNote = notes.find((note) => note.featured) ?? latestNote;
+  const researchLaneCount = Object.keys(labCategories).length;
 
   return (
     <SiteChrome headerVariant="doraemon" headerActiveHref="/lab">
       <section className="lab-hero">
         <div className="container lab-hero-grid">
           <div className="lab-hero-copy">
-            <h1>Research notes.</h1>
+            <p className="lab-kicker">Public research studio</p>
+            <h1>Research that can be inspected.</h1>
             <p>
-              Public experiments, system sketches, design decisions, and research fragments from Weiyu&apos;s personal
-              research studio. Public by design.
+              A public notebook for system sketches, design decisions, build logs, and research fragments around the
+              Personal OS. It shows the method and the evidence without exposing the private operating layer.
             </p>
             <div className="lab-hero-actions">
               <Link href={latestNote ? `/lab/${latestNote.slug}` : "#lab-notes"} className="link-focus lab-hero-primary">
@@ -58,10 +74,24 @@ export default function LabPage() {
                 <ArrowRight size={16} aria-hidden />
               </Link>
             </div>
+            <div className="lab-hero-metrics" aria-label="Research studio summary">
+              <span>
+                <strong>{notes.length}</strong>
+                <small>public notes</small>
+              </span>
+              <span>
+                <strong>{researchLaneCount}</strong>
+                <small>research lanes</small>
+              </span>
+              <span>
+                <strong>0</strong>
+                <small>execution controls</small>
+              </span>
+            </div>
             <div className="lab-signal-row" aria-label="Research principles">
-              {labSignals.map(([title, summary]) => (
+              {labSignals.map(([title, summary, Icon]) => (
                 <div key={title} className="lab-signal-card">
-                  <ShieldCheck size={18} aria-hidden />
+                  <Icon size={18} aria-hidden />
                   <strong>{title}</strong>
                   <span>{summary}</span>
                 </div>
@@ -69,35 +99,42 @@ export default function LabPage() {
             </div>
           </div>
 
-          <div className="lab-surface-visual" aria-label="Public research surface sketch">
-            <div className="lab-surface-sheet">
-              <p>RESEARCH SURFACE</p>
-              {[
-                ["01", "Observe", "Watch, collect, and question."],
-                ["02", "Build", "Prototype, test, and document."],
-                ["03", "Review", "Reflect, decide, and refine."]
-              ].map(([number, title, summary]) => (
-                <div key={number} className="lab-surface-step">
-                  <strong>{number}</strong>
-                  <span>
-                    <span className="lab-surface-step-title">{title}</span>
-                    <small>{summary}</small>
-                  </span>
-                  <span className="lab-surface-step-mark" aria-hidden />
-                </div>
-              ))}
+          <aside className="lab-studio-visual" aria-label="Public research studio preview">
+            <div className="lab-studio-image-frame">
+              <Image
+                src="/visuals/personal-os-portal-v2.png"
+                alt="A bright research desk with an open notebook, a Doraemon Office portal, and public-safe research system visuals."
+                width={1680}
+                height={945}
+                quality={92}
+                sizes="(min-width: 1080px) 52vw, 100vw"
+                className="lab-studio-image"
+              />
+              <div className="lab-studio-card">
+                <span>Featured note</span>
+                <strong>{featuredNote?.title ?? "Public research studio"}</strong>
+                <small>{featuredNote?.summary ?? "Public summaries, evidence, and design decisions."}</small>
+              </div>
             </div>
-            <div className="lab-floating-card lab-floating-card-chart" aria-hidden>
-              <span />
+            <div className="lab-studio-route-strip" aria-label="Research studio route map">
+              <span>
+                <Radar size={15} aria-hidden />
+                Observe
+              </span>
+              <span>
+                <FlaskConical size={15} aria-hidden />
+                Experiment
+              </span>
+              <span>
+                <ShieldCheck size={15} aria-hidden />
+                Publish safely
+              </span>
             </div>
-            <div className="lab-floating-card lab-floating-card-network" aria-hidden>
-              <span />
+            <div className="lab-studio-boundary" role="note" aria-label="Research safety boundary">
+              <LockKeyhole size={16} aria-hidden />
+              <span>Private vault stays private. Public notes carry only curated evidence.</span>
             </div>
-            <div className="lab-private-boundary">
-              <LockKeyhole size={15} aria-hidden />
-              Private boundary
-            </div>
-          </div>
+          </aside>
         </div>
       </section>
 
@@ -111,7 +148,8 @@ export default function LabPage() {
         <div className="container">
           <div className="lab-protocol-grid">
             <div>
-              <h2>Research protocol</h2>
+              <p className="lab-kicker">Publishing protocol</p>
+              <h2>From private signal to public artifact.</h2>
               <div className="lab-protocol-steps" aria-label="Public publishing protocol">
                 {protocolSteps.map(([title, summary], index) => (
                   <div key={title} className="lab-protocol-step">
@@ -155,7 +193,8 @@ export default function LabPage() {
                 ))}
               </div>
               <div className="lab-boundary-note">
-                We publish what is safe, useful, and durable. The rest stays private by default.
+                We publish what is safe, useful, and durable. Raw prompts, private source notes, credentials, accounts,
+                runtime identifiers, and execution controls stay private by default.
               </div>
             </div>
           </div>
@@ -167,8 +206,11 @@ export default function LabPage() {
               <span />
             </div>
             <div>
-              <h2>This is living research.</h2>
-              <p>New notes land when experiments evolve. Follow along, learn from the process, and build with care.</p>
+              <h2>This is a living research shelf.</h2>
+              <p>
+                New notes land when experiments evolve. The point is not volume; it is a durable trail of decisions,
+                evidence, and useful boundaries.
+              </p>
             </div>
             <Link href={latestNote ? `/lab/${latestNote.slug}` : "#lab-notes"} className="link-focus">
               Read the latest note
