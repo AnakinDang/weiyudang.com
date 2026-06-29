@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -13,6 +14,7 @@ import {
   Database,
   FileText,
   GitCompareArrows,
+  Globe2,
   Layers3,
   LockKeyhole,
   Radio,
@@ -31,6 +33,33 @@ type ProjectPageProps = {
 
 function isExternalProjectHref(href: string) {
   return href.startsWith("https://");
+}
+
+function heroImageForProject(project: ReturnType<typeof getProjects>[number]) {
+  if (project.slug === "weiyu-personal-os" || project.slug === "weiyu-ai") {
+    return "/visuals/personal-os-portal-v1.png";
+  }
+
+  if (
+    project.slug === "doraemon-agent-system" ||
+    project.slug === "doraemon-visualizer" ||
+    project.slug === "openclaw-runtime" ||
+    project.slug === "knowledge-vault"
+  ) {
+    return "/visuals/doraemon-office-command-room-v2.png";
+  }
+
+  return "/visuals/weiyu-bright-studio.png";
+}
+
+function primaryProjectLink(project: ReturnType<typeof getProjects>[number]) {
+  return (
+    project.links.find((link) => !link.private) ?? {
+      label: "Open Doraemon Office",
+      href: "/dora",
+      private: false
+    }
+  );
 }
 
 function boundaryStatementForLabel(label: string) {
@@ -120,6 +149,21 @@ const tradingHeroStats = [
   { label: "Desks", value: "7" },
   { label: "Console views", value: "8" },
   { label: "Execution", value: "0" }
+] as const;
+
+const projectConnectionFlow = [
+  {
+    label: "Public surface",
+    detail: "Curated pages explain the visible project shape."
+  },
+  {
+    label: "Doraemon layer",
+    detail: "Doraemon Office makes status, agents, and rhythm legible."
+  },
+  {
+    label: "Private boundary",
+    detail: "Owner work, source material, prompts, and controls stay gated."
+  }
 ] as const;
 
 function TradingProjectLandingHero() {
@@ -246,6 +290,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
   const relatedNotes = getNotesForProject(project.slug);
   const hasPrivateLinks = project.links.some((link) => link.private);
   const isTradingProject = project.slug === "minidora-trading";
+  const heroImage = heroImageForProject(project);
+  const primaryLink = primaryProjectLink(project);
+  const primaryLinkIsExternal = isExternalProjectHref(primaryLink.href);
   const dossierCards = [
     {
       title: "Project context",
@@ -313,11 +360,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                 </>
               ) : (
                 <>
-                  <div className="project-dossier-hero">
-                    <span className={`project-dossier-visual projects-artifact-visual-${visual}`} aria-hidden="true">
-                      <span />
-                    </span>
-                    <div>
+                  <div className="project-dossier-hero project-dossier-hero--system">
+                    <div className="project-dossier-hero-copy">
+                      <p className="projects-kicker">Public project dossier</p>
                       <h1>{project.title}</h1>
                       <p>{project.summary}</p>
                       <div className="project-dossier-badges">
@@ -326,16 +371,84 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                         <span>{project.statusLabel}</span>
                         <span>Public-safe page</span>
                       </div>
+                      <div className="project-dossier-actions">
+                        <Link
+                          href={primaryLink.href}
+                          className="link-focus project-dossier-primary-action"
+                          target={primaryLinkIsExternal ? "_blank" : undefined}
+                          rel={primaryLinkIsExternal ? "noopener noreferrer" : undefined}
+                        >
+                          {primaryLink.label}
+                          {primaryLinkIsExternal ? <span className="sr-only"> Opens in a new tab</span> : null}
+                          <ArrowRight size={16} aria-hidden />
+                        </Link>
+                        <Link href="#project-overview" className="link-focus project-dossier-secondary-action">
+                          Read overview
+                          <ArrowRight size={16} aria-hidden />
+                        </Link>
+                      </div>
                     </div>
+
+                    <aside className="project-dossier-hero-visual" aria-label="Project public-safe map">
+                      <div className="project-dossier-image-frame">
+                        <Image
+                          src={heroImage}
+                          alt=""
+                          aria-hidden="true"
+                          width={1680}
+                          height={945}
+                          quality={90}
+                          sizes="(min-width: 1080px) 34vw, 100vw"
+                          className="project-dossier-image"
+                        />
+                        <div className="project-dossier-image-card">
+                          <Globe2 size={17} aria-hidden />
+                          <span>
+                            <strong>Public-safe dossier</strong>
+                            <small>{boundary.summary}</small>
+                          </span>
+                        </div>
+                      </div>
+                      <div className="project-dossier-lens-grid" role="list" aria-label="Project dossier lens">
+                        <span role="listitem">
+                          <strong>{project.categoryLabel}</strong>
+                          <small>operating lane</small>
+                        </span>
+                        <span role="listitem">
+                          <strong>{boundary.label}</strong>
+                          <small>boundary mode</small>
+                        </span>
+                        <span role="listitem">
+                          <strong>{relatedNotes.length}</strong>
+                          <small>linked notes</small>
+                        </span>
+                      </div>
+                    </aside>
                   </div>
 
-                  <div className="project-boundary-callout">
+                  <div className="project-boundary-callout" role="note">
                     <ShieldCheck size={20} aria-hidden />
                     <div>
                       <strong>{boundaryStatement}</strong>
                       <span>{boundary.summary}</span>
                     </div>
                   </div>
+
+                  <section className="project-system-connection" aria-labelledby="project-system-connection-title">
+                    <div className="project-system-connection-head">
+                      <p className="projects-kicker">System connection</p>
+                      <h2 id="project-system-connection-title">How this project connects back to the Personal OS.</h2>
+                    </div>
+                    <div className="project-system-connection-flow" role="list" aria-label="Project connection flow">
+                      {projectConnectionFlow.map((item, index) => (
+                        <article key={item.label} role="listitem">
+                          <span>{String(index + 1).padStart(2, "0")}</span>
+                          <strong>{item.label}</strong>
+                          <p>{item.detail}</p>
+                        </article>
+                      ))}
+                    </div>
+                  </section>
 
                   <section className="project-public-dossier" aria-labelledby="project-public-dossier-title">
                     <div className="project-public-dossier-head">
@@ -374,7 +487,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
                     </div>
                   </section>
 
-                  <div className="project-dossier-body">
+                  <div id="project-overview" className="project-dossier-body">
                     <h2>Overview</h2>
                     <MarkdownBody body={project.body} />
                   </div>
