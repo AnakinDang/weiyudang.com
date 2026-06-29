@@ -233,6 +233,10 @@ function eventCountLabel(visible: number, total: number, locale: SiteLocale) {
   return locale === "zh" ? `已显示 ${visible} / ${total} 条事件` : `${visible} of ${total} events shown`;
 }
 
+function replayStepLabel(index: number, locale: SiteLocale) {
+  return locale === "zh" ? `第 ${index + 1} 步` : `Step ${index + 1}`;
+}
+
 function localizedCopy(value: string, locale: SiteLocale) {
   return locale === "zh" ? translateToZh(value) ?? value : value;
 }
@@ -2162,8 +2166,25 @@ function ReplayView({
       }),
     [deskFilter, evidenceFilter, instrumentFilter, replay]
   );
+  const replaySpine = useMemo(
+    () =>
+      filteredReplay.map((event, index) => {
+        const previous = filteredReplay[index - 1];
+
+        return {
+          event,
+          handoff: Boolean(previous && previous.desk !== event.desk),
+          evidenceShift: Boolean(previous && previous.evidenceState !== event.evidenceState)
+        };
+      }),
+    [filteredReplay]
+  );
   const hasFilters =
     deskFilter !== ALL_DESK_FILTER || instrumentFilter !== ALL_INSTRUMENT_FILTER || evidenceFilter !== ALL_EVIDENCE_FILTER;
+  const visibleDeskCount = new Set(filteredReplay.map((event) => event.desk)).size;
+  const visibleInstrumentCount = new Set(filteredReplay.map((event) => event.instrument)).size;
+  const handoffCount = replaySpine.filter((item) => item.handoff).length;
+  const evidenceShiftCount = replaySpine.filter((item) => item.evidenceShift).length;
 
   return (
     <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_24rem]">
@@ -2243,6 +2264,78 @@ function ReplayView({
             </span>
           </StatusBadge>
         </div>
+
+        <section className="trading-replay-spine" aria-labelledby="trading-replay-spine-title">
+          <div className="trading-replay-spine__head">
+            <div>
+              <p>{localizedCopy("Research replay spine", locale)}</p>
+              <h3 id="trading-replay-spine-title">{localizedCopy("How the view changed", locale)}</h3>
+            </div>
+            <small>
+              {localizedCopy(
+                "Replay keeps the sequence of desks, handoffs, evidence shifts, and owner-visible state changes without creating any execution path.",
+                locale
+              )}
+            </small>
+          </div>
+
+          <dl className="trading-replay-spine__metrics">
+            <div>
+              <dt>{localizedCopy("Visible desks", locale)}</dt>
+              <dd data-i18n-skip>{visibleDeskCount}</dd>
+            </div>
+            <div>
+              <dt>{localizedCopy("Instruments", locale)}</dt>
+              <dd data-i18n-skip>{visibleInstrumentCount}</dd>
+            </div>
+            <div>
+              <dt>{localizedCopy("Handoffs", locale)}</dt>
+              <dd data-i18n-skip>{handoffCount}</dd>
+            </div>
+            <div>
+              <dt>{localizedCopy("Evidence shifts", locale)}</dt>
+              <dd data-i18n-skip>{evidenceShiftCount}</dd>
+            </div>
+          </dl>
+
+          {replaySpine.length > 0 ? (
+            <ol className="trading-replay-spine__track">
+              {replaySpine.map((item, index) => {
+                const { event, handoff, evidenceShift } = item;
+
+                return (
+                  <li key={`${event.time}-${event.desk}-${event.instrument}-${index}`}>
+                    <span className="trading-replay-spine__node" aria-hidden />
+                    <article>
+                      <div className="trading-replay-spine__topline">
+                        <span data-i18n-skip>{replayStepLabel(index, locale)}</span>
+                        <time>{event.time}</time>
+                      </div>
+                      <div className="trading-replay-spine__title">
+                        <h4>{event.change}</h4>
+                        <StatusBadge tone={sourceTone(event.evidenceState)}>
+                          <span data-i18n-skip>{stateLabel(event.evidenceState, locale)}</span>
+                        </StatusBadge>
+                      </div>
+                      <p data-i18n-skip>
+                        {deskLabel(event.desk, locale)} · {event.instrument}
+                      </p>
+                      <div className="trading-replay-spine__badges">
+                        <span>{localizedCopy(handoff ? "Desk handoff" : "Same desk", locale)}</span>
+                        <span>{localizedCopy(evidenceShift ? "Evidence shifted" : "Evidence steady", locale)}</span>
+                        <span data-i18n-skip>{stateLabel(event.state, locale)}</span>
+                      </div>
+                    </article>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : (
+            <div className="trading-replay-spine__empty">
+              {localizedCopy("No replay spine is available for this filter set.", locale)}
+            </div>
+          )}
+        </section>
 
         <div className="mt-4 grid gap-3">
           {filteredReplay.length > 0 ? (

@@ -3962,6 +3962,17 @@ const exactZhTranslations = {
   "How the research day formed": "研究日如何形成",
   "Reconstruct how desks formed or revised a research view. Filters are local-only and never create execution, recommendation, or account actions.":
     "复盘各研究台如何形成或修订研究视角。筛选仅在本地生效，永不创建执行、建议或账户动作。",
+  "Research replay spine": "研究回放主线",
+  "How the view changed": "视角如何变化",
+  "Replay keeps the sequence of desks, handoffs, evidence shifts, and owner-visible state changes without creating any execution path.":
+    "回放保留研究台、交接、证据变化和本人可见状态变化的顺序，但不会创建任何执行路径。",
+  "Visible desks": "可见研究台",
+  "Evidence shifts": "证据变化",
+  "Desk handoff": "研究台交接",
+  "Same desk": "同一研究台",
+  "Evidence shifted": "证据已变化",
+  "Evidence steady": "证据稳定",
+  "No replay spine is available for this filter set.": "当前筛选结果没有可用的回放主线。",
   "State changes": "状态变化",
   "What changed in view": "当前视图中的变化",
   "State change": "状态变化",
