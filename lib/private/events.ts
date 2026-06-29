@@ -10,6 +10,7 @@ import {
   type PrivateAgentTone
 } from "@/lib/agent-ops";
 import { ownerReviewQueueData } from "@/lib/private/review-queue";
+import { ownerSystemHref } from "@/lib/system-route";
 
 export type PrivateEventKind = "Agent history" | "Handoff" | "Review signal" | "Boundary signal" | "Source posture";
 
@@ -149,7 +150,7 @@ const sourcePostureEvents = privateAgentRoster.map((agent, index) => {
     evidence: [agent.lease, agent.nextReview],
     primaryHref: agentHref(agent.id),
     primaryLabel: "Open agent context",
-    secondaryHref: "/app/system",
+    secondaryHref: ownerSystemHref("event-freshness"),
     secondaryLabel: "Open system health"
   } satisfies PrivateEventTimelineItem;
 
@@ -169,7 +170,7 @@ const boundaryEvents = privateAgentBoundary.map((item, index) => {
     agentName: "Owner Cockpit",
     source: "Boundary contract",
     evidence: ["Owner-only", "Read-only", "No dispatch"],
-    primaryHref: "/app/system",
+    primaryHref: ownerSystemHref("doraemon-public-boundary"),
     primaryLabel: "Open system health",
     secondaryHref: "/app/review",
     secondaryLabel: "Open review queue"

@@ -4,6 +4,7 @@ import "server-only";
 
 import { privateTradingEvidenceHref, privateTradingSystemHref } from "@/lib/private/trading-team";
 import { ownerScheduleHref } from "@/lib/schedule-route";
+import { ownerSystemHref } from "@/lib/system-route";
 
 export const ownerTodayBrief = {
   focus: "Ship the next Personal OS slice without weakening the public/private boundary.",
@@ -153,7 +154,7 @@ export const ownerDecisionHub = [
   },
   {
     title: "System Health",
-    href: "/app/system",
+    href: ownerSystemHref("owner-auth-gate"),
     state: "Diagnostics",
     tone: "normal",
     summary: "System posture remains visible at owner depth while public health stays sanitized.",
