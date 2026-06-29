@@ -118,8 +118,8 @@ Default behavior:
 - do not reveal detailed private route names beyond the requested URL
 - preserve only explicitly allowlisted private deep-link parameters in the
   `next` login target; examples include safe schedule IDs, system service IDs,
-  trading review packet IDs, and Knowledge Vault candidate route tokens such as
-  `kc_01`
+  trading review packet IDs, Owner Agent route tokens such as `ag_01`, and
+  Knowledge Vault candidate route tokens such as `kc_01`
 - drop unknown query parameters, raw candidate names, probe strings, local
   paths, and other values that should not survive into the login URL
 

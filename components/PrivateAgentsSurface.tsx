@@ -1,7 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   Bot,
@@ -27,6 +27,13 @@ import {
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
+import {
+  isOwnerAgentId,
+  ownerAgentHref,
+  ownerAgentIdFromRoute,
+  OWNER_AGENT_PARAM,
+  ownerEventsHref
+} from "@/lib/agent-route";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 import type {
   PrivateAgent,
@@ -148,6 +155,36 @@ function countBy<T extends string>(items: readonly PrivateAgent[], read: (agent:
   });
 
   return counts;
+}
+
+function agentIdFromSearch(search: string, agents: readonly PrivateAgent[]) {
+  const params = new URLSearchParams(search);
+  const agentId = ownerAgentIdFromRoute(params.get(OWNER_AGENT_PARAM));
+  return agentId && agents.some((agent) => agent.id === agentId) ? agentId : undefined;
+}
+
+function agentRouteUrl(agentId: string) {
+  if (!isOwnerAgentId(agentId)) {
+    return ownerAgentHref();
+  }
+
+  const nextHref = ownerAgentHref(agentId);
+
+  if (typeof window === "undefined") {
+    return nextHref;
+  }
+
+  const url = new URL(window.location.href);
+  const nextUrl = new URL(nextHref, url.origin);
+  return `${nextUrl.pathname}${nextUrl.search}${url.hash}`;
+}
+
+function currentAgentUrl() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
 }
 
 function readinessLabel(rows: readonly AgentReviewRow[], locale: SiteLocale) {
@@ -723,7 +760,7 @@ function AgentOperationsMap({
               <p className="mt-2 text-xs leading-5 text-slate-400">{t("Review owner-gated work before any future action path exists.")}</p>
             </Link>
             <Link
-              href={`/app/events?agent=${activeAgent.id}`}
+              href={isOwnerAgentId(activeAgent.id) ? ownerEventsHref(activeAgent.id) : ownerEventsHref()}
               prefetch={false}
               className="link-focus group rounded-[8px] border border-slate-700 bg-white/[0.045] p-4 transition hover:border-sky-200/35 hover:bg-sky-300/10"
             >
@@ -1073,12 +1110,40 @@ export function PrivateAgentsSurface({
   const activePostures = ownerPosturesForAgent(activeAgent, locale);
   const postureChoice = postureChoices[activeAgent.id] ?? activePostures[0]?.key ?? "";
 
+  function selectAgent(agentId: PrivateAgent["id"]) {
+    setActiveAgentId(agentId);
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const nextUrl = agentRouteUrl(agentId);
+
+    if (nextUrl !== currentAgentUrl()) {
+      window.history.pushState(null, "", nextUrl);
+    }
+  }
+
   function handlePostureChoice(choice: string) {
     setPostureChoices((current) => ({
       ...current,
       [activeAgent.id]: choice
     }));
   }
+
+  useEffect(() => {
+    function syncFromLocation() {
+      const agentId = agentIdFromSearch(window.location.search, agents) ?? agents[0]?.id;
+
+      if (agentId) {
+        setActiveAgentId((current) => (current === agentId ? current : agentId));
+      }
+    }
+
+    syncFromLocation();
+    window.addEventListener("popstate", syncFromLocation);
+    return () => window.removeEventListener("popstate", syncFromLocation);
+  }, [agents]);
 
   return (
     <div className="grid gap-5" data-i18n-skip>
@@ -1105,7 +1170,7 @@ export function PrivateAgentsSurface({
               key={agent.id}
               agent={agent}
               active={agent.id === activeAgent.id}
-              onSelect={() => setActiveAgentId(agent.id)}
+              onSelect={() => selectAgent(agent.id)}
               locale={locale}
             />
           ))}

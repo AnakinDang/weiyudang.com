@@ -2,6 +2,7 @@ import "server-only";
 
 // Owner-only review queue data. Do not import this module from public routes or shared client components.
 
+import { ownerAgentHref, ownerEventsHref } from "@/lib/agent-route";
 import { privateTradingEvidenceHref, privateTradingReplayHref } from "@/lib/private/trading-team";
 import { REVIEW_TRADING_BOUNDARY_COPY_ID } from "@/lib/review-packet-ids";
 import { ownerSystemHref } from "@/lib/system-route";
@@ -268,9 +269,9 @@ export const privateReviewQueue = [
     blockers: ["No authenticated live private event source is connected yet."],
     allowedNext: "Use /app/events as a curated owner context while live event ingestion remains future work.",
     disallowedActions: ["Expose raw runtime events", "Add a private API without audit design", "Dispatch agents from history"],
-    primaryHref: "/app/agents?agent=doraemon",
+    primaryHref: ownerAgentHref("doraemon"),
     primaryLabel: "Open agents context",
-    secondaryHref: "/app/events?agent=doraemon",
+    secondaryHref: ownerEventsHref("doraemon"),
     secondaryLabel: "Open event context",
     updated: "Current slice",
     note: "Events is a curated owner-only context, not a raw live runtime feed."
