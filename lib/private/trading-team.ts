@@ -3,6 +3,17 @@ import "server-only";
 // Owner-only MiniDora Trading research data. Public modules may import only types/disclaimer from "@/lib/trading-team".
 
 import { tradingResearchDisclaimer, tradingResearchViews, type TradingResearchCockpitData } from "@/lib/trading-team";
+import {
+  ALL_DESK_FILTER,
+  ALL_EVIDENCE_FILTER,
+  ALL_INSTRUMENT_FILTER,
+  ALL_SIGNAL_FILTER,
+  ALL_STATE_FILTER,
+  createTradingTraceTokenLookup,
+  tradingEvidenceTraceHref,
+  tradingReplayTraceHref,
+  tradingSystemTraceHref
+} from "@/lib/trading-trace";
 
 const tradingTeamStatus = {
   mode: "Private research console",
@@ -504,3 +515,39 @@ export const privateTradingResearchData = {
   systemStatus: tradingSystemStatus,
   unavailableActions: tradingUnavailableActions
 } as const satisfies TradingResearchCockpitData;
+
+const privateTradingTraceLookups = {
+  evidenceSignal: createTradingTraceTokenLookup("sig", [ALL_SIGNAL_FILTER, ...tradingSignals.map((signal) => signal.instrument)]),
+  evidenceState: createTradingTraceTokenLookup("state", [ALL_STATE_FILTER, ...tradingEvidencePackets.map((packet) => packet.state)]),
+  replayDesk: createTradingTraceTokenLookup("desk", [ALL_DESK_FILTER, ...tradingReplay.map((event) => event.desk)]),
+  replayInstrument: createTradingTraceTokenLookup("inst", [ALL_INSTRUMENT_FILTER, ...tradingReplay.map((event) => event.instrument)]),
+  replayEvidence: createTradingTraceTokenLookup("state", [ALL_EVIDENCE_FILTER, ...tradingReplay.map((event) => event.evidenceState)])
+} as const;
+
+export function privateTradingEvidenceHref(signalFilter = ALL_SIGNAL_FILTER, stateFilter = ALL_STATE_FILTER) {
+  return tradingEvidenceTraceHref(
+    signalFilter,
+    stateFilter,
+    privateTradingTraceLookups.evidenceSignal,
+    privateTradingTraceLookups.evidenceState
+  );
+}
+
+export function privateTradingReplayHref(
+  deskFilter = ALL_DESK_FILTER,
+  instrumentFilter = ALL_INSTRUMENT_FILTER,
+  evidenceFilter = ALL_EVIDENCE_FILTER
+) {
+  return tradingReplayTraceHref(
+    deskFilter,
+    instrumentFilter,
+    evidenceFilter,
+    privateTradingTraceLookups.replayDesk,
+    privateTradingTraceLookups.replayInstrument,
+    privateTradingTraceLookups.replayEvidence
+  );
+}
+
+export function privateTradingSystemHref() {
+  return tradingSystemTraceHref();
+}

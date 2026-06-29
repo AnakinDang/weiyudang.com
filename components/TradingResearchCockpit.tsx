@@ -23,7 +23,29 @@ import {
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UnavailableControlsPanel } from "@/components/UnavailableControlsPanel";
-import { tradingViewFromSlug, tradingViewSlugs } from "@/lib/trading-team";
+import { tradingViewFromSlug } from "@/lib/trading-team";
+import {
+  ALL_DESK_FILTER,
+  ALL_EVIDENCE_FILTER,
+  ALL_INSTRUMENT_FILTER,
+  ALL_SIGNAL_FILTER,
+  ALL_STATE_FILTER,
+  EVIDENCE_SIGNAL_PARAM,
+  EVIDENCE_STATE_PARAM,
+  REPLAY_DESK_PARAM,
+  REPLAY_EVIDENCE_PARAM,
+  REPLAY_INSTRUMENT_LEGACY_PARAM,
+  REPLAY_INSTRUMENT_PARAM,
+  createTradingTraceTokenLookup,
+  evidenceSearchUpdater,
+  replaySearchUpdater,
+  traceNoticeForResolutions,
+  traceParamResolution,
+  tradingTraceHref,
+  tradingTraceParams,
+  type TradingSearchUpdater,
+  type TradingTraceNotice
+} from "@/lib/trading-trace";
 import type {
   TradingEvidencePacket,
   TradingInstrument,
@@ -66,26 +88,7 @@ const viewIcons = {
   System: Radio
 } as const satisfies Record<TradingView, typeof Gauge>;
 
-const ALL_SIGNAL_FILTER = "__all_signals__";
-const ALL_STATE_FILTER = "All states";
-const ALL_DESK_FILTER = "All desks";
-const ALL_INSTRUMENT_FILTER = "All instruments";
-const ALL_EVIDENCE_FILTER = "All evidence";
 const DEFAULT_TRADING_VIEW: TradingView = "Today";
-const EVIDENCE_SIGNAL_PARAM = "signal";
-const EVIDENCE_STATE_PARAM = "evidence_state";
-const REPLAY_DESK_PARAM = "replay_desk";
-const REPLAY_INSTRUMENT_PARAM = "instrument";
-const REPLAY_INSTRUMENT_LEGACY_PARAM = "replay_instrument";
-const REPLAY_EVIDENCE_PARAM = "replay_evidence";
-const tradingTraceParams = [
-  EVIDENCE_SIGNAL_PARAM,
-  EVIDENCE_STATE_PARAM,
-  REPLAY_DESK_PARAM,
-  REPLAY_INSTRUMENT_PARAM,
-  REPLAY_INSTRUMENT_LEGACY_PARAM,
-  REPLAY_EVIDENCE_PARAM
-] as const;
 
 const viewZhLabels = {
   Today: "今日",
@@ -224,160 +227,6 @@ function tradingViewFromLocation() {
   return tradingViewFromSlug(params.get("view")) ?? DEFAULT_TRADING_VIEW;
 }
 
-type TradingSearchUpdater = (params: URLSearchParams) => void;
-type TradingTraceTokenLookup = {
-  readonly tokenToValue: ReadonlyMap<string, string>;
-  readonly valueToToken: ReadonlyMap<string, string>;
-  readonly values: ReadonlySet<string>;
-};
-type TradingTraceParamStatus = "missing" | "token" | "legacy" | "invalid";
-type TradingTraceParamResolution = {
-  readonly status: TradingTraceParamStatus;
-  readonly value: string;
-};
-type TradingTraceNoticeKind = "normalized" | "stale" | "removed";
-type TradingTraceNotice = {
-  readonly kind: TradingTraceNoticeKind;
-  readonly view: TradingView;
-};
-
-function clearTradingTraceParams(params: URLSearchParams) {
-  tradingTraceParams.forEach((param) => params.delete(param));
-}
-
-function tradingTraceToken(scope: string, value: string) {
-  let hash = 0x811c9dc5;
-  const input = `${scope}:${value}`;
-
-  for (let index = 0; index < input.length; index += 1) {
-    hash ^= input.charCodeAt(index);
-    hash = Math.imul(hash, 0x01000193);
-  }
-
-  return `${scope}_${(hash >>> 0).toString(36).padStart(7, "0")}`;
-}
-
-function createTradingTraceTokenLookup(scope: string, values: readonly string[]): TradingTraceTokenLookup {
-  const tokenToValue = new Map<string, string>();
-  const valueToToken = new Map<string, string>();
-  const uniqueValues = [...new Set(values)];
-
-  uniqueValues.forEach((value) => {
-    let token = tradingTraceToken(scope, value);
-    let attempt = 0;
-
-    while (tokenToValue.has(token) && tokenToValue.get(token) !== value) {
-      attempt += 1;
-      token = tradingTraceToken(scope, `${value}:${attempt}`);
-    }
-
-    tokenToValue.set(token, value);
-    valueToToken.set(value, token);
-  });
-
-  return {
-    tokenToValue,
-    valueToToken,
-    values: new Set(uniqueValues)
-  };
-}
-
-function setOptionalTradingParam(
-  params: URLSearchParams,
-  key: string,
-  value: string,
-  defaultValue: string,
-  lookup: TradingTraceTokenLookup
-) {
-  if (value === defaultValue) {
-    params.delete(key);
-    return;
-  }
-
-  const token = lookup.valueToToken.get(value);
-
-  if (!token) {
-    params.delete(key);
-    return;
-  }
-
-  params.set(key, token);
-}
-
-function evidenceSearchUpdater(
-  signalFilter: string,
-  stateFilter: string,
-  signalLookup: TradingTraceTokenLookup,
-  stateLookup: TradingTraceTokenLookup
-): TradingSearchUpdater {
-  return (params) => {
-    setOptionalTradingParam(params, EVIDENCE_SIGNAL_PARAM, signalFilter, ALL_SIGNAL_FILTER, signalLookup);
-    setOptionalTradingParam(params, EVIDENCE_STATE_PARAM, stateFilter, ALL_STATE_FILTER, stateLookup);
-  };
-}
-
-function replaySearchUpdater(
-  deskFilter: string,
-  instrumentFilter: string,
-  evidenceFilter: string,
-  deskLookup: TradingTraceTokenLookup,
-  instrumentLookup: TradingTraceTokenLookup,
-  evidenceLookup: TradingTraceTokenLookup
-): TradingSearchUpdater {
-  return (params) => {
-    setOptionalTradingParam(params, REPLAY_DESK_PARAM, deskFilter, ALL_DESK_FILTER, deskLookup);
-    setOptionalTradingParam(params, REPLAY_INSTRUMENT_PARAM, instrumentFilter, ALL_INSTRUMENT_FILTER, instrumentLookup);
-    setOptionalTradingParam(params, REPLAY_EVIDENCE_PARAM, evidenceFilter, ALL_EVIDENCE_FILTER, evidenceLookup);
-  };
-}
-
-function traceParamResolution(
-  params: URLSearchParams,
-  key: string,
-  lookup: TradingTraceTokenLookup,
-  fallback: string,
-  legacyKeys: readonly string[] = []
-): TradingTraceParamResolution {
-  const paramKeys = [key, ...legacyKeys];
-  const sourceKey = paramKeys.find((paramKey) => params.has(paramKey));
-  const value = sourceKey ? params.get(sourceKey) : null;
-
-  if (!value) {
-    return { status: "missing", value: fallback };
-  }
-
-  const tokenValue = lookup.tokenToValue.get(value);
-  if (tokenValue) {
-    return { status: sourceKey === key ? "token" : "legacy", value: tokenValue };
-  }
-
-  if (lookup.values.has(value)) {
-    return { status: "legacy", value };
-  }
-
-  return { status: "invalid", value: fallback };
-}
-
-function traceNoticeForResolutions(
-  view: TradingView,
-  resolutions: readonly TradingTraceParamResolution[],
-  hadCrossViewParams = false
-): TradingTraceNotice | null {
-  if (resolutions.some((resolution) => resolution.status === "invalid")) {
-    return { kind: "stale", view };
-  }
-
-  if (resolutions.some((resolution) => resolution.status === "legacy")) {
-    return { kind: "normalized", view };
-  }
-
-  if (hadCrossViewParams) {
-    return { kind: "removed", view };
-  }
-
-  return null;
-}
-
 function traceNoticeTitle(notice: TradingTraceNotice, locale: SiteLocale) {
   if (locale === "zh") {
     if (notice.kind === "stale") return "追踪链接已更新";
@@ -417,18 +266,15 @@ function traceNoticeDetail(notice: TradingTraceNotice, locale: SiteLocale) {
 }
 
 function tradingViewUrl(view: TradingView, updateSearch?: TradingSearchUpdater) {
-  const url = new URL(window.location.href);
-
-  if (view === DEFAULT_TRADING_VIEW) {
-    url.searchParams.delete("view");
-  } else {
-    url.searchParams.set("view", tradingViewSlugs[view]);
+  if (typeof window === "undefined") {
+    return tradingTraceHref(view, updateSearch);
   }
 
-  clearTradingTraceParams(url.searchParams);
-  updateSearch?.(url.searchParams);
+  const url = new URL(window.location.href);
+  const nextHref = tradingTraceHref(view, updateSearch, url.pathname);
+  const nextUrl = new URL(nextHref, url.origin);
 
-  return `${url.pathname}${url.search}${url.hash}`;
+  return `${nextUrl.pathname}${nextUrl.search}${url.hash}`;
 }
 
 function currentTradingUrl() {
