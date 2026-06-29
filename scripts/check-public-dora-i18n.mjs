@@ -24,6 +24,7 @@ const requiredPublicDoraCopy = {
     "Public Rhythm Register",
     "Filter public rhythm",
     "Recurring operating windows",
+    "Last",
     "Public Schedule Boundary",
     "No private automation",
     "Schedules set the rhythm for the public office",
@@ -33,9 +34,33 @@ const requiredPublicDoraCopy = {
     "Doraemon System",
     "Public health signal without private infrastructure.",
     "Public Health Register",
+    "Filter public health",
+    "Every control filters sanitized health posture only.",
+    "The public relay health endpoint responded with an OK posture and safe aggregate counters.",
+    "The relay has a sanitized public registry snapshot available.",
+    "Freshness is derived from the public event stream without exposing event-rate counters.",
+    "Replay and dedupe posture are summarized without publishing raw counter values.",
+    "Public health stream",
+    "Public schema check",
+    "Freshness posture",
+    "The page reports a coarse demo-safe snapshot instead of private telemetry.",
+    "Dedupe posture",
+    "Diagnostics and owner actions stay in authenticated owner surfaces.",
+    "Public visitors can see live/demo posture and public schema health.",
+    "Private operational detail and owner-only operations stay behind owner access.",
+    "Live relay probe",
+    "Owner-only operations stay behind authenticated access.",
+    "System readiness",
     "Public System Boundary",
     "System health closes the public readiness loop",
     "Private area hidden"
+  ],
+  office: [
+    "Current Focus",
+    "Relay is connected; the visible feed keeps the demo-safe snapshot until a public event arrives.",
+    "System Heartbeat",
+    "Recent public activity",
+    "Full-screen bridge"
   ]
 };
 

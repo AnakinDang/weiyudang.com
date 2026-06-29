@@ -18,7 +18,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { DoraemonMark } from "@/components/DoraemonMark";
 import { StatusBadge } from "@/components/StatusBadge";
 import { publicDoraScheduleToneClasses } from "@/lib/dora-public-client";
-import type { SiteLocale } from "@/lib/site-i18n";
+import { localizeSiteText, type SiteLocale } from "@/lib/site-i18n";
 import type { publicScheduleBoundaries, publicSchedules } from "@/lib/dora-office";
 
 type PublicSchedule = (typeof publicSchedules)[number];
@@ -81,6 +81,16 @@ function publicWindowCountLabel(count: number, locale: SiteLocale) {
   return `${count} public ${count === 1 ? "window" : "windows"}`;
 }
 
+function ownerReviewWindowLabel(count: number, locale: SiteLocale) {
+  if (locale === "zh") return `${count} 个公开审核窗口可见。`;
+  return count === 1 ? "1 review window is public. " : `${count} review windows are public. `;
+}
+
+function shownCountLabel(count: number, locale: SiteLocale) {
+  if (locale === "zh") return `显示 ${count} 项`;
+  return `${count} shown`;
+}
+
 export function ScheduleBoard({
   schedules,
   boundaries
@@ -89,6 +99,7 @@ export function ScheduleBoard({
   boundaries: readonly PublicScheduleBoundary[];
 }) {
   const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const [stateFilter, setStateFilter] = useState<StateFilter>("all");
   const [cadenceFilter, setCadenceFilter] = useState<CadenceFilter>("all");
 
@@ -123,10 +134,7 @@ export function ScheduleBoard({
     () => schedules.filter((schedule) => schedule.state === "Owner review").length,
     [schedules]
   );
-  const ownerReviewText =
-    ownerReviewCount === 1
-      ? "1 review window is public. "
-      : `${ownerReviewCount} review windows are public. `;
+  const ownerReviewText = ownerReviewWindowLabel(ownerReviewCount, locale);
   const activeFilterLabels = [
     { key: "state", label: stateFilter === "all" ? "All public states" : stateLabels[stateFilter] },
     { key: "cadence", label: cadenceFilter === "all" ? "All cadence windows" : cadenceLabels[cadenceFilter] },
@@ -140,11 +148,11 @@ export function ScheduleBoard({
         <div>
           <div className="dora-schedules-controls-head">
             <div>
-              <strong>Filter public rhythm</strong>
-              <p>Every control filters sanitized cadence posture only.</p>
+              <strong>{t("Filter public rhythm")}</strong>
+              <p>{t("Every control filters sanitized cadence posture only.")}</p>
             </div>
             <span aria-live="polite" aria-atomic="true">
-              {filteredSchedules.length} shown
+              {shownCountLabel(filteredSchedules.length, locale)}
             </span>
           </div>
 
@@ -158,16 +166,16 @@ export function ScheduleBoard({
                   aria-pressed={stateFilter === item.value}
                   onClick={() => setStateFilter(item.value)}
                 >
-                  {item.label}
+                  {t(item.label)}
                 </button>
               ))}
             </div>
             <label>
-              <span>Cadence</span>
+              <span>{t("Cadence")}</span>
               <select value={cadenceFilter} onChange={(event) => setCadenceFilter(event.target.value as CadenceFilter)}>
                 {cadenceFilters.map((item) => (
                   <option key={item.value} value={item.value}>
-                    {item.label}
+                    {t(item.label)}
                   </option>
                 ))}
               </select>
@@ -176,7 +184,7 @@ export function ScheduleBoard({
 
           <ul className="dora-schedules-active-filters" aria-label="Filter posture and guarantees">
             {activeFilterLabels.map((item) => (
-              <li key={item.key}>{item.label}</li>
+              <li key={item.key}>{t(item.label)}</li>
             ))}
           </ul>
         </div>
@@ -186,8 +194,8 @@ export function ScheduleBoard({
         <section className="dora-schedules-board" aria-labelledby="dora-schedules-board-title">
           <div className="dora-schedules-section-heading">
             <div>
-              <h3 id="dora-schedules-board-title">Recurring operating windows</h3>
-              <p>Public names, coarse last/next windows, and safe status only.</p>
+              <h3 id="dora-schedules-board-title">{t("Recurring operating windows")}</h3>
+              <p>{t("Public names, coarse last/next windows, and safe status only.")}</p>
             </div>
             <CalendarClock size={22} aria-hidden />
           </div>
@@ -197,8 +205,8 @@ export function ScheduleBoard({
               <article className="dora-schedules-empty" aria-live="polite">
                 <CalendarClock size={20} aria-hidden />
                 <div>
-                  <h4>No public rhythm matches these filters</h4>
-                  <p>Try a broader state or cadence view. Private automation details remain hidden.</p>
+                  <h4>{t("No public rhythm matches these filters")}</h4>
+                  <p>{t("Try a broader state or cadence view. Private automation details remain hidden.")}</p>
                 </div>
               </article>
             ) : (
@@ -212,22 +220,22 @@ export function ScheduleBoard({
                     </span>
                     <div className="dora-schedules-lane-main">
                       <div>
-                        <h4>{schedule.name}</h4>
-                        <StatusBadge tone={schedule.tone}>{schedule.state}</StatusBadge>
+                        <h4>{t(schedule.name)}</h4>
+                        <StatusBadge tone={schedule.tone}>{t(schedule.state)}</StatusBadge>
                       </div>
-                      <p>{schedule.summary}</p>
+                      <p>{t(schedule.summary)}</p>
                       <dl>
                         <div>
-                          <dt>Cadence</dt>
-                          <dd>{schedule.cadence}</dd>
+                          <dt>{t("Cadence")}</dt>
+                          <dd>{t(schedule.cadence)}</dd>
                         </div>
                         <div>
-                          <dt>Last</dt>
-                          <dd>{schedule.last}</dd>
+                          <dt>{t("Last")}</dt>
+                          <dd>{t(schedule.last)}</dd>
                         </div>
                         <div>
-                          <dt>Next</dt>
-                          <dd>{schedule.next}</dd>
+                          <dt>{t("Next")}</dt>
+                          <dd>{t(schedule.next)}</dd>
                         </div>
                       </dl>
                     </div>
@@ -242,8 +250,8 @@ export function ScheduleBoard({
           <section className="dora-schedules-rhythm-card" aria-label="Rhythm lanes">
             <div className="dora-schedules-section-heading">
               <div>
-                <h3>Rhythm lanes</h3>
-                <p>Public cadence grouped by what a visitor can safely understand.</p>
+                <h3>{t("Rhythm lanes")}</h3>
+                <p>{t("Public cadence grouped by what a visitor can safely understand.")}</p>
               </div>
               <GitBranch size={21} aria-hidden />
             </div>
@@ -260,11 +268,11 @@ export function ScheduleBoard({
                       <Layers3 size={15} aria-hidden />
                     </span>
                     <div>
-                      <h4>{lane.title}</h4>
+                      <h4>{t(lane.title)}</h4>
                       <small>
                         <span data-i18n-skip>{publicWindowCountLabel(count, locale)}</span>
                       </small>
-                      <p>{lane.summary}</p>
+                      <p>{t(lane.summary)}</p>
                     </div>
                   </article>
                 );
@@ -275,8 +283,8 @@ export function ScheduleBoard({
           <section className="dora-schedules-boundary-card" aria-label="Schedule boundary">
             <div className="dora-schedules-section-heading">
               <div>
-                <h3>Schedule boundary</h3>
-                <p>Rhythm is public. Implementation remains private.</p>
+                <h3>{t("Schedule boundary")}</h3>
+                <p>{t("Rhythm is public. Implementation remains private.")}</p>
               </div>
               <ShieldCheck size={21} aria-hidden />
             </div>
@@ -284,7 +292,7 @@ export function ScheduleBoard({
               {boundaries.map((rule) => (
                 <li key={rule}>
                   <ShieldCheck size={16} aria-hidden />
-                  <span>{rule}</span>
+                  <span>{t(rule)}</span>
                 </li>
               ))}
             </ul>
@@ -292,19 +300,19 @@ export function ScheduleBoard({
 
           <section className="dora-schedules-review-card" aria-label="Owner loop">
             <CalendarClock size={19} aria-hidden />
-            <strong>Owner loop</strong>
+            <strong>{t("Owner loop")}</strong>
             <p>
               {ownerReviewCount > 0 ? ownerReviewText : ""}
-              Private instructions stay hidden.
+              {t("Private instructions stay hidden.")}
             </p>
           </section>
 
           <section className="dora-schedules-link-card" aria-label="Activity bridge">
             <Repeat2 size={20} aria-hidden />
-            <strong>Activity bridge</strong>
-            <p>Open the public activity feed for surrounding fixed labels.</p>
+            <strong>{t("Activity bridge")}</strong>
+            <p>{t("Open the public activity feed for surrounding fixed labels.")}</p>
             <Link href="/dora/activity" className="link-focus">
-              View Activity
+              {t("View Activity")}
               <ArrowRight size={15} aria-hidden />
             </Link>
           </section>

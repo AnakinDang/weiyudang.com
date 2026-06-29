@@ -15,9 +15,11 @@ import {
   Signal,
   TimerReset
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
 import { publicSystemToneClasses } from "@/lib/dora-public-client";
 import type { DoraRelayHealth } from "@/lib/dora-live-relay";
+import { localizeSiteText } from "@/lib/site-i18n";
 import { freshnessLabel, useDoraLiveEvents, visibleLiveEvents, type DoraConnectionState } from "@/lib/use-dora-live";
 import type { publicSystemBoundaries, publicSystemEvents, publicSystemStatus } from "@/lib/dora-office";
 
@@ -154,6 +156,11 @@ function probeCheckedLabel(mode: ProbeMode) {
   return "Fallback active";
 }
 
+function shownCountLabel(count: number, locale: "en" | "zh") {
+  if (locale === "zh") return `显示 ${count} 项`;
+  return `${count} shown`;
+}
+
 export function SystemHealthPanel({
   statuses,
   events,
@@ -163,6 +170,8 @@ export function SystemHealthPanel({
   events: readonly PublicSystemEvent[];
   boundaries: readonly PublicSystemBoundary[];
 }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const live = useDoraLiveEvents();
   const [toneFilter, setToneFilter] = useState<HealthFilter>("all");
 
@@ -205,11 +214,11 @@ export function SystemHealthPanel({
         <div>
           <div className="dora-system-controls-head">
             <div>
-              <strong>Filter public health</strong>
-              <p>Every control filters sanitized health posture only.</p>
+              <strong>{t("Filter public health")}</strong>
+              <p>{t("Every control filters sanitized health posture only.")}</p>
             </div>
             <span aria-live="polite" aria-atomic="true">
-              {filteredStatuses.length} shown
+              {shownCountLabel(filteredStatuses.length, locale)}
             </span>
           </div>
 
@@ -222,14 +231,14 @@ export function SystemHealthPanel({
                 aria-pressed={toneFilter === item.value}
                 onClick={() => setToneFilter(item.value)}
               >
-                {item.label}
+                {t(item.label)}
               </button>
             ))}
           </div>
 
           <ul className="dora-system-active-filters" aria-label="Current public health guarantees">
             {activeFilterLabels.map((item) => (
-              <li key={item.key}>{item.label}</li>
+              <li key={item.key}>{t(item.label)}</li>
             ))}
           </ul>
         </div>
@@ -239,8 +248,8 @@ export function SystemHealthPanel({
         <section className="dora-system-status-board" aria-labelledby="dora-system-status-title">
           <div className="dora-system-section-heading">
             <div>
-              <h3 id="dora-system-status-title">Public health checks</h3>
-              <p>Coarse relay posture, schema state, freshness, and replay health only.</p>
+              <h3 id="dora-system-status-title">{t("Public health checks")}</h3>
+              <p>{t("Coarse relay posture, schema state, freshness, and replay health only.")}</p>
             </div>
             <Database size={22} aria-hidden />
           </div>
@@ -250,11 +259,11 @@ export function SystemHealthPanel({
               <article className="dora-system-empty" aria-live="polite">
                 <Eye size={18} aria-hidden />
                 <div>
-                  <h4>No public health check matches this filter</h4>
-                  <p>Try a broader signal. Private operational detail remains hidden.</p>
+                  <h4>{t("No public health check matches this filter")}</h4>
+                  <p>{t("Try a broader signal. Private operational detail remains hidden.")}</p>
                 </div>
                 <button type="button" onClick={() => setToneFilter("all")}>
-                  Show all
+                  {t("Show all")}
                 </button>
               </article>
             ) : (
@@ -268,11 +277,11 @@ export function SystemHealthPanel({
                     </span>
                     <div className="dora-system-status-main">
                       <div>
-                        <h4>{item.label}</h4>
-                        <StatusBadge tone={item.tone}>{toneFilterLabels[item.tone]}</StatusBadge>
+                        <h4>{t(item.label)}</h4>
+                        <StatusBadge tone={item.tone}>{t(toneFilterLabels[item.tone])}</StatusBadge>
                       </div>
-                      <strong>{item.value}</strong>
-                      <p>{item.detail}</p>
+                      <strong>{t(item.value)}</strong>
+                      <p>{t(item.detail)}</p>
                     </div>
                   </article>
                 );
@@ -285,8 +294,8 @@ export function SystemHealthPanel({
           <section className="dora-system-stream-card" aria-label="Public health stream">
             <div className="dora-system-section-heading">
               <div>
-                <h3>Public health stream</h3>
-                <p>Fixed labels for safe system posture, not operational detail.</p>
+                <h3>{t("Public health stream")}</h3>
+                <p>{t("Fixed labels for safe system posture, not operational detail.")}</p>
               </div>
               <Signal size={21} aria-hidden />
             </div>
@@ -294,13 +303,13 @@ export function SystemHealthPanel({
             <div className="dora-system-event-list">
               {displayEventList.map((event) => (
                 <article key={`${event.time}-${event.label}`} className={`dora-system-event ${systemToneClass(event)}`}>
-                  <span className="dora-system-event-window">{event.time}</span>
+                  <span className="dora-system-event-window">{t(event.time)}</span>
                   <span className="dora-system-event-dot" aria-hidden="true" />
                   <div>
-                    <h4>{event.label}</h4>
-                    <p>{event.detail}</p>
+                    <h4>{t(event.label)}</h4>
+                    <p>{t(event.detail)}</p>
                   </div>
-                  <StatusBadge tone={event.tone}>{event.state}</StatusBadge>
+                  <StatusBadge tone={event.tone}>{t(event.state)}</StatusBadge>
                 </article>
               ))}
             </div>
@@ -309,8 +318,8 @@ export function SystemHealthPanel({
           <section className="dora-system-boundary-card" aria-label="System boundary">
             <div className="dora-system-section-heading">
               <div>
-                <h3>System boundary</h3>
-                <p>Health is public. Operations stay private.</p>
+                <h3>{t("System boundary")}</h3>
+                <p>{t("Health is public. Operations stay private.")}</p>
               </div>
               <ShieldCheck size={21} aria-hidden />
             </div>
@@ -318,7 +327,7 @@ export function SystemHealthPanel({
               {boundaries.map((rule) => (
                 <li key={rule}>
                   <ShieldCheck size={16} aria-hidden />
-                  <span>{rule}</span>
+                  <span>{t(rule)}</span>
                 </li>
               ))}
             </ul>
@@ -328,42 +337,42 @@ export function SystemHealthPanel({
             <div className="dora-system-probe-heading">
               <Radio size={20} aria-hidden />
               <div>
-                <strong>Live relay probe</strong>
-                <p>{probeCheckedLabel(probeMode)}</p>
+                <strong>{t("Live relay probe")}</strong>
+                <p>{t(probeCheckedLabel(probeMode))}</p>
               </div>
-              <StatusBadge tone={isLive ? "normal" : "info"}>{probeBadgeLabel(probeMode)}</StatusBadge>
+              <StatusBadge tone={isLive ? "normal" : "info"}>{t(probeBadgeLabel(probeMode))}</StatusBadge>
             </div>
             <p className="dora-system-probe-copy">
-              Reads only the public health summary. Private operational detail is not rendered.
+              {t("Reads only the public health summary. Private operational detail is not rendered.")}
             </p>
             <dl>
               <div>
-                <dt>Counters</dt>
-                <dd>{safeCounterText}</dd>
+                <dt>{t("Counters")}</dt>
+                <dd>{t(safeCounterText)}</dd>
               </div>
               <div>
-                <dt>Registry</dt>
-                <dd>{liveHealth ? (liveHealth.hasRegistry ? "ready" : "pending") : "fallback"}</dd>
+                <dt>{t("Registry")}</dt>
+                <dd>{t(liveHealth ? (liveHealth.hasRegistry ? "ready" : "pending") : "fallback")}</dd>
               </div>
               <div>
-                <dt>Presence</dt>
-                <dd>{liveHealth ? "Public relay active" : "not shown"}</dd>
+                <dt>{t("Presence")}</dt>
+                <dd>{t(liveHealth ? "Public relay active" : "not shown")}</dd>
               </div>
             </dl>
           </section>
 
           <section className="dora-system-owner-card" aria-label="Owner operations boundary">
             <LockKeyhole size={20} aria-hidden />
-            <strong>Owner cockpit</strong>
-            <p>Owner-only operations stay behind authenticated access.</p>
+            <strong>{t("Owner cockpit")}</strong>
+            <p>{t("Owner-only operations stay behind authenticated access.")}</p>
           </section>
 
           <section className="dora-system-link-card" aria-label="Activity bridge">
             <Activity size={20} aria-hidden />
-            <strong>Activity bridge</strong>
-            <p>Open the public activity feed for the latest sanitized system labels.</p>
+            <strong>{t("Activity bridge")}</strong>
+            <p>{t("Open the public activity feed for the latest sanitized system labels.")}</p>
             <Link href="/dora/activity" className="link-focus">
-              View Activity
+              {t("View Activity")}
               <ArrowRight size={15} aria-hidden />
             </Link>
           </section>
