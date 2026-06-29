@@ -187,6 +187,10 @@ function reviewActionAriaLabel(item: TradingReviewQueueItem, locale: SiteLocale)
   return `${item.actionLabel}: ${item.title}`;
 }
 
+function decisionStackStepLabel(index: number, locale: SiteLocale) {
+  return localizedCopy(`Review path step ${index + 1}`, locale);
+}
+
 function reviewSourceLabel(source: string, locale: SiteLocale) {
   if (locale !== "zh") {
     return source;
@@ -1010,6 +1014,46 @@ function TradingTodayCockpit({
             <span data-i18n-skip>{reviewItemCountLabel(reviewQueue.length, locale)}</span>
           </StatusBadge>
         </div>
+
+        <section className="trading-today-decision-stack" aria-labelledby="trading-today-decision-stack-title">
+          <div className="trading-today-decision-stack-head">
+            <div>
+              <p>{localizedCopy("Research decision chain", locale)}</p>
+              <h3 id="trading-today-decision-stack-title">{localizedCopy("Review path", locale)}</h3>
+            </div>
+            <small>{localizedCopy("Research posture changes only after this chain is reviewed.", locale)}</small>
+          </div>
+          <ol>
+            {runwayCards.map((item, index) => {
+              const itemTitle = labelForLocale(item.title, locale, {});
+              const stepLabel = decisionStackStepLabel(index, locale);
+
+              return (
+                <li key={item.key}>
+                  <button
+                    type="button"
+                    onClick={item.onClick}
+                  >
+                    <span className="trading-today-decision-index" data-i18n-skip>
+                      {stepLabel}
+                    </span>
+                    <span className="trading-today-decision-copy">
+                      <small data-i18n-skip>{localizedCopy(item.eyebrow, locale)}</small>
+                      <strong title={itemTitle} data-i18n-skip>
+                        {itemTitle}
+                      </strong>
+                    </span>
+                    <span className="trading-today-decision-value" data-i18n-skip>
+                      {item.value}
+                    </span>
+                    <ArrowRight size={14} aria-hidden />
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+
         <div className="trading-today-runway-grid">
           {runwayCards.map((item) => {
             const itemTitleId = `trading-today-runway-${item.key}-title`;
@@ -1019,7 +1063,7 @@ function TradingTodayCockpit({
             return (
               <article key={item.key} aria-labelledby={itemTitleId}>
                 <div className="trading-today-runway-topline">
-                  <span>{item.eyebrow}</span>
+                  <span>{localizedCopy(item.eyebrow, locale)}</span>
                   <strong>{item.value}</strong>
                 </div>
                 <h3 id={itemTitleId} title={itemTitle} data-i18n-skip>
@@ -1032,15 +1076,9 @@ function TradingTodayCockpit({
                   <StatusBadge tone={item.tone}>
                     <span data-i18n-skip>{stateLabel(item.state, locale)}</span>
                   </StatusBadge>
-                  <button
-                    type="button"
-                    className="trading-cockpit-link"
-                    onClick={item.onClick}
-                    aria-label={item.actionAriaLabel}
-                    data-i18n-skip
-                  >
+                  <span className="trading-today-runway-action-note" data-i18n-skip>
                     {labelForLocale(item.actionLabel, locale, {})}
-                  </button>
+                  </span>
                 </div>
               </article>
             );
