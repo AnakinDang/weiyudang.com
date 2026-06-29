@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LoginPanel } from "@/app/login/LoginPanel";
+import { safeOwnerNextPath } from "@/lib/owner-next-path";
 
 export const metadata: Metadata = {
   title: "Private Owner Area",
@@ -16,7 +17,7 @@ type LoginPageProps = {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
-  const next = params.next?.startsWith("/app") ? params.next : "/app";
+  const next = safeOwnerNextPath(params.next);
   const error = params.error === "1";
   const missingConfig = params.config === "missing";
   const showDevTokenHint = process.env.NODE_ENV === "development";

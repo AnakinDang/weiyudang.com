@@ -1,4 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  isOwnerAgentRouteId,
+  isOwnerEventKind,
+  OWNER_AGENT_PARAM,
+  OWNER_EVENT_KIND_PARAM,
+  ownerAgentHrefFromRouteId,
+  ownerEventsHrefFromRouteId
+} from "@/lib/agent-route";
 import { getOwnerAccessSecret, OWNER_SESSION_COOKIE, verifyOwnerSession } from "@/lib/auth-session";
 import {
   isOwnerKnowledgeCandidateRouteId,
@@ -27,6 +35,20 @@ function ownerNextPath(request: NextRequest) {
 
     const queryString = query.toString();
     return queryString ? `${request.nextUrl.pathname}?${queryString}` : request.nextUrl.pathname;
+  }
+
+  if (request.nextUrl.pathname === "/app/agents") {
+    const routeId = request.nextUrl.searchParams.get(OWNER_AGENT_PARAM);
+    return ownerAgentHrefFromRouteId(isOwnerAgentRouteId(routeId) ? routeId : undefined);
+  }
+
+  if (request.nextUrl.pathname === "/app/events") {
+    const routeId = request.nextUrl.searchParams.get(OWNER_AGENT_PARAM);
+    const eventKind = request.nextUrl.searchParams.get(OWNER_EVENT_KIND_PARAM);
+    return ownerEventsHrefFromRouteId(
+      isOwnerAgentRouteId(routeId) ? routeId : undefined,
+      isOwnerEventKind(eventKind) ? eventKind : undefined
+    );
   }
 
   if (request.nextUrl.pathname === "/app/schedules") {

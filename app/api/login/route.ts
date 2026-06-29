@@ -6,6 +6,7 @@ import {
   OWNER_SESSION_COOKIE,
   OWNER_SESSION_TTL_SECONDS
 } from "@/lib/auth-session";
+import { safeOwnerNextPath } from "@/lib/owner-next-path";
 
 function hashValue(value: string) {
   return createHash("sha256").update(value).digest();
@@ -13,24 +14,6 @@ function hashValue(value: string) {
 
 function safeEquals(input: string, expected: string) {
   return timingSafeEqual(hashValue(input), hashValue(expected));
-}
-
-function safeOwnerNextPath(value: string) {
-  const fallback = "/app";
-  if (!value.startsWith("/")) {
-    return fallback;
-  }
-
-  try {
-    const base = "https://owner.local";
-    const parsed = new URL(value, base);
-    if (parsed.origin !== base || !/^\/app(?:\/|$)/.test(parsed.pathname)) {
-      return fallback;
-    }
-    return `${parsed.pathname}${parsed.search}`;
-  } catch {
-    return fallback;
-  }
 }
 
 export async function POST(request: NextRequest) {

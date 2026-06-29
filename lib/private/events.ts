@@ -1,5 +1,6 @@
 import "server-only";
 
+import { ownerAgentHref } from "@/lib/agent-route";
 import {
   privateAgentBoundary,
   privateAgentHandoffs,
@@ -50,7 +51,7 @@ export const privateEventKinds = [
 const agentByName = new Map<string, PrivateAgent>(privateAgentRoster.map((agent) => [agent.name, agent]));
 
 function agentHref(agentId?: PrivateAgentId) {
-  return agentId ? `/app/agents?agent=${agentId}` : "/app/agents";
+  return agentId ? ownerAgentHref(agentId) : ownerAgentHref();
 }
 
 const historyEvents = privateAgentRoster.flatMap((agent, agentIndex) =>
