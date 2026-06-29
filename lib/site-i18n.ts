@@ -48,6 +48,7 @@ const exactZhTranslations = {
   "Priorities": "优先级",
   "Approvals": "审批",
   "Schedule": "日程",
+  "Open schedule": "打开日程",
   "Systems": "系统",
   "Current focus": "当前重点",
   "Private status": "私密状态",

@@ -1,7 +1,7 @@
 "use client";
 
 import type { LucideIcon } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   BarChart3,
@@ -25,6 +25,7 @@ import {
 import Link from "next/link";
 import { useLanguage } from "@/components/LanguageProvider";
 import { StatusBadge } from "@/components/StatusBadge";
+import { isOwnerScheduleId, OWNER_SCHEDULE_PARAM, ownerScheduleHref } from "@/lib/schedule-route";
 import { translateToZh, type SiteLocale } from "@/lib/site-i18n";
 
 type ScheduleTone = "normal" | "info" | "warning" | "private" | "danger";
@@ -106,6 +107,8 @@ type SchedulesData = {
   policy: readonly string[];
 };
 
+type ScheduleRouteMode = "push" | "replace";
+
 type FilterOption = {
   label: string;
   value: string;
@@ -159,6 +162,35 @@ function filterOptions(schedules: readonly PrivateSchedule[]) {
 function scheduleCountLabel(count: number, locale: SiteLocale) {
   if (locale === "zh") return "项日程";
   return count === 1 ? "schedule" : "schedules";
+}
+
+function scheduleIdFromSearch(search: string, schedules: readonly PrivateSchedule[]) {
+  const params = new URLSearchParams(search);
+  const scheduleId = params.get(OWNER_SCHEDULE_PARAM);
+  return isOwnerScheduleId(scheduleId) && schedules.some((schedule) => schedule.id === scheduleId) ? scheduleId : undefined;
+}
+
+function scheduleRouteUrl(scheduleId: string) {
+  if (!isOwnerScheduleId(scheduleId)) {
+    return ownerScheduleHref();
+  }
+
+  if (typeof window === "undefined") {
+    return ownerScheduleHref(scheduleId);
+  }
+
+  const url = new URL(window.location.href);
+  const nextHref = ownerScheduleHref(scheduleId);
+  const nextUrl = new URL(nextHref, url.origin);
+  return `${nextUrl.pathname}${nextUrl.search}${url.hash}`;
+}
+
+function currentScheduleUrl() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
 }
 
 function SchedulesHero({
@@ -915,11 +947,15 @@ function EmptyScheduleRegister({ locale }: { locale: SiteLocale }) {
   );
 }
 
-export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
+export function OwnerSchedulesSurface({ data, initialScheduleId }: { data: SchedulesData; initialScheduleId?: string }) {
   const { locale } = useLanguage();
   const filters = useMemo(() => filterOptions(data.schedules), [data.schedules]);
   const [activeFilter, setActiveFilter] = useState("All");
-  const [selectedScheduleId, setSelectedScheduleId] = useState(data.schedules[0]?.id ?? "");
+  const initialSelectedScheduleId =
+    initialScheduleId && data.schedules.some((schedule) => schedule.id === initialScheduleId)
+      ? initialScheduleId
+      : data.schedules[0]?.id ?? "";
+  const [selectedScheduleId, setSelectedScheduleId] = useState(initialSelectedScheduleId);
   const [postureChoices, setPostureChoices] = useState<Record<string, string>>({});
 
   const visibleSchedules = useMemo(() => {
@@ -931,6 +967,34 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
   }, [activeFilter, data.schedules]);
 
   const selectedSchedule = data.schedules.find((schedule) => schedule.id === selectedScheduleId) ?? visibleSchedules[0] ?? data.schedules[0];
+
+  function selectSchedule(scheduleId: string, mode: ScheduleRouteMode = "push") {
+    setSelectedScheduleId(scheduleId);
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const nextUrl = scheduleRouteUrl(scheduleId);
+
+    if (nextUrl !== currentScheduleUrl()) {
+      window.history[mode === "push" ? "pushState" : "replaceState"](null, "", nextUrl);
+    }
+  }
+
+  useEffect(() => {
+    function syncFromLocation() {
+      const scheduleId = scheduleIdFromSearch(window.location.search, data.schedules) ?? data.schedules[0]?.id;
+
+      if (scheduleId) {
+        setSelectedScheduleId((current) => (current === scheduleId ? current : scheduleId));
+      }
+    }
+
+    syncFromLocation();
+    window.addEventListener("popstate", syncFromLocation);
+    return () => window.removeEventListener("popstate", syncFromLocation);
+  }, [data.schedules]);
 
   if (!selectedSchedule) {
     return (
@@ -946,7 +1010,7 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
     const nextVisible = filter === "All" ? data.schedules : data.schedules.filter((schedule) => schedule.cadence === filter);
     const selectedStillVisible = nextVisible.some((schedule) => schedule.id === selectedScheduleId);
     if (!selectedStillVisible && nextVisible[0]) {
-      setSelectedScheduleId(nextVisible[0].id);
+      selectSchedule(nextVisible[0].id, "replace");
     }
   }
 
@@ -971,7 +1035,7 @@ export function OwnerSchedulesSurface({ data }: { data: SchedulesData }) {
         filters={filters}
         onPostureChoice={handlePostureChoice}
         onFilterSelect={handleFilterSelect}
-        onScheduleSelect={setSelectedScheduleId}
+        onScheduleSelect={selectSchedule}
         locale={locale}
       />
       <RhythmLanes lanes={data.rhythmLanes} locale={locale} />

@@ -3,6 +3,7 @@ import "server-only";
 // Today owns a compact cockpit snapshot. Detailed system diagnostics stay in "@/lib/private/system".
 
 import { privateTradingEvidenceHref, privateTradingSystemHref } from "@/lib/private/trading-team";
+import { ownerScheduleHref } from "@/lib/schedule-route";
 
 export const ownerTodayBrief = {
   focus: "Ship the next Personal OS slice without weakening the public/private boundary.",
@@ -179,10 +180,10 @@ export const ownerMarketAlerts = [
 ] as const;
 
 export const ownerSchedulePressure = [
-  { label: "Daily brief", time: "Morning", state: "Ready", tone: "normal" },
-  { label: "Market scan", time: "Market session", state: "Research-only", tone: "private" },
-  { label: "System health", time: "Tonight", state: "Watching", tone: "info" },
-  { label: "Weekly review", time: "This week", state: "Queued", tone: "warning" }
+  { label: "Daily brief", time: "Morning", state: "Ready", tone: "normal", href: ownerScheduleHref("daily-brief") },
+  { label: "Market scan", time: "Market session", state: "Research-only", tone: "private", href: ownerScheduleHref("market-scan") },
+  { label: "System health", time: "Tonight", state: "Watching", tone: "info", href: ownerScheduleHref("system-health") },
+  { label: "Weekly review", time: "This week", state: "Queued", tone: "warning", href: ownerScheduleHref("weekly-review") }
 ] as const;
 
 export const ownerSystemHealth = [

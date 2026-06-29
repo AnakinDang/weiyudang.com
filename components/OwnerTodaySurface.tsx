@@ -80,6 +80,7 @@ type SchedulePressure = {
   time: string;
   state: string;
   tone: Tone;
+  href: string;
 };
 
 type SystemHealth = {
@@ -890,7 +891,11 @@ function ResearchPressurePanel({
             const Icon = scheduleIcons[index % scheduleIcons.length];
 
             return (
-              <div key={item.label} className="grid grid-cols-[1fr_auto] gap-3 rounded-[8px] border border-slate-700 bg-white/[0.045] p-3">
+              <Link
+                key={item.label}
+                href={item.href}
+                className="link-focus group grid grid-cols-[1fr_auto] gap-3 rounded-[8px] border border-slate-700 bg-white/[0.045] p-3 transition hover:-translate-y-0.5 hover:border-sky-200/35 hover:bg-sky-300/10"
+              >
                 <div className="flex gap-3">
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-[8px] border border-sky-200/25 bg-sky-300/10 text-sky-100">
                     <Icon size={16} aria-hidden />
@@ -901,7 +906,11 @@ function ResearchPressurePanel({
                   </div>
                 </div>
                 <StatusBadge tone={item.tone}>{todayText(item.state, locale)}</StatusBadge>
-              </div>
+                <span className="col-span-2 inline-flex items-center gap-2 text-xs font-semibold text-sky-100 transition group-hover:text-white">
+                  {todayText("Open schedule", locale)}
+                  <ArrowRight size={14} aria-hidden />
+                </span>
+              </Link>
             );
           })}
         </div>

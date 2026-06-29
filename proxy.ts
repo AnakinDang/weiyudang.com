@@ -1,28 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOwnerAccessSecret, OWNER_SESSION_COOKIE, verifyOwnerSession } from "@/lib/auth-session";
 import { isPreservedTradingReviewPacketId } from "@/lib/review-packet-ids";
+import { isOwnerScheduleId, OWNER_SCHEDULE_PARAM, ownerScheduleHref } from "@/lib/schedule-route";
 import { TRADING_REVIEW_PACKET_PARAM } from "@/lib/trading-trace";
 import { tradingViewSlugFromParam } from "@/lib/trading-team";
 
 function ownerNextPath(request: NextRequest) {
-  if (request.nextUrl.pathname !== "/app/trading") {
-    return `${request.nextUrl.pathname}${request.nextUrl.search}`;
+  if (request.nextUrl.pathname === "/app/trading") {
+    const view = tradingViewSlugFromParam(request.nextUrl.searchParams.get("view"));
+    const reviewPacket = request.nextUrl.searchParams.get(TRADING_REVIEW_PACKET_PARAM);
+    const query = new URLSearchParams();
+
+    if (view) {
+      query.set("view", view);
+    }
+
+    if (isPreservedTradingReviewPacketId(reviewPacket)) {
+      query.set(TRADING_REVIEW_PACKET_PARAM, reviewPacket);
+    }
+
+    const queryString = query.toString();
+    return queryString ? `${request.nextUrl.pathname}?${queryString}` : request.nextUrl.pathname;
   }
 
-  const view = tradingViewSlugFromParam(request.nextUrl.searchParams.get("view"));
-  const reviewPacket = request.nextUrl.searchParams.get(TRADING_REVIEW_PACKET_PARAM);
-  const query = new URLSearchParams();
-
-  if (view) {
-    query.set("view", view);
+  if (request.nextUrl.pathname === "/app/schedules") {
+    const scheduleId = request.nextUrl.searchParams.get(OWNER_SCHEDULE_PARAM);
+    return ownerScheduleHref(isOwnerScheduleId(scheduleId) ? scheduleId : undefined);
   }
 
-  if (isPreservedTradingReviewPacketId(reviewPacket)) {
-    query.set(TRADING_REVIEW_PACKET_PARAM, reviewPacket);
-  }
-
-  const queryString = query.toString();
-  return queryString ? `${request.nextUrl.pathname}?${queryString}` : request.nextUrl.pathname;
+  return `${request.nextUrl.pathname}${request.nextUrl.search}`;
 }
 
 export async function proxy(request: NextRequest) {
