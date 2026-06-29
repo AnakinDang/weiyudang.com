@@ -1,6 +1,6 @@
 import "server-only";
 
-import { ownerAgentHref } from "@/lib/agent-route";
+import { OWNER_EVENT_KIND_VALUES, ownerAgentHref, type OwnerEventKind } from "@/lib/agent-route";
 import {
   privateAgentBoundary,
   privateAgentHandoffs,
@@ -13,7 +13,7 @@ import {
 import { ownerReviewQueueData } from "@/lib/private/review-queue";
 import { ownerSystemHref } from "@/lib/system-route";
 
-export type PrivateEventKind = "Agent history" | "Handoff" | "Review signal" | "Boundary signal" | "Source posture";
+export type PrivateEventKind = OwnerEventKind;
 
 export type PrivateEventTimelineItem = {
   id: string;
@@ -40,13 +40,7 @@ export type PrivateEventMetric = {
   detail: string;
 };
 
-export const privateEventKinds = [
-  "Agent history",
-  "Handoff",
-  "Review signal",
-  "Boundary signal",
-  "Source posture"
-] as const satisfies readonly PrivateEventKind[];
+export const privateEventKinds = OWNER_EVENT_KIND_VALUES;
 
 const agentByName = new Map<string, PrivateAgent>(privateAgentRoster.map((agent) => [agent.name, agent]));
 
