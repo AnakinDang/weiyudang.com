@@ -2,6 +2,8 @@ import "server-only";
 
 // Today owns a compact cockpit snapshot. Detailed system diagnostics stay in "@/lib/private/system".
 
+import { privateTradingEvidenceHref, privateTradingSystemHref } from "@/lib/private/trading-team";
+
 export const ownerTodayBrief = {
   focus: "Ship the next Personal OS slice without weakening the public/private boundary.",
   posture: "Authenticated, read-only, owner-reviewed",
@@ -118,7 +120,7 @@ export const ownerReviewQueue = [
     evidence: "Research-only boundary remains fixed; no broker writes.",
     href: "/app/review?packet=review-trading-boundary-copy",
     hrefLabel: "Open review packet",
-    contextHref: "/app/trading?view=evidence",
+    contextHref: privateTradingEvidenceHref("Volatility surface sample", "Pending"),
     contextLabel: "Open evidence center"
   }
 ] as const;
@@ -134,7 +136,7 @@ export const ownerDecisionHub = [
   },
   {
     title: "Trading Evidence",
-    href: "/app/trading?view=system",
+    href: privateTradingSystemHref(),
     state: "Research-only",
     tone: "private",
     summary: "Trading review items open the evidence, source health, gate, and replay surfaces without execution.",
@@ -205,7 +207,7 @@ export const ownerCommandShortcuts = [
   },
   {
     title: "Trading Team",
-    href: "/app/trading?view=system",
+    href: privateTradingSystemHref(),
     summary: "Open the research-only console at source health, gates, evidence, and replay coverage."
   },
   {

@@ -2,6 +2,8 @@ import "server-only";
 
 // Owner-only review queue data. Do not import this module from public routes or shared client components.
 
+import { privateTradingEvidenceHref, privateTradingReplayHref } from "@/lib/private/trading-team";
+
 export type ReviewQueueTone = "normal" | "info" | "warning" | "private";
 
 export type PrivateReviewQueueEvidence = {
@@ -358,9 +360,9 @@ export const privateReviewQueue = [
     blockers: ["No trading execution authorization exists.", "Any future data connection must preserve research-only framing."],
     allowedNext: "Owner may revise copy, but not authorize execution from this page.",
     disallowedActions: ["Order placement", "Broker write", "Position sizing", "Recommendation wording"],
-    primaryHref: "/app/trading?view=system",
-    primaryLabel: "Open trading system",
-    secondaryHref: "/app/trading?view=evidence",
+    primaryHref: privateTradingReplayHref("Options Desk", "VOL-SURFACE", "Pending"),
+    primaryLabel: "Open replay trace",
+    secondaryHref: privateTradingEvidenceHref("Volatility surface sample", "Pending"),
     secondaryLabel: "Open evidence center",
     updated: "Recent slice",
     note: "The console remains research-only and has no order, paper, live, or broker path."

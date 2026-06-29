@@ -67,12 +67,12 @@ const ownerSurfaces = [
 // Update these fingerprints only after manually reviewing the private-data diff that changed
 // which owner-only literals rely on global site i18n.
 const expectedGlobalI18nFingerprints = {
-  today: { count: 109, digest: "b96b749be75fce87c67a2d73192ee6aaa5fb51548e2b4b17afc4f7076dfee01d" },
+  today: { count: 111, digest: "ac43eb46ffd863af401d5c1f6a0cf8972a932f9d21fa0319633e8e15380a5ec8" },
   command: { count: 155, digest: "f0ac9ea8e148d7a55b642eb3cc44c8f78a0d9d9d337e47fcfb80ca3701c9f5c7" },
   events: { count: 4, digest: "71fae926bbe4bb0339a872ce343a4083d7141257b37edad672a5a3594104e500" },
   agents: { count: 242, digest: "c002b859fe34d7ee35e900885bae4e3a7601f8fd3aab7b9131bbdf761e8658ae" },
   knowledge: { count: 168, digest: "7141cd0b2b5e507d3eecf8cd4e73fe2896e7c1889987afd731c1ffd7e1e5b664" },
-  review: { count: 196, digest: "17615ec5a80aa9af62adfc3eb0fddaa188a1c1c31872abfaa84b4df50afccb24" },
+  review: { count: 199, digest: "f4ed42fc89dcea144c09e90749a920cde6d89bdba5efc5c0a7d988995bdc21db" },
   schedules: { count: 212, digest: "695d15b2d3a83bf1e13b9642251a3385df3298867ba47b1b5443e45ccf19c15d" },
   settings: { count: 113, digest: "3fce46d281fac8e86076ba317136683f77d07fcdda38779c03bca1ff9cc2af23" },
   system: { count: 40, digest: "419670ece9e073d6dbc7d778702e9cc273a9af18a6291af37d8de7665070d3ae" },
