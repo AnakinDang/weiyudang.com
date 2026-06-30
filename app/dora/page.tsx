@@ -140,6 +140,7 @@ export default function DoraPage() {
                 <span>Office</span>
               </h1>
               <p className="doraemon-doorway-lede">The public window into Weiyu&apos;s personal AI command room.</p>
+              <p className="doraemon-doorway-axiom">Doraemon coordinates. MiniDoras work. Weiyu decides.</p>
               <div className="doraemon-doorway-actions">
                 <Link href="/dora/office" className="link-focus doraemon-primary-action">
                   Enter Doraemon Office

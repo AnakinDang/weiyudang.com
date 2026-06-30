@@ -14095,6 +14095,17 @@ textarea {
   line-height: 1.45;
 }
 
+.doraemon-doorway-axiom {
+  margin: 0.9rem 0 0;
+  max-width: 27rem;
+  border-left: 2px solid rgba(37, 99, 235, 0.34);
+  padding-left: 0.9rem;
+  color: #1d4ed8;
+  font-size: 0.92rem;
+  font-weight: 760;
+  line-height: 1.42;
+}
+
 .doraemon-doorway-actions {
   display: flex;
   flex-wrap: wrap;
@@ -15184,6 +15195,14 @@ textarea {
     margin-top: 1rem;
     font-size: 1.04rem;
     line-height: 1.48;
+  }
+
+  .doraemon-doorway-axiom {
+    margin-top: 0.72rem;
+    max-width: 20rem;
+    padding-left: 0.72rem;
+    font-size: 0.78rem;
+    line-height: 1.35;
   }
 
   .doraemon-doorway-actions {
@@ -37574,7 +37593,7 @@ textarea {
 }
 
 .doraemon-doorway-actions {
-  margin-top: 2.2rem;
+  margin-top: 1.55rem;
 }
 
 .doraemon-command-preview {
