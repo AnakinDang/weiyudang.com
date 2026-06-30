@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Bot, Gamepad2, Globe2, ImageIcon, LineChart, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
 import type { Project } from "@/lib/content";
 import { boundaryForProject, visualForProject } from "@/lib/projectPresentation";
+import { localizeSiteText } from "@/lib/site-i18n";
 
 const categoryIcons = {
   "personal-ai-systems": Sparkles,
@@ -41,6 +45,8 @@ const boundaryNotes = [
 ] as const;
 
 export function SelectedWorkShowcase({ projects }: { projects: Project[] }) {
+  const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const selectedProjects = projects.slice(0, 5);
 
   if (selectedProjects.length === 0) {
@@ -49,7 +55,7 @@ export function SelectedWorkShowcase({ projects }: { projects: Project[] }) {
 
   return (
     <div className="home-work-showcase">
-      <div className="home-work-track" aria-label="Selected project artifacts">
+      <div className="home-work-track" aria-label={t("Selected project artifacts")}>
         {selectedProjects.map((project) => {
           const boundary = boundaryForProject(project);
           const Icon = categoryIcons[project.category] ?? Sparkles;
@@ -70,7 +76,7 @@ export function SelectedWorkShowcase({ projects }: { projects: Project[] }) {
               <span className="home-work-system-meta">
                 <span className={`home-work-boundary home-work-boundary-${boundary.className}`}>
                   <span aria-hidden="true" />
-                  {boundary.label}
+                  {t(boundary.label)}
                 </span>
                 <span className="home-work-system-category">{project.categoryLabel}</span>
               </span>
@@ -82,15 +88,15 @@ export function SelectedWorkShowcase({ projects }: { projects: Project[] }) {
         })}
       </div>
 
-      <div className="home-work-boundary-strip" aria-label="Selected work public safety boundaries">
+      <div className="home-work-boundary-strip" aria-label={t("Selected work public safety boundaries")}>
         {boundaryNotes.map((item) => {
           const Icon = item.icon;
           return (
             <div key={item.label} className={`home-work-boundary-note home-work-boundary-note-${item.tone}`}>
               <Icon size={17} aria-hidden />
               <span>
-                <strong>{item.label}</strong>
-                <small>{item.summary}</small>
+                <strong>{t(item.label)}</strong>
+                <small>{t(item.summary)}</small>
               </span>
             </div>
           );

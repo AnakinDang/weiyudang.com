@@ -48648,3 +48648,118 @@ textarea {
     transform: none;
   }
 }
+
+/* Step 69: Homepage bilingual product showroom */
+.premium-hero-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.68rem;
+}
+
+.premium-hero-proofbar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.42rem;
+  width: min(100%, 35rem);
+  margin-top: 1.08rem;
+}
+
+.premium-hero-proofbar span {
+  display: grid;
+  gap: 0.18rem;
+  min-height: 4.1rem;
+  border: 1px solid rgba(191, 219, 254, 0.58);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(248, 251, 255, 0.58)),
+    rgba(255, 255, 255, 0.72);
+  padding: 0.62rem 0.7rem;
+  box-shadow:
+    0 14px 38px rgba(37, 99, 235, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.premium-hero-proofbar strong {
+  color: #0f172a;
+  font-size: 0.78rem;
+  font-weight: 840;
+  line-height: 1.16;
+}
+
+.premium-hero-proofbar small {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 680;
+  line-height: 1.25;
+}
+
+.premium-surface-copy {
+  display: grid;
+  justify-items: center;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.premium-surface-copy small {
+  max-width: 14ch;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 0.62rem;
+  font-weight: 680;
+  line-height: 1.18;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1180px) {
+  .premium-hero-proofbar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(100%, 33rem);
+    margin-top: 0.86rem;
+  }
+
+  .premium-hero-proofbar span {
+    min-height: 3.7rem;
+    padding: 0.54rem 0.58rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .premium-hero-status-item {
+    gap: 0.48rem;
+  }
+
+  html[data-locale="zh"] .premium-hero .premium-hero-title .premium-hero-line {
+    font-size: clamp(2.65rem, 10.8vw, 3.5rem);
+    line-height: 1;
+  }
+
+  .premium-hero-proofbar {
+    grid-template-columns: 1fr;
+    width: min(100%, 25rem);
+    margin-top: 0.72rem;
+  }
+
+  .premium-hero-proofbar span {
+    min-height: 0;
+    grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.52rem 0.62rem;
+  }
+
+  .premium-hero-proofbar strong,
+  .premium-hero-proofbar small {
+    font-size: 0.68rem;
+  }
+
+  .premium-surface-copy small {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-hero-proofbar {
+    display: none;
+  }
+}
