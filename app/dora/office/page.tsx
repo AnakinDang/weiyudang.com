@@ -12,6 +12,7 @@ import {
   Target
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeCommandSpine } from "@/components/DoraOfficeCommandSpine";
 import { DoraOfficeLiveBridge } from "@/components/DoraOfficeLiveBridge";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -53,6 +54,7 @@ export default function DoraOfficePage() {
         <div className="dora-office-route-dock-wrap">
           <DoraOfficeRouteDock active="/dora/office" />
         </div>
+        <DoraOfficeCommandSpine active="/dora/office" />
         <section className="dora-office-product-hero" aria-labelledby="dora-office-title">
           <div className="container dora-office-product-shell" id="live-dashboard">
             <div className="dora-office-product-copy">

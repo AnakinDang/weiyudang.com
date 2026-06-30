@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Eye, Filter, LockKeyhole, Radio, ShieldCheck, Sparkles, Users } from "lucide-react";
 import { ActivityFeed } from "@/app/dora/activity/ActivityFeed";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeCommandSpine } from "@/components/DoraOfficeCommandSpine";
 import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -59,6 +60,7 @@ export default function DoraActivityPage() {
         <div className="dora-office-route-dock-wrap">
           <DoraOfficeRouteDock active="/dora/activity" />
         </div>
+        <DoraOfficeCommandSpine active="/dora/activity" />
         <section className="dora-activity-landing-hero" aria-labelledby="dora-activity-title">
           <div className="container dora-activity-landing-hero-grid">
             <div className="dora-activity-landing-copy">
