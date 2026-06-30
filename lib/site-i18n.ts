@@ -4175,6 +4175,14 @@ const exactZhTranslations = {
   "No source health rows are attached to this owner-only session.": "当前仅本人可见的会话尚未附加来源健康行。",
   "Review opens evidence only. No orders, recommendations, broker writes, or execution controls exist here.":
     "审核只会打开证据。这里不存在订单、建议、券商写入或执行控制。",
+  "Persistent trading research boundary": "持续可见的交易研究边界",
+  "The research-only boundary stays visible while you inspect desks, evidence, replay, and source health.":
+    "当你查看研究台、证据、回放和来源健康时，仅研究边界始终可见。",
+  "Trading research safety summary": "交易研究安全摘要",
+  "Active view": "当前视图",
+  "Source review": "来源复核",
+  "Open review items": "开放审核项",
+  "Disabled actions": "禁用动作",
   "Signals needing review": "需要审核的信号",
   "Signal rows are research artifacts. They show uncertainty, evidence state, and blockers; they do not produce orders or trading recommendations.":
     "信号行是研究成果。它们展示不确定性、证据状态和阻塞点；不会生成订单或交易建议。",

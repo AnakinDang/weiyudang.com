@@ -40308,6 +40308,7 @@ textarea {
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
   min-width: 0;
+  padding-bottom: 6.5rem;
   color: #0f172a;
 }
 
@@ -40526,6 +40527,129 @@ textarea {
 .trading-cockpit-link:hover {
   border-color: rgba(37, 99, 235, 0.42);
   background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.trading-safety-dock {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: minmax(18rem, 1.1fr) minmax(0, 1.35fr) auto;
+  align-items: stretch;
+  gap: 0;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(191, 219, 254, 0.78);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+  box-shadow:
+    0 18px 56px rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+@media (min-width: 1024px) {
+  .trading-safety-dock {
+    right: 2rem;
+    left: calc(18rem + 2rem);
+  }
+}
+
+.trading-safety-dock__identity {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.7rem;
+  min-width: 0;
+  border-right: 1px solid rgba(221, 231, 240, 0.92);
+  background:
+    linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(255, 251, 235, 0.52)),
+    #ffffff;
+  padding: 0.78rem 0.9rem;
+}
+
+.trading-safety-dock__identity > svg {
+  color: #2563eb;
+}
+
+.trading-safety-dock__identity strong {
+  display: block;
+  color: #020617;
+  font-size: 0.78rem;
+  font-weight: 880;
+  line-height: 1.18;
+}
+
+.trading-safety-dock__identity small {
+  display: block;
+  margin-top: 0.18rem;
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 720;
+  line-height: 1.36;
+}
+
+.trading-safety-dock__metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  min-width: 0;
+}
+
+.trading-safety-dock__metrics div {
+  display: grid;
+  align-content: center;
+  gap: 0.14rem;
+  min-width: 0;
+  border-right: 1px solid rgba(221, 231, 240, 0.88);
+  padding: 0.68rem 0.72rem;
+}
+
+.trading-safety-dock__metrics dt {
+  overflow: hidden;
+  color: #64748b;
+  font-size: 0.64rem;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.trading-safety-dock__metrics dd {
+  margin: 0;
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 0.88rem;
+  font-weight: 880;
+  line-height: 1.12;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trading-safety-dock__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-width: 9.8rem;
+  border: 0;
+  background: #2563eb;
+  padding: 0.75rem 0.9rem;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 850;
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.trading-safety-dock__action:hover {
+  background: #1d4ed8;
   transform: translateY(-1px);
 }
 
@@ -41820,6 +41944,57 @@ textarea {
 
   .trading-cockpit-continuity {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trading-safety-dock {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .trading-research-cockpit {
+    padding-bottom: 10.5rem;
+  }
+
+  .trading-safety-dock__identity {
+    border-right: 0;
+    border-bottom: 1px solid rgba(221, 231, 240, 0.92);
+    padding-block: 0.58rem;
+  }
+
+  .trading-safety-dock__identity small {
+    display: none;
+  }
+
+  .trading-safety-dock__metrics {
+    grid-template-columns: repeat(5, minmax(4.8rem, 1fr));
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .trading-safety-dock__metrics::-webkit-scrollbar {
+    display: none;
+  }
+
+  .trading-safety-dock__metrics div {
+    border-top: 0;
+    border-right: 1px solid rgba(221, 231, 240, 0.88);
+    padding-block: 0.48rem;
+  }
+
+  .trading-safety-dock__metrics div:last-child {
+    border-right: 0;
+  }
+
+  .trading-safety-dock__metrics dt {
+    font-size: 0.58rem;
+  }
+
+  .trading-safety-dock__metrics dd {
+    font-size: 0.78rem;
+  }
+
+  .trading-safety-dock__action {
+    min-width: 0;
+    min-height: 2.85rem;
   }
 
   .trading-evidence-matrix__head,

@@ -470,6 +470,14 @@ function tradingPosture(data: TradingResearchCockpitData) {
   };
 }
 
+function tradingSafetyMetrics(data: TradingResearchCockpitData) {
+  return {
+    evidenceBlockers: data.evidencePackets.filter((packet) => isOpenEvidenceState(packet.state)).length,
+    sourceReview: data.sourceHealth.filter((source) => isDegradedSourceState(source.state)).length,
+    disabledActions: data.unavailableActions.length
+  };
+}
+
 function replayInstrumentFilterForEvidence(packet: TradingEvidencePacket) {
   return packet.instrument === "ALL" ? ALL_INSTRUMENT_FILTER : packet.instrument;
 }
@@ -761,6 +769,70 @@ function SafetyRail({ unavailableActions }: { unavailableActions: readonly strin
         </div>
       </section>
     </aside>
+  );
+}
+
+function TradingSafetyDock({
+  activeView,
+  data,
+  reviewCount,
+  onOpenEvidenceCenter
+}: {
+  activeView: TradingView;
+  data: TradingResearchCockpitData;
+  reviewCount: number;
+  onOpenEvidenceCenter: () => void;
+}) {
+  const { locale } = useLanguage();
+  const metrics = tradingSafetyMetrics(data);
+  const activeViewLabel = viewLabel(activeView, locale);
+
+  const safetyItems = [
+    {
+      label: "Active view",
+      value: activeViewLabel
+    },
+    {
+      label: "Evidence blockers",
+      value: metrics.evidenceBlockers.toString()
+    },
+    {
+      label: "Source review",
+      value: metrics.sourceReview.toString()
+    },
+    {
+      label: "Open review items",
+      value: reviewCount.toString()
+    },
+    {
+      label: "Disabled actions",
+      value: metrics.disabledActions.toString()
+    }
+  ] as const;
+
+  return (
+    <section className="trading-safety-dock" aria-label={localizedCopy("Persistent trading research boundary", locale)}>
+      <div className="trading-safety-dock__identity">
+        <ShieldCheck size={19} aria-hidden />
+        <span>
+          {/* Fixed compliance wording stays in English across locales. */}
+          <strong data-i18n-skip>{data.disclaimer}</strong>
+          <small>{localizedCopy("The research-only boundary stays visible while you inspect desks, evidence, replay, and source health.", locale)}</small>
+        </span>
+      </div>
+      <dl className="trading-safety-dock__metrics" aria-label={localizedCopy("Trading research safety summary", locale)}>
+        {safetyItems.map((item) => (
+          <div key={item.label}>
+            <dt>{localizedCopy(item.label, locale)}</dt>
+            <dd data-i18n-skip={item.label === "Active view" ? true : undefined}>{item.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <button type="button" className="trading-safety-dock__action" onClick={onOpenEvidenceCenter}>
+        <FileSearch size={15} aria-hidden />
+        {localizedCopy("Open evidence center", locale)}
+      </button>
+    </section>
   );
 }
 
@@ -3013,6 +3085,13 @@ export function TradingResearchCockpit({
           Open evidence center
         </button>
       </section>
+
+      <TradingSafetyDock
+        activeView={activeView}
+        data={data}
+        reviewCount={reviewQueue.length}
+        onOpenEvidenceCenter={openEvidenceCenter}
+      />
 
       {traceNotice ? (
         <section
