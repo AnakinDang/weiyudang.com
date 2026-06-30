@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { KnowledgeVaultPanel } from "@/app/dora/knowledge/KnowledgeVaultPanel";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeCommandSpine } from "@/components/DoraOfficeCommandSpine";
 import { DoraOfficeHeroArt } from "@/components/DoraOfficeHero";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -100,6 +101,7 @@ export default function DoraKnowledgePage() {
         <div className="dora-office-route-dock-wrap">
           <DoraOfficeRouteDock active="/dora/knowledge" />
         </div>
+        <DoraOfficeCommandSpine active="/dora/knowledge" />
 
         <section className="dora-knowledge-landing-hero" aria-labelledby="dora-knowledge-title">
           <div className="container dora-knowledge-landing-hero-grid">

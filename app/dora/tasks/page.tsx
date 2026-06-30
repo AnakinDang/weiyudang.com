@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { TaskBoard } from "@/app/dora/tasks/TaskBoard";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeCommandSpine } from "@/components/DoraOfficeCommandSpine";
 import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -131,6 +132,7 @@ export default function DoraTasksPage() {
         <div className="dora-office-route-dock-wrap">
           <DoraOfficeRouteDock active="/dora/tasks" />
         </div>
+        <DoraOfficeCommandSpine active="/dora/tasks" />
         <section className="dora-tasks-landing-hero" aria-labelledby="dora-tasks-title">
           <div className="container dora-tasks-landing-hero-grid">
             <div className="dora-tasks-landing-copy">

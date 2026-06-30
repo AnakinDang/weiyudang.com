@@ -19,6 +19,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { ScheduleBoard } from "@/app/dora/schedules/ScheduleBoard";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeCommandSpine } from "@/components/DoraOfficeCommandSpine";
 import { DoraOfficeOperatingRhythm } from "@/components/DoraOfficeOperatingRhythm";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -153,6 +154,7 @@ export default function DoraSchedulesPage() {
         <div className="dora-office-route-dock-wrap">
           <DoraOfficeRouteDock active="/dora/schedules" />
         </div>
+        <DoraOfficeCommandSpine active="/dora/schedules" />
         <section className="dora-schedules-landing-hero" aria-labelledby="dora-schedules-title">
           <div className="container dora-schedules-landing-hero-grid">
             <div className="dora-schedules-landing-copy">

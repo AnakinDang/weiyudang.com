@@ -19,6 +19,7 @@ import {
   type LucideIcon
 } from "lucide-react";
 import { DoraemonMark } from "@/components/DoraemonMark";
+import { DoraOfficeCommandSpine } from "@/components/DoraOfficeCommandSpine";
 import { DoraOfficeRouteDock } from "@/components/DoraOfficeRouteDock";
 import {
   DoraTeamAgentSignalPanel,
@@ -171,6 +172,7 @@ export default async function DoraAgentProfilePage({ params }: DoraAgentProfileP
           <div className="dora-office-route-dock-wrap">
             <DoraOfficeRouteDock active="/dora/team" />
           </div>
+          <DoraOfficeCommandSpine active="/dora/team" />
 
           <section className="dora-agent-profile-hero" aria-labelledby="dora-agent-profile-title">
             <div className="container dora-agent-profile-hero-grid">
