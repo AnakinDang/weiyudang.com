@@ -6,6 +6,9 @@ const siteI18nPath = fileURLToPath(new URL("../lib/site-i18n.ts", import.meta.ur
 const siteI18n = readFileSync(siteI18nPath, "utf8");
 const sourceFile = ts.createSourceFile(siteI18nPath, siteI18n, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
 const scannedPublicComponentPaths = [
+  "../components/HomeHeroClient.tsx",
+  "../components/AiLabPanel.tsx",
+  "../components/SelectedWorkShowcase.tsx",
   "../components/LiveNotesFeed.tsx",
   "../components/ProjectArchive.tsx",
   "../components/LabNotesBrowser.tsx"
@@ -22,6 +25,11 @@ const requiredPublicSiteCopy = {
     "High-level overview only. Internals stay private.",
     "For research and learning. Not for execution.",
     "No prompts, accounts, orders, IDs, or paths.",
+    "Personal research studio",
+    "Doraemon-ready",
+    "Research in public",
+    "Doraemon visible",
+    "Owner gated",
     "research feed",
     "drafting",
     "annotating",

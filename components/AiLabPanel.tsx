@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, Bot, LockKeyhole, MonitorPlay, Network, ShieldCheck, Sparkles, Workflow } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
+import { localizeSiteText } from "@/lib/site-i18n";
 
 const labModes = [
   {
@@ -42,6 +44,8 @@ const labModes = [
 ];
 
 export function AiLabPanel() {
+  const { locale } = useLanguage();
+  const t = (value: string) => localizeSiteText(value, locale);
   const [activeId, setActiveId] = useState(labModes[0].id);
   const active = useMemo(() => labModes.find((mode) => mode.id === activeId) ?? labModes[0], [activeId]);
   const activeIndex = labModes.findIndex((mode) => mode.id === active.id);
@@ -56,7 +60,7 @@ export function AiLabPanel() {
 
   return (
     <div className="home-ai-panel">
-      <div className="home-ai-tabs" role="tablist" aria-label="Doraemon system layers">
+      <div className="home-ai-tabs" role="tablist" aria-label={t("Doraemon system layers")}>
         {labModes.map((mode) => {
           const ModeIcon = mode.icon;
           const isActive = mode.id === activeId;
@@ -84,13 +88,13 @@ export function AiLabPanel() {
               className={`home-ai-tab${isActive ? " is-active" : ""}`}
             >
               <ModeIcon size={15} aria-hidden />
-              {mode.label}
+              {t(mode.label)}
             </button>
           );
         })}
       </div>
 
-      <div className="home-ai-command-room" aria-label="Doraemon Office public command-room preview">
+      <div className="home-ai-command-room" aria-label={t("Doraemon Office public command-room preview")}>
         <Image
           className="home-ai-command-room-art"
           src="/visuals/doraemon-office-command-room-v2.png"
@@ -104,13 +108,13 @@ export function AiLabPanel() {
         <div className="home-ai-room-panel">
           <span>
             <Icon size={15} aria-hidden />
-            {active.label}
+            {t(active.label)}
           </span>
-          <strong>{active.title}</strong>
-          <p>{active.summary}</p>
+          <strong>{t(active.title)}</strong>
+          <p>{t(active.summary)}</p>
         </div>
 
-        <div className="home-ai-mini-agent-strip" role="list" aria-label="Doraemon Office system pillars">
+        <div className="home-ai-mini-agent-strip" role="list" aria-label={t("Doraemon Office system pillars")}>
           <span role="listitem"><Bot size={16} aria-hidden />Doraemon</span>
           <span role="listitem"><Network size={16} aria-hidden />MiniDoras</span>
           <span role="listitem"><Sparkles size={16} aria-hidden />Weiyu AI</span>
@@ -126,21 +130,21 @@ export function AiLabPanel() {
         <div className="home-ai-detail-head">
           <span>
             <Icon size={19} aria-hidden />
-            active layer
+            {t("active layer")}
           </span>
-          <strong>{active.title}</strong>
+          <strong>{t(active.title)}</strong>
         </div>
-        <p>{active.summary}</p>
+        <p>{t(active.summary)}</p>
         <div className="home-ai-intent">
           <ShieldCheck size={18} aria-hidden />
-          {active.intent}
+          {t(active.intent)}
         </div>
 
         <div className="home-ai-events">
           {active.events.map((event, index) => (
             <div key={event}>
               <span className="mono">{index + 1}</span>
-              <span>{event}</span>
+              <span>{t(event)}</span>
             </div>
           ))}
         </div>
@@ -148,29 +152,29 @@ export function AiLabPanel() {
         <div className="home-ai-boundary-strip">
           <span>
             <ShieldCheck size={15} aria-hidden />
-            Public-safe
+            {t("Public-safe")}
           </span>
           <span>
             <Workflow size={15} aria-hidden />
-            Read-only
+            {t("Read-only")}
           </span>
           <span>
             <LockKeyhole size={15} aria-hidden />
-            Owner-only
+            {t("Owner-only")}
           </span>
           <span>
             <Workflow size={14} aria-hidden />
-            Research-only
+            {t("Research-only")}
           </span>
         </div>
 
         <div className="home-ai-footer">
-          <span>Curated public guide. No prompts, credentials, private memory, or execution controls.</span>
+          <span>{t("Curated public guide. No prompts, credentials, private memory, or execution controls.")}</span>
           <Link
             href={active.link}
             className="link-focus home-text-action"
           >
-            {active.linkLabel}
+            {t(active.linkLabel)}
             <ArrowRight size={16} aria-hidden />
           </Link>
         </div>
