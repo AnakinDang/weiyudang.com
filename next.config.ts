@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
       }
     ];
   },
+  // Mobius company sandbox: a prebuilt single-file app in public/mobius, built from AnakinDang/the-bridge.
+  async rewrites() {
+    return [{ source: "/mobius", destination: "/mobius/index.html" }];
+  },
   poweredByHeader: false,
   reactStrictMode: true
 };
