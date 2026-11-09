@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { QuantumSequence } from "@/components/QuantumSequence";
 import { ArrowRight, Infinity as InfinityMark } from "lucide-react";
 import { CompanyCapabilities } from "@/components/CompanyCapabilities";
 
@@ -27,36 +27,12 @@ export default function CompanyHome() {
         </div>
       </header>
       <main id="main">
-        <section className="hero wrap" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <h1 id="hero-title">让 AI 成为<br />企业的运行方式。</h1>
-            <p>深入业务现场，连接企业知识与业务系统。<br className="desktop-break" />从关键流程的改造，到持续运行与改进。</p>
-            <div className="hero-actions">
-              <a className="primary-link" href="#contact">探讨业务场景<ArrowRight size={22} aria-hidden="true" /></a>
-              <a className="quiet-link" href="#delivery">了解交付方式</a>
-            </div>
-          </div>
-          <div className="hero-universe" aria-hidden="true">
-            <Image className="particle-loop hero-particle" src="/company/mobius-particles.webp" alt="" width={1536} height={1024} sizes="(max-width: 760px) 100vw, 60vw" preload quality={95} />
-            <svg className="hero-orbit" viewBox="0 0 760 540" fill="none">
-              <path id="hero-orbit-path" d="M62 397C-26 266 515-48 698 74C882 196 255 684 62 397Z" />
-              <circle className="orbit-tracer" r="3.5"><animateMotion dur="22s" repeatCount="indefinite"><mpath href="#hero-orbit-path" /></animateMotion></circle>
-            </svg>
-          </div>
-        </section>
-        <section className="business-intro wrap" aria-labelledby="business-title">
-          <h2 id="business-title">业务、技术与交付，<br />在同一条轨道上。</h2>
-          <div>
-            <p>从发现业务机会，到组织知识、构建应用、上线运行，我们与企业团队一起完成 AI 转型。</p>
-            <p className="industries" aria-label="业务探索方向">能源 · 制造 · 通信 · 医疗 · 保险 · 零售</p>
-          </div>
-        </section>
-        <section id="technology" className="technology-section wrap" aria-labelledby="technology-title">
-          <h2 id="technology-title">覆盖企业 AI 的完整生命周期。</h2>
-          <p className="section-lead">围绕具体场景，组合知识、智能体与业务系统。</p>
+        <QuantumSequence />
+        <section id="technology" className="technology-light" aria-labelledby="technology-title"><div className="wrap">
+          <div className="technology-heading"><h2 id="technology-title">从企业知识，<br />到业务行动。</h2><div><p className="section-lead">围绕具体场景，组合知识、智能体与业务系统。</p><p className="industries" aria-label="业务探索方向">能源 · 制造 · 通信 · 医疗 · 保险 · 零售</p></div></div>
           <CompanyCapabilities />
           <p className="scope-note">业务范围与技术建设方向，具体能力按项目评估与交付。</p>
-        </section>
+        </div></section>
         <section id="delivery" className="delivery wrap" aria-labelledby="delivery-title">
           <div className="delivery-heading">
             <h2 id="delivery-title">每一次交付，<br />都是下一轮进化的起点。</h2>
@@ -77,8 +53,7 @@ export default function CompanyHome() {
               ))}
             </ol>
           </div>
-          <Image className="particle-cycle" src="/company/mobius-cycle.webp" alt="" width={2048} height={768} sizes="(max-width: 760px) 100vw, 90vw" quality={95} />
-          <p className="commercial-path">诊断与试点 <span>·</span> 项目实施 <span>·</span> 软件与持续服务 <span>·</span> 增量扩展</p>
+          <p className="commercial-path"><span>诊断与试点</span><span>项目实施</span><span>软件与持续服务</span><span>增量扩展</span></p>
         </section>
         <section id="about" className="about-contact wrap" aria-labelledby="about-title">
           <div className="about-copy">

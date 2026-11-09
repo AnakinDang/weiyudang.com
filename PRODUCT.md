@@ -14,6 +14,8 @@ Use weiyudang.com as the company website before formal naming. Company working n
 
 Retire all former personal-site and Personal OS routes from the website, including the private app and login. Preserve recoverable source. Existing Mobius prototype routes remain separately available and absent from the marketing navigation.
 
+Latest steering (2026-11-10): defer publication and improve the local candidate using Distyl and Apple as design and animation references. Keep the particle/quantum direction. A reviewed local preview is the present deliverable; pushing or publishing is not authorized by this revision request.
+
 ## Brand Personality
 
 Clear, grounded, expansive. Cosmic imagery expresses cycles of accumulated capability; it does not claim a quantum-computing product.

@@ -2,6 +2,8 @@
 
 日期：2026-11-10。此记录仅证明本地候选；未推送、合并、发布或修改 DNS。
 
+本轮根据用户“先不急，参考 Distyl 和苹果官网的设计理念以及动画”继续修订。基于首版本地提交 33257449aa8cfc304f87ff4429f2fc626abfd3bc，新增实时粒子场景和滚动叙事，重新编排冷白业务章节。用户当前要求先不发布。
+
 ## 基线与保留
 
 - 原站：Vercel weiyudang-web，2026-11-04 生产版本 2a1a6ae020c6e238e82e396d375db9be7905a1a6。
@@ -21,31 +23,37 @@
 | 联系入口 | 用户指定 dangweiyu0516@gmail.com；主导航到联系区，mailto 地址及主题正确；手机上完整显示 |
 | 原型保留 | /mobius、/mobius-lab 保留 200，设置 noindex，未加入营销导航 |
 | 搜索入口 | canonical 指向 weiyudang.com；robots.txt 与仅含公司首页的 sitemap.xml 返回 200 |
-| 桌面渲染 | 内置浏览器 1440×1000，非空、无框架错误页；图片均加载，横向无溢出 |
-| 手机渲染 | 内置浏览器 390×844；主标题、导航、内容区和完整邮箱无横向溢出；修正合作阶段短语中途换行 |
+| 桌面渲染 | 内置浏览器 1440×1000，非空、无框架错误页；实时 Canvas 的 renderer=webgl、motion=ready，横向无溢出 |
+| 手机渲染 | 内置浏览器 390×844 与窄屏 360×780；主标题、导航、业务关系图和完整邮箱无横向溢出；窄屏邮箱边界在可用宽度内 |
+| 窗口变化 | 桌面与手机尺寸来回切换后，实时粒子保持完整；绘制密度随当前宽度切换，避免沿用首次加载尺寸。恢复实际预览 778×853，motion=ready、renderer=webgl、无横向溢出 |
 | 内容交互 | 八个 tab 全部点击并核对标题；Home 和 ArrowDown 键切换通过；手机语音交互 tab 通过 |
-| 动效偏好 | prefers-reduced-motion 下动画名为 none、轨道追踪点隐藏，正文保持可见；测试后复原媒体与视口设置 |
+| 滚动叙事 | 桌面在 progress≈0.65 时主标题透明且 inert，第二幕完全可见，粒子与正文分列；手机粒子保持下方，文字在上方换幕 |
+| 动效偏好 | prefers-reduced-motion 下 motion=reduced、canvas=none、stage=relative、story opacity=1、轨道追踪点隐藏；手机文字边界完整 |
+| 无 JavaScript | 浏览器禁用页面脚本后，显示静态粒子；主张与第二幕按顺序排版，8 段业务描述可用，隐藏不可操作的 tab；文字没有裁切 |
 | 控制台 | 最终 error/warn 列表为空 |
 | 补丁检查 | git diff --check 通过 |
 
 ## 视觉对照
 
-参考为生成的三个页面区域方案；创始人随后明确要求粒子／量子感、取消金属，粒子版首屏方案与独立粒子资产取代早期金属方案。最终用 view_image 对照粒子版方案和真实浏览器截图。
+本轮在真实浏览器中查看 Distyl 首页及其下一章节、Apple 中国首页与 iPhone 18 Pro 产品页的主视觉和滚动章节，随后生成三个布局参考：居中主视觉、冷白业务章节、左粒子／右陈述的第二幕。参考网址与观察、本站应用记录在 SOURCES.md，不能把我们归纳的方式写成品牌官方准则。
 
-1. 页头保留项目名、四个导航入口及清晰联系动作，去除个人入口。
-2. 原生中文双行主标题与说明、主次动作对照方案；实际字体使用本地中文无衬线，保持可读性与稳定换行。
-3. 主视觉使用冷白／冰蓝概率云与光点环，没有金属资产；慢速呼吸与轨道表达时间循环。
-4. 八项方向与共享详情区的结构、选中状态、原生文字及键盘操作对照方案；粒子图以 lighten 和柔边融合，消除矩形背景接缝。
-5. 四步交付循环与宽幅粒子环延续同一视觉，商业阶段文字保留而不添加价格或假收益。
-6. 手机按顺序堆叠内容，所有能力标签可见，联系邮箱不裁切。
+1. 原生中文大标题与单一主动作；紧凑页头与大面积留白，手机保留业务和联系入口。
+2. 实时 WebGL 冷白／冰蓝粒子环代替悬浮图片，呈现点状光场和半扭转带；没有金属材质。静态粒子图仅用于后备阅读。
+3. 一段随原生滚动的场景完成主张到持续进化的叙事；不劫持滚轮。调整粒子的位置和缩放，使第二幕文字区有清晰空间；缩短交叉渐隐区间。
+4. 业务章节改成冷白背景、轻线关系图和八项原生方向导航；取消重复粒子图。手机采用独立 SVG 排列以保留标签字号。
+5. 交付章节保留细线四步循环与慢速轨迹，取消宽幅粒子图的重复；商业阶段仍不添加未经验证的价格和收益。
+6. 减少动画与无 JavaScript 都提供顺序阅读。浏览器验证发现后备版相对定位可能裁切手机说明文字，已修正边距并复查实际边界。
+
+实现与概念的有意差异：生成方案用于空间、明暗和层级；真实版本使用本地中文字体、原生关系图和持续运动的三维点场，不把生成画面作为整页截图铺在页面上。第二幕的粒子左侧有意超出屏幕，正文有独立空间。
 
 最终截图（仓库之外）：
-/Users/weiyudang/.codex/visualizations/2026/11/09/01a1c0ee-56d7-75f2-b825-834b1d54185e/company-website/
-包含 desktop-hero.jpg、desktop-technology.jpg、desktop-delivery.jpg、desktop-full.jpg、mobile-hero.jpg、mobile-technology.jpg、mobile-contact.jpg 与 retired-personal-page.jpg。
+/Users/weiyudang/.codex/visualizations/2026/11/09/01a1c0ee-56d7-75f2-b825-834b1d54185e/company-website/premium/
+包含 desktop-hero.jpg、desktop-story.jpg、desktop-technology.jpg、desktop-delivery.jpg、mobile-hero.jpg、mobile-story.jpg、mobile-technology.jpg、mobile-contact.jpg、reduced-motion-mobile.jpg 和 no-javascript-mobile.jpg。上一版截图保留在父目录，不充当本轮效果证据。
 
 ## 未验证与发布待办
 
 - 尚未发布到 Vercel，正式域名仍是原站。推送／合并／发布按用户工作约定需明确批准。
 - 独立 dora.weiyudang.com 与 relay.weiyudang.com 不受此 Vercel 主站路由控制。当前工作机没有找到本地 Cloudflare ingress 配置；需要单独核对它们的公开路由和内部依赖后撤下，不能声称本候选已经让它们下线。
 - 未发送邮件验证 Gmail 收件，未做真实设备、Safari／Android 浏览器或中国大陆多地网络验收。
+- 未将内置浏览器的观测帧率当作真实手机性能验收；未模拟 GPU 驱动／显存故障，GPU 初始化失败和上下文丢失的后备处理只经代码复查。减少动画及无 JavaScript 的静态后备已在浏览器中实际验证。
 - 该站为业务展示，不代表八个方向都已有自研产品、生产案例、客户订单或验收。没有新增数据后端或模型服务。
