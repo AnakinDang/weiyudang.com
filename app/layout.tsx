@@ -1,46 +1,18 @@
 import type { Metadata } from "next";
-import { LanguageProvider } from "@/components/LanguageProvider";
-import "./globals.css";
+import "./company.css";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Weiyu Dang | Physics, AI, and Research Tools",
-    template: "%s | Weiyu Dang"
-  },
-  description:
-    "Personal website for Weiyu Dang: physics and quantum computing student building AI systems, creative workflows, and trading research tools.",
   metadataBase: new URL("https://weiyudang.com"),
+  title: { default: "莫比乌斯｜企业 AI 应用与交付", template: "%s｜莫比乌斯" },
+  description: "立足陕西，从业务发现、企业知识与智能体构建，到系统部署、运行评测与持续改进。公司暂称未命名，项目名莫比乌斯。",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Weiyu Dang",
-    description: "Physics, quantum computing, AI systems, creative workflows, and research tools.",
-    url: "https://weiyudang.com",
-    siteName: "Weiyu Dang",
-    type: "website"
-  }
+    title: "莫比乌斯｜让 AI 成为企业的运行方式", description: "连接企业知识、业务系统与 AI 能力，从关键流程开始持续改进。",
+    url: "/", siteName: "莫比乌斯", locale: "zh_CN", type: "website"
+  },
+  robots: { index: true, follow: true }
 };
 
-function LocaleBootstrapScript() {
-  const script = `(function(){try{var key="weiyu-site-locale";var stored=localStorage.getItem(key);var cookie=(document.cookie.split(";").map(function(part){return part.trim();}).find(function(part){return part.indexOf(key+"=")===0;})||"").split("=")[1];var nav=(navigator.languages||[]).some(function(lang){return String(lang).toLowerCase().indexOf("zh")===0;});var locale=stored==="zh"||stored==="en"?stored:(cookie==="zh"||cookie==="en"?cookie:(nav?"zh":"en"));var root=document.documentElement;root.lang=locale==="zh"?"zh-Hans":"en";root.dataset.locale=locale;if(locale==="zh"){root.dataset.i18nPending="zh";window.setTimeout(function(){if(root.dataset.i18nPending){delete root.dataset.i18nPending;}},1500);}}catch(e){}})();`;
-
-  return <script data-i18n-skip dangerouslySetInnerHTML={{ __html: script }} />;
-}
-
-export default function RootLayout({
-  children
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="en"
-      data-locale="en"
-      data-scroll-behavior="smooth"
-      suppressHydrationWarning
-    >
-      <body data-i18n-root>
-        <LocaleBootstrapScript />
-        <LanguageProvider>{children}</LanguageProvider>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="zh-CN"><body>{children}</body></html>;
 }

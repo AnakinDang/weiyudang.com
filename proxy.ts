@@ -1,102 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
-import {
-  isOwnerAgentRouteId,
-  isOwnerEventKind,
-  OWNER_AGENT_PARAM,
-  OWNER_EVENT_KIND_PARAM,
-  ownerAgentHrefFromRouteId,
-  ownerEventsHrefFromRouteId
-} from "@/lib/agent-route";
-import { getOwnerAccessSecret, OWNER_SESSION_COOKIE, verifyOwnerSession } from "@/lib/auth-session";
-import {
-  isOwnerKnowledgeCandidateRouteId,
-  OWNER_KNOWLEDGE_CANDIDATE_PARAM,
-  ownerKnowledgeHrefFromRouteId
-} from "@/lib/knowledge-route";
-import {
-  isOwnerReviewPacketRouteId,
-  OWNER_REVIEW_PACKET_PARAM,
-  ownerReviewHrefFromRouteId
-} from "@/lib/review-route-public";
-import { isOwnerScheduleId, OWNER_SCHEDULE_PARAM, ownerScheduleHref } from "@/lib/schedule-route";
-import { isOwnerSystemServiceId, OWNER_SYSTEM_SERVICE_PARAM, ownerSystemHref } from "@/lib/system-route";
-import { TRADING_REVIEW_PACKET_PARAM } from "@/lib/trading-trace";
-import { tradingViewSlugFromParam } from "@/lib/trading-team";
+import { NextResponse } from "next/server";
 
-function ownerNextPath(request: NextRequest) {
-  if (request.nextUrl.pathname === "/app/trading") {
-    const view = tradingViewSlugFromParam(request.nextUrl.searchParams.get("view"));
-    const reviewPacket = request.nextUrl.searchParams.get(TRADING_REVIEW_PACKET_PARAM);
-    const query = new URLSearchParams();
-
-    if (view) {
-      query.set("view", view);
-    }
-
-    if (isOwnerReviewPacketRouteId(reviewPacket)) {
-      query.set(TRADING_REVIEW_PACKET_PARAM, reviewPacket);
-    }
-
-    const queryString = query.toString();
-    return queryString ? `${request.nextUrl.pathname}?${queryString}` : request.nextUrl.pathname;
-  }
-
-  if (request.nextUrl.pathname === "/app/agents") {
-    const routeId = request.nextUrl.searchParams.get(OWNER_AGENT_PARAM);
-    return ownerAgentHrefFromRouteId(isOwnerAgentRouteId(routeId) ? routeId : undefined);
-  }
-
-  if (request.nextUrl.pathname === "/app/events") {
-    const routeId = request.nextUrl.searchParams.get(OWNER_AGENT_PARAM);
-    const eventKind = request.nextUrl.searchParams.get(OWNER_EVENT_KIND_PARAM);
-    return ownerEventsHrefFromRouteId(
-      isOwnerAgentRouteId(routeId) ? routeId : undefined,
-      isOwnerEventKind(eventKind) ? eventKind : undefined
-    );
-  }
-
-  if (request.nextUrl.pathname === "/app/review") {
-    const routeId = request.nextUrl.searchParams.get(OWNER_REVIEW_PACKET_PARAM);
-    return ownerReviewHrefFromRouteId(isOwnerReviewPacketRouteId(routeId) ? routeId : undefined);
-  }
-
-  if (request.nextUrl.pathname === "/app/schedules") {
-    const scheduleId = request.nextUrl.searchParams.get(OWNER_SCHEDULE_PARAM);
-    return ownerScheduleHref(isOwnerScheduleId(scheduleId) ? scheduleId : undefined);
-  }
-
-  if (request.nextUrl.pathname === "/app/knowledge") {
-    const routeId = request.nextUrl.searchParams.get(OWNER_KNOWLEDGE_CANDIDATE_PARAM);
-    return ownerKnowledgeHrefFromRouteId(isOwnerKnowledgeCandidateRouteId(routeId) ? routeId : undefined);
-  }
-
-  if (request.nextUrl.pathname === "/app/system") {
-    const serviceId = request.nextUrl.searchParams.get(OWNER_SYSTEM_SERVICE_PARAM);
-    return ownerSystemHref(isOwnerSystemServiceId(serviceId) ? serviceId : undefined);
-  }
-
-  return `${request.nextUrl.pathname}${request.nextUrl.search}`;
-}
-
-export async function proxy(request: NextRequest) {
-  if (!request.nextUrl.pathname.startsWith("/app")) {
-    return NextResponse.next();
-  }
-
-  const isAuthed = await verifyOwnerSession(
-    request.cookies.get(OWNER_SESSION_COOKIE)?.value,
-    getOwnerAccessSecret()
-  );
-
-  if (isAuthed) {
-    return NextResponse.next();
-  }
-
-  const loginUrl = new URL("/login", request.url);
-  loginUrl.searchParams.set("next", ownerNextPath(request));
-  return NextResponse.redirect(loginUrl);
+// Retire the complete former personal site, including deep links, login APIs
+// and direct personal-artwork URLs. Source recovery is documented in README.
+export function proxy() {
+  return new NextResponse(`<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>页面已下线｜莫比乌斯</title><style>body{margin:0;background:#080b12;color:#f1f2f4;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}main{max-width:44rem;margin:16vh auto;padding:32px}h1{font-size:clamp(32px,6vw,48px);line-height:1.3}p{max-width:32rem;color:#a6aaba;font-size:18px;line-height:1.8}a{display:inline-block;margin-top:20px;padding:14px 22px;border-radius:3px;background:#b9d9f4;color:#080b12;text-decoration:none;font-size:18px}a:focus-visible{outline:3px solid #f1f2f4;outline-offset:6px}</style></head><body><main><h1>页面已下线。</h1><p>这个地址已停止提供内容。你可以前往莫比乌斯项目官网，了解我们的企业 AI 应用与交付服务。</p><a href="/">前往公司官网</a></main></body></html>`, {
+    status: 410,
+    headers: { "Content-Type": "text/html; charset=utf-8", "X-Robots-Tag": "noindex, nofollow", "Cache-Control": "no-store" }
+  });
 }
 
 export const config = {
-  matcher: ["/app/:path*"]
+  matcher: ["/about/:path*", "/projects/:path*", "/journal/:path*", "/lab/:path*", "/dora/:path*", "/app/:path*", "/login/:path*", "/api/:path*", "/visuals/:path*"]
 };
