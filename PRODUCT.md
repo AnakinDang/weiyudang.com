@@ -6,32 +6,40 @@ brand
 
 ## Users
 
-Enterprise owners, business leaders and information teams in Shaanxi who need to understand the company’s business scope, delivery and contact route. Laptop, tablet and mobile.
+Enterprise decision makers, business leaders, information teams and builders of organizations. The public brand addresses a global future and does not position itself through a province or local market. Desktop, tablet and phone.
 
 ## Product Purpose
 
-Use weiyudang.com as the company website before formal naming. Company working name: 未命名. Project: 莫比乌斯. The user requested business coverage corresponding to Distyl’s current official site, with our own universe, Mobius-loop and time-cycle design. Their latest correction explicitly requires particles and a quantum feel, without metallic surfaces.
+Use weiyudang.com as the company website before formal naming. Company working name: 未命名. Project: 莫比乌斯. The current user-defined mission is: 让智能，重塑世界的运行方式。
 
-Retire all former personal-site and Personal OS routes from the website, including the private app and login. Preserve recoverable source. Existing Mobius prototype routes remain separately available and absent from the marketing navigation.
+The company narrative connects knowledge, human judgment, coordinated action and continuous evolution. The business offer covers the enterprise AI lifecycle, with a homepage and eight substantive Chinese direction pages corresponding to the scope of Distyl's public AI technology site. The Chinese text is an original business adaptation, not a full translation of the vendor's prose or a claim to own its products.
 
-Latest steering (2026-11-10): defer publication and improve the local candidate using Distyl and Apple as design and animation references. Keep the particle/quantum direction. A reviewed local preview is the present deliverable; pushing or publishing is not authorized by this revision request.
+Retire the former personal homepage and Personal OS routes. Preserve recoverable source. Existing Mobius prototypes are unlinked historical demos with noindex; they are not the public brand narrative.
+
+## Current decisions — 2026-11-10
+
+- The earlier local candidate was judged rough. Rework typography, primary art, composition, diagrams and motion as one system after inspecting the actual Distyl and Apple sites.
+- Expand the AI business content into an overview and eight detailed pages covering the problem, approach, capabilities, system relationships and proposed delivery scope.
+- The founder explicitly rejected 立足陕西 and similar regional positioning. The latest global mission supersedes earlier public geographical wording, including metadata. Do not restore that framing from older plans or screenshots.
+- Publication is deferred. The authorized deliverable is a local, reviewable website. No push, merge, deployment, DNS change or public-domain replacement is authorized by these revision requests.
+- Cooperation email: dangweiyu0516@gmail.com. Links may be checked; no test email is sent.
 
 ## Brand Personality
 
-Clear, grounded, expansive. Cosmic imagery expresses cycles of accumulated capability; it does not claim a quantum-computing product.
+Ambitious, exact, expansive. A vision of intelligence changing how the world operates, supported by clear accounts of what can be built. The quantum particle imagery is a visual language; it is not a quantum-computing claim.
 
 ## Anti-references
 
-Metallic/chrome Mobius ribbons; the former personal homepage or Personal OS; fake activity, customer logos, partnerships, metrics or delivered proprietary products. No affiliation with Distyl.
+Metal/chrome Möbius ribbons; coarse uniform scatterplots; generic personal pages; fabricated clients, financing, partnerships, metrics, ready-made proprietary products or completed deliveries. No affiliation with Distyl or Apple.
 
 ## Design Principles
 
-- Explain enterprise AI transformation and the full lifecycle, including knowledge, agents, application, governance and improvement.
-- Ground technical directions in real customer workflows and concrete delivery.
-- Keep company identity provisional and capability availability project-specific.
-- Keep the primary business action clear and avoid unnecessary navigation.
-- Preserve recovery and treat independent personal subdomains separately from the Vercel main site.
+- Give the vision room and a distinctive visual identity.
+- Explain how knowledge, agents, business systems, governance and feedback connect.
+- Keep technical pages substantive and readable, with native Chinese text and links.
+- Preserve project-specific evaluation and founder-stage identity.
+- Preserve recovery and distinguish the Vercel main site from independent personal subdomains.
 
 ## Accessibility & Inclusion
 
-Semantic Chinese content, keyboard navigation, visible focus, AA text contrast, responsive layouts, reduced motion and useful content without client JavaScript.
+Semantic Chinese content, keyboard navigation, visible focus, readable contrast, responsive layouts, reduced motion and server-rendered content usable without client JavaScript. Claims about browser sizes do not establish real-device acceptance.

@@ -1,6 +1,6 @@
 # 莫比乌斯公司官网
 
-`weiyudang.com` 的公司官网候选版。公司暂称「未命名」，项目名「莫比乌斯」，首发市场陕西。当前分支完成本地制作与验证后，才进入发布确认；修改本地文件不等于线上已经替换。
+`weiyudang.com` 的公司官网候选版。公司暂称「未命名」，项目名「莫比乌斯」。主叙事为「让智能，重塑世界的运行方式」。当前交付是本地预览，创始人明确要求先不发布。
 
 业务范围参考 Distyl 官网的企业 AI 生命周期，使用自己的中文说明和宇宙／粒子莫比乌斯视觉，不使用其客户、投资人、研究成果、产品商标或业绩数字。量子感仅为视觉概念，不声称提供量子计算产品。
 
@@ -18,10 +18,11 @@ npm run check:company-site -- http://127.0.0.1:3079
 ## 页面与下线范围
 
 - `/`：公司业务、八个技术方向、交付循环、公司介绍和联系入口。
+- `/technology/platform`、`/technology/agents`、`/technology/knowledge`、`/technology/semantics`、`/technology/voice`、`/technology/personalization`、`/technology/capture`、`/technology/improvement`：八个完整中文业务方向页。
 - `/contact`：308 转至首页联系区。
 - `/about`、`/projects/**`、`/journal/**`、`/lab/**`、`/dora/**`、`/app/**`、`/login/**`、`/api/**`、`/visuals/**`：410 与 noindex；旧登录 POST 也停用。
 - `/mobius` 和 `/mobius-lab`：保留既有公司演示，不加入官网导航，返回 noindex。
-- `/robots.txt`、`/sitemap.xml`：只引导至新的公司首页。
+- `/robots.txt`、`/sitemap.xml`：引导至公司首页与八个技术方向页。
 
 原个人站入口的页面代码从本分支的 app 路由树移除。旧组件、资料和样式保留为非运行源码；个人图像也不包含在新的 Vercel 上传中。
 
