@@ -15,6 +15,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 - Body/UI: local Chinese system sans. Main desktop headline up to64px, section headings32–50px, body17–20px, restrained native labels.
 - Headlines and short leads use deliberate wrapping. The global headline has a purposeful three-line phone arrangement. Detailed page headings balance naturally on phones.
 - 1280px maximum content width; 24–80px gutters. Fine borders, open layouts and rectangular outline actions. No card grid, fake interface, hero metric or repetitive decorative eyebrow.
+- Astryx-informed refinement: a 4px/rem spacing scale, 175ms feedback/exit and 410ms expansion tokens. Desktop capability and solution workflow body text is16px; phone workflow text remains15px. Diagram controls use14px text and a minimum44px target. The site keeps its own native components, fonts, palette and particle renderer rather than adding the Astryx component library.
 
 ## Art and motion
 
@@ -27,6 +28,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 - Direction motion caps pixel density at1.5 and render attempts at60/sec, or30/sec when narrower than440px. It starts when visible, pauses offscreen or in a hidden document, and releases its buffers/programs on unmount. The active clock excludes pauses. These are code limits, not a measured device-frame-rate promise.
 - Every diagram has a native pause/play control. Reduced motion, loading, missing WebGL and texture failure show the original poster. Native text and labels remain outside the canvas.
 - Header withdraws on downward scrolling and reappears when moving up or focusing it. Deep anchor loads initialize the header background correctly. Reduced motion keeps navigation still.
+- Header marks the current chapter with a fine underline and aria-current=location. The reading line is the header height plus32px, so the adjacent about/contact columns remain distinguishable. Section measurements share the existing scroll animation frame; React state changes only when the chapter changes.
 - Business changes use a small, brief focus/position transition with native content. Eight detailed pages use the same coherent article system; no animation blocks reading.
 
 ## Content and interaction
@@ -38,6 +40,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 - Contact is a visible mailto link, not a fictitious submission form.
 - A dark, open solution list follows the light technology area. Six native details disclosures cover retail, finance, supply chain, video/brand content, operations and customer service. Each contains a system introduction, three concrete workflow phases and a topic-specific contact link. One opens at a time. No fictional client logos, achieved metrics or fabricated product screens.
 - The solution section follows the generated section concept: left-aligned serif heading, fine row dividers, category/title pairs and an open two-column expanded area with a three-phase light trace. Phones stack the phases beside a vertical trace. The homepage navigation adds a solution anchor; phones retain compact business, solution and contact links.
+- Solution disclosures retain native details semantics and keyboard operation. Supporting browsers interpolate the content height with a410ms expansion and175ms exit; other browsers retain native immediate disclosure. Reduced motion explicitly removes both open and closed transitions. Expansion no longer adds a separate blur/position effect to the body.
 
 ## Concept fidelity
 

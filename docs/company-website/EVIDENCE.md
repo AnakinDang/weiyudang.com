@@ -1,6 +1,6 @@
 # 公司官网候选验证与交接
 
-日期：2026-11-10。当前为八方向粒子动效及六类解决方案的本地候选，本次基于提交1d283e5。未推送、合并、发布或修改 DNS。
+日期：2026-11-10。当前为 Astryx 原则优化后的本地候选，本次基于提交7500b6b，延续八方向粒子动效及六类解决方案。未推送、合并、发布或修改 DNS。
 
 ## 当前成果与基线
 
@@ -15,7 +15,28 @@
 
 ## 已验证
 
-### 本次：粒子动效与具体系统方案
+### 本次：Astryx 原则、阅读与交互优化
+
+本次改动集中于CompanyHeader和company.css：补齐间距与动效变量，调大桌面辅助正文，统一图形动效按钮；原生方案折叠加入渐进式高度动画；导航标示当前章节。品牌、正文、图像与粒子渲染逻辑未改动，网站未引入Astryx运行时依赖。工具安装记录另见ASTRYX-SETUP.md。
+
+| 检查 | 本次结果 |
+| --- | --- |
+| 最终构建与HTTP回归 | npm run build及npm run check:company-site -- http://127.0.0.1:3079均通过，包含六类场景、八详情、字体和16个停用入口 |
+| 当前章节与键盘导航 | 五个导航逐项通过Enter前往，对应hash与aria-current一致，包含相邻的关于我们／联系合作；没有横向溢出 |
+| 六类场景 | 桌面六项逐项通过Enter展开，同一时间只有一项打开，展开计算时长0.41s，流程正文16px |
+| 减少动画 | 最终浏览器计算的展开／收起时长均0s，图形state=reduced；已恢复媒体偏好 |
+| 手机宽度 | 360×780浏览器中六场景逐项展开均无横向溢出，流程正文15px；知识详情图形running，业务导航标示正确，暂停按钮96×44px |
+| 平板与桌面 | 768×1024无横向溢出且流程正文16px；桌面1280×720核对布局与展开交互 |
+| 控制台 | 最终浏览器warn/error为空，无框架错误覆盖层 |
+| 视觉核对 | 实际桌面、手机截图与既有方案分区概念通过view_image核对；仍为开放行、细分隔、宋体层级、三阶段光线和自身品牌配色 |
+
+本次证据目录：
+
+/Users/weiyudang/.codex/visualizations/2026/11/09/01a1c0ee-56d7-75f2-b825-834b1d54185e/company-website/astryx-polish/
+
+包含desktop-solutions.jpg、mobile-solutions.jpg、mobile-artwork.jpg、tablet-solutions.jpg与checks.json。checks.json保存五导航、桌面及手机六场景、手机图形按钮和减少动画的测量。未重新做真实设备、Safari、GPU故障或无JavaScript交互验收；以下更早结果保留各自原验证范围，不冒充本次重测。
+
+### 上一候选：粒子动效与具体系统方案
 
 验证流程：首页业务切换或详情页 → 对应粒子场运行 → 暂停/继续与减少动画 → 首页六类场景展开 → 阅读具体工作流程与联系入口。
 
@@ -33,7 +54,7 @@
 | 图形轨迹 | 八类所有轨迹采样均有限且在0至1范围，闭合路径首尾一致 |
 | 视觉核对 | 生成的解决方案分区概念、实际桌面和手机截图经view_image核对，参见REFINEMENT中的六点对照；新方案没有修改首屏主张、正文和CTA，仅导航增加解决方案入口与手机短标签 |
 
-最新证据在仓库之外的 company-website/motion-solutions/，完整父路径与下方截图相同。包含desktop-solutions.jpg、desktop-video.jpg、desktop-motion.jpg、mobile-finance.jpg、mobile-content.jpg、mobile-motion.jpg、tablet-solutions.jpg、reduced-motion.jpg、checks.json与motion-pixel-check.json。particle-motion.gif为实际浏览器录屏生成的5.1秒、960×540动画，非概念动画；原录屏50帧和时间戳位于frames/与recording.json。
+上一候选证据在仓库之外的 company-website/motion-solutions/，完整父路径与下方截图相同。包含desktop-solutions.jpg、desktop-video.jpg、desktop-motion.jpg、mobile-finance.jpg、mobile-content.jpg、mobile-motion.jpg、tablet-solutions.jpg、reduced-motion.jpg、checks.json与motion-pixel-check.json。particle-motion.gif为实际浏览器录屏生成的5.1秒、960×540动画，非概念动画；原录屏50帧和时间戳位于frames/与recording.json。
 
 本次未重新做真实设备、GPU硬件故障或禁用JavaScript的浏览器交互测试；原图与六个原生details内容有服务器HTML证据。未声称这些场景背后已有可直接使用的财务、视频或其他AI业务后台。
 

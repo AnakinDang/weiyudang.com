@@ -44,3 +44,9 @@
 视觉参考复查：[Distyl技术页](https://www.distyl.ai/technology/context-mesh)具有完整八方向导航、主张、问题与能力内容；[Apple产品页](https://www.apple.com.cn/iphone-18-pro/)展示独立的大幅产品画面、下方主张及后续章节。部分延迟媒体未在检查环境稳定播放，因此不声称复现其全部动画。
 
 字体来源：[Noto Serif SC](https://fonts.google.com/noto/specimen/Noto+Serif+SC)，经Google Fonts分发的500字重子集，随站保留[SIL OFL许可](https://github.com/notofonts/noto-cjk/blob/main/Serif/LICENSE)。图像为本项目生成；没有复用参考站的产品图或标志。
+
+## Astryx 原则与开发工具（2026-11-10）
+
+来源：[Meta Astryx仓库](https://github.com/meta/astryx)、[官方CLI文档](https://astryx.atmeta.com/docs/cli)、[主题文档](https://astryx.atmeta.com/docs/theme)，及实际安装CLI返回的spacing、motion、Collapsible文档。检索时仓库main为f6d2c316878690f34602ab07fbeb0039666e653c；实际安装并验证的CLI/Core版本均为0.7.11，不将main中其他版本视为已安装。
+
+采用4px间距基准和175ms反馈／退出、410ms展开的动效角色；结合现有品牌与原生details实现阅读和交互优化。Astryx是设计系统、组件与开发指南，不是量子粒子引擎。官网没有新增其运行时包，也没有替换已有粒子图形。官方用户级CLI和共享技能已接入Codex／Claude Code，具体路径、验证与回退见ASTRYX-SETUP.md。该项目当前为Beta、MIT许可，不构成Meta对莫比乌斯的背书。

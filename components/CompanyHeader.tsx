@@ -1,12 +1,24 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const chapters = ["technology", "solutions", "delivery", "about", "contact"] as const;
 
 export function CompanyHeader({ light = false }: { light?: boolean }) {
   const header = useRef<HTMLElement>(null);
+  const [activeChapter, setActiveChapter] = useState(light ? "technology" : "");
   useEffect(() => {
     let previous = window.scrollY;
+    let current = light ? "technology" : "";
+    const sections = chapters.map(id => document.getElementById(id)).filter((node): node is HTMLElement => node !== null);
+    const updateChapter = () => {
+      let next = light ? "technology" : "";
+      const readingLine = (header.current?.offsetHeight ?? 78) + 32;
+      for (const section of sections) if (section.getBoundingClientRect().top <= readingLine) next = section.id;
+      if (next !== current) { current = next; setActiveChapter(next); }
+    };
     if (header.current) header.current.dataset.scrolled = String(previous > 40);
+    updateChapter();
     let frame = 0;
     const onScroll = () => {
       if (frame) return;
@@ -18,12 +30,14 @@ export function CompanyHeader({ light = false }: { light?: boolean }) {
           node.dataset.scrolled = String(next > 40);
           previous = next;
         }
+        updateChapter();
         frame = 0;
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(frame); };
-  }, []);
+    window.addEventListener("hashchange", onScroll);
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("hashchange", onScroll); cancelAnimationFrame(frame); };
+  }, [light]);
   return (
     <header ref={header} className={"company-header" + (light ? " header-light" : "")}>
       <div className="wrap header-inner">
@@ -35,11 +49,11 @@ export function CompanyHeader({ light = false }: { light?: boolean }) {
           <span>莫比乌斯</span>
         </a>
         <nav aria-label="主导航">
-          <a href="/#technology"><span className="nav-text-desktop">业务与技术</span><span className="nav-text-mobile">业务</span></a>
-          <a href="/#solutions"><span className="nav-text-desktop">解决方案</span><span className="nav-text-mobile">方案</span></a>
-          <a href="/#delivery">交付方式</a>
-          <a href="/#about">关于我们</a>
-          <a href="/#contact"><span className="nav-text-desktop">联系合作</span><span className="nav-text-mobile">合作</span></a>
+          <a href="/#technology" aria-label="业务与技术" aria-current={activeChapter === "technology" ? "location" : undefined}><span className="nav-text-desktop">业务与技术</span><span className="nav-text-mobile">业务</span></a>
+          <a href="/#solutions" aria-label="解决方案" aria-current={activeChapter === "solutions" ? "location" : undefined}><span className="nav-text-desktop">解决方案</span><span className="nav-text-mobile">方案</span></a>
+          <a href="/#delivery" aria-current={activeChapter === "delivery" ? "location" : undefined}>交付方式</a>
+          <a href="/#about" aria-current={activeChapter === "about" ? "location" : undefined}>关于我们</a>
+          <a href="/#contact" aria-label="联系合作" aria-current={activeChapter === "contact" ? "location" : undefined}><span className="nav-text-desktop">联系合作</span><span className="nav-text-mobile">合作</span></a>
         </nav>
       </div>
     </header>
