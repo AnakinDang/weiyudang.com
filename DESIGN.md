@@ -29,6 +29,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 - Every diagram has a native pause/play control. Reduced motion, loading, missing WebGL and texture failure show the original poster. Native text and labels remain outside the canvas.
 - Header withdraws on downward scrolling and reappears when moving up or focusing it. Deep anchor loads initialize the header background correctly. Reduced motion keeps navigation still.
 - Header marks the current chapter with a fine underline and aria-current=location. The reading line is the header height plus32px, so the adjacent about/contact columns remain distinguishable. Section measurements share the existing scroll animation frame; React state changes only when the chapter changes.
+- The founder requested an icon-only upper-left brand on2026-11-10. The shared header shows only the loop symbol on both home and detail pages, with a minimum44×44px link and its accessible home label. Footer and page metadata retain the project identity.
 - Business changes use a small, brief focus/position transition with native content. Eight detailed pages use the same coherent article system; no animation blocks reading.
 
 ## Content and interaction

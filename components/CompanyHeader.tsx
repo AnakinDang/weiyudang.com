@@ -46,7 +46,6 @@ export function CompanyHeader({ light = false }: { light?: boolean }) {
             <path d="M36 17C27 9 20 3 13 5C5 7 2 12 3 18C4 25 10 30 17 28C24 27 30 21 36 17C45 9 53 3 60 5C68 7 71 13 69 19C67 26 61 30 55 28C49 26 42 21 36 17Z" stroke="currentColor" strokeWidth="1.15" />
             <path d="M7 11C16 5 25 13 36 19C46 25 57 32 66 23" stroke="currentColor" strokeWidth=".65" opacity=".55" />
           </svg>
-          <span>莫比乌斯</span>
         </a>
         <nav aria-label="主导航">
           <a href="/#technology" aria-label="业务与技术" aria-current={activeChapter === "technology" ? "location" : undefined}><span className="nav-text-desktop">业务与技术</span><span className="nav-text-mobile">业务</span></a>
