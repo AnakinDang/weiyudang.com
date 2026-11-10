@@ -17,10 +17,17 @@ assert.ok(html.includes('mailto:dangweiyu0516@gmail.com'));
 for (const label of ['企业 AI 平台', '智能体构建', '企业知识', '业务语义', '语音交互', '个性化服务', '专家经验采集', '持续评测与改进']) assert.ok(html.includes(label), `Missing capability: ${label}`);
 
 const directions = [
-  ['platform', '企业 AI 平台'], ['agents', '智能体构建'], ['knowledge', '企业知识'], ['semantics', '业务语义'],
-  ['voice', '语音交互'], ['personalization', '个性化服务'], ['capture', '专家经验采集'], ['improvement', '持续评测与改进']
+  ['platform', '企业 AI 平台', '/company/knowledge-orbits-v3.webp'],
+  ['agents', '智能体构建', '/company/directions/agents-v4.webp'],
+  ['knowledge', '企业知识', '/company/directions/knowledge-v4.webp'],
+  ['semantics', '业务语义', '/company/directions/semantics-v4.webp'],
+  ['voice', '语音交互', '/company/directions/voice-v4.webp'],
+  ['personalization', '个性化服务', '/company/directions/personalization-v4.webp'],
+  ['capture', '专家经验采集', '/company/directions/capture-v4.webp'],
+  ['improvement', '持续评测与改进', '/company/directions/improvement-v4.webp']
 ];
-await Promise.all(directions.map(async ([slug, label]) => {
+assert.ok(html.includes('data-direction-artwork="platform"'), 'Default overview needs the designed platform artwork');
+await Promise.all(directions.map(async ([slug, label, artwork]) => {
   const path = '/technology/' + slug;
   assert.ok(html.includes('href="' + path + '"'), 'Missing detail link: ' + label);
   const response = await read(path);
@@ -31,6 +38,12 @@ await Promise.all(directions.map(async ([slug, label]) => {
   assert.ok(body.includes('项目评估后共同确定'));
   assert.ok((body.match(/<h2/g) ?? []).length >= 5, label + ' needs substantive sections');
   assert.ok(body.includes('href="https://weiyudang.com' + path + '"'), label + ' canonical mismatch');
+  assert.ok(body.includes('data-direction-artwork="' + slug + '"'), label + ' needs its matching designed artwork');
+  assert.ok(body.includes('src="' + artwork + '"'), label + ' artwork image must be rendered');
+  assert.ok(!body.includes('class="direction-diagram"'), label + ' must not fall back to the repeated generic flowchart');
+  const imageResponse = await read(artwork);
+  assert.equal(imageResponse.status, 200, label + ' artwork must be available');
+  assert.ok(imageResponse.headers.get('content-type')?.includes('image/webp'), label + ' artwork must be an image');
   for (const term of ['陕西', 'Personal OS', '95%', '150M+', 'Fortune 500', 'Distillery', 'Context Mesh']) assert.ok(!body.includes(term), label + ' unexpected content: ' + term);
 }));
 assert.equal((await read('/technology/unknown-direction')).status, 404);
@@ -64,4 +77,4 @@ const robots = await read('/robots.txt');
 assert.equal(robots.status, 200);
 assert.ok((await robots.text()).includes('https://weiyudang.com/sitemap.xml'));
 assert.equal((await read('/missing-company-page')).status, 404);
-console.log(`PASS: global vision, 8 detailed Chinese business pages, ${retired.length} retired paths, disabled login POSTs, prototypes, art/font assets, contact redirect and 9-page search metadata.`);
+console.log(`PASS: global vision, 8 Chinese business pages with matching designed artwork, ${retired.length} retired paths, disabled login POSTs, prototypes, art/font assets, contact redirect and 9-page search metadata.`);

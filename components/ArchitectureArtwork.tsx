@@ -2,8 +2,8 @@ import Image from "next/image";
 
 export function ArchitectureArtwork() {
   return (
-    <figure className="architecture-artwork" aria-label="企业 AI 的四层运行基础">
-      <Image src="/company/knowledge-orbits-v3.webp" width={1254} height={1254} sizes="(max-width: 900px) 90vw, 45vw" alt="" />
+    <figure className="architecture-artwork" data-direction-artwork="platform" aria-label="企业 AI 的四层运行基础">
+      <Image src="/company/knowledge-orbits-v3.webp" width={1254} height={1254} unoptimized loading="eager" alt="" />
       <ul className="architecture-labels">
         {["业务应用", "智能体与工作流", "企业知识", "权限与评测"].map((label, index) => <li key={label} style={{ top: [22,42,60,78][index] + "%" }}><i aria-hidden="true" />{label}</li>)}
       </ul>

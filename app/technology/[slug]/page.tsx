@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { CompanyContact, CompanyFooter } from "@/components/CompanyFooter";
-import { DirectionDiagram } from "@/components/DirectionDiagram";
+import { DirectionArtwork } from "@/components/DirectionArtwork";
 import { companyDirections, findDirection } from "@/lib/company-content";
 
 export const dynamicParams = false;
@@ -35,7 +35,7 @@ export default async function TechnologyDirection({ params }: Props) {
           <p className="direction-lead">{item.lead}</p>
           <section className="direction-story" aria-labelledby="direction-problem">
             <div><h2 id="direction-problem">{item.problemTitle}</h2><p>{item.problem}</p><p>{item.approach}</p></div>
-            <DirectionDiagram direction={item} />
+            <DirectionArtwork direction={item} />
           </section>
           <section className="direction-pillars" aria-label="能力组成">
             {item.pillars.map(pillar => <div key={pillar.title}><h2>{pillar.title}</h2><p>{pillar.body}</p></div>)}

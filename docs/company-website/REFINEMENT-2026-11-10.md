@@ -47,6 +47,23 @@ Create a standalone production illustration from the RIGHT-HAND DIAGRAM of the r
 
 本地 Noto Serif SC 500 WOFF2 显示字子集63240字节，374个字符，配合系统中文无衬线正文。完整许可与分发来源见 public/company/fonts/OFL.txt、SOURCE.json。未来修改显示字文案时应同步检查子集覆盖。
 
+## 后续修正：让八个方向都使用正式图形
+
+用户指出后面的页面没有落实设计图形。核对发现，上一候选仅首页的「企业 AI 平台」使用了轨道素材，其余七个总览选项和八个详情页仍复用通用流程图。本次删除该流程图，首页与详情页统一调用 DirectionArtwork，补齐七张同系列粒子光丝素材；平台详情同步使用已有四层轨道图。
+
+| 业务方向 | 图形表达 | 正式路径 | 文件大小 |
+| --- | --- | --- | --- |
+| 企业 AI 平台 | 四层轨道与运行基础 | public/company/knowledge-orbits-v3.webp | 87418字节 |
+| 智能体构建 | 多股光丝交织协作 | public/company/directions/agents-v4.webp | 101094字节 |
+| 企业知识 | 连接的粒子星群 | public/company/directions/knowledge-v4.webp | 125772字节 |
+| 业务语义 | 正交分层关系晶格 | public/company/directions/semantics-v4.webp | 80210字节 |
+| 语音交互 | 波形穿过轨道 | public/company/directions/voice-v4.webp | 116608字节 |
+| 个性化服务 | 中心星群与关系触点 | public/company/directions/personalization-v4.webp | 85206字节 |
+| 专家经验采集 | 分散经验汇为有序轨迹 | public/company/directions/capture-v4.webp | 68616字节 |
+| 持续评测与改进 | 闭合光丝反馈循环 | public/company/directions/improvement-v4.webp | 96140字节 |
+
+七张新素材均为1254×1254。生成方式为内置 image_gen，以已有平台轨道图作材质与配色参考；原始生成文件保留，正式素材仅做WebP压缩。共享提示词、逐方向提示词及完整原图路径见 direction-artwork-v4.json。网页中的说明文字与操作为原生元素，图片只承载图形。首页主视觉、全球叙事和现有业务正文未改动。
+
 ## 不属于本轮交付的事项
 
 - 正式域名替换、Git推送、Vercel部署和独立子域名撤下。

@@ -3,8 +3,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { companyDirections } from "@/lib/company-content";
-import { ArchitectureArtwork } from "./ArchitectureArtwork";
-import { DirectionDiagram } from "./DirectionDiagram";
+import { DirectionArtwork } from "./DirectionArtwork";
 
 export function CompanyCapabilities() {
   const [selected, setSelected] = useState(0);
@@ -32,7 +31,7 @@ export function CompanyCapabilities() {
             <dl className="capability-pillars">{active.pillars.map(item=><div key={item.title}><dt>{item.title}</dt><dd>{item.body}</dd></div>)}</dl>
             <a className="accent-link" href={"/technology/"+active.id}>{"了解" + active.label}<ArrowUpRight size={22} strokeWidth={1.15} aria-hidden="true" /></a>
           </div>
-          <div className="capability-visual">{active.id==="platform" ? <ArchitectureArtwork /> : <DirectionDiagram direction={active} />}</div>
+          <div className="capability-visual"><DirectionArtwork direction={active} /></div>
         </div>
       </div>
       <noscript><style>{".capability-tabs,.capability-panel{display:none!important}"}</style><div className="noscript-capabilities">{companyDirections.map(item=><section key={item.id}><h3><a href={"/technology/"+item.id}>{item.label}<ArrowUpRight size={19} aria-hidden="true" /></a></h3><p>{item.lead}</p></section>)}</div></noscript>

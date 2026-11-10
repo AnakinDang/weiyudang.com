@@ -6,7 +6,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 
 - Distyl: compact navigation, serif display with sans body, 32px outer hero framing and a carefully finished dimensional artifact. Its technology area uses eight clear directions, a strong common hierarchy and richer descriptions. The statement chapter combines precise structural graphics with progressive focus.
 - Apple: the inspected product hero gives large, carefully lit imagery a distinct area from its lower-left headline. Later chapters change scale and density, with a restrained local navigation. Not every lazy-loaded video played in the inspection environment, so this is not a claim of a complete animation audit.
-- Our application: asymmetric particle-art hero; local Chinese display font; a quiet horizontal business rail; native, readable technical diagrams and full direction pages; open delivery sequence; a global mission at the close. These are our design choices rather than either brand's published design doctrine.
+- Our application: asymmetric particle-art hero; local Chinese display font; a quiet horizontal business rail; distinct quantum illustrations and full direction pages; open delivery sequence; a global mission at the close. These are our design choices rather than either brand's published design doctrine.
 
 ## Tokens and typography
 
@@ -21,7 +21,8 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 - Hero production asset: public/company/quantum-ribbon-v3.webp. Original generated particle/filament probability cloud, with sharp and out-of-focus depths. It is not a metal surface. The poster anchors visual quality.
 - A native WebGL texture pass adds very small wave movement, changing light and camera response to scrolling/pointer position. This is motion of generated artwork, not a claim of a physically simulated3D quantum field.
 - One full-screen triangle pass, pixel density capped1.5, at most60 render attempts/sec, no React state per frame. Rendering pauses when the scene is mostly outside the viewport or the document is hidden. The poster remains useful with reduced motion, no JavaScript, or unavailable WebGL.
-- Platform art: public/company/knowledge-orbits-v3.webp, four orbital probability planes with native labels and a subtle path tracer. Other direction relationships are native orthogonal diagrams with semantic labels rather than four repeated circles.
+- Platform art: public/company/knowledge-orbits-v3.webp, four orbital probability planes with native labels and a subtle path tracer. Seven companion illustrations in public/company/directions use the same icy-blue particle and filament material: braided agent flows, connected knowledge constellations, a rectilinear semantic lattice, voice waves, relational satellites, expertise trajectories and a closed feedback cycle.
+- Homepage tabs and all eight detail pages share DirectionArtwork and its exhaustive direction mapping. Each direction has its own production illustration; the generic repeated flowchart is removed. Illustrations are explanatory metaphors, with native captions and accessible descriptions. They are not screenshots of an operating product.
 - Header withdraws on downward scrolling and reappears when moving up or focusing it. Deep anchor loads initialize the header background correctly. Reduced motion keeps navigation still.
 - Business changes use a small, brief focus/position transition with native content. Eight detailed pages use the same coherent article system; no animation blocks reading.
 
@@ -29,7 +30,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 
 - Home H1: 让智能，重塑世界的运行方式。
 - Homepage overview and eight detailed pages: platform, agents, knowledge, semantics, voice, personalization, capture, improvement.
-- All controls, diagrams, labels and copy are native. Every direction has a working detail link; detail pages have their own canonical and shared navigation.
+- All controls, labels, captions and copy are native. Artwork is an independent image asset. Every direction has a working detail link; detail pages have their own canonical and shared navigation.
 - Global vision is aspirational. Specific delivery remains project-defined. Vendor outcomes and proprietary readiness are not adopted.
 - Contact is a visible mailto link, not a fictitious submission form.
 

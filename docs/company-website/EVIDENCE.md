@@ -1,6 +1,6 @@
 # 公司官网候选验证与交接
 
-日期：2026-11-10。当前为第二轮重做后的本地候选，基于提交 c431317。未推送、合并、发布或修改 DNS。
+日期：2026-11-10。当前为第二轮重做并补齐八方向图形后的本地候选，图形修正基于提交 aa6a084。未推送、合并、发布或修改 DNS。
 
 ## 当前成果与基线
 
@@ -14,6 +14,8 @@
 - 旧版本和原个人站源代码可经 Git 历史恢复；本轮未碰原工作区、远端分支或生产部署。
 
 ## 已验证
+
+本次图形修正重新完成生产构建与HTTP回归，并在独立浏览器标签核对八个总览选项、八个详情页和390×844窄屏下的八页图形。每项均对应自己的素材，图像complete=true、naturalWidth=1254，页面无横向溢出；最终浏览器warn/error列表为空。总览与详情共用同一组件，已移除旧通用流程图。下表中动效、无JavaScript、对比度等项目保留前一候选的验证范围，本次未扩充这些测试结论。
 
 | 检查 | 结果 |
 | --- | --- |
@@ -37,15 +39,21 @@
 
 ## 视觉核对
 
-四个分区概念和实际浏览器截图通过view_image逐对查看。正式图像是根据概念重新生成的独立素材，保留粒子、光丝与景深；不再用均匀散点近似高质量画面。所有标题、导航、业务说明、结构图和动作均为原生网页元素。
+四个分区概念和实际浏览器截图通过view_image逐对查看。正式图像是根据概念重新生成的独立素材，保留粒子、光丝与景深；不再用均匀散点近似高质量画面。所有标题、导航、业务说明、图注和动作均为原生网页元素，粒子图形为独立图片素材。
 
 宏大叙事与八页正文扩展来自生成概念之后的用户明确指令，因此主标题、段落、地区字样和局部纵向密度与早期概念有授权变化。没有把生成的整页图当作网页铺底。
 
-最新实际截图目录（仓库之外）：
+八方向图形修正后的实际截图与逐项测量目录（仓库之外）：
+
+/Users/weiyudang/.codex/visualizations/2026/11/09/01a1c0ee-56d7-75f2-b825-834b1d54185e/company-website/direction-artwork-v4/
+
+本次交付截图为 desktop-knowledge.jpg、overview-agents.jpg、overview-improvement.jpg、mobile-knowledge.jpg、mobile-improvement.jpg；checks.json记录八项总览、八页桌面及八页手机宽度检查。原始知识星群图与实际桌面、手机截图经view_image核对，确认正式素材确实出现在页面中。窄屏是浏览器模拟，未作为真机证据。
+
+前一候选的首屏、交付、联系和降级截图仍保留在：
 
 /Users/weiyudang/.codex/visualizations/2026/11/09/01a1c0ee-56d7-75f2-b825-834b1d54185e/company-website/refinement-2/
 
-包括 desktop-hero.jpg、desktop-technology.jpg、desktop-knowledge.jpg、desktop-delivery-contact.jpg、mobile-hero.jpg、mobile-knowledge.jpg、mobile-contact.jpg、reduced-motion-mobile.jpg、no-javascript-mobile.jpg，以及八页窄屏测量 mobile-detail-checks.json。历史截图位于父目录与premium目录，不作为当前候选的证据。
+包括 desktop-hero.jpg、desktop-delivery-contact.jpg、mobile-hero.jpg、mobile-contact.jpg、reduced-motion-mobile.jpg、no-javascript-mobile.jpg，以及前一候选测量 mobile-detail-checks.json。该目录中的总览与知识详情截图已由本次图形截图替代。更早截图位于父目录与premium目录。
 
 ## 限制与后续发布边界
 
