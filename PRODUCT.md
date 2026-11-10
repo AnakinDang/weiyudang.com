@@ -25,6 +25,7 @@ Retire the former personal homepage and Personal OS routes. Preserve recoverable
 - After reviewing the local revision, the founder explicitly requested publication on2026-11-10. Publish the reviewed company site to the existing weiyudang.com Vercel project through its current Git release path; this supersedes the earlier deferral. Independent personal subdomains and unrelated services remain outside this release.
 - Cooperation email: dangweiyu0516@gmail.com. Links may be checked; no test email is sent.
 - The founder accepted the next iteration, then added a custom agent that joins a simulated enterprise group and processes Excel when mentioned. Final scope: four demos (custom group agent, finance, HTML editing simulator, supply chain), independent catalogue/detail pages, and a continuous four-stage particle narrative. The founder explicitly replaced sample video playback with a native HTML simulator. Exports are genuine Excel, CSV, editing plans and SRT files; no video files, paid model calls or live corporate chat connections are included.
+- Visitor-facing copy uses 剪辑预演 and 交互演示, never HTML模拟器 or implementation details. This applies to the homepage previews, catalogue, detail page, accessibility labels, metadata and exported plan title.
 
 ## Brand Personality
 

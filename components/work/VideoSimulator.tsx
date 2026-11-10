@@ -29,7 +29,7 @@ export function VideoSimulator({ plan, compact = false }: { plan: VideoPlan; com
         <div className="sim-scene-index"><span>0{index + 1} / 03</span><span>{clip.label}</span></div>
         <div className={"sim-diagram sim-diagram-" + clip.id} aria-hidden="true"><i /><i /><i /><div className="sim-diagram-core">∞</div>{labels.map((label, at) => <span className={"sim-node sim-node-" + at} key={label}>{label}</span>)}</div>
         <p className="sim-caption">{plan.captions[index]}</p>
-        <p className="sim-stage-note">HTML 剪辑预演</p>
+        <p className="sim-stage-note">镜头预演</p>
       </div>
       <div className="sim-player-controls"><button type="button" aria-label={playing ? "暂停剪辑预演" : "播放剪辑预演"} onClick={() => { if (clock.current >= plan.duration) seek(0); setPlaying(value => !value); }}>{playing ? <Pause size={17} aria-hidden="true" /> : <Play size={17} aria-hidden="true" />}<span>{playing ? "暂停" : "播放"}</span></button><span className="sim-time">00:{String(Math.floor(time)).padStart(2, "0")} / 00:{plan.duration}</span><button type="button" aria-label="从头预演" onClick={() => seek(0)}><RotateCcw size={16} aria-hidden="true" /></button></div>
       <input className="sim-scrubber" type="range" min="0" max={plan.duration} step=".1" value={time} aria-label="剪辑预演进度" onChange={event => seek(Number(event.target.value))} />

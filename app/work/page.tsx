@@ -5,7 +5,7 @@ import { CompanyWork } from "@/components/CompanyWork";
 import { QuantumHero } from "@/components/QuantumHero";
 
 export const metadata: Metadata = {
-  title: "演示案例", description: "体验定制群聊智能体、财务核对、HTML剪辑模拟器与供应链规划，从输入到可复核、可导出结果的完整流程。",
+  title: "演示案例", description: "体验定制群聊智能体、财务核对、剪辑预演与供应链规划，从输入到可复核、可导出结果的完整流程。",
   alternates: { canonical: "/work" },
   openGraph: { title: "演示案例｜莫比乌斯", url: "/work", description: "从一个任务，看到系统如何工作。" }
 };
