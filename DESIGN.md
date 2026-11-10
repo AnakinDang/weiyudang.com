@@ -1,6 +1,6 @@
 # Design system: Mobius company website
 
-Latest direction: global ambition, quantum particles, Möbius loops and continuous evolution. The founder judged the earlier point-field candidate rough and requested deeper study of Distyl and Apple. No metallic material and no regional brand framing. Publication remains deferred.
+Latest direction: global ambition, quantum particles, Möbius loops and continuous evolution. The founder judged the earlier point-field candidate rough and requested deeper study of Distyl and Apple. No metallic material and no regional brand framing. After reviewing the local optimization, the founder authorized publication on2026-11-10.
 
 ## Reference observations and interpretation
 

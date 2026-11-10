@@ -1,6 +1,6 @@
 # 莫比乌斯公司官网
 
-`weiyudang.com` 的公司官网候选版。公司暂称「未命名」，项目名「莫比乌斯」。主叙事为「让智能，重塑世界的运行方式」。当前交付是本地预览，创始人明确要求先不发布。
+`weiyudang.com` 的公司官网。公司暂称「未命名」，项目名「莫比乌斯」。主叙事为「让智能，重塑世界的运行方式」。2026-11-10，创始人在确认本地优化版后明确指令「发布一下吧」，已授权将该版本发布到现有正式域名；取代此前暂缓发布的决定。
 
 业务范围参考 Distyl 官网的企业 AI 生命周期，使用自己的中文说明和宇宙／粒子莫比乌斯视觉，不使用其客户、投资人、研究成果、产品商标或业绩数字。量子感仅为视觉概念，不声称提供量子计算产品。
 
@@ -30,7 +30,7 @@ npm run check:company-site -- http://127.0.0.1:3079
 
 原始可恢复版本：`2a1a6ae020c6e238e82e396d375db9be7905a1a6`，已在 GitHub `AnakinDang/weiyudang.com` 主分支与 Vercel 2026-11-04 生产部署中核实。原工作目录 `/Users/weiyudang/Workspace/active/weiyudang_web` 未被改写；候选在独立 worktree。
 
-发布前应确认最终页面，再将本候选发布到同一 Vercel 项目 `weiyudang-web`。不得把本地制作当作已获推送、合并或发布许可。
+本次沿用 GitHub `AnakinDang/weiyudang.com` 的 `main` 分支和原 Vercel 项目 `weiyudang-web`（`prj_SAcL5r8biRp8snfKWjKYCRxFleCy`），发布到 `weiyudang.com` 与既有 `www` 域名。应用代码为已检查的 `4a8e60c`；本次仅补充授权说明，不改变页面。正式发布状态须以 Vercel READY、实际域名和发布后检查为准。
 
 独立的 `dora.weiyudang.com` 和 `relay.weiyudang.com` 不属于这个 Vercel 路由树，当前仍有独立服务。本分支不声称它们已下线；需要单独撤下其公开域名入口，并评估内部依赖，不能用停止主站冒充已经停止这些子域名。
 
