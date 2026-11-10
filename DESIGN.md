@@ -48,3 +48,9 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 Four coordinated concepts cover hero, capabilities, delivery/contact and detail template. The founder's later instructions explicitly change visible copy to a global narrative, remove geographical language, and expand detail content. These authorized changes explain copy and resulting vertical-density differences from the concept images. Native type, asset material, geometry, spacing rhythm and interaction remain the reference.
 
 See docs/company-website/EVIDENCE.md for the current verification and docs/company-website/REFINEMENT-2026-11-10.md for source observations and asset prompts.
+
+## 四项演示与连续叙事
+
+2026-11-10：首页加入同一WebGL画面中的知识、协作、行动、反馈四阶段；正式粒子图片在阶段间混合，480个光点沿相应轨迹连续变形。原首屏与八方向图形保留。手机图形固定在阅读区上方；导航定位到原生标题，支持暂停和减少动画的静态降级。
+
+演示目录使用四条开放作品行。定制智能体以配置、群聊和最终报表连接完整任务；财务与供应链保留可复核计算依据；剪辑使用原生HTML场景、时间线、字幕与控件，按创始人指令移除了示例视频。详情使用简洁标题和工作台，不重复铺设莫比乌斯首屏图。新增宋体子集v3覆盖649字形，113948字节。详细交互合同、概念差异与证据见 docs/company-website/WORK-DEMO-DESIGN.md。

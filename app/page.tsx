@@ -3,6 +3,8 @@ import { CompanyHeader } from "@/components/CompanyHeader";
 import { CompanyContact, CompanyFooter } from "@/components/CompanyFooter";
 import { CompanyCapabilities } from "@/components/CompanyCapabilities";
 import { CompanySolutions } from "@/components/CompanySolutions";
+import { QuantumStory } from "@/components/QuantumStory";
+import { CompanyWork } from "@/components/CompanyWork";
 
 const stages = [
   ["发现与对齐", "走进业务现场，梳理知识、流程与成功标准。"],
@@ -18,6 +20,8 @@ export default function CompanyHome() {
       <CompanyHeader />
       <main id="main">
         <QuantumHero />
+        <QuantumStory />
+        <CompanyWork />
         <section id="technology" className="technology-light" aria-labelledby="technology-title">
           <div className="wrap">
             <div className="technology-heading">

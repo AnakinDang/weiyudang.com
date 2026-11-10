@@ -21,7 +21,7 @@ const fragmentSource = [
   "}"
 ].join("\n");
 
-export function QuantumHero() {
+export function QuantumHero({ work = false }: { work?: boolean }) {
   const rootRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -134,19 +134,19 @@ export function QuantumHero() {
     };
   },[]);
   return (
-    <section ref={rootRef} className="quantum-hero" aria-label="莫比乌斯愿景">
+    <section ref={rootRef} className={"quantum-hero" + (work ? " work-index-hero" : "")} aria-label={work ? "演示案例" : "莫比乌斯愿景"}>
       <div className="hero-art" aria-hidden="true">
         <Image className="hero-art-image" src="/company/quantum-ribbon-v3.webp" fill sizes="100vw" preload unoptimized alt="" />
         <canvas ref={canvasRef} />
       </div>
       <div className="wrap hero-content">
         <div className="hero-copy">
-          <h1>让智能，<br />重塑世界的<br className="mobile-title-break" />运行方式。</h1>
-          <p>我们相信，智能将成为组织持续进化的基础。莫比乌斯连接知识、人的判断与业务行动，构建能够在真实世界中运行、协作和改进的 AI 系统。</p>
-          <a className="primary-link" href="#contact">开启对话<ArrowRight size={23} strokeWidth={1.1} aria-hidden="true" /></a>
+          <h1>{work ? <>从一个任务，<br />看到系统如何工作。</> : <>让智能，<br />重塑世界的<br className="mobile-title-break" />运行方式。</>}</h1>
+          <p>{work ? "用示例资料，体验从输入到可复核结果的完整流程。" : "我们相信，智能将成为组织持续进化的基础。莫比乌斯连接知识、人的判断与业务行动，构建能够在真实世界中运行、协作和改进的 AI 系统。"}</p>
+          {work ? <p className="work-demo-note">交互演示 · 示例数据</p> : <a className="primary-link" href="#contact">开启对话<ArrowRight size={23} strokeWidth={1.1} aria-hidden="true" /></a>}
         </div>
       </div>
-      <div className="hero-footnote wrap"><p>知识不断流动，行动彼此连接，进化从未停止。</p><a href="#technology">探索我们的工作<ArrowRight size={18} strokeWidth={1.1} aria-hidden="true" /></a></div>
+      {!work && <div className="hero-footnote wrap"><p>知识不断流动，行动彼此连接，进化从未停止。</p><a href="#evolution">探索我们的工作<ArrowRight size={18} strokeWidth={1.1} aria-hidden="true" /></a></div>}
     </section>
   );
 }

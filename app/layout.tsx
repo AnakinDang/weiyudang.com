@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./company.css";
+import "./work.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://weiyudang.com"),
@@ -14,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="zh-CN"><head><link rel="preload" href="/company/fonts/mobius-serif-sc-500-v2.woff2" as="font" type="font/woff2" crossOrigin="anonymous" /></head><body>{children}</body></html>;
+  return <html lang="zh-CN"><head><link rel="preload" href="/company/fonts/mobius-serif-sc-500-v3.woff2" as="font" type="font/woff2" crossOrigin="anonymous" /></head><body>{children}</body></html>;
 }

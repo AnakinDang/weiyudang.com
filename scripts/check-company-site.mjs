@@ -22,6 +22,7 @@ for (const text of ['视频剪辑智能体', '财务智能体', '供应链与制
 assert.ok(html.includes('href="/#solutions"'), 'Solution scenarios need a navigation entry');
 assert.equal((html.match(/name="business-solutions"/g) ?? []).length, 6, 'All scenarios must work as native disclosures');
 assert.equal((await read('/company/fonts/mobius-serif-sc-500-v2.woff2')).status, 200);
+assert.equal((await read('/company/fonts/mobius-serif-sc-500-v3.woff2')).status, 200);
 
 const directions = [
   ['platform', '企业 AI 平台', '/company/knowledge-orbits-v3.webp'],
@@ -79,11 +80,34 @@ assert.equal(contact.headers.get('location'), '/#contact');
 const sitemap = await read('/sitemap.xml');
 assert.equal(sitemap.status, 200);
 const xml = await sitemap.text();
-assert.equal((xml.match(/<url>/g) ?? []).length, 9);
+assert.equal((xml.match(/<url>/g) ?? []).length, 14);
 assert.ok(xml.includes('https://weiyudang.com/'));
 for (const [slug] of directions) assert.ok(xml.includes('https://weiyudang.com/technology/' + slug));
+for (const slug of ['custom-agent', 'finance', 'video', 'supply-chain']) {
+  const path = '/work/' + slug;
+  const response = await read(path);
+  assert.equal(response.status, 200);
+  const body = await response.text();
+  assert.ok(/交互演示|模拟器/.test(body));
+  assert.ok(body.includes('示例'));
+  assert.ok(body.includes('从演示走向真实业务'));
+  assert.ok(body.includes('href="https://weiyudang.com' + path + '"'));
+  assert.ok(xml.includes('https://weiyudang.com' + path));
+}
+assert.equal((await read('/work')).status, 200);
+for (const file of ['store-a.xlsx', 'store-b.xlsx', 'store-c.xlsx']) {
+  const response = await read('/company/spreadsheets/' + file);
+  assert.equal(response.status, 200);
+  assert.ok(response.headers.get('content-type')?.includes('spreadsheetml'));
+}
+assert.ok(html.includes('id="evolution"'));
+assert.ok(html.includes('href="/work/finance"'));
+assert.ok(html.includes('href="/work/video"'));
+assert.ok(html.includes('href="/work/supply-chain"'));
+assert.ok(html.includes('href="/work/custom-agent"'));
+assert.ok(!html.includes('<video'), 'Video demonstration must use the HTML simulator');
 const robots = await read('/robots.txt');
 assert.equal(robots.status, 200);
 assert.ok((await robots.text()).includes('https://weiyudang.com/sitemap.xml'));
 assert.equal((await read('/missing-company-page')).status, 404);
-console.log(`PASS: 6 practical solution scenarios, 8 business pages with particle-motion layers and fallback art, ${retired.length} retired paths, contact, font assets and 9-page search metadata.`);
+console.log('PASS: 4 interactive demos, HTML editing simulator, genuine Excel samples, 4-stage story, 8 business pages, ' + retired.length + ' retired paths and 14-page search metadata.');

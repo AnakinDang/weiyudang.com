@@ -2,17 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const chapters = ["technology", "solutions", "delivery", "about", "contact"] as const;
+const chapters = ["work", "technology", "solutions", "delivery", "about", "contact"] as const;
 
-export function CompanyHeader({ light = false }: { light?: boolean }) {
+export function CompanyHeader({ light = false, context }: { light?: boolean; context?: "technology" | "work" }) {
   const header = useRef<HTMLElement>(null);
-  const [activeChapter, setActiveChapter] = useState(light ? "technology" : "");
+  const fallback = context ?? (light ? "technology" : "");
+  const [activeChapter, setActiveChapter] = useState(fallback);
   useEffect(() => {
     let previous = window.scrollY;
-    let current = light ? "technology" : "";
+    let current = fallback;
+    setActiveChapter(fallback);
     const sections = chapters.map(id => document.getElementById(id)).filter((node): node is HTMLElement => node !== null);
     const updateChapter = () => {
-      let next = light ? "technology" : "";
+      let next = fallback;
       const readingLine = (header.current?.offsetHeight ?? 78) + 32;
       for (const section of sections) if (section.getBoundingClientRect().top <= readingLine) next = section.id;
       if (next !== current) { current = next; setActiveChapter(next); }
@@ -37,7 +39,7 @@ export function CompanyHeader({ light = false }: { light?: boolean }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("hashchange", onScroll);
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("hashchange", onScroll); cancelAnimationFrame(frame); };
-  }, [light]);
+  }, [fallback]);
   return (
     <header ref={header} className={"company-header" + (light ? " header-light" : "")}>
       <div className="wrap header-inner">
@@ -49,6 +51,7 @@ export function CompanyHeader({ light = false }: { light?: boolean }) {
         </a>
         <nav aria-label="主导航">
           <a href="/#technology" aria-label="业务与技术" aria-current={activeChapter === "technology" ? "location" : undefined}><span className="nav-text-desktop">业务与技术</span><span className="nav-text-mobile">业务</span></a>
+          <a href="/work" aria-label="演示案例" aria-current={activeChapter === "work" ? context === "work" ? "page" : "location" : undefined}><span className="nav-text-desktop">演示案例</span><span className="nav-text-mobile">演示</span></a>
           <a href="/#solutions" aria-label="解决方案" aria-current={activeChapter === "solutions" ? "location" : undefined}><span className="nav-text-desktop">解决方案</span><span className="nav-text-mobile">方案</span></a>
           <a href="/#delivery" aria-current={activeChapter === "delivery" ? "location" : undefined}>交付方式</a>
           <a href="/#about" aria-current={activeChapter === "about" ? "location" : undefined}>关于我们</a>

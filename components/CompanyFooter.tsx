@@ -25,7 +25,7 @@ export function CompanyFooter() {
         {companyDirections.map(item => <a key={item.id} href={"/technology/" + item.id}>{item.label}</a>)}
       </div>
       <div className="footer-bottom">
-        <a href="/" className="footer-brand">莫比乌斯</a>
+        <div className="footer-brand-links"><a href="/" className="footer-brand">莫比乌斯</a><a href="/work">演示案例</a></div>
         <p>公司暂称「未命名」 · 项目筹备中</p>
         <p>© 2026 莫比乌斯项目</p>
       </div>

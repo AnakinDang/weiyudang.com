@@ -1,0 +1,24 @@
+{
+  "source": "Synthetic retail records authored for this demonstration.",
+  "sheets": [
+    {
+      "fileName": "门店A销售.xlsx",
+      "rows": 3
+    },
+    {
+      "fileName": "门店B销售.xlsx",
+      "rows": 4
+    },
+    {
+      "fileName": "门店C销售.xlsx",
+      "rows": 4
+    }
+  ],
+  "expected": {
+    "inputRows": 11,
+    "acceptedRows": 8,
+    "issues": 3,
+    "totalCents": 530300
+  },
+  "customerData": false
+}

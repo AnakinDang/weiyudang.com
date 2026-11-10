@@ -1,4 +1,4 @@
-@font-face { font-family: "Mobius Serif"; src: url("/company/fonts/mobius-serif-sc-500-v2.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: "Mobius Serif"; src: url("/company/fonts/mobius-serif-sc-500-v3.woff2") format("woff2"); font-style: normal; font-weight: 500; font-display: swap; }
 :root { color-scheme: dark; --space: oklch(.13979 .01175 265.76); --ink: oklch(.96660 .00265 106.45); --muted: oklch(.79558 .02523 259.82); --accent: oklch(.86847 .03757 258.37); --line: oklch(.38040 .02679 259.16); --gutter: clamp(24px,5vw,80px); --serif: "Mobius Serif","Songti SC","Noto Serif SC",serif; --sans: -apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif; --ease: cubic-bezier(.22,1,.36,1); }
 :root { --spacing-1: .25rem; --spacing-2: .5rem; --spacing-3: .75rem; --spacing-4: 1rem; --spacing-6: 1.5rem; --spacing-8: 2rem; --spacing-12: 3rem; --section-space: 6rem; --duration-fast: 175ms; --duration-medium: 410ms; --duration-exit: 175ms; --control-font: .875rem; --control-target: 2.75rem; }
 * { box-sizing: border-box; }
