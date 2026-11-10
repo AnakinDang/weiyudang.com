@@ -2,6 +2,7 @@ import { QuantumHero } from "@/components/QuantumHero";
 import { CompanyHeader } from "@/components/CompanyHeader";
 import { CompanyContact, CompanyFooter } from "@/components/CompanyFooter";
 import { CompanyCapabilities } from "@/components/CompanyCapabilities";
+import { CompanySolutions } from "@/components/CompanySolutions";
 
 const stages = [
   ["发现与对齐", "走进业务现场，梳理知识、流程与成功标准。"],
@@ -27,6 +28,7 @@ export default function CompanyHome() {
             <p className="scope-note">业务范围与技术建设方向，具体能力按项目评估与交付。</p>
           </div>
         </section>
+        <CompanySolutions />
         <section id="delivery" className="delivery wrap" aria-labelledby="delivery-title">
           <div className="delivery-heading">
             <h2 id="delivery-title">让每一次建设，<br />都成为下一次进化的起点。</h2>

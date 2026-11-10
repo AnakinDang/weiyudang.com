@@ -15,6 +15,13 @@ assert.ok(canonical, "Missing canonical URL");
 assert.equal(new URL(canonical[1]).href, "https://weiyudang.com/");
 assert.ok(html.includes('mailto:dangweiyu0516@gmail.com'));
 for (const label of ['企业 AI 平台', '智能体构建', '企业知识', '业务语义', '语音交互', '个性化服务', '专家经验采集', '持续评测与改进']) assert.ok(html.includes(label), `Missing capability: ${label}`);
+for (const id of ['retail', 'finance', 'supply-chain', 'content', 'operations', 'service']) {
+  assert.ok(html.includes('id="solution-' + id + '"'), 'Missing solution scenario: ' + id);
+}
+for (const text of ['视频剪辑智能体', '财务智能体', '供应链与制造', '品牌与短视频', '企业降本提效', '客户与服务', '场景方案示例，按实际业务与系统环境设计。']) assert.ok(html.includes(text), 'Missing practical system introduction: ' + text);
+assert.ok(html.includes('href="/#solutions"'), 'Solution scenarios need a navigation entry');
+assert.equal((html.match(/name="business-solutions"/g) ?? []).length, 6, 'All scenarios must work as native disclosures');
+assert.equal((await read('/company/fonts/mobius-serif-sc-500-v2.woff2')).status, 200);
 
 const directions = [
   ['platform', '企业 AI 平台', '/company/knowledge-orbits-v3.webp'],
@@ -39,6 +46,8 @@ await Promise.all(directions.map(async ([slug, label, artwork]) => {
   assert.ok((body.match(/<h2/g) ?? []).length >= 5, label + ' needs substantive sections');
   assert.ok(body.includes('href="https://weiyudang.com' + path + '"'), label + ' canonical mismatch');
   assert.ok(body.includes('data-direction-artwork="' + slug + '"'), label + ' needs its matching designed artwork');
+  assert.ok(body.includes('data-quantum-artwork="' + slug + '"'), label + ' needs its particle animation layer');
+  assert.ok(body.includes('暂停图形动效'), label + ' needs an accessible motion pause control');
   assert.ok(body.includes('src="' + artwork + '"'), label + ' artwork image must be rendered');
   assert.ok(!body.includes('class="direction-diagram"'), label + ' must not fall back to the repeated generic flowchart');
   const imageResponse = await read(artwork);
@@ -77,4 +86,4 @@ const robots = await read('/robots.txt');
 assert.equal(robots.status, 200);
 assert.ok((await robots.text()).includes('https://weiyudang.com/sitemap.xml'));
 assert.equal((await read('/missing-company-page')).status, 404);
-console.log(`PASS: global vision, 8 Chinese business pages with matching designed artwork, ${retired.length} retired paths, disabled login POSTs, prototypes, art/font assets, contact redirect and 9-page search metadata.`);
+console.log(`PASS: 6 practical solution scenarios, 8 business pages with particle-motion layers and fallback art, ${retired.length} retired paths, contact, font assets and 9-page search metadata.`);

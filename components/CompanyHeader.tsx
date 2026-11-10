@@ -35,10 +35,11 @@ export function CompanyHeader({ light = false }: { light?: boolean }) {
           <span>莫比乌斯</span>
         </a>
         <nav aria-label="主导航">
-          <a href="/#technology">业务与技术</a>
+          <a href="/#technology"><span className="nav-text-desktop">业务与技术</span><span className="nav-text-mobile">业务</span></a>
+          <a href="/#solutions"><span className="nav-text-desktop">解决方案</span><span className="nav-text-mobile">方案</span></a>
           <a href="/#delivery">交付方式</a>
           <a href="/#about">关于我们</a>
-          <a href="/#contact">联系合作</a>
+          <a href="/#contact"><span className="nav-text-desktop">联系合作</span><span className="nav-text-mobile">合作</span></a>
         </nav>
       </div>
     </header>

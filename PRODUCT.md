@@ -20,6 +20,7 @@ Retire the former personal homepage and Personal OS routes. Preserve recoverable
 
 - The earlier local candidate was judged rough. Rework typography, primary art, composition, diagrams and motion as one system after inspecting the actual Distyl and Apple sites.
 - Expand the AI business content into an overview and eight detailed pages covering the problem, approach, capabilities, system relationships and proposed delivery scope.
+- Animate the eight production illustrations with flowing particles and photonic paths, preserving the nonmetallic quantum material. Add practical system introductions for retail, finance, supply chain/manufacturing, video/brand content, enterprise operations and customer service. These are proposed solution scenarios, not completed client case studies or a claim that every external product has already been replicated.
 - The founder explicitly rejected 立足陕西 and similar regional positioning. The latest global mission supersedes earlier public geographical wording, including metadata. Do not restore that framing from older plans or screenshots.
 - Publication is deferred. The authorized deliverable is a local, reviewable website. No push, merge, deployment, DNS change or public-domain replacement is authorized by these revision requests.
 - Cooperation email: dangweiyu0516@gmail.com. Links may be checked; no test email is sent.

@@ -11,7 +11,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 ## Tokens and typography
 
 - Space #07090e; ink #f4f4f2; supporting #b3bdcd; pale blue #c5d5ed. Light chapters use #f6f7f8, ink #111621, supporting #525e6d and link #275486. Main variables use exact OKLCH equivalents.
-- Display: Noto Serif SC 500, locally hosted as Mobius Serif. The 63,240-byte WOFF2 subset covers the current display copy and ASCII. Source and SIL OFL license are in public/company/fonts. Update the subset when changing display characters.
+- Display: Noto Serif SC 500, locally hosted as Mobius Serif. The v2 WOFF2 subset is 74,404 bytes and covers 435 characters, including the new scenario headings. Source and SIL OFL license are in public/company/fonts. Update the subset when changing display characters.
 - Body/UI: local Chinese system sans. Main desktop headline up to64px, section headings32–50px, body17–20px, restrained native labels.
 - Headlines and short leads use deliberate wrapping. The global headline has a purposeful three-line phone arrangement. Detailed page headings balance naturally on phones.
 - 1280px maximum content width; 24–80px gutters. Fine borders, open layouts and rectangular outline actions. No card grid, fake interface, hero metric or repetitive decorative eyebrow.
@@ -23,6 +23,9 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 - One full-screen triangle pass, pixel density capped1.5, at most60 render attempts/sec, no React state per frame. Rendering pauses when the scene is mostly outside the viewport or the document is hidden. The poster remains useful with reduced motion, no JavaScript, or unavailable WebGL.
 - Platform art: public/company/knowledge-orbits-v3.webp, four orbital probability planes with native labels and a subtle path tracer. Seven companion illustrations in public/company/directions use the same icy-blue particle and filament material: braided agent flows, connected knowledge constellations, a rectilinear semantic lattice, voice waves, relational satellites, expertise trajectories and a closed feedback cycle.
 - Homepage tabs and all eight detail pages share DirectionArtwork and its exhaustive direction mapping. Each direction has its own production illustration; the generic repeated flowchart is removed. Illustrations are explanatory metaphors, with native captions and accessible descriptions. They are not screenshots of an operating product.
+- Each illustration now has a WebGL field pass and 288 independent moving photons, following precomputed guides specific to its geometry. The original image retains the fine material; the field moves light and filaments while actual points travel along the guides. It is not a CSS rotation of the bitmap. The platform's former single SVG tracer is removed.
+- Direction motion caps pixel density at1.5 and render attempts at60/sec, or30/sec when narrower than440px. It starts when visible, pauses offscreen or in a hidden document, and releases its buffers/programs on unmount. The active clock excludes pauses. These are code limits, not a measured device-frame-rate promise.
+- Every diagram has a native pause/play control. Reduced motion, loading, missing WebGL and texture failure show the original poster. Native text and labels remain outside the canvas.
 - Header withdraws on downward scrolling and reappears when moving up or focusing it. Deep anchor loads initialize the header background correctly. Reduced motion keeps navigation still.
 - Business changes use a small, brief focus/position transition with native content. Eight detailed pages use the same coherent article system; no animation blocks reading.
 
@@ -33,6 +36,8 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 - All controls, labels, captions and copy are native. Artwork is an independent image asset. Every direction has a working detail link; detail pages have their own canonical and shared navigation.
 - Global vision is aspirational. Specific delivery remains project-defined. Vendor outcomes and proprietary readiness are not adopted.
 - Contact is a visible mailto link, not a fictitious submission form.
+- A dark, open solution list follows the light technology area. Six native details disclosures cover retail, finance, supply chain, video/brand content, operations and customer service. Each contains a system introduction, three concrete workflow phases and a topic-specific contact link. One opens at a time. No fictional client logos, achieved metrics or fabricated product screens.
+- The solution section follows the generated section concept: left-aligned serif heading, fine row dividers, category/title pairs and an open two-column expanded area with a three-phase light trace. Phones stack the phases beside a vertical trace. The homepage navigation adds a solution anchor; phones retain compact business, solution and contact links.
 
 ## Concept fidelity
 
