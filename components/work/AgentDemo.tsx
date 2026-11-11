@@ -17,7 +17,7 @@ export function AgentDemo() {
   const [messages, setMessages] = useState<Message[]>(initialMessages), [prompt, setPrompt] = useState("@小莫 合并这些Excel，按门店汇总，列出异常并生成最终报表。");
   const [busy, setBusy] = useState(false), [exporting, setExporting] = useState(false);
   const [report, setReport] = useState<SalesReport | null>(null), [tab, setTab] = useState<ReportTab>("summary");
-  const [notice, setNotice] = useState("先定制一位智能体，再把它加入模拟群聊。");
+  const [notice, setNotice] = useState("先定制一位 Agent，再把它加入模拟群聊。");
   const sequence = useRef(1), job = useRef(0), request = useRef<AbortController | null>(null), log = useRef<HTMLDivElement>(null), tabButtons = useRef<(HTMLButtonElement | null)[]>([]);
   function append(role: Message["role"], sender: string, text: string, attachments = false) {
     const message = { id: sequence.current++, role, name: sender, text, files: attachments };
@@ -28,13 +28,13 @@ export function AgentDemo() {
   function configure(event: FormEvent) {
     event.preventDefault();
     const value = name.trim();
-    if (!/^[\p{L}\p{N}_-]{1,12}$/u.test(value)) { setNotice("智能体名称请使用1至12个文字、数字、下划线或短横线。"); return; }
+    if (!/^[\p{L}\p{N}_-]{1,12}$/u.test(value)) { setNotice("Agent 名称请使用1至12个文字、数字、下划线或短横线。"); return; }
     const next: Config = { name: value, groupBy, deduplicate };
     setConfig(next); setReport(null);
     append("system", "群聊模拟", config ? value + "的工作规则已更新。" : value + "已加入经营协作群（模拟）。");
     append("agent", value, "我可以整理群内Excel，统一字段，按" + (groupBy === "store" ? "门店" : "商品") + "汇总，并保留异常与来源。请把表格加入群聊后@" + value + "。");
     setPrompt("@" + value + " 合并这些Excel，按" + (groupBy === "store" ? "门店" : "商品") + "汇总，列出异常并生成最终报表。");
-    setNotice("智能体已就绪。加入示例Excel后，即可发送@任务。");
+    setNotice("Agent 已就绪。加入示例Excel后，即可发送@任务。");
   }
   function attach() {
     setAttached(true); setReport(null);
@@ -82,12 +82,12 @@ export function AgentDemo() {
   function reset() {
     job.current++; request.current?.abort(); request.current = null;
     setName("小莫"); setGroupBy("store"); setDeduplicate(true); setConfig(null); setAttached(false); setMessages(initialMessages);
-    setPrompt("@小莫 合并这些Excel，按门店汇总，列出异常并生成最终报表。"); setBusy(false); setExporting(false); setReport(null); setNotice("演示已重置，可以重新定制智能体。");
+    setPrompt("@小莫 合并这些Excel，按门店汇总，列出异常并生成最终报表。"); setBusy(false); setExporting(false); setReport(null); setNotice("演示已重置，可以重新定制 Agent。");
   }
   return (
-    <section className="demo-workbench agent-workbench" aria-label="定制智能体与企业群聊模拟器">
-      <div className="agent-config"><form onSubmit={configure}><h2>定制一位智能同事</h2><label>智能体名称<input value={name} maxLength={12} disabled={busy || exporting} onChange={event => setName(event.target.value)} /></label><label>汇总口径<select value={groupBy} disabled={busy || exporting} onChange={event => setGroupBy(event.target.value as "store" | "product")}><option value="store">按门店汇总</option><option value="product">按商品汇总</option></select></label><label className="demo-checkbox"><input type="checkbox" checked={deduplicate} disabled={busy || exporting} onChange={event => setDeduplicate(event.target.checked)} />排除重复订单</label><p>工作能力：Excel整理、字段统一、经营汇总与异常留痕。</p><button type="submit" className="demo-primary" disabled={busy || exporting}>{config ? "更新智能体" : "创建并加入模拟群"}</button></form><p className="agent-config-note">规则修改后点击更新，应用到下一次任务。此处不连接真实企业微信群。</p><button type="button" onClick={reset}>重置演示</button></div>
-      <div className="agent-chat"><div className="agent-chat-header"><div><h2>经营协作群</h2><p>企业微信群聊模拟</p></div><span>{config ? config.name + "已加入" : "等待智能体加入"}</span></div>
+    <section className="demo-workbench agent-workbench" aria-label="定制 Agent 与企业群聊模拟器">
+      <div className="agent-config"><form onSubmit={configure}><h2>定制一位 AI 同事</h2><label>Agent 名称<input value={name} maxLength={12} disabled={busy || exporting} onChange={event => setName(event.target.value)} /></label><label>汇总口径<select value={groupBy} disabled={busy || exporting} onChange={event => setGroupBy(event.target.value as "store" | "product")}><option value="store">按门店汇总</option><option value="product">按商品汇总</option></select></label><label className="demo-checkbox"><input type="checkbox" checked={deduplicate} disabled={busy || exporting} onChange={event => setDeduplicate(event.target.checked)} />排除重复订单</label><p>工作能力：Excel整理、字段统一、经营汇总与异常留痕。</p><button type="submit" className="demo-primary" disabled={busy || exporting}>{config ? "更新 Agent" : "创建并加入模拟群"}</button></form><p className="agent-config-note">规则修改后点击更新，应用到下一次任务。此处不连接真实企业微信群。</p><button type="button" onClick={reset}>重置演示</button></div>
+      <div className="agent-chat"><div className="agent-chat-header"><div><h2>经营协作群</h2><p>企业微信群聊模拟</p></div><span>{config ? config.name + "已加入" : "等待 Agent 加入"}</span></div>
         <div className="agent-messages" ref={log} role="log" aria-label="模拟群聊消息" aria-live="polite">{messages.map(message => message.role === "system" ? <p className="agent-system-message" key={message.id}>{message.text}</p> : <div className={"agent-message agent-message-" + message.role} key={message.id}><span className="agent-message-name">{message.name}</span><div className="agent-message-body"><p>{message.text}</p>{message.files && <ul className="agent-attachments">{files.map((key, index) => <li key={key}><a href={"/company/spreadsheets/store-" + key + ".xlsx"} download={"门店" + ["A", "B", "C"][index] + "销售.xlsx"}><FileSpreadsheet size={20} strokeWidth={1.4} aria-hidden="true" /><span>门店{["A", "B", "C"][index]}销售.xlsx<small>示例Excel · 可下载原表</small></span></a></li>)}</ul>}</div></div>)}</div>
         <div className="agent-chat-tools"><button type="button" disabled={!config || attached || busy} onClick={attach}><FileSpreadsheet size={17} aria-hidden="true" />{attached ? "三份Excel已加入" : "加入三份Excel"}</button>{config && <button type="button" disabled={busy} onClick={() => setPrompt("@" + config.name + " 合并这些Excel，按商品汇总，列出异常并生成最终报表。")}>试试按商品汇总</button>}</div>
         <form className="agent-composer" onSubmit={send}><label htmlFor="agent-message">给群聊发消息</label><div><textarea id="agent-message" value={prompt} rows={2} maxLength={180} disabled={!config || busy || exporting} onChange={event => setPrompt(event.target.value)} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); event.currentTarget.form?.requestSubmit(); } }} /><button type="submit" aria-label="发送群聊任务" disabled={!config || busy || exporting || !prompt.trim()}><ArrowUp size={19} aria-hidden="true" />发送</button></div></form>

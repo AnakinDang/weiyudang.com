@@ -141,8 +141,8 @@ export function QuantumHero({ work = false }: { work?: boolean }) {
       </div>
       <div className="wrap hero-content">
         <div className="hero-copy">
-          <h1>{work ? <>从一个任务，<br />看到系统如何工作。</> : <>让智能，<br />重塑世界的<br className="mobile-title-break" />运行方式。</>}</h1>
-          <p>{work ? "用示例资料，体验从输入到可复核结果的完整流程。" : "我们相信，智能将成为组织持续进化的基础。莫比乌斯连接知识、人的判断与业务行动，构建能够在真实世界中运行、协作和改进的 AI 系统。"}</p>
+          <h1>{work ? <>从一个任务，<br />看到系统如何工作。</> : <>让 AI，<br />重塑世界的<br className="mobile-title-break" />运行方式。</>}</h1>
+          <p>{work ? "用示例资料，体验从输入到可复核结果的完整流程。" : "以 AI Native 的方式重构组织。连接企业知识、Agent 与 Workflow，让 AI 理解业务、协同执行，并在真实世界的反馈中持续进化。"}</p>
           {work ? <p className="work-demo-note">交互演示 · 示例数据</p> : <a className="primary-link" href="#contact">开启对话<ArrowRight size={23} strokeWidth={1.1} aria-hidden="true" /></a>}
         </div>
       </div>

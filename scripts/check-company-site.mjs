@@ -14,25 +14,26 @@ const canonical = html.match(/rel="canonical" href="([^"]+)"/);
 assert.ok(canonical, "Missing canonical URL");
 assert.equal(new URL(canonical[1]).href, "https://weiyudang.com/");
 assert.ok(html.includes('mailto:dangweiyu0516@gmail.com'));
-for (const label of ['企业 AI 平台', '智能体构建', '企业知识', '业务语义', '语音交互', '个性化服务', '专家经验采集', '持续评测与改进']) assert.ok(html.includes(label), `Missing capability: ${label}`);
+for (const label of ['AI Native 平台', 'Agent 构建', 'Context 工程', '业务 Ontology', 'Voice AI', '个性化体验', '专家经验沉淀', 'Evals 与优化']) assert.ok(html.includes(label), `Missing capability: ${label}`);
 for (const id of ['retail', 'finance', 'supply-chain', 'content', 'operations', 'service']) {
   assert.ok(html.includes('id="solution-' + id + '"'), 'Missing solution scenario: ' + id);
 }
-for (const text of ['视频剪辑智能体', '财务智能体', '供应链与制造', '品牌与短视频', '企业降本提效', '客户与服务', '场景方案示例，按实际业务与系统环境设计。']) assert.ok(html.includes(text), 'Missing practical system introduction: ' + text);
+for (const text of ['视频剪辑 Agent', '财务 Agent', '供应链与制造', '品牌与短视频', '企业降本提效', '客户与服务', '场景方案示例，按实际业务与系统环境设计。']) assert.ok(html.includes(text), 'Missing practical system introduction: ' + text);
 assert.ok(html.includes('href="/#solutions"'), 'Solution scenarios need a navigation entry');
 assert.equal((html.match(/name="business-solutions"/g) ?? []).length, 6, 'All scenarios must work as native disclosures');
 assert.equal((await read('/company/fonts/mobius-serif-sc-500-v2.woff2')).status, 200);
 assert.equal((await read('/company/fonts/mobius-serif-sc-500-v3.woff2')).status, 200);
+assert.equal((await read('/company/fonts/mobius-serif-sc-500-v4.woff2')).status, 200);
 
 const directions = [
-  ['platform', '企业 AI 平台', '/company/knowledge-orbits-v3.webp'],
-  ['agents', '智能体构建', '/company/directions/agents-v4.webp'],
-  ['knowledge', '企业知识', '/company/directions/knowledge-v4.webp'],
-  ['semantics', '业务语义', '/company/directions/semantics-v4.webp'],
-  ['voice', '语音交互', '/company/directions/voice-v4.webp'],
-  ['personalization', '个性化服务', '/company/directions/personalization-v4.webp'],
-  ['capture', '专家经验采集', '/company/directions/capture-v4.webp'],
-  ['improvement', '持续评测与改进', '/company/directions/improvement-v4.webp']
+  ['platform', 'AI Native 平台', '/company/knowledge-orbits-v3.webp'],
+  ['agents', 'Agent 构建', '/company/directions/agents-v4.webp'],
+  ['knowledge', 'Context 工程', '/company/directions/knowledge-v4.webp'],
+  ['semantics', '业务 Ontology', '/company/directions/semantics-v4.webp'],
+  ['voice', 'Voice AI', '/company/directions/voice-v4.webp'],
+  ['personalization', '个性化体验', '/company/directions/personalization-v4.webp'],
+  ['capture', '专家经验沉淀', '/company/directions/capture-v4.webp'],
+  ['improvement', 'Evals 与优化', '/company/directions/improvement-v4.webp']
 ];
 assert.ok(html.includes('data-direction-artwork="platform"'), 'Default overview needs the designed platform artwork');
 await Promise.all(directions.map(async ([slug, label, artwork]) => {

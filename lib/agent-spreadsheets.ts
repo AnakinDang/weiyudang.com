@@ -39,7 +39,7 @@ export async function salesWorkbook(report: SalesReport, agentName: string) {
   source.addRow(["订单号", "门店", "商品", "数量", "销售额（元）", "来源"]);
   report.rows.forEach(row => source.addRow([row.orderId, row.store, row.product, row.quantity, row.amountCents / 100, row.source]));
   const notes = workbook.addWorksheet("运行说明");
-  notes.addRows([["项目", "说明"], ["智能体", agentName], ["环境", "企业群聊模拟器，规则演示，未连接真实企业微信"], ["汇总口径", report.groupBy === "store" ? "按门店" : "按商品"], ["重复订单", report.deduplicate ? "排除并保留在异常清单" : "按配置保留"], ["输入", report.inputFiles + "份Excel / " + report.inputRows + "行"], ["有效明细", report.rows.length], ["待确认", report.issues.length]]);
+  notes.addRows([["项目", "说明"], ["Agent", agentName], ["环境", "企业群聊模拟器，规则演示，未连接真实企业微信"], ["汇总口径", report.groupBy === "store" ? "按门店" : "按商品"], ["重复订单", report.deduplicate ? "排除并保留在异常清单" : "按配置保留"], ["输入", report.inputFiles + "份Excel / " + report.inputRows + "行"], ["有效明细", report.rows.length], ["待确认", report.issues.length]]);
   workbook.eachSheet(sheet => {
     sheet.views = [{ state: "frozen", ySplit: 1 }];
     sheet.getRow(1).font = { bold: true, color: { argb: "FF111621" } };

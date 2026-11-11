@@ -14,7 +14,7 @@ function SolutionFlow() {
 export function CompanySolutions() {
   return (
     <section id="solutions" className="solutions wrap" aria-labelledby="solutions-title">
-      <h2 id="solutions-title">让智能，走进真实的业务现场。</h2>
+      <h2 id="solutions-title">让 AI，走进真实的业务现场。</h2>
       <p className="section-lead">从零售、财务到内容生产，把一次次重复工作，连接成持续创造价值的系统。</p>
       <div className="solution-list">
         {companySolutions.map((solution, index) => (

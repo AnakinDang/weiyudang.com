@@ -1,12 +1,12 @@
 export const workProjects = [
   {
-    id: "custom-agent", title: "定制智能体", headline: ["让一位智能同事，", "加入团队每天的协作。"],
-    summary: "在企业群聊中@智能体，把多份Excel整理成最终报表。",
-    lead: "定制一位数据助理，让员工在群聊中@它，将零散Excel整理为带异常清单和原始来源的经营汇总表。",
-    note: "企业群聊模拟器 · 示例Excel", input: "定制智能体并加入群聊", process: "@任务与Excel整理", output: "最终报表与来源记录",
-    challenge: "日常协作里，资料常常散落在群消息与多份表格中。让智能体进入员工已经在使用的工作场景，可以将收集、整理、核对与交付连接起来。",
+    id: "custom-agent", title: "定制 Agent", headline: ["让一位 AI 同事，", "加入团队每天的协作。"],
+    summary: "把 Agent 加入企业群聊，@它整理多份 Excel 并生成报表。",
+    lead: "定制一位 AI 数据助理，让员工在群聊中@它，将零散 Excel 整理为带异常清单和原始来源的经营汇总表。",
+    note: "企业群聊模拟器 · 示例 Excel", input: "定制 Agent 并加入群聊", process: "@任务与 Excel 整理", output: "最终报表与来源记录",
+    challenge: "日常协作里，资料常常散落在群消息与多份表格中。让 Agent 进入员工已经在使用的工作场景，可以将收集、整理、核对与交付连接起来。",
     scope: ["企业微信支持的消息接入、员工身份与数据权限", "企业表格字段、业务规则和专业能力的适配", "任务记录、异常复核、结果文件与运行维护"],
-    contact: "企业群聊与定制智能体"
+    contact: "企业群聊与定制 Agent"
   },
   {
     id: "finance", title: "财务核对", headline: ["让每一笔差异，", "都有可复核的依据。"],

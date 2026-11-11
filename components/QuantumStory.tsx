@@ -6,8 +6,8 @@ import { startQuantumStory, storyImages } from "@/lib/quantum-story-renderer";
 
 const chapters = [
   { id: "knowledge", label: "知识汇聚", title: ["让分散的知识，", "汇成共同的理解。"], body: "连接文档、业务数据与专家经验，让每一次判断都有可以回看的依据。" },
-  { id: "agents", label: "智能体协作", title: ["让不同的智能，", "围绕同一个目标协作。"], body: "把任务、知识与工具组织起来，让智能体各司其职，也让人的判断始终有位置。" },
-  { id: "action", label: "业务行动", title: ["让每一个判断，", "连接真实的业务行动。"], body: "将理解转为可检查的建议、可执行的工作流和清晰的交付结果，进入组织每天的工作。" },
+  { id: "agents", label: "Agent 协作", title: ["让不同的 Agent，", "围绕同一个目标协作。"], body: "编排任务、知识与工具，让 Agent 各司其职，在关键环节引入人的判断。" },
+  { id: "action", label: "业务行动", title: ["让每一个判断，", "连接真实的业务行动。"], body: "通过 Workflow 连接业务系统，把理解转为可检查的建议、可执行的任务和清晰的交付结果。" },
   { id: "feedback", label: "反馈循环", title: ["让每一次反馈，", "成为下一次进化的起点。"], body: "把运行记录、专家复核与新的知识带回系统，让下一次行动建立在已经积累的经验之上。" }
 ];
 export function QuantumStory() {

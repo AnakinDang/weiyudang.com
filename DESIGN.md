@@ -34,7 +34,7 @@ Latest direction: global ambition, quantum particles, Möbius loops and continuo
 
 ## Content and interaction
 
-- Home H1: 让智能，重塑世界的运行方式。
+- Home H1: 让 AI，重塑世界的运行方式。
 - Homepage overview and eight detailed pages: platform, agents, knowledge, semantics, voice, personalization, capture, improvement.
 - All controls, labels, captions and copy are native. Artwork is an independent image asset. Every direction has a working detail link; detail pages have their own canonical and shared navigation.
 - Global vision is aspirational. Specific delivery remains project-defined. Vendor outcomes and proprietary readiness are not adopted.
@@ -54,3 +54,7 @@ See docs/company-website/EVIDENCE.md for the current verification and docs/compa
 2026-11-10：首页加入同一WebGL画面中的知识、协作、行动、反馈四阶段；正式粒子图片在阶段间混合，480个光点沿相应轨迹连续变形。原首屏与八方向图形保留。手机图形固定在阅读区上方；导航定位到原生标题，支持暂停和减少动画的静态降级。
 
 演示目录使用四条开放作品行。定制智能体以配置、群聊和最终报表连接完整任务；财务与供应链保留可复核计算依据；剪辑使用原生HTML场景、时间线、字幕与控件，按创始人指令移除了示例视频。详情使用简洁标题和工作台，不重复铺设莫比乌斯首屏图。新增宋体子集v3覆盖649字形，113948字节。详细交互合同、概念差异与证据见 docs/company-website/WORK-DEMO-DESIGN.md。
+
+## AI Native terminology — 2026-11-11
+
+Use AI and Agent consistently across native copy, metadata and exports. Technical labels mix familiar industry terms with Chinese explanations: AI Native, Context Engineering, Workflow, Ontology, Voice AI and Evals. Preserve the quantum visual identity and icon-only header. The v4 display subset covers754 characters,135348 bytes, including Latin letters and the new Chinese headings; it has a new asset URL so existing font caches remain valid. Validate mixed-language headings and navigation at desktop, tablet and phone widths.

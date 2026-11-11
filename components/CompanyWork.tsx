@@ -6,7 +6,7 @@ import { VideoSimulator } from "@/components/work/VideoSimulator";
 function WorkPreview({ id }: { id: WorkId }) {
   if (id === "custom-agent") {
     const result = aggregateSales(demoSalesSheets, "store");
-    return <div className="work-agent-preview"><p className="work-agent-room">经营协作群 · 模拟</p><div><span>运营同事</span><p>@小莫 合并三份Excel，整理最终报表。</p></div><div className="work-agent-reply"><span>小莫 · 数据助理</span><p>已汇总{result.rows.length}行，销售额{money(result.totalCents)}。异常与来源已保留。</p><p className="work-agent-file">经营汇总.xlsx · {result.issues.length}项待确认</p></div></div>;
+    return <div className="work-agent-preview"><p className="work-agent-room">经营协作群 · 模拟</p><div><span>运营同事</span><p>@小莫 合并三份Excel，整理最终报表。</p></div><div className="work-agent-reply"><span>小莫 · AI 数据助理</span><p>已汇总{result.rows.length}行，销售额{money(result.totalCents)}。异常与来源已保留。</p><p className="work-agent-file">经营汇总.xlsx · {result.issues.length}项待确认</p></div></div>;
   }
   if (id === "finance") {
     const rows = reconcileInvoices(demoInvoices, demoOrders).slice(0, 2);

@@ -10,7 +10,7 @@ Enterprise decision makers, business leaders, information teams and builders of 
 
 ## Product Purpose
 
-Use weiyudang.com as the company website before formal naming. Company working name: 未命名. Project: 莫比乌斯. The current user-defined mission is: 让智能，重塑世界的运行方式。
+Use weiyudang.com as the company website before formal naming. Company working name: 未命名. Project: 莫比乌斯. The current user-defined mission is: 让 AI，重塑世界的运行方式。
 
 The company narrative connects knowledge, human judgment, coordinated action and continuous evolution. The business offer covers the enterprise AI lifecycle, with a homepage and eight substantive Chinese direction pages corresponding to the scope of Distyl's public AI technology site. The Chinese text is an original business adaptation, not a full translation of the vendor's prose or a claim to own its products.
 
@@ -46,3 +46,7 @@ Metal/chrome Möbius ribbons; coarse uniform scatterplots; generic personal page
 ## Accessibility & Inclusion
 
 Semantic Chinese content, keyboard navigation, visible focus, readable contrast, responsive layouts, reduced motion and server-rendered content usable without client JavaScript. Claims about browser sizes do not establish real-device acceptance.
+
+## Public terminology — 2026-11-11
+
+The founder requested AI and AI Native rather than literal Chinese translations. Public copy uses AI for 智能／人工智能 and Agent for 智能体. Core labels: AI Native 平台、Agent 构建、Context 工程、业务 Ontology、Voice AI、个性化体验、专家经验沉淀、Evals 与优化. Context Engineering, Workflow, Evals and Human-in-the-loop appear with concrete Chinese explanations. Apply to the homepage, eight direction pages, demonstrations, accessibility labels, metadata and exports; retain existing slugs and historical source. Do not turn these terminology choices into new readiness, customer or performance claims.
